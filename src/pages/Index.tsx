@@ -183,12 +183,14 @@ const Index = () => {
                   </NavigationMenuList>
                 </NavigationMenu>
 
-                <Button 
-                  variant="default"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2"
-                >
-                  Get Started
-                </Button>
+                <Link to="/auth">
+                  <Button 
+                    variant="default"
+                    className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
               </nav>
 
               {/* Mobile Menu Button */}
@@ -222,19 +224,23 @@ const Index = () => {
 
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <Button 
-                      size="lg"
-                      className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all"
-                    >
-                      Plan My Wedding Free
-                    </Button>
-                    <Button 
-                      size="lg"
-                      variant="outline"
-                      className="bg-black/40 text-white border-2 border-white/30 hover:bg-black/60 rounded-full px-10 py-7 text-lg font-semibold backdrop-blur-sm"
-                    >
-                      Become a Vendor
-                    </Button>
+                    <Link to="/auth">
+                      <Button 
+                        size="lg"
+                        className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all"
+                      >
+                        Plan My Wedding Free
+                      </Button>
+                    </Link>
+                    <Link to="/vendor-onboarding">
+                      <Button 
+                        size="lg"
+                        variant="outline"
+                        className="bg-black/40 text-white border-2 border-white/30 hover:bg-black/60 rounded-full px-10 py-7 text-lg font-semibold backdrop-blur-sm"
+                      >
+                        Become a Vendor
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
