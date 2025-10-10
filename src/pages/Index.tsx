@@ -1,14 +1,14 @@
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
+import { TensionsSection } from "@/components/TensionsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroBokeh from "@/assets/hero-bokeh-dark.jpg";
-import sectionCouples from "@/assets/section-couples.jpg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionVenue from "@/assets/section-venue.jpg";
-import { Shield, Clock, Heart, Users, CheckCircle2, Star } from "lucide-react";
+import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 
 const Index = () => {
   return (
@@ -124,64 +124,8 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
-      {/* Section 1: For Couples */}
-      <section className="py-32 relative">
-        <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-            {/* Image */}
-            <div className="order-2 lg:order-1 animate-fade-up">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
-                <img 
-                  src={sectionCouples}
-                  alt="Happy couple planning wedding"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="order-1 lg:order-2 space-y-8 animate-fade-up">
-              <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
-                <span className="text-accent text-sm font-semibold">For Couples</span>
-              </div>
-              
-              <h2 className="font-display font-bold text-4xl md:text-6xl">
-                Your Dream Wedding,<br />
-                <span className="text-accent">Zero Stress</span>
-              </h2>
-
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                From finding the perfect vendors to managing your budget and timeline, 
-                we handle everything so you can focus on what matters most—celebrating your love.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  { icon: Shield, text: "100% verified vendors with background checks" },
-                  { icon: Clock, text: "Average 2-hour vendor response time" },
-                  { icon: Heart, text: "AI-powered matching based on your preferences" },
-                  { icon: Users, text: "Dedicated wedding planner for support" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <item.icon className="h-6 w-6 text-accent" />
-                    </div>
-                    <p className="text-foreground pt-3">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              <Button 
-                size="lg"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8"
-              >
-                Start Planning Free
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Tensions Section */}
+      <TensionsSection />
 
       {/* Section 2: For Vendors */}
       <section className="py-32 relative bg-muted/5">
