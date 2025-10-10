@@ -1,0 +1,192 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MessageCircle, Send, Loader2 } from "lucide-react";
+
+interface MessagingDialogProps {
+  vendorId: string;
+  vendorName: string;
+  children?: React.ReactNode;
+}
+
+export function MessagingDialog({ vendorId, vendorName, children }: MessagingDialogProps) {
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    if (open) {
+      checkAuth();
+    }
+  }, [open]);
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    
+    if (user) {
+      loadMessages(user.id);
+    }
+  };
+
+  const loadMessages = async (userId: string) => {
+    setLoading(true);
+    try {
+      // Get vendor's user_id first
+      const { data: vendor } = await supabase
+        .from("vendors")
+        .select("user_id")
+        .eq("id", vendorId)
+        .single();
+
+      if (!vendor) return;
+
+      const { data, error } = await supabase
+        .from("messages")
+        .select("*")
+        .or(`and(sender_id.eq.${userId},recipient_id.eq.${vendor.user_id}),and(sender_id.eq.${vendor.user_id},recipient_id.eq.${userId})`)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      setMessages(data || []);
+    } catch (error: any) {
+      console.error("Error loading messages:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!user || !message.trim()) return;
+
+    setSending(true);
+    try {
+      // Get vendor's user_id
+      const { data: vendor } = await supabase
+        .from("vendors")
+        .select("user_id")
+        .eq("id", vendorId)
+        .single();
+
+      if (!vendor) throw new Error("Vendor not found");
+
+      const { error } = await supabase.from("messages").insert([{
+        sender_id: user.id,
+        recipient_id: vendor.user_id,
+        message: message.trim(),
+      }]);
+
+      if (error) throw error;
+
+      setMessage("");
+      loadMessages(user.id);
+
+      toast({
+        title: "Message sent",
+        description: "The vendor will respond soon",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {children || (
+          <Button variant="secondary" size="lg">
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Chat with Vendor
+          </Button>
+        )}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle>Chat with {vendorName}</DialogTitle>
+          <DialogDescription>
+            Send a message to discuss your requirements
+          </DialogDescription>
+        </DialogHeader>
+
+        {!user ? (
+          <div className="text-center py-8">
+            <p className="text-muted-foreground mb-4">Please log in to send messages</p>
+            <Button onClick={() => window.location.href = "/auth"}>Log In</Button>
+          </div>
+        ) : loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 className="h-6 w-6 animate-spin text-accent" />
+          </div>
+        ) : (
+          <>
+            <ScrollArea className="h-[300px] pr-4">
+              {messages.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8">
+                  No messages yet. Start the conversation!
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map((msg) => (
+                    <div
+                      key={msg.id}
+                      className={`flex ${msg.sender_id === user.id ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`max-w-[80%] p-3 rounded-lg ${
+                          msg.sender_id === user.id
+                            ? "bg-accent text-accent-foreground"
+                            : "bg-muted"
+                        }`}
+                      >
+                        <p className="text-sm">{msg.message}</p>
+                        <p className="text-xs opacity-70 mt-1">
+                          {new Date(msg.created_at).toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+
+            <div className="flex gap-2">
+              <Textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your message..."
+                rows={2}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                  }
+                }}
+              />
+              <Button onClick={sendMessage} disabled={sending || !message.trim()}>
+                {sending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}

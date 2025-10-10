@@ -8,16 +8,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ReviewForm } from "@/components/ReviewForm";
 import { ReviewsList } from "@/components/ReviewsList";
+import { BookingDialog } from "@/components/BookingDialog";
+import { MessagingDialog } from "@/components/MessagingDialog";
+import { FavoritesButton } from "@/components/FavoritesButton";
 import { 
   MapPin, 
   Clock, 
   Star, 
   Shield, 
-  MessageCircle,
-  Calendar,
   Award,
   CheckCircle2,
-  Loader2
+  Loader2,
+  MessageCircle
 } from "lucide-react";
 
 const VendorProfile = () => {
@@ -138,14 +140,19 @@ const VendorProfile = () => {
       </section>
 
       {/* Sticky Action Bar (Mobile) */}
-      <div className="lg:hidden sticky top-16 z-40 glass border-b border-border/50 p-4">
+      <div className="lg:hidden sticky top-16 z-40 glass border-b border-border/50 p-4 animate-fade-in">
         <div className="flex gap-3">
-          <Button variant="hero" className="flex-1">
-            Check Availability
-          </Button>
-          <Button variant="outline" size="icon">
-            <MessageCircle className="h-4 w-4" />
-          </Button>
+          <BookingDialog vendorId={id!}>
+            <Button variant="hero" className="flex-1">
+              Check Availability
+            </Button>
+          </BookingDialog>
+          <FavoritesButton vendorId={id!} />
+          <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
+            <Button variant="outline" size="icon">
+              <MessageCircle className="h-4 w-4" />
+            </Button>
+          </MessagingDialog>
         </div>
       </div>
 
@@ -308,18 +315,25 @@ const VendorProfile = () => {
 
             {/* Right Column - Actions (Desktop) */}
             <div className="hidden lg:block">
-              <GlassCard className="p-6 sticky top-24 space-y-4">
-                <Button variant="hero" size="lg" className="w-full">
-                  <Calendar className="h-4 w-4" />
-                  Check Availability
-                </Button>
-                <Button variant="secondary" size="lg" className="w-full">
-                  <MessageCircle className="h-4 w-4" />
-                  Chat on WhatsApp
-                </Button>
-                <Button variant="outline" size="lg" className="w-full">
-                  View Contract Preview
-                </Button>
+              <GlassCard className="p-6 sticky top-24 space-y-4 animate-fade-in">
+                <BookingDialog vendorId={id!}>
+                  <Button variant="hero" size="lg" className="w-full">
+                    Check Availability
+                  </Button>
+                </BookingDialog>
+                
+                <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
+                  <Button variant="secondary" size="lg" className="w-full">
+                    Chat with Vendor
+                  </Button>
+                </MessagingDialog>
+
+                <div className="flex gap-2">
+                  <FavoritesButton vendorId={id!} />
+                  <Button variant="outline" size="lg" className="flex-1">
+                    View Contract Preview
+                  </Button>
+                </div>
 
                 <div className="pt-4 border-t border-border/50">
                   <p className="text-sm text-muted-foreground text-center">
