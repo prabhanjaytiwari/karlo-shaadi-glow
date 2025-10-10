@@ -2,6 +2,7 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
+import { BhindiHeader } from "@/components/BhindiHeader";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
@@ -13,9 +14,11 @@ import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Hero Section with Integrated Header */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
-        {/* Darker Bokeh Background */}
+      {/* Hero Section with Header */}
+      <BhindiHeader />
+      
+      <section className="relative min-h-screen flex flex-col overflow-hidden pt-20">
+        {/* Wedding Background */}
         <div className="absolute inset-0 z-0">
           <img 
             src={heroWedding}
@@ -24,59 +27,6 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
-
-        {/* Header Inside Hero */}
-        <header className="relative z-20 border-b border-white/10 bg-black/20 backdrop-blur-xl">
-          <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between h-20">
-              {/* Logo */}
-              <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">K</span>
-                </div>
-                <span className="font-semibold text-lg tracking-tight text-white group-hover:text-accent transition-colors">
-                  Karlo Shaadi
-                </span>
-              </Link>
-
-              {/* Nav */}
-              <nav className="hidden md:flex items-center gap-8">
-                <Link 
-                  to="/categories" 
-                  className="text-sm text-white/80 hover:text-white transition-colors"
-                >
-                  Categories
-                </Link>
-                <Link 
-                  to="/stories" 
-                  className="text-sm text-white/80 hover:text-white transition-colors"
-                >
-                  Stories
-                </Link>
-                <Link 
-                  to="/vendor-onboarding" 
-                  className="text-sm text-white/80 hover:text-white transition-colors"
-                >
-                  For Vendors
-                </Link>
-                
-                <Button 
-                  variant="default"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6"
-                >
-                  Get Started
-                </Button>
-              </nav>
-
-              {/* Mobile Menu Button */}
-              <Button variant="ghost" size="icon" className="md:hidden text-white">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-              </Button>
-            </div>
-          </div>
-        </header>
         
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center">
