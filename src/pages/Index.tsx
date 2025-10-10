@@ -1,60 +1,117 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import heroBokeh from "@/assets/hero-bokeh-red.jpg";
+import heroBokeh from "@/assets/hero-bokeh-dark.jpg";
+import sectionCouples from "@/assets/section-couples.jpg";
+import sectionVendors from "@/assets/section-vendors.jpg";
+import sectionProcess from "@/assets/section-process.jpg";
+import sectionVenue from "@/assets/section-venue.jpg";
+import { Shield, Clock, Heart, Users, CheckCircle2, Star } from "lucide-react";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <BhindiHeader />
-
-      {/* Hero Section - Glass Card Style */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Blurred Bokeh Background */}
+      {/* Hero Section with Integrated Header */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden">
+        {/* Darker Bokeh Background */}
         <div className="absolute inset-0 z-0">
           <img 
             src={heroBokeh}
             alt="Wedding bokeh background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/40" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
+
+        {/* Header Inside Hero */}
+        <header className="relative z-20 border-b border-white/10 bg-black/20 backdrop-blur-xl">
+          <div className="container mx-auto px-6">
+            <div className="flex items-center justify-between h-20">
+              {/* Logo */}
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <span className="text-white font-bold text-xl">K</span>
+                </div>
+                <span className="font-semibold text-lg tracking-tight text-white group-hover:text-accent transition-colors">
+                  Karlo Shaadi
+                </span>
+              </Link>
+
+              {/* Nav */}
+              <nav className="hidden md:flex items-center gap-8">
+                <Link 
+                  to="/categories" 
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  Categories
+                </Link>
+                <Link 
+                  to="/stories" 
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  Stories
+                </Link>
+                <Link 
+                  to="/vendor-onboarding" 
+                  className="text-sm text-white/80 hover:text-white transition-colors"
+                >
+                  For Vendors
+                </Link>
+                
+                <Button 
+                  variant="default"
+                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6"
+                >
+                  Get Started
+                </Button>
+              </nav>
+
+              {/* Mobile Menu Button */}
+              <Button variant="ghost" size="icon" className="md:hidden text-white">
+                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+              </Button>
+            </div>
+          </div>
+        </header>
         
-        {/* Glass Card Container */}
-        <div className="relative z-10 container mx-auto px-6">
-          <div className="max-w-5xl mx-auto animate-fade-up">
-            {/* Frosted Glass Card */}
-            <div className="relative rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-12 md:p-20 shadow-2xl">
-              {/* Content */}
-              <div className="text-center space-y-8">
-                {/* Headline with Script Font */}
-                <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-white">
-                  Finally, a<br />
-                  <span className="font-quote italic font-normal">Shaadi</span> Platform<br />
-                  That Gets It Right
-                </h1>
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex items-center justify-center">
+          <div className="container mx-auto px-6">
+            <div className="max-w-5xl mx-auto animate-fade-up">
+              {/* Frosted Glass Card */}
+              <div className="relative rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-12 md:p-20 shadow-2xl">
+                {/* Content */}
+                <div className="text-center space-y-8">
+                  {/* Headline with Script Font */}
+                  <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-white">
+                    Finally, a<br />
+                    <span className="font-quote italic font-normal">Shaadi</span> Platform<br />
+                    That Gets It Right
+                  </h1>
 
-                {/* Subtext */}
-                <p className="text-white/90 text-xl md:text-2xl font-light">
-                  Stress-free planning. Verified vendors. Personal planner.
-                </p>
+                  {/* Subtext */}
+                  <p className="text-white/90 text-xl md:text-2xl font-light">
+                    Stress-free planning. Verified vendors. Personal planner.
+                  </p>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                  <Button 
-                    size="lg"
-                    className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all"
-                  >
-                    Plan My Wedding Free
-                  </Button>
-                  <Button 
-                    size="lg"
-                    variant="outline"
-                    className="bg-black/40 text-white border-2 border-white/30 hover:bg-black/60 rounded-full px-10 py-7 text-lg font-semibold backdrop-blur-sm"
-                  >
-                    Become a Vendor
-                  </Button>
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                    <Button 
+                      size="lg"
+                      className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all"
+                    >
+                      Plan My Wedding Free
+                    </Button>
+                    <Button 
+                      size="lg"
+                      variant="outline"
+                      className="bg-black/40 text-white border-2 border-white/30 hover:bg-black/60 rounded-full px-10 py-7 text-lg font-semibold backdrop-blur-sm"
+                    >
+                      Become a Vendor
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -65,122 +122,254 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
-      {/* How It Works - Minimalist */}
+      {/* Section 1: For Couples */}
       <section className="py-32 relative">
         <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
-            <div className="text-center mb-20 animate-fade-up">
-              <p className="text-accent text-sm font-semibold tracking-wider uppercase mb-4">
-                Three Simple Steps
-              </p>
+          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+            {/* Image */}
+            <div className="order-2 lg:order-1 animate-fade-up">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                <img 
+                  src={sectionCouples}
+                  alt="Happy couple planning wedding"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="order-1 lg:order-2 space-y-8 animate-fade-up">
+              <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
+                <span className="text-accent text-sm font-semibold">For Couples</span>
+              </div>
+              
               <h2 className="font-display font-bold text-4xl md:text-6xl">
-                How It Works
+                Your Dream Wedding,<br />
+                <span className="text-accent">Zero Stress</span>
               </h2>
-            </div>
 
-            {/* Steps Grid */}
-            <div className="grid md:grid-cols-3 gap-12">
-              {[
-                {
-                  number: "01",
-                  title: "Match",
-                  description: "AI curates perfect vendors based on your style, budget, and date"
-                },
-                {
-                  number: "02",
-                  title: "Compare",
-                  description: "View verified profiles, real reviews, and transparent pricing"
-                },
-                {
-                  number: "03",
-                  title: "Book Safely",
-                  description: "Milestone payments, escrow protection, and dispute resolution"
-                }
-              ].map((step, i) => (
-                <div 
-                  key={i}
-                  className="group animate-fade-up"
-                  style={{ animationDelay: `${i * 150}ms` }}
-                >
-                  <div className="text-accent/20 font-display text-7xl font-bold mb-6 group-hover:text-accent/40 transition-colors">
-                    {step.number}
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                From finding the perfect vendors to managing your budget and timeline, 
+                we handle everything so you can focus on what matters most—celebrating your love.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  { icon: Shield, text: "100% verified vendors with background checks" },
+                  { icon: Clock, text: "Average 2-hour vendor response time" },
+                  { icon: Heart, text: "AI-powered matching based on your preferences" },
+                  { icon: Users, text: "Dedicated wedding planner for support" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="h-6 w-6 text-accent" />
+                    </div>
+                    <p className="text-foreground pt-3">{item.text}</p>
                   </div>
-                  <h3 className="font-display font-semibold text-2xl mb-4">{step.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <Button 
+                size="lg"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8"
+              >
+                Start Planning Free
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-32 relative border-y border-border/50">
+      {/* Section 2: For Vendors */}
+      <section className="py-32 relative bg-muted/5">
         <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-              {[
-                { value: "10,000+", label: "Verified Vendors" },
-                { value: "50,000+", label: "Weddings Planned" },
-                { value: "4.9/5", label: "Average Rating" },
-                { value: "100%", label: "Payment Protected" }
-              ].map((stat, i) => (
-                <div 
-                  key={i} 
-                  className="text-center animate-fade-up"
-                  style={{ animationDelay: `${i * 100}ms` }}
-                >
-                  <div className="text-accent font-display text-4xl md:text-5xl font-bold mb-2">
-                    {stat.value}
+          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+            {/* Content */}
+            <div className="space-y-8 animate-fade-up">
+              <div className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                <span className="text-primary text-sm font-semibold">For Vendors</span>
+              </div>
+              
+              <h2 className="font-display font-bold text-4xl md:text-6xl">
+                Grow Your Wedding<br />
+                <span className="text-primary">Business Faster</span>
+              </h2>
+
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Join India's most trusted wedding platform. Get verified, showcase your work, 
+                and connect with couples who are ready to book.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  { icon: Users, text: "Access to 50,000+ active wedding planners" },
+                  { icon: Shield, text: "Secure milestone-based payments" },
+                  { icon: Star, text: "Build reputation with verified reviews" },
+                  { icon: CheckCircle2, text: "No commission on bookings" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <p className="text-foreground pt-3">{item.text}</p>
                   </div>
-                  <div className="text-muted-foreground text-sm">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <Button 
+                size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8"
+              >
+                Join as Vendor
+              </Button>
+            </div>
+
+            {/* Image */}
+            <div className="animate-fade-up">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                <img 
+                  src={sectionVendors}
+                  alt="Professional vendors at work"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Categories Grid */}
+      {/* Section 3: How It Works */}
       <section className="py-32 relative">
         <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-20 animate-fade-up">
-              <p className="text-accent text-sm font-semibold tracking-wider uppercase mb-4">
-                All Services
-              </p>
-              <h2 className="font-display font-bold text-4xl md:text-6xl">
-                Explore Categories
-              </h2>
+          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+            {/* Image */}
+            <div className="order-2 lg:order-1 animate-fade-up">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                <img 
+                  src={sectionProcess}
+                  alt="Wedding planning process"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                "Photography", "Venues", "Catering", "Decor", 
-                "Makeup", "Mehendi", "Music/DJ", "Hospitality"
-              ].map((category, i) => (
-                <Link
-                  key={i}
-                  to={`/category/${category.toLowerCase()}`}
-                  className="group"
-                >
-                  <div className="border border-border/50 rounded-2xl p-8 text-center hover:border-accent/50 transition-all hover-glow animate-fade-up"
-                       style={{ animationDelay: `${i * 60}ms` }}>
-                    <h3 className="font-semibold text-lg group-hover:text-accent transition-colors">
-                      {category}
-                    </h3>
+            {/* Content */}
+            <div className="order-1 lg:order-2 space-y-8 animate-fade-up">
+              <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
+                <span className="text-accent text-sm font-semibold">Simple Process</span>
+              </div>
+              
+              <h2 className="font-display font-bold text-4xl md:text-6xl">
+                Planning Made<br />
+                <span className="text-accent">Ridiculously Easy</span>
+              </h2>
+
+              <div className="space-y-8">
+                {[
+                  {
+                    number: "01",
+                    title: "Tell Us Your Vision",
+                    description: "Share your wedding date, location, style preferences, and budget"
+                  },
+                  {
+                    number: "02",
+                    title: "Get Matched",
+                    description: "Our AI curates the perfect vendors based on your requirements"
+                  },
+                  {
+                    number: "03",
+                    title: "Book & Relax",
+                    description: "Secure bookings with milestone payments and enjoy planning support"
+                  }
+                ].map((step, i) => (
+                  <div key={i} className="flex gap-6">
+                    <div className="text-accent/30 font-display text-5xl font-bold flex-shrink-0">
+                      {step.number}
+                    </div>
+                    <div className="space-y-2 pt-2">
+                      <h3 className="font-semibold text-xl">{step.title}</h3>
+                      <p className="text-muted-foreground">{step.description}</p>
+                    </div>
                   </div>
-                </Link>
-              ))}
+                ))}
+              </div>
+
+              <Button 
+                size="lg"
+                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8"
+              >
+                See How It Works
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Section 4: Real Weddings */}
+      <section className="py-32 relative bg-muted/5">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+            {/* Content */}
+            <div className="space-y-8 animate-fade-up">
+              <div className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                <span className="text-primary text-sm font-semibold">Success Stories</span>
+              </div>
+              
+              <h2 className="font-display font-bold text-4xl md:text-6xl">
+                50,000+ Couples<br />
+                <span className="text-primary">Trusted Us</span>
+              </h2>
+
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                From intimate ceremonies to grand celebrations, couples across India 
+                have planned their perfect weddings with Karlo Shaadi.
+              </p>
+
+              {/* Testimonial */}
+              <div className="border border-border/50 rounded-2xl p-8 bg-card">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-accent text-accent" />
+                  ))}
+                </div>
+                <p className="text-foreground mb-4 leading-relaxed">
+                  "Karlo Shaadi made our wedding planning journey absolutely stress-free. 
+                  The vendors were amazing, payments were secure, and we had support every step of the way."
+                </p>
+                <div>
+                  <p className="font-semibold">Priya & Rahul</p>
+                  <p className="text-sm text-muted-foreground">Married in Mumbai, December 2024</p>
+                </div>
+              </div>
+
+              <Button 
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8"
+              >
+                Read More Stories
+              </Button>
+            </div>
+
+            {/* Image */}
+            <div className="animate-fade-up">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                <img 
+                  src={sectionVenue}
+                  alt="Beautiful wedding venue"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
       <section className="py-32 relative">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-up">
@@ -191,12 +380,19 @@ const Index = () => {
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Join thousands of couples who trusted us with their special day
             </p>
-            <div className="pt-4">
+            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8 text-base font-semibold hover-glow"
+                className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold"
               >
-                Get Started Free
+                Start Planning Free
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                className="rounded-full px-10 py-7 text-lg"
+              >
+                Talk to Expert
               </Button>
             </div>
           </div>
