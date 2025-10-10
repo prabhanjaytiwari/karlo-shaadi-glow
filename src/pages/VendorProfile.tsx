@@ -1,8 +1,13 @@
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { ReviewForm } from "@/components/ReviewForm";
+import { ReviewsList } from "@/components/ReviewsList";
 import { 
   MapPin, 
   Clock, 
@@ -10,69 +15,111 @@ import {
   Shield, 
   MessageCircle,
   Calendar,
-  IndianRupee,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from "lucide-react";
-import heroImage from "@/assets/hero-wedding.jpg";
-import photographyImage from "@/assets/category-photography.jpg";
-import venueImage from "@/assets/category-venue.jpg";
 
 const VendorProfile = () => {
   const { id } = useParams();
+  const { toast } = useToast();
+  const [vendor, setVendor] = useState<any>(null);
+  const [services, setServices] = useState<any[]>([]);
+  const [portfolio, setPortfolio] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
+  const [userBooking, setUserBooking] = useState<any>(null);
 
-  // Mock vendor data
-  const vendor = {
-    id: 1,
-    name: "Lucknow Lens Photography",
-    category: "Photography",
-    city: "Lucknow",
-    rating: 4.9,
-    reviewCount: 128,
-    responseTime: "2 hours",
-    yearsActive: 8,
-    weddingsDone: 450,
-    badges: ["Verified", "Top Rated", "Fast Response", "On-time Pro"],
-    description: "Award-winning wedding photography team specializing in candid moments and cinematic storytelling. We capture the essence of your special day with artistic flair and technical excellence.",
+  useEffect(() => {
+    loadVendorData();
+    checkUserAuth();
+  }, [id]);
+
+  const checkUserAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    
+    if (user && id) {
+      // Check if user has a completed booking with this vendor
+      const { data: booking } = await supabase
+        .from("bookings")
+        .select("*")
+        .eq("couple_id", user.id)
+        .eq("vendor_id", id)
+        .eq("status", "completed")
+        .single();
+      
+      setUserBooking(booking);
+    }
+  };
+
+  const loadVendorData = async () => {
+    try {
+      const { data: vendorData, error: vendorError } = await supabase
+        .from("vendors")
+        .select(`
+          *,
+          cities (name, state)
+        `)
+        .eq("id", id)
+        .single();
+
+      if (vendorError) throw vendorError;
+      setVendor(vendorData);
+
+      const { data: servicesData } = await supabase
+        .from("vendor_services")
+        .select("*")
+        .eq("vendor_id", id)
+        .eq("is_active", true);
+      
+      setServices(servicesData || []);
+
+      const { data: portfolioData } = await supabase
+        .from("vendor_portfolio")
+        .select("*")
+        .eq("vendor_id", id)
+        .order("display_order", { ascending: true });
+      
+      setPortfolio(portfolioData || []);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
+      </div>
+    );
+  }
+
+  if (!vendor) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Vendor not found</p>
+      </div>
+    );
+  }
+
+  const badges = [];
+  if (vendor.verified) badges.push("Verified");
+  if (vendor.average_rating >= 4.5) badges.push("Top Rated");
+  if (vendor.years_experience >= 5) badges.push("Experienced");
+
+  const mockData = {
     whyMatched: [
-      { factor: "Budget Fit", score: 95, reason: "Within your ₹50k-2L range" },
-      { factor: "Availability", score: 100, reason: "Available on your date" },
-      { factor: "Style Match", score: 88, reason: "Candid + Traditional mix" },
-      { factor: "Location", score: 92, reason: "Based in Lucknow" }
-    ],
-    packages: [
-      {
-        name: "Essential",
-        price: "₹50,000",
-        features: ["1 Photographer", "1 Videographer", "8 Hours Coverage", "300+ Edited Photos", "Highlight Video", "Online Gallery"]
-      },
-      {
-        name: "Premium",
-        price: "₹1,20,000",
-        features: ["2 Photographers", "2 Videographers", "Full Day Coverage", "600+ Edited Photos", "Cinematic Film", "Albums + Frames", "Pre-wedding Shoot", "Drone Coverage"]
-      },
-      {
-        name: "Royal",
-        price: "₹2,00,000",
-        features: ["3 Photographers", "3 Videographers", "Multi-day Coverage", "1000+ Edited Photos", "Feature Film", "Premium Albums", "2 Pre-wedding Shoots", "Live Streaming", "Same Day Edit"]
-      }
-    ],
-    gallery: [heroImage, photographyImage, venueImage],
-    customerReviews: [
-      {
-        name: "Priya S.",
-        rating: 5,
-        date: "Dec 2024",
-        comment: "Absolutely loved working with Lucknow Lens! They captured every emotion perfectly and were so professional throughout our wedding.",
-        verified: true
-      },
-      {
-        name: "Rahul M.",
-        rating: 5,
-        date: "Nov 2024",
-        comment: "Best decision we made for our wedding! The photos are stunning and they delivered everything on time as promised.",
-        verified: true
-      }
+      { factor: "Verified Vendor", score: vendor.verified ? 100 : 50, reason: vendor.verified ? "Background verified by Karlo Shaadi" : "Verification pending" },
+      { factor: "Experience", score: Math.min(100, (vendor.years_experience / 10) * 100), reason: `${vendor.years_experience}+ years in business` },
+      { factor: "Rating", score: (vendor.average_rating / 5) * 100, reason: `${vendor.average_rating} stars from ${vendor.total_reviews} reviews` },
+      { factor: "Success Rate", score: 95, reason: "High completion rate with couples" }
     ]
   };
 
@@ -83,8 +130,8 @@ const VendorProfile = () => {
       {/* Gallery Section */}
       <section className="relative h-[60vh] overflow-hidden">
         <img 
-          src={vendor.gallery[0]} 
-          alt={vendor.name}
+          src={portfolio[0]?.image_url || "/placeholder.svg"} 
+          alt={vendor.business_name}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
@@ -111,7 +158,7 @@ const VendorProfile = () => {
               {/* Header */}
               <GlassCard className="p-6 md:p-8 animate-fade-up">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {vendor.badges.map((badge, i) => (
+                  {badges.map((badge, i) => (
                     <span 
                       key={i}
                       className="glass-subtle px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1"
@@ -122,37 +169,37 @@ const VendorProfile = () => {
                   ))}
                 </div>
 
-                <h1 className="font-display font-bold text-4xl mb-2">{vendor.name}</h1>
+                <h1 className="font-display font-bold text-4xl mb-2">{vendor.business_name}</h1>
                 <p className="text-muted-foreground text-lg mb-4">{vendor.category}</p>
 
                 <div className="flex flex-wrap items-center gap-6 text-sm">
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-accent" />
-                    <span>{vendor.city}</span>
+                    <span>{vendor.cities?.name || "India"}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Star className="h-4 w-4 text-accent fill-accent" />
-                    <span className="font-semibold">{vendor.rating}</span>
-                    <span className="text-muted-foreground">({vendor.reviewCount} reviews)</span>
+                    <span className="font-semibold">{vendor.average_rating || 0}</span>
+                    <span className="text-muted-foreground">({vendor.total_reviews || 0} reviews)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-accent" />
-                    <span>Responds in {vendor.responseTime}</span>
+                    <span>Responds in 2 hours</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border/50">
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">{vendor.yearsActive}+</p>
+                    <p className="font-display font-bold text-2xl text-accent">{vendor.years_experience}+</p>
                     <p className="text-sm text-muted-foreground">Years Active</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">{vendor.weddingsDone}+</p>
+                    <p className="font-display font-bold text-2xl text-accent">{vendor.total_bookings || 0}+</p>
                     <p className="text-sm text-muted-foreground">Weddings</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">100%</p>
-                    <p className="text-sm text-muted-foreground">On Time</p>
+                    <p className="font-display font-bold text-2xl text-accent">{vendor.team_size || 1}</p>
+                    <p className="text-sm text-muted-foreground">Team Size</p>
                   </div>
                 </div>
               </GlassCard>
@@ -160,22 +207,34 @@ const VendorProfile = () => {
               {/* About */}
               <GlassCard className="p-6 md:p-8 animate-fade-up">
                 <h2 className="font-display font-bold text-2xl mb-4">About</h2>
-                <p className="text-muted-foreground leading-relaxed">{vendor.description}</p>
+                <p className="text-muted-foreground leading-relaxed">
+                  {vendor.description || `Professional ${vendor.category} services for your special day.`}
+                </p>
+                {vendor.instagram_handle && (
+                  <p className="mt-4 text-sm text-accent">
+                    📷 Instagram: @{vendor.instagram_handle}
+                  </p>
+                )}
+                {vendor.website_url && (
+                  <p className="mt-2 text-sm text-accent">
+                    🌐 Website: {vendor.website_url}
+                  </p>
+                )}
               </GlassCard>
 
               {/* Why Matched */}
               <GlassCard className="p-6 md:p-8 animate-fade-up">
                 <div className="flex items-center gap-2 mb-6">
                   <Award className="h-6 w-6 text-accent" />
-                  <h2 className="font-display font-bold text-2xl">Why We Matched You</h2>
+                  <h2 className="font-display font-bold text-2xl">Why This Vendor Stands Out</h2>
                 </div>
                 
                 <div className="space-y-4">
-                  {vendor.whyMatched.map((match, i) => (
+                  {mockData.whyMatched.map((match, i) => (
                     <div key={i} className="space-y-2">
                       <div className="flex justify-between items-center">
                         <span className="font-semibold">{match.factor}</span>
-                        <span className="text-accent font-bold">{match.score}%</span>
+                        <span className="text-accent font-bold">{Math.round(match.score)}%</span>
                       </div>
                       <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
                         <div 
@@ -189,72 +248,61 @@ const VendorProfile = () => {
                 </div>
               </GlassCard>
 
-              {/* Packages */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up">
-                <h2 className="font-display font-bold text-2xl mb-6">Packages & Pricing</h2>
-                
-                <div className="grid md:grid-cols-3 gap-6">
-                  {vendor.packages.map((pkg, i) => (
-                    <div 
-                      key={i}
-                      className={`glass-subtle p-6 rounded-2xl ${i === 1 ? 'ring-2 ring-accent' : ''}`}
-                    >
-                      {i === 1 && (
-                        <span className="inline-block bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-full mb-3">
-                          POPULAR
-                        </span>
-                      )}
-                      <h3 className="font-display font-bold text-xl mb-2">{pkg.name}</h3>
-                      <p className="font-display font-bold text-3xl text-accent mb-6">{pkg.price}</p>
-                      <ul className="space-y-3">
-                        {pkg.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm">
-                            <CheckCircle2 className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
+              {/* Services & Pricing */}
+              {services.length > 0 && (
+                <GlassCard className="p-6 md:p-8 animate-fade-up">
+                  <h2 className="font-display font-bold text-2xl mb-6">Services & Pricing</h2>
+                  
+                  <div className="space-y-4">
+                    {services.map((service) => (
+                      <div 
+                        key={service.id}
+                        className="glass-subtle p-6 rounded-2xl"
+                      >
+                        <h3 className="font-display font-bold text-xl mb-2">{service.service_name}</h3>
+                        <p className="text-muted-foreground mb-4">{service.description}</p>
+                        <div className="flex items-center gap-2">
+                          {service.base_price && (
+                            <p className="font-display font-bold text-2xl text-accent">
+                              ₹{Number(service.base_price).toLocaleString()}
+                            </p>
+                          )}
+                          {service.price_range_min && service.price_range_max && (
+                            <p className="font-display font-bold text-2xl text-accent">
+                              ₹{Number(service.price_range_min).toLocaleString()} - ₹{Number(service.price_range_max).toLocaleString()}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-                <p className="text-xs text-muted-foreground mt-6 text-center">
-                  💳 Milestone payments available • 🔒 Escrow protection • 📝 E-contract included
-                </p>
-              </GlassCard>
+                  <p className="text-xs text-muted-foreground mt-6 text-center">
+                    💳 Milestone payments available • 🔒 Escrow protection • 📝 E-contract included
+                  </p>
+                </GlassCard>
+              )}
 
               {/* Reviews */}
               <GlassCard className="p-6 md:p-8 animate-fade-up">
                 <h2 className="font-display font-bold text-2xl mb-6">
-                  Verified Reviews ({vendor.customerReviews.length})
+                  Reviews & Ratings
                 </h2>
                 
-                <div className="space-y-6">
-                  {vendor.customerReviews.map((review, i) => (
-                    <div key={i} className="pb-6 border-b border-border/50 last:border-0">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="font-semibold">{review.name}</p>
-                            {review.verified && (
-                              <span className="text-xs glass-subtle px-2 py-0.5 rounded-full flex items-center gap-1">
-                                <Shield className="h-3 w-3" />
-                                Verified
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm text-muted-foreground">{review.date}</p>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {[...Array(review.rating)].map((_, i) => (
-                            <Star key={i} className="h-4 w-4 text-accent fill-accent" />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground">{review.comment}</p>
-                    </div>
-                  ))}
-                </div>
+                {/* Review Form - Only show if user has completed booking */}
+                {user && userBooking && (
+                  <div className="mb-8 p-6 glass-subtle rounded-xl">
+                    <h3 className="font-semibold mb-4">Share Your Experience</h3>
+                    <ReviewForm 
+                      vendorId={id!} 
+                      bookingId={userBooking.id}
+                      onSuccess={loadVendorData}
+                    />
+                  </div>
+                )}
+                
+                {/* Reviews List */}
+                <ReviewsList vendorId={id!} />
               </GlassCard>
             </div>
 
@@ -275,7 +323,7 @@ const VendorProfile = () => {
 
                 <div className="pt-4 border-t border-border/50">
                   <p className="text-sm text-muted-foreground text-center">
-                    ✓ Response within {vendor.responseTime}<br />
+                    ✓ Response within 2 hours<br />
                     ✓ Milestone payment protection<br />
                     ✓ SLA guarantee
                   </p>

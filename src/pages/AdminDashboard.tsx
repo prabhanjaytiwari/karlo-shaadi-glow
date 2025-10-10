@@ -247,9 +247,9 @@ export default function AdminDashboard() {
                                 </Button>
                                 <Button
                                   size="sm"
-                                  variant="destructive"
+                                  variant="outline"
                                   onClick={() => handleRejectVendor(vendor.id)}
-                                  className="gap-1"
+                                  className="gap-1 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
                                 >
                                   <XCircle className="h-4 w-4" />
                                   Reject
