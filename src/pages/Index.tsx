@@ -88,9 +88,8 @@ const Index = () => {
                 <div className="text-center space-y-8">
                   {/* Headline with Script Font */}
                   <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-white">
-                    Finally, a<br />
-                    <span className="font-quote italic font-normal">Shaadi</span> Platform<br />
-                    That Gets It Right
+                    Aap <span className="font-quote italic font-normal">Shaadi</span> Karo,<br />
+                    Tension Hum Dekh Lenge
                   </h1>
 
                   {/* Subtext */}
