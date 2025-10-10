@@ -11,6 +11,8 @@ import Categories from "./pages/Categories";
 import City from "./pages/City";
 import Stories from "./pages/Stories";
 import VendorProfile from "./pages/VendorProfile";
+import VendorOnboarding from "./pages/VendorOnboarding";
+import VendorDashboard from "./pages/VendorDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/city/:slug" element={<City />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/vendors/:id" element={<VendorProfile />} />
+          <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
+          <Route path="/vendor/dashboard" element={<VendorDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

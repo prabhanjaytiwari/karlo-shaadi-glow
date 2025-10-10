@@ -225,21 +225,12 @@ const Index = () => {
                   {/* CTA Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                     <Link to="/auth">
-                      <Button 
-                        size="lg"
-                        className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-10 py-7 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all"
-                      >
-                        Plan My Wedding Free
-                      </Button>
-                    </Link>
-                    <Link to="/vendor-onboarding">
-                      <Button 
-                        size="lg"
-                        variant="outline"
-                        className="bg-black/40 text-white border-2 border-white/30 hover:bg-black/60 rounded-full px-10 py-7 text-lg font-semibold backdrop-blur-sm"
-                      >
-                        Become a Vendor
-                      </Button>
+            <Button size="lg" variant="hero" className="text-lg px-8" asChild>
+              <a href="/categories">Explore Vendors</a>
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary" asChild>
+              <a href="/vendor/onboarding">For Vendors</a>
+            </Button>
                     </Link>
                   </div>
                 </div>
