@@ -126,7 +126,7 @@ const Index = () => {
         </div>
 
         {/* Header Inside Hero */}
-        <header className="relative z-20 border-b border-white/10 bg-black/20 backdrop-blur-xl">
+        <header className="relative z-20 border-b border-white/10">
           <div className="container mx-auto px-6">
             <div className="flex items-center justify-between h-20">
               {/* Logo */}
