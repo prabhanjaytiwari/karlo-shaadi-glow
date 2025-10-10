@@ -1,5 +1,6 @@
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { BentoGrid } from "@/components/BentoGrid";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroBokeh from "@/assets/hero-bokeh-dark.jpg";
@@ -369,6 +370,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Bento Grid Section */}
+      <BentoGrid />
 
       {/* Reviews Section */}
       <ReviewsSection />
