@@ -4,7 +4,7 @@ import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import heroBokeh from "@/assets/hero-bokeh-dark.jpg";
+import heroWedding from "@/assets/hero-wedding-phere.jpeg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionVenue from "@/assets/section-venue.jpg";
@@ -18,11 +18,11 @@ const Index = () => {
         {/* Darker Bokeh Background */}
         <div className="absolute inset-0 z-0">
           <img 
-            src={heroBokeh}
-            alt="Wedding bokeh background"
+            src={heroWedding}
+            alt="Indian wedding ceremony"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
         {/* Header Inside Hero */}
