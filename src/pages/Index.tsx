@@ -1,4 +1,5 @@
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroBokeh from "@/assets/hero-bokeh-dark.jpg";
@@ -368,6 +369,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Reviews Section */}
+      <ReviewsSection />
 
       {/* Final CTA */}
       <section className="py-32 relative">
