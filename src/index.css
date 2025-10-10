@@ -8,54 +8,40 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Crystal Wedding Palette */
-    --background: 34 100% 98%;  /* #FFFBF6 Ivory Snow */
-    --foreground: 240 26% 6%;   /* #0E0E12 Onyx */
+    /* Dark Maroon Tech Theme (Bhindi-inspired) */
+    --background: 350 50% 8%;   /* Deep Maroon-Black #1A0A0E */
+    --foreground: 0 0% 98%;     /* Almost White */
 
-    --card: 34 100% 98%;
-    --card-foreground: 240 26% 6%;
+    --card: 350 40% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 34 100% 98%;
-    --popover-foreground: 240 26% 6%;
+    --popover: 350 40% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 350 77% 24%;     /* #6E0E1E Deep Maroon */
-    --primary-foreground: 34 100% 98%;
+    --primary: 350 85% 55%;     /* Vibrant Maroon #E63946 */
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 182 75% 22%;   /* #0E5C60 Peacock Teal */
-    --secondary-foreground: 34 100% 98%;
+    --secondary: 350 50% 15%;   /* Dark Maroon */
+    --secondary-foreground: 0 0% 98%;
 
-    --accent: 39 39% 66%;       /* #D7B77A Champagne Gold */
-    --accent-foreground: 240 26% 6%;
+    --accent: 35 85% 70%;       /* Rose Gold #F4C896 */
+    --accent-foreground: 350 50% 8%;
 
-    --muted: 15 47% 91%;        /* #F3D6D1 Rose Quartz */
-    --muted-foreground: 240 8% 46%;
+    --muted: 350 30% 20%;
+    --muted-foreground: 0 0% 65%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 34 100% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 34 50% 92%;
-    --input: 34 50% 94%;
-    --ring: 39 39% 66%;
+    --border: 350 30% 25%;
+    --input: 350 30% 18%;
+    --ring: 35 85% 70%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
     
-    /* Glass Effects */
-    --glass-blur: 24px;
-    --glass-brightness: 1.05;
-    --glass-saturate: 130%;
-    --glass-bg: 34 100% 98% / 0.65;
-    --glass-border: 0 0% 100% / 0.35;
-    
-    /* Shadows (layered depth) */
-    --shadow-sm: 0 2px 8px rgba(14, 14, 18, 0.06);
-    --shadow-md: 0 8px 24px rgba(14, 14, 18, 0.08);
-    --shadow-lg: 0 16px 48px rgba(14, 14, 18, 0.10);
-    --shadow-glass: 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
-    
-    /* Gradients */
-    --gradient-ivory-gold: linear-gradient(8deg, hsl(34 100% 98%) 0%, hsl(39 39% 86%) 100%);
-    --gradient-maroon-teal: radial-gradient(circle at top left, hsl(350 77% 24%) 0%, hsl(182 75% 22%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(350 77% 24%) 0%, hsl(350 77% 32%) 100%);
+    /* Bhindi-style geometric glow */
+    --glow-maroon: 350 85% 55%;
+    --glow-accent: 35 85% 70%;
     
     /* Motion */
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -81,36 +67,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 240 26% 6%;
-    --foreground: 34 100% 98%;
+    --background: 350 50% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 240 20% 12%;
-    --card-foreground: 34 100% 98%;
+    --card: 350 40% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 240 20% 12%;
-    --popover-foreground: 34 100% 98%;
+    --popover: 350 40% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 350 77% 38%;
-    --primary-foreground: 34 100% 98%;
+    --primary: 350 85% 55%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 182 75% 32%;
-    --secondary-foreground: 34 100% 98%;
+    --secondary: 350 50% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --accent: 39 39% 66%;
-    --accent-foreground: 240 26% 6%;
+    --accent: 35 85% 70%;
+    --accent-foreground: 350 50% 8%;
 
-    --muted: 240 12% 18%;
-    --muted-foreground: 240 8% 66%;
+    --muted: 350 30% 20%;
+    --muted-foreground: 0 0% 65%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 34 100% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 240 12% 20%;
-    --input: 240 12% 18%;
-    --ring: 39 39% 66%;
-    
-    --glass-bg: 240 20% 12% / 0.75;
-    --glass-border: 0 0% 100% / 0.15;
+    --border: 350 30% 25%;
+    --input: 350 30% 18%;
+    --ring: 35 85% 70%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -138,25 +121,44 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Glass morphism utilities */
-  .glass {
-    background: hsla(var(--glass-bg));
-    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-    border: 1px solid hsla(var(--glass-border));
-    box-shadow: var(--shadow-glass), var(--shadow-md);
+  /* Geometric shapes background (Bhindi-style) */
+  .geometric-bg {
+    position: relative;
+    overflow: hidden;
   }
   
-  .glass-intense {
-    background: hsla(34 100% 98% / 0.85);
-    backdrop-filter: blur(28px) saturate(140%) brightness(1.08);
-    -webkit-backdrop-filter: blur(28px) saturate(140%) brightness(1.08);
+  .geometric-shape {
+    position: absolute;
+    border: 2px solid hsla(var(--glow-accent) / 0.3);
+    border-radius: 20% 30% 40% 30%;
+    filter: drop-shadow(0 0 60px hsla(var(--glow-accent) / 0.15));
+    animation: float 20s ease-in-out infinite;
   }
   
-  .glass-subtle {
-    background: hsla(var(--glass-bg));
-    backdrop-filter: blur(16px) saturate(120%);
-    -webkit-backdrop-filter: blur(16px) saturate(120%);
+  .geometric-shape-1 {
+    width: 500px;
+    height: 500px;
+    top: 10%;
+    right: 15%;
+    animation-delay: 0s;
+  }
+  
+  .geometric-shape-2 {
+    width: 400px;
+    height: 400px;
+    top: 40%;
+    right: 25%;
+    animation-delay: -7s;
+    border-color: hsla(var(--glow-maroon) / 0.2);
+    filter: drop-shadow(0 0 50px hsla(var(--glow-maroon) / 0.1));
+  }
+  
+  .geometric-shape-3 {
+    width: 350px;
+    height: 350px;
+    top: 25%;
+    right: 35%;
+    animation-delay: -14s;
   }
   
   /* Smooth animations */
@@ -174,19 +176,14 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  /* Premium hover effects */
-  .hover-lift {
-    transition: transform var(--duration-normal) var(--transition-smooth), 
-                box-shadow var(--duration-normal) var(--transition-smooth);
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg), 0 0 24px hsla(var(--accent) / 0.15);
+  /* Bhindi-style hover effects */
+  .hover-glow {
+    transition: all var(--duration-normal) var(--transition-smooth);
   }
   
   .hover-glow:hover {
-    box-shadow: 0 0 24px hsla(var(--accent) / 0.25);
+    box-shadow: 0 0 30px hsla(var(--glow-accent) / 0.4);
+    border-color: hsla(var(--glow-accent) / 0.6);
   }
 }
 
@@ -218,5 +215,17 @@ All colors MUST be HSL.
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(5deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(-5deg);
   }
 }
