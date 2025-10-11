@@ -11,7 +11,14 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
-import { Camera, Utensils, Music, Palette, MapPin, Cake, Sparkles, Heart, LogOut } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Camera, Utensils, Music, Palette, MapPin, Cake, Sparkles, Heart, LogOut, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const categories = [
@@ -68,6 +75,7 @@ const categories = [
 export const BhindiHeader = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -173,12 +181,94 @@ export const BhindiHeader = () => {
             )}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </Button>
+          {/* Mobile Menu */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-4 mt-8">
+                {/* Categories */}
+                <div className="space-y-3">
+                  <p className="font-semibold text-sm text-muted-foreground px-2">Categories</p>
+                  {categories.map((category) => (
+                    <Link
+                      key={category.href}
+                      to={category.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                    >
+                      <category.icon className="h-5 w-5 text-primary" />
+                      <span>{category.title}</span>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Other Links */}
+                <div className="border-t pt-4 space-y-2">
+                  <Link
+                    to="/stories"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                  >
+                    Stories
+                  </Link>
+                  <Link
+                    to="/vendor/onboarding"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                  >
+                    For Vendors
+                  </Link>
+                </div>
+
+                {/* Auth Buttons */}
+                <div className="border-t pt-4 space-y-2">
+                  {user ? (
+                    <>
+                      <Button
+                        variant="default"
+                        className="w-full"
+                        onClick={() => {
+                          navigate("/dashboard");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Dashboard
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          handleLogout();
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="default"
+                      className="w-full"
+                      onClick={() => {
+                        navigate("/auth");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Get Started
+                    </Button>
+                  )}
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

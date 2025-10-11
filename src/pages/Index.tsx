@@ -193,12 +193,14 @@ const Index = () => {
                 </Link>
               </nav>
 
-              {/* Mobile Menu Button */}
-              <Button variant="ghost" size="icon" className="md:hidden text-white">
-                <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-              </Button>
+              {/* Mobile Menu - Uses BhindiHeader component */}
+              <Link to="/categories">
+                <Button variant="ghost" size="icon" className="md:hidden text-white">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                  </svg>
+                </Button>
+              </Link>
             </div>
           </div>
         </header>
@@ -208,29 +210,31 @@ const Index = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-5xl mx-auto animate-fade-up">
               {/* Frosted Glass Card */}
-              <div className="relative rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-12 md:p-20 shadow-2xl">
+              <div className="relative rounded-2xl md:rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-6 sm:p-8 md:p-12 lg:p-20 shadow-2xl mx-4">{" "}
                 {/* Content */}
-                <div className="text-center space-y-8">
+                <div className="text-center space-y-6 md:space-y-8">
                   {/* Headline with Script Font */}
-                  <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-white">
+                  <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-6xl lg:text-8xl leading-[1.1] tracking-tight text-white px-4">
                     Aap <span className="font-quote italic font-normal">Shaadi</span> Karo,<br />
                     Tension Hum Dekh Lenge
                   </h1>
 
                   {/* Subtext */}
-                  <p className="text-white/90 text-xl md:text-2xl font-light">
+                  <p className="text-white/90 text-base sm:text-lg md:text-xl lg:text-2xl font-light px-4">
                     Stress-free planning. Verified vendors. Personal planner.
                   </p>
 
                   {/* CTA Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <Link to="/auth">
-            <Button size="lg" variant="hero" className="text-lg px-8" asChild>
-              <a href="/categories">Explore Vendors</a>
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary" asChild>
-              <a href="/vendor/onboarding">For Vendors</a>
-            </Button>
+                  <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4 px-4">
+                    <Link to="/categories">
+                      <Button size="lg" className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 text-base md:text-lg px-6 md:px-8">
+                        Explore Vendors
+                      </Button>
+                    </Link>
+                    <Link to="/vendor/onboarding">
+                      <Button size="lg" variant="outline" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 border-white text-white hover:bg-white hover:text-primary">
+                        For Vendors
+                      </Button>
                     </Link>
                   </div>
                 </div>
