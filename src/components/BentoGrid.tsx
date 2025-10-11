@@ -34,7 +34,7 @@ export const BentoGrid = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Before */}
                 <div className="space-y-3">
-                  <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+                  <div className="relative rounded-2xl overflow-hidden aspect-[4/3] img-luxury">
                     <img 
                       src={bentoChaos}
                       alt="Wedding planning chaos"
@@ -54,7 +54,7 @@ export const BentoGrid = () => {
 
                 {/* After */}
                 <div className="space-y-3">
-                  <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+                  <div className="relative rounded-2xl overflow-hidden aspect-[4/3] img-luxury">
                     <img 
                       src={bentoRelaxed}
                       alt="Stress-free planning"
@@ -87,7 +87,7 @@ export const BentoGrid = () => {
               </p>
             </div>
             
-            <div className="relative rounded-2xl overflow-hidden aspect-square mt-6">
+            <div className="relative rounded-2xl overflow-hidden aspect-square mt-6 img-luxury">
               <img 
                 src={bentoMagic}
                 alt="Magical planning"
@@ -120,7 +120,7 @@ export const BentoGrid = () => {
                   </div>
                 </div>
               </div>
-              <div className="relative h-full min-h-[300px]">
+              <div className="relative h-full min-h-[300px] img-luxury">
                 <img 
                   src={bentoVendors}
                   alt="Verified vendors"
@@ -142,7 +142,7 @@ export const BentoGrid = () => {
               </p>
             </div>
             
-            <div className="relative rounded-2xl overflow-hidden aspect-square mt-6">
+            <div className="relative rounded-2xl overflow-hidden aspect-square mt-6 img-luxury">
               <img 
                 src={bentoProtection}
                 alt="Fraud protection"

@@ -19,7 +19,10 @@ import heroWedding from "@/assets/hero-wedding-phere.jpeg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionVenue from "@/assets/section-venue.jpg";
+import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
+import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
 import { Shield, CheckCircle2, Star, Users } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const categories = [
   {
@@ -111,6 +114,13 @@ const ListItem = ({
 };
 
 const Index = () => {
+  const section1 = useScrollAnimation({ threshold: 0.2 });
+  const section2 = useScrollAnimation({ threshold: 0.2 });
+  const section3 = useScrollAnimation({ threshold: 0.2 });
+  const section4 = useScrollAnimation({ threshold: 0.2 });
+  const humorSection1 = useScrollAnimation({ threshold: 0.2 });
+  const humorSection2 = useScrollAnimation({ threshold: 0.2 });
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       {/* Hero Section with Integrated Header */}
@@ -250,12 +260,63 @@ const Index = () => {
       {/* Tensions Section */}
       <TensionsSection />
 
+      {/* HUMOR SECTION 1: Wedding Planning Superhero */}
+      <section ref={humorSection1.ref} className="py-32 relative bg-gradient-to-br from-primary/5 via-accent/5 to-background overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className={`max-w-6xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
+            <div className="text-center mb-12">
+              <div className="inline-block px-6 py-3 rounded-full bg-accent/10 border-2 border-accent/30 mb-6">
+                <span className="text-accent text-lg font-bold">🦸 Plot Twist Alert!</span>
+              </div>
+              <h2 className="font-display font-bold text-5xl md:text-7xl mb-6">
+                We're Like Avengers,<br />
+                <span className="text-primary">But For Weddings</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                While you're busy being romantic, we're busy being your wedding planning superheroes 🦸‍♂️
+              </p>
+            </div>
+            
+            <div className="relative rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-luxury border-4 border-accent/20">
+              <img 
+                src={sectionHumorRescue}
+                alt="Wedding planning superhero to the rescue"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+              
+              {/* Floating badges */}
+              <div className="absolute top-8 left-8 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-accent/20 animate-pulse">
+                <span className="font-bold text-primary text-lg">No More Stress! 🎉</span>
+              </div>
+              <div className="absolute bottom-8 right-8 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-accent/20">
+                <span className="font-bold text-primary text-lg">We've Got This! 💪</span>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mt-16">
+              {[
+                { emoji: "📞", title: "300+ Vendor Calls", subtitle: "We make them, not you" },
+                { emoji: "🛡️", title: "Zero Fraud Risk", subtitle: "We verify everything" },
+                { emoji: "🎯", title: "Your Dream Wedding", subtitle: "You just show up & enjoy" }
+              ].map((item, i) => (
+                <div key={i} className="text-center p-8 rounded-2xl bg-card border-2 border-accent/10 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
+                  <div className="text-6xl mb-4">{item.emoji}</div>
+                  <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.subtitle}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Section 2: For Vendors */}
-      <section className="py-32 relative bg-muted/5">
+      <section ref={section1.ref} className="py-32 relative bg-muted/5">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
-            <div className="space-y-8 animate-fade-up">
+            <div className={`space-y-8 ${section1.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-primary text-sm font-semibold">For Vendors</span>
               </div>
@@ -295,8 +356,8 @@ const Index = () => {
             </div>
 
             {/* Image */}
-            <div className="animate-fade-up">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+            <div className={section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
                 <img 
                   src={sectionVendors}
                   alt="Professional vendors at work"
@@ -309,13 +370,81 @@ const Index = () => {
         </div>
       </section>
 
+      {/* HUMOR SECTION 2: Vendor Superheroes */}
+      <section ref={humorSection2.ref} className="py-32 relative bg-gradient-to-br from-accent/5 via-primary/5 to-background">
+        <div className="container mx-auto px-6">
+          <div className={`max-w-6xl mx-auto ${humorSection2.isVisible ? 'scroll-reveal is-visible' : 'scroll-reveal'}`}>
+            <div className="text-center mb-12">
+              <div className="inline-block px-6 py-3 rounded-full bg-primary/10 border-2 border-primary/30 mb-6">
+                <span className="text-primary text-lg font-bold">🦸‍♀️ Meet Your Squad</span>
+              </div>
+              <h2 className="font-display font-bold text-5xl md:text-7xl mb-6">
+                Our Vendors Have<br />
+                <span className="text-accent">Literal Superpowers</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Okay, not literal. But have you seen a photographer capture 50 perfect shots in 5 minutes? That's basically a superpower.
+              </p>
+            </div>
+            
+            <div className="relative rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-luxury border-4 border-primary/20 mb-12">
+              <img 
+                src={sectionHumorVendors}
+                alt="Vendor superheroes ready to save your wedding"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { 
+                  title: "Photographers 📸", 
+                  power: "Can freeze time",
+                  description: "They'll capture that one perfect moment when your mom isn't crying and your dad isn't checking his phone." 
+                },
+                { 
+                  title: "Caterers 🍽️", 
+                  power: "Feed 500 people perfectly",
+                  description: "Your cousin with 47 dietary restrictions? Your vegetarian uncle who 'just wants dal'? They got this." 
+                },
+                { 
+                  title: "Decorators 🎨", 
+                  power: "Transform venues magically",
+                  description: "They'll turn that boring banquet hall into something out of a Bollywood movie. Complete with flowers everywhere." 
+                },
+                { 
+                  title: "DJs 🎵", 
+                  power: "Read the room instantly",
+                  description: "They know exactly when to play 'Kala Chashma' and when to slow it down with 'Tum Hi Ho'. It's a gift." 
+                }
+              ].map((vendor, i) => (
+                <div key={i} className="bg-card border-2 border-accent/10 rounded-2xl p-8 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
+                  <h3 className="text-2xl font-bold mb-2">{vendor.title}</h3>
+                  <div className="text-primary font-semibold mb-3">✨ Superpower: {vendor.power}</div>
+                  <p className="text-muted-foreground leading-relaxed">{vendor.description}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Link to="/categories">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 text-lg px-10 py-6 rounded-full shadow-xl hover:shadow-2xl transition-all">
+                  Meet Your Superhero Squad
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Section 3: How It Works */}
-      <section className="py-32 relative">
+      <section ref={section2.ref} className="py-32 relative">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
-            <div className="order-2 lg:order-1 animate-fade-up">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+            <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
                 <img 
                   src={sectionProcess}
                   alt="Wedding planning process"
@@ -326,7 +455,7 @@ const Index = () => {
             </div>
 
             {/* Content */}
-            <div className="order-1 lg:order-2 space-y-8 animate-fade-up">
+            <div className={`order-1 lg:order-2 space-y-8 ${section2.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
               <div className="inline-block px-4 py-2 rounded-full bg-accent/10 border border-accent/20">
                 <span className="text-accent text-sm font-semibold">Simple Process</span>
               </div>
@@ -378,11 +507,11 @@ const Index = () => {
       </section>
 
       {/* Section 4: Real Weddings */}
-      <section className="py-32 relative bg-muted/5">
+      <section ref={section3.ref} className="py-32 relative bg-muted/5">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
-            <div className="space-y-8 animate-fade-up">
+            <div className={`space-y-8 ${section3.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
                 <span className="text-primary text-sm font-semibold">Success Stories</span>
               </div>
@@ -424,8 +553,8 @@ const Index = () => {
             </div>
 
             {/* Image */}
-            <div className="animate-fade-up">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+            <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
                 <img 
                   src={sectionVenue}
                   alt="Beautiful wedding venue"
