@@ -112,9 +112,9 @@ const ListItem = ({
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       {/* Hero Section with Integrated Header */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw]">
         {/* Wedding Background */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -210,7 +210,7 @@ const Index = () => {
           <div className="container mx-auto px-6">
             <div className="max-w-5xl mx-auto animate-fade-up">
               {/* Frosted Glass Card */}
-              <div className="relative rounded-2xl md:rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-6 sm:p-8 md:p-12 lg:p-20 shadow-2xl mx-4">{" "}
+              <div className="relative rounded-2xl md:rounded-[3rem] border-2 border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-6 sm:p-8 md:p-12 lg:p-20 shadow-2xl mx-4 max-w-full">{" "}
                 {/* Content */}
                 <div className="text-center space-y-6 md:space-y-8">
                   {/* Headline with Script Font */}

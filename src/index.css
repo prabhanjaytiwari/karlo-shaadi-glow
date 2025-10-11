@@ -7,6 +7,20 @@ All colors MUST be HSL.
 */
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html,
+  body {
+    @apply overflow-x-hidden;
+    max-width: 100vw;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+  
   :root {
     /* Dark Maroon Tech Theme (Bhindi-inspired) */
     --background: 350 50% 8%;   /* Deep Maroon-Black #1A0A0E */
