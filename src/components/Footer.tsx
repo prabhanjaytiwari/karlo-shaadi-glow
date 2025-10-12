@@ -14,9 +14,9 @@ export const Footer = () => {
             <h3 className="font-display font-semibold text-lg mb-4">About</h3>
             <ul className="space-y-2">
               <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">Our Story</Link></li>
-              <li><Link to="/careers" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</Link></li>
-              <li><Link to="/press" className="text-sm text-muted-foreground hover:text-primary transition-colors">Press</Link></li>
-              <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</Link></li>
+              <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">Press</Link></li>
+              <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -25,9 +25,9 @@ export const Footer = () => {
             <h3 className="font-display font-semibold text-lg mb-4">For Vendors</h3>
             <ul className="space-y-2">
               <li><Link to="/vendor-onboarding" className="text-sm text-muted-foreground hover:text-primary transition-colors">Join Us</Link></li>
-              <li><Link to="/vendor-pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
-              <li><Link to="/vendor-guidelines" className="text-sm text-muted-foreground hover:text-primary transition-colors">Guidelines</Link></li>
-              <li><Link to="/vendor-sla" className="text-sm text-muted-foreground hover:text-primary transition-colors">Service Terms</Link></li>
+              <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Guidelines</Link></li>
+              <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Service Terms</Link></li>
             </ul>
           </div>
 
@@ -35,10 +35,10 @@ export const Footer = () => {
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/refunds" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link></li>
-              <li><Link to="/kyc" className="text-sm text-muted-foreground hover:text-primary transition-colors">KYC Policy</Link></li>
+              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link></li>
+              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">KYC Policy</Link></li>
             </ul>
           </div>
 
@@ -46,9 +46,9 @@ export const Footer = () => {
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Help & Support</h3>
             <ul className="space-y-2">
-              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
-              <li><Link to="/disputes" className="text-sm text-muted-foreground hover:text-primary transition-colors">Dispute Resolution</Link></li>
-              <li><Link to="/safety" className="text-sm text-muted-foreground hover:text-primary transition-colors">Safety Center</Link></li>
+              <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Dispute Resolution</Link></li>
+              <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Safety Center</Link></li>
               <li><a href="https://wa.me/" className="text-sm text-muted-foreground hover:text-primary transition-colors">WhatsApp Support</a></li>
             </ul>
           </div>

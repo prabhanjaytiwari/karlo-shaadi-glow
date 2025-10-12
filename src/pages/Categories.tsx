@@ -9,6 +9,11 @@ import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import photographyImg from "@/assets/category-photography.jpg";
 import venueImg from "@/assets/category-venue.jpg";
 import mehendiImg from "@/assets/category-mehendi.jpg";
+import cateringImg from "@/assets/category-catering.jpg";
+import decorationImg from "@/assets/category-decoration.jpg";
+import musicImg from "@/assets/category-music.jpg";
+import cakeImg from "@/assets/category-cake.jpg";
+import makeupImg from "@/assets/category-makeup.jpg";
 
 const Categories = () => {
   const { category } = useParams();
@@ -20,7 +25,16 @@ const Categories = () => {
   const categoryImages: Record<string, string> = {
     photography: photographyImg,
     venue: venueImg,
+    venues: venueImg,
     mehendi: mehendiImg,
+    catering: cateringImg,
+    decoration: decorationImg,
+    decor: decorationImg,
+    music: musicImg,
+    entertainment: musicImg,
+    cake: cakeImg,
+    'cakes-desserts': cakeImg,
+    makeup: makeupImg,
   };
 
   const handleCategoryClick = (categorySlug: string) => {
