@@ -28,9 +28,14 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
   };
 
   const checkFavoriteStatus = async (userId: string) => {
-    // For now, we'll use localStorage since we don't have a favorites table
-    const favorites = JSON.parse(localStorage.getItem(`favorites_${userId}`) || "[]");
-    setIsFavorite(favorites.includes(vendorId));
+    const { data } = await supabase
+      .from("favorites")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("vendor_id", vendorId)
+      .maybeSingle();
+    
+    setIsFavorite(!!data);
   };
 
   const toggleFavorite = async () => {
@@ -45,18 +50,29 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
 
     setLoading(true);
     try {
-      const favorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`) || "[]");
-      
       if (isFavorite) {
-        const updated = favorites.filter((id: string) => id !== vendorId);
-        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updated));
+        const { error } = await supabase
+          .from("favorites")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("vendor_id", vendorId);
+
+        if (error) throw error;
+        
         setIsFavorite(false);
         toast({
           title: "Removed from favorites",
         });
       } else {
-        favorites.push(vendorId);
-        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(favorites));
+        const { error } = await supabase
+          .from("favorites")
+          .insert({
+            user_id: user.id,
+            vendor_id: vendorId,
+          });
+
+        if (error) throw error;
+        
         setIsFavorite(true);
         toast({
           title: "Added to favorites",
