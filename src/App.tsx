@@ -15,6 +15,10 @@ import VendorProfile from "./pages/VendorProfile";
 import VendorOnboarding from "./pages/VendorOnboarding";
 import VendorDashboard from "./pages/VendorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ForVendors from "./pages/ForVendors";
+import About from "./pages/About";
+import Legal from "./pages/Legal";
+import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +43,10 @@ const App = () => (
           <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
           <Route path="/vendor/dashboard" element={<VendorDashboard />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/for-vendors" element={<ForVendors />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="/support" element={<Support />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

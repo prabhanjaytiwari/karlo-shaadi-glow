@@ -23,6 +23,8 @@ import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
 import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useWeddingSounds } from "@/hooks/useWeddingSounds";
+import { useEffect } from "react";
 
 const categories = [
   {

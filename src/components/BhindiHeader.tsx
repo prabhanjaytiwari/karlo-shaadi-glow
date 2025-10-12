@@ -142,42 +142,29 @@ export const BhindiHeader = () => {
                   </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <Link to="/vendor/onboarding">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
-                      For Vendors
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                {!user && (
+                  <NavigationMenuItem>
+                    <Link to="/for-vendors">
+                      <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                        For Vendors
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                )}
               </NavigationMenuList>
             </NavigationMenu>
 
             {user ? (
               <>
-                <Button 
-                  variant="default"
-                  onClick={() => navigate("/dashboard")}
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2 transition-all duration-300"
-                >
-                  Dashboard
-                </Button>
-                <Button 
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleLogout}
-                  className="transition-all duration-300 hover:text-red-500"
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
+                <Button variant="ghost" onClick={() => navigate("/dashboard")}>Dashboard</Button>
+                <Button variant="ghost" onClick={() => navigate("/profile")}>Profile</Button>
+                <Button variant="outline" onClick={handleLogout}>Logout</Button>
               </>
             ) : (
-              <Button 
-                variant="default"
-                onClick={() => navigate("/auth")}
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2 transition-all duration-300 hover:scale-105"
-              >
-                Get Started
-              </Button>
+              <>
+                <Button variant="outline" onClick={() => navigate("/auth")}>Login</Button>
+                <Button onClick={() => navigate("/auth")}>Sign Up</Button>
+              </>
             )}
           </nav>
 
@@ -218,52 +205,30 @@ export const BhindiHeader = () => {
                   >
                     Stories
                   </Link>
-                  <Link
-                    to="/vendor/onboarding"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
-                  >
-                    For Vendors
-                  </Link>
+                  {!user && (
+                    <Link
+                      to="/for-vendors"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                    >
+                      For Vendors
+                    </Link>
+                  )}
                 </div>
 
                 {/* Auth Buttons */}
                 <div className="border-t pt-4 space-y-2">
                   {user ? (
                     <>
-                      <Button
-                        variant="default"
-                        className="w-full"
-                        onClick={() => {
-                          navigate("/dashboard");
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        Dashboard
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => {
-                          handleLogout();
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Logout
-                      </Button>
+                      <Button variant="default" className="w-full" onClick={() => { navigate("/dashboard"); setMobileMenuOpen(false); }}>Dashboard</Button>
+                      <Button variant="ghost" className="w-full" onClick={() => { navigate("/profile"); setMobileMenuOpen(false); }}>Profile</Button>
+                      <Button variant="outline" className="w-full" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Logout</Button>
                     </>
                   ) : (
-                    <Button
-                      variant="default"
-                      className="w-full"
-                      onClick={() => {
-                        navigate("/auth");
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      Get Started
-                    </Button>
+                    <>
+                      <Button variant="outline" className="w-full" onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}>Login</Button>
+                      <Button className="w-full" onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}>Sign Up</Button>
+                    </>
                   )}
                 </div>
               </nav>

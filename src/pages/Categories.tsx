@@ -4,14 +4,50 @@ import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Star, MapPin, Clock, Shield } from "lucide-react";
-import photographyImage from "@/assets/category-photography.jpg";
+import { Loader2, Star, Shield } from "lucide-react";
+import { useWeddingSounds } from "@/hooks/useWeddingSounds";
+import photographyImg from "@/assets/category-photography.jpg";
+import venueImg from "@/assets/category-venue.jpg";
+import mehendiImg from "@/assets/category-mehendi.jpg";
 
 const Categories = () => {
   const { category } = useParams();
   const [vendors, setVendors] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { playCameraSound, playCateringSound, playMusicSound, playDecorationSound, playMehendiSound, playVenueSound } = useWeddingSounds();
+
+  const categoryImages: Record<string, string> = {
+    photography: photographyImg,
+    venue: venueImg,
+    mehendi: mehendiImg,
+  };
+
+  const handleCategoryClick = (categorySlug: string) => {
+    switch(categorySlug) {
+      case 'photography':
+        playCameraSound();
+        break;
+      case 'catering':
+        playCateringSound();
+        break;
+      case 'music':
+      case 'entertainment':
+        playMusicSound();
+        break;
+      case 'decoration':
+        playDecorationSound();
+        break;
+      case 'mehendi':
+        playMehendiSound();
+        break;
+      case 'venue':
+        playVenueSound();
+        break;
+      default:
+        playCameraSound();
+    }
+  };
 
   useEffect(() => {
     loadData();

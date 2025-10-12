@@ -46,31 +46,25 @@ export const BhindiFooter = () => {
             </div>
           </div>
 
-          {/* Company Column */}
           <div>
             <h3 className="font-semibold text-lg mb-6">Company</h3>
             <ul className="space-y-4">
-              <li><Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</Link></li>
-              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
+              <li><Link to="/support" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
             </ul>
           </div>
-
-          {/* Social Column */}
           <div>
-            <h3 className="font-semibold text-lg mb-6">Social</h3>
+            <h3 className="font-semibold text-lg mb-6">Vendors</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Instagram</a></li>
+              <li><Link to="/for-vendors" className="text-muted-foreground hover:text-foreground transition-colors">Register</Link></li>
+              <li><Link to="/vendor/onboarding" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link></li>
             </ul>
           </div>
-
-          {/* Resources Column */}
           <div>
-            <h3 className="font-semibold text-lg mb-6">Resources</h3>
+            <h3 className="font-semibold text-lg mb-6">Legal</h3>
             <ul className="space-y-4">
-              <li><Link to="/stories" className="text-muted-foreground hover:text-foreground transition-colors">Real Weddings</Link></li>
-              <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy policy</Link></li>
-              <li><Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms of service</Link></li>
+              <li><Link to="/legal" className="text-muted-foreground hover:text-foreground transition-colors">Terms</Link></li>
+              <li><Link to="/legal" className="text-muted-foreground hover:text-foreground transition-colors">Privacy</Link></li>
             </ul>
           </div>
         </div>
