@@ -184,12 +184,22 @@ const Categories = () => {
                 <Link 
                   key={cat.id}
                   to={`/category/${cat.slug}`}
+                  onClick={() => handleCategoryClick(cat.slug)}
                 >
                   <GlassCard 
                     hover
                     className="overflow-hidden animate-fade-up transition-all duration-300"
                     style={{ animationDelay: `${i * 60}ms` }}
                   >
+                    {categoryImages[cat.slug] && (
+                      <div className="relative h-48 -mx-6 -mt-6 mb-4">
+                        <img 
+                          src={categoryImages[cat.slug]} 
+                          alt={cat.name}
+                          className="w-full h-full object-cover img-luxury"
+                        />
+                      </div>
+                    )}
                     <div className="aspect-square relative overflow-hidden group bg-gradient-to-br from-accent/10 to-secondary/10">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <span className="text-6xl font-bold text-accent/20">

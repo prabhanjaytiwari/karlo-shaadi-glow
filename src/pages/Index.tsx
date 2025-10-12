@@ -122,6 +122,15 @@ const Index = () => {
   const section4 = useScrollAnimation({ threshold: 0.2 });
   const humorSection1 = useScrollAnimation({ threshold: 0.2 });
   const humorSection2 = useScrollAnimation({ threshold: 0.2 });
+  const { playWelcomeSound } = useWeddingSounds();
+
+  useEffect(() => {
+    // Play welcome sound on mount with slight delay
+    const timer = setTimeout(() => {
+      playWelcomeSound();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [playWelcomeSound]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
