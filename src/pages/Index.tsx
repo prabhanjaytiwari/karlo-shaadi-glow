@@ -126,13 +126,13 @@ const Index = () => {
       {/* Hero Section with Integrated Header */}
       <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw]">
         {/* Wedding Background */}
-        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0">
           <img 
             src={heroWedding}
             alt="Indian wedding ceremony"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/80" />
         </div>
 
         {/* Header Inside Hero */}
@@ -239,6 +239,11 @@ const Index = () => {
                     <Link to="/categories">
                       <Button size="lg" className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 text-base md:text-lg px-6 md:px-8">
                         Explore Vendors
+                      </Button>
+                    </Link>
+                    <Link to="/auth">
+                      <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 text-base md:text-lg px-6 md:px-8 shadow-xl">
+                        Free Wedding Manager 🤖
                       </Button>
                     </Link>
                     <Link to="/vendor/onboarding">
@@ -475,7 +480,7 @@ const Index = () => {
                   {
                     number: "02",
                     title: "Get Matched",
-                    description: "Our AI curates the perfect vendors based on your requirements"
+                    description: "We curate the perfect vendors based on your requirements"
                   },
                   {
                     number: "03",
