@@ -4,15 +4,7 @@ import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Camera, Utensils, Music, Palette, MapPin, Cake, Sparkles, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
@@ -25,81 +17,65 @@ import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import { useEffect } from "react";
-
-const categories = [
-  {
-    title: "Photography",
-    href: "/categories/photography",
-    description: "Professional wedding photographers to capture your special moments",
-    icon: Camera,
-  },
-  {
-    title: "Catering",
-    href: "/categories/catering",
-    description: "Delicious food and beverage services for your guests",
-    icon: Utensils,
-  },
-  {
-    title: "Music & Entertainment",
-    href: "/categories/music",
-    description: "DJs, bands, and entertainment to keep the party alive",
-    icon: Music,
-  },
-  {
-    title: "Decoration",
-    href: "/categories/decoration",
-    description: "Beautiful décor to transform your venue",
-    icon: Palette,
-  },
-  {
-    title: "Venues",
-    href: "/categories/venues",
-    description: "Perfect locations for your wedding ceremony and reception",
-    icon: MapPin,
-  },
-  {
-    title: "Cakes & Desserts",
-    href: "/categories/cakes",
-    description: "Custom wedding cakes and sweet treats",
-    icon: Cake,
-  },
-  {
-    title: "Mehendi Artists",
-    href: "/categories/mehendi",
-    description: "Expert mehendi artists for bridal and guest designs",
-    icon: Sparkles,
-  },
-  {
-    title: "Wedding Planning",
-    href: "/categories/planning",
-    description: "Full-service wedding planners to coordinate everything",
-    icon: Heart,
-  },
-];
-
+const categories = [{
+  title: "Photography",
+  href: "/categories/photography",
+  description: "Professional wedding photographers to capture your special moments",
+  icon: Camera
+}, {
+  title: "Catering",
+  href: "/categories/catering",
+  description: "Delicious food and beverage services for your guests",
+  icon: Utensils
+}, {
+  title: "Music & Entertainment",
+  href: "/categories/music",
+  description: "DJs, bands, and entertainment to keep the party alive",
+  icon: Music
+}, {
+  title: "Decoration",
+  href: "/categories/decoration",
+  description: "Beautiful décor to transform your venue",
+  icon: Palette
+}, {
+  title: "Venues",
+  href: "/categories/venues",
+  description: "Perfect locations for your wedding ceremony and reception",
+  icon: MapPin
+}, {
+  title: "Cakes & Desserts",
+  href: "/categories/cakes",
+  description: "Custom wedding cakes and sweet treats",
+  icon: Cake
+}, {
+  title: "Mehendi Artists",
+  href: "/categories/mehendi",
+  description: "Expert mehendi artists for bridal and guest designs",
+  icon: Sparkles
+}, {
+  title: "Wedding Planning",
+  href: "/categories/planning",
+  description: "Full-service wedding planners to coordinate everything",
+  icon: Heart
+}];
 const ListItem = ({
   className,
   title,
   children,
   icon: Icon,
-  href,
+  href
 }: {
   className?: string;
   title: string;
   children: React.ReactNode;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{
+    className?: string;
+  }>;
   href: string;
 }) => {
-  return (
-    <li>
+  return <li>
       <NavigationMenuLink asChild>
-        <Link
-          to={href}
-          className={cn(
-            "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-white focus:bg-accent/10 focus:text-white group",
-            className
-          )}
-        >
+        <Link to={href} className={cn("block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-white focus:bg-accent/10 focus:text-white group", className)}>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
               <Icon className="h-4 w-4 text-accent" />
@@ -111,19 +87,30 @@ const ListItem = ({
           </p>
         </Link>
       </NavigationMenuLink>
-    </li>
-  );
+    </li>;
 };
-
 const Index = () => {
-  const section1 = useScrollAnimation({ threshold: 0.2 });
-  const section2 = useScrollAnimation({ threshold: 0.2 });
-  const section3 = useScrollAnimation({ threshold: 0.2 });
-  const section4 = useScrollAnimation({ threshold: 0.2 });
-  const humorSection1 = useScrollAnimation({ threshold: 0.2 });
-  const humorSection2 = useScrollAnimation({ threshold: 0.2 });
-  const { playWelcomeSound } = useWeddingSounds();
-
+  const section1 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section2 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section3 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section4 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const humorSection1 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const humorSection2 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const {
+    playWelcomeSound
+  } = useWeddingSounds();
   useEffect(() => {
     // Play welcome sound on mount with slight delay
     const timer = setTimeout(() => {
@@ -131,18 +118,12 @@ const Index = () => {
     }, 500);
     return () => clearTimeout(timer);
   }, [playWelcomeSound]);
-
-  return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
+  return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       {/* Hero Section with Integrated Header */}
       <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw]">
         {/* Wedding Background */}
           <div className="absolute inset-0 z-0">
-          <img 
-            src={heroWedding}
-            alt="Indian wedding ceremony"
-            className="w-full h-full object-cover"
-          />
+          <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/80" />
         </div>
 
@@ -171,16 +152,9 @@ const Index = () => {
                       </NavigationMenuTrigger>
                       <NavigationMenuContent className="bg-black/95 backdrop-blur-xl border-white/10">
                         <ul className="grid w-[600px] gap-3 p-6 md:grid-cols-2">
-                          {categories.map((category) => (
-                            <ListItem
-                              key={category.title}
-                              title={category.title}
-                              href={category.href}
-                              icon={category.icon}
-                            >
+                          {categories.map(category => <ListItem key={category.title} title={category.title} href={category.href} icon={category.icon}>
                               {category.description}
-                            </ListItem>
-                          ))}
+                            </ListItem>)}
                         </ul>
                       </NavigationMenuContent>
                     </NavigationMenuItem>
@@ -205,10 +179,7 @@ const Index = () => {
                 </NavigationMenu>
 
                 <Link to="/auth">
-                  <Button 
-                    variant="default"
-                    className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2"
-                  >
+                  <Button variant="default" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2">
                     Get Started
                   </Button>
                 </Link>
@@ -218,7 +189,7 @@ const Index = () => {
               <Link to="/categories">
                 <Button variant="ghost" size="icon" className="md:hidden text-white">
                   <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                    <path d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </Button>
               </Link>
@@ -235,7 +206,7 @@ const Index = () => {
                 {/* Content */}
                 <div className="text-center space-y-4 sm:space-y-6 md:space-y-8">
                   {/* Headline with Script Font */}
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-5xl lg:text-7xl leading-[1.15] tracking-tight text-white px-2 sm:px-4">
+                  <h1 className="font-display font-bold sm:text-3xl md:text-5xl lg:text-7xl leading-[1.15] tracking-tight text-white px-2 sm:px-4 text-4xl">
                     Aap <span className="font-quote italic font-normal">Shaadi</span> Karo,<br />
                     Tension Hum Dekh Lenge
                   </h1>
@@ -294,11 +265,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-2xl sm:rounded-3xl md:rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-luxury border-2 sm:border-4 border-accent/20">
-              <img 
-                src={sectionHumorRescue}
-                alt="Wedding planning superhero to the rescue"
-                className="w-full h-full object-cover"
-              />
+              <img src={sectionHumorRescue} alt="Wedding planning superhero to the rescue" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
               
               {/* Floating badges - hidden on small mobile */}
@@ -311,17 +278,23 @@ const Index = () => {
             </div>
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 md:mt-16">
-              {[
-                { emoji: "📞", title: "300+ Vendor Calls", subtitle: "We make them, not you" },
-                { emoji: "🛡️", title: "Zero Fraud Risk", subtitle: "We verify everything" },
-                { emoji: "🎯", title: "Your Dream Wedding", subtitle: "You just show up & enjoy" }
-              ].map((item, i) => (
-                <div key={i} className="text-center p-4 sm:p-6 md:p-8 rounded-2xl bg-card border-2 border-accent/10 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
+              {[{
+              emoji: "📞",
+              title: "300+ Vendor Calls",
+              subtitle: "We make them, not you"
+            }, {
+              emoji: "🛡️",
+              title: "Zero Fraud Risk",
+              subtitle: "We verify everything"
+            }, {
+              emoji: "🎯",
+              title: "Your Dream Wedding",
+              subtitle: "You just show up & enjoy"
+            }].map((item, i) => <div key={i} className="text-center p-4 sm:p-6 md:p-8 rounded-2xl bg-card border-2 border-accent/10 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
                   <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">{item.emoji}</div>
                   <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2">{item.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground">{item.subtitle}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -348,25 +321,27 @@ const Index = () => {
               </p>
 
               <div className="space-y-4">
-                {[
-                  { icon: Users, text: "Access to 50,000+ active wedding planners" },
-                  { icon: Shield, text: "Secure milestone-based payments" },
-                  { icon: Star, text: "Build reputation with verified reviews" },
-                  { icon: CheckCircle2, text: "No commission on bookings" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4">
+                {[{
+                icon: Users,
+                text: "Access to 50,000+ active wedding planners"
+              }, {
+                icon: Shield,
+                text: "Secure milestone-based payments"
+              }, {
+                icon: Star,
+                text: "Build reputation with verified reviews"
+              }, {
+                icon: CheckCircle2,
+                text: "No commission on bookings"
+              }].map((item, i) => <div key={i} className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <item.icon className="h-6 w-6 text-primary" />
                     </div>
                     <p className="text-foreground pt-3">{item.text}</p>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
-              <Button 
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8"
-              >
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8">
                 Join as Vendor
               </Button>
             </div>
@@ -374,11 +349,7 @@ const Index = () => {
             {/* Image */}
             <div className={section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
-                <img 
-                  src={sectionVendors}
-                  alt="Professional vendors at work"
-                  className="w-full h-full object-cover"
-                />
+                <img src={sectionVendors} alt="Professional vendors at work" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -404,43 +375,32 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-2xl sm:rounded-3xl md:rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-luxury border-2 sm:border-4 border-primary/20 mb-8 sm:mb-12">
-              <img 
-                src={sectionHumorVendors}
-                alt="Vendor superheroes ready to save your wedding"
-                className="w-full h-full object-cover"
-              />
+              <img src={sectionHumorVendors} alt="Vendor superheroes ready to save your wedding" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
-              {[
-                { 
-                  title: "Photographers 📸", 
-                  power: "Can freeze time",
-                  description: "They'll capture that one perfect moment when your mom isn't crying and your dad isn't checking his phone." 
-                },
-                { 
-                  title: "Caterers 🍽️", 
-                  power: "Feed 500 people perfectly",
-                  description: "Your cousin with 47 dietary restrictions? Your vegetarian uncle who 'just wants dal'? They got this." 
-                },
-                { 
-                  title: "Decorators 🎨", 
-                  power: "Transform venues magically",
-                  description: "They'll turn that boring banquet hall into something out of a Bollywood movie. Complete with flowers everywhere." 
-                },
-                { 
-                  title: "DJs 🎵", 
-                  power: "Read the room instantly",
-                  description: "They know exactly when to play 'Kala Chashma' and when to slow it down with 'Tum Hi Ho'. It's a gift." 
-                }
-              ].map((vendor, i) => (
-                <div key={i} className="bg-card border-2 border-accent/10 rounded-2xl p-4 sm:p-6 md:p-8 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
+              {[{
+              title: "Photographers 📸",
+              power: "Can freeze time",
+              description: "They'll capture that one perfect moment when your mom isn't crying and your dad isn't checking his phone."
+            }, {
+              title: "Caterers 🍽️",
+              power: "Feed 500 people perfectly",
+              description: "Your cousin with 47 dietary restrictions? Your vegetarian uncle who 'just wants dal'? They got this."
+            }, {
+              title: "Decorators 🎨",
+              power: "Transform venues magically",
+              description: "They'll turn that boring banquet hall into something out of a Bollywood movie. Complete with flowers everywhere."
+            }, {
+              title: "DJs 🎵",
+              power: "Read the room instantly",
+              description: "They know exactly when to play 'Kala Chashma' and when to slow it down with 'Tum Hi Ho'. It's a gift."
+            }].map((vendor, i) => <div key={i} className="bg-card border-2 border-accent/10 rounded-2xl p-4 sm:p-6 md:p-8 hover:border-accent/30 transition-all hover:scale-105 shadow-lg">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2">{vendor.title}</h3>
                   <div className="text-primary font-semibold mb-3 text-sm sm:text-base">✨ Superpower: {vendor.power}</div>
                   <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{vendor.description}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <div className="mt-8 sm:mt-12 text-center">
@@ -461,11 +421,7 @@ const Index = () => {
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
-                <img 
-                  src={sectionProcess}
-                  alt="Wedding planning process"
-                  className="w-full h-full object-cover"
-                />
+                <img src={sectionProcess} alt="Wedding planning process" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -482,24 +438,19 @@ const Index = () => {
               </h2>
 
               <div className="space-y-8">
-                {[
-                  {
-                    number: "01",
-                    title: "Tell Us Your Vision",
-                    description: "Share your wedding date, location, style preferences, and budget"
-                  },
-                  {
-                    number: "02",
-                    title: "Get Matched",
-                    description: "We curate the perfect vendors based on your requirements"
-                  },
-                  {
-                    number: "03",
-                    title: "Book & Relax",
-                    description: "Secure bookings with milestone payments and enjoy planning support"
-                  }
-                ].map((step, i) => (
-                  <div key={i} className="flex gap-6">
+                {[{
+                number: "01",
+                title: "Tell Us Your Vision",
+                description: "Share your wedding date, location, style preferences, and budget"
+              }, {
+                number: "02",
+                title: "Get Matched",
+                description: "We curate the perfect vendors based on your requirements"
+              }, {
+                number: "03",
+                title: "Book & Relax",
+                description: "Secure bookings with milestone payments and enjoy planning support"
+              }].map((step, i) => <div key={i} className="flex gap-6">
                     <div className="text-accent/30 font-display text-5xl font-bold flex-shrink-0">
                       {step.number}
                     </div>
@@ -507,14 +458,10 @@ const Index = () => {
                       <h3 className="font-semibold text-xl">{step.title}</h3>
                       <p className="text-muted-foreground">{step.description}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
-              <Button 
-                size="lg"
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8"
-              >
+              <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-8">
                 See How It Works
               </Button>
             </div>
@@ -545,9 +492,7 @@ const Index = () => {
               {/* Testimonial */}
               <div className="border border-border/50 rounded-2xl p-8 bg-card">
                 <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-accent text-accent" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 fill-accent text-accent" />)}
                 </div>
                 <p className="text-foreground mb-4 leading-relaxed">
                   "Karlo Shaadi made our wedding planning journey absolutely stress-free. 
@@ -559,11 +504,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <Button 
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8"
-              >
+              <Button size="lg" variant="outline" className="rounded-full px-8">
                 Read More Stories
               </Button>
             </div>
@@ -571,11 +512,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury">
-                <img 
-                  src={sectionVenue}
-                  alt="Beautiful wedding venue"
-                  className="w-full h-full object-cover"
-                />
+                <img src={sectionVenue} alt="Beautiful wedding venue" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -601,17 +538,10 @@ const Index = () => {
               Join thousands of couples who trusted us with their special day
             </p>
             <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <Button 
-                size="lg"
-                className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg font-semibold"
-              >
+              <Button size="lg" className="bg-gradient-to-r from-amber-400 to-amber-500 text-black hover:from-amber-500 hover:to-amber-600 rounded-full px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg font-semibold">
                 Start Planning Free
               </Button>
-              <Button 
-                size="lg"
-                variant="outline"
-                className="rounded-full px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg"
-              >
+              <Button size="lg" variant="outline" className="rounded-full px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg">
                 Talk to Expert
               </Button>
             </div>
@@ -620,8 +550,6 @@ const Index = () => {
       </section>
 
       <BhindiFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
