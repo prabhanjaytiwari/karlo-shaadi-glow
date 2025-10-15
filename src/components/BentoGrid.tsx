@@ -7,28 +7,28 @@ import bentoMagic from "@/assets/bento-magic.jpg";
 
 export const BentoGrid = () => {
   return (
-    <section className="py-32 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 animate-fade-up">
-          <h2 className="text-4xl md:text-6xl font-bold mb-4">
+    <section className="py-16 sm:py-24 md:py-32 bg-background">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16 animate-fade-up">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-2">
             Why Karlo Shaadi?
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto px-4">
             Everything you need for a stress-free wedding, all in one place
           </p>
         </div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto">
           
           {/* Large Card - Before & After */}
-          <div className="lg:col-span-2 lg:row-span-2 bg-card border border-border/50 rounded-3xl p-8 overflow-hidden group hover:border-accent/50 transition-all">
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
-                  <Sparkles className="h-6 w-6 text-accent" />
+          <div className="lg:col-span-2 lg:row-span-2 bg-card border border-border/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 overflow-hidden group hover:border-accent/50 transition-all">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+                  <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
                 </div>
-                <h3 className="text-2xl font-bold">The Old Way vs. Our Way</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold">The Old Way vs. Our Way</h3>
               </div>
               
               <div className="grid md:grid-cols-2 gap-6">
@@ -76,13 +76,13 @@ export const BentoGrid = () => {
           </div>
 
           {/* Tall Card - Smart Matching */}
-          <div className="lg:row-span-2 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-3xl p-8 flex flex-col justify-between group hover:border-primary transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Zap className="h-6 w-6 text-primary" />
+          <div className="lg:row-span-2 bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col justify-between group hover:border-primary transition-all">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
-              <h3 className="text-2xl font-bold">AI-Powered Matching</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold">AI-Powered Matching</h3>
+              <p className="text-muted-foreground text-sm sm:text-base">
                 Answer 3 simple questions and get matched with perfect vendors in under 2 minutes
               </p>
             </div>
@@ -101,15 +101,15 @@ export const BentoGrid = () => {
           </div>
 
           {/* Wide Card - Verified Vendors */}
-          <div className="md:col-span-2 bg-card border border-border/50 rounded-3xl overflow-hidden group hover:border-accent/50 transition-all">
+          <div className="md:col-span-2 bg-card border border-border/50 rounded-2xl sm:rounded-3xl overflow-hidden group hover:border-accent/50 transition-all">
             <div className="grid md:grid-cols-2">
-              <div className="p-8 flex flex-col justify-center">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
-                    <Users className="h-6 w-6 text-accent" />
+              <div className="p-4 sm:p-6 md:p-8 flex flex-col justify-center">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+                    <Users className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
                   </div>
-                  <h3 className="text-2xl font-bold">5,000+ Verified Vendors</h3>
-                  <p className="text-muted-foreground">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold">5,000+ Verified Vendors</h3>
+                  <p className="text-muted-foreground text-sm sm:text-base">
                     Every vendor undergoes strict verification. Background checks, portfolio reviews, and customer ratings ensure you work with the best
                   </p>
                   <div className="pt-2">
@@ -131,13 +131,13 @@ export const BentoGrid = () => {
           </div>
 
           {/* Square Card - Protection */}
-          <div className="bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-3xl p-8 group hover:border-accent transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
-                <Shield className="h-6 w-6 text-accent" />
+          <div className="bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 group hover:border-accent transition-all">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
               </div>
-              <h3 className="text-xl font-bold">Fraud Protection Shield</h3>
-              <p className="text-muted-foreground text-sm">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">Fraud Protection Shield</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm">
                 Your money is safe with milestone-based payments and our fraud prevention system
               </p>
             </div>
@@ -152,38 +152,38 @@ export const BentoGrid = () => {
           </div>
 
           {/* Stats Card */}
-          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 text-primary-foreground">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold">By the Numbers</h3>
-              <div className="space-y-4">
+          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 text-primary-foreground">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold">By the Numbers</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <div className="text-4xl font-bold mb-1">50,000+</div>
-                  <div className="text-primary-foreground/80 text-sm">Happy Couples</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1">50,000+</div>
+                  <div className="text-primary-foreground/80 text-xs sm:text-sm">Happy Couples</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold mb-1">5,000+</div>
-                  <div className="text-primary-foreground/80 text-sm">Verified Vendors</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1">5,000+</div>
+                  <div className="text-primary-foreground/80 text-xs sm:text-sm">Verified Vendors</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold mb-1">2 Hrs</div>
-                  <div className="text-primary-foreground/80 text-sm">Avg. Response Time</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1">2 Hrs</div>
+                  <div className="text-primary-foreground/80 text-xs sm:text-sm">Avg. Response Time</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold mb-1">100%</div>
-                  <div className="text-primary-foreground/80 text-sm">Fraud Protection</div>
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1">100%</div>
+                  <div className="text-primary-foreground/80 text-xs sm:text-sm">Fraud Protection</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Feature Card */}
-          <div className="bg-card border border-border/50 rounded-3xl p-8 group hover:border-primary/50 transition-all">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Sparkles className="h-6 w-6 text-primary" />
+          <div className="bg-card border border-border/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 group hover:border-primary/50 transition-all">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-bold">No Tension, Just Celebration</h3>
-              <p className="text-muted-foreground text-sm">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold">No Tension, Just Celebration</h3>
+              <p className="text-muted-foreground text-xs sm:text-sm">
                 Your personal wedding planner handles the stress while you enjoy the journey to your big day
               </p>
               <div className="pt-2 space-y-2 text-sm text-muted-foreground">
