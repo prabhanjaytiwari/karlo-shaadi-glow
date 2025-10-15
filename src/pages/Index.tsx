@@ -224,9 +224,7 @@ const Index = () => {
                       </Button>
                     </Link>
                     <Link to="/auth" className="w-full sm:w-auto">
-                      <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 shadow-xl h-11 sm:h-12">
-                        Free Wedding Manager 🤖
-                      </Button>
+                      <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent text-white hover:from-primary/90 hover:to-accent/90 text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 shadow-xl h-11 sm:h-12">Free Wedding Manager</Button>
                     </Link>
                     <Link to="/vendor/onboarding" className="w-full sm:w-auto">
                       <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base md:text-lg px-4 sm:px-6 md:px-8 border-white text-white hover:bg-white hover:text-primary h-11 sm:h-12">
