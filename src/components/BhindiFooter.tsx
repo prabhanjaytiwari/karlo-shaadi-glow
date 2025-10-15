@@ -50,6 +50,8 @@ export const BhindiFooter = () => {
             <h3 className="font-semibold text-lg mb-6">Company</h3>
             <ul className="space-y-4">
               <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
+              <li><Link to="/stories" className="text-muted-foreground hover:text-foreground transition-colors">Stories</Link></li>
+              <li><Link to="/investors" className="text-muted-foreground hover:text-foreground transition-colors">Investors</Link></li>
               <li><Link to="/support" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
             </ul>
           </div>
@@ -58,6 +60,13 @@ export const BhindiFooter = () => {
             <ul className="space-y-4">
               <li><Link to="/for-vendors" className="text-muted-foreground hover:text-foreground transition-colors">Register</Link></li>
               <li><Link to="/vendor/onboarding" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg mb-6">Opportunities</h3>
+            <ul className="space-y-4">
+              <li><Link to="/join-as-manager" className="text-muted-foreground hover:text-foreground transition-colors">Join as Manager</Link></li>
+              <li><Link to="/affiliate" className="text-muted-foreground hover:text-foreground transition-colors">Affiliate Program</Link></li>
             </ul>
           </div>
           <div>

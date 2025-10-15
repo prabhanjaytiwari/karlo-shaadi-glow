@@ -22,7 +22,11 @@ import ForVendors from "./pages/ForVendors";
 import About from "./pages/About";
 import Legal from "./pages/Legal";
 import Support from "./pages/Support";
+import Investors from "./pages/Investors";
+import JoinAsManager from "./pages/JoinAsManager";
+import Affiliate from "./pages/Affiliate";
 import NotFound from "./pages/NotFound";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -53,9 +57,13 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/investors" element={<Investors />} />
+          <Route path="/join-as-manager" element={<JoinAsManager />} />
+          <Route path="/affiliate" element={<Affiliate />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <WhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
