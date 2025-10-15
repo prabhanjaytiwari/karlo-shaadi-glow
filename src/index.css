@@ -57,6 +57,13 @@ All colors MUST be HSL.
     --glow-maroon: 350 85% 55%;
     --glow-accent: 35 85% 70%;
     
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(350 85% 55%), hsl(350 70% 45%));
+    --gradient-accent: linear-gradient(135deg, hsl(35 85% 70%), hsl(35 75% 60%));
+    --gradient-hero: linear-gradient(180deg, hsl(350 50% 8% / 0.95), hsl(350 40% 10% / 0.98));
+    --gradient-section: radial-gradient(ellipse at top, hsl(350 85% 55% / 0.08) 0%, transparent 50%);
+    --gradient-section-alt: radial-gradient(ellipse at bottom, hsl(35 85% 70% / 0.08) 0%, transparent 50%);
+    
     /* Motion */
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
     --duration-fast: 220ms;
@@ -126,6 +133,10 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    background: hsl(var(--background));
+    background-image: radial-gradient(ellipse at 20% 30%, hsl(350 85% 55% / 0.06) 0%, transparent 40%),
+                      radial-gradient(ellipse at 80% 70%, hsl(35 85% 70% / 0.06) 0%, transparent 40%);
+    background-attachment: fixed;
   }
   
   h1, h2, h3, h4, h5, h6 {

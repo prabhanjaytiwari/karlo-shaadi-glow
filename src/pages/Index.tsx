@@ -207,13 +207,13 @@ const Index = () => {
                 <div className="text-center space-y-4 sm:space-y-6 md:space-y-8">
                   {/* Headline with Script Font */}
                   <h1 className="font-display font-bold sm:text-3xl md:text-5xl lg:text-7xl leading-[1.15] tracking-tight text-white px-2 sm:px-4 text-4xl">
-                    Aap <span className="font-quote italic font-normal">Shaadi</span> Karo,<br />
-                    Tension Hum Dekh Lenge
+                    Aap <span className="font-quote italic font-normal bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Shaadi</span> Karo,<br />
+                    Tension Hum Sambhal Lenge
                   </h1>
 
                   {/* Subtext */}
-                  <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl font-light px-2 sm:px-4">
-                    Stress-free planning. Verified vendors. Personal planner.
+                  <p className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl font-light px-2 sm:px-4 max-w-2xl mx-auto">
+                    India's Most Trusted Wedding Platform • 50,000+ Happy Couples • Zero Stress Guarantee
                   </p>
 
                   {/* CTA Buttons */}
@@ -246,7 +246,7 @@ const Index = () => {
       <TensionsSection />
 
       {/* HUMOR SECTION 1: Wedding Planning Superhero */}
-      <section ref={humorSection1.ref} className="py-16 sm:py-24 md:py-32 relative bg-gradient-to-br from-primary/5 via-accent/5 to-background overflow-hidden">
+      <section ref={humorSection1.ref} className="py-16 sm:py-24 md:py-32 relative overflow-hidden" style={{ background: 'radial-gradient(ellipse at top, hsl(350 85% 55% / 0.08) 0%, transparent 50%)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-6xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <div className="text-center mb-8 sm:mb-12">
@@ -254,11 +254,11 @@ const Index = () => {
                 <span className="text-accent text-sm sm:text-base md:text-lg font-bold">🦸 Plot Twist Alert!</span>
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 px-2">
-                We're Like Avengers,<br />
-                <span className="text-primary">But For Weddings</span>
+                We're Like <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Avengers</span>,<br />
+                But For Your Wedding
               </h2>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-                While you're busy being romantic, we're busy being your wedding planning superheroes 🦸‍♂️
+                While you focus on your love story, we handle everything else - from vendor calls to perfect execution 🦸‍♂️
               </p>
             </div>
             
@@ -299,7 +299,7 @@ const Index = () => {
       </section>
 
       {/* Section 2: For Vendors */}
-      <section ref={section1.ref} className="py-16 sm:py-24 md:py-32 relative bg-muted/5">
+      <section ref={section1.ref} className="py-16 sm:py-24 md:py-32 relative" style={{ background: 'radial-gradient(ellipse at center, hsl(35 85% 70% / 0.05) 0%, transparent 50%)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
@@ -310,12 +310,12 @@ const Index = () => {
               
               <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                 Grow Your Wedding<br />
-                <span className="text-primary">Business Faster</span>
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Business 10x Faster</span>
               </h2>
 
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-                Join India's most trusted wedding platform. Get verified, showcase your work, 
-                and connect with couples who are ready to book.
+                Join India's #1 wedding platform trusted by 50,000+ couples. Get verified instantly, showcase your portfolio beautifully, 
+                and connect with ready-to-book clients - all without any commission fees.
               </p>
 
               <div className="space-y-4">
@@ -356,7 +356,7 @@ const Index = () => {
       </section>
 
       {/* HUMOR SECTION 2: Vendor Superheroes */}
-      <section ref={humorSection2.ref} className="py-16 sm:py-24 md:py-32 relative bg-gradient-to-br from-accent/5 via-primary/5 to-background">
+      <section ref={humorSection2.ref} className="py-16 sm:py-24 md:py-32 relative" style={{ background: 'radial-gradient(ellipse at bottom, hsl(35 85% 70% / 0.08) 0%, transparent 50%)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-6xl mx-auto ${humorSection2.isVisible ? 'scroll-reveal is-visible' : 'scroll-reveal'}`}>
             <div className="text-center mb-8 sm:mb-12">
@@ -365,10 +365,10 @@ const Index = () => {
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 px-2">
                 Our Vendors Have<br />
-                <span className="text-accent">Literal Superpowers</span>
+                <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Actual Superpowers</span>
               </h2>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-                Okay, not literal. But have you seen a photographer capture 50 perfect shots in 5 minutes? That's basically a superpower.
+                Not literally, but seriously - have you seen a photographer nail 50 perfect candids in 5 minutes? Or a decorator transform a basic hall into a palace? Pure magic. ✨
               </p>
             </div>
             
@@ -432,7 +432,7 @@ const Index = () => {
               
               <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                 Planning Made<br />
-                <span className="text-accent">Ridiculously Easy</span>
+                <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Stupidly Simple</span>
               </h2>
 
               <div className="space-y-8">
@@ -468,7 +468,7 @@ const Index = () => {
       </section>
 
       {/* Section 4: Real Weddings */}
-      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative bg-muted/5">
+      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative" style={{ background: 'radial-gradient(ellipse at top, hsl(350 85% 55% / 0.06) 0%, transparent 50%)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
@@ -478,13 +478,13 @@ const Index = () => {
               </div>
               
               <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                50,000+ Couples<br />
-                <span className="text-primary">Trusted Us</span>
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">50,000+ Couples</span><br />
+                Said "I Do" to Us First
               </h2>
 
               <p className="text-muted-foreground text-lg leading-relaxed">
-                From intimate ceremonies to grand celebrations, couples across India 
-                have planned their perfect weddings with Karlo Shaadi.
+                From intimate 50-guest celebrations to 2,000-guest extravaganzas, couples across 100+ Indian cities 
+                have trusted us with their dream wedding. Your turn? 💍
               </p>
 
               {/* Testimonial */}
