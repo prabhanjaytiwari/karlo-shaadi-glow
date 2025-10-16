@@ -97,7 +97,9 @@ export const BhindiHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
-  const [isMobileView, setIsMobileView] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(() => 
+    typeof window !== 'undefined' && window.innerWidth < 768
+  );
 
   useEffect(() => {
     // Check if mobile on mount and on resize
