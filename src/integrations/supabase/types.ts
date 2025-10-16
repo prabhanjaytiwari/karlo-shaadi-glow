@@ -489,6 +489,150 @@ export type Database = {
           },
         ]
       }
+      story_budget_breakdown: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          id: string
+          percentage: number
+          story_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          id?: string
+          percentage: number
+          story_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          id?: string
+          percentage?: number
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_budget_breakdown_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          display_order: number
+          id: string
+          photo_url: string
+          story_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          photo_url: string
+          story_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          photo_url?: string
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_photos_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_timeline: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          phase: string
+          story_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          display_order?: number
+          id?: string
+          phase: string
+          story_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          phase?: string
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_timeline_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_vendors: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          story_id: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: string
+          story_id: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          story_id?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_vendors_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_vendors_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -700,6 +844,77 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "vendors_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wedding_stories: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          budget_max: number | null
+          budget_min: number | null
+          city_id: string | null
+          couple_names: string
+          cover_image_url: string | null
+          created_at: string
+          featured: boolean
+          guest_count: number | null
+          id: string
+          quote: string
+          status: string
+          story_content: string
+          submitted_by: string | null
+          theme: string
+          updated_at: string
+          wedding_date: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          city_id?: string | null
+          couple_names: string
+          cover_image_url?: string | null
+          created_at?: string
+          featured?: boolean
+          guest_count?: number | null
+          id?: string
+          quote: string
+          status?: string
+          story_content: string
+          submitted_by?: string | null
+          theme: string
+          updated_at?: string
+          wedding_date: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          city_id?: string | null
+          couple_names?: string
+          cover_image_url?: string | null
+          created_at?: string
+          featured?: boolean
+          guest_count?: number | null
+          id?: string
+          quote?: string
+          status?: string
+          story_content?: string
+          submitted_by?: string | null
+          theme?: string
+          updated_at?: string
+          wedding_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wedding_stories_city_id_fkey"
             columns: ["city_id"]
             isOneToOne: false
             referencedRelation: "cities"
