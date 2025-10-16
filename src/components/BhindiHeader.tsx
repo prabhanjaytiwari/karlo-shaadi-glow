@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -93,6 +94,7 @@ const categories = [
 
 export const BhindiHeader = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -149,10 +151,11 @@ export const BhindiHeader = () => {
             </span>
           </Link>
 
-          {/* Navigation Menu */}
-          <nav className="hidden md:flex items-center gap-4">
-            <NavigationMenu>
-              <NavigationMenuList>
+          {/* Navigation Menu - Desktop Only */}
+          {!isMobile && (
+            <nav className="flex items-center gap-4">
+              <NavigationMenu>
+                <NavigationMenuList>
                 {/* Categories Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm transition-all duration-300">Categories</NavigationMenuTrigger>
@@ -211,22 +214,21 @@ export const BhindiHeader = () => {
                 <Button onClick={() => navigate("/auth")}>Sign Up</Button>
               </>
             )}
-          </nav>
+            </nav>
+          )}
 
-          {/* Mobile Menu */}
-          <div className="md:hidden">
+          {/* Mobile Menu Button - Only visible on mobile */}
+          {isMobile && (
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
                   variant="ghost" 
                   size="icon"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setMobileMenuOpen(!mobileMenuOpen);
-                  }}
+                  className="relative z-50"
+                  type="button"
                 >
                   <Menu className="h-6 w-6" />
+                  <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
@@ -438,7 +440,7 @@ export const BhindiHeader = () => {
               </nav>
             </SheetContent>
           </Sheet>
-          </div>
+          )}
         </div>
       </div>
     </header>
