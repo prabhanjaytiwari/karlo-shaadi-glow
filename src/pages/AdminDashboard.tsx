@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { format } from "date-fns";
+import { StoryModerationTab } from "@/components/admin/StoryModerationTab";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -367,6 +368,7 @@ export default function AdminDashboard() {
               <TabsTrigger value="verification">Vendor Verification</TabsTrigger>
               <TabsTrigger value="vendors">All Vendors</TabsTrigger>
               <TabsTrigger value="performance">Performance</TabsTrigger>
+              <TabsTrigger value="stories">Wedding Stories</TabsTrigger>
               <TabsTrigger value="moderation">Content Moderation</TabsTrigger>
             </TabsList>
 
@@ -541,6 +543,10 @@ export default function AdminDashboard() {
                   </Table>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="stories">
+              <StoryModerationTab />
             </TabsContent>
 
             <TabsContent value="moderation">
