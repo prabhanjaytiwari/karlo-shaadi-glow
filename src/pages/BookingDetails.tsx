@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { MessagingDialog } from "@/components/MessagingDialog";
+import { BookingDocumentUpload } from "@/components/BookingDocumentUpload";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface BookingDetailsData {
@@ -458,11 +459,16 @@ export default function BookingDetails() {
           </TabsContent>
 
           {/* Documents Tab */}
-          <TabsContent value="documents">
+          <TabsContent value="documents" className="space-y-6">
+            <BookingDocumentUpload 
+              bookingId={booking.id} 
+              onUploadComplete={loadBookingData}
+            />
+
             <Card>
               <CardHeader>
-                <CardTitle>Documents</CardTitle>
-                <CardDescription>Contracts, receipts, and other important documents</CardDescription>
+                <CardTitle>Uploaded Documents</CardTitle>
+                <CardDescription>All documents related to this booking</CardDescription>
               </CardHeader>
               <CardContent>
                 {documents.length === 0 ? (

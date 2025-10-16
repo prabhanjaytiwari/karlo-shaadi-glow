@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Calendar, User, DollarSign, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Calendar, User, DollarSign, CheckCircle, XCircle, Clock, FileText } from "lucide-react";
 
 interface BookingManagementCardProps {
   booking: any;
@@ -13,6 +14,7 @@ interface BookingManagementCardProps {
 }
 
 export function BookingManagementCard({ booking, onUpdate }: BookingManagementCardProps) {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -130,6 +132,16 @@ export function BookingManagementCard({ booking, onUpdate }: BookingManagementCa
             Mark as Completed
           </Button>
         )}
+
+        <Button
+          onClick={() => navigate(`/booking/${booking.id}`)}
+          variant="outline"
+          size="sm"
+          className="w-full"
+        >
+          <FileText className="h-4 w-4 mr-1" />
+          View Details & Documents
+        </Button>
       </CardContent>
     </Card>
   );
