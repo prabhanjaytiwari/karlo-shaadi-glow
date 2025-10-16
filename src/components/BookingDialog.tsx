@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ interface BookingDialogProps {
 
 export function BookingDialog({ vendorId, serviceId, children }: BookingDialogProps) {
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [services, setServices] = useState<any[]>([]);
@@ -142,6 +144,17 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
       }]);
 
       if (error) throw error;
+
+      // Track booking creation event
+      await trackEvent({
+        event_type: 'booking_created',
+        vendor_id: vendorId,
+        metadata: {
+          service_id: selectedService,
+          amount: parseFloat(amount),
+          wedding_date: weddingDate,
+        },
+      });
 
       // Get the newly created booking ID
       const { data: newBooking } = await supabase

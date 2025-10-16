@@ -7,11 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Eye, EyeOff, Heart } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -38,6 +40,12 @@ const Auth = () => {
       if (error) throw error;
 
       if (data.user) {
+        // Track login event
+        await trackEvent({
+          event_type: 'user_login',
+          metadata: { method: 'password' },
+        });
+
         toast({
           title: "Welcome back!",
           description: "You've successfully logged in.",
@@ -81,6 +89,12 @@ const Auth = () => {
           .insert({ user_id: data.user.id, role: "couple" });
 
         if (roleError) console.error("Role assignment error:", roleError);
+
+        // Track signup event
+        await trackEvent({
+          event_type: 'user_signup',
+          metadata: { role: 'couple' },
+        });
 
         toast({
           title: "Account created!",

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { ReviewForm } from "@/components/ReviewForm";
 import { ReviewsList } from "@/components/ReviewsList";
 import { BookingDialog } from "@/components/BookingDialog";
@@ -25,6 +26,7 @@ import {
 const VendorProfile = () => {
   const { id } = useParams();
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const [vendor, setVendor] = useState<any>(null);
   const [services, setServices] = useState<any[]>([]);
   const [portfolio, setPortfolio] = useState<any[]>([]);
@@ -84,6 +86,18 @@ const VendorProfile = () => {
         .order("display_order", { ascending: true });
       
       setPortfolio(portfolioData || []);
+
+      // Track vendor profile view
+      if (id) {
+        trackEvent({
+          event_type: 'vendor_profile_viewed',
+          vendor_id: id,
+          metadata: {
+            business_name: vendorData?.business_name,
+            category: vendorData?.category,
+          },
+        });
+      }
     } catch (error: any) {
       toast({
         title: "Error",

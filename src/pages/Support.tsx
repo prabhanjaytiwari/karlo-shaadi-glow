@@ -9,9 +9,13 @@ import { useToast } from "@/hooks/use-toast";
 import { MessageCircle, Mail, Phone, HelpCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const Support = () => {
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,13 +23,50 @@ const Support = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Our support team will get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      // Send email via edge function
+      const { error } = await supabase.functions.invoke('send-email', {
+        body: {
+          to: 'support@karloshaadi.com',
+          subject: `Support Request: ${formData.subject}`,
+          html: `
+            <h2>New Support Request</h2>
+            <p><strong>From:</strong> ${formData.name} (${formData.email})</p>
+            <p><strong>Subject:</strong> ${formData.subject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${formData.message.replace(/\n/g, '<br>')}</p>
+          `,
+        },
+      });
+
+      if (error) throw error;
+
+      // Track support request event
+      await trackEvent({
+        event_type: 'support_request_submitted',
+        metadata: { subject: formData.subject },
+      });
+
+      toast({
+        title: "Message Sent!",
+        description: "Our support team will get back to you within 24 hours.",
+      });
+      
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error('Error sending support request:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -129,7 +170,9 @@ const Support = () => {
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full">Send Message</Button>
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
                 </form>
               </CardContent>
             </Card>

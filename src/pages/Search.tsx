@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { GlassCard } from "@/components/GlassCard";
@@ -13,6 +14,7 @@ import { Link } from "react-router-dom";
 export default function Search() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { trackEvent } = useAnalytics();
   const [vendors, setVendors] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
@@ -71,6 +73,19 @@ export default function Search() {
       const { data: vendorsData } = await query.order("average_rating", { ascending: false });
       
       if (vendorsData) setVendors(vendorsData);
+
+      // Track search event
+      if (searchQuery || selectedCategory !== "all" || selectedCity !== "all") {
+        trackEvent({
+          event_type: 'vendor_search',
+          metadata: {
+            search_query: searchQuery,
+            category: selectedCategory,
+            city: selectedCity,
+            results_count: vendorsData?.length || 0,
+          },
+        });
+      }
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {

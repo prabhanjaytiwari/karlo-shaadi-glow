@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface ReviewFormProps {
   bookingId: string;
@@ -14,6 +15,7 @@ interface ReviewFormProps {
 
 export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) {
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -45,6 +47,16 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
       }]);
 
       if (error) throw error;
+
+      // Track review creation
+      await trackEvent({
+        event_type: 'review_created',
+        vendor_id: vendorId,
+        metadata: {
+          rating,
+          has_comment: !!comment,
+        },
+      });
 
       toast({
         title: "Review submitted",
