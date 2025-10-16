@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Categories from "./pages/Categories";
 import City from "./pages/City";
 import Stories from "./pages/Stories";
+import StoryDetail from "./pages/StoryDetail";
 import Search from "./pages/Search";
 import VendorProfile from "./pages/VendorProfile";
 import VendorOnboarding from "./pages/VendorOnboarding";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/category/:category" element={<Categories />} />
           <Route path="/city/:slug" element={<City />} />
           <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:id" element={<StoryDetail />} />
           <Route path="/search" element={<Search />} />
           <Route path="/vendors/:id" element={<VendorProfile />} />
           <Route path="/vendor/onboarding" element={<VendorOnboarding />} />

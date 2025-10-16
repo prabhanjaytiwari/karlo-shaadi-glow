@@ -1,13 +1,23 @@
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Calendar, TrendingUp, Award } from "lucide-react";
+import { MapPin, Calendar, TrendingUp, Award, Star, Filter } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import heroImage from "@/assets/hero-wedding.jpg";
 
 const City = () => {
   const { slug } = useParams();
+  const [vendors, setVendors] = useState<any[]>([]);
+  const [stories, setStories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("rating");
   
   const cityData: Record<string, any> = {
     lucknow: {
@@ -37,6 +47,67 @@ const City = () => {
   };
 
   const city = cityData[slug || "lucknow"];
+
+  useEffect(() => {
+    loadVendorsAndStories();
+  }, [slug, selectedCategory, sortBy]);
+
+  const loadVendorsAndStories = async () => {
+    setLoading(true);
+    try {
+      // Fetch city ID
+      const { data: cityRecord } = await supabase
+        .from("cities")
+        .select("id")
+        .ilike("name", city.name)
+        .maybeSingle();
+
+      if (cityRecord) {
+        // Fetch vendors for this city
+        let query = supabase
+          .from("vendors")
+          .select("*")
+          .eq("city_id", cityRecord.id)
+          .eq("is_active", true);
+
+        if (selectedCategory !== "all") {
+          query = query.eq("category", selectedCategory as any);
+        }
+
+        // Apply sorting
+        if (sortBy === "rating") {
+          query = query.order("average_rating", { ascending: false });
+        } else if (sortBy === "bookings") {
+          query = query.order("total_bookings", { ascending: false });
+        } else if (sortBy === "newest") {
+          query = query.order("created_at", { ascending: false });
+        }
+
+        const { data: vendorsData } = await query.limit(12);
+        if (vendorsData) setVendors(vendorsData);
+      }
+
+      // Mock stories data (in production, this would come from a stories table)
+      setStories([
+        { id: 1, couple: "Priya & Raj", theme: "Royal Nawabi", image: heroImage },
+        { id: 2, couple: "Ananya & Vikram", theme: "Modern", image: heroImage },
+      ]);
+    } catch (error) {
+      console.error("Error loading data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const categories = [
+    { value: "all", label: "All Categories" },
+    { value: "venue", label: "Venues" },
+    { value: "photography", label: "Photography" },
+    { value: "catering", label: "Catering" },
+    { value: "decoration", label: "Decoration" },
+    { value: "makeup", label: "Makeup" },
+    { value: "mehendi", label: "Mehendi" },
+  ];
 
   const topPicks = [
     { title: "Budget-Friendly Top 10", description: "Best value vendors starting at ₹25,000", badge: "Popular" },
@@ -107,39 +178,160 @@ const City = () => {
         </div>
       </section>
 
-      {/* AI Picks */}
+      {/* Vendors Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-up">
+          <div className="mb-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <h2 className="font-display font-bold text-4xl mb-2">
+                  Top Vendors in {city.name}
+                </h2>
+                <p className="text-muted-foreground">
+                  {vendors.length} verified vendors available
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-[180px]">
+                    <Filter className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
+                    <SelectItem value="bookings">Most Booked</SelectItem>
+                    <SelectItem value="newest">Newest</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading vendors...</p>
+            </div>
+          ) : vendors.length === 0 ? (
+            <GlassCard className="p-12 text-center">
+              <p className="text-muted-foreground">
+                No vendors found for this category. Try different filters!
+              </p>
+            </GlassCard>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {vendors.map((vendor, i) => (
+                <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
+                  <GlassCard
+                    hover
+                    className="overflow-hidden h-full animate-fade-up"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
+                    <CardHeader>
+                      <div className="flex items-start justify-between mb-2">
+                        <Badge variant="secondary">{vendor.category}</Badge>
+                        {vendor.verified && (
+                          <Badge variant="default">
+                            <Award className="h-3 w-3 mr-1" />
+                            Verified
+                          </Badge>
+                        )}
+                      </div>
+                      <CardTitle className="line-clamp-1">{vendor.business_name}</CardTitle>
+                      <CardDescription className="line-clamp-2">
+                        {vendor.description || "Professional service provider"}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 fill-primary text-primary" />
+                          <span className="font-semibold">
+                            {vendor.average_rating?.toFixed(1) || "5.0"}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            ({vendor.total_reviews || 0})
+                          </span>
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {vendor.total_bookings || 0} bookings
+                        </div>
+                      </div>
+                    </CardContent>
+                  </GlassCard>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-8">
+            <Link to="/search">
+              <Button variant="outline" size="lg">
+                View All Vendors →
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Wedding Stories */}
+      <section className="py-20 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
             <h2 className="font-display font-bold text-4xl mb-4">
-              AI-Curated Picks for {city.name}
+              Real Weddings in {city.name}
             </h2>
             <p className="text-muted-foreground text-lg">
-              Personalized recommendations based on your preferences
+              Get inspired by couples who planned their dream weddings here
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {topPicks.map((pick, i) => (
-              <GlassCard 
-                key={i}
-                hover
-                className="p-6 animate-fade-up"
-                style={{ animationDelay: `${i * 150}ms` }}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <Award className="h-8 w-8 text-accent" />
-                  <span className="glass-subtle px-3 py-1 rounded-full text-xs font-semibold">
-                    {pick.badge}
-                  </span>
-                </div>
-                <h3 className="font-display font-semibold text-xl mb-2">{pick.title}</h3>
-                <p className="text-muted-foreground mb-4">{pick.description}</p>
-                <Button variant="quiet" className="w-full">
-                  View Collection →
-                </Button>
-              </GlassCard>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {stories.map((story) => (
+              <Link key={story.id} to={`/stories/${story.id}`}>
+                <GlassCard hover className="overflow-hidden">
+                  <div className="aspect-video relative">
+                    <img
+                      src={story.image}
+                      alt={story.couple}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <Badge>{story.theme}</Badge>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-display font-semibold text-xl">
+                      {story.couple}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Read their wedding story →
+                    </p>
+                  </div>
+                </GlassCard>
+              </Link>
             ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link to="/stories">
+              <Button variant="outline" size="lg">
+                View All Stories →
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
