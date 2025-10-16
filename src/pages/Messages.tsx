@@ -85,7 +85,7 @@ export default function Messages() {
         if (!convMap.has(otherId)) {
           convMap.set(otherId, {
             vendorId: otherId,
-            vendorName: "Vendor", // Will fetch from profiles
+            vendorName: "Loading...",
             lastMessage: msg.message,
             lastMessageTime: msg.created_at,
             unreadCount: msg.recipient_id === currentUser.id && !msg.read ? 1 : 0,
@@ -98,7 +98,37 @@ export default function Messages() {
         }
       }
 
-      setConversations(Array.from(convMap.values()));
+      const conversationsArray = Array.from(convMap.values());
+      setConversations(conversationsArray);
+
+      // Fetch actual names for all participants
+      const userIds = conversationsArray.map(c => c.vendorId);
+      if (userIds.length > 0) {
+        // First try to get vendor business names
+        const { data: vendorData } = await supabase
+          .from("vendors")
+          .select("user_id, business_name")
+          .in("user_id", userIds);
+
+        // Then get profile names for non-vendors
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("id, full_name")
+          .in("id", userIds);
+
+        // Update conversations with actual names
+        const updatedConversations = conversationsArray.map(conv => {
+          const vendor = vendorData?.find(v => v.user_id === conv.vendorId);
+          const profile = profileData?.find(p => p.id === conv.vendorId);
+          
+          return {
+            ...conv,
+            vendorName: vendor?.business_name || profile?.full_name || "User"
+          };
+        });
+
+        setConversations(updatedConversations);
+      }
     } catch (error: any) {
       toast({
         title: "Error loading conversations",
