@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
@@ -19,8 +20,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { Camera, Utensils, Music, Palette, MapPin, Cake, Sparkles, Heart, LogOut, Menu, X } from "lucide-react";
+import { 
+  Camera, 
+  Utensils, 
+  Music, 
+  Palette, 
+  MapPin, 
+  Cake, 
+  Sparkles, 
+  Heart, 
+  LogOut, 
+  Menu, 
+  X, 
+  Search,
+  Calendar,
+  MessageSquare,
+  User
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Separator } from "./ui/separator";
 
 const categories = [
   {
@@ -78,6 +96,7 @@ export const BhindiHeader = () => {
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [mobileSearchQuery, setMobileSearchQuery] = useState("");
 
   useEffect(() => {
     checkAuth();
@@ -105,6 +124,15 @@ export const BhindiHeader = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
+  };
+
+  const handleMobileSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (mobileSearchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(mobileSearchQuery)}`);
+      setMobileMenuOpen(false);
+      setMobileSearchQuery("");
+    }
   };
 
   return (
@@ -192,64 +220,209 @@ export const BhindiHeader = () => {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
+              
+              <nav className="flex flex-col gap-4 mt-6">
+                {/* Search Bar */}
+                <form onSubmit={handleMobileSearch} className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search vendors..."
+                    value={mobileSearchQuery}
+                    onChange={(e) => setMobileSearchQuery(e.target.value)}
+                    className="pl-9"
+                  />
+                </form>
+
+                {/* Quick Actions for Logged In Users */}
+                {user && (
+                  <>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => {
+                          navigate("/bookings");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Bookings
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => {
+                          navigate("/favorites");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <Heart className="h-4 w-4 mr-2" />
+                        Favorites
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => {
+                          navigate("/messages");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <MessageSquare className="h-4 w-4 mr-2" />
+                        Messages
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="justify-start"
+                        onClick={() => {
+                          navigate("/profile");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <User className="h-4 w-4 mr-2" />
+                        Profile
+                      </Button>
+                    </div>
+                    <Separator />
+                  </>
+                )}
+
                 {/* Categories */}
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <p className="font-semibold text-sm text-muted-foreground px-2">Categories</p>
-                  {categories.map((category) => (
-                    <Link
-                      key={category.href}
-                      to={category.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
-                    >
-                      <category.icon className="h-5 w-5 text-primary" />
-                      <span>{category.title}</span>
-                    </Link>
-                  ))}
+                  <div className="grid grid-cols-2 gap-2">
+                    {categories.map((category) => (
+                      <Button
+                        key={category.href}
+                        variant="ghost"
+                        className="justify-start h-auto py-3"
+                        onClick={() => {
+                          navigate(category.href);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <div className="flex flex-col items-center gap-1 w-full">
+                          <category.icon className="h-5 w-5 text-primary" />
+                          <span className="text-xs">{category.title}</span>
+                        </div>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
+
+                <Separator />
 
                 {/* Other Links */}
-                <div className="border-t pt-4 space-y-2">
-                  <Link
-                    to="/stories"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                <div className="space-y-1">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      navigate("/stories");
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     Stories
-                  </Link>
+                  </Button>
                   {!user && (
-                    <Link
-                      to="/for-vendors"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block px-2 py-2 rounded-lg hover:bg-accent/10 transition-colors"
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        navigate("/for-vendors");
+                        setMobileMenuOpen(false);
+                      }}
                     >
                       For Vendors
-                    </Link>
+                    </Button>
                   )}
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      navigate("/about");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    About Us
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      navigate("/support");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Support
+                  </Button>
                 </div>
 
+                <Separator />
+
                 {/* Auth Buttons */}
-                <div className="border-t pt-4 space-y-2">
+                <div className="space-y-2">
                   {user ? (
                     <>
-                      <Button variant="default" className="w-full" onClick={() => { navigate("/dashboard"); setMobileMenuOpen(false); }}>Dashboard</Button>
+                      <Button 
+                        variant="default" 
+                        className="w-full" 
+                        onClick={() => { 
+                          navigate("/dashboard"); 
+                          setMobileMenuOpen(false); 
+                        }}
+                      >
+                        Dashboard
+                      </Button>
                       {isAdmin && (
-                        <Button variant="default" className="w-full" onClick={() => { navigate("/admin/dashboard"); setMobileMenuOpen(false); }}>
-                          Admin
+                        <Button 
+                          variant="default" 
+                          className="w-full" 
+                          onClick={() => { 
+                            navigate("/admin/dashboard"); 
+                            setMobileMenuOpen(false); 
+                          }}
+                        >
+                          Admin Dashboard
                         </Button>
                       )}
-                      <Button variant="ghost" className="w-full" onClick={() => { navigate("/profile"); setMobileMenuOpen(false); }}>Profile</Button>
-                      <Button variant="outline" className="w-full" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Logout</Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full" 
+                        onClick={() => { 
+                          handleLogout(); 
+                          setMobileMenuOpen(false); 
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </Button>
                     </>
                   ) : (
                     <>
-                      <Button variant="outline" className="w-full" onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}>Login</Button>
-                      <Button className="w-full" onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}>Sign Up</Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full" 
+                        onClick={() => { 
+                          navigate("/auth"); 
+                          setMobileMenuOpen(false); 
+                        }}
+                      >
+                        Login
+                      </Button>
+                      <Button 
+                        className="w-full" 
+                        onClick={() => { 
+                          navigate("/auth"); 
+                          setMobileMenuOpen(false); 
+                        }}
+                      >
+                        Sign Up
+                      </Button>
                     </>
                   )}
                 </div>
