@@ -436,6 +436,7 @@ export type Database = {
           couple_id: string
           created_at: string
           id: string
+          photos: string[] | null
           rating: number
           updated_at: string
           vendor_id: string
@@ -449,6 +450,7 @@ export type Database = {
           couple_id: string
           created_at?: string
           id?: string
+          photos?: string[] | null
           rating: number
           updated_at?: string
           vendor_id: string
@@ -462,6 +464,7 @@ export type Database = {
           couple_id?: string
           created_at?: string
           id?: string
+          photos?: string[] | null
           rating?: number
           updated_at?: string
           vendor_id?: string

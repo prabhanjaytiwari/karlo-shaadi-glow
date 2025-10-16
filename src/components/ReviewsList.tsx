@@ -13,6 +13,7 @@ interface Review {
   vendor_response: string | null;
   vendor_responded_at: string | null;
   couple_id: string;
+  photos: string[] | null;
 }
 
 interface ReviewsListProps {
@@ -101,6 +102,28 @@ export function ReviewsList({ vendorId }: ReviewsListProps) {
                   {review.comment && (
                     <p className="text-foreground mb-3">{review.comment}</p>
                   )}
+                  
+                  {review.photos && review.photos.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                      {review.photos.map((photoUrl, idx) => (
+                        <a
+                          key={idx}
+                          href={photoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="aspect-square overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
+                        >
+                          <img
+                            src={photoUrl}
+                            alt={`Review photo ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                  
                   {review.vendor_response && (
                     <div className="mt-4 pl-4 border-l-2 border-primary/20">
                       <p className="text-sm font-semibold mb-1">Vendor Response</p>
