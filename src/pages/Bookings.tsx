@@ -141,13 +141,22 @@ export default function Bookings() {
                           {booking.status}
                         </Badge>
                       </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => navigate(`/vendor/${booking.vendor.id}`)}
-                      >
-                        View Vendor
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigate(`/booking/${booking.id}`)}
+                        >
+                          View Details
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigate(`/vendors/${booking.vendor.id}`)}
+                        >
+                          View Vendor
+                        </Button>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
