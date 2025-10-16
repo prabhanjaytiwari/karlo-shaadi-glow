@@ -97,16 +97,23 @@ export const BhindiHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+  // Initialize with undefined to prevent hydration mismatch
+  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
 
   useEffect(() => {
+    // Set initial width
+    setWindowWidth(window.innerWidth);
+    
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768);
+      setWindowWidth(window.innerWidth);
     };
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const isDesktop = windowWidth !== undefined && windowWidth >= 768;
+  const isMobile = windowWidth !== undefined && windowWidth < 768;
 
   useEffect(() => {
     checkAuth();
@@ -159,9 +166,9 @@ export const BhindiHeader = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation - Only render on desktop (>= 768px) */}
+          {/* Desktop Navigation - Absolutely prevent rendering on mobile */}
           {isDesktop && (
-            <nav className="flex items-center gap-4">
+            <nav className="flex items-center gap-4" style={{ display: isDesktop ? 'flex' : 'none' }}>
               <NavigationMenu>
                 <NavigationMenuList>
                 {/* Categories Dropdown */}
@@ -225,20 +232,26 @@ export const BhindiHeader = () => {
             </nav>
           )}
 
-          {/* Mobile Menu - Only render on mobile (< 768px) */}
-          {!isDesktop && (
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="relative"
-                  type="button"
-                >
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
+          {/* Mobile Menu - Absolutely prevent rendering on desktop */}
+          {isMobile && (
+            <div className="flex items-center" style={{ display: isMobile ? 'flex' : 'none' }}>
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Mobile menu button clicked');
+                      setMobileMenuOpen(true);
+                    }}
+                  >
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
@@ -448,6 +461,7 @@ export const BhindiHeader = () => {
               </nav>
             </SheetContent>
           </Sheet>
+            </div>
           )}
         </div>
       </div>
