@@ -7,9 +7,10 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, DollarSign, MessageSquare } from "lucide-react";
+import { Calendar, MapPin, DollarSign, MessageSquare, XCircle } from "lucide-react";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BookingCancellationDialog } from "@/components/BookingCancellationDialog";
 
 interface Booking {
   id: string;
@@ -29,6 +30,8 @@ export default function Bookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -185,21 +188,34 @@ export default function Bookings() {
                       </div>
                     )}
                     
-                    {booking.status === "pending" && (
+                    {(booking.status === "pending" || booking.status === "confirmed") && (
                       <div className="mt-4 pt-4 border-t flex gap-3">
-                        <Button
-                          onClick={() => navigate(`/checkout/${booking.id}`)}
-                          className="flex-1"
-                        >
-                          <DollarSign className="h-4 w-4 mr-2" />
-                          Pay Now
-                        </Button>
+                        {booking.status === "pending" && (
+                          <Button
+                            onClick={() => navigate(`/checkout/${booking.id}`)}
+                            className="flex-1"
+                          >
+                            <DollarSign className="h-4 w-4 mr-2" />
+                            Pay Now
+                          </Button>
+                        )}
                         <Button
                           variant="outline"
                           onClick={() => navigate(`/messages?vendor=${booking.vendor.id}`)}
                         >
                           <MessageSquare className="h-4 w-4 mr-2" />
                           Message Vendor
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setSelectedBooking(booking);
+                            setCancelDialogOpen(true);
+                          }}
+                          className="text-destructive hover:bg-destructive/10"
+                        >
+                          <XCircle className="h-4 w-4 mr-2" />
+                          Cancel Booking
                         </Button>
                       </div>
                     )}
@@ -212,6 +228,16 @@ export default function Bookings() {
       </main>
 
       <BhindiFooter />
+      
+      {selectedBooking && (
+        <BookingCancellationDialog
+          bookingId={selectedBooking.id}
+          vendorName={selectedBooking.vendor.business_name}
+          open={cancelDialogOpen}
+          onOpenChange={setCancelDialogOpen}
+          onSuccess={loadBookings}
+        />
+      )}
     </div>
   );
 }
