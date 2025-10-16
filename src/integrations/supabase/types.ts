@@ -400,9 +400,13 @@ export type Database = {
           city: string | null
           created_at: string
           full_name: string
+          guest_count: number | null
           id: string
+          partner_name: string | null
           phone: string | null
+          preferred_season: string | null
           updated_at: string
+          venue_city: string | null
           wedding_date: string | null
         }
         Insert: {
@@ -411,9 +415,13 @@ export type Database = {
           city?: string | null
           created_at?: string
           full_name: string
+          guest_count?: number | null
           id: string
+          partner_name?: string | null
           phone?: string | null
+          preferred_season?: string | null
           updated_at?: string
+          venue_city?: string | null
           wedding_date?: string | null
         }
         Update: {
@@ -422,9 +430,13 @@ export type Database = {
           city?: string | null
           created_at?: string
           full_name?: string
+          guest_count?: number | null
           id?: string
+          partner_name?: string | null
           phone?: string | null
+          preferred_season?: string | null
           updated_at?: string
+          venue_city?: string | null
           wedding_date?: string | null
         }
         Relationships: []

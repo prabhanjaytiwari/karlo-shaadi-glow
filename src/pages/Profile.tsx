@@ -24,7 +24,7 @@ const Profile = () => {
     budget_range: "",
     partner_name: "",
     venue_city: "",
-    guest_count: "",
+    guest_count: undefined as number | undefined,
     preferred_season: "",
   });
 
@@ -56,10 +56,10 @@ const Profile = () => {
           city: data.city || "",
           wedding_date: data.wedding_date || "",
           budget_range: data.budget_range || "",
-          partner_name: "",
-          venue_city: "",
-          guest_count: "",
-          preferred_season: "",
+          partner_name: data.partner_name || "",
+          venue_city: data.venue_city || "",
+          guest_count: data.guest_count || undefined,
+          preferred_season: data.preferred_season || "",
         });
       }
     } catch (error) {
@@ -228,8 +228,8 @@ const Profile = () => {
                       id="guest_count"
                       type="number"
                       placeholder="e.g., 200"
-                      value={profile.guest_count}
-                      onChange={(e) => setProfile({ ...profile, guest_count: e.target.value })}
+                      value={profile.guest_count || ""}
+                      onChange={(e) => setProfile({ ...profile, guest_count: e.target.value ? parseInt(e.target.value) : undefined })}
                     />
                   </div>
 
