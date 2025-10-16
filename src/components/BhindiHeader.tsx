@@ -97,6 +97,16 @@ export const BhindiHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     checkAuth();
@@ -149,10 +159,11 @@ export const BhindiHeader = () => {
             </span>
           </Link>
 
-          {/* Navigation Menu - Desktop Only - Hidden on mobile with CSS */}
-          <nav className="hidden md:flex items-center gap-4 pointer-events-none md:pointer-events-auto">
-            <NavigationMenu>
-              <NavigationMenuList>
+          {/* Desktop Navigation - Only render on desktop (>= 768px) */}
+          {isDesktop && (
+            <nav className="flex items-center gap-4">
+              <NavigationMenu>
+                <NavigationMenuList>
                 {/* Categories Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm transition-all duration-300">Categories</NavigationMenuTrigger>
@@ -211,16 +222,17 @@ export const BhindiHeader = () => {
                 <Button onClick={() => navigate("/auth")}>Sign Up</Button>
               </>
             )}
-          </nav>
+            </nav>
+          )}
 
-          {/* Mobile Menu Button - Shown only on mobile with CSS */}
-          <div className="flex md:hidden items-center z-[100]">
+          {/* Mobile Menu - Only render on mobile (< 768px) */}
+          {!isDesktop && (
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
                   variant="ghost" 
                   size="icon"
-                  className="relative z-50"
+                  className="relative"
                   type="button"
                 >
                   <Menu className="h-6 w-6" />
@@ -436,7 +448,7 @@ export const BhindiHeader = () => {
               </nav>
             </SheetContent>
           </Sheet>
-          </div>
+          )}
         </div>
       </div>
     </header>
