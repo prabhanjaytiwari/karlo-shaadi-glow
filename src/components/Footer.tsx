@@ -8,7 +8,7 @@ export const Footer = () => {
     <footer className="glass border-t border-border/50 mt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* About Column */}
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">About</h3>
@@ -20,12 +20,23 @@ export const Footer = () => {
             </ul>
           </div>
 
+          {/* Resources Column */}
+          <div>
+            <h3 className="font-display font-semibold text-lg mb-4">Resources</h3>
+            <ul className="space-y-2">
+              <li><Link to="/blog" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/success-stories" className="text-sm text-muted-foreground hover:text-primary transition-colors">Success Stories</Link></li>
+              <li><Link to="/testimonials" className="text-sm text-muted-foreground hover:text-primary transition-colors">Testimonials</Link></li>
+            </ul>
+          </div>
+
           {/* For Vendors Column */}
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">For Vendors</h3>
             <ul className="space-y-2">
               <li><Link to="/vendor-onboarding" className="text-sm text-muted-foreground hover:text-primary transition-colors">Join Us</Link></li>
-              <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
               <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Guidelines</Link></li>
               <li><Link to="/for-vendors" className="text-sm text-muted-foreground hover:text-primary transition-colors">Service Terms</Link></li>
             </ul>
@@ -46,7 +57,7 @@ export const Footer = () => {
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Help & Support</h3>
             <ul className="space-y-2">
-              <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Dispute Resolution</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Safety Center</Link></li>
               <li><a href="https://wa.me/" className="text-sm text-muted-foreground hover:text-primary transition-colors">WhatsApp Support</a></li>

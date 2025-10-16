@@ -31,6 +31,11 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import BookingDetails from "./pages/BookingDetails";
+import FAQ from "./pages/FAQ";
+import Blog from "./pages/Blog";
+import Testimonials from "./pages/Testimonials";
+import SuccessStories from "./pages/SuccessStories";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
@@ -72,6 +77,11 @@ const App = () => (
           <Route path="/investors" element={<Investors />} />
           <Route path="/join-as-manager" element={<JoinAsManager />} />
           <Route path="/affiliate" element={<Affiliate />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/success-stories" element={<SuccessStories />} />
+          <Route path="/pricing" element={<Pricing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
