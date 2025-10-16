@@ -1,12 +1,10 @@
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { BhindiHeader } from "@/components/BhindiHeader";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Camera, Utensils, Music, Palette, MapPin, Cake, Sparkles, Heart } from "lucide-react";
-import { cn } from "@/lib/utils";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
@@ -17,78 +15,6 @@ import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import { useEffect } from "react";
-const categories = [{
-  title: "Photography",
-  href: "/categories/photography",
-  description: "Professional wedding photographers to capture your special moments",
-  icon: Camera
-}, {
-  title: "Catering",
-  href: "/categories/catering",
-  description: "Delicious food and beverage services for your guests",
-  icon: Utensils
-}, {
-  title: "Music & Entertainment",
-  href: "/categories/music",
-  description: "DJs, bands, and entertainment to keep the party alive",
-  icon: Music
-}, {
-  title: "Decoration",
-  href: "/categories/decoration",
-  description: "Beautiful décor to transform your venue",
-  icon: Palette
-}, {
-  title: "Venues",
-  href: "/categories/venues",
-  description: "Perfect locations for your wedding ceremony and reception",
-  icon: MapPin
-}, {
-  title: "Cakes & Desserts",
-  href: "/categories/cakes",
-  description: "Custom wedding cakes and sweet treats",
-  icon: Cake
-}, {
-  title: "Mehendi Artists",
-  href: "/categories/mehendi",
-  description: "Expert mehendi artists for bridal and guest designs",
-  icon: Sparkles
-}, {
-  title: "Wedding Planning",
-  href: "/categories/planning",
-  description: "Full-service wedding planners to coordinate everything",
-  icon: Heart
-}];
-const ListItem = ({
-  className,
-  title,
-  children,
-  icon: Icon,
-  href
-}: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  icon: React.ComponentType<{
-    className?: string;
-  }>;
-  href: string;
-}) => {
-  return <li>
-      <NavigationMenuLink asChild>
-        <Link to={href} className={cn("block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-white focus:bg-accent/10 focus:text-white group", className)}>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-              <Icon className="h-4 w-4 text-accent" />
-            </div>
-            <div className="text-sm font-medium leading-none">{title}</div>
-          </div>
-          <p className="line-clamp-2 text-sm leading-snug text-white/70 pl-10">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>;
-};
 const Index = () => {
   const section1 = useScrollAnimation({
     threshold: 0.2
@@ -119,83 +45,16 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [playWelcomeSound]);
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
-      {/* Hero Section with Integrated Header */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw]">
+      {/* Fixed Header */}
+      <BhindiHeader />
+      
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20">
         {/* Wedding Background */}
-          <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0">
           <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/80" />
         </div>
-
-        {/* Header Inside Hero */}
-        <header className="relative z-20 border-b border-white/10">
-          <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between h-20">
-              {/* Logo */}
-              <Link to="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">K</span>
-                </div>
-                <span className="font-semibold text-lg tracking-tight text-white group-hover:text-accent transition-colors">
-                  Karlo Shaadi
-                </span>
-              </Link>
-
-              {/* Navigation Menu */}
-              <nav className="hidden md:flex items-center gap-4">
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    {/* Categories Dropdown */}
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="text-sm text-white/80 hover:text-white bg-transparent data-[state=open]:bg-white/10">
-                        Categories
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="bg-black/95 backdrop-blur-xl border-white/10">
-                        <ul className="grid w-[600px] gap-3 p-6 md:grid-cols-2">
-                          {categories.map(category => <ListItem key={category.title} title={category.title} href={category.href} icon={category.icon}>
-                              {category.description}
-                            </ListItem>)}
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-
-                    {/* Regular Links */}
-                    <NavigationMenuItem>
-                      <Link to="/stories">
-                        <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-white/80 hover:text-white bg-transparent hover:bg-white/10")}>
-                          Stories
-                        </NavigationMenuLink>
-                      </Link>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                      <Link to="/vendor-onboarding">
-                        <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-white/80 hover:text-white bg-transparent hover:bg-white/10")}>
-                          For Vendors
-                        </NavigationMenuLink>
-                      </Link>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-
-                <Link to="/auth">
-                  <Button variant="default" className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 ml-2">
-                    Get Started
-                  </Button>
-                </Link>
-              </nav>
-
-              {/* Mobile Menu - Uses BhindiHeader component */}
-              <Link to="/categories">
-                <Button variant="ghost" size="icon" className="md:hidden text-white">
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </header>
         
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center">
