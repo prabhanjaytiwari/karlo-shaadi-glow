@@ -77,6 +77,7 @@ export const BhindiHeader = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -90,6 +91,15 @@ export const BhindiHeader = () => {
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
+    
+    if (user) {
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id);
+      
+      setIsAdmin(roles?.some(r => r.role === "admin") || false);
+    }
   };
 
   const handleLogout = async () => {
@@ -159,6 +169,11 @@ export const BhindiHeader = () => {
               <>
                 <NotificationCenter />
                 <Button variant="ghost" onClick={() => navigate("/dashboard")}>Dashboard</Button>
+                {isAdmin && (
+                  <Button variant="ghost" onClick={() => navigate("/admin/dashboard")}>
+                    Admin
+                  </Button>
+                )}
                 <Button variant="ghost" onClick={() => navigate("/profile")}>Profile</Button>
                 <Button variant="outline" onClick={handleLogout}>Logout</Button>
               </>
@@ -223,6 +238,11 @@ export const BhindiHeader = () => {
                   {user ? (
                     <>
                       <Button variant="default" className="w-full" onClick={() => { navigate("/dashboard"); setMobileMenuOpen(false); }}>Dashboard</Button>
+                      {isAdmin && (
+                        <Button variant="default" className="w-full" onClick={() => { navigate("/admin/dashboard"); setMobileMenuOpen(false); }}>
+                          Admin
+                        </Button>
+                      )}
                       <Button variant="ghost" className="w-full" onClick={() => { navigate("/profile"); setMobileMenuOpen(false); }}>Profile</Button>
                       <Button variant="outline" className="w-full" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>Logout</Button>
                     </>
