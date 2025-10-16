@@ -214,12 +214,21 @@ export const BhindiHeader = () => {
           </nav>
 
           {/* Mobile Menu */}
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
+          <div className="md:hidden">
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setMobileMenuOpen(!mobileMenuOpen);
+                  }}
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
@@ -429,6 +438,7 @@ export const BhindiHeader = () => {
               </nav>
             </SheetContent>
           </Sheet>
+          </div>
         </div>
       </div>
     </header>
