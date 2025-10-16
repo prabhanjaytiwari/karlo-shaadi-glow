@@ -58,6 +58,7 @@ export const Footer = () => {
             <h3 className="font-display font-semibold text-lg mb-4">Help & Support</h3>
             <ul className="space-y-2">
               <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/data-export" className="text-sm text-muted-foreground hover:text-primary transition-colors">Export Your Data</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Dispute Resolution</Link></li>
               <li><Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Safety Center</Link></li>
               <li><a href="https://wa.me/" className="text-sm text-muted-foreground hover:text-primary transition-colors">WhatsApp Support</a></li>

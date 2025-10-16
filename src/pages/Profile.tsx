@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Download } from "lucide-react";
+import { SEO } from "@/components/SEO";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -109,8 +110,15 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <BhindiHeader />
+    <>
+      <SEO 
+        title="My Profile"
+        description="Manage your wedding profile, preferences, and personal information on Karlo Shaadi"
+        keywords="profile, wedding planning, user settings"
+      />
+      
+      <div className="min-h-screen bg-background">
+        <BhindiHeader />
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-2xl">
@@ -270,11 +278,33 @@ const Profile = () => {
               </form>
             </CardContent>
           </Card>
+
+          {/* Data Export Card */}
+          <Card className="mt-6 border-border/50">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Download className="w-5 h-5 text-primary" />
+                Export Your Data
+              </CardTitle>
+              <CardDescription>
+                Download all your wedding planning data including bookings, favorites, and messages
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link to="/data-export">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  <Download className="w-4 h-4 mr-2" />
+                  Go to Data Export
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
       <BhindiFooter />
     </div>
+    </>
   );
 };
 

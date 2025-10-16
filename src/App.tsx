@@ -37,57 +37,65 @@ import Testimonials from "./pages/Testimonials";
 import SuccessStories from "./pages/SuccessStories";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
+import DataExport from "./pages/DataExport";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-          <Route path="/booking/:id" element={<BookingDetails />} />
-          <Route path="/checkout/:bookingId" element={<Checkout />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-failure" element={<PaymentFailure />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:category" element={<Categories />} />
-          <Route path="/city/:slug" element={<City />} />
-          <Route path="/stories" element={<Stories />} />
-          <Route path="/stories/:id" element={<StoryDetail />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/vendors/:id" element={<VendorProfile />} />
-          <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
-          <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/for-vendors" element={<ForVendors />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/investors" element={<Investors />} />
-          <Route path="/join-as-manager" element={<JoinAsManager />} />
-          <Route path="/affiliate" element={<Affiliate />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/testimonials" element={<Testimonials />} />
-          <Route path="/success-stories" element={<SuccessStories />} />
-          <Route path="/pricing" element={<Pricing />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <WhatsAppButton />
-      </BrowserRouter>
-    </TooltipProvider>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+              <Route path="/booking/:id" element={<BookingDetails />} />
+              <Route path="/checkout/:bookingId" element={<Checkout />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failure" element={<PaymentFailure />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/category/:category" element={<Categories />} />
+              <Route path="/city/:slug" element={<City />} />
+              <Route path="/stories" element={<Stories />} />
+              <Route path="/stories/:id" element={<StoryDetail />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/vendors/:id" element={<VendorProfile />} />
+              <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
+              <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/for-vendors" element={<ForVendors />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/legal" element={<Legal />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/investors" element={<Investors />} />
+              <Route path="/join-as-manager" element={<JoinAsManager />} />
+              <Route path="/affiliate" element={<Affiliate />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/testimonials" element={<Testimonials />} />
+              <Route path="/success-stories" element={<SuccessStories />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/data-export" element={<DataExport />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <WhatsAppButton />
+          </BrowserRouter>
+        </TooltipProvider>
+      </ErrorBoundary>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

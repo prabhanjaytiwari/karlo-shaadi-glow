@@ -15,6 +15,7 @@ import { Shield, CheckCircle2, Star, Users } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import { useEffect } from "react";
+import { SEO } from "@/components/SEO";
 const Index = () => {
   const section1 = useScrollAnimation({
     threshold: 0.2
@@ -45,6 +46,12 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, [playWelcomeSound]);
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
+      <SEO 
+        title="India's #1 Wedding Planning Platform"
+        description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us."
+        keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning"
+      />
+      
       {/* Fixed Header */}
       <BhindiHeader />
       
