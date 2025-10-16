@@ -150,7 +150,7 @@ export const BhindiHeader = () => {
           </Link>
 
           {/* Navigation Menu - Desktop Only - Hidden on mobile with CSS */}
-          <nav className="hidden md:flex items-center gap-4">
+          <nav className="hidden md:flex items-center gap-4 pointer-events-none md:pointer-events-auto">
             <NavigationMenu>
               <NavigationMenuList>
                 {/* Categories Dropdown */}
@@ -214,7 +214,7 @@ export const BhindiHeader = () => {
           </nav>
 
           {/* Mobile Menu Button - Shown only on mobile with CSS */}
-          <div className="flex md:hidden items-center">
+          <div className="flex md:hidden items-center z-[100]">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
