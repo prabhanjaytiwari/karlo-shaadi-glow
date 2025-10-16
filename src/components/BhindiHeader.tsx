@@ -97,21 +97,6 @@ export const BhindiHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
-  const [isMobileView, setIsMobileView] = useState(() => 
-    typeof window !== 'undefined' && window.innerWidth < 768
-  );
-
-  useEffect(() => {
-    // Check if mobile on mount and on resize
-    const checkMobile = () => {
-      setIsMobileView(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   useEffect(() => {
     checkAuth();
@@ -164,11 +149,10 @@ export const BhindiHeader = () => {
             </span>
           </Link>
 
-          {/* Navigation Menu - Desktop Only - Only render on desktop */}
-          {!isMobileView && (
-            <nav className="flex items-center gap-4">
-              <NavigationMenu>
-                <NavigationMenuList>
+          {/* Navigation Menu - Desktop Only - Hidden on mobile with CSS */}
+          <nav className="hidden md:flex items-center gap-4">
+            <NavigationMenu>
+              <NavigationMenuList>
                 {/* Categories Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm transition-all duration-300">Categories</NavigationMenuTrigger>
@@ -227,13 +211,11 @@ export const BhindiHeader = () => {
                 <Button onClick={() => navigate("/auth")}>Sign Up</Button>
               </>
             )}
-            </nav>
-          )}
+          </nav>
 
-          {/* Mobile Menu Button - Only render on mobile */}
-          {isMobileView && (
-            <div className="flex items-center">
-              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+          {/* Mobile Menu Button - Shown only on mobile with CSS */}
+          <div className="flex md:hidden items-center">
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
                   variant="ghost" 
@@ -454,8 +436,7 @@ export const BhindiHeader = () => {
               </nav>
             </SheetContent>
           </Sheet>
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </header>
