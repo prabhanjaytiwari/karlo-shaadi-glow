@@ -4,10 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Package, Images, Star, MessageSquare, TrendingUp, LogOut } from "lucide-react";
+import { Calendar, Package, Images, Star, MessageSquare, TrendingUp, LogOut, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { ServiceForm } from "@/components/vendor/ServiceForm";
+import { PortfolioUpload } from "@/components/vendor/PortfolioUpload";
+import { AvailabilityCalendar } from "@/components/vendor/AvailabilityCalendar";
+import { BookingManagementCard } from "@/components/vendor/BookingManagementCard";
+import { ReviewResponse } from "@/components/vendor/ReviewResponse";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -20,6 +25,13 @@ export default function VendorDashboard() {
     revenue: 0,
     avgRating: 0,
   });
+  const [services, setServices] = useState<any[]>([]);
+  const [portfolio, setPortfolio] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
+  const [portfolioDialogOpen, setPortfolioDialogOpen] = useState(false);
+  const [editingService, setEditingService] = useState<any>(null);
 
   useEffect(() => {
     checkVendorAccess();
@@ -46,6 +58,10 @@ export default function VendorDashboard() {
 
       setVendor(vendorData);
       loadStats(vendorData.id);
+      loadServices(vendorData.id);
+      loadPortfolio(vendorData.id);
+      loadBookings(vendorData.id);
+      loadReviews(vendorData.id);
     } catch (error) {
       console.error("Error:", error);
       navigate("/vendor/onboarding");
@@ -72,6 +88,66 @@ export default function VendorDashboard() {
         revenue,
         avgRating: vendor?.average_rating || 0,
       });
+    }
+  };
+
+  const loadServices = async (vendorId: string) => {
+    const { data } = await supabase
+      .from("vendor_services")
+      .select("*")
+      .eq("vendor_id", vendorId)
+      .order("created_at", { ascending: false });
+    if (data) setServices(data);
+  };
+
+  const loadPortfolio = async (vendorId: string) => {
+    const { data } = await supabase
+      .from("vendor_portfolio")
+      .select("*")
+      .eq("vendor_id", vendorId)
+      .order("display_order", { ascending: true });
+    if (data) setPortfolio(data);
+  };
+
+  const loadBookings = async (vendorId: string) => {
+    const { data } = await supabase
+      .from("bookings")
+      .select("*")
+      .eq("vendor_id", vendorId)
+      .order("created_at", { ascending: false });
+    if (data) setBookings(data);
+  };
+
+  const loadReviews = async (vendorId: string) => {
+    const { data } = await supabase
+      .from("reviews")
+      .select("*")
+      .eq("vendor_id", vendorId)
+      .order("created_at", { ascending: false });
+    if (data) setReviews(data);
+  };
+
+  const deleteService = async (serviceId: string) => {
+    const { error } = await supabase
+      .from("vendor_services")
+      .delete()
+      .eq("id", serviceId);
+
+    if (!error) {
+      toast({ title: "Service deleted" });
+      loadServices(vendor.id);
+    }
+  };
+
+  const deletePortfolioItem = async (itemId: string) => {
+    const { error } = await supabase
+      .from("vendor_portfolio")
+      .delete()
+      .eq("id", itemId);
+
+    if (!error) {
+      toast({ title: "Portfolio item deleted" });
+      loadPortfolio(vendor.id);
     }
   };
 
@@ -151,69 +227,217 @@ export default function VendorDashboard() {
             </TabsList>
 
             <TabsContent value="bookings">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recent Bookings</CardTitle>
-                  <CardDescription>Manage your bookings and requests</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">No bookings yet. Share your profile to get started!</p>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                {bookings.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-8">
+                      <p className="text-center text-muted-foreground">
+                        No bookings yet. Share your profile to get started!
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-4">
+                    {bookings.map((booking) => (
+                      <BookingManagementCard
+                        key={booking.id}
+                        booking={booking}
+                        onUpdate={() => {
+                          loadBookings(vendor.id);
+                          loadStats(vendor.id);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
 
             <TabsContent value="services">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Services</CardTitle>
-                  <CardDescription>Add and manage your service packages</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button>Add New Service</Button>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="text-lg font-semibold">Your Services</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Manage your service packages and pricing
+                    </p>
+                  </div>
+                  <Button onClick={() => { setEditingService(null); setServiceDialogOpen(true); }}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Service
+                  </Button>
+                </div>
+
+                {services.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-8">
+                      <p className="text-center text-muted-foreground">
+                        No services yet. Add your first service package!
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-4">
+                    {services.map((service) => (
+                      <Card key={service.id}>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                          <CardTitle className="text-lg">{service.service_name}</CardTitle>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                setEditingService(service);
+                                setServiceDialogOpen(true);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => deleteService(service.id)}
+                              className="text-destructive hover:bg-destructive/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          {service.description && (
+                            <p className="text-sm text-muted-foreground mb-2">
+                              {service.description}
+                            </p>
+                          )}
+                          <div className="flex gap-4 text-sm">
+                            <span className="font-semibold">
+                              Base: ₹{Number(service.base_price).toLocaleString()}
+                            </span>
+                            {service.price_range_min && service.price_range_max && (
+                              <span className="text-muted-foreground">
+                                Range: ₹{Number(service.price_range_min).toLocaleString()} - ₹
+                                {Number(service.price_range_max).toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
 
             <TabsContent value="portfolio">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Portfolio</CardTitle>
-                  <CardDescription>Showcase your best work</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button>Upload Images</Button>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="text-lg font-semibold">Portfolio</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Showcase your best work to attract clients
+                    </p>
+                  </div>
+                  <Button onClick={() => setPortfolioDialogOpen(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Upload Images
+                  </Button>
+                </div>
+
+                {portfolio.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-8">
+                      <p className="text-center text-muted-foreground">
+                        No portfolio images yet. Upload your best work!
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {portfolio.map((item) => (
+                      <Card key={item.id} className="overflow-hidden">
+                        <div className="aspect-video relative">
+                          <img
+                            src={item.image_url}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="absolute top-2 right-2 text-destructive hover:bg-destructive/10"
+                            onClick={() => deletePortfolioItem(item.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <CardContent className="p-4">
+                          <h4 className="font-semibold">{item.title}</h4>
+                          {item.description && (
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {item.description}
+                            </p>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
 
             <TabsContent value="availability">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Availability Calendar</CardTitle>
-                  <CardDescription>Manage your booking calendar</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">Calendar coming soon</p>
-                </CardContent>
-              </Card>
+              {vendor && <AvailabilityCalendar vendorId={vendor.id} />}
             </TabsContent>
 
             <TabsContent value="reviews">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Customer Reviews</CardTitle>
-                  <CardDescription>View and respond to reviews</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">No reviews yet</p>
-                </CardContent>
-              </Card>
+              <div className="space-y-4">
+                {reviews.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-8">
+                      <p className="text-center text-muted-foreground">
+                        No reviews yet. Complete bookings to receive reviews!
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-4">
+                    {reviews.map((review) => (
+                      <ReviewResponse
+                        key={review.id}
+                        review={review}
+                        onUpdate={() => loadReviews(vendor.id)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </TabsContent>
           </Tabs>
         </div>
       </main>
 
       <BhindiFooter />
+
+      {vendor && (
+        <>
+          <ServiceForm
+            vendorId={vendor.id}
+            service={editingService}
+            open={serviceDialogOpen}
+            onOpenChange={setServiceDialogOpen}
+            onSuccess={() => {
+              loadServices(vendor.id);
+              setEditingService(null);
+            }}
+          />
+          <PortfolioUpload
+            vendorId={vendor.id}
+            open={portfolioDialogOpen}
+            onOpenChange={setPortfolioDialogOpen}
+            onSuccess={() => loadPortfolio(vendor.id)}
+          />
+        </>
+      )}
     </div>
   );
 }
