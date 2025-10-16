@@ -175,6 +175,25 @@ export default function Bookings() {
                         <p className="text-sm text-muted-foreground">{booking.special_requirements}</p>
                       </div>
                     )}
+                    
+                    {booking.status === "pending" && (
+                      <div className="mt-4 pt-4 border-t flex gap-3">
+                        <Button
+                          onClick={() => navigate(`/checkout/${booking.id}`)}
+                          className="flex-1"
+                        >
+                          <DollarSign className="h-4 w-4 mr-2" />
+                          Pay Now
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => navigate(`/messages?vendor=${booking.vendor.id}`)}
+                        >
+                          <MessageSquare className="h-4 w-4 mr-2" />
+                          Message Vendor
+                        </Button>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

@@ -25,6 +25,9 @@ import Support from "./pages/Support";
 import Investors from "./pages/Investors";
 import JoinAsManager from "./pages/JoinAsManager";
 import Affiliate from "./pages/Affiliate";
+import Checkout from "./pages/Checkout";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentFailure";
 import NotFound from "./pages/NotFound";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
@@ -41,6 +44,9 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/bookings" element={<Bookings />} />
+          <Route path="/checkout/:bookingId" element={<Checkout />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-failure" element={<PaymentFailure />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/profile" element={<Profile />} />
