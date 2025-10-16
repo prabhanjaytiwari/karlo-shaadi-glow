@@ -143,6 +143,16 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
 
       if (error) throw error;
 
+      // Get the newly created booking ID
+      const { data: newBooking } = await supabase
+        .from("bookings")
+        .select("id")
+        .eq("couple_id", user.id)
+        .eq("vendor_id", vendorId)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
       toast({
         title: "Booking request sent!",
         description: "The vendor will respond to your request soon.",
@@ -153,6 +163,11 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
       setAmount("");
       setRequirements("");
       setSelectedService("");
+
+      // Navigate to confirmation page
+      if (newBooking) {
+        window.location.href = `/booking-confirmation?bookingId=${newBooking.id}`;
+      }
     } catch (error: any) {
       toast({
         title: "Error",

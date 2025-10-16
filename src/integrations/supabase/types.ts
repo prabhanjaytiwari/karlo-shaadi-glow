@@ -14,6 +14,76 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          user_id: string | null
+          vendor_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+          vendor_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_documents: {
+        Row: {
+          booking_id: string
+          created_at: string | null
+          document_type: string
+          file_url: string
+          id: string
+          uploaded_by: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string | null
+          document_type: string
+          file_url: string
+          id?: string
+          uploaded_by: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string | null
+          document_type?: string
+          file_url?: string
+          id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_documents_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           advance_percentage: number
@@ -137,6 +207,39 @@ export type Database = {
           is_active?: boolean
           name?: string
           state?: string
+        }
+        Relationships: []
+      }
+      contact_inquiries: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          resolved_at: string | null
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string | null
         }
         Relationships: []
       }

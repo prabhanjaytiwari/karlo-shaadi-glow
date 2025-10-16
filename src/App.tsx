@@ -29,6 +29,7 @@ import Affiliate from "./pages/Affiliate";
 import Checkout from "./pages/Checkout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
+import BookingConfirmation from "./pages/BookingConfirmation";
 import NotFound from "./pages/NotFound";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/bookings" element={<Bookings />} />
+          <Route path="/booking-confirmation" element={<BookingConfirmation />} />
           <Route path="/checkout/:bookingId" element={<Checkout />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-failure" element={<PaymentFailure />} />

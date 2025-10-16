@@ -7,11 +7,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, ArrowRight, Calendar, Download } from "lucide-react";
 import { format } from "date-fns";
+import { downloadReceipt } from "@/lib/receiptGenerator";
+import { toast } from "sonner";
 
 interface BookingDetails {
   id: string;
   wedding_date: string;
   total_amount: number;
+  couple_id: string;
   vendor: {
     business_name: string;
     category: string;
@@ -22,7 +25,9 @@ export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const bookingId = searchParams.get("bookingId");
+  const paymentId = searchParams.get("paymentId");
   const [booking, setBooking] = useState<BookingDetails | null>(null);
+  const [customerProfile, setCustomerProfile] = useState<any>(null);
 
   useEffect(() => {
     if (bookingId) {
@@ -41,9 +46,50 @@ export default function PaymentSuccess() {
         .eq("id", bookingId)
         .single();
 
-      if (data) setBooking(data);
+      if (data) {
+        setBooking(data);
+        
+        // Load customer profile
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name, phone")
+          .eq("id", data.couple_id)
+          .single();
+        
+        setCustomerProfile(profile);
+      }
     } catch (error) {
       console.error("Error loading booking:", error);
+    }
+  };
+
+  const handleDownloadReceipt = async () => {
+    if (!booking || !customerProfile) {
+      toast.error("Unable to generate receipt. Please try again.");
+      return;
+    }
+
+    try {
+      // Get user email
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const receiptData = {
+        bookingId: booking.id,
+        vendorName: booking.vendor.business_name,
+        customerName: customerProfile.full_name,
+        customerEmail: user?.email || "",
+        weddingDate: format(new Date(booking.wedding_date), "PPP"),
+        totalAmount: booking.total_amount,
+        paidAmount: booking.total_amount * 0.3, // Advance payment
+        paymentDate: format(new Date(), "PPP"),
+        transactionId: paymentId || "N/A",
+      };
+
+      downloadReceipt(receiptData);
+      toast.success("Receipt downloaded successfully!");
+    } catch (error) {
+      console.error("Error generating receipt:", error);
+      toast.error("Failed to generate receipt");
     }
   };
 
@@ -137,6 +183,8 @@ export default function PaymentSuccess() {
             <Button
               size="lg"
               variant="outline"
+              onClick={handleDownloadReceipt}
+              disabled={!booking || !customerProfile}
             >
               <Download className="h-4 w-4 mr-2" />
               Download Receipt
