@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Send, MessageSquare } from "lucide-react";
+import { Send, MessageSquare, Search, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 
 interface Message {
@@ -36,6 +36,9 @@ export default function Messages() {
   const [newMessage, setNewMessage] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -158,8 +161,15 @@ export default function Messages() {
     }
   };
 
+  const handleMessageInput = (value: string) => {
+    setNewMessage(value);
+    handleTyping();
+  };
+
   const setupRealtimeSubscription = () => {
-    const channel = supabase
+    if (!currentUser) return;
+
+    const messageChannel = supabase
       .channel("messages")
       .on(
         "postgres_changes",
@@ -178,10 +188,47 @@ export default function Messages() {
       )
       .subscribe();
 
+    // Set up presence for typing indicators
+    const presenceChannel = supabase.channel(`typing:${selectedVendor || 'all'}`, {
+      config: { presence: { key: currentUser.id } },
+    });
+
+    presenceChannel
+      .on('presence', { event: 'sync' }, () => {
+        const state = presenceChannel.presenceState();
+        const typing = new Set<string>();
+        Object.keys(state).forEach((key) => {
+          const presenceData = state[key]?.[0] as any;
+          if (key !== currentUser.id && presenceData?.typing) {
+            typing.add(key);
+          }
+        });
+        setTypingUsers(typing);
+      })
+      .subscribe();
+
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(messageChannel);
+      supabase.removeChannel(presenceChannel);
     };
   };
+
+  const handleTyping = () => {
+    if (!selectedVendor || !currentUser) return;
+
+    const channel = supabase.channel(`typing:${selectedVendor}`);
+    channel.track({ typing: true, user_id: currentUser.id });
+
+    // Clear typing after 3 seconds
+    setTimeout(() => {
+      channel.track({ typing: false, user_id: currentUser.id });
+    }, 3000);
+  };
+
+  const filteredConversations = conversations.filter((conv) =>
+    conv.vendorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    conv.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -194,15 +241,28 @@ export default function Messages() {
           <Card className="h-[600px]">
             <div className="grid md:grid-cols-3 h-full">
               {/* Conversations List */}
-              <div className="border-r">
-                <ScrollArea className="h-full">
-                  {conversations.length === 0 ? (
+              <div className="border-r flex flex-col">
+                <div className="p-4 border-b">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search conversations..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <ScrollArea className="flex-1">
+                  {filteredConversations.length === 0 ? (
                     <div className="p-8 text-center">
                       <MessageSquare className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                      <p className="text-muted-foreground">No conversations yet</p>
+                      <p className="text-muted-foreground">
+                        {searchQuery ? "No conversations found" : "No conversations yet"}
+                      </p>
                     </div>
                   ) : (
-                    conversations.map((conv) => (
+                    filteredConversations.map((conv) => (
                       <button
                         key={conv.vendorId}
                         className={`w-full p-4 text-left hover:bg-muted transition-colors border-b ${
@@ -260,21 +320,28 @@ export default function Messages() {
                               </p>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </ScrollArea>
+                          ))}
+                        </div>
+                      </ScrollArea>
 
-                    <div className="p-4 border-t flex gap-2">
-                      <Input
-                        placeholder="Type a message..."
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-                      />
-                      <Button onClick={sendMessage}>
-                        <Send className="h-4 w-4" />
-                      </Button>
-                    </div>
+                      {typingUsers.size > 0 && (
+                        <div className="px-4 py-2 text-sm text-muted-foreground italic flex items-center gap-2">
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                          Typing...
+                        </div>
+                      )}
+
+                      <div className="p-4 border-t flex gap-2">
+                        <Input
+                          placeholder="Type a message..."
+                          value={newMessage}
+                          onChange={(e) => handleMessageInput(e.target.value)}
+                          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                        />
+                        <Button onClick={sendMessage} disabled={!newMessage.trim()}>
+                          <Send className="h-4 w-4" />
+                        </Button>
+                      </div>
                   </>
                 ) : (
                   <div className="flex items-center justify-center h-full">
