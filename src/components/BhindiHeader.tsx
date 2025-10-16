@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { NotificationCenter } from "./NotificationCenter";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -156,6 +157,7 @@ export const BhindiHeader = () => {
 
             {user ? (
               <>
+                <NotificationCenter />
                 <Button variant="ghost" onClick={() => navigate("/dashboard")}>Dashboard</Button>
                 <Button variant="ghost" onClick={() => navigate("/profile")}>Profile</Button>
                 <Button variant="outline" onClick={handleLogout}>Logout</Button>
