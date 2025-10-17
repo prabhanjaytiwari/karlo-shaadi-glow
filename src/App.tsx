@@ -73,6 +73,7 @@ const App = () => (
               <Route path="/search" element={<Search />} />
               <Route path="/vendors/:id" element={<VendorProfile />} />
               <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
+              <Route path="/vendor-onboarding" element={<VendorOnboarding />} />
               <Route path="/vendor/dashboard" element={<VendorDashboard />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/for-vendors" element={<ForVendors />} />
