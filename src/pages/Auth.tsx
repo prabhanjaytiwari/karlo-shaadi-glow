@@ -261,7 +261,7 @@ const Auth = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Are you a vendor?{" "}
-                <Link to="/vendor-onboarding" className="text-accent hover:underline font-medium">
+                <Link to="/vendor/onboarding" className="text-accent hover:underline font-medium">
                   Join as a vendor
                 </Link>
               </p>

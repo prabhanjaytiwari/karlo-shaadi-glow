@@ -24,7 +24,7 @@ const ForVendors = () => {
             </p>
             <Button 
               size="lg" 
-              onClick={() => navigate("/vendor-onboarding")}
+              onClick={() => navigate("/vendor/onboarding")}
               className="text-lg px-8 py-6"
             >
               Register as Vendor
@@ -138,7 +138,7 @@ const ForVendors = () => {
             <div className="text-center mt-12">
               <Button 
                 size="lg" 
-                onClick={() => navigate("/vendor-onboarding")}
+                onClick={() => navigate("/vendor/onboarding")}
                 className="text-lg px-8 py-6"
               >
                 Start Your Free Profile
