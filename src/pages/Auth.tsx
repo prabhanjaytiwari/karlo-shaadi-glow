@@ -83,13 +83,7 @@ const Auth = () => {
       if (error) throw error;
 
       if (data.user) {
-        // Assign 'couple' role
-        const { error: roleError } = await supabase
-          .from("user_roles")
-          .insert({ user_id: data.user.id, role: "couple" });
-
-        if (roleError) console.error("Role assignment error:", roleError);
-
+        // Role is automatically assigned via database trigger
         // Track signup event
         await trackEvent({
           event_type: 'user_signup',
