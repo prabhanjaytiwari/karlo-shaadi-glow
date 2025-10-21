@@ -70,7 +70,9 @@ export const BhindiFooter = () => {
             <h3 className="font-semibold text-lg mb-6">Legal</h3>
             <ul className="space-y-4">
               <li><Link to="/legal" className="text-muted-foreground hover:text-foreground transition-colors">Terms</Link></li>
-              <li><Link to="/legal" className="text-muted-foreground hover:text-foreground transition-colors">Privacy</Link></li>
+              <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy</Link></li>
+              <li><Link to="/cancellation-refunds" className="text-muted-foreground hover:text-foreground transition-colors">Cancellation & Refunds</Link></li>
+              <li><Link to="/shipping" className="text-muted-foreground hover:text-foreground transition-colors">Shipping</Link></li>
             </ul>
           </div>
         </div>

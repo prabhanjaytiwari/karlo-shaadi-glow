@@ -47,9 +47,9 @@ export const Footer = () => {
             <h3 className="font-display font-semibold text-lg mb-4">Legal</h3>
             <ul className="space-y-2">
               <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link></li>
-              <li><Link to="/legal" className="text-sm text-muted-foreground hover:text-primary transition-colors">KYC Policy</Link></li>
+              <li><Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/cancellation-refunds" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cancellation & Refunds</Link></li>
+              <li><Link to="/shipping" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shipping</Link></li>
             </ul>
           </div>
 

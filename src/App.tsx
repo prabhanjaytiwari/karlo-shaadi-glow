@@ -22,6 +22,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ForVendors from "./pages/ForVendors";
 import About from "./pages/About";
 import Legal from "./pages/Legal";
+import Privacy from "./pages/Privacy";
+import CancellationRefunds from "./pages/CancellationRefunds";
+import Shipping from "./pages/Shipping";
 import Support from "./pages/Support";
 import Investors from "./pages/Investors";
 import JoinAsManager from "./pages/JoinAsManager";
@@ -79,6 +82,9 @@ const App = () => (
               <Route path="/for-vendors" element={<ForVendors />} />
               <Route path="/about" element={<About />} />
               <Route path="/legal" element={<Legal />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/cancellation-refunds" element={<CancellationRefunds />} />
+              <Route path="/shipping" element={<Shipping />} />
               <Route path="/support" element={<Support />} />
               <Route path="/investors" element={<Investors />} />
               <Route path="/join-as-manager" element={<JoinAsManager />} />
