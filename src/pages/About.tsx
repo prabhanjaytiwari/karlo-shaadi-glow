@@ -27,9 +27,9 @@ const About = () => {
                 <h2 className="text-3xl font-bold mb-6">Our Story</h2>
                 <div className="space-y-4 text-muted-foreground text-lg">
                   <p>
-                    Karlo Shaadi was born from a simple belief: every couple deserves a stress-free, magical wedding experience. 
-                    We understand that planning a wedding in India can be overwhelming, with countless decisions to make and 
-                    vendors to coordinate.
+                    Karlo Shaadi was founded by Prabhanjay Tiwari with a simple belief: every couple deserves a stress-free, 
+                    magical wedding experience. We understand that planning a wedding in India can be overwhelming, with 
+                    countless decisions to make and vendors to coordinate.
                   </p>
                   <p>
                     Our platform brings together the best wedding vendors across India - from photographers and venues to 
@@ -39,6 +39,33 @@ const About = () => {
                   <p>
                     With thousands of successful weddings and countless happy couples, we continue to innovate and improve 
                     our platform to serve you better. Your dream wedding is just a few clicks away!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Founder Section */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <Card className="animate-fade-up bg-gradient-to-br from-primary/5 to-purple-500/5">
+              <CardContent className="p-8">
+                <div className="text-center mb-6">
+                  <h2 className="text-3xl font-bold mb-2">Meet Our Founder</h2>
+                  <div className="w-24 h-1 bg-gradient-to-r from-primary to-purple-600 mx-auto"></div>
+                </div>
+                <div className="space-y-4 text-muted-foreground text-lg">
+                  <p className="text-center">
+                    <span className="text-2xl font-semibold text-foreground block mb-2">Prabhanjay Tiwari</span>
+                    <span className="text-primary font-medium">Founder & CEO</span>
+                  </p>
+                  <p>
+                    With a vision to revolutionize wedding planning in India, Prabhanjay Tiwari created Karlo Shaadi to 
+                    bridge the gap between couples and trusted wedding vendors. His passion for technology and deep 
+                    understanding of Indian wedding traditions have made Karlo Shaadi the go-to platform for modern couples.
+                  </p>
+                  <p>
+                    Under Prabhanjay's leadership, Karlo Shaadi has grown to become India's most trusted wedding planning 
+                    platform, helping thousands of couples create their dream weddings with ease and confidence.
                   </p>
                 </div>
               </CardContent>
