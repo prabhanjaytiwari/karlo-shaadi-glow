@@ -127,12 +127,12 @@ export default function PremiumUpgrade() {
       if (orderError) throw orderError;
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        key: orderData.keyId, // Use key from backend response
         amount: plan.price * 100,
         currency: 'INR',
         name: 'Karlo Shaadi',
         description: `${plan.name} Plan Upgrade`,
-        order_id: orderData.order.id,
+        order_id: orderData.orderId,
         handler: async function (response: any) {
           await verifyPayment(response, plan.id, orderData.paymentId);
         },
