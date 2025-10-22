@@ -34,7 +34,7 @@ serve(async (req) => {
   }
 
   try {
-    const { bookingId, amount, milestone } = await req.json();
+    const { bookingId, amount, milestone, subscriptionPlan } = await req.json();
     
     // Get user from auth header for rate limiting
     const authHeader = req.headers.get("Authorization");
@@ -68,7 +68,7 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Payment creation attempt for user ${user.id}, booking ${bookingId}`);
+    console.log(`Payment creation attempt for user ${user.id}, ${subscriptionPlan ? `subscription ${subscriptionPlan}` : `booking ${bookingId}`}`);
 
     // Get Razorpay credentials
     const razorpayKeyId = Deno.env.get("RAZORPAY_KEY_ID");
@@ -79,6 +79,14 @@ serve(async (req) => {
     }
 
     // Create Razorpay order
+    const receipt = subscriptionPlan 
+      ? `subscription_${subscriptionPlan}_${Date.now()}`
+      : `booking_${bookingId}_${milestone}`;
+
+    const notes = subscriptionPlan
+      ? { subscription_plan: subscriptionPlan, user_id: user.id }
+      : { booking_id: bookingId, milestone };
+
     const orderResponse = await fetch("https://api.razorpay.com/v1/orders", {
       method: "POST",
       headers: {
@@ -88,11 +96,8 @@ serve(async (req) => {
       body: JSON.stringify({
         amount: Math.round(amount * 100), // Convert to paise
         currency: "INR",
-        receipt: `booking_${bookingId}_${milestone}`,
-        notes: {
-          booking_id: bookingId,
-          milestone,
-        },
+        receipt,
+        notes,
       }),
     });
 
@@ -104,22 +109,25 @@ serve(async (req) => {
 
     const order = await orderResponse.json();
 
-    // Create payment record in database
-    const { error: dbError } = await supabase.from("payments").insert([{
-      booking_id: bookingId,
-      amount,
-      milestone,
-      status: "pending",
-      transaction_id: order.id,
-    }]);
+    // Create payment record in database only for bookings
+    if (bookingId) {
+      const { error: dbError } = await supabase.from("payments").insert([{
+        booking_id: bookingId,
+        amount,
+        milestone,
+        status: "pending",
+        transaction_id: order.id,
+      }]);
 
-    if (dbError) {
-      console.error("Database error:", dbError);
-      throw dbError;
+      if (dbError) {
+        console.error("Database error:", dbError);
+        throw dbError;
+      }
     }
 
     return new Response(
       JSON.stringify({
+        order: order,
         orderId: order.id,
         amount: order.amount,
         currency: order.currency,

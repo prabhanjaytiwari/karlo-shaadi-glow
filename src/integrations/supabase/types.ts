@@ -645,6 +645,48 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          activated_at: string | null
+          amount: number | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          plan: Database["public"]["Enums"]["subscription_plan"]
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activated_at?: string | null
+          amount?: number | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["subscription_plan"]
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activated_at?: string | null
+          amount?: number | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["subscription_plan"]
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -958,6 +1000,7 @@ export type Database = {
         | "disputed"
       milestone_type: "advance" | "midway" | "completion"
       payment_status: "pending" | "paid" | "failed" | "refunded"
+      subscription_plan: "free" | "premium" | "vip"
       vendor_category:
         | "photography"
         | "catering"
@@ -1105,6 +1148,7 @@ export const Constants = {
       ],
       milestone_type: ["advance", "midway", "completion"],
       payment_status: ["pending", "paid", "failed", "refunded"],
+      subscription_plan: ["free", "premium", "vip"],
       vendor_category: [
         "photography",
         "catering",

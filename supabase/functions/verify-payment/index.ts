@@ -44,7 +44,7 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId, paymentId, signature, bookingId } = await req.json();
+    const { orderId, paymentId, signature, bookingId, subscriptionPlan } = await req.json();
     
     // Get user from auth header for rate limiting
     const authHeader = req.headers.get("Authorization");
@@ -97,6 +97,18 @@ serve(async (req) => {
       throw new Error("Invalid payment signature");
     }
 
+    // Handle subscription payment
+    if (subscriptionPlan) {
+      console.log(`Processing subscription payment for plan: ${subscriptionPlan}`);
+      return new Response(
+        JSON.stringify({ success: true, verified: true }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Handle booking payment
     // Update payment record
     const { error: updateError } = await supabase
       .from("payments")

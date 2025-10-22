@@ -161,7 +161,7 @@ export default function Pricing() {
                 </div>
 
                 {/* CTA */}
-                <Link to="/auth">
+                <Link to={plan.name === 'Free' ? '/auth' : `/premium-upgrade?plan=${plan.name.toLowerCase()}`}>
                   <Button
                     className={`w-full mb-6 ${
                       plan.popular
