@@ -50,7 +50,24 @@ const Auth = () => {
           title: "Welcome back!",
           description: "You've successfully logged in.",
         });
-        navigate("/dashboard");
+
+        // Check user role and redirect accordingly
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", data.user.id);
+
+        if (roles && roles.length > 0) {
+          if (roles.some(r => r.role === 'vendor')) {
+            navigate("/vendor/dashboard");
+          } else if (roles.some(r => r.role === 'admin')) {
+            navigate("/admin/dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       toast({

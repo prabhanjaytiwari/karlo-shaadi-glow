@@ -44,6 +44,7 @@ import DataExport from "./pages/DataExport";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -58,16 +59,16 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/bookings" element={<Bookings />} />
-              <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-              <Route path="/booking/:id" element={<BookingDetails />} />
-              <Route path="/checkout/:bookingId" element={<Checkout />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/payment-failure" element={<PaymentFailure />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+              <Route path="/booking-confirmation" element={<ProtectedRoute><BookingConfirmation /></ProtectedRoute>} />
+              <Route path="/booking/:id" element={<ProtectedRoute><BookingDetails /></ProtectedRoute>} />
+              <Route path="/checkout/:bookingId" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+              <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+              <Route path="/payment-failure" element={<ProtectedRoute><PaymentFailure /></ProtectedRoute>} />
+              <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+              <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/categories" element={<Categories />} />
               <Route path="/category/:category" element={<Categories />} />
               <Route path="/city/:slug" element={<City />} />
@@ -75,10 +76,10 @@ const App = () => (
               <Route path="/stories/:id" element={<StoryDetail />} />
               <Route path="/search" element={<Search />} />
               <Route path="/vendors/:id" element={<VendorProfile />} />
-              <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
-              <Route path="/vendor-onboarding" element={<VendorOnboarding />} />
-              <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/vendor/onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
+              <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
+              <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
+              <Route path="/admin/dashboard" element={<ProtectedRoute requireRole="admin"><AdminDashboard /></ProtectedRoute>} />
               <Route path="/for-vendors" element={<ForVendors />} />
               <Route path="/about" element={<About />} />
               <Route path="/legal" element={<Legal />} />
