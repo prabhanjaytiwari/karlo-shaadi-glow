@@ -100,6 +100,38 @@ serve(async (req) => {
     // Handle subscription payment
     if (subscriptionPlan) {
       console.log(`Processing subscription payment for plan: ${subscriptionPlan}`);
+      
+      // Get subscription amount from create-payment response
+      const planPrices: Record<string, number> = {
+        'premium': 2999,
+        'vip': 9999
+      };
+      
+      const amount = planPrices[subscriptionPlan] || 0;
+      
+      // Upsert subscription (update if exists, insert if not)
+      const { error: subscriptionError } = await supabase
+        .from("subscriptions")
+        .upsert({
+          user_id: user.id,
+          plan: subscriptionPlan,
+          status: 'active',
+          amount: amount,
+          razorpay_order_id: orderId,
+          razorpay_payment_id: paymentId,
+          activated_at: new Date().toISOString(),
+          expires_at: null, // One-time lifetime access
+        }, {
+          onConflict: 'user_id'
+        });
+
+      if (subscriptionError) {
+        console.error(`Subscription upsert error: ${subscriptionError.message}`);
+        throw subscriptionError;
+      }
+
+      console.log(`Subscription ${subscriptionPlan} activated for user ${user.id}`);
+      
       return new Response(
         JSON.stringify({ success: true, verified: true }),
         {
