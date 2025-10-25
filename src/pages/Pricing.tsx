@@ -2,8 +2,9 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Zap, Crown, Heart, HelpCircle } from "lucide-react";
+import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 
 const plans = [
   {
@@ -11,136 +12,125 @@ const plans = [
     icon: Heart,
     price: "₹0",
     period: "Forever Free",
-    description: "Perfect for couples just starting their wedding planning journey",
+    description: "Everything you need to plan your perfect wedding",
     color: "from-blue-500 to-cyan-500",
     features: [
-      { text: "Browse unlimited vendors", included: true },
-      { text: "Save up to 10 favorites", included: true },
-      { text: "Basic search & filters", included: true },
-      { text: "Read vendor reviews", included: true },
-      { text: "Direct messaging with vendors", included: true },
-      { text: "1 active booking at a time", included: true },
-      { text: "Email support (48hr response)", included: true },
-      { text: "Vendor comparison (up to 3)", included: false },
-      { text: "Priority booking", included: false },
-      { text: "Wedding budget planner", included: false },
-      { text: "Dedicated wedding manager", included: false }
+      { text: "Unlimited vendor search & browsing", included: true },
+      { text: "Unlimited favorites", included: true },
+      { text: "Priority messaging with vendors", included: true },
+      { text: "Unlimited bookings", included: true },
+      { text: "Advanced search filters", included: true },
+      { text: "Vendor comparison tool", included: true },
+      { text: "Budget planning tools", included: true },
+      { text: "Guest list management", included: true },
+      { text: "Digital wedding checklist", included: true },
+      { text: "Priority support", included: true },
+      { text: "Early access to new vendors", included: true },
+      { text: "Booking calendar integration", included: true },
     ],
     cta: "Get Started Free",
-    popular: false
+    popular: false,
+    highlight: true
   },
   {
-    name: "Premium",
-    icon: Zap,
-    price: "₹2,999",
-    period: "One-time payment",
-    description: "Everything you need to plan your perfect wedding stress-free",
+    name: "AI Premium",
+    icon: Sparkles,
+    price: "₹999",
+    period: "per month",
+    description: "AI-powered wedding planning with personal support",
     color: "from-primary to-accent",
     features: [
       { text: "Everything in Free, plus:", included: true, bold: true },
-      { text: "Unlimited favorites & bookings", included: true },
-      { text: "Advanced filters & search", included: true },
-      { text: "Vendor comparison (unlimited)", included: true },
-      { text: "Priority booking & responses", included: true },
-      { text: "Wedding budget planner tool", included: true },
-      { text: "Guest list management", included: true },
-      { text: "Digital wedding checklist", included: true },
-      { text: "WhatsApp support (24hr response)", included: true },
-      { text: "Booking calendar integration", included: true },
-      { text: "Early access to new vendors", included: true },
-      { text: "Dedicated wedding manager", included: false }
+      { text: "AI Wedding Planner 24/7 🤖", included: true, bold: true },
+      { text: "Personal wedding consultant", included: true },
+      { text: "2 video consultation calls/month", included: true },
+      { text: "Dedicated account manager", included: true },
+      { text: "Exclusive vendor discounts (5%)", included: true },
+      { text: "Contract review assistance", included: true },
+      { text: "Priority booking slots", included: true },
+      { text: "24/7 concierge support", included: true },
+      { text: "AI budget optimization", included: true },
+      { text: "AI timeline generation", included: true },
+      { text: "Personalized vendor recommendations", included: true },
     ],
-    cta: "Upgrade to Premium",
+    cta: "Start AI Planning",
     popular: true
-  },
-  {
-    name: "VIP",
-    icon: Crown,
-    price: "₹9,999",
-    period: "One-time payment",
-    description: "White-glove service for couples who want the absolute best",
-    color: "from-yellow-500 to-orange-500",
-    features: [
-      { text: "Everything in Premium, plus:", included: true, bold: true },
-      { text: "Dedicated wedding manager", included: true },
-      { text: "Personal vendor recommendations", included: true },
-      { text: "Negotiation support", included: true },
-      { text: "On-ground coordination support", included: true },
-      { text: "Priority phone support (4hr response)", included: true },
-      { text: "Vendor contract review", included: true },
-      { text: "Custom timeline & schedule", included: true },
-      { text: "Post-wedding vendor reviews help", included: true },
-      { text: "Exclusive discounts from vendors", included: true },
-      { text: "Wedding insurance guidance", included: true },
-      { text: "Access to premium vendor network", included: true }
-    ],
-    cta: "Get VIP Service",
-    popular: false
   }
 ];
 
 const faqs = [
   {
-    q: "Is the payment really one-time?",
-    a: "Yes! Unlike subscription services, you pay once and get lifetime access to all features in your plan. No recurring charges, ever."
+    q: "Is the Free plan really free forever?",
+    a: "Yes! The Free plan includes all essential features - unlimited vendor search, bookings, messaging, budget tools, and more. No credit card required, no hidden fees, ever."
   },
   {
-    q: "Can I upgrade my plan later?",
-    a: "Absolutely! You can upgrade from Free to Premium or VIP anytime. Just pay the difference. We'll credit your previous payments."
+    q: "What makes AI Premium worth ₹999/month?",
+    a: "AI Premium gives you a 24/7 intelligent wedding planner that answers questions, creates timelines, optimizes budgets, and recommends vendors. Plus you get human support via video calls, contract reviews, and exclusive discounts that often save more than the subscription cost."
   },
   {
-    q: "What if I need to cancel a booking?",
-    a: "Our platform fee is non-refundable, but vendor booking amounts follow individual vendor cancellation policies (shown before booking)."
+    q: "Can I cancel AI Premium anytime?",
+    a: "Absolutely! No long-term contracts. Cancel anytime and keep using the Free plan. You'll retain access to AI Premium features until the end of your billing cycle."
   },
   {
-    q: "Do vendors charge extra fees?",
-    a: "No hidden charges! Vendors set their own prices, and we don't add any commission. The price you see is what you pay to the vendor."
+    q: "How does the AI Wedding Planner work?",
+    a: "Our AI is trained on thousands of Indian weddings across cultures, traditions, and budgets. It provides personalized recommendations based on your preferences, budget, location, and wedding date. It's like having an expert wedding planner available 24/7."
   },
   {
-    q: "What happens after my wedding?",
-    a: "Your account remains active! You can still access your booking history, download invoices, leave reviews, and help other couples by sharing your story."
+    q: "Do vendors charge extra fees on your platform?",
+    a: "No! We don't add any commission to vendor prices. The price you see is what you pay. AI Premium members even get 5% exclusive discounts from participating vendors."
   },
   {
-    q: "Is there a money-back guarantee?",
-    a: "We offer a 7-day satisfaction guarantee. If you're not happy with Premium or VIP features, we'll refund your payment - no questions asked."
+    q: "Can I upgrade or downgrade my plan?",
+    a: "Yes! Upgrade to AI Premium anytime to unlock AI features and personal support. Downgrade to Free anytime - you'll keep all your data, bookings, and favorites."
   }
 ];
 
 export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Pricing - 100% Free Wedding Planning"
+        description="Karlo Shaadi is 100% FREE forever! Get AI Premium for ₹999/month for AI wedding planner, personal consultant, and exclusive discounts."
+      />
       <BhindiHeader />
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6">
         <div className="container mx-auto max-w-6xl text-center">
-          <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
-            Simple, Transparent Pricing
+          <Badge className="mb-4 bg-accent/10 text-accent border-accent/20 text-base px-4 py-2">
+            🎉 100% Free for Couples!
           </Badge>
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
-            Choose Your Perfect <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Wedding Plan</span>
+            Plan Your Dream Wedding for <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Free</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            One-time payment. Lifetime access. No subscriptions, no recurring charges. Just pure wedding planning magic.
+            Everything you need is FREE forever. Upgrade to AI Premium for intelligent planning assistance and VIP support.
           </p>
         </div>
       </section>
 
       {/* Pricing Cards */}
       <section className="pb-16 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {plans.map((plan, idx) => (
               <div
                 key={idx}
                 className={`relative rounded-3xl border-2 p-8 ${
                   plan.popular
                     ? 'border-primary shadow-2xl scale-105 bg-card'
-                    : 'border-border/50 bg-card/50'
+                    : plan.highlight
+                      ? 'border-accent/50 shadow-xl bg-card'
+                      : 'border-border/50 bg-card/50'
                 } transition-all hover:shadow-xl`}
               >
                 {plan.popular && (
                   <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+                    Best Value
+                  </Badge>
+                )}
+                {plan.highlight && (
+                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground">
                     Most Popular
                   </Badge>
                 )}
@@ -161,12 +151,12 @@ export default function Pricing() {
                 </div>
 
                 {/* CTA */}
-                <Link to={plan.name === 'Free' ? '/auth' : `/premium-upgrade?plan=${plan.name.toLowerCase()}`}>
+                <Link to={plan.name === 'Free' ? '/auth' : `/premium-upgrade?plan=ai_premium`}>
                   <Button
                     className={`w-full mb-6 ${
                       plan.popular
                         ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                        : 'bg-card border-2 border-border hover:bg-accent/10'
+                        : 'bg-accent text-accent-foreground hover:bg-accent/90'
                     }`}
                     size="lg"
                   >
@@ -178,11 +168,7 @@ export default function Pricing() {
                 <ul className="space-y-3">
                   {plan.features.map((feature, featureIdx) => (
                     <li key={featureIdx} className="flex items-start gap-3">
-                      {feature.included ? (
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      ) : (
-                        <X className="w-5 h-5 text-muted-foreground/30 flex-shrink-0 mt-0.5" />
-                      )}
+                      <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                       <span
                         className={`text-sm ${
                           feature.included ? 'text-foreground' : 'text-muted-foreground/50'
@@ -199,25 +185,79 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* For Vendors Section */}
+      {/* AI Features Showcase */}
       <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Bot className="h-3 w-3 mr-1" />
+              Powered by AI
+            </Badge>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
+              Meet Your AI Wedding Planner
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Get instant answers, personalized recommendations, and expert guidance 24/7
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Bot,
+                title: "AI Chat Assistant",
+                description: "Ask anything about vendors, budget, timeline, traditions, or decorations. Get instant, personalized answers."
+              },
+              {
+                icon: PhoneCall,
+                title: "Human Expert Support",
+                description: "2 video consultations per month with experienced wedding planners who understand your vision."
+              },
+              {
+                icon: Gift,
+                title: "Exclusive Savings",
+                description: "5% discount with premium vendors. Save more than the subscription cost on a single booking!"
+              }
+            ].map((feature, i) => (
+              <div key={i} className="bg-card rounded-2xl p-6 border-2 border-border/50 hover:border-primary/30 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4">
+                  <feature.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For Vendors Section */}
+      <section className="py-16 px-4 sm:px-6">
         <div className="container mx-auto max-w-4xl text-center">
+          <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
           <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
-            Are You a Vendor?
+            Are You a Wedding Vendor?
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Join Karlo Shaadi for FREE! No commission on bookings. Get verified, showcase your work, and connect with 50,000+ couples.
+            Join Karlo Shaadi and grow your business! Featured listings start at ₹4,999/month with zero transaction fees for Premium vendors.
           </p>
-          <Link to="/vendor/onboarding">
-            <Button size="lg" className="rounded-full px-8">
-              Join as Vendor - Free Forever
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/vendor-pricing">
+              <Button size="lg" variant="hero" className="rounded-full px-8">
+                View Vendor Pricing
+              </Button>
+            </Link>
+            <Link to="/vendor/onboarding">
+              <Button size="lg" variant="outline" className="rounded-full px-8">
+                Join as Vendor - Free
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 px-4 sm:px-6">
+      <section className="py-16 px-4 sm:px-6 bg-muted/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
@@ -256,13 +296,20 @@ export default function Pricing() {
             Ready to Plan Your Dream Wedding?
           </h2>
           <p className="text-white/90 text-lg mb-8">
-            Join 50,000+ happy couples who found their perfect vendors on Karlo Shaadi
+            Join 50,000+ happy couples who found their perfect vendors on Karlo Shaadi - 100% FREE!
           </p>
-          <Link to="/auth">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8">
-              Start Planning - It's Free!
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/auth">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8">
+                Start Planning - It's Free!
+              </Button>
+            </Link>
+            <Link to="/premium-upgrade?plan=ai_premium">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8">
+                Try AI Premium
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
