@@ -265,7 +265,7 @@ export default function Pricing() {
                 View Vendor Pricing
               </Button>
             </Link>
-            <Link to="/vendor/onboarding">
+            <Link to="/vendor-auth">
               <Button size="lg" variant="outline" className="rounded-full px-8">
                 Join as Vendor - Free
               </Button>
