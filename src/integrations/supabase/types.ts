@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_chat_history: {
+        Row: {
+          created_at: string
+          id: string
+          message_content: string
+          message_role: string
+          metadata: Json | null
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_content: string
+          message_role: string
+          metadata?: Json | null
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_content?: string
+          message_role?: string
+          metadata?: Json | null
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       analytics_events: {
         Row: {
           created_at: string | null
@@ -207,6 +237,45 @@ export type Database = {
           is_active?: boolean
           name?: string
           state?: string
+        }
+        Relationships: []
+      }
+      consultation_bookings: {
+        Row: {
+          consultant_id: string | null
+          created_at: string
+          duration_minutes: number
+          id: string
+          meeting_link: string | null
+          notes: string | null
+          scheduled_at: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consultant_id?: string | null
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consultant_id?: string | null
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -649,9 +718,11 @@ export type Database = {
         Row: {
           activated_at: string | null
           amount: number | null
+          billing_cycle: string | null
           created_at: string
           expires_at: string | null
           id: string
+          is_recurring: boolean | null
           plan: Database["public"]["Enums"]["subscription_plan"]
           razorpay_order_id: string | null
           razorpay_payment_id: string | null
@@ -662,9 +733,11 @@ export type Database = {
         Insert: {
           activated_at?: string | null
           amount?: number | null
+          billing_cycle?: string | null
           created_at?: string
           expires_at?: string | null
           id?: string
+          is_recurring?: boolean | null
           plan?: Database["public"]["Enums"]["subscription_plan"]
           razorpay_order_id?: string | null
           razorpay_payment_id?: string | null
@@ -675,9 +748,11 @@ export type Database = {
         Update: {
           activated_at?: string | null
           amount?: number | null
+          billing_cycle?: string | null
           created_at?: string
           expires_at?: string | null
           id?: string
+          is_recurring?: boolean | null
           plan?: Database["public"]["Enums"]["subscription_plan"]
           razorpay_order_id?: string | null
           razorpay_payment_id?: string | null
@@ -736,6 +811,50 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "vendor_availability_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_discounts: {
+        Row: {
+          applicable_to: string[] | null
+          created_at: string
+          discount_percentage: number
+          discount_type: string
+          id: string
+          is_active: boolean | null
+          valid_from: string
+          valid_until: string | null
+          vendor_id: string
+        }
+        Insert: {
+          applicable_to?: string[] | null
+          created_at?: string
+          discount_percentage: number
+          discount_type: string
+          id?: string
+          is_active?: boolean | null
+          valid_from?: string
+          valid_until?: string | null
+          vendor_id: string
+        }
+        Update: {
+          applicable_to?: string[] | null
+          created_at?: string
+          discount_percentage?: number
+          discount_type?: string
+          id?: string
+          is_active?: boolean | null
+          valid_from?: string
+          valid_until?: string | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_discounts_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "vendors"
@@ -831,6 +950,59 @@ export type Database = {
           },
         ]
       }
+      vendor_subscriptions: {
+        Row: {
+          amount: number | null
+          cancelled_at: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          plan: Database["public"]["Enums"]["vendor_subscription_plan"]
+          razorpay_payment_id: string | null
+          razorpay_subscription_id: string | null
+          started_at: string | null
+          status: string
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          amount?: number | null
+          cancelled_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["vendor_subscription_plan"]
+          razorpay_payment_id?: string | null
+          razorpay_subscription_id?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          amount?: number | null
+          cancelled_at?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["vendor_subscription_plan"]
+          razorpay_payment_id?: string | null
+          razorpay_subscription_id?: string | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_subscriptions_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendors: {
         Row: {
           average_rating: number | null
@@ -839,9 +1011,14 @@ export type Database = {
           city_id: string | null
           created_at: string
           description: string | null
+          featured_until: string | null
+          homepage_featured: boolean | null
           id: string
           instagram_handle: string | null
           is_active: boolean
+          subscription_tier:
+            | Database["public"]["Enums"]["vendor_subscription_plan"]
+            | null
           team_size: number | null
           total_bookings: number | null
           total_reviews: number | null
@@ -860,9 +1037,14 @@ export type Database = {
           city_id?: string | null
           created_at?: string
           description?: string | null
+          featured_until?: string | null
+          homepage_featured?: boolean | null
           id?: string
           instagram_handle?: string | null
           is_active?: boolean
+          subscription_tier?:
+            | Database["public"]["Enums"]["vendor_subscription_plan"]
+            | null
           team_size?: number | null
           total_bookings?: number | null
           total_reviews?: number | null
@@ -881,9 +1063,14 @@ export type Database = {
           city_id?: string | null
           created_at?: string
           description?: string | null
+          featured_until?: string | null
+          homepage_featured?: boolean | null
           id?: string
           instagram_handle?: string | null
           is_active?: boolean
+          subscription_tier?:
+            | Database["public"]["Enums"]["vendor_subscription_plan"]
+            | null
           team_size?: number | null
           total_bookings?: number | null
           total_reviews?: number | null
@@ -1000,7 +1187,7 @@ export type Database = {
         | "disputed"
       milestone_type: "advance" | "midway" | "completion"
       payment_status: "pending" | "paid" | "failed" | "refunded"
-      subscription_plan: "free" | "premium" | "vip"
+      subscription_plan: "free" | "premium" | "vip" | "ai_premium"
       vendor_category:
         | "photography"
         | "catering"
@@ -1010,6 +1197,7 @@ export type Database = {
         | "cakes"
         | "mehendi"
         | "planning"
+      vendor_subscription_plan: "free" | "featured" | "sponsored"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1148,7 +1336,7 @@ export const Constants = {
       ],
       milestone_type: ["advance", "midway", "completion"],
       payment_status: ["pending", "paid", "failed", "refunded"],
-      subscription_plan: ["free", "premium", "vip"],
+      subscription_plan: ["free", "premium", "vip", "ai_premium"],
       vendor_category: [
         "photography",
         "catering",
@@ -1159,6 +1347,7 @@ export const Constants = {
         "mehendi",
         "planning",
       ],
+      vendor_subscription_plan: ["free", "featured", "sponsored"],
     },
   },
 } as const
