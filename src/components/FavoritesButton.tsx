@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
+import { trackFavoriteAdded, trackFavoriteRemoved } from "@/lib/analytics";
 
 interface FavoritesButtonProps {
   vendorId: string;
@@ -60,6 +61,7 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
         if (error) throw error;
         
         setIsFavorite(false);
+        trackFavoriteRemoved(vendorId);
         toast({
           title: "Removed from favorites",
         });
@@ -74,6 +76,7 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
         if (error) throw error;
         
         setIsFavorite(true);
+        trackFavoriteAdded(vendorId);
         toast({
           title: "Added to favorites",
         });

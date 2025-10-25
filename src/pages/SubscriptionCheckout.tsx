@@ -9,6 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Crown, Shield, Check, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { 
+  trackPaymentInitiated, 
+  trackPaymentCompleted, 
+  trackPaymentFailed, 
+  trackSubscriptionStarted 
+} from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -66,6 +72,8 @@ export default function SubscriptionCheckout() {
     if (!currentPlan || !session) return;
 
     setProcessing(true);
+    trackPaymentInitiated(currentPlan.price, "subscription");
+    
     try {
       // Create Razorpay order
       const { data: orderData, error: orderError } = await supabase.functions.invoke(
@@ -104,10 +112,13 @@ export default function SubscriptionCheckout() {
 
             if (verifyError) throw verifyError;
 
+            trackPaymentCompleted(currentPlan.price, response.razorpay_payment_id, "subscription");
+            trackSubscriptionStarted(plan, currentPlan.price);
             toast.success("Subscription activated successfully!");
             navigate("/premium-dashboard");
           } catch (error: any) {
             console.error("Verification error:", error);
+            trackPaymentFailed(currentPlan.price, error.message);
             toast.error(error.message || "Payment verification failed");
             navigate("/payment-failure");
           }

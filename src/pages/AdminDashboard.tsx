@@ -14,6 +14,7 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { format } from "date-fns";
 import { StoryModerationTab } from "@/components/admin/StoryModerationTab";
+import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -368,9 +369,14 @@ export default function AdminDashboard() {
               <TabsTrigger value="verification">Vendor Verification</TabsTrigger>
               <TabsTrigger value="vendors">All Vendors</TabsTrigger>
               <TabsTrigger value="performance">Performance</TabsTrigger>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="stories">Wedding Stories</TabsTrigger>
               <TabsTrigger value="moderation">Content Moderation</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="analytics">
+              <AnalyticsDashboard />
+            </TabsContent>
 
             <TabsContent value="verification">
               <Card>

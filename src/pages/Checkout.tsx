@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, Shield, Calendar, DollarSign, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
+import { trackPaymentInitiated, trackPaymentCompleted, trackPaymentFailed } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -106,6 +107,7 @@ export default function Checkout() {
     setProcessing(true);
     try {
       const advanceAmount = (booking.total_amount * booking.advance_percentage) / 100;
+      trackPaymentInitiated(advanceAmount, "booking");
 
       // Create payment order via edge function
       const { data: orderData, error: orderError } = await supabase.functions.invoke(
@@ -146,12 +148,14 @@ export default function Checkout() {
 
             if (verifyError) throw verifyError;
 
+            trackPaymentCompleted(advanceAmount, response.razorpay_payment_id, "booking");
             toast({
               title: "Payment Successful!",
               description: "Your booking has been confirmed",
             });
             navigate(`/payment-success?bookingId=${booking.id}`);
           } catch (error: any) {
+            trackPaymentFailed(advanceAmount, error.message);
             toast({
               title: "Payment verification failed",
               description: error.message,
