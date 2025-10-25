@@ -19,6 +19,7 @@ export default function VendorDashboard() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [vendor, setVendor] = useState<any>(null);
+  const [subscription, setSubscription] = useState<any>(null);
   const [stats, setStats] = useState({
     totalBookings: 0,
     pendingBookings: 0,
@@ -62,6 +63,7 @@ export default function VendorDashboard() {
       loadPortfolio(vendorData.id);
       loadBookings(vendorData.id);
       loadReviews(vendorData.id);
+      loadSubscription(vendorData.id);
     } catch (error) {
       console.error("Error:", error);
       navigate("/vendor/onboarding");
@@ -127,6 +129,31 @@ export default function VendorDashboard() {
     if (data) setReviews(data);
   };
 
+  const loadSubscription = async (vendorId: string) => {
+    const { data } = await supabase
+      .from("vendor_subscriptions")
+      .select("*")
+      .eq("vendor_id", vendorId)
+      .single();
+    
+    if (data) setSubscription(data);
+  };
+
+  const getSubscriptionBadge = () => {
+    const tier = vendor?.subscription_tier || 'free';
+    const colors = {
+      free: 'bg-muted text-muted-foreground',
+      featured: 'bg-accent/20 text-accent',
+      sponsored: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary'
+    };
+    const labels = {
+      free: 'Free',
+      featured: 'Featured ⭐',
+      sponsored: 'Sponsored Premium 👑'
+    };
+    return { color: colors[tier as keyof typeof colors], label: labels[tier as keyof typeof labels] };
+  };
+
   const deleteService = async (serviceId: string) => {
     const { error } = await supabase
       .from("vendor_services")
@@ -171,10 +198,74 @@ export default function VendorDashboard() {
               <h1 className="text-4xl font-bold mb-2">{vendor?.business_name}</h1>
               <p className="text-muted-foreground">Vendor Dashboard</p>
             </div>
-            <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full">
-              <LogOut className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => navigate('/vendor-pricing')} size="sm">
+                Upgrade Plan
+              </Button>
+              <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
+
+          {/* Subscription Status Card */}
+          {vendor && (
+            <Card className="mb-8 border-2 border-primary/20">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      Current Plan: 
+                      <span className={`px-3 py-1 rounded-full text-sm font-bold ${getSubscriptionBadge().color}`}>
+                        {getSubscriptionBadge().label}
+                      </span>
+                    </CardTitle>
+                    <CardDescription className="mt-2">
+                      {vendor.subscription_tier === 'free' && 
+                        "Upgrade to Featured or Sponsored to get 3-10x more bookings"}
+                      {vendor.subscription_tier === 'featured' && 
+                        "You're getting top 5 placement! Upgrade to Sponsored for homepage visibility"}
+                      {vendor.subscription_tier === 'sponsored' && 
+                        "You're on our premium plan with maximum visibility!"}
+                    </CardDescription>
+                  </div>
+                  {vendor.subscription_tier === 'free' && (
+                    <Button onClick={() => navigate('/vendor-pricing')} className="ml-4">
+                      Upgrade Now
+                    </Button>
+                  )}
+                </div>
+              </CardHeader>
+              {subscription && subscription.status === 'active' && (
+                <CardContent>
+                  <div className="flex gap-6 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Next Billing: </span>
+                      <span className="font-semibold">
+                        {new Date(subscription.expires_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Amount: </span>
+                      <span className="font-semibold">₹{subscription.amount?.toLocaleString()}/month</span>
+                    </div>
+                    {vendor.subscription_tier === 'featured' && (
+                      <div>
+                        <span className="text-muted-foreground">Transaction Fee: </span>
+                        <span className="font-semibold text-accent">10% (save 2%)</span>
+                      </div>
+                    )}
+                    {vendor.subscription_tier === 'sponsored' && (
+                      <div>
+                        <span className="text-muted-foreground">Transaction Fee: </span>
+                        <span className="font-semibold text-primary">0% (save 12%!)</span>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              )}
+            </Card>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card>

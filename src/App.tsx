@@ -18,6 +18,7 @@ import Search from "./pages/Search";
 import VendorProfile from "./pages/VendorProfile";
 import VendorOnboarding from "./pages/VendorOnboarding";
 import VendorDashboard from "./pages/VendorDashboard";
+import VendorPricing from "./pages/VendorPricing";
 import AdminDashboard from "./pages/AdminDashboard";
 import ForVendors from "./pages/ForVendors";
 import About from "./pages/About";
@@ -80,6 +81,7 @@ const App = () => (
               <Route path="/vendor/onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
               <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
               <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
+              <Route path="/vendor-pricing" element={<VendorPricing />} />
               <Route path="/admin/dashboard" element={<ProtectedRoute requireRole="admin"><AdminDashboard /></ProtectedRoute>} />
               <Route path="/for-vendors" element={<ForVendors />} />
               <Route path="/about" element={<About />} />

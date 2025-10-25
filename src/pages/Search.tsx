@@ -8,8 +8,10 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search as SearchIcon, MapPin, Star, Shield, Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -70,9 +72,13 @@ export default function Search() {
         query = query.or(`business_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
       }
 
-      const { data: vendorsData } = await query.order("average_rating", { ascending: false });
+      const { data: vendorsData } = await query;
       
-      if (vendorsData) setVendors(vendorsData);
+      // Apply ranking algorithm
+      if (vendorsData) {
+        const rankedVendors = rankVendors(vendorsData as Vendor[]);
+        setVendors(rankedVendors);
+      }
 
       // Track search event
       if (searchQuery || selectedCategory !== "all" || selectedCity !== "all") {
@@ -174,34 +180,69 @@ export default function Search() {
                 Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
               </p>
               
-              {vendors.map((vendor, i) => (
-                <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
-                  <GlassCard 
-                    hover
-                    className="p-6 animate-fade-up transition-all duration-300"
-                    style={{ animationDelay: `${i * 100}ms` }}
-                  >
-                    <div className="flex flex-col md:flex-row gap-6">
-                      <div className="md:w-1/4">
-                        <div className="aspect-square bg-gradient-to-br from-accent/20 to-secondary/20 rounded-xl flex items-center justify-center">
-                          <span className="text-4xl font-bold text-accent">
-                            {vendor.business_name.charAt(0)}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      <div className="md:w-3/4">
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {vendor.verified && (
-                            <span className="glass-subtle px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                              <Shield className="h-3 w-3" />
-                              Verified
+              {vendors.map((vendor, i) => {
+                const badge = getVendorBadge(vendor as Vendor);
+                const isSponsored = vendor.subscription_tier === 'sponsored';
+                const isFeatured = vendor.subscription_tier === 'featured';
+
+                return (
+                  <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
+                    <GlassCard 
+                      hover
+                      className={`p-6 animate-fade-up transition-all duration-300 ${
+                        isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
+                      }`}
+                      style={{ animationDelay: `${i * 100}ms` }}
+                    >
+                      <div className="flex flex-col md:flex-row gap-6">
+                        <div className="md:w-1/4 relative">
+                          <div className={`aspect-square rounded-xl flex items-center justify-center ${
+                            isSponsored 
+                              ? 'bg-gradient-to-br from-primary/30 to-accent/30' 
+                              : isFeatured 
+                                ? 'bg-gradient-to-br from-accent/30 to-secondary/30'
+                                : 'bg-gradient-to-br from-accent/20 to-secondary/20'
+                          }`}>
+                            <span className={`text-4xl font-bold ${
+                              isSponsored ? 'text-primary' : 'text-accent'
+                            }`}>
+                              {vendor.business_name.charAt(0)}
                             </span>
+                          </div>
+                          {isSponsored && (
+                            <div className="absolute -top-2 -right-2">
+                              <Crown className="h-6 w-6 text-primary fill-primary/20" />
+                            </div>
                           )}
-                          <span className="glass-subtle px-3 py-1 rounded-full text-xs font-semibold">
-                            {vendor.category}
-                          </span>
+                          {isFeatured && (
+                            <div className="absolute -top-2 -right-2">
+                              <Sparkles className="h-6 w-6 text-accent fill-accent/20" />
+                            </div>
+                          )}
                         </div>
+                        
+                        <div className="md:w-3/4">
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {badge && (
+                              <Badge 
+                                variant={badge.variant}
+                                className="flex items-center gap-1 font-semibold"
+                              >
+                                {badge.variant === 'premium' && <Crown className="h-3 w-3" />}
+                                {badge.variant === 'accent' && <Sparkles className="h-3 w-3" />}
+                                {badge.text}
+                              </Badge>
+                            )}
+                            {vendor.verified && (
+                              <Badge variant="outline" className="flex items-center gap-1">
+                                <Shield className="h-3 w-3" />
+                                Verified
+                              </Badge>
+                            )}
+                            <Badge variant="secondary">
+                              {vendor.category}
+                            </Badge>
+                          </div>
 
                         <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
                         <p className="text-muted-foreground mb-4 line-clamp-2">
@@ -225,11 +266,12 @@ export default function Search() {
                             <span className="text-muted-foreground"> years exp</span>
                           </div>
                         </div>
+                        </div>
                       </div>
-                    </div>
-                  </GlassCard>
-                </Link>
-              ))}
+                    </GlassCard>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>

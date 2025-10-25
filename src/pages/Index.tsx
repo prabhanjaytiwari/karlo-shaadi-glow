@@ -3,6 +3,7 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
+import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
@@ -110,6 +111,9 @@ const Index = () => {
 
       {/* Tensions Section */}
       <TensionsSection />
+
+      {/* Sponsored Vendors Carousel */}
+      <SponsoredVendorsCarousel />
 
       {/* HUMOR SECTION 1: Wedding Planning Superhero */}
       <section ref={humorSection1.ref} className="py-16 sm:py-24 md:py-32 relative overflow-hidden" style={{ background: 'radial-gradient(ellipse at top, hsl(350 85% 55% / 0.08) 0%, transparent 50%)' }}>
