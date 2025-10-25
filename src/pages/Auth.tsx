@@ -182,18 +182,8 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8 animate-fade-up">
-          <Link to="/" className="inline-flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Heart className="h-6 w-6 text-white" />
-            </div>
-            <span className="font-bold text-2xl">Karlo Shaadi</span>
-          </Link>
-          <p className="text-muted-foreground">Plan your dream wedding</p>
-        </div>
 
         <Card className="animate-fade-up">
           <CardHeader>
