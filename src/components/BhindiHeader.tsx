@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
+import logo from "@/assets/logo.png";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -158,12 +159,11 @@ export const BhindiHeader = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
-              <span className="text-primary-foreground font-bold text-xl">K</span>
-            </div>
-            <span className="font-semibold text-lg tracking-tight group-hover:text-accent transition-colors duration-300">
-              Karlo Shaadi
-            </span>
+            <img 
+              src={logo} 
+              alt="Karlo Shaadi Logo" 
+              className="h-12 w-auto transition-transform group-hover:scale-110 duration-300"
+            />
           </Link>
 
           {/* Desktop Navigation - Absolutely prevent rendering on mobile */}

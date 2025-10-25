@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import logo from "@/assets/logo.png";
 export const BhindiFooter = () => {
   const currentYear = new Date().getFullYear();
   return <footer className="bg-background">
@@ -21,10 +22,11 @@ export const BhindiFooter = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">K</span>
-              </div>
-              <span className="font-semibold text-2xl">Karlo Shaadi</span>
+              <img 
+                src={logo} 
+                alt="Karlo Shaadi Logo" 
+                className="h-12 w-auto"
+              />
             </div>
             <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
               Karlo Shaadi is your wedding planning platform, connecting you with verified vendors to create seamless wedding experiences.
