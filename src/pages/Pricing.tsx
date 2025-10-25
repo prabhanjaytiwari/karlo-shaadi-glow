@@ -3,8 +3,9 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
 
 const plans = [
   {
@@ -86,6 +87,17 @@ const faqs = [
 ];
 
 export default function Pricing() {
+  const navigate = useNavigate();
+
+  const handlePremiumClick = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      navigate("/auth?redirect=/subscription-checkout?plan=ai_premium");
+    } else {
+      navigate("/subscription-checkout?plan=ai_premium");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <SEO 
@@ -151,18 +163,24 @@ export default function Pricing() {
                 </div>
 
                 {/* CTA */}
-                <Link to={plan.name === 'Free' ? '/auth' : `/premium-upgrade?plan=ai_premium`}>
+                {plan.name === 'Free' ? (
+                  <Link to="/auth">
+                    <Button
+                      className="w-full mb-6 bg-accent text-accent-foreground hover:bg-accent/90"
+                      size="lg"
+                    >
+                      {plan.cta}
+                    </Button>
+                  </Link>
+                ) : (
                   <Button
-                    className={`w-full mb-6 ${
-                      plan.popular
-                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                        : 'bg-accent text-accent-foreground hover:bg-accent/90'
-                    }`}
+                    className="w-full mb-6 bg-primary text-primary-foreground hover:bg-primary/90"
                     size="lg"
+                    onClick={handlePremiumClick}
                   >
                     {plan.cta}
                   </Button>
-                </Link>
+                )}
 
                 {/* Features */}
                 <ul className="space-y-3">
@@ -304,11 +322,14 @@ export default function Pricing() {
                 Start Planning - It's Free!
               </Button>
             </Link>
-            <Link to="/premium-upgrade?plan=ai_premium">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8">
-                Try AI Premium
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8"
+              onClick={handlePremiumClick}
+            >
+              Try AI Premium
+            </Button>
           </div>
         </div>
       </section>

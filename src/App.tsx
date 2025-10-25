@@ -42,6 +42,7 @@ import SuccessStories from "./pages/SuccessStories";
 import Pricing from "./pages/Pricing";
 import PremiumUpgrade from "./pages/PremiumUpgrade";
 import PremiumDashboard from "./pages/PremiumDashboard";
+import SubscriptionCheckout from "./pages/SubscriptionCheckout";
 import NotFound from "./pages/NotFound";
 import DataExport from "./pages/DataExport";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -101,6 +102,7 @@ const App = () => (
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/premium-upgrade" element={<ProtectedRoute><PremiumUpgrade /></ProtectedRoute>} />
               <Route path="/premium-dashboard" element={<ProtectedRoute><PremiumDashboard /></ProtectedRoute>} />
+              <Route path="/subscription-checkout" element={<ProtectedRoute><SubscriptionCheckout /></ProtectedRoute>} />
               <Route path="/data-export" element={<DataExport />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
