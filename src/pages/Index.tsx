@@ -1,5 +1,4 @@
 import { BhindiFooter } from "@/components/BhindiFooter";
-import { BhindiHeader } from "@/components/BhindiHeader";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
@@ -52,9 +51,6 @@ const Index = () => {
         description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us."
         keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning"
       />
-      
-      {/* Fixed Header */}
-      <BhindiHeader />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20">

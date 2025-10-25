@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
@@ -62,7 +61,6 @@ const StoryDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
         <div className="container mx-auto px-4 py-12 space-y-8">
           <Skeleton className="h-96 w-full" />
           <Skeleton className="h-64 w-full" />
@@ -75,7 +73,6 @@ const StoryDetail = () => {
   if (!story) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <p className="text-xl mb-4">Story not found</p>
@@ -95,8 +92,6 @@ const StoryDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-end overflow-hidden">
         <div className="absolute inset-0 z-0">

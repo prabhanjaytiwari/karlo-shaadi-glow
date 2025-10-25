@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
@@ -117,8 +116,6 @@ const City = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">

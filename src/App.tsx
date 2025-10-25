@@ -49,6 +49,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { BhindiHeader } from "@/components/BhindiHeader";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <BhindiHeader />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />

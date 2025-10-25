@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GlassCard } from "@/components/GlassCard";
 import { Link, useParams } from "react-router-dom";
@@ -108,8 +107,6 @@ const Categories = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-b from-muted/20 to-background">
         <div className="container mx-auto px-4">
