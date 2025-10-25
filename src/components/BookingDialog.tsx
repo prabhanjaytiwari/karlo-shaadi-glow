@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { sanitizeInput } from "@/lib/validation";
 
 interface BookingDialogProps {
   vendorId: string;
@@ -120,6 +121,58 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
       return;
     }
 
+    // Validation
+    if (!weddingDate) {
+      toast({
+        title: "Validation error",
+        description: "Wedding date is required",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(weddingDate);
+    
+    if (selectedDate < today) {
+      toast({
+        title: "Validation error",
+        description: "Wedding date must be in the future",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const amountNum = parseFloat(amount);
+    if (!amount || isNaN(amountNum) || amountNum <= 0) {
+      toast({
+        title: "Validation error",
+        description: "Please enter a valid budget amount",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (amountNum > 10000000) {
+      toast({
+        title: "Validation error",
+        description: "Budget amount seems too high",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const trimmedRequirements = requirements.trim();
+    if (trimmedRequirements && trimmedRequirements.length > 500) {
+      toast({
+        title: "Validation error",
+        description: "Special requirements must be less than 500 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       toast({
@@ -137,8 +190,8 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
         vendor_id: vendorId,
         service_id: selectedService || null,
         wedding_date: weddingDate,
-        total_amount: parseFloat(amount),
-        special_requirements: requirements || null,
+        total_amount: amountNum,
+        special_requirements: trimmedRequirements ? sanitizeInput(trimmedRequirements) : null,
         status: "pending",
         advance_percentage: advancePercentage,
       }]);

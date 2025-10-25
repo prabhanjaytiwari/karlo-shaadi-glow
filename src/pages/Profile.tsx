@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Save, Download } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { sanitizeInput } from "@/lib/validation";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -75,12 +76,67 @@ const Profile = () => {
     setSaving(true);
 
     try {
+      // Validation
+      const trimmedName = profile.full_name.trim();
+      const trimmedPhone = profile.phone?.trim() || "";
+      const trimmedCity = profile.city?.trim() || "";
+
+      if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 100) {
+        toast({
+          title: "Validation error",
+          description: "Name must be between 2-100 characters",
+          variant: "destructive",
+        });
+        setSaving(false);
+        return;
+      }
+
+      if (trimmedPhone && !/^[6-9]\d{9}$/.test(trimmedPhone)) {
+        toast({
+          title: "Validation error",
+          description: "Please enter a valid Indian phone number",
+          variant: "destructive",
+        });
+        setSaving(false);
+        return;
+      }
+
+      if (trimmedCity && trimmedCity.length > 100) {
+        toast({
+          title: "Validation error",
+          description: "City name must be less than 100 characters",
+          variant: "destructive",
+        });
+        setSaving(false);
+        return;
+      }
+
+      if (profile.guest_count && (profile.guest_count < 1 || profile.guest_count > 10000)) {
+        toast({
+          title: "Validation error",
+          description: "Guest count must be between 1-10,000",
+          variant: "destructive",
+        });
+        setSaving(false);
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase
         .from("profiles")
-        .update(profile)
+        .update({
+          full_name: sanitizeInput(trimmedName),
+          phone: trimmedPhone || null,
+          city: trimmedCity ? sanitizeInput(trimmedCity) : null,
+          wedding_date: profile.wedding_date || null,
+          budget_range: profile.budget_range || null,
+          partner_name: profile.partner_name ? sanitizeInput(profile.partner_name.trim()) : null,
+          venue_city: profile.venue_city ? sanitizeInput(profile.venue_city.trim()) : null,
+          guest_count: profile.guest_count || null,
+          preferred_season: profile.preferred_season || null,
+        })
         .eq("id", user.id);
 
       if (error) throw error;

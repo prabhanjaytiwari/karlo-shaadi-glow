@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Building2, MapPin, Users, Calendar } from "lucide-react";
+import { sanitizeInput } from "@/lib/validation";
 
 import { Database } from "@/integrations/supabase/types";
 
@@ -49,19 +50,53 @@ export default function VendorOnboarding() {
     setLoading(true);
 
     try {
+      // Validate inputs
+      const trimmedBusinessName = formData.businessName.trim();
+      const trimmedDescription = formData.description.trim();
+
+      if (!trimmedBusinessName || trimmedBusinessName.length < 3 || trimmedBusinessName.length > 100) {
+        toast({
+          title: "Validation error",
+          description: "Business name must be between 3-100 characters",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (!trimmedDescription || trimmedDescription.length < 20 || trimmedDescription.length > 500) {
+        toast({
+          title: "Validation error",
+          description: "Description must be between 20-500 characters",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.category || !formData.cityId) {
+        toast({
+          title: "Validation error",
+          description: "Category and city are required",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error: vendorError } = await supabase.from("vendors").insert([{
         user_id: user.id,
-        business_name: formData.businessName,
+        business_name: sanitizeInput(trimmedBusinessName),
         category: formData.category as Database["public"]["Enums"]["vendor_category"],
         city_id: formData.cityId || null,
-        description: formData.description,
+        description: sanitizeInput(trimmedDescription),
         years_experience: parseInt(formData.yearsExperience) || 0,
         team_size: parseInt(formData.teamSize) || null,
-        website_url: formData.websiteUrl || null,
-        instagram_handle: formData.instagramHandle || null,
+        website_url: formData.websiteUrl ? sanitizeInput(formData.websiteUrl.trim()) : null,
+        instagram_handle: formData.instagramHandle ? sanitizeInput(formData.instagramHandle.trim()) : null,
       }]);
 
       if (vendorError) throw vendorError;

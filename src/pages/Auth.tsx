@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Eye, EyeOff, Heart } from "lucide-react";
+import { sanitizeInput } from "@/lib/validation";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -31,9 +32,20 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Basic validation
+    if (!loginEmail.trim() || !loginPassword) {
+      toast({
+        title: "Validation error",
+        description: "Email and password are required",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
+        email: sanitizeInput(loginEmail.trim()),
         password: loginPassword,
       });
 
@@ -84,14 +96,59 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    // Validation
+    const trimmedName = fullName.trim();
+    const trimmedEmail = signupEmail.trim();
+    const trimmedPhone = phone.trim();
+
+    if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 100) {
+      toast({
+        title: "Validation error",
+        description: "Name must be between 2-100 characters",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (!/^[a-zA-Z\s]+$/.test(trimmedName)) {
+      toast({
+        title: "Validation error",
+        description: "Name can only contain letters and spaces",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (trimmedPhone && !/^[6-9]\d{9}$/.test(trimmedPhone)) {
+      toast({
+        title: "Validation error",
+        description: "Please enter a valid Indian phone number (10 digits starting with 6-9)",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (signupPassword.length < 6) {
+      toast({
+        title: "Validation error",
+        description: "Password must be at least 6 characters",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.auth.signUp({
-        email: signupEmail,
+        email: sanitizeInput(trimmedEmail),
         password: signupPassword,
         options: {
           data: {
-            full_name: fullName,
-            phone: phone,
+            full_name: sanitizeInput(trimmedName),
+            phone: trimmedPhone || null,
           },
           emailRedirectTo: `${window.location.origin}/dashboard`,
         },

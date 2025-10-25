@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Send, Loader2 } from "lucide-react";
+import { sanitizeInput } from "@/lib/validation";
 
 interface MessagingDialogProps {
   vendorId: string;
@@ -67,6 +68,27 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
   const sendMessage = async () => {
     if (!user || !message.trim()) return;
 
+    const trimmedMessage = message.trim();
+    
+    // Validation
+    if (trimmedMessage.length < 1) {
+      toast({
+        title: "Validation error",
+        description: "Message cannot be empty",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (trimmedMessage.length > 2000) {
+      toast({
+        title: "Validation error",
+        description: "Message must be less than 2000 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSending(true);
     try {
       // Get vendor's user_id
@@ -81,7 +103,7 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
       const { error } = await supabase.from("messages").insert([{
         sender_id: user.id,
         recipient_id: vendor.user_id,
-        message: message.trim(),
+        message: sanitizeInput(trimmedMessage),
       }]);
 
       if (error) throw error;
