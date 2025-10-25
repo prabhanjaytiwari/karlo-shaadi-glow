@@ -5,3 +5,12 @@ verify_jwt = true
 
 [functions.verify-payment]
 verify_jwt = true
+
+[functions.create-vendor-subscription]
+verify_jwt = true
+
+[functions.manage-vendor-tier]
+verify_jwt = true
+
+[functions.vendor-subscription-webhook]
+verify_jwt = false
