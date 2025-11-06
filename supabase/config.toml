@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.ai-wedding-planner]
 verify_jwt = true
+
+[functions.smart-vendor-matching]
+verify_jwt = true

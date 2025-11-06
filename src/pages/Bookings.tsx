@@ -11,6 +11,7 @@ import { Calendar, MapPin, DollarSign, MessageSquare, XCircle } from "lucide-rea
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookingCancellationDialog } from "@/components/BookingCancellationDialog";
+import { FinalPaymentDialog } from "@/components/FinalPaymentDialog";
 import { EmptyState } from "@/components/EmptyState";
 
 interface Booking {
@@ -18,6 +19,7 @@ interface Booking {
   wedding_date: string;
   status: string;
   total_amount: number;
+  advance_percentage: number;
   special_requirements: string;
   created_at: string;
   vendor: {
@@ -32,6 +34,7 @@ export default function Bookings() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const [finalPaymentDialogOpen, setFinalPaymentDialogOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -190,15 +193,27 @@ export default function Bookings() {
                       </div>
                     )}
                     
-                    {(booking.status === "pending" || booking.status === "confirmed") && (
-                      <div className="mt-4 pt-4 border-t flex gap-3">
+                    {(booking.status === "pending" || booking.status === "confirmed" || booking.status === "completed") && (
+                      <div className="mt-4 pt-4 border-t flex gap-3 flex-wrap">
                         {booking.status === "pending" && (
                           <Button
                             onClick={() => navigate(`/checkout/${booking.id}`)}
                             className="flex-1"
                           >
                             <DollarSign className="h-4 w-4 mr-2" />
-                            Pay Now
+                            Pay Advance
+                          </Button>
+                        )}
+                        {booking.status === "completed" && (
+                          <Button
+                            onClick={() => {
+                              setSelectedBooking(booking);
+                              setFinalPaymentDialogOpen(true);
+                            }}
+                            className="flex-1"
+                          >
+                            <DollarSign className="h-4 w-4 mr-2" />
+                            Pay Remaining Amount
                           </Button>
                         )}
                         <Button
@@ -208,17 +223,19 @@ export default function Bookings() {
                           <MessageSquare className="h-4 w-4 mr-2" />
                           Message Vendor
                         </Button>
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            setSelectedBooking(booking);
-                            setCancelDialogOpen(true);
-                          }}
-                          className="text-destructive hover:bg-destructive/10"
-                        >
-                          <XCircle className="h-4 w-4 mr-2" />
-                          Cancel Booking
-                        </Button>
+                        {booking.status !== "completed" && (
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              setSelectedBooking(booking);
+                              setCancelDialogOpen(true);
+                            }}
+                            className="text-destructive hover:bg-destructive/10"
+                          >
+                            <XCircle className="h-4 w-4 mr-2" />
+                            Cancel Booking
+                          </Button>
+                        )}
                       </div>
                     )}
                   </CardContent>
@@ -232,13 +249,28 @@ export default function Bookings() {
       <BhindiFooter />
       
       {selectedBooking && (
-        <BookingCancellationDialog
-          bookingId={selectedBooking.id}
-          vendorName={selectedBooking.vendor.business_name}
-          open={cancelDialogOpen}
-          onOpenChange={setCancelDialogOpen}
-          onSuccess={loadBookings}
-        />
+        <>
+          <BookingCancellationDialog
+            bookingId={selectedBooking.id}
+            vendorName={selectedBooking.vendor.business_name}
+            weddingDate={selectedBooking.wedding_date}
+            totalAmount={selectedBooking.total_amount}
+            paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100}
+            open={cancelDialogOpen}
+            onOpenChange={setCancelDialogOpen}
+            onSuccess={loadBookings}
+          />
+          <FinalPaymentDialog
+            bookingId={selectedBooking.id}
+            vendorName={selectedBooking.vendor.business_name}
+            totalAmount={selectedBooking.total_amount}
+            paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100}
+            weddingDate={selectedBooking.wedding_date}
+            open={finalPaymentDialogOpen}
+            onOpenChange={setFinalPaymentDialogOpen}
+            onSuccess={loadBookings}
+          />
+        </>
       )}
     </div>
   );

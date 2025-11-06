@@ -17,6 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 interface BookingCancellationDialogProps {
   bookingId: string;
   vendorName: string;
+  weddingDate: string;
+  totalAmount: number;
+  paidAmount: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: () => void;
@@ -25,6 +28,9 @@ interface BookingCancellationDialogProps {
 export function BookingCancellationDialog({
   bookingId,
   vendorName,
+  weddingDate,
+  totalAmount,
+  paidAmount,
   open,
   onOpenChange,
   onSuccess,
@@ -32,6 +38,25 @@ export function BookingCancellationDialog({
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
+  // Calculate refund based on days until wedding
+  const calculateRefund = () => {
+    const now = new Date();
+    const wedding = new Date(weddingDate);
+    const daysUntilWedding = Math.floor((wedding.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysUntilWedding >= 30) {
+      return { percentage: 100, amount: paidAmount };
+    } else if (daysUntilWedding >= 15) {
+      return { percentage: 50, amount: paidAmount * 0.5 };
+    } else if (daysUntilWedding >= 7) {
+      return { percentage: 25, amount: paidAmount * 0.25 };
+    } else {
+      return { percentage: 0, amount: 0 };
+    }
+  };
+
+  const refund = calculateRefund();
 
   const handleCancel = async () => {
     if (!reason.trim()) {
@@ -81,7 +106,24 @@ export function BookingCancellationDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Cancel Booking</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to cancel your booking with {vendorName}? This action cannot be undone.
+            This will cancel your booking with {vendorName}.
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Paid Amount:</span>
+                <span className="font-semibold">₹{paidAmount.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Refund ({refund.percentage}%):</span>
+                <span className={`font-bold ${refund.percentage > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  ₹{refund.amount.toLocaleString()}
+                </span>
+              </div>
+              {refund.percentage === 0 && (
+                <p className="text-xs text-red-600 mt-2">
+                  Cancellations within 7 days of the wedding are non-refundable as per our policy.
+                </p>
+              )}
+            </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         

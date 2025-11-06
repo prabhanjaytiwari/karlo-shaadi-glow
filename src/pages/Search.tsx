@@ -4,10 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
-import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { GlassCard } from "@/components/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown } from "lucide-react";
@@ -16,6 +16,7 @@ import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
 import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
+import { SmartVendorMatch } from "@/components/SmartVendorMatch";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -168,6 +169,15 @@ export default function Search() {
                 Search
               </Button>
             </GlassCard>
+          </div>
+
+          {/* Smart Matching */}
+          <div className="mb-8">
+            <SmartVendorMatch
+              category={selectedCategory !== "all" ? selectedCategory : undefined}
+              budget={undefined}
+              city={selectedCity !== "all" ? selectedCity : undefined}
+            />
           </div>
 
           {/* Results */}

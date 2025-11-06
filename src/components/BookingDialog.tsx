@@ -57,17 +57,40 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
   }, [weddingDate]);
 
   const loadServices = async () => {
-    const { data } = await supabase
-      .from("vendor_services")
-      .select("*")
-      .eq("vendor_id", vendorId)
-      .eq("is_active", true);
-    
-    if (data) {
-      setServices(data);
-      if (data.length === 1 && !selectedService) {
-        setSelectedService(data[0].id);
+    try {
+      // Check if vendor is verified
+      const { data: vendorData, error: vendorError } = await supabase
+        .from("vendors")
+        .select("verified, business_name")
+        .eq("id", vendorId)
+        .single();
+
+      if (vendorError) throw vendorError;
+
+      if (!vendorData?.verified) {
+        toast({
+          title: "Vendor Not Verified",
+          description: `${vendorData?.business_name || "This vendor"} is pending verification. Only verified vendors can accept bookings.`,
+          variant: "destructive",
+        });
+        setOpen(false);
+        return;
       }
+
+      const { data } = await supabase
+        .from("vendor_services")
+        .select("*")
+        .eq("vendor_id", vendorId)
+        .eq("is_active", true);
+    
+      if (data) {
+        setServices(data);
+        if (data.length === 1 && !selectedService) {
+          setSelectedService(data[0].id);
+        }
+      }
+    } catch (error: any) {
+      console.error("Error loading services:", error);
     }
   };
 
