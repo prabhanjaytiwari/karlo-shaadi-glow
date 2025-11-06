@@ -11,6 +11,7 @@ import { Calendar, MapPin, DollarSign, MessageSquare, XCircle } from "lucide-rea
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BookingCancellationDialog } from "@/components/BookingCancellationDialog";
+import { EmptyState } from "@/components/EmptyState";
 
 interface Booking {
   id: string;
@@ -124,12 +125,13 @@ export default function Bookings() {
               ))}
             </div>
           ) : filteredBookings.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <p className="text-muted-foreground mb-4">No bookings found</p>
-                <Button onClick={() => navigate("/search")}>Browse Vendors</Button>
-              </CardContent>
-            </Card>
+            <EmptyState
+              icon={Calendar}
+              title="No Bookings Yet"
+              description="You haven't made any bookings yet. Start exploring our verified vendors and book your dream wedding services."
+              actionText="Browse Vendors"
+              actionLink="/search"
+            />
           ) : (
             <div className="space-y-4">
               {filteredBookings.map((booking) => (

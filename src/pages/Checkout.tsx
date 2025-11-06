@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Shield, Calendar, DollarSign, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
 import { trackPaymentInitiated, trackPaymentCompleted, trackPaymentFailed } from "@/lib/analytics";
+import { TrustBadges } from "@/components/TrustBadges";
 
 declare global {
   interface Window {
@@ -278,6 +279,13 @@ export default function Checkout() {
                       </p>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* Trust Badges */}
+              <Card>
+                <CardContent className="p-4">
+                  <TrustBadges />
                 </CardContent>
               </Card>
             </div>

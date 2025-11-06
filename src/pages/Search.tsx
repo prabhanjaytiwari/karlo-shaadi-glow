@@ -9,9 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
+import { TrustSignals } from "@/components/TrustSignals";
+import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
+import { EmptyState } from "@/components/EmptyState";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -24,6 +28,7 @@ export default function Search() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all");
   const [selectedCity, setSelectedCity] = useState(searchParams.get("city") || "all");
+  const [selectedForComparison, setSelectedForComparison] = useState<any[]>([]);
 
   useEffect(() => {
     loadData();
@@ -171,9 +176,13 @@ export default function Search() {
               <Loader2 className="h-8 w-8 animate-spin text-accent" />
             </div>
           ) : vendors.length === 0 ? (
-            <div className="text-center py-20 animate-fade-in">
-              <p className="text-muted-foreground text-lg">No vendors found. Try adjusting your filters.</p>
-            </div>
+            <EmptyState
+              icon={SearchIcon}
+              title="No Vendors Found"
+              description="We couldn't find any vendors matching your criteria. Try adjusting your filters or browse all vendors."
+              actionText="Browse All Vendors"
+              actionLink="/categories"
+            />
           ) : (
             <div className="space-y-6">
               <p className="text-muted-foreground animate-fade-in">
@@ -184,92 +193,135 @@ export default function Search() {
                 const badge = getVendorBadge(vendor as Vendor);
                 const isSponsored = vendor.subscription_tier === 'sponsored';
                 const isFeatured = vendor.subscription_tier === 'featured';
+                const isSelected = selectedForComparison.some(v => v.id === vendor.id);
+                
+                // Mock trust signal data (in production, fetch from database)
+                const lastBookedHours = Math.random() > 0.5 ? Math.floor(Math.random() * 48) : undefined;
+                const availabilityCount = Math.random() > 0.7 ? Math.floor(Math.random() * 5) + 1 : undefined;
 
                 return (
-                  <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
-                    <GlassCard 
-                      hover
-                      className={`p-6 animate-fade-up transition-all duration-300 ${
-                        isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
-                      }`}
-                      style={{ animationDelay: `${i * 100}ms` }}
-                    >
-                      <div className="flex flex-col md:flex-row gap-6">
-                        <div className="md:w-1/4 relative">
-                          <div className={`aspect-square rounded-xl flex items-center justify-center ${
-                            isSponsored 
-                              ? 'bg-gradient-to-br from-primary/30 to-accent/30' 
-                              : isFeatured 
-                                ? 'bg-gradient-to-br from-accent/30 to-secondary/30'
-                                : 'bg-gradient-to-br from-accent/20 to-secondary/20'
-                          }`}>
-                            <span className={`text-4xl font-bold ${
-                              isSponsored ? 'text-primary' : 'text-accent'
+                  <div key={vendor.id} className="relative">
+                    <Link to={`/vendors/${vendor.id}`}>
+                      <GlassCard 
+                        hover
+                        className={`p-6 animate-fade-up transition-all duration-300 ${
+                          isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
+                        }`}
+                        style={{ animationDelay: `${i * 100}ms` }}
+                      >
+                        <div className="flex flex-col md:flex-row gap-6">
+                          <div className="md:w-1/4 relative">
+                            <div className={`aspect-square rounded-xl flex items-center justify-center ${
+                              isSponsored 
+                                ? 'bg-gradient-to-br from-primary/30 to-accent/30' 
+                                : isFeatured 
+                                  ? 'bg-gradient-to-br from-accent/30 to-secondary/30'
+                                  : 'bg-gradient-to-br from-accent/20 to-secondary/20'
                             }`}>
-                              {vendor.business_name.charAt(0)}
-                            </span>
-                          </div>
-                          {isSponsored && (
-                            <div className="absolute -top-2 -right-2">
-                              <Crown className="h-6 w-6 text-primary fill-primary/20" />
+                              <span className={`text-4xl font-bold ${
+                                isSponsored ? 'text-primary' : 'text-accent'
+                              }`}>
+                                {vendor.business_name.charAt(0)}
+                              </span>
                             </div>
-                          )}
-                          {isFeatured && (
-                            <div className="absolute -top-2 -right-2">
-                              <Sparkles className="h-6 w-6 text-accent fill-accent/20" />
+                            {isSponsored && (
+                              <div className="absolute -top-2 -right-2">
+                                <Crown className="h-6 w-6 text-primary fill-primary/20" />
+                              </div>
+                            )}
+                            {isFeatured && (
+                              <div className="absolute -top-2 -right-2">
+                                <Sparkles className="h-6 w-6 text-accent fill-accent/20" />
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="md:w-3/4">
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              {badge && (
+                                <Badge 
+                                  variant={badge.variant}
+                                  className="flex items-center gap-1 font-semibold"
+                                >
+                                  {badge.variant === 'premium' && <Crown className="h-3 w-3" />}
+                                  {badge.variant === 'accent' && <Sparkles className="h-3 w-3" />}
+                                  {badge.text}
+                                </Badge>
+                              )}
+                              {vendor.verified && (
+                                <Badge variant="outline" className="flex items-center gap-1">
+                                  <Shield className="h-3 w-3" />
+                                  Verified
+                                </Badge>
+                              )}
+                              <Badge variant="secondary">
+                                {vendor.category}
+                              </Badge>
                             </div>
-                          )}
-                        </div>
-                        
-                        <div className="md:w-3/4">
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            {badge && (
-                              <Badge 
-                                variant={badge.variant}
-                                className="flex items-center gap-1 font-semibold"
-                              >
-                                {badge.variant === 'premium' && <Crown className="h-3 w-3" />}
-                                {badge.variant === 'accent' && <Sparkles className="h-3 w-3" />}
-                                {badge.text}
-                              </Badge>
-                            )}
-                            {vendor.verified && (
-                              <Badge variant="outline" className="flex items-center gap-1">
-                                <Shield className="h-3 w-3" />
-                                Verified
-                              </Badge>
-                            )}
-                            <Badge variant="secondary">
-                              {vendor.category}
-                            </Badge>
-                          </div>
 
-                        <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
-                        <p className="text-muted-foreground mb-4 line-clamp-2">
-                          {vendor.description || "Professional wedding services"}
-                        </p>
+                            <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
+                            <p className="text-muted-foreground mb-4 line-clamp-2">
+                              {vendor.description || "Professional wedding services"}
+                            </p>
 
-                        <div className="flex flex-wrap items-center gap-4 text-sm">
-                          <div className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4 text-accent" />
-                            <span>{vendor.cities?.name || "India"}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Star className="h-4 w-4 text-accent fill-accent" />
-                            <span className="font-semibold">{vendor.average_rating || 0}</span>
-                            <span className="text-muted-foreground">
-                              ({vendor.total_reviews || 0} reviews)
-                            </span>
-                          </div>
-                          <div>
-                            <span className="font-semibold">{vendor.years_experience}+</span>
-                            <span className="text-muted-foreground"> years exp</span>
+                            <TrustSignals 
+                              lastBookedHours={lastBookedHours}
+                              totalBookings={vendor.total_reviews}
+                              responseTime="2 hours"
+                              availabilityCount={availabilityCount}
+                              className="mb-4"
+                            />
+
+                            <div className="flex flex-wrap items-center gap-4 text-sm">
+                              <div className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4 text-accent" />
+                                <span>{vendor.cities?.name || "India"}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Star className="h-4 w-4 text-accent fill-accent" />
+                                <span className="font-semibold">{vendor.average_rating || 0}</span>
+                                <span className="text-muted-foreground">
+                                  ({vendor.total_reviews || 0} reviews)
+                                </span>
+                              </div>
+                              <div>
+                                <span className="font-semibold">{vendor.years_experience}+</span>
+                                <span className="text-muted-foreground"> years exp</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        </div>
+                      </GlassCard>
+                    </Link>
+                    
+                    {/* Compare Checkbox */}
+                    <div 
+                      className="absolute top-4 right-4 z-10"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <div className="flex items-center gap-2 bg-background/95 backdrop-blur-sm border rounded-lg px-3 py-2 shadow-md">
+                        <Checkbox
+                          id={`compare-${vendor.id}`}
+                          checked={isSelected}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              if (selectedForComparison.length >= 3) return;
+                              setSelectedForComparison([...selectedForComparison, vendor]);
+                            } else {
+                              setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendor.id));
+                            }
+                          }}
+                          disabled={!isSelected && selectedForComparison.length >= 3}
+                        />
+                        <label 
+                          htmlFor={`compare-${vendor.id}`}
+                          className="text-sm font-medium cursor-pointer"
+                        >
+                          Compare
+                        </label>
                       </div>
-                    </GlassCard>
-                  </Link>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -278,6 +330,15 @@ export default function Search() {
       </main>
 
       <BhindiFooter />
+
+      {/* Vendor Comparison Toggle */}
+      <VendorComparisonToggle
+        selectedVendors={selectedForComparison}
+        onRemove={(vendorId) => {
+          setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendorId));
+        }}
+        onClear={() => setSelectedForComparison([])}
+      />
     </div>
   );
 }

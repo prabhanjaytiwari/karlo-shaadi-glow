@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Star, MapPin, Heart, StickyNote, Scale, Download, Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { VendorComparison } from "@/components/vendor/VendorComparison";
+import { EmptyState } from "@/components/EmptyState";
 
 interface Favorite {
   id: string;
@@ -201,16 +202,13 @@ export default function Favorites() {
               ))}
             </div>
           ) : favorites.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Heart className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                <p className="text-xl font-semibold mb-2">No favorites yet</p>
-                <p className="text-muted-foreground mb-4">
-                  Start adding vendors to your favorites list
-                </p>
-                <Button onClick={() => navigate("/search")}>Browse Vendors</Button>
-              </CardContent>
-            </Card>
+            <EmptyState
+              icon={Heart}
+              title="No Favorites Yet"
+              description="Start adding vendors to your favorites list to easily compare them and make the perfect choice for your wedding."
+              actionText="Browse Vendors"
+              actionLink="/search"
+            />
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {favorites.map((favorite) => (
