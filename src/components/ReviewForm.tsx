@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Label } from "@/components/ui/label";
 import { sanitizeInput } from "@/lib/validation";
+import { SuccessAnimation } from "@/components/SuccessAnimation";
 
 interface ReviewFormProps {
   bookingId: string;
@@ -24,6 +25,7 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
   const [loading, setLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -121,16 +123,15 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
         },
       });
 
-      toast({
-        title: "Review submitted",
-        description: "Thank you for your feedback!",
-      });
-
-      setRating(0);
-      setComment("");
-      setSelectedFiles([]);
-      setUploadedUrls([]);
-      onSuccess?.();
+      setShowSuccess(true);
+      
+      setTimeout(() => {
+        setRating(0);
+        setComment("");
+        setSelectedFiles([]);
+        setUploadedUrls([]);
+        onSuccess?.();
+      }, 2000);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -143,7 +144,14 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
   };
 
   return (
-    <Card>
+    <>
+      {showSuccess && (
+        <SuccessAnimation 
+          message="Review Submitted! ⭐ Thank you!" 
+          onComplete={() => setShowSuccess(false)}
+        />
+      )}
+      <Card>
       <CardHeader>
         <CardTitle>Leave a Review</CardTitle>
         <CardDescription>Share your experience with this vendor</CardDescription>
@@ -246,5 +254,6 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
         </form>
       </CardContent>
     </Card>
+    </>
   );
 }

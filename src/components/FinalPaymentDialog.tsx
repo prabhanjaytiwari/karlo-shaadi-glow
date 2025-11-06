@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import { SuccessAnimation } from "@/components/SuccessAnimation";
 
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ export const FinalPaymentDialog = ({
   onSuccess,
 }: FinalPaymentDialogProps) => {
   const [processing, setProcessing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -82,12 +84,12 @@ export const FinalPaymentDialog = ({
 
             if (verifyError) throw verifyError;
 
-            toast({
-              title: "Payment Successful!",
-              description: "Final payment completed. Thank you for using Karlo Shaadi!",
-            });
-            onSuccess();
+            setShowSuccess(true);
             onOpenChange(false);
+            
+            setTimeout(() => {
+              onSuccess();
+            }, 2000);
           } catch (error: any) {
             toast({
               title: "Payment verification failed",
@@ -119,7 +121,14 @@ export const FinalPaymentDialog = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <>
+      {showSuccess && (
+        <SuccessAnimation 
+          message="Payment Complete! 💰✨" 
+          onComplete={() => setShowSuccess(false)}
+        />
+      )}
+      <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Final Payment</DialogTitle>
@@ -190,5 +199,6 @@ export const FinalPaymentDialog = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    </>
   );
 };

@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { sanitizeInput } from "@/lib/validation";
+import { SuccessAnimation } from "@/components/SuccessAnimation";
 
 interface BookingDialogProps {
   vendorId: string;
@@ -32,6 +33,7 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
   const [unavailableDates, setUnavailableDates] = useState<string[]>([]);
   const [isDateAvailable, setIsDateAvailable] = useState<boolean | null>(null);
   const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -242,21 +244,19 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
         .limit(1)
         .single();
 
-      toast({
-        title: "Booking request sent!",
-        description: "The vendor will respond to your request soon.",
-      });
-
+      setShowSuccess(true);
       setOpen(false);
       setWeddingDate("");
       setAmount("");
       setRequirements("");
       setSelectedService("");
 
-      // Navigate to confirmation page
-      if (newBooking) {
-        window.location.href = `/booking-confirmation?bookingId=${newBooking.id}`;
-      }
+      // Navigate to confirmation page after animation
+      setTimeout(() => {
+        if (newBooking) {
+          window.location.href = `/booking-confirmation?bookingId=${newBooking.id}`;
+        }
+      }, 2000);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -269,7 +269,14 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <>
+      {showSuccess && (
+        <SuccessAnimation 
+          message="Booking Request Sent! 🎉" 
+          onComplete={() => setShowSuccess(false)}
+        />
+      )}
+      <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children || (
           <Button variant="hero" size="lg">
@@ -410,5 +417,6 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
         </form>
       </DialogContent>
     </Dialog>
+    </>
   );
 }
