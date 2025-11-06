@@ -101,13 +101,6 @@ export default function VendorOnboarding() {
 
       if (vendorError) throw vendorError;
 
-      const { error: roleError } = await supabase.from("user_roles").insert([{
-        user_id: user.id,
-        role: "vendor" as Database["public"]["Enums"]["app_role"],
-      }]);
-
-      if (roleError) throw roleError;
-
       toast({
         title: "Success!",
         description: "Your vendor profile has been created.",
