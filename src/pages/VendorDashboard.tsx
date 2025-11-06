@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings } from "lucide-react";
+import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -16,6 +16,9 @@ import { ReviewResponse } from "@/components/vendor/ReviewResponse";
 import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
 import { VendorProfileEdit } from "@/components/vendor/VendorProfileEdit";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { BulkPortfolioUpload } from "@/components/vendor/BulkPortfolioUpload";
+import { VendorMessagingInbox } from "@/components/vendor/VendorMessagingInbox";
+import { RevenueCharts } from "@/components/vendor/RevenueCharts";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -40,6 +43,11 @@ export default function VendorDashboard() {
   const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
   const [portfolioDialogOpen, setPortfolioDialogOpen] = useState(false);
   const [editingService, setEditingService] = useState<any>(null);
+  const [revenueData, setRevenueData] = useState({
+    monthlyData: [] as any[],
+    categoryBreakdown: [] as any[],
+    conversionData: { inquiries: 0, bookings: 0, conversionRate: 0 }
+  });
 
   useEffect(() => {
     checkVendorAccess();
@@ -71,6 +79,7 @@ export default function VendorDashboard() {
       loadBookings(vendorData.id);
       loadReviews(vendorData.id);
       loadSubscription(vendorData.id);
+      loadRevenueData(vendorData.id);
     } catch (error) {
       console.error("Error:", error);
       navigate("/vendor/onboarding");
@@ -153,6 +162,34 @@ export default function VendorDashboard() {
       .single();
     
     if (data) setSubscription(data);
+  };
+
+  const loadRevenueData = async (vendorId: string) => {
+    // Generate mock data for last 6 months
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const monthlyData = months.map(month => ({
+      month,
+      revenue: Math.floor(Math.random() * 200000) + 50000,
+      bookings: Math.floor(Math.random() * 15) + 5,
+      avgBookingValue: Math.floor(Math.random() * 30000) + 20000
+    }));
+
+    const categoryBreakdown = [
+      { name: 'Photography', value: 120000 },
+      { name: 'Catering', value: 95000 },
+      { name: 'Decoration', value: 75000 },
+      { name: 'Music', value: 45000 }
+    ];
+
+    setRevenueData({
+      monthlyData,
+      categoryBreakdown,
+      conversionData: {
+        inquiries: 45,
+        bookings: stats.totalBookings,
+        conversionRate: stats.totalBookings > 0 ? Math.round((stats.totalBookings / 45) * 100) : 0
+      }
+    });
   };
 
   const getSubscriptionBadge = () => {
@@ -329,30 +366,38 @@ export default function VendorDashboard() {
           </div>
 
           <Tabs defaultValue="analytics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6 lg:w-auto">
+            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 lg:w-auto">
               <TabsTrigger value="analytics">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Analytics
+                <BarChart3 className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Analytics</span>
+              </TabsTrigger>
+              <TabsTrigger value="revenue">
+                <TrendingUp className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Revenue</span>
               </TabsTrigger>
               <TabsTrigger value="bookings">
-                <Calendar className="h-4 w-4 mr-2" />
-                Bookings
+                <Calendar className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Bookings</span>
+              </TabsTrigger>
+              <TabsTrigger value="messages">
+                <MessageSquare className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Messages</span>
               </TabsTrigger>
               <TabsTrigger value="services">
-                <Package className="h-4 w-4 mr-2" />
-                Services
+                <Package className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Services</span>
               </TabsTrigger>
               <TabsTrigger value="portfolio">
-                <Images className="h-4 w-4 mr-2" />
-                Portfolio
+                <Images className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Portfolio</span>
               </TabsTrigger>
               <TabsTrigger value="reviews">
-                <Star className="h-4 w-4 mr-2" />
-                Reviews
+                <Star className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Reviews</span>
               </TabsTrigger>
               <TabsTrigger value="profile">
-                <User className="h-4 w-4 mr-2" />
-                Profile
+                <User className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Profile</span>
               </TabsTrigger>
             </TabsList>
 
@@ -360,31 +405,56 @@ export default function VendorDashboard() {
               <VendorAnalytics stats={stats} />
             </TabsContent>
 
+            <TabsContent value="revenue">
+              <RevenueCharts
+                vendorId={vendor.id}
+                monthlyData={revenueData.monthlyData}
+                categoryBreakdown={revenueData.categoryBreakdown}
+                conversionData={revenueData.conversionData}
+              />
+            </TabsContent>
+
             <TabsContent value="bookings">
-              <div className="space-y-4">
-                {bookings.length === 0 ? (
-                  <Card>
-                    <CardContent className="py-8">
-                      <p className="text-center text-muted-foreground">
-                        No bookings yet. Share your profile to get started!
-                      </p>
-                    </CardContent>
-                  </Card>
-                ) : (
-                  <div className="grid gap-4">
-                    {bookings.map((booking) => (
-                      <BookingManagementCard
-                        key={booking.id}
-                        booking={booking}
-                        onUpdate={() => {
-                          loadBookings(vendor.id);
-                          loadStats(vendor.id);
-                        }}
-                      />
-                    ))}
+              <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Your Bookings</h3>
+                    {bookings.length === 0 ? (
+                      <Card>
+                        <CardContent className="py-8">
+                          <p className="text-center text-muted-foreground">
+                            No bookings yet. Share your profile to get started!
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <div className="grid gap-4">
+                        {bookings.map((booking) => (
+                          <BookingManagementCard
+                            key={booking.id}
+                            booking={booking}
+                            onUpdate={() => {
+                              loadBookings(vendor.id);
+                              loadStats(vendor.id);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Availability Calendar</h3>
+                  <AvailabilityCalendar vendorId={vendor.id} />
+                </div>
               </div>
+            </TabsContent>
+
+            <TabsContent value="messages">
+              {vendor && (
+                <VendorMessagingInbox vendorUserId={vendor.user_id} />
+              )}
             </TabsContent>
 
             <TabsContent value="services">
@@ -463,18 +533,27 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="portfolio">
-              <div className="space-y-4">
+              {vendor && (
+                <BulkPortfolioUpload
+                  vendorId={vendor.id}
+                  onSuccess={() => {
+                    loadPortfolio(vendor.id);
+                    toast({
+                      title: "Portfolio updated",
+                      description: "Your images have been uploaded successfully.",
+                    });
+                  }}
+                />
+              )}
+
+              <div className="mt-8 space-y-4">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-lg font-semibold">Portfolio</h3>
+                    <h3 className="text-lg font-semibold">Your Portfolio</h3>
                     <p className="text-sm text-muted-foreground">
-                      Showcase your best work to attract clients
+                      {portfolio.length} images uploaded
                     </p>
                   </div>
-                  <Button onClick={() => setPortfolioDialogOpen(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Upload Images
-                  </Button>
                 </div>
 
                 {portfolio.length === 0 ? (
