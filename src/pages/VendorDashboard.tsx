@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Package, Images, Star, MessageSquare, TrendingUp, LogOut, Plus, Trash2 } from "lucide-react";
+import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -13,6 +13,9 @@ import { PortfolioUpload } from "@/components/vendor/PortfolioUpload";
 import { AvailabilityCalendar } from "@/components/vendor/AvailabilityCalendar";
 import { BookingManagementCard } from "@/components/vendor/BookingManagementCard";
 import { ReviewResponse } from "@/components/vendor/ReviewResponse";
+import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
+import { VendorProfileEdit } from "@/components/vendor/VendorProfileEdit";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -23,7 +26,11 @@ export default function VendorDashboard() {
   const [stats, setStats] = useState({
     totalBookings: 0,
     pendingBookings: 0,
+    confirmedBookings: 0,
+    completedBookings: 0,
     revenue: 0,
+    avgBookingValue: 0,
+    responseRate: 95,
     avgRating: 0,
   });
   const [services, setServices] = useState<any[]>([]);
@@ -80,14 +87,23 @@ export default function VendorDashboard() {
 
     if (bookings) {
       const pending = bookings.filter(b => b.status === "pending").length;
+      const confirmed = bookings.filter(b => b.status === "confirmed").length;
+      const completed = bookings.filter(b => b.status === "completed").length;
       const revenue = bookings
         .filter(b => b.status === "completed")
         .reduce((sum, b) => sum + Number(b.total_amount), 0);
+      const avgValue = bookings.length > 0 
+        ? bookings.reduce((sum, b) => sum + Number(b.total_amount), 0) / bookings.length 
+        : 0;
 
       setStats({
         totalBookings: bookings.length,
         pendingBookings: pending,
+        confirmedBookings: confirmed,
+        completedBookings: completed,
         revenue,
+        avgBookingValue: avgValue,
+        responseRate: 95, // Could calculate from messages in future
         avgRating: vendor?.average_rating || 0,
       });
     }
@@ -184,7 +200,11 @@ export default function VendorDashboard() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="xl" text="Loading your dashboard..." />
+      </div>
+    );
   }
 
   return (
@@ -308,14 +328,37 @@ export default function VendorDashboard() {
             </Card>
           </div>
 
-          <Tabs defaultValue="bookings" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="bookings">Bookings</TabsTrigger>
-              <TabsTrigger value="services">Services</TabsTrigger>
-              <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-              <TabsTrigger value="availability">Availability</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          <Tabs defaultValue="analytics" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-6 lg:w-auto">
+              <TabsTrigger value="analytics">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="bookings">
+                <Calendar className="h-4 w-4 mr-2" />
+                Bookings
+              </TabsTrigger>
+              <TabsTrigger value="services">
+                <Package className="h-4 w-4 mr-2" />
+                Services
+              </TabsTrigger>
+              <TabsTrigger value="portfolio">
+                <Images className="h-4 w-4 mr-2" />
+                Portfolio
+              </TabsTrigger>
+              <TabsTrigger value="reviews">
+                <Star className="h-4 w-4 mr-2" />
+                Reviews
+              </TabsTrigger>
+              <TabsTrigger value="profile">
+                <User className="h-4 w-4 mr-2" />
+                Profile
+              </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="analytics">
+              <VendorAnalytics stats={stats} />
+            </TabsContent>
 
             <TabsContent value="bookings">
               <div className="space-y-4">
@@ -502,6 +545,19 @@ export default function VendorDashboard() {
                   </div>
                 )}
               </div>
+            </TabsContent>
+
+            <TabsContent value="profile">
+              <VendorProfileEdit 
+                vendor={vendor} 
+                onUpdate={() => {
+                  checkVendorAccess();
+                  toast({
+                    title: "Profile updated",
+                    description: "Your changes have been saved successfully.",
+                  });
+                }} 
+              />
             </TabsContent>
           </Tabs>
         </div>
