@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Shimmer keyframe for skeletons */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* Premium Design System - Apple/Samsung Level Animations */
 
 @layer base {
