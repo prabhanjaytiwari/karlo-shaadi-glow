@@ -197,20 +197,25 @@ export const BhindiHeader = () => {
                 <NavigationMenuList>
                 {/* Categories Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm transition-all duration-300">Categories</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[600px] gap-3 p-6 md:grid-cols-2 animate-fade-in">
-                      {categories.map((category) => (
-                        <ListItem
-                          key={category.title}
-                          title={category.title}
-                          href={category.href}
-                          icon={category.icon}
-                        >
-                          {category.description}
-                        </ListItem>
-                      ))}
-                    </ul>
+                    <div className="relative">
+                      {/* Premium header gradient */}
+                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+                      <ul className="grid w-[650px] gap-2 p-6 md:grid-cols-2">
+                        {categories.map((category, index) => (
+                          <ListItem
+                            key={category.title}
+                            title={category.title}
+                            href={category.href}
+                            icon={category.icon}
+                            index={index}
+                          >
+                            {category.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
@@ -292,167 +297,151 @@ export const BhindiHeader = () => {
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
+            <SheetContent side="right">
               <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
+                <SheetTitle className="text-left">
+                  <span className="bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text">
+                    Menu
+                  </span>
+                </SheetTitle>
               </SheetHeader>
               
-              <nav className="flex flex-col gap-4 mt-6">
-                {/* Search Bar */}
-                <form onSubmit={handleMobileSearch} className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Search vendors..."
-                    value={mobileSearchQuery}
-                    onChange={(e) => setMobileSearchQuery(e.target.value)}
-                    className="pl-9"
-                  />
+              <nav className="flex flex-col gap-5 mt-4">
+                {/* Premium Search Bar */}
+                <form onSubmit={handleMobileSearch} className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 rounded-xl opacity-0 group-focus-within:opacity-100 blur-xl transition-opacity duration-300" />
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-accent transition-colors duration-300" />
+                    <Input
+                      type="text"
+                      placeholder="Search vendors..."
+                      value={mobileSearchQuery}
+                      onChange={(e) => setMobileSearchQuery(e.target.value)}
+                      className="pl-11 h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:border-accent/50 transition-all duration-300"
+                    />
+                  </div>
                 </form>
 
                 {/* Quick Actions for Logged In Users */}
                 {user && (
                   <>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        className="justify-start"
-                        onClick={() => {
-                          navigate("/bookings");
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <Calendar className="h-4 w-4 mr-2" />
-                        Bookings
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="justify-start"
-                        onClick={() => {
-                          navigate("/favorites");
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <Heart className="h-4 w-4 mr-2" />
-                        Favorites
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="justify-start"
-                        onClick={() => {
-                          navigate("/messages");
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <MessageSquare className="h-4 w-4 mr-2" />
-                        Messages
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="justify-start"
-                        onClick={() => {
-                          navigate("/profile");
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <User className="h-4 w-4 mr-2" />
-                        Profile
-                      </Button>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { icon: Calendar, label: "Bookings", href: "/bookings" },
+                        { icon: Heart, label: "Favorites", href: "/favorites" },
+                        { icon: MessageSquare, label: "Messages", href: "/messages" },
+                        { icon: User, label: "Profile", href: "/profile" },
+                      ].map((item, index) => (
+                        <button
+                          key={item.href}
+                          className={cn(
+                            "group flex items-center gap-3 p-4 rounded-xl",
+                            "bg-muted/30 hover:bg-accent/10",
+                            "border border-border/30 hover:border-accent/30",
+                            "transition-all duration-300",
+                            "hover:scale-[1.02] active:scale-[0.98]",
+                            "animate-fade-in"
+                          )}
+                          style={{ animationDelay: `${index * 50}ms` }}
+                          onClick={() => {
+                            navigate(item.href);
+                            setMobileMenuOpen(false);
+                          }}
+                        >
+                          <div className={cn(
+                            "w-9 h-9 rounded-lg",
+                            "bg-gradient-to-br from-primary/20 to-primary/5",
+                            "flex items-center justify-center",
+                            "group-hover:from-primary/30 group-hover:to-primary/10",
+                            "transition-all duration-300"
+                          )}>
+                            <item.icon className="h-4 w-4 text-primary" />
+                          </div>
+                          <span className="text-sm font-medium">{item.label}</span>
+                        </button>
+                      ))}
                     </div>
-                    <Separator />
+                    <Separator className="bg-border/30" />
                   </>
                 )}
 
-                {/* Categories */}
-                <div className="space-y-2">
-                  <p className="font-semibold text-sm text-muted-foreground px-2">Categories</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {categories.map((category) => (
-                      <Button
+                {/* Categories with staggered animation */}
+                <div className="space-y-3">
+                  <p className="font-semibold text-xs uppercase tracking-wider text-muted-foreground px-1">Categories</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {categories.map((category, index) => (
+                      <button
                         key={category.href}
-                        variant="ghost"
-                        className="justify-start h-auto py-3"
+                        className={cn(
+                          "group flex flex-col items-center gap-2 p-3 rounded-xl",
+                          "bg-muted/30 hover:bg-accent/10",
+                          "border border-transparent hover:border-accent/20",
+                          "transition-all duration-300",
+                          "hover:scale-105 active:scale-95",
+                          "animate-fade-in"
+                        )}
+                        style={{ animationDelay: `${index * 50}ms` }}
                         onClick={() => {
                           navigate(category.href);
                           setMobileMenuOpen(false);
                         }}
                       >
-                        <div className="flex flex-col items-center gap-1 w-full">
-                          <category.icon className="h-5 w-5 text-primary" />
-                          <span className="text-xs">{category.title}</span>
+                        <div className={cn(
+                          "w-10 h-10 rounded-xl",
+                          "bg-gradient-to-br from-accent/20 to-accent/5",
+                          "flex items-center justify-center",
+                          "group-hover:from-accent/30 group-hover:to-accent/10",
+                          "group-hover:shadow-lg group-hover:shadow-accent/20",
+                          "transition-all duration-300"
+                        )}>
+                          <category.icon className="h-5 w-5 text-accent" />
                         </div>
-                      </Button>
+                        <span className="text-[10px] font-medium text-center leading-tight">{category.title}</span>
+                      </button>
                     ))}
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="bg-border/30" />
 
-                {/* Other Links */}
+                {/* Other Links with premium styling */}
                 <div className="space-y-1">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      navigate("/stories");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Stories
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      navigate("/help");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Help Center
-                  </Button>
-                  {!user && (
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
+                  {[
+                    { label: "Stories", href: "/stories" },
+                    { label: "Help Center", href: "/help" },
+                    ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
+                    { label: "About Us", href: "/about" },
+                    { label: "Support", href: "/support" },
+                  ].map((link, index) => (
+                    <button
+                      key={link.href}
+                      className={cn(
+                        "w-full text-left px-4 py-3 rounded-lg",
+                        "text-sm font-medium text-muted-foreground",
+                        "hover:text-foreground hover:bg-muted/50",
+                        "transition-all duration-200",
+                        "animate-fade-in"
+                      )}
+                      style={{ animationDelay: `${(index + 8) * 50}ms` }}
                       onClick={() => {
-                        navigate("/for-vendors");
+                        navigate(link.href);
                         setMobileMenuOpen(false);
                       }}
                     >
-                      For Vendors
-                    </Button>
-                  )}
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      navigate("/about");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    About Us
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      navigate("/support");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Support
-                  </Button>
+                      {link.label}
+                    </button>
+                  ))}
                 </div>
 
-                <Separator />
+                <Separator className="bg-border/30" />
 
-                {/* Auth Buttons */}
-                <div className="space-y-2">
+                {/* Auth Buttons with premium styling */}
+                <div className="space-y-3 pb-8">
                   {user ? (
                     <>
                       <Button 
-                        variant="default" 
-                        className="w-full" 
+                        variant="premium" 
+                        className="w-full h-12 rounded-xl" 
                         onClick={() => { 
                           navigate("/dashboard"); 
                           setMobileMenuOpen(false); 
@@ -463,7 +452,7 @@ export const BhindiHeader = () => {
                       {isAdmin && (
                         <Button 
                           variant="default" 
-                          className="w-full" 
+                          className="w-full h-12 rounded-xl" 
                           onClick={() => { 
                             navigate("/admin/dashboard"); 
                             setMobileMenuOpen(false); 
@@ -473,8 +462,8 @@ export const BhindiHeader = () => {
                         </Button>
                       )}
                       <Button 
-                        variant="outline" 
-                        className="w-full" 
+                        variant="ghost" 
+                        className="w-full h-12 rounded-xl text-muted-foreground hover:text-destructive" 
                         onClick={() => { 
                           handleLogout(); 
                           setMobileMenuOpen(false); 
@@ -488,7 +477,7 @@ export const BhindiHeader = () => {
                     <>
                       <Button 
                         variant="outline" 
-                        className="w-full" 
+                        className="w-full h-12 rounded-xl border-border/50" 
                         onClick={() => { 
                           navigate("/auth"); 
                           setMobileMenuOpen(false); 
@@ -497,7 +486,8 @@ export const BhindiHeader = () => {
                         Login
                       </Button>
                       <Button 
-                        className="w-full" 
+                        variant="premium"
+                        className="w-full h-12 rounded-xl" 
                         onClick={() => { 
                           navigate("/auth"); 
                           setMobileMenuOpen(false); 
@@ -525,32 +515,57 @@ const ListItem = ({
   children,
   icon: Icon,
   href,
+  index = 0,
 }: {
   className?: string;
   title: string;
   children: React.ReactNode;
   icon: React.ComponentType<{ className?: string }>;
   href: string;
+  index?: number;
 }) => {
   return (
-    <li>
+    <li 
+      className="animate-fade-in"
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
       <NavigationMenuLink asChild>
         <Link
           to={href}
           className={cn(
-            "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground group hover:scale-105",
+            "group relative block select-none rounded-xl p-4 leading-none no-underline outline-none",
+            "transition-all duration-300 ease-out",
+            "hover:bg-accent/10 focus:bg-accent/10",
+            "hover:scale-[1.02] active:scale-[0.98]",
+            "border border-transparent hover:border-accent/20",
             className
           )}
         >
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-all duration-300">
-              <Icon className="h-4 w-4 text-accent" />
+          {/* Hover glow effect */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          <div className="relative flex items-start gap-3">
+            {/* Icon container with premium styling */}
+            <div className={cn(
+              "flex-shrink-0 w-10 h-10 rounded-xl",
+              "bg-gradient-to-br from-accent/20 to-accent/5",
+              "flex items-center justify-center",
+              "group-hover:from-accent/30 group-hover:to-accent/10",
+              "group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-accent/20",
+              "transition-all duration-300"
+            )}>
+              <Icon className="h-5 w-5 text-accent" />
             </div>
-            <div className="text-sm font-medium leading-none">{title}</div>
+            
+            <div className="space-y-1">
+              <div className="text-sm font-semibold leading-none group-hover:text-accent transition-colors duration-300">
+                {title}
+              </div>
+              <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                {children}
+              </p>
+            </div>
           </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground pl-10">
-            {children}
-          </p>
         </Link>
       </NavigationMenuLink>
     </li>
