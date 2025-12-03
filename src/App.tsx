@@ -37,6 +37,8 @@ import PaymentFailure from "./pages/PaymentFailure";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import BookingDetails from "./pages/BookingDetails";
 import FAQ from "./pages/FAQ";
+import HelpCenter from "./pages/HelpCenter";
+import VendorGuide from "./pages/VendorGuide";
 import Blog from "./pages/Blog";
 import Testimonials from "./pages/Testimonials";
 import SuccessStories from "./pages/SuccessStories";
@@ -100,6 +102,8 @@ const App = () => (
               <Route path="/join-as-manager" element={<JoinAsManager />} />
               <Route path="/affiliate" element={<Affiliate />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/help" element={<HelpCenter />} />
+              <Route path="/vendor-guide" element={<VendorGuide />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/success-stories" element={<SuccessStories />} />

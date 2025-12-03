@@ -58,7 +58,17 @@ export const BhindiFooter = () => {
             <h3 className="font-semibold text-lg mb-6">Vendors</h3>
             <ul className="space-y-4">
               <li><Link to="/for-vendors" className="text-muted-foreground hover:text-foreground transition-colors">Register</Link></li>
-              <li><Link to="/vendor/onboarding" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link></li>
+              <li><Link to="/vendor-auth" className="text-muted-foreground hover:text-foreground transition-colors">Vendor Login</Link></li>
+              <li><Link to="/vendor-guide" className="text-muted-foreground hover:text-foreground transition-colors">Onboarding Guide</Link></li>
+              <li><Link to="/vendor-pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing Plans</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg mb-6">Support</h3>
+            <ul className="space-y-4">
+              <li><Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">Help Center</Link></li>
+              <li><Link to="/faq" className="text-muted-foreground hover:text-foreground transition-colors">FAQ</Link></li>
+              <li><Link to="/support" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link></li>
             </ul>
           </div>
           <div>

@@ -20,3 +20,6 @@ verify_jwt = true
 
 [functions.smart-vendor-matching]
 verify_jwt = true
+
+[functions.health-check]
+verify_jwt = false
