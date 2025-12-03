@@ -98,6 +98,7 @@ export const BhindiHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
+  const [scrolled, setScrolled] = useState(false);
   // Initialize with undefined to prevent hydration mismatch
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
 
@@ -109,8 +110,16 @@ export const BhindiHeader = () => {
       setWindowWidth(window.innerWidth);
     };
     
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const isDesktop = windowWidth !== undefined && windowWidth >= 768;
@@ -153,16 +162,31 @@ export const BhindiHeader = () => {
     }
   };
 
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-transparent backdrop-blur-md animate-fade-in transition-all duration-300">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled 
+          ? 'bg-background/80 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_hsl(0_0%_0%/0.1)]' 
+          : 'bg-transparent backdrop-blur-md border-b border-transparent'
+      }`}
+    >
+      {/* Premium Gradient Line on Scroll */}
+      <div 
+        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent transition-opacity duration-500 ${
+          scrolled ? 'opacity-100' : 'opacity-0'
+        }`} 
+      />
+      
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          {/* Logo with Premium Hover */}
+          <Link to="/" className="flex items-center gap-3 group relative">
+            <div className="absolute -inset-3 bg-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
             <img 
               src={logo} 
               alt="Karlo Shaadi Logo" 
-              className="h-12 w-auto transition-transform group-hover:scale-110 duration-300"
+              className="relative h-12 w-auto transition-all group-hover:scale-110 duration-500"
             />
           </Link>
 
