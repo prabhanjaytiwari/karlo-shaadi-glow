@@ -155,6 +155,53 @@
     box-shadow: 0 4px 16px hsl(0 0% 0% / 0.2);
   }
   
+  /* Premium Navigation Dropdown */
+  .nav-dropdown {
+    @apply rounded-2xl border border-border/20;
+    background: hsl(var(--popover) / 0.95);
+    backdrop-filter: blur(24px) saturate(1.5);
+    box-shadow: 
+      0 20px 70px -10px hsl(var(--accent) / 0.3),
+      0 10px 30px -10px hsl(0 0% 0% / 0.4),
+      inset 0 1px 0 hsl(255 255% 255% / 0.1);
+  }
+  
+  /* Premium Nav Item */
+  .nav-item {
+    @apply relative px-4 py-2 rounded-full;
+    @apply text-sm font-medium;
+    @apply transition-all duration-300;
+    @apply hover:bg-accent/10;
+  }
+  
+  .nav-item::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    @apply bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0;
+    @apply opacity-0 transition-opacity duration-300;
+  }
+  
+  .nav-item:hover::before {
+    @apply opacity-100;
+  }
+  
+  /* Mobile Menu Item Animation */
+  .mobile-menu-item {
+    @apply relative overflow-hidden;
+    transform-origin: left center;
+  }
+  
+  .mobile-menu-item::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-px;
+    @apply bg-gradient-to-r from-transparent via-border/50 to-transparent;
+    @apply scale-x-0 transition-transform duration-300;
+  }
+  
+  .mobile-menu-item:hover::after {
+    @apply scale-x-100;
+  }
+  
   /* Premium Geometric Background */
   .geometric-bg {
     position: relative;
