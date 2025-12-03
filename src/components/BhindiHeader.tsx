@@ -376,6 +376,16 @@ export const BhindiHeader = () => {
                   >
                     Stories
                   </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      navigate("/help");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Help Center
+                  </Button>
                   {!user && (
                     <Button
                       variant="ghost"
