@@ -7,6 +7,7 @@ interface LazyImageProps {
   className?: string;
   placeholderClassName?: string;
   threshold?: number;
+  blur?: boolean;
   onLoad?: () => void;
   onError?: () => void;
 }
@@ -17,6 +18,7 @@ export const LazyImage = ({
   className,
   placeholderClassName,
   threshold = 0.1,
+  blur = true,
   onLoad,
   onError
 }: LazyImageProps) => {
@@ -24,9 +26,10 @@ export const LazyImage = ({
   const [isInView, setIsInView] = useState(false);
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!imgRef.current) return;
+    if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -35,10 +38,10 @@ export const LazyImage = ({
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold, rootMargin: "50px" }
     );
 
-    observer.observe(imgRef.current);
+    observer.observe(containerRef.current);
 
     return () => {
       observer.disconnect();
@@ -56,37 +59,48 @@ export const LazyImage = ({
   };
 
   return (
-    <div className="relative overflow-hidden">
-      {/* Placeholder */}
+    <div ref={containerRef} className="relative overflow-hidden">
+      {/* Shimmer placeholder */}
       {!isLoaded && !hasError && (
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 animate-pulse",
+            "absolute inset-0",
             placeholderClassName
           )}
-        />
+        >
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-muted/50 to-accent/10" />
+          
+          {/* Shimmer effect */}
+          <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
       )}
 
       {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-destructive/20 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-destructive/5 to-destructive/10 flex items-center justify-center">
           <span className="text-sm text-muted-foreground">Failed to load image</span>
         </div>
       )}
 
-      {/* Actual image */}
+      {/* Actual image with blur-up effect */}
       <img
         ref={imgRef}
         src={isInView ? src : undefined}
         alt={alt}
         className={cn(
-          "transition-opacity duration-500",
-          isLoaded ? "opacity-100" : "opacity-0",
+          "transition-all duration-700",
+          isLoaded 
+            ? "opacity-100 scale-100" 
+            : blur 
+              ? "opacity-0 scale-105 blur-lg" 
+              : "opacity-0",
           className
         )}
         onLoad={handleLoad}
         onError={handleError}
         loading="lazy"
+        decoding="async"
       />
     </div>
   );
