@@ -165,28 +165,28 @@ export const BhindiHeader = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-background/80 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_30px_hsl(0_0%_0%/0.1)]' 
-          : 'bg-transparent backdrop-blur-md border-b border-transparent'
+          ? 'bg-background/90 backdrop-blur-xl border-b border-white/10 shadow-sm' 
+          : 'bg-transparent backdrop-blur-sm border-b border-transparent'
       }`}
     >
       {/* Premium Gradient Line on Scroll */}
       <div 
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent transition-opacity duration-500 ${
+        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent transition-opacity duration-300 ${
           scrolled ? 'opacity-100' : 'opacity-0'
         }`} 
       />
       
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo with Premium Hover */}
-          <Link to="/" className="flex items-center gap-3 group relative">
-            <div className="absolute -inset-3 bg-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+      <div className="container mx-auto px-3 sm:px-4 md:px-6">
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-18">
+          {/* Logo - Compact on mobile */}
+          <Link to="/" className="flex items-center gap-2 group relative">
+            <div className="absolute -inset-2 bg-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
             <img 
               src={logo} 
               alt="Karlo Shaadi Logo" 
-              className="relative h-12 w-auto transition-all group-hover:scale-110 duration-500"
+              className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
             />
           </Link>
 
@@ -277,87 +277,67 @@ export const BhindiHeader = () => {
             </nav>
           )}
 
-          {/* Mobile Menu - Absolutely prevent rendering on desktop */}
+          {/* Mobile Menu - Compact */}
           {isMobile && (
-            <div className="flex items-center" style={{ display: isMobile ? 'flex' : 'none' }}>
+            <div className="flex items-center gap-1" style={{ display: isMobile ? 'flex' : 'none' }}>
+              {user && <NotificationCenter />}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
                   <Button 
                     variant="ghost" 
                     size="icon"
+                    className="h-9 w-9"
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('Mobile menu button clicked');
                       setMobileMenuOpen(true);
                     }}
                   >
-                    <Menu className="h-6 w-6" />
+                    <Menu className="h-5 w-5" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
-            <SheetContent side="right">
-              <SheetHeader>
-                <SheetTitle className="text-left">
-                  <span className="bg-gradient-to-r from-foreground via-foreground to-muted-foreground bg-clip-text">
-                    Menu
-                  </span>
-                </SheetTitle>
+            <SheetContent side="right" className="w-[85vw] max-w-[320px] p-4">
+              <SheetHeader className="pb-2">
+                <SheetTitle className="text-left text-sm">Menu</SheetTitle>
               </SheetHeader>
               
-              <nav className="flex flex-col gap-5 mt-4">
-                {/* Premium Search Bar */}
-                <form onSubmit={handleMobileSearch} className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 rounded-xl opacity-0 group-focus-within:opacity-100 blur-xl transition-opacity duration-300" />
-                  <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-accent transition-colors duration-300" />
-                    <Input
-                      type="text"
-                      placeholder="Search vendors..."
-                      value={mobileSearchQuery}
-                      onChange={(e) => setMobileSearchQuery(e.target.value)}
-                      className="pl-11 h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:border-accent/50 transition-all duration-300"
-                    />
-                  </div>
+              <nav className="flex flex-col gap-3 mt-2">
+                {/* Compact Search Bar */}
+                <form onSubmit={handleMobileSearch} className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search vendors..."
+                    value={mobileSearchQuery}
+                    onChange={(e) => setMobileSearchQuery(e.target.value)}
+                    className="pl-9 h-9 text-sm rounded-lg border-border/50 bg-muted/30"
+                  />
                 </form>
 
-                {/* Quick Actions for Logged In Users */}
+                {/* Compact Quick Actions for Logged In Users */}
                 {user && (
                   <>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-4 gap-1.5">
                       {[
                         { icon: Calendar, label: "Bookings", href: "/bookings" },
                         { icon: Heart, label: "Favorites", href: "/favorites" },
                         { icon: MessageSquare, label: "Messages", href: "/messages" },
                         { icon: User, label: "Profile", href: "/profile" },
-                      ].map((item, index) => (
+                      ].map((item) => (
                         <button
                           key={item.href}
-                          className={cn(
-                            "group flex items-center gap-3 p-4 rounded-xl",
-                            "bg-muted/30 hover:bg-accent/10",
-                            "border border-border/30 hover:border-accent/30",
-                            "transition-all duration-300",
-                            "hover:scale-[1.02] active:scale-[0.98]",
-                            "animate-fade-in"
-                          )}
-                          style={{ animationDelay: `${index * 50}ms` }}
+                          className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-accent/10 transition-all active:scale-95"
                           onClick={() => {
                             navigate(item.href);
                             setMobileMenuOpen(false);
                           }}
                         >
-                          <div className={cn(
-                            "w-9 h-9 rounded-lg",
-                            "bg-gradient-to-br from-primary/20 to-primary/5",
-                            "flex items-center justify-center",
-                            "group-hover:from-primary/30 group-hover:to-primary/10",
-                            "transition-all duration-300"
-                          )}>
+                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                             <item.icon className="h-4 w-4 text-primary" />
                           </div>
-                          <span className="text-sm font-medium">{item.label}</span>
+                          <span className="text-[10px] font-medium">{item.label}</span>
                         </button>
                       ))}
                     </div>
@@ -365,38 +345,23 @@ export const BhindiHeader = () => {
                   </>
                 )}
 
-                {/* Categories with staggered animation */}
-                <div className="space-y-3">
-                  <p className="font-semibold text-xs uppercase tracking-wider text-muted-foreground px-1">Categories</p>
-                  <div className="grid grid-cols-4 gap-2">
-                    {categories.map((category, index) => (
+                {/* Compact Categories Grid */}
+                <div className="space-y-2">
+                  <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Categories</p>
+                  <div className="grid grid-cols-4 gap-1.5">
+                    {categories.map((category) => (
                       <button
                         key={category.href}
-                        className={cn(
-                          "group flex flex-col items-center gap-2 p-3 rounded-xl",
-                          "bg-muted/30 hover:bg-accent/10",
-                          "border border-transparent hover:border-accent/20",
-                          "transition-all duration-300",
-                          "hover:scale-105 active:scale-95",
-                          "animate-fade-in"
-                        )}
-                        style={{ animationDelay: `${index * 50}ms` }}
+                        className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/20 hover:bg-accent/10 transition-all active:scale-95"
                         onClick={() => {
                           navigate(category.href);
                           setMobileMenuOpen(false);
                         }}
                       >
-                        <div className={cn(
-                          "w-10 h-10 rounded-xl",
-                          "bg-gradient-to-br from-accent/20 to-accent/5",
-                          "flex items-center justify-center",
-                          "group-hover:from-accent/30 group-hover:to-accent/10",
-                          "group-hover:shadow-lg group-hover:shadow-accent/20",
-                          "transition-all duration-300"
-                        )}>
-                          <category.icon className="h-5 w-5 text-accent" />
+                        <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                          <category.icon className="h-4 w-4 text-accent" />
                         </div>
-                        <span className="text-[10px] font-medium text-center leading-tight">{category.title}</span>
+                        <span className="text-[9px] font-medium text-center leading-tight">{category.title}</span>
                       </button>
                     ))}
                   </div>
@@ -404,25 +369,17 @@ export const BhindiHeader = () => {
 
                 <Separator className="bg-border/30" />
 
-                {/* Other Links with premium styling */}
-                <div className="space-y-1">
+                {/* Compact Other Links */}
+                <div className="grid grid-cols-2 gap-1">
                   {[
                     { label: "Stories", href: "/stories" },
-                    { label: "Help Center", href: "/help" },
+                    { label: "Help", href: "/help" },
                     ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
-                    { label: "About Us", href: "/about" },
-                    { label: "Support", href: "/support" },
-                  ].map((link, index) => (
+                    { label: "About", href: "/about" },
+                  ].map((link) => (
                     <button
                       key={link.href}
-                      className={cn(
-                        "w-full text-left px-4 py-3 rounded-lg",
-                        "text-sm font-medium text-muted-foreground",
-                        "hover:text-foreground hover:bg-muted/50",
-                        "transition-all duration-200",
-                        "animate-fade-in"
-                      )}
-                      style={{ animationDelay: `${(index + 8) * 50}ms` }}
+                      className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
                       onClick={() => {
                         navigate(link.href);
                         setMobileMenuOpen(false);
@@ -435,13 +392,13 @@ export const BhindiHeader = () => {
 
                 <Separator className="bg-border/30" />
 
-                {/* Auth Buttons with premium styling */}
-                <div className="space-y-3 pb-8">
+                {/* Compact Auth Buttons */}
+                <div className="space-y-2 pb-4">
                   {user ? (
                     <>
                       <Button 
                         variant="premium" 
-                        className="w-full h-12 rounded-xl" 
+                        className="w-full h-9 text-sm rounded-lg" 
                         onClick={() => { 
                           navigate("/dashboard"); 
                           setMobileMenuOpen(false); 
@@ -452,18 +409,18 @@ export const BhindiHeader = () => {
                       {isAdmin && (
                         <Button 
                           variant="default" 
-                          className="w-full h-12 rounded-xl" 
+                          className="w-full h-9 text-sm rounded-lg" 
                           onClick={() => { 
                             navigate("/admin/dashboard"); 
                             setMobileMenuOpen(false); 
                           }}
                         >
-                          Admin Dashboard
+                          Admin Panel
                         </Button>
                       )}
                       <Button 
                         variant="ghost" 
-                        className="w-full h-12 rounded-xl text-muted-foreground hover:text-destructive" 
+                        className="w-full h-9 text-sm text-muted-foreground rounded-lg" 
                         onClick={() => { 
                           handleLogout(); 
                           setMobileMenuOpen(false); 
@@ -474,10 +431,10 @@ export const BhindiHeader = () => {
                       </Button>
                     </>
                   ) : (
-                    <>
+                    <div className="flex gap-2">
                       <Button 
                         variant="outline" 
-                        className="w-full h-12 rounded-xl border-border/50" 
+                        className="flex-1 h-9 text-sm rounded-lg" 
                         onClick={() => { 
                           navigate("/auth"); 
                           setMobileMenuOpen(false); 
@@ -486,8 +443,7 @@ export const BhindiHeader = () => {
                         Login
                       </Button>
                       <Button 
-                        variant="premium"
-                        className="w-full h-12 rounded-xl" 
+                        className="flex-1 h-9 text-sm rounded-lg" 
                         onClick={() => { 
                           navigate("/auth"); 
                           setMobileMenuOpen(false); 
@@ -495,12 +451,12 @@ export const BhindiHeader = () => {
                       >
                         Sign Up
                       </Button>
-                    </>
+                    </div>
                   )}
                 </div>
               </nav>
             </SheetContent>
-          </Sheet>
+              </Sheet>
             </div>
           )}
         </div>
