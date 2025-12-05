@@ -134,30 +134,24 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video shadow-xl img-luxury border border-accent/20 group">
-              <img src={sectionHumorRescue} alt="Wedding planning superhero to the rescue" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-              
-              {/* Floating badges - Hidden on mobile */}
-              <div className="hidden md:block absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg border border-accent/20">
-                <span className="font-bold text-primary text-sm">No More Stress! 🎉</span>
-              </div>
+            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video shadow-xl border border-border group">
+              <img src={sectionHumorRescue} alt="Wedding planning" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
             <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-4 sm:mt-8">
               {[
-                { emoji: "📞", title: "300+ Calls", subtitle: "We handle" },
-                { emoji: "🛡️", title: "Zero Fraud", subtitle: "Verified" },
-                { emoji: "🎯", title: "Dream Wedding", subtitle: "You enjoy" }
+                { title: "300+ Calls", subtitle: "Handled for you" },
+                { title: "Zero Fraud", subtitle: "Fully verified" },
+                { title: "Your Day", subtitle: "Stress-free" }
               ].map((item, i) => (
                 <div 
                   key={i} 
-                  className="text-center p-3 sm:p-4 rounded-xl bg-card border border-accent/10 hover:border-accent/30 transition-all duration-500 group"
+                  className="text-center p-3 sm:p-4 rounded-xl bg-card border border-border hover:border-accent/30 transition-all duration-300"
                   style={{ transitionDelay: `${i * 100}ms` }}
                 >
-                  <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-500">{item.emoji}</div>
-                  <h3 className="font-bold text-xs sm:text-sm md:text-base">{item.title}</h3>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground">{item.subtitle}</p>
+                  <h3 className="font-semibold text-xs sm:text-sm md:text-base">{item.title}</h3>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">{item.subtitle}</p>
                 </div>
               ))}
             </div>
@@ -216,51 +210,50 @@ const Index = () => {
         </div>
       </section>
 
-      {/* HUMOR SECTION 2: Vendor Superheroes */}
-      <section ref={humorSection2.ref} className="py-16 sm:py-24 md:py-32 relative" style={{ background: 'radial-gradient(ellipse at bottom, hsl(35 85% 70% / 0.08) 0%, transparent 50%)' }}>
+      {/* Expert Vendors Section */}
+      <section ref={humorSection2.ref} className="py-16 sm:py-20 md:py-24 relative" style={{ background: 'radial-gradient(ellipse at bottom, hsl(35 85% 70% / 0.05) 0%, transparent 50%)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-6xl mx-auto ${humorSection2.isVisible ? 'scroll-reveal is-visible' : 'scroll-reveal'}`}>
             <div className="text-center mb-8 sm:mb-12">
-              <div className="inline-block px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-primary/10 border-2 border-primary/30 mb-4 sm:mb-6">
-                <span className="text-primary text-sm sm:text-base md:text-lg font-bold">🦸‍♀️ Meet Your Squad</span>
+              <div className="inline-block px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 mb-4">
+                <span className="text-primary text-sm font-medium">Our Experts</span>
               </div>
-              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 sm:mb-6 px-2">
-                Our Vendors Have<br />
-                <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Actual Superpowers</span>
+              <h2 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl mb-4 px-2">
+                Industry-Leading <span className="text-accent">Wedding Professionals</span>
               </h2>
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-                Not literally, but seriously - have you seen a photographer nail 50 perfect candids in 5 minutes? Or a decorator transform a basic hall into a palace? Pure magic. ✨
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
+                Every vendor is vetted for quality, reliability, and professionalism
               </p>
             </div>
             
-            <div className="relative rounded-2xl sm:rounded-3xl md:rounded-[3rem] overflow-hidden aspect-video shadow-2xl img-luxury border-2 sm:border-4 border-primary/20 mb-8 sm:mb-12 group">
-              <img src={sectionHumorVendors} alt="Vendor superheroes ready to save your wedding" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video shadow-xl border border-border mb-8 group">
+              <img src={sectionHumorVendors} alt="Professional wedding vendors" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
               {[
-                { title: "Photographers 📸", power: "Can freeze time", description: "They'll capture that one perfect moment when your mom isn't crying and your dad isn't checking his phone." },
-                { title: "Caterers 🍽️", power: "Feed 500 people perfectly", description: "Your cousin with 47 dietary restrictions? Your vegetarian uncle who 'just wants dal'? They got this." },
-                { title: "Decorators 🎨", power: "Transform venues magically", description: "They'll turn that boring banquet hall into something out of a Bollywood movie. Complete with flowers everywhere." },
-                { title: "DJs 🎵", power: "Read the room instantly", description: "They know exactly when to play 'Kala Chashma' and when to slow it down with 'Tum Hi Ho'. It's a gift." }
+                { title: "Photography", specialty: "Capturing moments", description: "Professional photographers with years of experience documenting weddings beautifully." },
+                { title: "Catering", specialty: "Culinary excellence", description: "Expert caterers who handle large events with precision and accommodate all dietary needs." },
+                { title: "Decoration", specialty: "Venue transformation", description: "Creative decorators who bring your vision to life with stunning setups." },
+                { title: "Entertainment", specialty: "Perfect atmosphere", description: "Experienced DJs and performers who know how to engage your guests." }
               ].map((vendor, i) => (
                 <div 
                   key={i} 
-                  className="bg-card border-2 border-accent/10 rounded-2xl p-4 sm:p-6 md:p-8 hover:border-accent/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 shadow-lg hover:shadow-[0_20px_40px_hsl(var(--accent)/0.15)] group"
-                  style={{ transitionDelay: `${i * 100}ms` }}
+                  className="bg-card border border-border rounded-xl p-5 sm:p-6 hover:border-accent/30 transition-all duration-300"
+                  style={{ transitionDelay: `${i * 75}ms` }}
                 >
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 group-hover:text-accent transition-colors duration-300">{vendor.title}</h3>
-                  <div className="text-primary font-semibold mb-3 text-sm sm:text-base">✨ Superpower: {vendor.power}</div>
-                  <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{vendor.description}</p>
+                  <h3 className="text-lg font-semibold mb-1">{vendor.title}</h3>
+                  <div className="text-accent text-sm mb-2">{vendor.specialty}</div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{vendor.description}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 sm:mt-12 text-center">
+            <div className="mt-8 text-center">
               <Link to="/categories">
-                <Button size="lg" variant="premium" className="text-base sm:text-lg px-6 sm:px-10 py-4 sm:py-6 rounded-full shadow-xl hover:shadow-2xl">
-                  Meet Your Superhero Squad
+                <Button size="default" variant="premium" className="rounded-full px-8">
+                  Browse All Vendors
                 </Button>
               </Link>
             </div>
@@ -286,9 +279,8 @@ const Index = () => {
                 <span className="text-accent text-sm font-semibold">Simple Process</span>
               </div>
               
-              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                Planning Made<br />
-                <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Stupidly Simple</span>
+              <h2 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl">
+                Planning Made <span className="text-accent">Simple</span>
               </h2>
 
               <div className="space-y-8">

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import logo from "@/assets/logo.png";
-import { Instagram, Twitter, Youtube, Facebook, ArrowRight, Sparkles } from "lucide-react";
+import { Instagram, Twitter, Youtube, Facebook, ArrowRight } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -51,40 +51,30 @@ export const BhindiFooter = () => {
       
       {/* CTA Section */}
       <div className="relative container mx-auto px-6 py-16">
-        <div className="group relative rounded-3xl overflow-hidden">
-          {/* CTA Background with glassmorphism */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 backdrop-blur-xl" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="group relative rounded-2xl overflow-hidden">
+          {/* CTA Background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
           
-          {/* Animated border */}
-          <div className="absolute inset-0 rounded-3xl border border-primary/20 group-hover:border-primary/40 transition-colors duration-500" />
-          <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-r from-primary/0 via-primary/50 to-primary/0 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+          {/* Border */}
+          <div className="absolute inset-0 rounded-2xl border border-border" />
           
-          {/* Floating sparkles */}
-          <div className="absolute top-6 right-12 text-primary/30 animate-pulse">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div className="absolute bottom-8 left-20 text-accent/30 animate-pulse" style={{ animationDelay: '1s' }}>
-            <Sparkles className="w-4 h-4" />
-          </div>
-          
-          <div className="relative px-12 py-16 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
-              <h2 className="font-bold text-foreground text-xl md:text-2xl max-w-2xl">
-                Join Us in Creating Your Perfect Wedding
+              <h2 className="font-semibold text-foreground text-lg md:text-xl max-w-2xl">
+                Start Planning Your Wedding Today
               </h2>
               <p className="text-muted-foreground text-sm">
-                Connect with verified vendors and start planning today
+                Connect with verified vendors and bring your vision to life
               </p>
             </div>
             <Button 
               variant="premium" 
-              size="lg" 
-              className="group/btn relative overflow-hidden"
+              size="default" 
+              className="rounded-full px-6"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="flex items-center gap-2">
                 Get Started
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4" />
               </span>
             </Button>
           </div>
@@ -181,7 +171,7 @@ export const BhindiFooter = () => {
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               <span>GST: 09XXXXX1234X1Z5</span>
               <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-              <span>Made with ❤️ in India</span>
+              <span>Made in India</span>
             </div>
           </div>
         </div>
