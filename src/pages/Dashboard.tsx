@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Heart, Search, MessageSquare, LogOut, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -156,27 +157,15 @@ const Dashboard = () => {
             </Card>
           </div>
 
-          {/* Recent Activity */}
+          {/* Wedding Planning Progress & Profile */}
           <div className="grid lg:grid-cols-2 gap-6 animate-fade-up">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Bookings</CardTitle>
-                <CardDescription>Your latest vendor bookings</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12 text-muted-foreground">
-                  <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No bookings yet</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-4"
-                    onClick={() => navigate("/search")}
-                  >
-                    Browse Vendors
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Wedding Planning Progress Tracker */}
+            {user && (
+              <WeddingPlanningProgress 
+                userId={user.id} 
+                weddingDate={profile?.wedding_date}
+              />
+            )}
 
             <Card>
               <CardHeader>

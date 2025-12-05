@@ -3,6 +3,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel";
+import { LiveActivityFeed } from "@/components/LiveActivityFeed";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
@@ -125,6 +126,9 @@ const Index = () => {
 
       {/* Tensions Section */}
       <TensionsSection />
+
+      {/* Live Activity Feed - Social Proof */}
+      <LiveActivityFeed />
 
       {/* Sponsored Vendors Carousel */}
       <SponsoredVendorsCarousel />
