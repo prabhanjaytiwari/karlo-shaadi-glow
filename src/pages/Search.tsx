@@ -114,15 +114,17 @@ export default function Search() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
       <main className="flex-1 py-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
           <div className="mb-12 animate-fade-in">
-            <h1 className="text-4xl font-bold mb-8 text-center">Find Your Perfect Vendors</h1>
-            <GlassCard className="p-6">
+            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
+            <h1 className="text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-8 rounded-full" />
+            <GlassCard className="p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
               <div className="grid md:grid-cols-4 gap-4">
                 <div className="md:col-span-2">
                   <Input

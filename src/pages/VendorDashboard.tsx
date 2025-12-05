@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -248,18 +249,19 @@ export default function VendorDashboard() {
     <div className="min-h-screen flex flex-col">
       <BhindiHeader />
       
-      <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 py-12 px-4">
+      <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <div>
+              <Badge className="bg-accent text-accent-foreground mb-2">Vendor Portal</Badge>
               <h1 className="text-4xl font-bold mb-2">{vendor?.business_name}</h1>
-              <p className="text-muted-foreground">Vendor Dashboard</p>
+              <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => navigate('/vendor-pricing')} size="sm">
+              <Button variant="outline" onClick={() => navigate('/vendor-pricing')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
                 Upgrade Plan
               </Button>
-              <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full">
+              <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full border-accent/30 hover:border-accent/50 hover:bg-accent/5">
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
@@ -267,7 +269,7 @@ export default function VendorDashboard() {
 
           {/* Subscription Status Card */}
           {vendor && (
-            <Card className="mb-8 border-2 border-primary/20">
+            <Card className="mb-8 bg-white/90 backdrop-blur-sm border-2 border-accent/30 shadow-lg">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -325,7 +327,7 @@ export default function VendorDashboard() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
               </CardHeader>
@@ -334,7 +336,7 @@ export default function VendorDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium">Pending</CardTitle>
               </CardHeader>
@@ -343,7 +345,7 @@ export default function VendorDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium">Revenue</CardTitle>
               </CardHeader>
@@ -352,14 +354,14 @@ export default function VendorDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium">Rating</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold flex items-center">
                   {vendor?.average_rating || 0}
-                  <Star className="ml-2 h-6 w-6 fill-primary text-primary" />
+                  <Star className="ml-2 h-6 w-6 fill-accent text-accent" />
                 </div>
               </CardContent>
             </Card>

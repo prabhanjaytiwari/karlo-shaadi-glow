@@ -165,29 +165,33 @@ export default function Favorites() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold">My Favorites</h1>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div>
+              <Badge className="bg-accent text-accent-foreground mb-2">Your Collection</Badge>
+              <h1 className="text-4xl font-bold">My Favorites</h1>
+              <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mt-2 rounded-full" />
+            </div>
             <div className="flex gap-2">
               <Button 
                 variant="outline" 
                 onClick={() => setCompareMode(!compareMode)}
-                className={compareMode ? "bg-primary text-primary-foreground" : ""}
+                className={compareMode ? "bg-accent text-accent-foreground" : "border-accent/30 hover:border-accent/50 hover:bg-accent/5"}
               >
                 <Scale className="h-4 w-4 mr-2" />
                 {compareMode ? "Exit Compare" : "Compare"}
               </Button>
               {selectedForCompare.length > 0 && (
-                <Button onClick={() => setComparisonOpen(true)}>
+                <Button onClick={() => setComparisonOpen(true)} className="bg-accent text-accent-foreground hover:bg-accent/90">
                   Compare ({selectedForCompare.length})
                 </Button>
               )}
               {favorites.length > 0 && (
-                <Button variant="outline" onClick={exportToPDF}>
+                <Button variant="outline" onClick={exportToPDF} className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
                   <Download className="h-4 w-4 mr-2" />
                   Export
                 </Button>
@@ -214,10 +218,10 @@ export default function Favorites() {
               {favorites.map((favorite) => (
                 <Card 
                   key={favorite.id} 
-                  className={`hover:shadow-lg transition-all ${
+                  className={`bg-white/90 backdrop-blur-sm border-2 hover:shadow-lg transition-all ${
                     compareMode && selectedForCompare.includes(favorite.id) 
-                      ? "ring-2 ring-primary" 
-                      : ""
+                      ? "ring-2 ring-accent border-accent/50" 
+                      : "border-accent/20 hover:border-accent/40"
                   }`}
                 >
                   <CardHeader>
@@ -255,7 +259,7 @@ export default function Favorites() {
                     
                     <div className="flex items-center gap-4 mb-4">
                       <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <Star className="h-4 w-4 fill-accent text-accent" />
                         <span className="font-semibold">
                           {favorite.vendor.average_rating?.toFixed(1) || "New"}
                         </span>
