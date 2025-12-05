@@ -137,11 +137,64 @@
     background: hsl(var(--background));
     background-image: radial-gradient(ellipse at 20% 30%, hsl(345 40% 30% / 0.03) 0%, transparent 50%);
     background-attachment: fixed;
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+  /* Premium Typography Hierarchy */
+  h1 {
+    @apply font-display font-semibold;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  
+  h2 {
+    @apply font-display font-semibold;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+  
+  h3 {
+    @apply font-display font-medium;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+  
+  h4 {
+    @apply font-display font-medium;
     letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  
+  h5, h6 {
+    @apply font-display font-medium;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  
+  p {
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Small/Caption text */
+  small, .text-sm {
+    letter-spacing: 0.02em;
+  }
+  
+  /* Premium link styling */
+  a {
+    @apply transition-colors duration-150;
+  }
+  
+  /* Blockquote styling for testimonials */
+  blockquote {
+    @apply font-quote italic;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
   }
 }
 
