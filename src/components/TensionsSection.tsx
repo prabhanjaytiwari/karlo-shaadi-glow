@@ -29,11 +29,11 @@ export const TensionsSection = () => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <section ref={ref} className="relative py-12 sm:py-16 md:py-24 bg-gradient-to-b from-background via-background to-background overflow-hidden">
+    <section ref={ref} className="relative py-12 sm:py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/40 to-amber-50/30 overflow-hidden">
       {/* Premium Background Effects - Hidden on mobile */}
       <div className="absolute inset-0 pointer-events-none hidden sm:block">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
       </div>
 
       {/* Floating Category Icons - Only on large screens */}
@@ -50,12 +50,12 @@ export const TensionsSection = () => {
             }}
           >
             <div className="relative group cursor-pointer">
-              <div className="absolute -inset-2 bg-gradient-to-r from-accent/30 to-primary/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-accent/40 to-primary/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative">
                 <img 
                   src={item.src} 
                   alt="Category icon"
-                  className="w-16 h-16 rounded-2xl shadow-xl group-hover:scale-110 transition-all duration-500 ring-1 ring-white/10"
+                  className="w-16 h-16 rounded-2xl shadow-xl group-hover:scale-110 transition-all duration-500 ring-2 ring-accent/20"
                 />
               </div>
             </div>
@@ -75,8 +75,8 @@ export const TensionsSection = () => {
           }}
         >
           <div className="inline-block mb-4">
-            <div className="px-4 py-2 rounded-lg bg-card/80 backdrop-blur-md border border-accent/20">
-              <span className="text-accent text-xs sm:text-sm font-medium">Categories</span>
+            <div className="px-4 py-2 rounded-lg bg-accent/15 border-2 border-accent/30">
+              <span className="text-accent font-semibold text-xs sm:text-sm">Categories</span>
             </div>
           </div>
           
@@ -87,6 +87,7 @@ export const TensionsSection = () => {
               One Platform.
             </span>
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full" />
           
           <p 
             className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed hero-text-reveal px-2"
@@ -99,7 +100,6 @@ export const TensionsSection = () => {
             <Link to="/categories">
               <Button 
                 size="default"
-                variant="premium"
                 className="rounded-full px-6 sm:px-8 h-10 sm:h-11 text-sm sm:text-base font-semibold"
               >
                 Explore All Categories
@@ -110,7 +110,7 @@ export const TensionsSection = () => {
       </div>
 
       {/* Bottom Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
     </section>
   );
 };

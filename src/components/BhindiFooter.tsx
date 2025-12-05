@@ -44,19 +44,18 @@ export const BhindiFooter = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary/5" />
-      <div className="absolute inset-0 noise-texture opacity-30" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_90%_55%/0.05)_0%,transparent_50%)]" />
       
       {/* CTA Section */}
       <div className="relative container mx-auto px-6 py-16">
         <div className="group relative rounded-2xl overflow-hidden">
           {/* CTA Background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/10 to-primary/5" />
           
           {/* Border */}
-          <div className="absolute inset-0 rounded-2xl border border-border" />
+          <div className="absolute inset-0 rounded-2xl border-2 border-accent/30" />
           
           <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
@@ -68,7 +67,6 @@ export const BhindiFooter = () => {
               </p>
             </div>
             <Button 
-              variant="premium" 
               size="default" 
               className="rounded-full px-6"
             >
@@ -84,14 +82,14 @@ export const BhindiFooter = () => {
       {/* Main Footer */}
       <div className="relative container mx-auto px-6 py-16">
         {/* Divider with gradient */}
-        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-20">
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
               <div className="relative group/logo">
-                <div className="absolute -inset-2 bg-primary/20 rounded-xl blur-lg opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -inset-2 bg-accent/20 rounded-xl blur-lg opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500" />
                 <img 
                   src={logo} 
                   alt="Karlo Shaadi Logo" 
@@ -109,15 +107,14 @@ export const BhindiFooter = () => {
                 <a 
                   key={social.label}
                   href={social.href} 
-                  className="group/social relative w-10 h-10 rounded-xl bg-muted/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 flex items-center justify-center overflow-hidden"
+                  className="group/social relative w-10 h-10 rounded-xl bg-white border-2 border-accent/20 hover:border-accent/50 transition-all duration-300 flex items-center justify-center overflow-hidden shadow-sm"
                   style={{ animationDelay: `${index * 100}ms` }}
                   aria-label={social.label}
                 >
                   {/* Glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute inset-0 bg-primary/10 scale-0 group-hover/social:scale-100 transition-transform duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/10 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300" />
                   
-                  <social.icon className="relative w-4 h-4 text-muted-foreground group-hover/social:text-primary transition-colors duration-300 group-hover/social:scale-110 transform" />
+                  <social.icon className="relative w-4 h-4 text-muted-foreground group-hover/social:text-accent transition-colors duration-300 group-hover/social:scale-110 transform" />
                 </a>
               ))}
             </div>
@@ -130,7 +127,7 @@ export const BhindiFooter = () => {
               className="space-y-4"
               style={{ animationDelay: `${categoryIndex * 100}ms` }}
             >
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-foreground/80">
+              <h3 className="font-semibold text-sm uppercase tracking-wider text-accent">
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </h3>
               <ul className="space-y-3">
@@ -146,7 +143,7 @@ export const BhindiFooter = () => {
                       <span className="relative">
                         {link.label}
                         {/* Animated underline */}
-                        <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-primary to-accent group-hover/link:w-full transition-all duration-300" />
+                        <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-accent to-primary group-hover/link:w-full transition-all duration-300" />
                       </span>
                     </Link>
                   </li>
@@ -159,7 +156,7 @@ export const BhindiFooter = () => {
         {/* Watermark Section */}
         <div className="relative py-12">
           {/* Large watermark text */}
-          <div className="text-center text-[8rem] md:text-[12rem] font-bold text-muted/[0.03] select-none leading-none whitespace-nowrap overflow-hidden">
+          <div className="text-center text-[8rem] md:text-[12rem] font-bold text-accent/[0.08] select-none leading-none whitespace-nowrap overflow-hidden">
             Karlo Shaadi
           </div>
           
@@ -170,7 +167,7 @@ export const BhindiFooter = () => {
             </p>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               <span>GST: 09XXXXX1234X1Z5</span>
-              <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+              <span className="w-1 h-1 rounded-full bg-accent/50" />
               <span>Made in India</span>
             </div>
           </div>
