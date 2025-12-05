@@ -61,7 +61,7 @@ const Index = () => {
             alt="Indian wedding ceremony" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/40 to-background" />
         </div>
         
         {/* Hero Content */}
@@ -69,32 +69,32 @@ const Index = () => {
           <div className="container mx-auto px-4 sm:px-6">
             <div className={`max-w-3xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
               {/* Glass Card */}
-              <div className="relative rounded-xl md:rounded-2xl border border-white/10 bg-black/30 backdrop-blur-xl p-6 sm:p-8 md:p-12">
+              <div className="relative rounded-xl md:rounded-2xl border border-white/20 bg-white/90 backdrop-blur-xl p-6 sm:p-8 md:p-12 shadow-xl">
                 {/* Content */}
                 <div className="relative text-center space-y-4 md:space-y-6">
                   {/* Headline */}
-                  <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-white">
+                  <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-foreground">
                     <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
-                    <span className={`inline-block font-quote italic font-normal text-accent hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
+                    <span className={`inline-block font-quote italic font-normal text-primary hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
                     <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
                     <br />
                     <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
                   </h1>
 
                   {/* Subtext */}
-                  <p className={`text-white/80 text-sm sm:text-base md:text-lg max-w-lg mx-auto hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
+                  <p className={`text-muted-foreground text-sm sm:text-base md:text-lg max-w-lg mx-auto hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
                     India's Most Trusted Wedding Platform • 50,000+ Happy Couples
                   </p>
 
                   {/* CTA Buttons - 2 buttons only */}
                   <div className={`flex flex-col sm:flex-row gap-3 justify-center pt-2 hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
                     <Link to="/categories">
-                      <Button size="lg" variant="accent" className="w-full sm:w-auto">
+                      <Button size="lg" className="w-full sm:w-auto">
                         Explore Vendors
                       </Button>
                     </Link>
                     <Link to="/auth">
-                      <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10">
+                      <Button size="lg" variant="outline" className="w-full sm:w-auto">
                         Start Planning Free
                       </Button>
                     </Link>
