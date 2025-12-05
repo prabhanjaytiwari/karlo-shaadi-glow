@@ -78,23 +78,17 @@ export const ReviewsSection = () => {
         className="container mx-auto px-6 mb-12"
         style={{
           opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
+          transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
         <div className="inline-block mb-4">
-          <div className="relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-accent/30 to-primary/30 rounded-full blur-sm opacity-75" />
-            <div className="relative px-5 py-2 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30">
-              <span className="text-accent text-sm font-medium">The Karlo Shaadi Experience</span>
-            </div>
+          <div className="px-4 py-2 rounded-lg bg-card/80 backdrop-blur-md border border-accent/20">
+            <span className="text-accent text-sm font-medium">Customer Stories</span>
           </div>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
-          Voices From{' '}
-          <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer-glow">
-            Happy Couples
-          </span>
+        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          Voices From <span className="text-accent">Happy Couples</span>
         </h2>
       </div>
 
