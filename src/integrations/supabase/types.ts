@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          name: string
+          points: number
+          requirement_type: string
+          requirement_value: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          icon: string
+          id?: string
+          name: string
+          points?: number
+          requirement_type: string
+          requirement_value?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          points?: number
+          requirement_type?: string
+          requirement_value?: number
+        }
+        Relationships: []
+      }
       ai_chat_history: {
         Row: {
           created_at: string
@@ -381,6 +414,89 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      moodboard_items: {
+        Row: {
+          content: string
+          created_at: string
+          height: number | null
+          id: string
+          item_type: string
+          moodboard_id: string
+          position_x: number | null
+          position_y: number | null
+          title: string | null
+          width: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          height?: number | null
+          id?: string
+          item_type: string
+          moodboard_id: string
+          position_x?: number | null
+          position_y?: number | null
+          title?: string | null
+          width?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          height?: number | null
+          id?: string
+          item_type?: string
+          moodboard_id?: string
+          position_x?: number | null
+          position_y?: number | null
+          title?: string | null
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "moodboard_items_moodboard_id_fkey"
+            columns: ["moodboard_id"]
+            isOneToOne: false
+            referencedRelation: "moodboards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      moodboards: {
+        Row: {
+          cover_color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_public: boolean
+          share_token: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cover_color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          share_token?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cover_color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean
+          share_token?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -761,6 +877,35 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
