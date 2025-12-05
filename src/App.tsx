@@ -48,6 +48,8 @@ import PremiumDashboard from "./pages/PremiumDashboard";
 import SubscriptionCheckout from "./pages/SubscriptionCheckout";
 import NotFound from "./pages/NotFound";
 import DataExport from "./pages/DataExport";
+import Moodboards from "./pages/Moodboards";
+import Achievements from "./pages/Achievements";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
@@ -112,6 +114,8 @@ const App = () => (
               <Route path="/premium-dashboard" element={<ProtectedRoute><PremiumDashboard /></ProtectedRoute>} />
               <Route path="/subscription-checkout" element={<ProtectedRoute><SubscriptionCheckout /></ProtectedRoute>} />
               <Route path="/data-export" element={<DataExport />} />
+              <Route path="/moodboards" element={<ProtectedRoute><Moodboards /></ProtectedRoute>} />
+              <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

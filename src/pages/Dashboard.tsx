@@ -6,9 +6,10 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
+import { AchievementBadges } from "@/components/AchievementBadges";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -115,44 +116,58 @@ const Dashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid md:grid-cols-4 gap-6 mb-12 animate-fade-up">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12 animate-fade-up">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/search")}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <Search className="h-6 w-6 text-primary" />
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-2">
+                  <Search className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">Search Vendors</CardTitle>
-                <CardDescription>Find the perfect vendors for your wedding</CardDescription>
+                <CardTitle className="text-sm">Search Vendors</CardTitle>
               </CardHeader>
             </Card>
 
             <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/bookings")}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-3">
-                  <Calendar className="h-6 w-6 text-accent" />
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-2">
+                  <Calendar className="h-5 w-5 text-accent" />
                 </div>
-                <CardTitle className="text-lg">My Bookings</CardTitle>
-                <CardDescription>View and manage your vendor bookings</CardDescription>
+                <CardTitle className="text-sm">My Bookings</CardTitle>
               </CardHeader>
             </Card>
 
             <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/favorites")}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center mb-3">
-                  <Heart className="h-6 w-6 text-pink-500" />
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-pink-500/10 flex items-center justify-center mb-2">
+                  <Heart className="h-5 w-5 text-pink-500" />
                 </div>
-                <CardTitle className="text-lg">Favorites</CardTitle>
-                <CardDescription>Your saved vendors and venues</CardDescription>
+                <CardTitle className="text-sm">Favorites</CardTitle>
               </CardHeader>
             </Card>
 
             <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/messages")}>
-              <CardHeader>
-                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-3">
-                  <MessageSquare className="h-6 w-6 text-blue-500" />
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mb-2">
+                  <MessageSquare className="h-5 w-5 text-blue-500" />
                 </div>
-                <CardTitle className="text-lg">Messages</CardTitle>
-                <CardDescription>Chat with your vendors</CardDescription>
+                <CardTitle className="text-sm">Messages</CardTitle>
+              </CardHeader>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/moodboards")}>
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center mb-2">
+                  <Palette className="h-5 w-5 text-purple-500" />
+                </div>
+                <CardTitle className="text-sm">Moodboards</CardTitle>
+              </CardHeader>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/achievements")}>
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center mb-2">
+                  <Trophy className="h-5 w-5 text-yellow-500" />
+                </div>
+                <CardTitle className="text-sm">Achievements</CardTitle>
               </CardHeader>
             </Card>
           </div>
@@ -167,39 +182,44 @@ const Dashboard = () => {
               />
             )}
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Complete Your Profile</CardTitle>
-                <CardDescription>Help us personalize your experience</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Wedding Date</span>
-                  <Badge variant={profile?.wedding_date ? "default" : "secondary"}>
-                    {profile?.wedding_date ? "Completed" : "Pending"}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Budget Range</span>
-                  <Badge variant={profile?.budget_range ? "default" : "secondary"}>
-                    {profile?.budget_range ? "Completed" : "Pending"}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">City/Location</span>
-                  <Badge variant={profile?.city ? "default" : "secondary"}>
-                    {profile?.city ? "Completed" : "Pending"}
-                  </Badge>
-                </div>
-                <Button 
-                  className="w-full mt-4" 
-                  variant="outline"
-                  onClick={() => navigate("/profile")}
-                >
-                  Complete Profile
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="space-y-6">
+              {/* Achievement Badges (Compact) */}
+              {user && <AchievementBadges userId={user.id} compact />}
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Complete Your Profile</CardTitle>
+                  <CardDescription>Help us personalize your experience</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Wedding Date</span>
+                    <Badge variant={profile?.wedding_date ? "default" : "secondary"}>
+                      {profile?.wedding_date ? "Completed" : "Pending"}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Budget Range</span>
+                    <Badge variant={profile?.budget_range ? "default" : "secondary"}>
+                      {profile?.budget_range ? "Completed" : "Pending"}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">City/Location</span>
+                    <Badge variant={profile?.city ? "default" : "secondary"}>
+                      {profile?.city ? "Completed" : "Pending"}
+                    </Badge>
+                  </div>
+                  <Button 
+                    className="w-full mt-4" 
+                    variant="outline"
+                    onClick={() => navigate("/profile")}
+                  >
+                    Complete Profile
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </main>
