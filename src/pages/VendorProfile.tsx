@@ -139,7 +139,7 @@ const VendorProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
 
       {/* Gallery Section */}
       <section className="relative h-[60vh] overflow-hidden">
@@ -148,14 +148,14 @@ const VendorProfile = () => {
           alt={vendor.business_name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
       </section>
 
       {/* Sticky Action Bar (Mobile) */}
-      <div className="lg:hidden sticky top-16 z-40 glass border-b border-border/50 p-4 animate-fade-in">
+      <div className="lg:hidden sticky top-16 z-40 bg-white/95 backdrop-blur-xl border-b-2 border-accent/20 p-4 animate-fade-in">
         <div className="flex gap-3">
           <BookingDialog vendorId={id!}>
-            <Button variant="hero" className="flex-1">
+            <Button className="flex-1">
               Check Availability
             </Button>
           </BookingDialog>
@@ -175,12 +175,12 @@ const VendorProfile = () => {
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Header */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up">
+              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {badges.map((badge, i) => (
                     <span 
                       key={i}
-                      className="glass-subtle px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1"
+                      className="bg-accent/15 border border-accent/30 px-3 py-1 rounded-full text-xs font-semibold text-accent flex items-center gap-1"
                     >
                       {badge === "Verified" && <Shield className="h-3 w-3" />}
                       {badge}
@@ -189,7 +189,7 @@ const VendorProfile = () => {
                 </div>
 
                 <h1 className="font-display font-bold text-4xl mb-2">{vendor.business_name}</h1>
-                <p className="text-muted-foreground text-lg mb-4">{vendor.category}</p>
+                <p className="text-muted-foreground text-lg mb-4 capitalize">{vendor.category}</p>
 
                 <div className="flex flex-wrap items-center gap-6 text-sm">
                   <div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ const VendorProfile = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-border/50">
+                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t-2 border-accent/20">
                   <div className="text-center">
                     <p className="font-display font-bold text-2xl text-accent">{vendor.years_experience}+</p>
                     <p className="text-sm text-muted-foreground">Years Active</p>
@@ -224,29 +224,31 @@ const VendorProfile = () => {
               </GlassCard>
 
               {/* About */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up">
+              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
                 <h2 className="font-display font-bold text-2xl mb-4">About</h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
                 <p className="text-muted-foreground leading-relaxed">
                   {vendor.description || `Professional ${vendor.category} services for your special day.`}
                 </p>
                 {vendor.instagram_handle && (
-                  <p className="mt-4 text-sm text-accent">
-                    📷 Instagram: @{vendor.instagram_handle}
+                  <p className="mt-4 text-sm text-primary font-medium">
+                    Instagram: @{vendor.instagram_handle}
                   </p>
                 )}
                 {vendor.website_url && (
-                  <p className="mt-2 text-sm text-accent">
-                    🌐 Website: {vendor.website_url}
+                  <p className="mt-2 text-sm text-primary font-medium">
+                    Website: {vendor.website_url}
                   </p>
                 )}
               </GlassCard>
 
               {/* Why Matched */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up">
+              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
                 <div className="flex items-center gap-2 mb-6">
                   <Award className="h-6 w-6 text-accent" />
                   <h2 className="font-display font-bold text-2xl">Why This Vendor Stands Out</h2>
                 </div>
+                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
                 
                 <div className="space-y-4">
                   {mockData.whyMatched.map((match, i) => (
@@ -255,9 +257,9 @@ const VendorProfile = () => {
                         <span className="font-semibold">{match.factor}</span>
                         <span className="text-accent font-bold">{Math.round(match.score)}%</span>
                       </div>
-                      <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+                      <div className="h-2 bg-accent/10 rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-gradient-to-r from-accent to-secondary rounded-full transition-all duration-500"
+                          className="h-full bg-gradient-to-r from-accent to-primary rounded-full transition-all duration-500"
                           style={{ width: `${match.score}%` }}
                         />
                       </div>
@@ -269,14 +271,15 @@ const VendorProfile = () => {
 
               {/* Services & Pricing */}
               {services.length > 0 && (
-                <GlassCard className="p-6 md:p-8 animate-fade-up">
-                  <h2 className="font-display font-bold text-2xl mb-6">Services & Pricing</h2>
+                <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
+                  <h2 className="font-display font-bold text-2xl mb-4">Services & Pricing</h2>
+                  <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
                   
                   <div className="space-y-4">
                     {services.map((service) => (
                       <div 
                         key={service.id}
-                        className="glass-subtle p-6 rounded-2xl"
+                        className="bg-rose-50/50 border-2 border-accent/20 p-6 rounded-2xl"
                       >
                         <h3 className="font-display font-bold text-xl mb-2">{service.service_name}</h3>
                         <p className="text-muted-foreground mb-4">{service.description}</p>
@@ -297,20 +300,21 @@ const VendorProfile = () => {
                   </div>
 
                   <p className="text-xs text-muted-foreground mt-6 text-center">
-                    💳 Milestone payments available • 🔒 Escrow protection • 📝 E-contract included
+                    Milestone payments available • Escrow protection • E-contract included
                   </p>
                 </GlassCard>
               )}
 
               {/* Reviews */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up">
-                <h2 className="font-display font-bold text-2xl mb-6">
+              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
+                <h2 className="font-display font-bold text-2xl mb-4">
                   Reviews & Ratings
                 </h2>
+                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
                 
                 {/* Review Form - Only show if user has completed booking */}
                 {user && userBooking && (
-                  <div className="mb-8 p-6 glass-subtle rounded-xl">
+                  <div className="mb-8 p-6 bg-rose-50/50 border border-accent/20 rounded-xl">
                     <h3 className="font-semibold mb-4">Share Your Experience</h3>
                     <ReviewForm 
                       vendorId={id!} 
@@ -327,9 +331,9 @@ const VendorProfile = () => {
 
             {/* Right Column - Actions (Desktop) */}
             <div className="hidden lg:block">
-              <GlassCard className="p-6 sticky top-24 space-y-4 animate-fade-in">
+              <GlassCard className="p-6 sticky top-24 space-y-4 animate-fade-in bg-white border-2 border-accent/20">
                 <BookingDialog vendorId={id!}>
-                  <Button variant="hero" size="lg" className="w-full">
+                  <Button size="lg" className="w-full">
                     Check Availability
                   </Button>
                 </BookingDialog>
@@ -347,11 +351,11 @@ const VendorProfile = () => {
                   </Button>
                 </div>
 
-                <div className="pt-4 border-t border-border/50">
+                <div className="pt-4 border-t-2 border-accent/20">
                   <p className="text-sm text-muted-foreground text-center">
-                    ✓ Response within 2 hours<br />
-                    ✓ Milestone payment protection<br />
-                    ✓ SLA guarantee
+                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> Response within 2 hours<br />
+                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> Milestone payment protection<br />
+                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> SLA guarantee
                   </p>
                 </div>
               </GlassCard>

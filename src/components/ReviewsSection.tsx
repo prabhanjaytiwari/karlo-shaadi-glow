@@ -65,12 +65,12 @@ export const ReviewsSection = () => {
   }, [emblaApi]);
 
   return (
-    <section ref={ref} className="py-24 bg-background overflow-hidden relative">
+    <section ref={ref} className="py-24 bg-gradient-to-b from-rose-50/40 via-white to-amber-50/30 overflow-hidden relative">
       {/* Premium Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        <div className="absolute top-1/3 left-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute top-1/3 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/3 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
       </div>
       
@@ -83,13 +83,14 @@ export const ReviewsSection = () => {
         }}
       >
         <div className="inline-block mb-4">
-          <div className="px-4 py-2 rounded-lg bg-card/80 backdrop-blur-md border border-accent/20">
-            <span className="text-accent text-sm font-medium">Customer Stories</span>
+          <div className="px-4 py-2 rounded-lg bg-accent/15 border-2 border-accent/30">
+            <span className="text-accent font-semibold text-sm">Customer Stories</span>
           </div>
         </div>
         <h2 className="text-3xl md:text-4xl font-semibold mb-4">
           Voices From <span className="text-accent">Happy Couples</span>
         </h2>
+        <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
       </div>
 
       <div className="overflow-hidden" ref={emblaRef}>
@@ -110,7 +111,7 @@ export const ReviewsSection = () => {
                 {/* Gradient Border on Hover */}
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/50 via-primary/50 to-accent/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                 
-                <div className="relative bg-card/60 backdrop-blur-xl border border-white/10 group-hover:border-transparent rounded-2xl p-8 h-full flex flex-col transition-all duration-500 group-hover:shadow-[0_20px_60px_hsl(var(--accent)/0.15)]">
+                <div className="relative bg-white border-2 border-accent/20 group-hover:border-transparent rounded-2xl p-8 h-full flex flex-col transition-all duration-500 group-hover:shadow-xl">
                   {/* Quote Icon with Glow */}
                   <div className="relative inline-block mb-4">
                     <div className="absolute -inset-2 bg-accent/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -144,11 +145,11 @@ export const ReviewsSection = () => {
                       <img
                         src={testimonial.avatar}
                         alt={testimonial.name}
-                        className="relative w-12 h-12 rounded-full ring-2 ring-white/10 group-hover:ring-accent/50 transition-all duration-300"
+                        className="relative w-12 h-12 rounded-full ring-2 ring-accent/30 group-hover:ring-accent/50 transition-all duration-300"
                       />
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground group-hover:text-accent transition-colors duration-300">{testimonial.name}</p>
+                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{testimonial.name}</p>
                       <p className="text-sm text-muted-foreground">{testimonial.handle}</p>
                     </div>
                   </div>
