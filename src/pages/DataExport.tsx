@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -298,7 +298,7 @@ export default function DataExport() {
           </div>
         </section>
 
-        <Footer />
+        <BhindiFooter />
       </div>
     </>
   );
