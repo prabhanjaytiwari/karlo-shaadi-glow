@@ -101,7 +101,7 @@ export const LiveActivityFeed = () => {
                         <span>{activity.city}</span>
                       </div>
                     </div>
-                    <Heart className="h-4 w-4 text-pink-500 animate-pulse shrink-0" />
+                    <Heart className="h-4 w-4 text-pink-500 shrink-0" />
                   </div>
                 </div>
 
