@@ -29,19 +29,19 @@ export const TensionsSection = () => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <section ref={ref} className="relative py-32 bg-gradient-to-b from-background via-background to-background overflow-hidden">
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
+    <section ref={ref} className="relative py-12 sm:py-16 md:py-24 bg-gradient-to-b from-background via-background to-background overflow-hidden">
+      {/* Premium Background Effects - Hidden on mobile */}
+      <div className="absolute inset-0 pointer-events-none hidden sm:block">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Floating Category Icons with Premium Effects */}
+      {/* Floating Category Icons - Only on large screens */}
       <div className="absolute inset-0 pointer-events-none">
         {categoryIcons.map((item, index) => (
           <div
             key={index}
-            className={`absolute ${item.position} ${item.floatClass} hidden lg:block transition-all duration-700`}
+            className={`absolute ${item.position} ${item.floatClass} hidden xl:block transition-all duration-700`}
             style={{
               animationDelay: item.delay,
               opacity: isVisible ? 1 : 0,
@@ -50,18 +50,13 @@ export const TensionsSection = () => {
             }}
           >
             <div className="relative group cursor-pointer">
-              {/* Glow Effect */}
-              <div className="absolute -inset-2 bg-gradient-to-r from-accent/30 to-primary/30 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Icon Container */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-accent/30 to-primary/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative">
                 <img 
                   src={item.src} 
                   alt="Category icon"
-                  className="w-24 h-24 rounded-3xl shadow-2xl group-hover:scale-110 transition-all duration-500 ring-2 ring-white/10 group-hover:ring-accent/50"
+                  className="w-16 h-16 rounded-2xl shadow-xl group-hover:scale-110 transition-all duration-500 ring-1 ring-white/10"
                 />
-                {/* Shine Effect */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/0 via-white/20 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
           </div>
@@ -69,9 +64,9 @@ export const TensionsSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div 
-          className="max-w-4xl mx-auto text-center space-y-8"
+          className="max-w-3xl mx-auto text-center space-y-4 sm:space-y-6"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
@@ -83,13 +78,13 @@ export const TensionsSection = () => {
           <div className="inline-block">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-accent/50 to-primary/50 rounded-full blur-sm opacity-75" />
-              <div className="relative px-6 py-2.5 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30">
-                <span className="text-accent text-sm font-semibold tracking-wide">✨ Categories</span>
+              <div className="relative px-4 py-2 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30">
+                <span className="text-accent text-xs sm:text-sm font-semibold tracking-wide">✨ Categories</span>
               </div>
             </div>
           </div>
           
-          <h2 className="text-5xl md:text-7xl font-bold leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             <span className="hero-text-reveal" style={{ animationDelay: '0.1s' }}>2000+ Wedding Tensions.</span>
             <br />
             <span className="font-quote italic bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer-glow hero-text-reveal" style={{ animationDelay: '0.2s' }}>
@@ -98,18 +93,18 @@ export const TensionsSection = () => {
           </h2>
           
           <p 
-            className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed hero-text-reveal"
+            className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed hero-text-reveal px-2"
             style={{ animationDelay: '0.3s' }}
           >
-            From photographers to caterers, decorators to mehendi artists—every wedding service you need, verified and ready to book on one platform.
+            From photographers to caterers—every wedding service you need, verified and ready to book.
           </p>
 
-          <div className="pt-6 hero-text-reveal" style={{ animationDelay: '0.4s' }}>
+          <div className="pt-2 sm:pt-4 hero-text-reveal" style={{ animationDelay: '0.4s' }}>
             <Link to="/categories">
               <Button 
-                size="lg"
+                size="default"
                 variant="premium"
-                className="rounded-full px-10 py-7 text-lg font-semibold"
+                className="rounded-full px-6 sm:px-8 h-10 sm:h-11 text-sm sm:text-base font-semibold"
               >
                 Explore All Categories
               </Button>
