@@ -10,6 +10,7 @@ interface LazyImageProps {
   blur?: boolean;
   onLoad?: () => void;
   onError?: () => void;
+  sizes?: string;
 }
 
 export const LazyImage = ({
@@ -17,10 +18,11 @@ export const LazyImage = ({
   alt,
   className,
   placeholderClassName,
-  threshold = 0.1,
+  threshold = 0,
   blur = true,
   onLoad,
-  onError
+  onError,
+  sizes
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -31,6 +33,12 @@ export const LazyImage = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Use native lazy loading for browsers that support it
+    if ('loading' in HTMLImageElement.prototype) {
+      setIsInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -38,14 +46,12 @@ export const LazyImage = ({
           observer.disconnect();
         }
       },
-      { threshold, rootMargin: "50px" }
+      { threshold, rootMargin: "100px" }
     );
 
     observer.observe(containerRef.current);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [threshold]);
 
   const handleLoad = () => {
@@ -58,49 +64,49 @@ export const LazyImage = ({
     onError?.();
   };
 
+  // Generate optimized srcset for responsive images
+  const getSrcSet = (originalSrc: string) => {
+    // For external URLs (like unsplash), use their resize parameters
+    if (originalSrc.includes('unsplash.com')) {
+      return `${originalSrc}&w=400 400w, ${originalSrc}&w=800 800w, ${originalSrc}&w=1200 1200w`;
+    }
+    return undefined;
+  };
+
   return (
-    <div ref={containerRef} className="relative overflow-hidden">
+    <div ref={containerRef} className={cn("relative overflow-hidden", placeholderClassName)}>
       {/* Shimmer placeholder */}
       {!isLoaded && !hasError && (
-        <div
-          className={cn(
-            "absolute inset-0",
-            placeholderClassName
-          )}
-        >
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-muted/50 to-accent/10" />
-          
-          {/* Shimmer effect */}
-          <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-muted/30 via-muted/50 to-muted/30" />
+          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
         </div>
       )}
 
       {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 bg-gradient-to-br from-destructive/5 to-destructive/10 flex items-center justify-center">
-          <span className="text-sm text-muted-foreground">Failed to load image</span>
+        <div className="absolute inset-0 bg-muted/30 flex items-center justify-center">
+          <span className="text-xs text-muted-foreground">Image unavailable</span>
         </div>
       )}
 
-      {/* Actual image with blur-up effect */}
+      {/* Optimized image */}
       <img
         ref={imgRef}
         src={isInView ? src : undefined}
+        srcSet={isInView ? getSrcSet(src) : undefined}
+        sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
         alt={alt}
         className={cn(
-          "transition-all duration-700",
-          isLoaded 
-            ? "opacity-100 scale-100" 
-            : blur 
-              ? "opacity-0 scale-105 blur-lg" 
-              : "opacity-0",
+          "transition-all duration-500",
+          isLoaded ? "opacity-100" : blur ? "opacity-0 blur-sm" : "opacity-0",
           className
         )}
         onLoad={handleLoad}
         onError={handleError}
         loading="lazy"
         decoding="async"
+        fetchPriority="low"
       />
     </div>
   );
