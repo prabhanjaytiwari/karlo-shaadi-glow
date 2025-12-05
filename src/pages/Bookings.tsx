@@ -87,35 +87,42 @@ export default function Bookings() {
     : bookings.filter(b => b.status === filter);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">My Bookings</h1>
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-foreground mb-2">My Bookings</h1>
+            <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+          </div>
 
           <div className="flex gap-2 mb-6 flex-wrap">
             <Button
               variant={filter === "all" ? "default" : "outline"}
               onClick={() => setFilter("all")}
+              className={filter === "all" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
             >
               All
             </Button>
             <Button
               variant={filter === "pending" ? "default" : "outline"}
               onClick={() => setFilter("pending")}
+              className={filter === "pending" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
             >
               Pending
             </Button>
             <Button
               variant={filter === "confirmed" ? "default" : "outline"}
               onClick={() => setFilter("confirmed")}
+              className={filter === "confirmed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
             >
               Confirmed
             </Button>
             <Button
               variant={filter === "completed" ? "default" : "outline"}
               onClick={() => setFilter("completed")}
+              className={filter === "completed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
             >
               Completed
             </Button>
@@ -138,7 +145,7 @@ export default function Bookings() {
           ) : (
             <div className="space-y-4">
               {filteredBookings.map((booking) => (
-                <Card key={booking.id} className="hover:shadow-lg transition-shadow">
+                <Card key={booking.id} className="bg-white/90 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>

@@ -173,7 +173,7 @@ const Profile = () => {
         keywords="profile, wedding planning, user settings"
       />
       
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
       
       <main className="pt-24 pb-16">
@@ -181,15 +181,16 @@ const Profile = () => {
           <Button
             variant="ghost"
             onClick={() => navigate("/dashboard")}
-            className="mb-6"
+            className="mb-6 hover:text-accent"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Button>
 
-          <Card className="animate-fade-up">
+          <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
             <CardHeader>
-              <CardTitle className="text-3xl">Edit Profile</CardTitle>
+              <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+              <CardTitle className="text-3xl text-foreground">Edit Profile</CardTitle>
               <CardDescription>
                 Update your wedding details and preferences
               </CardDescription>
@@ -336,10 +337,10 @@ const Profile = () => {
           </Card>
 
           {/* Data Export Card */}
-          <Card className="mt-6 border-border/50">
+          <Card className="mt-6 bg-white/90 border-2 border-accent/20">
             <CardHeader>
               <CardTitle className="text-xl flex items-center gap-2">
-                <Download className="w-5 h-5 text-primary" />
+                <Download className="w-5 h-5 text-accent" />
                 Export Your Data
               </CardTitle>
               <CardDescription>
@@ -348,7 +349,7 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <Link to="/data-export">
-                <Button variant="outline" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto border-accent/30 hover:border-accent/50">
                   <Download className="w-4 h-4 mr-2" />
                   Go to Data Export
                 </Button>
