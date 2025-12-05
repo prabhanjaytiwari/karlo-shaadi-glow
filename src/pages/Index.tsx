@@ -103,7 +103,7 @@ const Index = () => {
                       </Button>
                     </Link>
                     <Link to="/auth" className="w-full sm:w-auto">
-                      <Button size="default" variant="glow" className="w-full sm:w-auto text-sm px-5 h-10 sm:h-11">
+                      <Button size="default" variant="glass" className="w-full sm:w-auto text-sm px-5 h-10 sm:h-11">
                         Free Wedding Manager
                       </Button>
                     </Link>
