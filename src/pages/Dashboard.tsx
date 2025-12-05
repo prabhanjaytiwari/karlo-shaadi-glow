@@ -66,7 +66,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
       <main className="pt-24 pb-16">
@@ -75,19 +75,19 @@ const Dashboard = () => {
           <div className="mb-12 animate-fade-up">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h1 className="text-4xl font-bold mb-2">
-                  Welcome back, {profile?.full_name || "there"}! 👋
+                <h1 className="text-4xl font-bold mb-2 text-foreground">
+                  Welcome back, {profile?.full_name || "there"}!
                 </h1>
                 <p className="text-muted-foreground text-lg">
                   Let's make your wedding planning journey amazing
                 </p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => navigate("/profile")}>
+                <Button variant="outline" onClick={() => navigate("/profile")} className="border-accent/30 hover:border-accent/50">
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </Button>
-                <Button variant="outline" onClick={handleLogout}>
+                <Button variant="outline" onClick={handleLogout} className="border-accent/30 hover:border-accent/50">
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </Button>
@@ -95,13 +95,15 @@ const Dashboard = () => {
             </div>
 
             {profile?.wedding_date && (
-              <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
+              <Card className="bg-gradient-to-r from-accent/10 via-rose-100/50 to-amber-100/50 border-2 border-accent/30">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-3">
-                    <Calendar className="h-8 w-8 text-accent" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
+                      <Calendar className="h-6 w-6 text-accent" />
+                    </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Your wedding date</p>
-                      <p className="text-2xl font-bold">
+                      <p className="text-2xl font-bold text-foreground">
                         {new Date(profile.wedding_date).toLocaleDateString('en-IN', { 
                           year: 'numeric', 
                           month: 'long', 
@@ -117,55 +119,55 @@ const Dashboard = () => {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12 animate-fade-up">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/search")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/search")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-2">
-                  <Search className="h-5 w-5 text-primary" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center mb-2">
+                  <Search className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">Search Vendors</CardTitle>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/bookings")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/bookings")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-2">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-amber-200/50 flex items-center justify-center mb-2">
                   <Calendar className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">My Bookings</CardTitle>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/favorites")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/favorites")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-pink-500/10 flex items-center justify-center mb-2">
-                  <Heart className="h-5 w-5 text-pink-500" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-200/50 to-pink-200/50 flex items-center justify-center mb-2">
+                  <Heart className="h-5 w-5 text-rose-500" />
                 </div>
                 <CardTitle className="text-sm">Favorites</CardTitle>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/messages")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/messages")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mb-2">
-                  <MessageSquare className="h-5 w-5 text-blue-500" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-blue-200/50 flex items-center justify-center mb-2">
+                  <MessageSquare className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">Messages</CardTitle>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/moodboards")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/moodboards")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center mb-2">
-                  <Palette className="h-5 w-5 text-purple-500" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-purple-200/50 flex items-center justify-center mb-2">
+                  <Palette className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">Moodboards</CardTitle>
               </CardHeader>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/achievements")}>
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/achievements")}>
               <CardHeader className="p-4">
-                <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center mb-2">
-                  <Trophy className="h-5 w-5 text-yellow-500" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/30 to-yellow-200/50 flex items-center justify-center mb-2">
+                  <Trophy className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">Achievements</CardTitle>
               </CardHeader>
@@ -186,32 +188,32 @@ const Dashboard = () => {
               {/* Achievement Badges (Compact) */}
               {user && <AchievementBadges userId={user.id} compact />}
 
-              <Card>
+              <Card className="bg-white/90 border-2 border-accent/20">
                 <CardHeader>
-                  <CardTitle>Complete Your Profile</CardTitle>
+                  <CardTitle className="text-foreground">Complete Your Profile</CardTitle>
                   <CardDescription>Help us personalize your experience</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Wedding Date</span>
-                    <Badge variant={profile?.wedding_date ? "default" : "secondary"}>
+                    <Badge variant={profile?.wedding_date ? "default" : "secondary"} className={profile?.wedding_date ? "bg-accent text-accent-foreground" : ""}>
                       {profile?.wedding_date ? "Completed" : "Pending"}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Budget Range</span>
-                    <Badge variant={profile?.budget_range ? "default" : "secondary"}>
+                    <Badge variant={profile?.budget_range ? "default" : "secondary"} className={profile?.budget_range ? "bg-accent text-accent-foreground" : ""}>
                       {profile?.budget_range ? "Completed" : "Pending"}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm">City/Location</span>
-                    <Badge variant={profile?.city ? "default" : "secondary"}>
+                    <Badge variant={profile?.city ? "default" : "secondary"} className={profile?.city ? "bg-accent text-accent-foreground" : ""}>
                       {profile?.city ? "Completed" : "Pending"}
                     </Badge>
                   </div>
                   <Button 
-                    className="w-full mt-4" 
+                    className="w-full mt-4 border-accent/30 hover:border-accent/50" 
                     variant="outline"
                     onClick={() => navigate("/profile")}
                   >

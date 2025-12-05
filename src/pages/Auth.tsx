@@ -182,12 +182,13 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-6 pt-24">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
 
-        <Card className="animate-fade-up">
-          <CardHeader>
-            <CardTitle>Welcome</CardTitle>
+        <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
+          <CardHeader className="text-center">
+            <div className="mx-auto w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+            <CardTitle className="text-2xl text-foreground">Welcome</CardTitle>
             <CardDescription>Login or create your account to get started</CardDescription>
           </CardHeader>
           <CardContent>
@@ -322,7 +323,7 @@ const Auth = () => {
             </Tabs>
 
             {/* Vendor Link */}
-            <div className="mt-6 text-center">
+            <div className="mt-6 pt-6 border-t border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
                 Are you a vendor?{" "}
                 <Link to="/vendor-auth" className="text-accent hover:underline font-medium">
@@ -335,7 +336,7 @@ const Auth = () => {
 
         {/* Back to home */}
         <div className="text-center mt-6">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+          <Link to="/" className="text-sm text-muted-foreground hover:text-accent transition-colors">
             ← Back to home
           </Link>
         </div>
