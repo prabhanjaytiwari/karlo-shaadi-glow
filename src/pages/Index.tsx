@@ -132,20 +132,19 @@ const Index = () => {
       {/* Sponsored Vendors Carousel */}
       <SponsoredVendorsCarousel />
 
-      {/* HUMOR SECTION 1: Wedding Planning Superhero */}
-      <section ref={humorSection1.ref} className="py-10 sm:py-16 md:py-20 relative overflow-hidden" style={{ background: 'radial-gradient(ellipse at top, hsl(350 85% 55% / 0.08) 0%, transparent 50%)' }}>
+      {/* Value Proposition Section */}
+      <section ref={humorSection1.ref} className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-5xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <div className="text-center mb-6 sm:mb-8">
-              <div className="inline-block px-3 py-1.5 rounded-full bg-accent/10 border border-accent/30 mb-3 animate-breathe">
-                <span className="text-accent text-xs sm:text-sm font-bold">🦸 Plot Twist Alert!</span>
+              <div className="inline-block px-3 py-1.5 rounded-lg bg-accent/10 border border-accent/20 mb-4">
+                <span className="text-accent text-xs sm:text-sm font-medium">Your Wedding, Simplified</span>
               </div>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 px-2">
-                We're Like <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Avengers</span>,<br className="sm:hidden" />
-                <span className="hidden sm:inline"> </span>But For Your Wedding
+              <h2 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl mb-3 px-2">
+                We Handle Everything, <span className="text-accent">You Celebrate</span>
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed px-2">
-                While you focus on your love story, we handle everything else 🦸‍♂️
+                Focus on your love story while we take care of the details
               </p>
             </div>
             

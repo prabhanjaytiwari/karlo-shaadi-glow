@@ -66,29 +66,22 @@ export function SponsoredVendorsCarousel() {
           className="text-center mb-12"
           style={{
             opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
-          {/* Premium Badge with Glow */}
           <div className="inline-block mb-4">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-accent to-primary rounded-full blur-sm opacity-75 animate-glow-pulse" />
-              <Badge variant="outline" className="relative text-base px-5 py-2.5 bg-card/80 backdrop-blur-xl border-accent/30">
-                <Crown className="h-4 w-4 mr-2 text-accent" />
-                <span className="text-accent font-semibold">Featured Premium Vendors</span>
-              </Badge>
-            </div>
+            <Badge variant="outline" className="text-sm px-4 py-2 bg-card/80 backdrop-blur-md border-accent/20">
+              <Crown className="h-4 w-4 mr-2 text-accent" />
+              <span className="text-accent font-medium">Featured Vendors</span>
+            </Badge>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Top-Rated Wedding{' '}
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer-glow">
-              Professionals
-            </span>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+            Top-Rated Wedding <span className="text-accent">Professionals</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Handpicked vendors with verified premium profiles and exceptional reviews
+          <p className="text-muted-foreground text-base max-w-2xl mx-auto">
+            Handpicked vendors with verified profiles and exceptional reviews
           </p>
         </div>
 

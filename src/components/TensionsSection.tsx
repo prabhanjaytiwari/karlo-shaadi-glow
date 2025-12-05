@@ -74,21 +74,17 @@ export const TensionsSection = () => {
             transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
           }}
         >
-          {/* Premium Badge */}
-          <div className="inline-block">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-accent/50 to-primary/50 rounded-full blur-sm opacity-75" />
-              <div className="relative px-4 py-2 rounded-full bg-card/80 backdrop-blur-xl border border-accent/30">
-                <span className="text-accent text-xs sm:text-sm font-semibold tracking-wide">✨ Categories</span>
-              </div>
+          <div className="inline-block mb-4">
+            <div className="px-4 py-2 rounded-lg bg-card/80 backdrop-blur-md border border-accent/20">
+              <span className="text-accent text-xs sm:text-sm font-medium">Categories</span>
             </div>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-            <span className="hero-text-reveal" style={{ animationDelay: '0.1s' }}>2000+ Wedding Tensions.</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+            <span className="hero-text-reveal" style={{ animationDelay: '0.1s' }}>2000+ Wedding Services.</span>
             <br />
-            <span className="font-quote italic bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer-glow hero-text-reveal" style={{ animationDelay: '0.2s' }}>
-              One Solution.
+            <span className="text-accent font-quote italic hero-text-reveal" style={{ animationDelay: '0.2s' }}>
+              One Platform.
             </span>
           </h2>
           
