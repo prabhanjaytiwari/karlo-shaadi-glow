@@ -200,16 +200,13 @@ export const BhindiHeader = () => {
                   <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative">
-                      {/* Premium header gradient */}
-                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-                      <ul className="grid w-[650px] gap-2 p-6 md:grid-cols-2">
-                        {categories.map((category, index) => (
+                      <ul className="grid w-[600px] gap-1 p-4 md:grid-cols-2">
+                        {categories.map((category) => (
                           <ListItem
                             key={category.title}
                             title={category.title}
                             href={category.href}
                             icon={category.icon}
-                            index={index}
                           >
                             {category.description}
                           </ListItem>
@@ -471,50 +468,32 @@ const ListItem = ({
   children,
   icon: Icon,
   href,
-  index = 0,
 }: {
   className?: string;
   title: string;
   children: React.ReactNode;
   icon: React.ComponentType<{ className?: string }>;
   href: string;
-  index?: number;
 }) => {
   return (
-    <li 
-      className="animate-fade-in"
-      style={{ animationDelay: `${index * 50}ms` }}
-    >
+    <li>
       <NavigationMenuLink asChild>
         <Link
           to={href}
           className={cn(
-            "group relative block select-none rounded-xl p-4 leading-none no-underline outline-none",
-            "transition-all duration-300 ease-out",
-            "hover:bg-accent/10 focus:bg-accent/10",
-            "hover:scale-[1.02] active:scale-[0.98]",
-            "border border-transparent hover:border-accent/20",
+            "group block select-none rounded-lg p-3 leading-none no-underline outline-none",
+            "transition-colors duration-200",
+            "hover:bg-muted/50",
             className
           )}
         >
-          {/* Hover glow effect */}
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          <div className="relative flex items-start gap-3">
-            {/* Icon container with premium styling */}
-            <div className={cn(
-              "flex-shrink-0 w-10 h-10 rounded-xl",
-              "bg-gradient-to-br from-accent/20 to-accent/5",
-              "flex items-center justify-center",
-              "group-hover:from-accent/30 group-hover:to-accent/10",
-              "group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-accent/20",
-              "transition-all duration-300"
-            )}>
-              <Icon className="h-5 w-5 text-accent" />
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center">
+              <Icon className="h-4 w-4 text-accent" />
             </div>
             
             <div className="space-y-1">
-              <div className="text-sm font-semibold leading-none group-hover:text-accent transition-colors duration-300">
+              <div className="text-sm font-medium leading-none">
                 {title}
               </div>
               <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">

@@ -48,68 +48,54 @@ const Index = () => {
         keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning"
       />
       
-      {/* Hero Section - Compact */}
-      <section className="relative min-h-[85vh] sm:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-16 sm:pt-20">
-        {/* Parallax Background */}
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] sm:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-16 sm:pt-20">
+        {/* Background */}
         <div 
           ref={parallaxRef}
           className="absolute inset-0 z-0"
-          style={{ transform: `translateY(${offset * 0.5}px) scale(1.1)` }}
+          style={{ transform: `translateY(${offset * 0.3}px) scale(1.05)` }}
         >
           <img 
             src={heroWedding} 
             alt="Indian wedding ceremony" 
-            className="w-full h-full object-cover transition-transform duration-100"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/80 to-background" />
-        </div>
-        
-        {/* Floating Decorative Elements - Hidden on mobile */}
-        <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden hidden sm:block">
-          <div className="absolute top-1/4 left-10 w-32 h-32 rounded-full bg-accent/10 blur-3xl float-slow" />
-          <div className="absolute top-1/3 right-20 w-48 h-48 rounded-full bg-primary/10 blur-3xl float-medium" style={{ animationDelay: '-2s' }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-background" />
         </div>
         
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-              {/* Frosted Glass Card - More compact */}
-              <div className="relative rounded-2xl md:rounded-[2rem] border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl p-5 sm:p-6 md:p-10 lg:p-12 shadow-2xl mx-0 hover:border-white/30 transition-all duration-500">
-                {/* Glow Effect */}
-                <div className="absolute inset-0 rounded-2xl md:rounded-[2rem] bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
+            <div className={`max-w-3xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+              {/* Glass Card */}
+              <div className="relative rounded-xl md:rounded-2xl border border-white/10 bg-black/30 backdrop-blur-xl p-6 sm:p-8 md:p-12">
                 {/* Content */}
-                <div className="relative text-center space-y-3 sm:space-y-4 md:space-y-6">
-                  {/* Headline - More compact */}
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl lg:text-6xl leading-[1.2] tracking-tight text-white">
+                <div className="relative text-center space-y-4 md:space-y-6">
+                  {/* Headline */}
+                  <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-white">
                     <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
-                    <span className={`inline-block font-quote italic font-normal bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
+                    <span className={`inline-block font-quote italic font-normal text-accent hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
                     <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
                     <br />
-                    <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 text-xl sm:text-2xl md:text-3xl lg:text-5xl ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
+                    <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
                   </h1>
 
-                  {/* Subtext - Compact */}
-                  <p className={`text-white/90 text-xs sm:text-sm md:text-base lg:text-lg font-light max-w-xl mx-auto hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
+                  {/* Subtext */}
+                  <p className={`text-white/80 text-sm sm:text-base md:text-lg max-w-lg mx-auto hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
                     India's Most Trusted Wedding Platform • 50,000+ Happy Couples
                   </p>
 
-                  {/* CTA Buttons - Compact */}
-                  <div className={`flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center pt-2 hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
-                    <Link to="/categories" className="w-full sm:w-auto">
-                      <Button size="default" variant="premium" className="w-full sm:w-auto text-sm px-5 h-10 sm:h-11">
+                  {/* CTA Buttons - 2 buttons only */}
+                  <div className={`flex flex-col sm:flex-row gap-3 justify-center pt-2 hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
+                    <Link to="/categories">
+                      <Button size="lg" variant="accent" className="w-full sm:w-auto">
                         Explore Vendors
                       </Button>
                     </Link>
-                    <Link to="/auth" className="w-full sm:w-auto">
-                      <Button size="default" variant="glass" className="w-full sm:w-auto text-sm px-5 h-10 sm:h-11">
-                        Free Wedding Manager
-                      </Button>
-                    </Link>
-                    <Link to="/vendor-auth" className="w-full sm:w-auto hidden sm:block">
-                      <Button size="default" variant="outline" className="w-full sm:w-auto text-sm px-5 border-white/50 text-white hover:bg-white hover:text-primary h-10 sm:h-11 backdrop-blur-sm">
-                        For Vendors
+                    <Link to="/auth">
+                      <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10">
+                        Start Planning Free
                       </Button>
                     </Link>
                   </div>
@@ -119,8 +105,8 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Bottom Gradient Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
+        {/* Bottom Gradient */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
       {/* Tensions Section */}
