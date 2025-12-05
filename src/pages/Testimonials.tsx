@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { Star, Quote, MapPin, Calendar, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -219,7 +219,7 @@ export default function Testimonials() {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 }

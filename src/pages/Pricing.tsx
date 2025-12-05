@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle } from "lucide-react";
@@ -334,7 +334,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 }

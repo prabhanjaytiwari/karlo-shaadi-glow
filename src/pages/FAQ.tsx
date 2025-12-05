@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import {
   Accordion,
   AccordionContent,
@@ -211,7 +211,7 @@ export default function FAQ() {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 }

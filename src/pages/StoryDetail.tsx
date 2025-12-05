@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +65,7 @@ const StoryDetail = () => {
           <Skeleton className="h-96 w-full" />
           <Skeleton className="h-64 w-full" />
         </div>
-        <Footer />
+        <BhindiFooter />
       </div>
     );
   }
@@ -81,7 +81,7 @@ const StoryDetail = () => {
             </Link>
           </div>
         </div>
-        <Footer />
+        <BhindiFooter />
       </div>
     );
   }
@@ -323,7 +323,7 @@ const StoryDetail = () => {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { useParams } from "react-router-dom";
@@ -141,7 +140,6 @@ const VendorProfile = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
 
       {/* Gallery Section */}
       <section className="relative h-[60vh] overflow-hidden">
@@ -362,7 +360,7 @@ const VendorProfile = () => {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 };

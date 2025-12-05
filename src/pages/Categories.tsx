@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { GlassCard } from "@/components/GlassCard";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -202,7 +202,7 @@ const Categories = () => {
                     className="overflow-hidden animate-fade-up transition-all duration-300"
                     style={{ animationDelay: `${i * 60}ms` }}
                   >
-                    {categoryImages[cat.slug] && (
+                    {categoryImages[cat.slug] ? (
                       <div className="relative h-48 -mx-6 -mt-6 mb-4">
                         <img 
                           src={categoryImages[cat.slug]} 
@@ -210,14 +210,15 @@ const Categories = () => {
                           className="w-full h-full object-cover img-luxury"
                         />
                       </div>
-                    )}
-                    <div className="aspect-square relative overflow-hidden group bg-gradient-to-br from-accent/10 to-secondary/10">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-6xl font-bold text-accent/20">
-                          {cat.name.charAt(0)}
-                        </span>
+                    ) : (
+                      <div className="aspect-square relative overflow-hidden group bg-gradient-to-br from-accent/10 to-secondary/10 -mx-6 -mt-6 mb-4">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-6xl font-bold text-accent/20">
+                            {cat.name.charAt(0)}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="p-4 text-center">
                       <h3 className="font-display font-semibold text-lg">{cat.name}</h3>
                       <p className="text-sm text-muted-foreground mt-1">{cat.description}</p>
@@ -230,7 +231,7 @@ const Categories = () => {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 };

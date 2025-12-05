@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, MapPin, Calendar, Users, IndianRupee, Camera, Sparkles } from "lucide-react";
@@ -306,7 +306,7 @@ export default function SuccessStories() {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 }

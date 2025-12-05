@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { Footer } from "@/components/Footer";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowRight, TrendingUp } from "lucide-react";
@@ -279,7 +279,7 @@ export default function Blog() {
         </div>
       </section>
 
-      <Footer />
+      <BhindiFooter />
     </div>
   );
 }
