@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Building2, MapPin, Users, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { sanitizeInput } from "@/lib/validation";
 
 import { Database } from "@/integrations/supabase/types";
@@ -119,14 +120,16 @@ export default function VendorOnboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
+          <Badge className="bg-accent text-accent-foreground mb-4">For Vendors</Badge>
           <h1 className="text-4xl font-bold mb-2">Become a Vendor</h1>
           <p className="text-muted-foreground">Join Karlo Shaadi and grow your wedding business</p>
+          <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mt-4 rounded-full" />
         </div>
 
-        <Card>
+        <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 shadow-lg">
           <CardHeader>
             <CardTitle>Vendor Registration</CardTitle>
             <CardDescription>Tell us about your business</CardDescription>
