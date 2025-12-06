@@ -4,7 +4,7 @@ import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-new.png";
 import {
   NavigationMenu,
   NavigationMenuContent,

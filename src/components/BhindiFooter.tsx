@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-new.png";
 import { Instagram, Twitter, Youtube, Facebook, ArrowRight } from "lucide-react";
 
 const footerLinks = {
