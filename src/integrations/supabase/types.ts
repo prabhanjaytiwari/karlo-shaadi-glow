@@ -1342,6 +1342,13 @@ export type Database = {
         | "cakes"
         | "mehendi"
         | "planning"
+        | "makeup"
+        | "invitations"
+        | "choreography"
+        | "transport"
+        | "jewelry"
+        | "pandit"
+        | "entertainment"
       vendor_subscription_plan: "free" | "featured" | "sponsored"
     }
     CompositeTypes: {
@@ -1491,6 +1498,13 @@ export const Constants = {
         "cakes",
         "mehendi",
         "planning",
+        "makeup",
+        "invitations",
+        "choreography",
+        "transport",
+        "jewelry",
+        "pandit",
+        "entertainment",
       ],
       vendor_subscription_plan: ["free", "featured", "sponsored"],
     },

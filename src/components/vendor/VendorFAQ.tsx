@@ -102,6 +102,76 @@ const getDefaultFAQs = (vendorName: string, category: string): FAQItem[] => {
         answer: "Professional sound systems, lighting, and backup equipment are typically included. Specific equipment varies by package.",
       },
     ],
+    makeup: [
+      {
+        question: "Do you offer trials before the wedding?",
+        answer: "Yes, most bridal makeup artists offer trial sessions 2-4 weeks before your wedding. This helps finalize your look and ensures you're comfortable with the style.",
+      },
+      {
+        question: "Do you travel to the venue?",
+        answer: "Yes, most makeup artists provide on-location services. They'll arrive at your getting-ready location with all necessary equipment.",
+      },
+    ],
+    invitations: [
+      {
+        question: "How far in advance should I order?",
+        answer: "We recommend ordering invitations 3-4 months before your wedding to allow time for design, printing, and mailing. Rush orders may be available for additional fees.",
+      },
+      {
+        question: "Can I see samples before ordering?",
+        answer: "Yes, most invitation designers offer sample kits or digital proofs. Contact the vendor to request samples of paper quality and printing styles.",
+      },
+    ],
+    choreography: [
+      {
+        question: "How many rehearsal sessions are included?",
+        answer: "Choreography packages typically include 8-12 rehearsal sessions. The number varies based on the complexity of performances and number of songs.",
+      },
+      {
+        question: "Can you choreograph for the whole family?",
+        answer: "Absolutely! Choreographers specialize in group performances for sangeet, including couple dances, family performances, and flash mobs.",
+      },
+    ],
+    transport: [
+      {
+        question: "Are the vehicles decorated?",
+        answer: "Basic floral decoration is typically included. Premium decoration packages with specific themes are available upon request.",
+      },
+      {
+        question: "Is a backup vehicle provided?",
+        answer: "Reputable transport services maintain backup vehicles to ensure no disruption on your special day. Confirm this when booking.",
+      },
+    ],
+    jewelry: [
+      {
+        question: "Do you offer rental services?",
+        answer: "Many jewelry vendors offer rental options for bridal sets, perfect for those who prefer variety without the full purchase price.",
+      },
+      {
+        question: "Can jewelry be customized?",
+        answer: "Yes, custom jewelry can be created to match your outfit or preferences. Allow 6-8 weeks for custom orders.",
+      },
+    ],
+    pandit: [
+      {
+        question: "Which wedding rituals do you perform?",
+        answer: "Experienced pandits perform all traditional ceremonies including engagement, haldi, mehendi, wedding ceremony, and reception blessings based on your customs and traditions.",
+      },
+      {
+        question: "Do you travel to other cities?",
+        answer: "Many pandits are available for outstation weddings. Travel and accommodation arrangements can be discussed during booking.",
+      },
+    ],
+    entertainment: [
+      {
+        question: "What entertainment options are available?",
+        answer: "Options include dhol players, live bands, fireworks, LED shows, celebrity performers, magicians, and more. Contact for specific entertainment packages.",
+      },
+      {
+        question: "Are permissions for fireworks included?",
+        answer: "Professional entertainment vendors handle all necessary permits and safety requirements for pyrotechnics and special effects.",
+      },
+    ],
   };
 
   return [...commonFAQs, ...(categoryFAQs[category] || [])];
