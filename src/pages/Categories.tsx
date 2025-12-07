@@ -12,7 +12,13 @@ import cateringImg from "@/assets/category-catering.jpg";
 import decorationImg from "@/assets/category-decoration.jpg";
 import musicImg from "@/assets/category-music.jpg";
 import cakeImg from "@/assets/category-cake.jpg";
-import makeupImg from "@/assets/category-makeup.jpg";
+import makeupImg from "@/assets/category-bridal-makeup.jpg";
+import invitationsImg from "@/assets/category-invitations.jpg";
+import choreographyImg from "@/assets/category-choreography.jpg";
+import transportImg from "@/assets/category-transport.jpg";
+import jewelryImg from "@/assets/category-jewelry.jpg";
+import panditImg from "@/assets/category-pandit.jpg";
+import entertainmentImg from "@/assets/category-entertainment.jpg";
 
 const Categories = () => {
   const { category } = useParams();
@@ -30,10 +36,17 @@ const Categories = () => {
     decoration: decorationImg,
     decor: decorationImg,
     music: musicImg,
-    entertainment: musicImg,
     cake: cakeImg,
+    cakes: cakeImg,
     'cakes-desserts': cakeImg,
+    planning: photographyImg,
     makeup: makeupImg,
+    invitations: invitationsImg,
+    choreography: choreographyImg,
+    transport: transportImg,
+    jewelry: jewelryImg,
+    pandit: panditImg,
+    entertainment: entertainmentImg,
   };
 
   const handleCategoryClick = (categorySlug: string) => {

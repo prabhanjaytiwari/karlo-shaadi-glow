@@ -16,7 +16,9 @@ import { Database } from "@/integrations/supabase/types";
 
   const CATEGORIES: Database["public"]["Enums"]["vendor_category"][] = [
     "venues", "catering", "photography", "decoration", 
-    "mehendi", "music", "cakes", "planning"
+    "mehendi", "music", "cakes", "planning", "makeup",
+    "invitations", "choreography", "transport", "jewelry", 
+    "pandit", "entertainment"
   ];
 
 export default function VendorOnboarding() {
