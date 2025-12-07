@@ -126,7 +126,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-up": "fadeUp 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "fade-up": "fadeUp 500ms cubic-bezier(0.4, 0, 0.2, 1)",
         "fade-in": "fadeIn 400ms cubic-bezier(0.4, 0, 0.2, 1)",
         "scale-in": "scaleIn 400ms cubic-bezier(0.4, 0, 0.2, 1)",
         shimmer: "shimmer 2s linear infinite",
