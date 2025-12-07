@@ -384,25 +384,46 @@ export const BhindiHeader = () => {
 
                 {/* Compact Other Links */}
                 <div className="grid grid-cols-2 gap-1">
-                  {[
-                    { label: "Stories", href: "/stories" },
-                    { label: "Deals", href: "/deals" },
-                    ...(user ? [{ label: "Budget", href: "/budget" }] : []),
-                    { label: "Help", href: "/help" },
-                    ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
-                    { label: "About", href: "/about" },
-                  ].map((link) => (
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                    onClick={() => { navigate("/stories"); setMobileMenuOpen(false); }}
+                  >
+                    Stories
+                  </button>
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                    onClick={() => { navigate("/deals"); setMobileMenuOpen(false); }}
+                  >
+                    Deals
+                  </button>
+                  {user && (
                     <button
-                      key={link.href}
                       className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
-                      onClick={() => {
-                        navigate(link.href);
-                        setMobileMenuOpen(false);
-                      }}
+                      onClick={() => { navigate("/budget"); setMobileMenuOpen(false); }}
                     >
-                      {link.label}
+                      Budget
                     </button>
-                  ))}
+                  )}
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                    onClick={() => { navigate("/help"); setMobileMenuOpen(false); }}
+                  >
+                    Help
+                  </button>
+                  {!user && (
+                    <button
+                      className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                      onClick={() => { navigate("/for-vendors"); setMobileMenuOpen(false); }}
+                    >
+                      For Vendors
+                    </button>
+                  )}
+                  <button
+                    className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                    onClick={() => { navigate("/about"); setMobileMenuOpen(false); }}
+                  >
+                    About
+                  </button>
                 </div>
 
                 <Separator className="bg-border/30" />
