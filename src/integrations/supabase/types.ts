@@ -216,6 +216,42 @@ export type Database = {
           },
         ]
       }
+      budget_allocations: {
+        Row: {
+          allocated_amount: number
+          category: string
+          created_at: string
+          id: string
+          notes: string | null
+          spent_amount: number
+          total_budget: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allocated_amount?: number
+          category: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          spent_amount?: number
+          total_budget?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allocated_amount?: number
+          category?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          spent_amount?: number
+          total_budget?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
