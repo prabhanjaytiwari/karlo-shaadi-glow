@@ -53,6 +53,7 @@ import Achievements from "./pages/Achievements";
 import Deals from "./pages/Deals";
 import Compare from "./pages/Compare";
 import Checklist from "./pages/Checklist";
+import BudgetTracker from "./pages/BudgetTracker";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
@@ -122,6 +123,7 @@ const App = () => (
               <Route path="/deals" element={<Deals />} />
               <Route path="/compare" element={<Compare />} />
               <Route path="/checklist" element={<ProtectedRoute><Checklist /></ProtectedRoute>} />
+              <Route path="/budget" element={<ProtectedRoute><BudgetTracker /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

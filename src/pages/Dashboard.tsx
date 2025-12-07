@@ -6,7 +6,7 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
@@ -118,7 +118,7 @@ const Dashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-12 animate-fade-up">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-12 animate-fade-up">
             <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/search")}>
               <CardHeader className="p-4">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center mb-2">
@@ -179,6 +179,15 @@ const Dashboard = () => {
                   <ListChecks className="h-5 w-5 text-emerald-600" />
                 </div>
                 <CardTitle className="text-sm">Checklist</CardTitle>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/budget")}>
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/30 to-amber-200/50 flex items-center justify-center mb-2">
+                  <PiggyBank className="h-5 w-5 text-accent" />
+                </div>
+                <CardTitle className="text-sm">Budget</CardTitle>
               </CardHeader>
             </Card>
           </div>
