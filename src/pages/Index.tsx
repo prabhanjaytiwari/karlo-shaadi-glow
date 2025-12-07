@@ -4,12 +4,13 @@ import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel";
 import { LiveActivityFeed } from "@/components/LiveActivityFeed";
+import { HeroSearchWidget } from "@/components/HeroSearchWidget";
+import { TrustStatsBanner } from "@/components/TrustStatsBanner";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
-import sectionVenue from "@/assets/section-venue.jpg";
 import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
 import { Shield, CheckCircle2, Star, Users } from "lucide-react";
@@ -67,39 +68,24 @@ const Index = () => {
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className={`max-w-3xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-              {/* Glass Card */}
-              <div className="relative rounded-xl md:rounded-2xl border border-white/20 bg-white/90 backdrop-blur-xl p-6 sm:p-8 md:p-12 shadow-xl">
-                {/* Content */}
-                <div className="relative text-center space-y-4 md:space-y-6">
-                  {/* Headline */}
-                  <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-foreground">
-                    <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
-                    <span className={`inline-block font-quote italic font-normal text-primary hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
-                    <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
-                    <br />
-                    <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
-                  </h1>
+            <div className={`w-full max-w-4xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+              {/* Headline */}
+              <div className="text-center mb-6 md:mb-8">
+                <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight text-white drop-shadow-lg">
+                  <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
+                  <span className={`inline-block font-quote italic font-normal hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
+                  <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
+                  <br />
+                  <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
+                </h1>
+                <p className={`text-white/90 text-sm sm:text-base md:text-lg mt-3 hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
+                  India's Most Trusted Wedding Platform
+                </p>
+              </div>
 
-                  {/* Subtext */}
-                  <p className={`text-muted-foreground text-sm sm:text-base md:text-lg max-w-lg mx-auto hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
-                    India's Most Trusted Wedding Platform • 50,000+ Happy Couples
-                  </p>
-
-                  {/* CTA Buttons - 2 buttons only */}
-                  <div className={`flex flex-col sm:flex-row gap-3 justify-center pt-2 hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
-                    <Link to="/categories">
-                      <Button size="lg" className="w-full sm:w-auto">
-                        Explore Vendors
-                      </Button>
-                    </Link>
-                    <Link to="/auth">
-                      <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                        Start Planning Free
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
+              {/* Hero Search Widget */}
+              <div className={`hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
+                <HeroSearchWidget />
               </div>
             </div>
           </div>
@@ -108,6 +94,9 @@ const Index = () => {
         {/* Bottom Gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
+
+      {/* Trust Stats Banner */}
+      <TrustStatsBanner />
 
       {/* Tensions Section */}
       <TensionsSection />
@@ -361,7 +350,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group">
-                <img src={sectionVenue} alt="Beautiful wedding venue" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={sectionHumorVendors} alt="Beautiful wedding venue" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
