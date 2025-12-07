@@ -11,6 +11,11 @@ import { ReviewsList } from "@/components/ReviewsList";
 import { BookingDialog } from "@/components/BookingDialog";
 import { MessagingDialog } from "@/components/MessagingDialog";
 import { FavoritesButton } from "@/components/FavoritesButton";
+import { VendorProfileTabs } from "@/components/vendor/VendorProfileTabs";
+import { VendorAvailabilityWidget } from "@/components/vendor/VendorAvailabilityWidget";
+import { VendorQuickInfo } from "@/components/vendor/VendorQuickInfo";
+import { VendorFAQ } from "@/components/vendor/VendorFAQ";
+import { DealBadge } from "@/components/vendor/DealBadge";
 import { 
   MapPin, 
   Clock, 
@@ -19,7 +24,8 @@ import {
   Award,
   CheckCircle2,
   Loader2,
-  MessageCircle
+  MessageCircle,
+  Navigation
 } from "lucide-react";
 
 const VendorProfile = () => {
@@ -32,6 +38,7 @@ const VendorProfile = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [userBooking, setUserBooking] = useState<any>(null);
+  const [selectedBookingDate, setSelectedBookingDate] = useState<Date | undefined>();
 
   useEffect(() => {
     loadVendorData();
@@ -43,7 +50,6 @@ const VendorProfile = () => {
     setUser(user);
     
     if (user && id) {
-      // Check if user has a completed booking with this vendor
       const { data: booking } = await supabase
         .from("bookings")
         .select("*")
@@ -86,7 +92,6 @@ const VendorProfile = () => {
       
       setPortfolio(portfolioData || []);
 
-      // Track vendor profile view
       if (id) {
         trackEvent({
           event_type: 'vendor_profile_viewed',
@@ -138,11 +143,183 @@ const VendorProfile = () => {
     ]
   };
 
+  // Tab content components
+  const DetailsContent = () => (
+    <>
+      {/* About */}
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <h2 className="font-display font-bold text-xl mb-3">About</h2>
+        <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+        <p className="text-muted-foreground leading-relaxed">
+          {vendor.description || `Professional ${vendor.category} services for your special day.`}
+        </p>
+        {vendor.instagram_handle && (
+          <p className="mt-4 text-sm text-primary font-medium">
+            Instagram: @{vendor.instagram_handle}
+          </p>
+        )}
+        {vendor.website_url && (
+          <p className="mt-2 text-sm text-primary font-medium">
+            Website: {vendor.website_url}
+          </p>
+        )}
+      </GlassCard>
+
+      {/* Quick Info */}
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <h2 className="font-display font-bold text-xl mb-3">Quick Info</h2>
+        <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+        <VendorQuickInfo vendor={vendor} />
+      </GlassCard>
+
+      {/* Why Matched */}
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <div className="flex items-center gap-2 mb-4">
+          <Award className="h-5 w-5 text-accent" />
+          <h2 className="font-display font-bold text-xl">Why This Vendor Stands Out</h2>
+        </div>
+        <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+        
+        <div className="space-y-4">
+          {mockData.whyMatched.map((match, i) => (
+            <div key={i} className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-sm">{match.factor}</span>
+                <span className="text-accent font-bold text-sm">{Math.round(match.score)}%</span>
+              </div>
+              <div className="h-2 bg-accent/10 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-accent to-primary rounded-full transition-all duration-500"
+                  style={{ width: `${match.score}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">{match.reason}</p>
+            </div>
+          ))}
+        </div>
+      </GlassCard>
+
+      {/* FAQ */}
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <VendorFAQ vendorName={vendor.business_name} category={vendor.category} />
+      </GlassCard>
+    </>
+  );
+
+  const PricingContent = () => (
+    <>
+      {services.length > 0 ? (
+        <GlassCard className="p-6 bg-white border-2 border-accent/20">
+          <h2 className="font-display font-bold text-xl mb-3">Services & Pricing</h2>
+          <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+          
+          <div className="space-y-4">
+            {services.map((service) => (
+              <div 
+                key={service.id}
+                className="bg-rose-50/50 border-2 border-accent/20 p-5 rounded-xl"
+              >
+                <h3 className="font-display font-bold text-lg mb-2">{service.service_name}</h3>
+                <p className="text-muted-foreground text-sm mb-3">{service.description}</p>
+                <div className="flex items-center gap-2">
+                  {service.base_price && (
+                    <p className="font-display font-bold text-xl text-accent">
+                      ₹{Number(service.base_price).toLocaleString()}
+                    </p>
+                  )}
+                  {service.price_range_min && service.price_range_max && (
+                    <p className="font-display font-bold text-xl text-accent">
+                      ₹{Number(service.price_range_min).toLocaleString()} - ₹{Number(service.price_range_max).toLocaleString()}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs text-muted-foreground mt-6 text-center">
+            Milestone payments available • Escrow protection • E-contract included
+          </p>
+        </GlassCard>
+      ) : (
+        <GlassCard className="p-6 bg-white border-2 border-accent/20 text-center">
+          <p className="text-muted-foreground">Contact vendor for pricing details</p>
+        </GlassCard>
+      )}
+
+      {/* Deal Badge */}
+      <DealBadge className="w-full" />
+    </>
+  );
+
+  const LocationContent = () => (
+    <>
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <div className="flex items-center gap-2 mb-4">
+          <Navigation className="h-5 w-5 text-accent" />
+          <h2 className="font-display font-bold text-xl">Location</h2>
+        </div>
+        <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+
+        <div className="space-y-4">
+          <div className="flex items-start gap-3 p-4 rounded-lg bg-muted/30">
+            <MapPin className="h-5 w-5 text-accent mt-0.5" />
+            <div>
+              <p className="font-medium">{vendor.cities?.name || "India"}</p>
+              <p className="text-sm text-muted-foreground">{vendor.cities?.state || "Pan India Services"}</p>
+            </div>
+          </div>
+
+          {/* Map Placeholder */}
+          <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center border border-border/50">
+            <div className="text-center">
+              <MapPin className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Map view coming soon</p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-lg bg-accent/5 border border-accent/20">
+            <p className="text-sm">
+              <span className="font-medium">Service Area:</span>{" "}
+              <span className="text-muted-foreground">
+                {vendor.cities?.name ? `${vendor.cities.name} and surrounding areas` : "Available across India"}
+              </span>
+            </p>
+          </div>
+        </div>
+      </GlassCard>
+    </>
+  );
+
+  const ReviewsContent = () => (
+    <>
+      <GlassCard className="p-6 bg-white border-2 border-accent/20">
+        <h2 className="font-display font-bold text-xl mb-3">Reviews & Ratings</h2>
+        <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
+        
+        {/* Review Form - Only show if user has completed booking */}
+        {user && userBooking && (
+          <div className="mb-6 p-4 bg-rose-50/50 border border-accent/20 rounded-xl">
+            <h3 className="font-semibold mb-3 text-sm">Share Your Experience</h3>
+            <ReviewForm 
+              vendorId={id!} 
+              bookingId={userBooking.id}
+              onSuccess={loadVendorData}
+            />
+          </div>
+        )}
+        
+        {/* Reviews List */}
+        <ReviewsList vendorId={id!} />
+      </GlassCard>
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
 
       {/* Gallery Section */}
-      <section className="relative h-[60vh] overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
         <img 
           src={portfolio[0]?.image_url || "/placeholder.svg"} 
           alt={vendor.business_name}
@@ -152,16 +329,16 @@ const VendorProfile = () => {
       </section>
 
       {/* Sticky Action Bar (Mobile) */}
-      <div className="lg:hidden sticky top-16 z-40 bg-white/95 backdrop-blur-xl border-b-2 border-accent/20 p-4 animate-fade-in">
-        <div className="flex gap-3">
-          <BookingDialog vendorId={id!}>
-            <Button className="flex-1">
+      <div className="lg:hidden sticky top-14 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-3">
+        <div className="flex gap-2">
+          <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
+            <Button className="flex-1 h-10 text-sm">
               Check Availability
             </Button>
           </BookingDialog>
           <FavoritesButton vendorId={id!} />
           <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="h-10 w-10">
               <MessageCircle className="h-4 w-4" />
             </Button>
           </MessagingDialog>
@@ -169,18 +346,18 @@ const VendorProfile = () => {
       </div>
 
       {/* Main Content */}
-      <section className="py-12 -mt-20 relative z-10">
+      <section className="py-8 md:py-12 -mt-16 md:-mt-20 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Header */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
-                <div className="flex flex-wrap gap-2 mb-4">
+              <GlassCard className="p-5 md:p-6 animate-fade-up bg-white border-2 border-accent/20">
+                <div className="flex flex-wrap gap-2 mb-3">
                   {badges.map((badge, i) => (
                     <span 
                       key={i}
-                      className="bg-accent/15 border border-accent/30 px-3 py-1 rounded-full text-xs font-semibold text-accent flex items-center gap-1"
+                      className="bg-accent/15 border border-accent/30 px-2.5 py-1 rounded-full text-xs font-semibold text-accent flex items-center gap-1"
                     >
                       {badge === "Verified" && <Shield className="h-3 w-3" />}
                       {badge}
@@ -188,10 +365,10 @@ const VendorProfile = () => {
                   ))}
                 </div>
 
-                <h1 className="font-display font-bold text-4xl mb-2">{vendor.business_name}</h1>
-                <p className="text-muted-foreground text-lg mb-4 capitalize">{vendor.category}</p>
+                <h1 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-1">{vendor.business_name}</h1>
+                <p className="text-muted-foreground text-base mb-4 capitalize">{vendor.category}</p>
 
-                <div className="flex flex-wrap items-center gap-6 text-sm">
+                <div className="flex flex-wrap items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-accent" />
                     <span>{vendor.cities?.name || "India"}</span>
@@ -207,158 +384,89 @@ const VendorProfile = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t-2 border-accent/20">
+                <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-accent/20">
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">{vendor.years_experience}+</p>
-                    <p className="text-sm text-muted-foreground">Years Active</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.years_experience}+</p>
+                    <p className="text-xs text-muted-foreground">Years Active</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">{vendor.total_bookings || 0}+</p>
-                    <p className="text-sm text-muted-foreground">Weddings</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.total_bookings || 0}+</p>
+                    <p className="text-xs text-muted-foreground">Weddings</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-2xl text-accent">{vendor.team_size || 1}</p>
-                    <p className="text-sm text-muted-foreground">Team Size</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.team_size || 1}</p>
+                    <p className="text-xs text-muted-foreground">Team Size</p>
                   </div>
                 </div>
               </GlassCard>
 
-              {/* About */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
-                <h2 className="font-display font-bold text-2xl mb-4">About</h2>
-                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-4" />
-                <p className="text-muted-foreground leading-relaxed">
-                  {vendor.description || `Professional ${vendor.category} services for your special day.`}
-                </p>
-                {vendor.instagram_handle && (
-                  <p className="mt-4 text-sm text-primary font-medium">
-                    Instagram: @{vendor.instagram_handle}
-                  </p>
-                )}
-                {vendor.website_url && (
-                  <p className="mt-2 text-sm text-primary font-medium">
-                    Website: {vendor.website_url}
-                  </p>
-                )}
-              </GlassCard>
+              {/* Deal Badge - Mobile */}
+              <div className="lg:hidden">
+                <DealBadge className="w-full" />
+              </div>
 
-              {/* Why Matched */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
-                <div className="flex items-center gap-2 mb-6">
-                  <Award className="h-6 w-6 text-accent" />
-                  <h2 className="font-display font-bold text-2xl">Why This Vendor Stands Out</h2>
-                </div>
-                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
-                
-                <div className="space-y-4">
-                  {mockData.whyMatched.map((match, i) => (
-                    <div key={i} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold">{match.factor}</span>
-                        <span className="text-accent font-bold">{Math.round(match.score)}%</span>
-                      </div>
-                      <div className="h-2 bg-accent/10 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-accent to-primary rounded-full transition-all duration-500"
-                          style={{ width: `${match.score}%` }}
-                        />
-                      </div>
-                      <p className="text-sm text-muted-foreground">{match.reason}</p>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-
-              {/* Services & Pricing */}
-              {services.length > 0 && (
-                <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
-                  <h2 className="font-display font-bold text-2xl mb-4">Services & Pricing</h2>
-                  <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
-                  
-                  <div className="space-y-4">
-                    {services.map((service) => (
-                      <div 
-                        key={service.id}
-                        className="bg-rose-50/50 border-2 border-accent/20 p-6 rounded-2xl"
-                      >
-                        <h3 className="font-display font-bold text-xl mb-2">{service.service_name}</h3>
-                        <p className="text-muted-foreground mb-4">{service.description}</p>
-                        <div className="flex items-center gap-2">
-                          {service.base_price && (
-                            <p className="font-display font-bold text-2xl text-accent">
-                              ₹{Number(service.base_price).toLocaleString()}
-                            </p>
-                          )}
-                          {service.price_range_min && service.price_range_max && (
-                            <p className="font-display font-bold text-2xl text-accent">
-                              ₹{Number(service.price_range_min).toLocaleString()} - ₹{Number(service.price_range_max).toLocaleString()}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <p className="text-xs text-muted-foreground mt-6 text-center">
-                    Milestone payments available • Escrow protection • E-contract included
-                  </p>
-                </GlassCard>
-              )}
-
-              {/* Reviews */}
-              <GlassCard className="p-6 md:p-8 animate-fade-up bg-white border-2 border-accent/20">
-                <h2 className="font-display font-bold text-2xl mb-4">
-                  Reviews & Ratings
-                </h2>
-                <div className="w-16 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full mb-6" />
-                
-                {/* Review Form - Only show if user has completed booking */}
-                {user && userBooking && (
-                  <div className="mb-8 p-6 bg-rose-50/50 border border-accent/20 rounded-xl">
-                    <h3 className="font-semibold mb-4">Share Your Experience</h3>
-                    <ReviewForm 
-                      vendorId={id!} 
-                      bookingId={userBooking.id}
-                      onSuccess={loadVendorData}
-                    />
-                  </div>
-                )}
-                
-                {/* Reviews List */}
-                <ReviewsList vendorId={id!} />
+              {/* Tabbed Content */}
+              <GlassCard className="p-5 md:p-6 animate-fade-up bg-white border-2 border-accent/20">
+                <VendorProfileTabs 
+                  children={{
+                    details: <DetailsContent />,
+                    pricing: <PricingContent />,
+                    location: <LocationContent />,
+                    reviews: <ReviewsContent />,
+                  }}
+                />
               </GlassCard>
             </div>
 
             {/* Right Column - Actions (Desktop) */}
             <div className="hidden lg:block">
-              <GlassCard className="p-6 sticky top-24 space-y-4 animate-fade-in bg-white border-2 border-accent/20">
-                <BookingDialog vendorId={id!}>
-                  <Button size="lg" className="w-full">
-                    Check Availability
-                  </Button>
-                </BookingDialog>
-                
-                <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
-                  <Button variant="secondary" size="lg" className="w-full">
-                    Chat with Vendor
-                  </Button>
-                </MessagingDialog>
+              <div className="sticky top-24 space-y-4">
+                <GlassCard className="p-5 space-y-4 animate-fade-in bg-white border-2 border-accent/20">
+                  {/* Availability Calendar */}
+                  <VendorAvailabilityWidget 
+                    vendorId={id!} 
+                    onDateSelect={setSelectedBookingDate}
+                  />
 
-                <div className="flex gap-2">
-                  <FavoritesButton vendorId={id!} />
-                  <Button variant="outline" size="lg" className="flex-1">
-                    View Contract Preview
-                  </Button>
-                </div>
+                  <div className="pt-4 border-t border-accent/20 space-y-3">
+                    <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
+                      <Button size="lg" className="w-full">
+                        Book Now
+                      </Button>
+                    </BookingDialog>
+                    
+                    <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
+                      <Button variant="secondary" size="lg" className="w-full">
+                        Chat with Vendor
+                      </Button>
+                    </MessagingDialog>
 
-                <div className="pt-4 border-t-2 border-accent/20">
-                  <p className="text-sm text-muted-foreground text-center">
-                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> Response within 2 hours<br />
-                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> Milestone payment protection<br />
-                    <CheckCircle2 className="h-4 w-4 inline mr-1 text-accent" /> SLA guarantee
-                  </p>
-                </div>
-              </GlassCard>
+                    <div className="flex gap-2">
+                      <FavoritesButton vendorId={id!} />
+                      <Button variant="outline" size="lg" className="flex-1">
+                        View Contract
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-accent/20">
+                    <p className="text-xs text-muted-foreground text-center space-y-1">
+                      <span className="flex items-center justify-center gap-1">
+                        <CheckCircle2 className="h-3 w-3 text-accent" /> Response within 2 hours
+                      </span>
+                      <span className="flex items-center justify-center gap-1">
+                        <CheckCircle2 className="h-3 w-3 text-accent" /> Milestone payment protection
+                      </span>
+                      <span className="flex items-center justify-center gap-1">
+                        <CheckCircle2 className="h-3 w-3 text-accent" /> SLA guarantee
+                      </span>
+                    </p>
+                  </div>
+                </GlassCard>
+
+                {/* Deal Badge - Desktop */}
+                <DealBadge className="w-full" />
+              </div>
             </div>
           </div>
         </div>

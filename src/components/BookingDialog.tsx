@@ -16,10 +16,11 @@ import { SuccessAnimation } from "@/components/SuccessAnimation";
 interface BookingDialogProps {
   vendorId: string;
   serviceId?: string;
+  initialDate?: Date;
   children?: React.ReactNode;
 }
 
-export function BookingDialog({ vendorId, serviceId, children }: BookingDialogProps) {
+export function BookingDialog({ vendorId, serviceId, initialDate, children }: BookingDialogProps) {
   const { toast } = useToast();
   const { trackEvent } = useAnalytics();
   const [open, setOpen] = useState(false);
@@ -39,8 +40,13 @@ export function BookingDialog({ vendorId, serviceId, children }: BookingDialogPr
     if (open) {
       loadServices();
       loadUnavailableDates();
+      // Set initial date if provided
+      if (initialDate) {
+        const formattedDate = initialDate.toISOString().split('T')[0];
+        setWeddingDate(formattedDate);
+      }
     }
-  }, [open]);
+  }, [open, initialDate]);
 
   useEffect(() => {
     if (selectedService) {
