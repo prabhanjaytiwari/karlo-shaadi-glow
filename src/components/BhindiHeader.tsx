@@ -387,6 +387,7 @@ export const BhindiHeader = () => {
                   {[
                     { label: "Stories", href: "/stories" },
                     { label: "Deals", href: "/deals" },
+                    ...(user ? [{ label: "Budget", href: "/budget" }] : []),
                     { label: "Help", href: "/help" },
                     ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
                     { label: "About", href: "/about" },
