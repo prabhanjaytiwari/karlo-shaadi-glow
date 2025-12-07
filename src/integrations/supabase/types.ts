@@ -1237,6 +1237,51 @@ export type Database = {
           },
         ]
       }
+      wedding_checklist_items: {
+        Row: {
+          category: string
+          completed_at: string | null
+          created_at: string
+          display_order: number
+          id: string
+          is_completed: boolean
+          is_custom: boolean
+          months_before: number
+          notes: string | null
+          task_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          completed_at?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_completed?: boolean
+          is_custom?: boolean
+          months_before?: number
+          notes?: string | null
+          task_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          completed_at?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_completed?: boolean
+          is_custom?: boolean
+          months_before?: number
+          notes?: string | null
+          task_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       wedding_stories: {
         Row: {
           approved_at: string | null
