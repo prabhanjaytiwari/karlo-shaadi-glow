@@ -32,8 +32,8 @@ import {
   Heart, 
   LogOut, 
   Menu, 
-  X, 
   Search,
+  Phone,
   Calendar,
   MessageSquare,
   User
@@ -252,6 +252,14 @@ export const BhindiHeader = () => {
                 )}
               </NavigationMenuList>
             </NavigationMenu>
+
+            {/* Free Consultation CTA */}
+            <a href="tel:+917011460321" className="hidden xl:flex">
+              <Button variant="outline" size="sm" className="gap-2 border-accent/30 hover:border-accent/50 hover:bg-accent/5">
+                <Phone className="h-4 w-4 text-accent" />
+                <span className="text-sm font-medium">Free Consultation</span>
+              </Button>
+            </a>
 
             {user ? (
               <>

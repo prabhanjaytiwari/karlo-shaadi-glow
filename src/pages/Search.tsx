@@ -10,13 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { GlassCard } from "@/components/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown } from "lucide-react";
+import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown, LayoutGrid, List } from "lucide-react";
 import { Link } from "react-router-dom";
 import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
 import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
 import { SmartVendorMatch } from "@/components/SmartVendorMatch";
+import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -30,6 +31,8 @@ export default function Search() {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all");
   const [selectedCity, setSelectedCity] = useState(searchParams.get("city") || "all");
   const [selectedForComparison, setSelectedForComparison] = useState<any[]>([]);
+  const [filters, setFilters] = useState<FiltersState>(defaultFilters);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   useEffect(() => {
     loadData();
@@ -117,26 +120,26 @@ export default function Search() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 py-12 px-4">
+      <main className="flex-1 py-8 md:py-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
-          <div className="mb-12 animate-fade-in">
+          <div className="mb-8 animate-fade-in">
             <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
-            <h1 className="text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-8 rounded-full" />
-            <GlassCard className="p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <div className="grid md:grid-cols-4 gap-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
+            <GlassCard className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <div className="grid md:grid-cols-4 gap-3 md:gap-4">
                 <div className="md:col-span-2">
                   <Input
                     placeholder="Search vendors..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    className="w-full"
+                    className="w-full h-11"
                   />
                 </div>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11">
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -149,7 +152,7 @@ export default function Search() {
                   </SelectContent>
                 </Select>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11">
                     <SelectValue placeholder="City" />
                   </SelectTrigger>
                   <SelectContent>
@@ -163,8 +166,7 @@ export default function Search() {
                 </Select>
               </div>
               <Button 
-                variant="hero" 
-                className="w-full md:w-auto mt-4"
+                className="w-full md:w-auto mt-4 h-11"
                 onClick={handleSearch}
               >
                 <SearchIcon className="h-4 w-4 mr-2" />
@@ -182,24 +184,68 @@ export default function Search() {
             />
           </div>
 
-          {/* Results */}
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <Loader2 className="h-8 w-8 animate-spin text-accent" />
-            </div>
-          ) : vendors.length === 0 ? (
-            <EmptyState
-              icon={SearchIcon}
-              title="No Vendors Found"
-              description="We couldn't find any vendors matching your criteria. Try adjusting your filters or browse all vendors."
-              actionText="Browse All Vendors"
-              actionLink="/categories"
+          {/* Results with Sidebar */}
+          <div className="flex gap-6">
+            {/* Advanced Filters Sidebar */}
+            <AdvancedFilters
+              filters={filters}
+              onFiltersChange={setFilters}
+              onClearFilters={() => setFilters(defaultFilters)}
+              category={selectedCategory !== "all" ? selectedCategory : undefined}
             />
-          ) : (
-            <div className="space-y-6">
-              <p className="text-muted-foreground animate-fade-in">
-                Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
-              </p>
+
+            {/* Results */}
+            <div className="flex-1 min-w-0">
+              {loading ? (
+                <div className="flex justify-center items-center py-20">
+                  <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                </div>
+              ) : vendors.length === 0 ? (
+                <EmptyState
+                  icon={SearchIcon}
+                  title="No Vendors Found"
+                  description="We couldn't find any vendors matching your criteria. Try adjusting your filters or browse all vendors."
+                  actionText="Browse All Vendors"
+                  actionLink="/categories"
+                />
+              ) : (
+                <div className="space-y-4">
+                  {/* Results Header */}
+                  <div className="flex items-center justify-between">
+                    <p className="text-muted-foreground text-sm">
+                      Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      {/* Mobile Filters */}
+                      <div className="lg:hidden">
+                        <AdvancedFilters
+                          filters={filters}
+                          onFiltersChange={setFilters}
+                          onClearFilters={() => setFilters(defaultFilters)}
+                          category={selectedCategory !== "all" ? selectedCategory : undefined}
+                        />
+                      </div>
+                      {/* View Toggle */}
+                      <div className="hidden md:flex items-center gap-1 border border-border/50 rounded-lg p-1">
+                        <Button
+                          variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => setViewMode('list')}
+                        >
+                          <List className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => setViewMode('grid')}
+                        >
+                          <LayoutGrid className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
               
               {vendors.map((vendor, i) => {
                 const badge = getVendorBadge(vendor as Vendor);
@@ -335,9 +381,11 @@ export default function Search() {
                     </div>
                   </div>
                 );
-              })}
+                  })}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </main>
 
