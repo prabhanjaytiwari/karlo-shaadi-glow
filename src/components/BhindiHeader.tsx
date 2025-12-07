@@ -241,6 +241,14 @@ export const BhindiHeader = () => {
                   </Link>
                 </NavigationMenuItem>
 
+                <NavigationMenuItem>
+                  <Link to="/deals">
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
+                      Deals
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
                 {!user && (
                   <NavigationMenuItem>
                     <Link to="/for-vendors">
@@ -378,6 +386,7 @@ export const BhindiHeader = () => {
                 <div className="grid grid-cols-2 gap-1">
                   {[
                     { label: "Stories", href: "/stories" },
+                    { label: "Deals", href: "/deals" },
                     { label: "Help", href: "/help" },
                     ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
                     { label: "About", href: "/about" },

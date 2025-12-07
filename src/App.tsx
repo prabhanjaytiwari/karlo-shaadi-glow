@@ -50,6 +50,7 @@ import NotFound from "./pages/NotFound";
 import DataExport from "./pages/DataExport";
 import Moodboards from "./pages/Moodboards";
 import Achievements from "./pages/Achievements";
+import Deals from "./pages/Deals";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
@@ -116,6 +117,7 @@ const App = () => (
               <Route path="/data-export" element={<DataExport />} />
               <Route path="/moodboards" element={<ProtectedRoute><Moodboards /></ProtectedRoute>} />
               <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
+              <Route path="/deals" element={<Deals />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
