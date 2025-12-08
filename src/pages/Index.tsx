@@ -13,12 +13,13 @@ import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
-import { Shield, CheckCircle2, Star, Users } from "lucide-react";
+import { Shield, CheckCircle2, Star, Users, Sparkles } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
+import { AIMatchmakingDialog } from "@/components/AIMatchmakingDialog";
 
 const Index = () => {
   const section1 = useScrollAnimation({ threshold: 0.2 });
@@ -30,6 +31,7 @@ const Index = () => {
   
   const { ref: parallaxRef, offset } = useParallax(0.3);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [aiMatchmakingOpen, setAiMatchmakingOpen] = useState(false);
 
   const { playWelcomeSound } = useWeddingSounds();
   
@@ -86,7 +88,22 @@ const Index = () => {
               {/* Hero Search Widget */}
               <div className={`hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
                 <HeroSearchWidget />
+                
+                {/* AI Matchmaking Button */}
+                <div className="flex justify-center mt-3 sm:mt-4">
+                  <Button
+                    onClick={() => setAiMatchmakingOpen(true)}
+                    variant="outline"
+                    className="bg-white/90 hover:bg-white border-accent/30 hover:border-accent text-foreground gap-2 rounded-full px-4 sm:px-6 h-9 sm:h-10 text-xs sm:text-sm shadow-lg"
+                  >
+                    <Sparkles className="h-4 w-4 text-accent" />
+                    AI Vendor Matchmaking
+                  </Button>
+                </div>
               </div>
+
+              {/* AI Matchmaking Dialog */}
+              <AIMatchmakingDialog open={aiMatchmakingOpen} onOpenChange={setAiMatchmakingOpen} />
             </div>
           </div>
         </div>
