@@ -18,7 +18,19 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const supabaseClient = createClient(
+    // Use service role key to bypass RLS for analytics tracking
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      {
+        auth: {
+          persistSession: false,
+        },
+      }
+    );
+
+    // Create anon client just to verify user token if provided
+    const supabaseAnon = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? "",
       {
@@ -33,7 +45,7 @@ const handler = async (req: Request): Promise<Response> => {
     let userId = null;
 
     if (authHeader) {
-      const { data: { user } } = await supabaseClient.auth.getUser(
+      const { data: { user } } = await supabaseAnon.auth.getUser(
         authHeader.replace("Bearer ", "")
       );
       userId = user?.id;
@@ -41,10 +53,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { event_type, vendor_id, metadata }: TrackEventRequest = await req.json();
 
-    console.log(`Tracking event: ${event_type} for user: ${userId}`);
+    console.log(`Tracking event: ${event_type} for user: ${userId || 'anonymous'}`);
 
-    // Insert event into analytics_events table
-    const { data, error } = await supabaseClient
+    // Insert event using admin client to bypass RLS
+    const { data, error } = await supabaseAdmin
       .from("analytics_events")
       .insert({
         event_type,
