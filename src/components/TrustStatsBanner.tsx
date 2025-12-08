@@ -57,42 +57,42 @@ const StatItem = ({ icon, value, suffix, label, delay }: StatItemProps) => {
   }, [isVisible, value, delay]);
 
   return (
-    <div ref={ref} className="flex flex-col items-center text-center p-4 md:p-6">
-      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-primary/10 to-accent/20 flex items-center justify-center mb-3">
+    <div ref={ref} className="flex flex-col items-center text-center p-2 sm:p-3 md:p-5">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-primary/10 to-accent/20 flex items-center justify-center mb-1.5 sm:mb-2">
         {icon}
       </div>
-      <div className="text-2xl md:text-3xl font-semibold text-foreground">
+      <div className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground">
         {count.toLocaleString()}{suffix}
       </div>
-      <div className="text-sm text-muted-foreground mt-1">{label}</div>
+      <div className="text-[10px] sm:text-xs md:text-sm text-muted-foreground mt-0.5">{label}</div>
     </div>
   );
 };
 
 const stats = [
   {
-    icon: <Heart className="h-7 w-7 text-primary" />,
+    icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
     value: 50000,
     suffix: "+",
     label: "Happy Couples",
     delay: 0,
   },
   {
-    icon: <Users className="h-7 w-7 text-primary" />,
+    icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
     value: 500,
     suffix: "+",
     label: "Verified Vendors",
     delay: 100,
   },
   {
-    icon: <ShieldCheck className="h-7 w-7 text-primary" />,
+    icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
     value: 100,
     suffix: "%",
     label: "Secure Payments",
     delay: 200,
   },
   {
-    icon: <MapPin className="h-7 w-7 text-primary" />,
+    icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
     value: 20,
     suffix: "+",
     label: "Cities Covered",
@@ -102,9 +102,9 @@ const stats = [
 
 export const TrustStatsBanner = () => {
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-background to-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
+    <section className="py-6 sm:py-8 md:py-12 bg-gradient-to-b from-background to-secondary/30">
+      <div className="container mx-auto px-3 sm:px-4">
+        <div className="grid grid-cols-4 gap-1 sm:gap-3 md:gap-6 max-w-3xl mx-auto">
           {stats.map((stat, index) => (
             <StatItem key={index} {...stat} />
           ))}
