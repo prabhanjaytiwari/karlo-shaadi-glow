@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BhindiFooter } from "@/components/BhindiFooter";
-import { GlassCard } from "@/components/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
@@ -10,14 +9,13 @@ import {
   Percent, 
   Clock, 
   Gift, 
-  Sparkles, 
   Star, 
   ArrowRight,
   Calendar,
-  BadgePercent,
   IndianRupee,
   Heart,
-  Zap
+  Zap,
+  CheckCircle
 } from "lucide-react";
 import { format, differenceInDays } from "date-fns";
 
@@ -43,7 +41,6 @@ const seasonalOffers = [
     discount: "10% OFF",
     badge: "Bundle Deal",
     icon: Heart,
-    color: "from-rose-500 to-pink-500",
     validUntil: "March 31, 2025",
   },
   {
@@ -52,7 +49,6 @@ const seasonalOffers = [
     discount: "15% OFF",
     badge: "Early Bird",
     icon: Calendar,
-    color: "from-amber-500 to-orange-500",
     validUntil: "Ongoing",
   },
   {
@@ -60,8 +56,7 @@ const seasonalOffers = [
     description: "Special rates for weddings during July-September",
     discount: "Up to 20% OFF",
     badge: "Seasonal",
-    icon: Sparkles,
-    color: "from-emerald-500 to-teal-500",
+    icon: Tag,
     validUntil: "September 30, 2025",
   },
 ];
@@ -70,22 +65,22 @@ const cashbackOffers = [
   {
     title: "First Booking Cashback",
     description: "Get ₹2,000 cashback on your first vendor booking",
-    cashback: "₹2,000",
-    minOrder: "Min. ₹50,000 booking",
+    amount: "₹2,000",
+    condition: "Min. ₹50,000 booking",
     icon: Gift,
   },
   {
     title: "Premium Member Bonus",
     description: "Extra 5% cashback for premium plan subscribers",
-    cashback: "5% Extra",
-    minOrder: "Premium members only",
+    amount: "5% Extra",
+    condition: "Premium members only",
     icon: Star,
   },
   {
     title: "Refer & Earn",
     description: "Refer a friend and both get ₹1,000 credit",
-    cashback: "₹1,000",
-    minOrder: "Per successful referral",
+    amount: "₹1,000",
+    condition: "Per successful referral",
     icon: Zap,
   },
 ];
@@ -94,19 +89,19 @@ const exclusiveDeals = [
   {
     category: "Photography",
     title: "Pre-Wedding Shoot Free",
-    description: "Get a complimentary pre-wedding shoot with full-day wedding coverage",
+    description: "Complimentary pre-wedding shoot with full-day wedding coverage",
     originalPrice: "₹1,50,000",
     dealPrice: "₹1,20,000",
-    savings: "₹30,000",
+    savings: "30,000",
     vendorCount: 12,
   },
   {
     category: "Catering",
     title: "Welcome Drink Upgrade",
-    description: "Free welcome drink station upgrade with 300+ guest bookings",
+    description: "Free welcome drink station with 300+ guest bookings",
     originalPrice: "₹25,000",
     dealPrice: "FREE",
-    savings: "₹25,000",
+    savings: "25,000",
     vendorCount: 8,
   },
   {
@@ -115,7 +110,7 @@ const exclusiveDeals = [
     description: "Premium mandap decoration at standard package price",
     originalPrice: "₹2,00,000",
     dealPrice: "₹1,50,000",
-    savings: "₹50,000",
+    savings: "50,000",
     vendorCount: 15,
   },
   {
@@ -124,7 +119,7 @@ const exclusiveDeals = [
     description: "Complimentary DJ setup with 2-day venue booking",
     originalPrice: "₹50,000",
     dealPrice: "FREE",
-    savings: "₹50,000",
+    savings: "50,000",
     vendorCount: 6,
   },
 ];
@@ -171,153 +166,133 @@ export default function Deals() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 pt-20">
+    <div className="min-h-screen bg-background pt-16 sm:pt-20">
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/10 via-rose-50/80 to-accent/10">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-rose-50/80 via-white to-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center animate-fade-in">
-            <Badge className="bg-accent text-accent-foreground mb-4">
-              <Tag className="h-3 w-3 mr-1" />
+          <div className="max-w-3xl mx-auto text-center">
+            <Badge variant="outline" className="mb-4 border-accent/40 text-accent">
+              <Tag className="h-3 w-3 mr-1.5" />
               Exclusive Offers
             </Badge>
-            <h1 className="font-display font-bold text-4xl md:text-5xl mb-4">
-              Wedding Deals & <span className="text-accent">Discounts</span>
+            <h1 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl mb-4 text-foreground">
+              Wedding Deals & Discounts
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-6" />
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Save thousands on your dream wedding with exclusive deals, cashback offers, 
-              and seasonal discounts from our verified vendors.
+            <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto">
+              Save on your dream wedding with exclusive deals from verified vendors
             </p>
           </div>
         </div>
       </section>
 
       {/* Seasonal Offers */}
-      <section className="py-12">
+      <section className="py-10 sm:py-14">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 mb-8">
-            <BadgePercent className="h-6 w-6 text-accent" />
-            <h2 className="font-display font-bold text-2xl">Seasonal Offers</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+          <h2 className="font-display font-semibold text-xl sm:text-2xl mb-6">Seasonal Offers</h2>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {seasonalOffers.map((offer, index) => (
-              <GlassCard 
+              <div 
                 key={index} 
-                hover 
-                className="relative overflow-hidden bg-white border-2 border-accent/20 hover:border-accent/50 animate-fade-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-white rounded-xl border border-border p-5 sm:p-6 hover:border-accent/40 hover:shadow-md transition-all duration-300"
               >
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${offer.color} opacity-10 rounded-bl-full`} />
-                <Badge className="mb-3 bg-accent/15 text-accent border-accent/30">
-                  {offer.badge}
-                </Badge>
-                <div className="flex items-start gap-3 mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${offer.color} flex items-center justify-center`}>
-                    <offer.icon className="h-6 w-6 text-white" />
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <offer.icon className="h-5 w-5 text-accent" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-lg">{offer.title}</h3>
-                    <p className="text-2xl font-bold text-accent">{offer.discount}</p>
-                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    {offer.badge}
+                  </Badge>
                 </div>
-                <p className="text-muted-foreground text-sm mb-4">{offer.description}</p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>Valid until {offer.validUntil}</span>
+                
+                <h3 className="font-semibold text-base sm:text-lg mb-1">{offer.title}</h3>
+                <p className="text-2xl sm:text-3xl font-bold text-accent mb-3">{offer.discount}</p>
+                <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{offer.description}</p>
+                
+                <div className="flex items-center text-xs text-muted-foreground pt-3 border-t border-border">
+                  <Clock className="h-3.5 w-3.5 mr-1.5" />
+                  Valid until {offer.validUntil}
                 </div>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Exclusive Category Deals */}
-      <section className="py-12 bg-gradient-to-b from-white to-rose-50/30">
+      <section className="py-10 sm:py-14 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-6 w-6 text-accent" />
-              <h2 className="font-display font-bold text-2xl">Exclusive Deals by Category</h2>
-            </div>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl">Category Deals</h2>
             <Link to="/search">
-              <Button variant="outline" className="gap-2">
-                View All Vendors
-                <ArrowRight className="h-4 w-4" />
+              <Button variant="ghost" size="sm" className="text-accent hover:text-accent">
+                View All
+                <ArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {exclusiveDeals.map((deal, index) => (
-              <GlassCard 
+              <div 
                 key={index} 
-                hover 
-                className="bg-white border-2 border-accent/20 hover:border-accent/50 animate-fade-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-white rounded-xl border border-border p-5 hover:border-accent/40 hover:shadow-md transition-all duration-300"
               >
-                <Badge variant="outline" className="mb-3 text-xs">
+                <Badge className="mb-3 bg-primary/10 text-primary border-0 text-xs">
                   {deal.category}
                 </Badge>
-                <h3 className="font-semibold text-lg mb-2">{deal.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{deal.description}</p>
+                <h3 className="font-semibold text-base mb-2">{deal.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{deal.description}</p>
                 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground line-through">{deal.originalPrice}</span>
-                    <span className="font-bold text-primary">{deal.dealPrice}</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-accent text-sm font-medium">
-                    <IndianRupee className="h-3 w-3" />
-                    <span>Save {deal.savings}</span>
-                  </div>
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-sm text-muted-foreground line-through">{deal.originalPrice}</span>
+                  <span className="text-lg font-bold text-primary">{deal.dealPrice}</span>
+                </div>
+                
+                <div className="flex items-center text-accent text-sm font-medium mb-4">
+                  <IndianRupee className="h-3.5 w-3.5 mr-0.5" />
+                  Save {deal.savings}
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">{deal.vendorCount} vendors offering</span>
+                <div className="flex items-center justify-between pt-3 border-t border-border">
+                  <span className="text-xs text-muted-foreground">{deal.vendorCount} vendors</span>
                   <Link to={`/category/${deal.category.toLowerCase()}`}>
-                    <Button size="sm" variant="ghost" className="h-8 text-xs">
+                    <Button size="sm" variant="ghost" className="h-7 text-xs px-2">
                       Explore
-                      <ArrowRight className="h-3 w-3 ml-1" />
                     </Button>
                   </Link>
                 </div>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Cashback Offers */}
-      <section className="py-12">
+      <section className="py-10 sm:py-14">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 mb-8">
-            <Gift className="h-6 w-6 text-accent" />
-            <h2 className="font-display font-bold text-2xl">Cashback & Rewards</h2>
-          </div>
+          <h2 className="font-display font-semibold text-xl sm:text-2xl mb-6">Cashback & Rewards</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
             {cashbackOffers.map((offer, index) => (
-              <GlassCard 
+              <div 
                 key={index} 
-                hover 
-                className="bg-gradient-to-br from-white to-amber-50/50 border-2 border-accent/20 hover:border-accent/50 animate-fade-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-white rounded-xl border border-border p-5 sm:p-6 hover:border-accent/40 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
-                    <offer.icon className="h-7 w-7 text-accent" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/15 to-primary/15 flex items-center justify-center flex-shrink-0">
+                    <offer.icon className="h-6 w-6 text-accent" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-1">{offer.title}</h3>
-                    <p className="text-2xl font-bold text-accent mb-2">{offer.cashback}</p>
-                    <p className="text-sm text-muted-foreground mb-2">{offer.description}</p>
-                    <span className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
-                      {offer.minOrder}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-base mb-1">{offer.title}</h3>
+                    <p className="text-xl sm:text-2xl font-bold text-accent mb-2">{offer.amount}</p>
+                    <p className="text-sm text-muted-foreground mb-3">{offer.description}</p>
+                    <span className="inline-block text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+                      {offer.condition}
                     </span>
                   </div>
                 </div>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </div>
@@ -325,25 +300,23 @@ export default function Deals() {
 
       {/* Live Vendor Discounts */}
       {vendorDiscounts.length > 0 && (
-        <section className="py-12 bg-gradient-to-b from-rose-50/30 to-white">
+        <section className="py-10 sm:py-14 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="flex items-center gap-2 mb-8">
-              <Percent className="h-6 w-6 text-accent" />
-              <h2 className="font-display font-bold text-2xl">Live Vendor Discounts</h2>
+            <div className="flex items-center gap-2 mb-6">
+              <Percent className="h-5 w-5 text-accent" />
+              <h2 className="font-display font-semibold text-xl sm:text-2xl">Live Vendor Discounts</h2>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {vendorDiscounts.map((discount, index) => {
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {vendorDiscounts.map((discount) => {
                 const daysRemaining = getDaysRemaining(discount.valid_until);
                 return (
-                  <GlassCard 
+                  <div 
                     key={discount.id} 
-                    hover 
-                    className="bg-white border-2 border-accent/20 hover:border-accent/50 animate-fade-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="bg-white rounded-xl border border-border p-5 hover:border-accent/40 hover:shadow-md transition-all duration-300"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <Badge className="bg-primary/15 text-primary">
+                      <Badge variant="outline" className="text-xs capitalize">
                         {discount.discount_type}
                       </Badge>
                       {daysRemaining !== null && daysRemaining <= 7 && (
@@ -352,22 +325,22 @@ export default function Deals() {
                         </Badge>
                       )}
                     </div>
-                    <h3 className="font-semibold text-lg mb-1">{discount.vendor?.business_name}</h3>
+                    <h3 className="font-semibold text-base mb-1">{discount.vendor?.business_name}</h3>
                     <p className="text-sm text-muted-foreground mb-3 capitalize">
                       {discount.vendor?.category} • {discount.vendor?.city?.name || "India"}
                     </p>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-baseline gap-1">
                       <span className="text-3xl font-bold text-accent">
                         {discount.discount_percentage}%
                       </span>
-                      <span className="text-muted-foreground">OFF</span>
+                      <span className="text-muted-foreground text-sm">OFF</span>
                     </div>
                     {discount.valid_until && (
-                      <p className="text-xs text-muted-foreground mt-3">
+                      <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
                         Valid until {format(new Date(discount.valid_until), "MMM dd, yyyy")}
                       </p>
                     )}
-                  </GlassCard>
+                  </div>
                 );
               })}
             </div>
@@ -376,57 +349,52 @@ export default function Deals() {
       )}
 
       {/* How It Works */}
-      <section className="py-12">
+      <section className="py-10 sm:py-14">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-10">
-            <h2 className="font-display font-bold text-2xl mb-4">How to Redeem Offers</h2>
-            <p className="text-muted-foreground">
-              Availing these deals is simple. Follow these steps to save on your wedding.
-            </p>
-          </div>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="font-display font-semibold text-xl sm:text-2xl text-center mb-8">
+              How to Redeem Offers
+            </h2>
 
-          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {[
-              { step: "1", title: "Browse Deals", desc: "Explore available offers and discounts" },
-              { step: "2", title: "Select Vendor", desc: "Choose a vendor with active offers" },
-              { step: "3", title: "Book Service", desc: "Complete your booking through Karlo Shaadi" },
-              { step: "4", title: "Save Money", desc: "Discount applied automatically at checkout" },
-            ].map((item, index) => (
-              <div 
-                key={index} 
-                className="text-center animate-fade-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary text-white font-bold text-xl flex items-center justify-center mx-auto mb-3">
-                  {item.step}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+              {[
+                { step: "1", title: "Browse", desc: "Explore offers" },
+                { step: "2", title: "Select", desc: "Choose vendor" },
+                { step: "3", title: "Book", desc: "Complete booking" },
+                { step: "4", title: "Save", desc: "Auto-applied" },
+              ].map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground font-bold text-lg flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                    {item.step}
+                  </div>
+                  <h3 className="font-semibold text-sm sm:text-base mb-0.5">{item.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{item.desc}</p>
                 </div>
-                <h3 className="font-semibold mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/10 via-rose-50/80 to-accent/10">
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-rose-50/80 to-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="font-display font-bold text-3xl mb-4">
-            Ready to Start Saving?
+          <h2 className="font-display font-semibold text-2xl sm:text-3xl mb-3">
+            Ready to Save?
           </h2>
-          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Explore our verified vendors and book with confidence. All deals are applied automatically.
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto text-sm sm:text-base">
+            Explore verified vendors and book with confidence. Discounts applied automatically.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/search">
-              <Button size="lg" className="gap-2">
+              <Button size="lg">
                 Find Vendors
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </Link>
             <Link to="/pricing">
-              <Button size="lg" variant="outline" className="gap-2">
-                View Premium Plans
+              <Button size="lg" variant="outline">
+                View Premium
               </Button>
             </Link>
           </div>
