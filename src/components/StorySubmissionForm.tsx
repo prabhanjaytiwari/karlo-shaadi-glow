@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -29,9 +29,9 @@ export function StorySubmissionForm({ onSuccess }: { onSuccess: () => void }) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<StoryFormData>();
 
-  useState(() => {
+  useEffect(() => {
     fetchCities();
-  });
+  }, []);
 
   const fetchCities = async () => {
     const { data } = await supabase.from("cities").select("id, name").eq("is_active", true);

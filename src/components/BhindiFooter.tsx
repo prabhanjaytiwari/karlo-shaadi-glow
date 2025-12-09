@@ -34,10 +34,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Instagram, href: "https://www.instagram.com/karloshaadiofficial/", label: "Instagram" },
+  { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584618427446", label: "Facebook" },
   { icon: Twitter, href: "#", label: "Twitter" },
   { icon: Youtube, href: "#", label: "Youtube" },
-  { icon: Facebook, href: "#", label: "Facebook" },
 ];
 
 export const BhindiFooter = () => {

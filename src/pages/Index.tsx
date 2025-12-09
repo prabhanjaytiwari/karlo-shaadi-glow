@@ -15,7 +15,8 @@ import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
 import { Shield, CheckCircle2, Star, Users, Sparkles } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useWeddingSounds } from "@/hooks/useWeddingSounds";
+import { FOMOBanner } from "@/components/FOMOBanner";
+import { SocialProofPopup } from "@/components/SocialProofPopup";
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
@@ -33,15 +34,9 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [aiMatchmakingOpen, setAiMatchmakingOpen] = useState(false);
 
-  const { playWelcomeSound } = useWeddingSounds();
-  
   useEffect(() => {
     setIsLoaded(true);
-    const timer = setTimeout(() => {
-      playWelcomeSound();
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [playWelcomeSound]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
@@ -51,6 +46,9 @@ const Index = () => {
         keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning"
       />
       
+      {/* FOMO Components */}
+      <FOMOBanner />
+      <SocialProofPopup />
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}

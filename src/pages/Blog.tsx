@@ -1,9 +1,16 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import photographyImg from "@/assets/category-photography.jpg";
+import venueImg from "@/assets/category-venue.jpg";
+import decorationImg from "@/assets/category-decoration.jpg";
+import cateringImg from "@/assets/category-catering.jpg";
+import mehendiImg from "@/assets/category-mehendi.jpg";
+import makeupImg from "@/assets/category-bridal-makeup.jpg";
+import cakeImg from "@/assets/category-cake.jpg";
+import musicImg from "@/assets/category-music.jpg";
 
 const featuredArticle = {
   id: 1,
@@ -13,7 +20,7 @@ const featuredArticle = {
   date: "March 15, 2025",
   readTime: "12 min read",
   category: "Planning Guide",
-  image: "/placeholder.svg",
+  image: venueImg,
   featured: true
 };
 
@@ -26,7 +33,7 @@ const articles = [
     date: "March 12, 2025",
     readTime: "8 min read",
     category: "Photography",
-    image: "/placeholder.svg"
+    image: photographyImg
   },
   {
     id: 3,
@@ -36,7 +43,7 @@ const articles = [
     date: "March 10, 2025",
     readTime: "10 min read",
     category: "Decoration",
-    image: "/placeholder.svg"
+    image: decorationImg
   },
   {
     id: 4,
@@ -46,7 +53,7 @@ const articles = [
     date: "March 8, 2025",
     readTime: "15 min read",
     category: "Traditions",
-    image: "/placeholder.svg"
+    image: mehendiImg
   },
   {
     id: 5,
@@ -56,7 +63,7 @@ const articles = [
     date: "March 5, 2025",
     readTime: "11 min read",
     category: "Venues",
-    image: "/placeholder.svg"
+    image: venueImg
   },
   {
     id: 6,
@@ -66,7 +73,7 @@ const articles = [
     date: "March 3, 2025",
     readTime: "9 min read",
     category: "Catering",
-    image: "/placeholder.svg"
+    image: cateringImg
   },
   {
     id: 7,
@@ -76,7 +83,7 @@ const articles = [
     date: "March 1, 2025",
     readTime: "13 min read",
     category: "Destinations",
-    image: "/placeholder.svg"
+    image: venueImg
   },
   {
     id: 8,
@@ -86,7 +93,7 @@ const articles = [
     date: "February 28, 2025",
     readTime: "10 min read",
     category: "Planning Guide",
-    image: "/placeholder.svg"
+    image: makeupImg
   },
   {
     id: 9,
@@ -96,7 +103,7 @@ const articles = [
     date: "February 25, 2025",
     readTime: "7 min read",
     category: "Mehendi",
-    image: "/placeholder.svg"
+    image: mehendiImg
   }
 ];
 
@@ -115,8 +122,6 @@ const categories = [
 export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
-      
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
         <div className="container mx-auto max-w-6xl text-center">
@@ -158,7 +163,12 @@ export default function Blog() {
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Image */}
               <div className="relative h-80 lg:h-auto overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20" />
+                <img 
+                  src={featuredArticle.image} 
+                  alt={featuredArticle.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-background/20 to-transparent" />
                 <Badge className="absolute top-6 left-6 bg-accent text-accent-foreground">
                   Featured
                 </Badge>
@@ -212,7 +222,12 @@ export default function Blog() {
                 className="group bg-card border-2 border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all"
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={article.image} 
+                    alt={article.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                   <Badge className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm">
                     {article.category}
                   </Badge>
