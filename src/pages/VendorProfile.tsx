@@ -16,6 +16,7 @@ import { VendorAvailabilityWidget } from "@/components/vendor/VendorAvailability
 import { VendorQuickInfo } from "@/components/vendor/VendorQuickInfo";
 import { VendorFAQ } from "@/components/vendor/VendorFAQ";
 import { DealBadge } from "@/components/vendor/DealBadge";
+import { VendorProfileFOMO } from "@/components/VendorProfileFOMO";
 import { 
   MapPin, 
   Clock, 
@@ -462,6 +463,11 @@ const VendorProfile = () => {
                       </span>
                     </p>
                   </div>
+                </GlassCard>
+
+                {/* FOMO Elements */}
+                <GlassCard className="p-5 bg-white border-2 border-accent/20">
+                  <VendorProfileFOMO vendorId={id!} vendorName={vendor.business_name} />
                 </GlassCard>
 
                 {/* Deal Badge - Desktop */}

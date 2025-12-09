@@ -59,6 +59,8 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { BhindiHeader } from "@/components/BhindiHeader";
+import { StickyPromoBar } from "@/components/StickyPromoBar";
+import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <StickyPromoBar />
             <BhindiHeader />
             <Routes>
               <Route path="/" element={<Index />} />
@@ -96,6 +99,7 @@ const App = () => (
               <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
               <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
               <Route path="/vendor-pricing" element={<VendorPricing />} />
+              <Route path="/vendor/verification" element={<ProtectedRoute requireRole="vendor"><VendorVerificationStatus /></ProtectedRoute>} />
               <Route path="/admin/dashboard" element={<ProtectedRoute requireRole="admin"><AdminDashboard /></ProtectedRoute>} />
               <Route path="/for-vendors" element={<ForVendors />} />
               <Route path="/about" element={<About />} />

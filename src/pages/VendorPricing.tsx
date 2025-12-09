@@ -36,7 +36,7 @@ export default function VendorPricing() {
     {
       id: 'silver',
       name: 'Silver',
-      price: '₹2,999',
+      price: '₹4,999',
       period: 'per month',
       icon: Star,
       badge: 'STARTER',
@@ -63,7 +63,7 @@ export default function VendorPricing() {
     {
       id: 'gold',
       name: 'Gold',
-      price: '₹4,999',
+      price: '₹9,999',
       period: 'per month',
       icon: Sparkles,
       badge: 'MOST POPULAR',
@@ -92,7 +92,7 @@ export default function VendorPricing() {
     {
       id: 'diamond',
       name: 'Diamond',
-      price: '₹9,999',
+      price: '₹19,999',
       period: 'per month',
       icon: Crown,
       badge: 'PREMIUM',
@@ -152,14 +152,14 @@ export default function VendorPricing() {
             </p>
           </div>
 
-          {/* Limited Time Offer Banner */}
+          {/* Trust Banner */}
           <div className="bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 border-2 border-accent/30 rounded-2xl p-6 mb-12 text-center animate-fade-in">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Gem className="h-5 w-5 text-accent" />
-              <span className="font-bold text-lg">Limited Time Offer</span>
+              <span className="font-bold text-lg">Join 10,000+ Successful Vendors</span>
             </div>
             <p className="text-muted-foreground">
-              Register now and get <span className="font-bold text-primary">first 3 months FREE</span> on any paid plan! Offer ends soon.
+              Trusted by wedding professionals across India • Secure payments • Dedicated support
             </p>
           </div>
 
