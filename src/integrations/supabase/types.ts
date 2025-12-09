@@ -1186,17 +1186,22 @@ export type Database = {
       }
       vendors: {
         Row: {
+          address: string | null
           average_rating: number | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           city_id: string | null
           created_at: string
           description: string | null
+          facebook_page: string | null
           featured_until: string | null
+          google_maps_link: string | null
           homepage_featured: boolean | null
           id: string
           instagram_handle: string | null
           is_active: boolean
+          logo_url: string | null
+          phone_number: string | null
           subscription_tier:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1206,23 +1211,29 @@ export type Database = {
           updated_at: string
           user_id: string
           verification_date: string | null
+          verification_status: string | null
           verified: boolean
           verified_by: string | null
           website_url: string | null
           years_experience: number | null
         }
         Insert: {
+          address?: string | null
           average_rating?: number | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           city_id?: string | null
           created_at?: string
           description?: string | null
+          facebook_page?: string | null
           featured_until?: string | null
+          google_maps_link?: string | null
           homepage_featured?: boolean | null
           id?: string
           instagram_handle?: string | null
           is_active?: boolean
+          logo_url?: string | null
+          phone_number?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1232,23 +1243,29 @@ export type Database = {
           updated_at?: string
           user_id: string
           verification_date?: string | null
+          verification_status?: string | null
           verified?: boolean
           verified_by?: string | null
           website_url?: string | null
           years_experience?: number | null
         }
         Update: {
+          address?: string | null
           average_rating?: number | null
           business_name?: string
           category?: Database["public"]["Enums"]["vendor_category"]
           city_id?: string | null
           created_at?: string
           description?: string | null
+          facebook_page?: string | null
           featured_until?: string | null
+          google_maps_link?: string | null
           homepage_featured?: boolean | null
           id?: string
           instagram_handle?: string | null
           is_active?: boolean
+          logo_url?: string | null
+          phone_number?: string | null
           subscription_tier?:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1258,6 +1275,7 @@ export type Database = {
           updated_at?: string
           user_id?: string
           verification_date?: string | null
+          verification_status?: string | null
           verified?: boolean
           verified_by?: string | null
           website_url?: string | null

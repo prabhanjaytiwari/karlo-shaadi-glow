@@ -4,7 +4,6 @@ import { GlassCard } from "@/components/GlassCard";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Star, Shield } from "lucide-react";
-import { useWeddingSounds } from "@/hooks/useWeddingSounds";
 import photographyImg from "@/assets/category-photography.jpg";
 import venueImg from "@/assets/category-venue.jpg";
 import mehendiImg from "@/assets/category-mehendi.jpg";
@@ -25,8 +24,6 @@ const Categories = () => {
   const [vendors, setVendors] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { playCameraSound, playCateringSound, playMusicSound, playDecorationSound, playMehendiSound, playVenueSound } = useWeddingSounds();
-
   const categoryImages: Record<string, string> = {
     photography: photographyImg,
     venue: venueImg,
@@ -47,32 +44,6 @@ const Categories = () => {
     jewelry: jewelryImg,
     pandit: panditImg,
     entertainment: entertainmentImg,
-  };
-
-  const handleCategoryClick = (categorySlug: string) => {
-    switch(categorySlug) {
-      case 'photography':
-        playCameraSound();
-        break;
-      case 'catering':
-        playCateringSound();
-        break;
-      case 'music':
-      case 'entertainment':
-        playMusicSound();
-        break;
-      case 'decoration':
-        playDecorationSound();
-        break;
-      case 'mehendi':
-        playMehendiSound();
-        break;
-      case 'venue':
-        playVenueSound();
-        break;
-      default:
-        playCameraSound();
-    }
   };
 
   useEffect(() => {
@@ -216,7 +187,6 @@ const Categories = () => {
                 <Link 
                   key={cat.id}
                   to={`/category/${cat.slug}`}
-                  onClick={() => handleCategoryClick(cat.slug)}
                 >
                   <GlassCard 
                     hover

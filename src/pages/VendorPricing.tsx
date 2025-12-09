@@ -1,26 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Sparkles, Crown, TrendingUp } from "lucide-react";
+import { Check, Sparkles, Crown, TrendingUp, Gem, Star } from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 export default function VendorPricing() {
   const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState<'featured' | 'sponsored' | null>(null);
 
   const plans = [
     {
       id: 'free',
-      name: 'Basic Listing',
+      name: 'Free Registration',
       price: 'Free',
       period: 'Forever',
       icon: Check,
       badge: null,
-      description: 'Get started with essential visibility',
+      description: 'Get started with basic visibility',
       features: [
         'Basic listing in search results',
         'Profile page with contact info',
@@ -28,45 +26,72 @@ export default function VendorPricing() {
         'Up to 3 service packages',
         'Email notifications for inquiries',
         'Standard response time (48 hours)',
-        'Monthly performance reports',
-        '12% transaction fee on bookings',
+        '15% transaction fee on bookings',
       ],
-      cta: 'Current Plan',
-      disabled: true,
+      cta: 'Register Free',
+      disabled: false,
       gradient: 'from-muted/50 to-muted/30',
+      tierColor: 'text-muted-foreground',
     },
     {
-      id: 'featured',
-      name: 'Featured Listing',
+      id: 'silver',
+      name: 'Silver',
+      price: '₹2,999',
+      period: 'per month',
+      icon: Star,
+      badge: 'STARTER',
+      badgeColor: 'bg-slate-400',
+      description: 'Enhanced visibility for growing businesses',
+      features: [
+        'All Free features included',
+        'Top 10 placement in search results',
+        '"Silver" badge on your profile',
+        'Up to 15 portfolio images',
+        'Up to 10 service packages',
+        'Priority email notifications',
+        'Basic analytics dashboard',
+        '12% transaction fee (save 3%)',
+        'Monthly performance reports',
+      ],
+      cta: 'Upgrade to Silver',
+      highlight: false,
+      gradient: 'from-slate-100 to-slate-50',
+      tierColor: 'text-slate-500',
+      estimatedBookings: '5-8 bookings/month',
+      roi: '5x return on investment',
+    },
+    {
+      id: 'gold',
+      name: 'Gold',
       price: '₹4,999',
       period: 'per month',
       icon: Sparkles,
       badge: 'MOST POPULAR',
-      badgeColor: 'bg-accent',
+      badgeColor: 'bg-amber-500',
       description: 'Stand out and get 3x more inquiries',
       features: [
+        'All Silver features included',
         'Top 5 placement in search results',
-        '"Featured" badge on your profile',
+        '"Gold Verified" badge on your profile',
         'Unlimited portfolio images',
         'Unlimited service packages',
         'Priority email & SMS notifications',
-        'Instant inquiry alerts',
         'Advanced analytics dashboard',
         'Weekly performance insights',
-        '10% transaction fee (save 2%)',
-        'Profile views & conversion tracking',
-        'Priority customer support',
+        '8% transaction fee (save 7%)',
         'Featured in category pages',
+        'Priority customer support',
       ],
-      cta: 'Upgrade to Featured',
+      cta: 'Upgrade to Gold',
       highlight: true,
-      gradient: 'from-accent/20 to-primary/20',
-      estimatedBookings: '8-12 bookings/month',
-      roi: '10x return on investment',
+      gradient: 'from-amber-100/50 to-yellow-50/50',
+      tierColor: 'text-amber-600',
+      estimatedBookings: '10-15 bookings/month',
+      roi: '12x return on investment',
     },
     {
-      id: 'sponsored',
-      name: 'Sponsored Profile',
+      id: 'diamond',
+      name: 'Diamond',
       price: '₹9,999',
       period: 'per month',
       icon: Crown,
@@ -74,40 +99,42 @@ export default function VendorPricing() {
       badgeColor: 'bg-gradient-to-r from-primary to-accent',
       description: 'Maximum visibility with VIP treatment',
       features: [
+        'All Gold features included',
         'Homepage featured carousel placement',
         'Top 1-3 placement in all searches',
-        '"Verified Premium" badge',
-        'All Featured plan benefits',
-        'Zero transaction fees (save 12%)',
+        '"Diamond Premium" badge',
+        'Zero transaction fees (save 15%)',
         'Dedicated account manager',
         'Social media promotion',
         'Bi-weekly business consulting',
         'Custom URL (yourname.karloshaadi.com)',
         'Priority booking queue access',
-        'Exclusive networking events',
         'Featured in success stories',
         '24/7 VIP support',
       ],
-      cta: 'Go Premium',
+      cta: 'Go Diamond',
       premium: true,
-      gradient: 'from-primary/30 via-accent/20 to-primary/30',
-      estimatedBookings: '15-25 bookings/month',
+      gradient: 'from-primary/20 via-accent/10 to-primary/20',
+      tierColor: 'text-primary',
+      estimatedBookings: '20-30 bookings/month',
       roi: '25x return on investment',
     },
   ];
 
   const handleUpgrade = (planId: string) => {
-    if (planId === 'free') return;
-    navigate('/vendor/dashboard', { state: { upgradeTo: planId } });
+    if (planId === 'free') {
+      navigate('/vendor-onboarding');
+    } else {
+      navigate('/vendor/dashboard', { state: { upgradeTo: planId } });
+    }
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
       <SEO 
         title="Vendor Pricing - Grow Your Wedding Business"
-        description="Choose the perfect plan for your wedding business. Featured listings get 3x more bookings. Premium profiles get dedicated support and zero fees."
+        description="Choose the perfect plan for your wedding business. Silver, Gold, and Diamond listings get more bookings. Premium profiles get dedicated support."
       />
-      <BhindiHeader />
       
       <main className="flex-1 py-20 px-4">
         <div className="max-w-7xl mx-auto">
@@ -125,13 +152,24 @@ export default function VendorPricing() {
             </p>
           </div>
 
+          {/* Limited Time Offer Banner */}
+          <div className="bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 border-2 border-accent/30 rounded-2xl p-6 mb-12 text-center animate-fade-in">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Gem className="h-5 w-5 text-accent" />
+              <span className="font-bold text-lg">Limited Time Offer</span>
+            </div>
+            <p className="text-muted-foreground">
+              Register now and get <span className="font-bold text-primary">first 3 months FREE</span> on any paid plan! Offer ends soon.
+            </p>
+          </div>
+
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {plans.map((plan, index) => (
               <Card 
                 key={plan.id}
                 className={`relative overflow-hidden transition-all duration-300 ${
-                  plan.highlight ? 'scale-105 shadow-2xl border-accent' : ''
+                  plan.highlight ? 'scale-105 shadow-2xl border-amber-400 ring-2 ring-amber-400/20' : ''
                 } ${plan.premium ? 'border-primary shadow-xl' : ''} animate-fade-up`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
@@ -141,30 +179,30 @@ export default function VendorPricing() {
                 {/* Badge */}
                 {plan.badge && (
                   <div className="absolute top-0 right-0 m-4">
-                    <Badge className={`${plan.badgeColor} text-white font-bold`}>
+                    <Badge className={`${plan.badgeColor} text-white font-bold text-xs`}>
                       {plan.badge}
                     </Badge>
                   </div>
                 )}
 
-                <CardHeader className="relative">
+                <CardHeader className="relative pb-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className={`p-2 rounded-lg ${plan.highlight ? 'bg-accent/20' : plan.premium ? 'bg-primary/20' : 'bg-muted'}`}>
-                      <plan.icon className={`h-6 w-6 ${plan.highlight ? 'text-accent' : plan.premium ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <div className={`p-2 rounded-lg ${plan.highlight ? 'bg-amber-500/20' : plan.premium ? 'bg-primary/20' : 'bg-muted'}`}>
+                      <plan.icon className={`h-5 w-5 ${plan.tierColor}`} />
                     </div>
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                    <CardTitle className={`text-xl ${plan.tierColor}`}>{plan.name}</CardTitle>
                   </div>
-                  <CardDescription className="text-base">{plan.description}</CardDescription>
+                  <CardDescription className="text-sm">{plan.description}</CardDescription>
                   
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-bold">{plan.price}</span>
+                      <span className="text-3xl font-bold">{plan.price}</span>
                       {plan.period !== 'Forever' && (
-                        <span className="text-muted-foreground">/ {plan.period}</span>
+                        <span className="text-muted-foreground text-sm">/ {plan.period}</span>
                       )}
                     </div>
                     {plan.estimatedBookings && (
-                      <p className="text-sm text-accent font-semibold mt-2">
+                      <p className={`text-sm font-semibold mt-2 ${plan.tierColor}`}>
                         ⚡ {plan.estimatedBookings}
                       </p>
                     )}
@@ -177,12 +215,10 @@ export default function VendorPricing() {
                 </CardHeader>
 
                 <CardContent className="relative">
-                  <ul className="space-y-3 mb-6">
+                  <ul className="space-y-2 mb-6">
                     {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
-                        <Check className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
-                          plan.highlight ? 'text-accent' : plan.premium ? 'text-primary' : 'text-muted-foreground'
-                        }`} />
+                      <li key={i} className="flex items-start gap-2 text-xs">
+                        <Check className={`h-3.5 w-3.5 mt-0.5 flex-shrink-0 ${plan.tierColor}`} />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -191,8 +227,7 @@ export default function VendorPricing() {
                   <Button
                     className="w-full"
                     variant={plan.highlight ? 'default' : plan.premium ? 'hero' : 'outline'}
-                    size="lg"
-                    disabled={plan.disabled}
+                    size="default"
                     onClick={() => handleUpgrade(plan.id)}
                   >
                     {plan.cta}
@@ -213,7 +248,7 @@ export default function VendorPricing() {
                     <p className="text-sm text-muted-foreground">Increase in Bookings</p>
                   </div>
                   <p className="text-sm italic">
-                    "Featured listing helped us get from 3 to 12 bookings per month in just 2 months!"
+                    "Gold listing helped us get from 3 to 12 bookings per month in just 2 months!"
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
                     - Priya's Photography, Mumbai
@@ -228,7 +263,7 @@ export default function VendorPricing() {
                     <p className="text-sm text-muted-foreground">Revenue in 6 Months</p>
                   </div>
                   <p className="text-sm italic">
-                    "Sponsored profile gave us homepage visibility. Best investment we made!"
+                    "Diamond profile gave us homepage visibility. Best investment we made!"
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
                     - Divine Caterers, Delhi
@@ -287,8 +322,8 @@ export default function VendorPricing() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Transaction fees apply only to bookings made through our platform. Featured vendors get 
-                    10% fee (vs 12% for free), and Sponsored vendors pay zero transaction fees.
+                    Transaction fees apply only to bookings made through our platform. Silver vendors get 
+                    12% fee, Gold vendors 8%, and Diamond vendors pay zero transaction fees.
                   </p>
                 </CardContent>
               </Card>
@@ -312,11 +347,16 @@ export default function VendorPricing() {
             <h2 className="text-3xl font-bold mb-4">Ready to Grow Your Business?</h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Join thousands of successful vendors who trust Karlo Shaadi to grow their wedding business.
-              Get started with a Featured plan today and see results within 30 days.
+              Get started with a Gold plan today and see results within 30 days.
             </p>
-            <Button size="lg" variant="hero" onClick={() => navigate('/vendor/dashboard')}>
-              Upgrade Now
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" variant="outline" onClick={() => navigate('/vendor-onboarding')}>
+                Register Free
+              </Button>
+              <Button size="lg" variant="hero" onClick={() => navigate('/vendor/dashboard')}>
+                Upgrade Now
+              </Button>
+            </div>
           </div>
         </div>
       </main>
