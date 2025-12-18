@@ -59,7 +59,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { StickyPromoBar } from "@/components/StickyPromoBar";
+
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 
 const queryClient = new QueryClient();
@@ -72,7 +72,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <StickyPromoBar />
+            
             <BhindiHeader />
             <Routes>
               <Route path="/" element={<Index />} />
