@@ -54,6 +54,7 @@ import Deals from "./pages/Deals";
 import Compare from "./pages/Compare";
 import Checklist from "./pages/Checklist";
 import BudgetTracker from "./pages/BudgetTracker";
+import AIMatchResults from "./pages/AIMatchResults";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
@@ -128,6 +129,7 @@ const App = () => (
               <Route path="/compare" element={<Compare />} />
               <Route path="/checklist" element={<ProtectedRoute><Checklist /></ProtectedRoute>} />
               <Route path="/budget" element={<ProtectedRoute><BudgetTracker /></ProtectedRoute>} />
+              <Route path="/ai-matches" element={<ProtectedRoute><AIMatchResults /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
