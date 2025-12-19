@@ -410,6 +410,45 @@ export type Database = {
           },
         ]
       }
+      investor_inquiries: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          investment_range: string | null
+          message: string | null
+          name: string
+          phone: string | null
+          resolved_at: string | null
+          status: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          investment_range?: string | null
+          message?: string | null
+          name: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          investment_range?: string | null
+          message?: string | null
+          name?: string
+          phone?: string | null
+          resolved_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           booking_id: string | null

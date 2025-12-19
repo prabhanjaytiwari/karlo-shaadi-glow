@@ -119,7 +119,7 @@ export const Footer = () => {
           
           <div className="text-xs text-muted-foreground text-center md:text-right">
             <p>© {currentYear} Karlo Shaadi. All rights reserved.</p>
-            <p className="mt-1">GST: 09XXXXX1234X1Z5 • Last updated: Jan 2025</p>
+            <p className="mt-1">Made in India</p>
           </div>
         </div>
       </div>

@@ -4,34 +4,66 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { TrendingUp, Target, Users, Zap } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { investorInquirySchema, sanitizeInput } from "@/lib/validation";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+type InvestorFormData = z.infer<typeof investorInquirySchema>;
 
 export default function Investors() {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    investmentRange: "",
-    message: "",
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<InvestorFormData>({
+    resolver: zodResolver(investorInquirySchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      investmentRange: "",
+      message: "",
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Integrate with Supabase or backend
-    console.log("Investor interest:", formData);
-    toast({
-      title: "Interest Submitted!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", company: "", investmentRange: "", message: "" });
-  };
+  const handleSubmit = async (data: InvestorFormData) => {
+    setIsSubmitting(true);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    try {
+      const { error } = await supabase
+        .from("investor_inquiries")
+        .insert([{
+          name: sanitizeInput(data.name),
+          email: sanitizeInput(data.email),
+          phone: data.phone || null,
+          company: data.company ? sanitizeInput(data.company) : null,
+          investment_range: data.investmentRange || null,
+          message: data.message ? sanitizeInput(data.message) : null,
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Interest Submitted!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      
+      form.reset();
+    } catch (error: any) {
+      console.error('Error submitting investor inquiry:', error);
+      toast({
+        title: "Error",
+        description: "Failed to submit. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -39,7 +71,6 @@ export default function Investors() {
       <BhindiHeader />
       
       <main className="container mx-auto px-4 py-20">
-        {/* Hero Section */}
         <div className="text-center mb-16 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
             Invest in the Future of Weddings
@@ -49,7 +80,6 @@ export default function Investors() {
           </p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-16">
           {[
             { icon: TrendingUp, label: "Market Size", value: "$50B+" },
@@ -65,90 +95,106 @@ export default function Investors() {
           ))}
         </div>
 
-        {/* Investment Form */}
         <div className="max-w-2xl mx-auto bg-card border border-border rounded-2xl p-8 shadow-xl">
           <h2 className="text-3xl font-bold mb-6 text-center">Submit Your Interest</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="name">Full Name *</Label>
-                <Input
-                  id="name"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="mt-2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name *</FormLabel>
+                      <FormControl>
+                        <Input className="mt-2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div>
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
+                <FormField
+                  control={form.control}
                   name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="mt-2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email *</FormLabel>
+                      <FormControl>
+                        <Input type="email" className="mt-2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
-            </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <Label htmlFor="phone">Phone Number *</Label>
-                <Input
-                  id="phone"
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
                   name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="mt-2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input type="tel" className="mt-2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div>
-                <Label htmlFor="company">Company/Fund Name</Label>
-                <Input
-                  id="company"
+                <FormField
+                  control={form.control}
                   name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="mt-2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company/Fund Name</FormLabel>
+                      <FormControl>
+                        <Input className="mt-2" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
-            </div>
 
-            <div>
-              <Label htmlFor="investmentRange">Investment Range</Label>
-              <Input
-                id="investmentRange"
+              <FormField
+                control={form.control}
                 name="investmentRange"
-                placeholder="e.g., $100K - $500K"
-                value={formData.investmentRange}
-                onChange={handleChange}
-                className="mt-2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Investment Range</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., $100K - $500K" className="mt-2" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div>
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
+              <FormField
+                control={form.control}
                 name="message"
-                rows={4}
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Tell us about your investment thesis..."
-                className="mt-2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Message</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={4}
+                        placeholder="Tell us about your investment thesis..."
+                        className="mt-2"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <Button type="submit" size="lg" className="w-full">
-              Submit Interest
-            </Button>
-          </form>
+              <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit Interest"}
+              </Button>
+            </form>
+          </Form>
         </div>
       </main>
 

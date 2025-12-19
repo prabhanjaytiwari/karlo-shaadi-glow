@@ -166,8 +166,6 @@ export const BhindiFooter = () => {
               © {currentYear} Karlo Shaadi. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span>GST: 09XXXXX1234X1Z5</span>
-              <span className="w-1 h-1 rounded-full bg-accent/50" />
               <span>Made in India</span>
             </div>
           </div>
