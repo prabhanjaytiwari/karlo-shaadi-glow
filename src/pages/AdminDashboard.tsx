@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { StoryModerationTab } from "@/components/admin/StoryModerationTab";
 import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { PaymentTestingPanel } from "@/components/admin/PaymentTestingPanel";
+import { VendorVerificationPanel } from "@/components/admin/VendorVerificationPanel";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -385,60 +386,10 @@ export default function AdminDashboard() {
             </TabsContent>
 
             <TabsContent value="verification">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Pending Vendor Verification</CardTitle>
-                  <CardDescription>Review and verify new vendor applications</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {pendingVendors.length === 0 ? (
-                    <p className="text-muted-foreground text-center py-8">No pending verifications</p>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Business Name</TableHead>
-                          <TableHead>Category</TableHead>
-                          <TableHead>Experience</TableHead>
-                          <TableHead>Actions</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {pendingVendors.map((vendor) => (
-                          <TableRow key={vendor.id}>
-                            <TableCell className="font-medium">{vendor.business_name}</TableCell>
-                            <TableCell>
-                              <Badge variant="outline">{vendor.category}</Badge>
-                            </TableCell>
-                            <TableCell>{vendor.years_experience} years</TableCell>
-                            <TableCell>
-                              <div className="flex gap-2">
-                                <Button
-                                  size="sm"
-                                  onClick={() => handleVerifyVendor(vendor.id)}
-                                  className="gap-1"
-                                >
-                                  <CheckCircle className="h-4 w-4" />
-                                  Verify
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => handleRejectVendor(vendor.id)}
-                                  className="gap-1 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
-                                >
-                                  <XCircle className="h-4 w-4" />
-                                  Reject
-                                </Button>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  )}
-                </CardContent>
-              </Card>
+              <VendorVerificationPanel 
+                pendingVendors={pendingVendors} 
+                onUpdate={loadDashboardData}
+              />
             </TabsContent>
 
             <TabsContent value="vendors">

@@ -166,44 +166,85 @@ export default function VendorDashboard() {
   };
 
   const loadRevenueData = async (vendorId: string) => {
-    // Generate mock data for last 6 months
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-    const monthlyData = months.map(month => ({
-      month,
-      revenue: Math.floor(Math.random() * 200000) + 50000,
-      bookings: Math.floor(Math.random() * 15) + 5,
-      avgBookingValue: Math.floor(Math.random() * 30000) + 20000
-    }));
+    // Load real booking data for revenue charts
+    const { data: bookingsData } = await supabase
+      .from("bookings")
+      .select("total_amount, created_at, status")
+      .eq("vendor_id", vendorId)
+      .order("created_at", { ascending: true });
 
-    const categoryBreakdown = [
-      { name: 'Photography', value: 120000 },
-      { name: 'Catering', value: 95000 },
-      { name: 'Decoration', value: 75000 },
-      { name: 'Music', value: 45000 }
-    ];
+    if (bookingsData && bookingsData.length > 0) {
+      // Group bookings by month
+      const monthlyMap = new Map<string, { revenue: number; bookings: number; values: number[] }>();
+      
+      bookingsData.forEach(booking => {
+        const date = new Date(booking.created_at);
+        const monthKey = date.toLocaleString('default', { month: 'short' });
+        const amount = booking.status === 'completed' ? Number(booking.total_amount) : 0;
+        
+        if (!monthlyMap.has(monthKey)) {
+          monthlyMap.set(monthKey, { revenue: 0, bookings: 0, values: [] });
+        }
+        
+        const entry = monthlyMap.get(monthKey)!;
+        entry.revenue += amount;
+        entry.bookings += 1;
+        entry.values.push(Number(booking.total_amount));
+      });
 
-    setRevenueData({
-      monthlyData,
-      categoryBreakdown,
-      conversionData: {
-        inquiries: 45,
-        bookings: stats.totalBookings,
-        conversionRate: stats.totalBookings > 0 ? Math.round((stats.totalBookings / 45) * 100) : 0
-      }
-    });
+      const monthlyData = Array.from(monthlyMap.entries()).map(([month, data]) => ({
+        month,
+        revenue: data.revenue,
+        bookings: data.bookings,
+        avgBookingValue: data.values.length > 0 
+          ? Math.round(data.values.reduce((a, b) => a + b, 0) / data.values.length)
+          : 0
+      })).slice(-6); // Last 6 months
+
+      // Load messages count for conversion rate
+      const { count: inquiriesCount } = await supabase
+        .from("messages")
+        .select("*", { count: "exact", head: true })
+        .eq("recipient_id", vendor?.user_id);
+
+      const conversionRate = inquiriesCount && inquiriesCount > 0 
+        ? Math.round((stats.totalBookings / inquiriesCount) * 100)
+        : 0;
+
+      setRevenueData({
+        monthlyData: monthlyData.length > 0 ? monthlyData : [
+          { month: 'No Data', revenue: 0, bookings: 0, avgBookingValue: 0 }
+        ],
+        categoryBreakdown: [
+          { name: vendor?.category || 'Services', value: stats.revenue }
+        ],
+        conversionData: {
+          inquiries: inquiriesCount || 0,
+          bookings: stats.totalBookings,
+          conversionRate
+        }
+      });
+    } else {
+      // No bookings - show empty state
+      setRevenueData({
+        monthlyData: [{ month: 'No Data', revenue: 0, bookings: 0, avgBookingValue: 0 }],
+        categoryBreakdown: [],
+        conversionData: { inquiries: 0, bookings: 0, conversionRate: 0 }
+      });
+    }
   };
 
   const getSubscriptionBadge = () => {
     const tier = vendor?.subscription_tier || 'free';
     const colors = {
       free: 'bg-muted text-muted-foreground',
-      featured: 'bg-accent/20 text-accent',
-      sponsored: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary'
+      featured: 'bg-gradient-to-r from-yellow-400/20 to-amber-500/20 text-amber-700 border border-amber-300',
+      sponsored: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary border border-primary/30'
     };
     const labels = {
-      free: 'Free',
-      featured: 'Featured ⭐',
-      sponsored: 'Sponsored Premium 👑'
+      free: 'Silver (Free)',
+      featured: 'Gold ⭐',
+      sponsored: 'Diamond 💎'
     };
     return { color: colors[tier as keyof typeof colors], label: labels[tier as keyof typeof labels] };
   };

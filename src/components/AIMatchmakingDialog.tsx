@@ -114,18 +114,28 @@ export const AIMatchmakingDialog = ({ open, onOpenChange }: AIMatchmakingDialogP
       if (error) throw error;
 
       toast({
-        title: "Perfect Matches Found!",
-        description: `We found ${data.vendors?.length || 0} vendors matching your requirements`,
+        title: "Finding Your Matches...",
+        description: "Analyzing your preferences to find the perfect vendors",
       });
 
       onOpenChange(false);
       
-      // Navigate to search with filters applied
+      // Navigate to AI results page with preferences as params
       const searchParams = new URLSearchParams();
       if (formData.city) searchParams.set("city", formData.city);
-      if (formData.services[0]) searchParams.set("category", formData.services[0]);
-      navigate(`/search?${searchParams.toString()}`);
+      if (formData.services.length > 0) searchParams.set("services", formData.services.join(","));
+      if (formData.budget) {
+        const budgetParts = formData.budget.split("-");
+        const budgetMin = parseInt(budgetParts[0]) * 100000;
+        const budgetMax = budgetParts[1] === "+" ? 50000000 : parseInt(budgetParts[1]) * 100000;
+        searchParams.set("budgetMin", budgetMin.toString());
+        searchParams.set("budgetMax", budgetMax.toString());
+      }
+      if (formData.guestCount) searchParams.set("guestCount", formData.guestCount);
+      if (formData.weddingDate) searchParams.set("weddingDate", formData.weddingDate);
+      if (formData.weddingStyle) searchParams.set("weddingStyle", formData.weddingStyle);
       
+      navigate(`/ai-matches?${searchParams.toString()}`);
     } catch (error: any) {
       console.error("AI matching error:", error);
       toast({
