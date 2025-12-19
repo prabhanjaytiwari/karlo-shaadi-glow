@@ -119,7 +119,6 @@ const Shipping = () => {
               <p>
                 For questions about shipping and delivery:<br />
                 Email: shipping@karloshaadi.com<br />
-                Phone: +91-XXXXXXXXXX<br />
                 Live Chat: Available 9 AM - 9 PM IST<br />
                 Our team will assist with tracking, address changes, and delivery issues.
               </p>

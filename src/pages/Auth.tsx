@@ -8,8 +8,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Eye, EyeOff, Heart } from "lucide-react";
-import { sanitizeInput } from "@/lib/validation";
+import { Eye, EyeOff } from "lucide-react";
+import { loginFormSchema, signupFormSchema, sanitizeInput } from "@/lib/validation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+type LoginFormData = z.infer<typeof loginFormSchema>;
+type SignupFormData = z.infer<typeof signupFormSchema>;
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -18,41 +25,36 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Login state
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const loginForm = useForm<LoginFormData>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  // Signup state
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
+  const signupForm = useForm<SignupFormData>({
+    resolver: zodResolver(signupFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      password: "",
+    },
+  });
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (data: LoginFormData) => {
     setIsLoading(true);
 
-    // Basic validation
-    if (!loginEmail.trim() || !loginPassword) {
-      toast({
-        title: "Validation error",
-        description: "Email and password are required",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: sanitizeInput(loginEmail.trim()),
-        password: loginPassword,
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email: sanitizeInput(data.email),
+        password: data.password,
       });
 
       if (error) throw error;
 
-      if (data.user) {
-        // Track login event
+      if (authData.user) {
         await trackEvent({
           event_type: 'user_login',
           metadata: { method: 'password' },
@@ -63,11 +65,10 @@ const Auth = () => {
           description: "You've successfully logged in.",
         });
 
-        // Check user role and redirect accordingly
         const { data: roles } = await supabase
           .from("user_roles")
           .select("role")
-          .eq("user_id", data.user.id);
+          .eq("user_id", authData.user.id);
 
         if (roles && roles.length > 0) {
           if (roles.some(r => r.role === 'vendor')) {
@@ -92,63 +93,17 @@ const Auth = () => {
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignup = async (data: SignupFormData) => {
     setIsLoading(true);
 
-    // Validation
-    const trimmedName = fullName.trim();
-    const trimmedEmail = signupEmail.trim();
-    const trimmedPhone = phone.trim();
-
-    if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 100) {
-      toast({
-        title: "Validation error",
-        description: "Name must be between 2-100 characters",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (!/^[a-zA-Z\s]+$/.test(trimmedName)) {
-      toast({
-        title: "Validation error",
-        description: "Name can only contain letters and spaces",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (trimmedPhone && !/^[6-9]\d{9}$/.test(trimmedPhone)) {
-      toast({
-        title: "Validation error",
-        description: "Please enter a valid Indian phone number (10 digits starting with 6-9)",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (signupPassword.length < 6) {
-      toast({
-        title: "Validation error",
-        description: "Password must be at least 6 characters",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: sanitizeInput(trimmedEmail),
-        password: signupPassword,
+      const { data: authData, error } = await supabase.auth.signUp({
+        email: sanitizeInput(data.email),
+        password: data.password,
         options: {
           data: {
-            full_name: sanitizeInput(trimmedName),
-            phone: trimmedPhone || null,
+            full_name: sanitizeInput(data.fullName),
+            phone: data.phone || null,
           },
           emailRedirectTo: `${window.location.origin}/dashboard`,
         },
@@ -156,9 +111,7 @@ const Auth = () => {
 
       if (error) throw error;
 
-      if (data.user) {
-        // Role is automatically assigned via database trigger
-        // Track signup event
+      if (authData.user) {
         await trackEvent({
           event_type: 'user_signup',
           metadata: { role: 'couple' },
@@ -184,7 +137,6 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
-
         <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
           <CardHeader className="text-center">
             <div className="mx-auto w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
@@ -198,131 +150,168 @@ const Auth = () => {
                 <TabsTrigger value="signup">Sign Up</TabsTrigger>
               </TabsList>
 
-              {/* Login Tab */}
               <TabsContent value="login">
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="login-email">Email</Label>
-                    <Input
-                      id="login-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      required
-                      disabled={isLoading}
+                <Form {...loginForm}>
+                  <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
+                    <FormField
+                      control={loginForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="you@example.com"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
-                    <div className="relative">
-                      <Input
-                        id="login-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-0 top-0 h-full px-3"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                  </div>
+                    <FormField
+                      control={loginForm.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                disabled={isLoading}
+                                {...field}
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-0 top-0 h-full px-3"
+                                onClick={() => setShowPassword(!showPassword)}
+                              >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Logging in..." : "Login"}
-                  </Button>
-                </form>
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                      {isLoading ? "Logging in..." : "Login"}
+                    </Button>
+                  </form>
+                </Form>
               </TabsContent>
 
-              {/* Signup Tab */}
               <TabsContent value="signup">
-                <form onSubmit={handleSignup} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
-                    <Input
-                      id="signup-name"
-                      type="text"
-                      placeholder="Your name"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      required
-                      disabled={isLoading}
+                <Form {...signupForm}>
+                  <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
+                    <FormField
+                      control={signupForm.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="Your name"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-phone">Phone Number</Label>
-                    <Input
-                      id="signup-phone"
-                      type="tel"
-                      placeholder="+91 98765 43210"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      disabled={isLoading}
+                    <FormField
+                      control={signupForm.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="tel"
+                              placeholder="9876543210"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
-                    <Input
-                      id="signup-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={signupEmail}
-                      onChange={(e) => setSignupEmail(e.target.value)}
-                      required
-                      disabled={isLoading}
+                    <FormField
+                      control={signupForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="you@example.com"
+                              disabled={isLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
-                    <div className="relative">
-                      <Input
-                        id="signup-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        value={signupPassword}
-                        onChange={(e) => setSignupPassword(e.target.value)}
-                        required
-                        minLength={6}
-                        disabled={isLoading}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-0 top-0 h-full px-3"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Minimum 6 characters</p>
-                  </div>
+                    <FormField
+                      control={signupForm.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                disabled={isLoading}
+                                {...field}
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-0 top-0 h-full px-3"
+                                onClick={() => setShowPassword(!showPassword)}
+                              >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                          <p className="text-xs text-muted-foreground">Minimum 6 characters</p>
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Creating account..." : "Create Account"}
-                  </Button>
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                      {isLoading ? "Creating account..." : "Create Account"}
+                    </Button>
 
-                  <p className="text-xs text-center text-muted-foreground">
-                    By signing up, you agree to our Terms and Privacy Policy
-                  </p>
-                </form>
+                    <p className="text-xs text-center text-muted-foreground">
+                      By signing up, you agree to our Terms and Privacy Policy
+                    </p>
+                  </form>
+                </Form>
               </TabsContent>
             </Tabs>
 
-            {/* Vendor Link */}
             <div className="mt-6 pt-6 border-t border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
                 Are you a vendor?{" "}
@@ -334,7 +323,6 @@ const Auth = () => {
           </CardContent>
         </Card>
 
-        {/* Back to home */}
         <div className="text-center mt-6">
           <Link to="/" className="text-sm text-muted-foreground hover:text-accent transition-colors">
             ← Back to home

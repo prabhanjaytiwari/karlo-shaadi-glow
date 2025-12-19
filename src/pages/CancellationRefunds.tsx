@@ -109,7 +109,6 @@ const CancellationRefunds = () => {
               <p>
                 For cancellation requests or refund assistance, contact our support team:<br />
                 Email: support@karloshaadi.com<br />
-                Phone: +91-XXXXXXXXXX<br />
                 Live Chat: Available on our platform 9 AM - 9 PM IST<br />
                 We'll help facilitate communication and guide you through the process.
               </p>
