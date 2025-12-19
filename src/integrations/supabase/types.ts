@@ -665,6 +665,9 @@ export type Database = {
           partner_name: string | null
           phone: string | null
           preferred_season: string | null
+          referral_code: string | null
+          referral_credits: number | null
+          referred_by: string | null
           updated_at: string
           venue_city: string | null
           wedding_date: string | null
@@ -680,6 +683,9 @@ export type Database = {
           partner_name?: string | null
           phone?: string | null
           preferred_season?: string | null
+          referral_code?: string | null
+          referral_credits?: number | null
+          referred_by?: string | null
           updated_at?: string
           venue_city?: string | null
           wedding_date?: string | null
@@ -695,9 +701,54 @@ export type Database = {
           partner_name?: string | null
           phone?: string | null
           preferred_season?: string | null
+          referral_code?: string | null
+          referral_credits?: number | null
+          referred_by?: string | null
           updated_at?: string
           venue_city?: string | null
           wedding_date?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          referral_code: string
+          referred_email: string | null
+          referred_user_id: string | null
+          referrer_id: string
+          reward_amount: number | null
+          reward_type: string | null
+          rewarded_at: string | null
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          referrer_id: string
+          reward_amount?: number | null
+          reward_type?: string | null
+          rewarded_at?: string | null
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          referrer_id?: string
+          reward_amount?: number | null
+          reward_type?: string | null
+          rewarded_at?: string | null
+          status?: string
         }
         Relationships: []
       }
