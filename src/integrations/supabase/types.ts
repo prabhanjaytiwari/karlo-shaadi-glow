@@ -1426,6 +1426,39 @@ export type Database = {
         }
         Relationships: []
       }
+      wedding_plans: {
+        Row: {
+          created_at: string
+          id: string
+          input_data: Json
+          plan_id: string
+          plan_output: Json
+          saved_at: string | null
+          user_id: string | null
+          views: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          input_data: Json
+          plan_id: string
+          plan_output: Json
+          saved_at?: string | null
+          user_id?: string | null
+          views?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          input_data?: Json
+          plan_id?: string
+          plan_output?: Json
+          saved_at?: string | null
+          user_id?: string | null
+          views?: number
+        }
+        Relationships: []
+      }
       wedding_stories: {
         Row: {
           approved_at: string | null
@@ -1509,6 +1542,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_plan_views: { Args: { p_plan_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "couple" | "vendor" | "admin"
