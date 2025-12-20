@@ -60,6 +60,7 @@ import VendorSuccessStories from "./pages/VendorSuccessStories";
 import WeddingPlanResult from "./pages/WeddingPlanResult";
 import BudgetCalculatorPage from "./pages/BudgetCalculatorPage";
 import MuhuratFinderPage from "./pages/MuhuratFinderPage";
+import InviteCreatorPage from "./pages/InviteCreatorPage";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -158,6 +159,7 @@ const App = () => (
               <Route path="/plan/:planId" element={<WeddingPlanResult />} />
               <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
               <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
+              <Route path="/invite-creator" element={<InviteCreatorPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
