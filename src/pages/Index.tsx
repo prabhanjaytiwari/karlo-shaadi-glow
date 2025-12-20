@@ -13,7 +13,7 @@ import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
-import { Shield, CheckCircle2, Star, Users, Sparkles } from "lucide-react";
+import { Shield, CheckCircle2, Star, Users, Sparkles, Calculator, Calendar } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
 import { SocialProofPopup } from "@/components/SocialProofPopup";
@@ -105,6 +105,30 @@ const Index = () => {
                   >
                     AI Vendor Matchmaking
                   </Button>
+                </div>
+                
+                {/* Quick Tools Row */}
+                <div className="flex flex-wrap justify-center gap-2 mt-3">
+                  <Link to="/budget-calculator">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="bg-white/70 hover:bg-white/90 text-foreground gap-1.5 rounded-full text-xs"
+                    >
+                      <Calculator className="h-3.5 w-3.5" />
+                      Budget Calculator
+                    </Button>
+                  </Link>
+                  <Link to="/muhurat-finder">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="bg-white/70 hover:bg-white/90 text-foreground gap-1.5 rounded-full text-xs"
+                    >
+                      <Calendar className="h-3.5 w-3.5" />
+                      2025 Muhurats
+                    </Button>
+                  </Link>
                 </div>
               </div>
 

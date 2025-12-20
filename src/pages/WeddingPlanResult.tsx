@@ -179,12 +179,15 @@ export default function WeddingPlanResult() {
     );
   }
 
+  const ogImageUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-og-image?planId=${plan?.planId}`;
+
   return (
     <>
       <SEO
         title={`${plan.coupleNames} Wedding Plan | Karlo Shaadi`}
         description={`Complete wedding plan for ${plan.coupleNames} in ${plan.city}. Budget: ${formatCurrency(plan.totalBudget)}, Guests: ${plan.guestCount}`}
         url={`/plan/${plan.planId}`}
+        image={ogImageUrl}
       />
       <BhindiHeader />
 
