@@ -64,8 +64,24 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { BhindiHeader } from "@/components/BhindiHeader";
 
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
+import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: STALE_TIMES.USER,
+      gcTime: CACHE_TIMES.MEDIUM,
+      retry: (failureCount, error) => {
+        // Don't retry on 4xx errors
+        if (error instanceof Error && error.message.includes('4')) {
+          return false;
+        }
+        return failureCount < 2;
+      },
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
