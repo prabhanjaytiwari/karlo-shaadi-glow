@@ -58,6 +58,8 @@ import AIMatchResults from "./pages/AIMatchResults";
 import Referrals from "./pages/Referrals";
 import VendorSuccessStories from "./pages/VendorSuccessStories";
 import WeddingPlanResult from "./pages/WeddingPlanResult";
+import BudgetCalculatorPage from "./pages/BudgetCalculatorPage";
+import MuhuratFinderPage from "./pages/MuhuratFinderPage";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
