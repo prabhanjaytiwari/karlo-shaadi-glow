@@ -87,14 +87,22 @@ const Index = () => {
               <div className={`hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
                 <HeroSearchWidget />
                 
-                {/* AI Matchmaking Button */}
-                <div className="flex justify-center mt-3 sm:mt-4">
+                {/* 2-Minute Wedding Plan CTA */}
+                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+                  <Link to="/plan-wizard">
+                    <Button
+                      size="lg"
+                      className="gap-2 rounded-full px-6 sm:px-8 h-11 sm:h-12 text-sm sm:text-base shadow-xl bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 w-full sm:w-auto"
+                    >
+                      <Sparkles className="h-5 w-5" />
+                      Get Your 2-Minute Wedding Plan
+                    </Button>
+                  </Link>
                   <Button
                     onClick={() => setAiMatchmakingOpen(true)}
                     variant="outline"
                     className="bg-white/90 hover:bg-white border-accent/30 hover:border-accent text-foreground gap-2 rounded-full px-4 sm:px-6 h-9 sm:h-10 text-xs sm:text-sm shadow-lg"
                   >
-                    <Sparkles className="h-4 w-4 text-accent" />
                     AI Vendor Matchmaking
                   </Button>
                 </div>

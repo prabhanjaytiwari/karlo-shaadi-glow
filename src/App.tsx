@@ -57,6 +57,8 @@ import BudgetTracker from "./pages/BudgetTracker";
 import AIMatchResults from "./pages/AIMatchResults";
 import Referrals from "./pages/Referrals";
 import VendorSuccessStories from "./pages/VendorSuccessStories";
+import WeddingPlanResult from "./pages/WeddingPlanResult";
+import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
@@ -150,6 +152,8 @@ const App = () => (
               <Route path="/ai-matches" element={<ProtectedRoute><AIMatchResults /></ProtectedRoute>} />
               <Route path="/referrals" element={<ProtectedRoute><Referrals /></ProtectedRoute>} />
               <Route path="/vendor-success-stories" element={<VendorSuccessStories />} />
+              <Route path="/plan-wizard" element={<WeddingPlanWizard />} />
+              <Route path="/plan/:planId" element={<WeddingPlanResult />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
