@@ -36,7 +36,10 @@ import {
   Phone,
   Calendar,
   MessageSquare,
-  User
+  User,
+  Wrench,
+  Calculator,
+  Image
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
@@ -216,14 +219,28 @@ export const BhindiHeader = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Regular Links */}
+                {/* Tools Dropdown */}
                 <NavigationMenuItem>
-                  <Link to="/stories">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
-                      Stories
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuTrigger className="text-sm font-medium">Tools</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-1 p-4 md:grid-cols-2">
+                      <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
+                        Get a complete wedding plan in 2 minutes
+                      </ListItem>
+                      <ListItem title="Budget Calculator" href="/budget-calculator" icon={Calculator}>
+                        Instant category-wise budget breakdown
+                      </ListItem>
+                      <ListItem title="Muhurat Finder" href="/muhurat-finder" icon={Calendar}>
+                        2025-2026 auspicious wedding dates
+                      </ListItem>
+                      <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
+                        AI-generated wedding invitations
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
                 </NavigationMenuItem>
+
+                {/* Regular Links */}
 
                 <NavigationMenuItem>
                   <Link to="/blog">
