@@ -25,7 +25,7 @@ import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
 import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { FOMOBanner } from "@/components/FOMOBanner";
+
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
@@ -61,8 +61,6 @@ const Index = () => {
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
-      {/* FOMO Components */}
-      <FOMOBanner />
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
@@ -105,6 +103,22 @@ const Index = () => {
                   <Button onClick={() => setAiMatchmakingOpen(true)} variant="outline" className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold bg-background/95 hover:bg-background border-2 border-primary/30 hover:border-primary text-foreground transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-primary/20 w-full sm:w-auto">
                     AI Vendor Matchmaking
                   </Button>
+                </div>
+
+                {/* Trust Badges */}
+                <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-6 mt-6 sm:mt-8">
+                  <div className="flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-md">
+                    <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                    <span className="text-xs sm:text-sm font-medium text-foreground">100% Verified Vendors</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-md">
+                    <Star className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500 fill-amber-500" />
+                    <span className="text-xs sm:text-sm font-medium text-foreground">4.8/5 Average Rating</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-md">
+                    <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                    <span className="text-xs sm:text-sm font-medium text-foreground">50,000+ Happy Couples</span>
+                  </div>
                 </div>
               </div>
 
