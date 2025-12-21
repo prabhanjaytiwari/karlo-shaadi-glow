@@ -100,7 +100,7 @@ const Index = () => {
                   <Button
                     onClick={() => setAiMatchmakingOpen(true)}
                     variant="outline"
-                    className="bg-white/90 hover:bg-white border-accent/30 hover:border-accent text-foreground gap-2 rounded-full px-4 sm:px-6 h-9 sm:h-10 text-xs sm:text-sm shadow-lg"
+                    className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold bg-background/95 hover:bg-background border-2 border-primary/30 hover:border-primary text-foreground transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-primary/20 w-full sm:w-auto"
                   >
                     AI Vendor Matchmaking
                   </Button>
