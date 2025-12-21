@@ -8,16 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Eye, EyeOff, Building2, TrendingUp, Users, Award, Phone, Mail, Loader2 } from "lucide-react";
-import { sanitizeInput, phoneOtpSchema, otpCodeSchema } from "@/lib/validation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-
-type PhoneFormData = z.infer<typeof phoneOtpSchema>;
-type OtpFormData = z.infer<typeof otpCodeSchema>;
+import { Eye, EyeOff, Building2, TrendingUp, Users, Award, Loader2 } from "lucide-react";
+import { sanitizeInput } from "@/lib/validation";
 
 const VendorAuth = () => {
   const navigate = useNavigate();
@@ -25,8 +17,6 @@ const VendorAuth = () => {
   const { trackEvent } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [phoneStep, setPhoneStep] = useState<"phone" | "otp">("phone");
-  const [phoneNumber, setPhoneNumber] = useState("");
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
@@ -38,20 +28,6 @@ const VendorAuth = () => {
   const [businessName, setBusinessName] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [phone, setPhone] = useState("");
-
-  const phoneForm = useForm<PhoneFormData>({
-    resolver: zodResolver(phoneOtpSchema),
-    defaultValues: {
-      phone: "",
-    },
-  });
-
-  const otpForm = useForm<OtpFormData>({
-    resolver: zodResolver(otpCodeSchema),
-    defaultValues: {
-      code: "",
-    },
-  });
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -75,99 +51,6 @@ const VendorAuth = () => {
         description: error.message || "Please try again.",
         variant: "destructive",
       });
-      setIsLoading(false);
-    }
-  };
-
-  const handleSendOtp = async (data: PhoneFormData) => {
-    setIsLoading(true);
-    const formattedPhone = `+91${data.phone}`;
-    setPhoneNumber(formattedPhone);
-
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: formattedPhone,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "OTP Sent!",
-        description: "Check your phone for the verification code.",
-      });
-      setPhoneStep("otp");
-    } catch (error: any) {
-      toast({
-        title: "Failed to send OTP",
-        description: error.message || "Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async (data: OtpFormData) => {
-    setIsLoading(true);
-
-    try {
-      const { data: authData, error } = await supabase.auth.verifyOtp({
-        phone: phoneNumber,
-        token: data.code,
-        type: "sms",
-      });
-
-      if (error) throw error;
-
-      if (authData.user) {
-        await trackEvent({
-          event_type: "vendor_login",
-          metadata: { method: "phone_otp" },
-        });
-
-        // Check for existing vendor role
-        const { data: existingRole } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", authData.user.id)
-          .eq("role", "vendor")
-          .maybeSingle();
-
-        // Create vendor role if doesn't exist
-        if (!existingRole) {
-          await supabase.from("user_roles").insert([
-            {
-              user_id: authData.user.id,
-              role: "vendor",
-            },
-          ]);
-        }
-
-        // Check if vendor profile exists
-        const { data: vendorProfile } = await supabase
-          .from("vendors")
-          .select("id")
-          .eq("user_id", authData.user.id)
-          .maybeSingle();
-
-        toast({
-          title: "Welcome!",
-          description: vendorProfile ? "Redirecting to your dashboard..." : "Let's set up your vendor profile!",
-        });
-
-        if (vendorProfile) {
-          navigate("/vendor/dashboard");
-        } else {
-          navigate("/vendor/onboarding");
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: "Verification failed",
-        description: error.message || "Invalid OTP. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -424,21 +307,14 @@ const VendorAuth = () => {
                   <span className="w-full border-t border-accent/20" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">or continue with</span>
+                  <span className="bg-card px-2 text-muted-foreground">or continue with email</span>
                 </div>
               </div>
 
               <Tabs defaultValue="signup" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="signup">Sign Up</TabsTrigger>
-                  <TabsTrigger value="login" className="gap-1">
-                    <Mail className="h-3 w-3" />
-                    Email
-                  </TabsTrigger>
-                  <TabsTrigger value="phone" className="gap-1">
-                    <Phone className="h-3 w-3" />
-                    Phone
-                  </TabsTrigger>
+                  <TabsTrigger value="login">Login</TabsTrigger>
                 </TabsList>
 
                 {/* Signup Tab */}
@@ -580,7 +456,7 @@ const VendorAuth = () => {
 
                     <Link
                       to="/forgot-password"
-                      className="text-sm text-accent hover:underline"
+                      className="text-sm text-accent hover:underline block"
                     >
                       Forgot password?
                     </Link>
@@ -596,108 +472,6 @@ const VendorAuth = () => {
                       )}
                     </Button>
                   </form>
-                </TabsContent>
-
-                {/* Phone OTP Tab */}
-                <TabsContent value="phone">
-                  {phoneStep === "phone" ? (
-                    <Form {...phoneForm}>
-                      <form onSubmit={phoneForm.handleSubmit(handleSendOtp)} className="space-y-4">
-                        <FormField
-                          control={phoneForm.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Phone Number</FormLabel>
-                              <FormControl>
-                                <div className="flex">
-                                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
-                                    +91
-                                  </span>
-                                  <Input
-                                    type="tel"
-                                    placeholder="9876543210"
-                                    className="rounded-l-none"
-                                    disabled={isLoading}
-                                    maxLength={10}
-                                    {...field}
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                          {isLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              Sending OTP...
-                            </>
-                          ) : (
-                            "Send OTP"
-                          )}
-                        </Button>
-                      </form>
-                    </Form>
-                  ) : (
-                    <Form {...otpForm}>
-                      <form onSubmit={otpForm.handleSubmit(handleVerifyOtp)} className="space-y-4">
-                        <div className="text-center mb-4">
-                          <p className="text-sm text-muted-foreground">
-                            Enter the 6-digit code sent to{" "}
-                            <span className="font-medium text-foreground">{phoneNumber}</span>
-                          </p>
-                        </div>
-
-                        <FormField
-                          control={otpForm.control}
-                          name="code"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-col items-center">
-                              <FormControl>
-                                <InputOTP maxLength={6} {...field}>
-                                  <InputOTPGroup>
-                                    <InputOTPSlot index={0} />
-                                    <InputOTPSlot index={1} />
-                                    <InputOTPSlot index={2} />
-                                    <InputOTPSlot index={3} />
-                                    <InputOTPSlot index={4} />
-                                    <InputOTPSlot index={5} />
-                                  </InputOTPGroup>
-                                </InputOTP>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                          {isLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              Verifying...
-                            </>
-                          ) : (
-                            "Verify OTP"
-                          )}
-                        </Button>
-
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          className="w-full"
-                          onClick={() => {
-                            setPhoneStep("phone");
-                            otpForm.reset();
-                          }}
-                        >
-                          Change phone number
-                        </Button>
-                      </form>
-                    </Form>
-                  )}
                 </TabsContent>
               </Tabs>
 
