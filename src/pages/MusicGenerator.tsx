@@ -192,6 +192,7 @@ export default function MusicGenerator() {
   // Audio playback
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -290,17 +291,47 @@ export default function MusicGenerator() {
     }
   };
 
-  const handlePlay = (track: GeneratedTrack) => {
+  const handlePlay = async (track: GeneratedTrack) => {
+    if (!track.audio_url) {
+      toast.error("Audio not available. The song may still be generating.");
+      return;
+    }
+    
     if (currentlyPlaying === track.id && isPlaying) {
       audioRef.current?.pause();
       setIsPlaying(false);
     } else {
-      if (audioRef.current) {
-        audioRef.current.src = track.audio_url;
-        audioRef.current.play();
+      try {
+        setIsLoadingAudio(true);
+        setCurrentlyPlaying(track.id);
+        
+        if (audioRef.current) {
+          // Stop any currently playing audio first
+          audioRef.current.pause();
+          audioRef.current.src = track.audio_url;
+          
+          // Add error handler for audio loading
+          audioRef.current.onerror = (e) => {
+            console.error('Audio load error:', e);
+            toast.error("Failed to load audio. The URL may be invalid.");
+            setIsPlaying(false);
+            setIsLoadingAudio(false);
+          };
+          
+          audioRef.current.oncanplay = () => {
+            setIsLoadingAudio(false);
+          };
+          
+          await audioRef.current.play();
+        }
+        setIsPlaying(true);
+        setIsLoadingAudio(false);
+      } catch (error) {
+        console.error('Error playing audio:', error);
+        toast.error("Failed to play audio. Please try again.");
+        setIsPlaying(false);
+        setIsLoadingAudio(false);
       }
-      setCurrentlyPlaying(track.id);
-      setIsPlaying(true);
     }
   };
 
@@ -761,12 +792,15 @@ export default function MusicGenerator() {
                             size="icon"
                             className={`h-16 w-16 rounded-full shrink-0 transition-all ${
                               currentlyPlaying === track.id && isPlaying
-                                ? 'bg-primary animate-pulse'
+                                ? 'bg-primary'
                                 : 'bg-gradient-to-br from-primary to-pink-600'
                             }`}
                             onClick={() => handlePlay(track)}
+                            disabled={isLoadingAudio && currentlyPlaying === track.id}
                           >
-                            {currentlyPlaying === track.id && isPlaying ? (
+                            {currentlyPlaying === track.id && isLoadingAudio ? (
+                              <Loader2 className="h-7 w-7 text-white animate-spin" />
+                            ) : currentlyPlaying === track.id && isPlaying ? (
                               <Pause className="h-7 w-7 text-white" />
                             ) : (
                               <Play className="h-7 w-7 text-white ml-1" />

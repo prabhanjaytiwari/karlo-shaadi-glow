@@ -185,24 +185,39 @@ async function pollForCompletion(
     }
 
     const data: SunoQueryResponse = await response.json();
-    console.log('Task status:', data.data?.status, 'Response code:', data.code);
-
-    // Check for SUCCESS status (completed)
-    if (data.code === 200 && data.data?.status === 'SUCCESS') {
-      return data;
+    const status = data.data?.status;
+    const sunoData = data.data?.response?.sunoData;
+    
+    console.log('Task status:', status, 'Response code:', data.code, 'Has audio data:', !!(sunoData && sunoData.length > 0));
+    
+    // Log audio URLs if available
+    if (sunoData && sunoData.length > 0) {
+      sunoData.forEach((track, idx) => {
+        console.log(`Track ${idx}: audio_url=${track.audio_url}, source_audio_url=${track.source_audio_url}`);
+      });
     }
 
-    // Check for success with data available
-    if (data.code === 200 && data.data?.response?.sunoData && data.data.response.sunoData.length > 0) {
-      return data;
+    // Check for SUCCESS status (audio fully generated)
+    if (data.code === 200 && status === 'SUCCESS') {
+      // Verify we have actual audio URLs before returning
+      if (sunoData && sunoData.length > 0 && (sunoData[0].audio_url || sunoData[0].source_audio_url)) {
+        console.log('Audio generation complete with valid URLs');
+        return data;
+      }
+    }
+
+    // TEXT_SUCCESS means lyrics are done but audio is still generating - keep polling
+    if (status === 'TEXT_SUCCESS' || status === 'PENDING' || status === 'FIRST_STAGE_SUCCESS') {
+      console.log('Audio still generating, continuing to poll...');
     }
 
     // Check for failure statuses
-    if (data.data?.status === 'CREATE_TASK_FAILED' || 
-        data.data?.status === 'GENERATE_AUDIO_FAILED' ||
-        data.data?.status === 'CALLBACK_EXCEPTION' ||
-        data.data?.status === 'SENSITIVE_WORD_ERROR') {
-      throw new Error('Music generation failed: ' + (data.data?.status || data.msg));
+    if (status === 'CREATE_TASK_FAILED' || 
+        status === 'GENERATE_AUDIO_FAILED' ||
+        status === 'CALLBACK_EXCEPTION' ||
+        status === 'SENSITIVE_WORD_ERROR' ||
+        status === 'FAILED') {
+      throw new Error('Music generation failed: ' + (status || data.msg));
     }
 
     // Wait before next poll
