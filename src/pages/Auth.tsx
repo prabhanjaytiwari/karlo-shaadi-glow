@@ -366,6 +366,15 @@ const Auth = () => {
                       )}
                     />
 
+                    <div className="flex items-center justify-between">
+                      <Link
+                        to="/forgot-password"
+                        className="text-sm text-accent hover:underline"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
+
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading ? (
                         <>

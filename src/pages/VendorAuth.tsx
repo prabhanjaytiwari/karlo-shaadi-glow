@@ -578,6 +578,13 @@ const VendorAuth = () => {
                       </div>
                     </div>
 
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm text-accent hover:underline"
+                    >
+                      Forgot password?
+                    </Link>
+
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading ? (
                         <>
