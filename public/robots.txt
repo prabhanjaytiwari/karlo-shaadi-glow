@@ -1,14 +1,57 @@
+# Karlo Shaadi - Indian Wedding Planning Platform
+# https://karloshaadi.com
+
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+
+# Protected/Auth Pages - Don't index
+Disallow: /dashboard
+Disallow: /bookings
+Disallow: /booking/*
+Disallow: /checkout/*
+Disallow: /favorites
+Disallow: /messages
+Disallow: /profile
+Disallow: /admin/*
+Disallow: /vendor/dashboard
+Disallow: /vendor/onboarding
+Disallow: /vendor/verification
+Disallow: /premium-upgrade
+Disallow: /premium-dashboard
+Disallow: /subscription-checkout
+Disallow: /moodboards
+Disallow: /achievements
+Disallow: /checklist
+Disallow: /budget
+Disallow: /ai-matches
+Disallow: /referrals
+Disallow: /payment-success
+Disallow: /payment-failure
+Disallow: /booking-confirmation
+Disallow: /plan/*
+Disallow: /reset-password
+
+# Google Bot
 User-agent: Googlebot
 Allow: /
 
+# Bing Bot
 User-agent: Bingbot
 Allow: /
 
+# Social Media Crawlers
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
+
+# Sitemap Location
+Sitemap: https://karloshaadi.com/sitemap.xml
+
+# Crawl Delay (optional, for politeness)
+Crawl-delay: 1
