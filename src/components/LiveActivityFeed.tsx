@@ -3,6 +3,13 @@ import { Heart, MapPin, Sparkles, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 
+// Wedding images
+import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
+import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
+import weddingHaldi from "@/assets/wedding-haldi.jpg";
+import weddingCeremony from "@/assets/wedding-ceremony.jpg";
+import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
+
 // Real wedding celebrations with premium feel
 const recentCelebrations = [
   { 
@@ -13,7 +20,8 @@ const recentCelebrations = [
     theme: "Royal Rajasthani",
     guests: "450",
     emoji: "👑",
-    quote: "Our fairytale came true"
+    quote: "Our fairytale came true",
+    image: weddingCouple1
   },
   { 
     id: 2, 
@@ -23,7 +31,8 @@ const recentCelebrations = [
     theme: "Vintage Elegance",
     guests: "320",
     emoji: "🏰",
-    quote: "Beyond our dreams"
+    quote: "Beyond our dreams",
+    image: weddingCouple2
   },
   { 
     id: 3, 
@@ -33,7 +42,8 @@ const recentCelebrations = [
     theme: "Boho Beach",
     guests: "180",
     emoji: "🌊",
-    quote: "Perfect sunset wedding"
+    quote: "Perfect sunset wedding",
+    image: weddingHaldi
   },
   { 
     id: 4, 
@@ -43,7 +53,8 @@ const recentCelebrations = [
     theme: "Modern Luxury",
     guests: "600",
     emoji: "✨",
-    quote: "Magical in every way"
+    quote: "Magical in every way",
+    image: weddingCeremony
   },
   { 
     id: 5, 
@@ -53,7 +64,8 @@ const recentCelebrations = [
     theme: "Grand Traditional",
     guests: "800",
     emoji: "🪔",
-    quote: "Our Big Fat Indian Wedding"
+    quote: "Our Big Fat Indian Wedding",
+    image: weddingBridesmaids
   },
 ];
 
@@ -137,64 +149,77 @@ export const LiveActivityFeed = () => {
                   {/* Top Accent Bar */}
                   <div className="h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
                   
-                  <div className="p-6 sm:p-8 md:p-10">
-                    {/* Emoji Badge */}
-                    <div className="absolute top-6 right-6 text-4xl sm:text-5xl opacity-20 group-hover:opacity-40 transition-opacity">
-                      {current.emoji}
+                  <div className="grid md:grid-cols-2">
+                    {/* Image Section */}
+                    <div className="relative h-64 md:h-full min-h-[280px] overflow-hidden">
+                      <img 
+                        src={current.image} 
+                        alt={`${current.couple} wedding`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                      
+                      {/* Live Badge */}
+                      <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-green-500/30">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span className="text-green-700 text-xs font-semibold uppercase tracking-wider">Just Celebrated</span>
+                      </div>
                     </div>
                     
-                    {/* Live Badge */}
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/30 mb-4">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                      </span>
-                      <span className="text-green-700 text-xs font-semibold uppercase tracking-wider">Just Celebrated</span>
-                    </div>
-
-                    {/* Couple Names */}
-                    <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-foreground mb-2">
-                      {current.couple}
-                    </h3>
-                    
-                    {/* Location */}
-                    <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                      <MapPin className="h-4 w-4 text-primary" />
-                      <span className="font-medium">{current.venue}, {current.city}</span>
-                    </div>
-
-                    {/* Quote */}
-                    <blockquote className="text-lg sm:text-xl italic text-foreground/80 mb-6 pl-4 border-l-2 border-primary/40">
-                      "{current.quote}"
-                    </blockquote>
-
-                    {/* Stats Row */}
-                    <div className="flex flex-wrap gap-4 sm:gap-6">
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                          <Sparkles className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-muted-foreground">Theme</div>
-                          <div className="font-semibold text-sm">{current.theme}</div>
-                        </div>
+                    {/* Content Section */}
+                    <div className="p-6 sm:p-8">
+                      {/* Emoji Badge */}
+                      <div className="absolute top-6 right-6 text-4xl sm:text-5xl opacity-20 group-hover:opacity-40 transition-opacity">
+                        {current.emoji}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                          <Heart className="h-5 w-5 text-accent" />
-                        </div>
-                        <div>
-                          <div className="text-xs text-muted-foreground">Guests</div>
-                          <div className="font-semibold text-sm">{current.guests}+</div>
-                        </div>
+
+                      {/* Couple Names */}
+                      <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-foreground mb-2">
+                        {current.couple}
+                      </h3>
+                      
+                      {/* Location */}
+                      <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        <span className="font-medium">{current.venue}, {current.city}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
-                          <Star className="h-5 w-5 text-yellow-600" />
+
+                      {/* Quote */}
+                      <blockquote className="text-lg sm:text-xl italic text-foreground/80 mb-6 pl-4 border-l-2 border-primary/40">
+                        "{current.quote}"
+                      </blockquote>
+
+                      {/* Stats Row */}
+                      <div className="flex flex-wrap gap-4 sm:gap-6">
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                            <Sparkles className="h-5 w-5 text-primary" />
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground">Theme</div>
+                            <div className="font-semibold text-sm">{current.theme}</div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="text-xs text-muted-foreground">Rating</div>
-                          <div className="font-semibold text-sm">5.0 ★</div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                            <Heart className="h-5 w-5 text-accent" />
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground">Guests</div>
+                            <div className="font-semibold text-sm">{current.guests}+</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                            <Star className="h-5 w-5 text-yellow-600" />
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground">Rating</div>
+                            <div className="font-semibold text-sm">5.0 ★</div>
+                          </div>
                         </div>
                       </div>
                     </div>

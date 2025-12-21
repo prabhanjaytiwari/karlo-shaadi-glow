@@ -1,9 +1,9 @@
 import { ArrowRight, Shield, Sparkles, Users, Zap } from "lucide-react";
-import bentoChaos from "@/assets/bento-chaos.jpg";
-import bentoRelaxed from "@/assets/bento-relaxed.jpg";
-import bentoProtection from "@/assets/bento-protection.jpg";
-import bentoVendors from "@/assets/bento-vendors.jpg";
-import bentoMagic from "@/assets/bento-magic.jpg";
+import weddingFriends from "@/assets/wedding-friends.jpg";
+import weddingBride from "@/assets/wedding-bride.jpg";
+import weddingDecoration from "@/assets/wedding-decoration.jpg";
+import weddingCatering from "@/assets/wedding-catering.jpg";
+import weddingCeremony from "@/assets/wedding-ceremony.jpg";
 import { useStaggeredReveal } from "@/hooks/usePremiumAnimations";
 
 interface BentoCardProps {
@@ -67,8 +67,8 @@ export const BentoGrid = () => {
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border border-border">
                       <img 
-                        src={bentoChaos}
-                        alt="Wedding planning chaos"
+                        src={weddingFriends}
+                        alt="Wedding planning stress"
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-2 left-2 px-2 py-1 rounded bg-destructive text-destructive-foreground text-xs font-medium">
@@ -86,7 +86,7 @@ export const BentoGrid = () => {
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border-2 border-accent/30">
                       <img 
-                        src={bentoRelaxed}
+                        src={weddingBride}
                         alt="Stress-free planning"
                         className="w-full h-full object-cover"
                       />
@@ -120,7 +120,7 @@ export const BentoGrid = () => {
               
               <div className="relative rounded-lg overflow-hidden aspect-square mt-4 border border-border">
                 <img 
-                  src={bentoMagic}
+                  src={weddingCeremony}
                   alt="Magical planning"
                   className="w-full h-full object-cover"
                 />
@@ -155,7 +155,7 @@ export const BentoGrid = () => {
                 </div>
                 <div className="relative h-full min-h-[180px] sm:min-h-[200px] overflow-hidden">
                   <img 
-                    src={bentoVendors}
+                    src={weddingCatering}
                     alt="Verified vendors"
                     className="w-full h-full object-cover"
                   />
@@ -179,8 +179,8 @@ export const BentoGrid = () => {
               
               <div className="relative rounded-lg overflow-hidden aspect-square mt-4 border border-border">
                 <img 
-                  src={bentoProtection}
-                  alt="Fraud protection"
+                  src={weddingDecoration}
+                  alt="Secure celebrations"
                   className="w-full h-full object-cover"
                 />
               </div>
