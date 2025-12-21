@@ -70,6 +70,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { BhindiHeader } from "@/components/BhindiHeader";
 
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
@@ -100,7 +101,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            
+            <AuthProvider>
             <BhindiHeader />
             <Routes>
               <Route path="/" element={<Index />} />
@@ -172,6 +173,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             <WhatsAppButton />
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ErrorBoundary>
