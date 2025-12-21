@@ -3,7 +3,6 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel";
-import { LiveActivityFeed } from "@/components/LiveActivityFeed";
 import { HeroSearchWidget } from "@/components/HeroSearchWidget";
 import { TrustStatsBanner } from "@/components/TrustStatsBanner";
 import { Button } from "@/components/ui/button";
@@ -11,8 +10,13 @@ import { Link } from "react-router-dom";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
-import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
-import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
+// Real wedding photos
+import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
+import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
+import weddingHaldi from "@/assets/wedding-haldi.jpg";
+import weddingCeremony from "@/assets/wedding-ceremony.jpg";
+import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
+import weddingCatering from "@/assets/wedding-catering.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
@@ -190,8 +194,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Live Activity Feed - Social Proof */}
-      <LiveActivityFeed />
+      {/* Sponsored Vendors Carousel */}
 
       {/* Sponsored Vendors Carousel */}
       <SponsoredVendorsCarousel />
@@ -214,7 +217,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 group">
-              <img src={sectionHumorRescue} alt="Wedding planning" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
@@ -281,7 +284,7 @@ const Index = () => {
             {/* Image */}
             <div className={`hidden lg:block ${section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
               <div className="relative rounded-xl overflow-hidden aspect-[4/3] group">
-                <img src={sectionVendors} alt="Professional vendors at work" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={weddingCouple1} alt="Happy wedding couple" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -307,7 +310,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 mb-5 sm:mb-8 group">
-              <img src={sectionHumorVendors} alt="Professional wedding vendors" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={weddingBridesmaids} alt="Beautiful bridesmaids celebration" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
@@ -347,7 +350,7 @@ const Index = () => {
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group border-2 border-accent/20">
-                <img src={sectionProcess} alt="Wedding planning process" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={weddingHaldi} alt="Haldi ceremony celebration" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -437,7 +440,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group">
-                <img src={sectionHumorVendors} alt="Beautiful wedding venue" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={weddingCouple2} alt="Beautiful wedding couple" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
