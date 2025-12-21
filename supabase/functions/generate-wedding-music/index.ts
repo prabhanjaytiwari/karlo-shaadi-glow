@@ -31,10 +31,15 @@ interface SunoGenerateResponse {
 interface SunoTrack {
   id: string;
   title: string;
-  audio_url: string;
+  // API may return camelCase or snake_case depending on version
+  audio_url?: string;
+  audioUrl?: string;
   source_audio_url?: string;
+  sourceAudioUrl?: string;
   image_url?: string;
+  imageUrl?: string;
   source_image_url?: string;
+  sourceImageUrl?: string;
   duration?: number;
   tags?: string;
   prompt?: string;
@@ -193,16 +198,21 @@ async function pollForCompletion(
     // Log audio URLs if available
     if (sunoData && sunoData.length > 0) {
       sunoData.forEach((track, idx) => {
-        console.log(`Track ${idx}: audio_url=${track.audio_url}, source_audio_url=${track.source_audio_url}`);
+        const audioUrl = track.audio_url || track.audioUrl || track.source_audio_url || track.sourceAudioUrl;
+        console.log(`Track ${idx}: audioUrl=${audioUrl}`);
       });
     }
 
     // Check for SUCCESS status (audio fully generated)
     if (data.code === 200 && status === 'SUCCESS') {
-      // Verify we have actual audio URLs before returning
-      if (sunoData && sunoData.length > 0 && (sunoData[0].audio_url || sunoData[0].source_audio_url)) {
-        console.log('Audio generation complete with valid URLs');
-        return data;
+      // Verify we have actual audio URLs before returning (check both camelCase and snake_case)
+      if (sunoData && sunoData.length > 0) {
+        const firstTrack = sunoData[0];
+        const hasAudio = firstTrack.audio_url || firstTrack.audioUrl || firstTrack.source_audio_url || firstTrack.sourceAudioUrl;
+        if (hasAudio) {
+          console.log('Audio generation complete with valid URLs');
+          return data;
+        }
       }
     }
 
@@ -344,12 +354,12 @@ serve(async (req) => {
       throw new Error('No audio clips generated');
     }
 
-    // Format the tracks
+    // Format the tracks - handle both camelCase and snake_case from API
     const tracks = sunoData.map((track: SunoTrack) => ({
       id: track.id,
       title: track.title || songTitle,
-      audio_url: track.audio_url || track.source_audio_url,
-      image_url: track.image_url || track.source_image_url,
+      audio_url: track.audio_url || track.audioUrl || track.source_audio_url || track.sourceAudioUrl,
+      image_url: track.image_url || track.imageUrl || track.source_image_url || track.sourceImageUrl,
       duration: track.duration || 180,
       prompt: track.prompt || prompt,
       lyrics: personalizedLyrics,
