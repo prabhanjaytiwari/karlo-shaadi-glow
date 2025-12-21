@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import logo from "@/assets/logo-new.png";
-import { Instagram, Twitter, Youtube, Facebook, ArrowRight } from "lucide-react";
+import { Instagram, Linkedin, Facebook, ArrowRight } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -39,8 +39,7 @@ const footerLinks = {
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/karloshaadiofficial/", label: "Instagram" },
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584618427446", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Youtube, href: "#", label: "Youtube" },
+  { icon: Linkedin, href: "https://www.linkedin.com/company/karlo-shaadi/", label: "LinkedIn" },
 ];
 
 export const BhindiFooter = () => {
