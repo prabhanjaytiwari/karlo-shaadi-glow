@@ -92,9 +92,8 @@ const Index = () => {
                   <Link to="/plan-wizard">
                     <Button
                       size="lg"
-                      className="gap-2 rounded-full px-6 sm:px-8 h-11 sm:h-12 text-sm sm:text-base shadow-xl bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 w-full sm:w-auto"
+                      className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto"
                     >
-                      <Sparkles className="h-5 w-5" />
                       Get Your 2-Minute Wedding Plan
                     </Button>
                   </Link>
