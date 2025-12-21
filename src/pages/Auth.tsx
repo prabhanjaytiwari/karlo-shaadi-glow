@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Label } from "@/components/ui/label";
 import { loginFormSchema, signupFormSchema, sanitizeInput } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +24,9 @@ const Auth = () => {
   const { trackEvent } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [magicLinkEmail, setMagicLinkEmail] = useState("");
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [authMethod, setAuthMethod] = useState<'password' | 'magic'>('password');
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -64,6 +67,52 @@ const Auth = () => {
         description: error.message || "Please try again.",
         variant: "destructive",
       });
+      setIsLoading(false);
+    }
+  };
+
+  const handleMagicLinkLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const trimmedEmail = magicLinkEmail.trim();
+    if (!trimmedEmail) {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: sanitizeInput(trimmedEmail),
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (error) throw error;
+
+      await trackEvent({
+        event_type: "user_login",
+        metadata: { method: "magic_link" },
+      });
+
+      setMagicLinkSent(true);
+      toast({
+        title: "Magic link sent!",
+        description: "Check your email for a login link.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Failed to send magic link",
+        description: error.message || "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
     }
   };
@@ -206,6 +255,74 @@ const Auth = () => {
               </div>
             </div>
 
+            {/* Auth Method Toggle */}
+            <div className="flex justify-center gap-2 mb-4">
+              <Button
+                type="button"
+                variant={authMethod === 'password' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => { setAuthMethod('password'); setMagicLinkSent(false); }}
+              >
+                Password
+              </Button>
+              <Button
+                type="button"
+                variant={authMethod === 'magic' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => { setAuthMethod('magic'); setMagicLinkSent(false); }}
+              >
+                Magic Link
+              </Button>
+            </div>
+
+            {authMethod === 'magic' ? (
+              <div className="space-y-4">
+                {magicLinkSent ? (
+                  <div className="text-center p-6 bg-accent/5 rounded-lg">
+                    <div className="text-4xl mb-2">✉️</div>
+                    <h3 className="font-semibold text-lg mb-1">Check your email</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      We sent a magic link to <strong>{magicLinkEmail}</strong>
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => { setMagicLinkSent(false); setMagicLinkEmail(""); }}
+                    >
+                      Use different email
+                    </Button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleMagicLinkLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="magic-email">Email</Label>
+                      <Input
+                        id="magic-email"
+                        type="email"
+                        placeholder="you@example.com"
+                        value={magicLinkEmail}
+                        onChange={(e) => setMagicLinkEmail(e.target.value)}
+                        disabled={isLoading}
+                        required
+                      />
+                    </div>
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        "Send Magic Link"
+                      )}
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground">
+                      We'll send you a link to login without a password
+                    </p>
+                  </form>
+                )}
+              </div>
+            ) : (
             <Tabs defaultValue="login" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="login">Login</TabsTrigger>
@@ -378,6 +495,7 @@ const Auth = () => {
                 </Form>
               </TabsContent>
             </Tabs>
+            )}
 
             <div className="mt-6 pt-6 border-t border-accent/20 text-center">
               <p className="text-sm text-muted-foreground">
