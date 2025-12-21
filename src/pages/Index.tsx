@@ -30,6 +30,8 @@ import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
 import { AIMatchmakingDialog } from "@/components/AIMatchmakingDialog";
+import { FeaturedInLogos } from "@/components/FeaturedInLogos";
+import { TestimonialsCarousel } from "@/components/TestimonialsCarousel";
 const Index = () => {
   const section1 = useScrollAnimation({
     threshold: 0.2
@@ -120,6 +122,12 @@ const Index = () => {
                     <span className="text-xs sm:text-sm font-medium text-foreground">50,000+ Happy Couples</span>
                   </div>
                 </div>
+
+                {/* Featured In Logos */}
+                <FeaturedInLogos />
+
+                {/* Testimonials Carousel */}
+                <TestimonialsCarousel />
               </div>
 
               {/* AI Matchmaking Dialog */}
