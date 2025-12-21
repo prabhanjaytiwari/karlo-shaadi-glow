@@ -6,10 +6,11 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
+import { DashboardMusicSection } from "@/components/DashboardMusicSection";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -240,6 +241,11 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* My Music Section */}
+          <div className="mt-6 animate-fade-up">
+            {user && <DashboardMusicSection userId={user.id} />}
           </div>
         </div>
       </main>

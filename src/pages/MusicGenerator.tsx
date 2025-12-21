@@ -387,6 +387,32 @@ export default function MusicGenerator() {
       if (data?.tracks) {
         setGeneratedTracks(prev => [...data.tracks, ...prev]);
         toast.success("🎵 Your personalized wedding song is ready!");
+        
+        // Auto-save songs to library if user is logged in
+        if (user) {
+          for (const track of data.tracks) {
+            try {
+              await supabase
+                .from('generated_songs')
+                .insert({
+                  user_id: user.id,
+                  title: track.title,
+                  audio_url: track.audio_url,
+                  lyrics: track.lyrics,
+                  prompt: track.prompt || customPrompt || selectedCategory.defaultPrompt,
+                  category: selectedCategory.id,
+                  style: selectedStyle,
+                  duration: track.duration || 180,
+                  names: { bride: brideName, groom: groomName, family: familyName },
+                  suno_track_id: track.id,
+                });
+            } catch (saveError) {
+              console.error('Error auto-saving song:', saveError);
+            }
+          }
+          loadSavedSongs();
+          toast.success("Songs automatically saved to your library!");
+        }
       }
     } catch (error) {
       console.error('Error generating music:', error);
