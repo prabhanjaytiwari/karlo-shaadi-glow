@@ -269,3 +269,19 @@ export const sanitizeInput = (input: string): string => {
 export const encodeForUrl = (text: string): string => {
   return encodeURIComponent(sanitizeInput(text));
 };
+
+// Phone OTP Validation (Indian phone numbers with +91)
+export const phoneOtpSchema = z.object({
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[6-9]\d{9}$/, { message: "Enter a valid 10-digit Indian phone number" })
+});
+
+// OTP Code Validation
+export const otpCodeSchema = z.object({
+  code: z
+    .string()
+    .length(6, { message: "OTP must be 6 digits" })
+    .regex(/^\d{6}$/, { message: "OTP must contain only numbers" })
+});
