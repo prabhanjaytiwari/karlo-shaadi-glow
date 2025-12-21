@@ -13,7 +13,7 @@ import sectionVendors from "@/assets/section-vendors.jpg";
 import sectionProcess from "@/assets/section-process.jpg";
 import sectionHumorRescue from "@/assets/section-humor-rescue.jpg";
 import sectionHumorVendors from "@/assets/section-humor-vendors.jpg";
-import { Shield, CheckCircle2, Star, Users, Sparkles, Calculator, Calendar } from "lucide-react";
+import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
 import { SocialProofPopup } from "@/components/SocialProofPopup";
@@ -122,6 +122,73 @@ const Index = () => {
 
       {/* Tensions Section */}
       <TensionsSection />
+
+      {/* Free Wedding Tools Section */}
+      <section className="py-12 sm:py-16 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="inline-block px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <span className="text-primary text-xs sm:text-sm font-semibold">Free Planning Tools</span>
+            </div>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-3">
+              Plan Your Perfect Wedding <span className="text-primary">For Free</span>
+            </h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+              Use our powerful tools to budget, find auspicious dates, and create beautiful invites
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+            {/* Budget Calculator */}
+            <Link to="/budget-calculator" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Calculator className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Budget Calculator</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Get a detailed breakdown of your wedding budget based on city, guest count, and preferences
+                </p>
+                <span className="inline-flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                  Calculate Now <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </div>
+            </Link>
+
+            {/* Muhurat Finder */}
+            <Link to="/muhurat-finder" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Calendar className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Muhurat Finder</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Find the most auspicious wedding dates for 2025 & 2026 with detailed timings
+                </p>
+                <span className="inline-flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                  Find Dates <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </div>
+            </Link>
+
+            {/* Invite Creator */}
+            <Link to="/invite-creator" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Heart className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Invite Creator</h3>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Create stunning AI-generated wedding invitations in seconds with your details
+                </p>
+                <span className="inline-flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                  Create Invite <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Live Activity Feed - Social Proof */}
       <LiveActivityFeed />
