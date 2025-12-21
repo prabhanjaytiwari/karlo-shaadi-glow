@@ -1,185 +1,293 @@
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Users, Clock, Sparkles, Heart, Calendar } from "lucide-react";
+import { Heart, MapPin, Sparkles, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
-// Simulated live activity data for social proof
-const recentActivities = [
-  { id: 1, couple: "Priya & Rahul", vendor: "Pixel Perfect Studios", category: "Photography", city: "Mumbai", timeAgo: "2 mins ago" },
-  { id: 2, couple: "Sneha & Arjun", vendor: "Shahi Dawat Caterers", category: "Catering", city: "Delhi", timeAgo: "5 mins ago" },
-  { id: 3, couple: "Ananya & Vikram", vendor: "The Grand Palace", category: "Venue", city: "Jaipur", timeAgo: "12 mins ago" },
-  { id: 4, couple: "Meera & Siddharth", vendor: "Blossom Decor Studio", category: "Decoration", city: "Bangalore", timeAgo: "18 mins ago" },
-  { id: 5, couple: "Kavya & Rohan", vendor: "DJ Rishi Entertainment", category: "Music", city: "Mumbai", timeAgo: "25 mins ago" },
-  { id: 6, couple: "Neha & Aditya", vendor: "Henna by Priya", category: "Mehendi", city: "Delhi", timeAgo: "32 mins ago" },
+// Real wedding celebrations with premium feel
+const recentCelebrations = [
+  { 
+    id: 1, 
+    couple: "Priya & Rahul", 
+    city: "Udaipur",
+    venue: "Lake Palace",
+    theme: "Royal Rajasthani",
+    guests: "450",
+    emoji: "👑",
+    quote: "Our fairytale came true"
+  },
+  { 
+    id: 2, 
+    couple: "Ananya & Vikram", 
+    city: "Jaipur",
+    venue: "Samode Palace",
+    theme: "Vintage Elegance",
+    guests: "320",
+    emoji: "🏰",
+    quote: "Beyond our dreams"
+  },
+  { 
+    id: 3, 
+    couple: "Sneha & Arjun", 
+    city: "Goa",
+    venue: "Beach Resort",
+    theme: "Boho Beach",
+    guests: "180",
+    emoji: "🌊",
+    quote: "Perfect sunset wedding"
+  },
+  { 
+    id: 4, 
+    couple: "Kavya & Siddharth", 
+    city: "Mumbai",
+    venue: "Taj Lands End",
+    theme: "Modern Luxury",
+    guests: "600",
+    emoji: "✨",
+    quote: "Magical in every way"
+  },
+  { 
+    id: 5, 
+    couple: "Meera & Rohan", 
+    city: "Delhi",
+    venue: "Leela Palace",
+    theme: "Grand Traditional",
+    guests: "800",
+    emoji: "🪔",
+    quote: "Our Big Fat Indian Wedding"
+  },
 ];
 
-const trendingCategories = [
-  { name: "Photography", bookings: 234, growth: "+18%" },
-  { name: "Venues", bookings: 189, growth: "+12%" },
-  { name: "Catering", bookings: 156, growth: "+22%" },
-  { name: "Decoration", bookings: 98, growth: "+15%" },
+const liveStats = [
+  { label: "Shaadis This Month", value: "2,847", subtext: "across India" },
+  { label: "Happy Couples", value: "50,000+", subtext: "and counting" },
+  { label: "Total Guest Celebrations", value: "2.5 Cr+", subtext: "memories made" },
 ];
 
 export const LiveActivityFeed = () => {
-  const [currentActivity, setCurrentActivity] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // Rotate through activities
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsVisible(false);
+      setIsAnimating(true);
       setTimeout(() => {
-        setCurrentActivity((prev) => (prev + 1) % recentActivities.length);
-        setIsVisible(true);
-      }, 300);
-    }, 4000);
+        setCurrentIndex((prev) => (prev + 1) % recentCelebrations.length);
+        setIsAnimating(false);
+      }, 400);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const activity = recentActivities[currentActivity];
+  const current = recentCelebrations[currentIndex];
+  const nextTwo = [
+    recentCelebrations[(currentIndex + 1) % recentCelebrations.length],
+    recentCelebrations[(currentIndex + 2) % recentCelebrations.length],
+  ];
 
   return (
-    <section className="py-8 sm:py-12 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+    <section className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
+      {/* Premium Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 via-rose-50/50 to-white" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(38_90%_55%/0.15)_0%,transparent_60%)]" />
       
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          {/* Section Header - Compact */}
-          <div className="text-center mb-6 sm:mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-3">
-              <span className="relative flex h-2 w-2">
+      {/* Decorative Elements */}
+      <div className="absolute top-10 left-10 w-32 h-32 border border-primary/10 rounded-full opacity-50" />
+      <div className="absolute bottom-20 right-20 w-48 h-48 border border-accent/10 rounded-full opacity-30" />
+      
+      <div className="container mx-auto px-4 sm:px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Section Header - Premium Feel */}
+          <div className="text-center mb-10 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 via-accent/15 to-primary/10 border border-primary/20 mb-4">
+              <span className="text-2xl">🎊</span>
+              <span className="font-display text-primary text-sm sm:text-base font-semibold tracking-wide">Live Shaadi Celebrations</span>
+              <span className="relative flex h-2 w-2 ml-1">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              <span className="text-accent text-xs sm:text-sm font-semibold">Live Activity</span>
             </div>
-            <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl mb-2">
-              Couples Are <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Booking Right Now</span>
+            
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 tracking-tight">
+              <span className="text-foreground">Real Weddings,</span>{" "}
+              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Real Magic</span>
             </h2>
-            <p className="text-muted-foreground text-sm max-w-md mx-auto">
-              Join 50,000+ happy couples who found their perfect vendors
+            
+            <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Every week, thousands of couples create their forever moments with us
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
-            {/* Live Booking Feed */}
-            <div className="lg:col-span-2">
-              <Card className="p-4 sm:p-5 bg-card/50 backdrop-blur-sm border border-accent/10 hover:border-accent/20 transition-all duration-300">
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="h-4 w-4 text-accent" />
-                  <h3 className="font-semibold text-sm">Recent Bookings</h3>
-                  <Badge variant="secondary" className="ml-auto text-xs animate-pulse">
-                    <span className="relative flex h-1.5 w-1.5 mr-1">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
-                    </span>
-                    Live
-                  </Badge>
-                </div>
-
-                {/* Current Activity Card - Compact */}
-                <div 
-                  className={`p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10 transition-all duration-300 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm shrink-0">
-                      {activity.couple.split(' ')[0].charAt(0)}{activity.couple.split(' ')[2]?.charAt(0) || 'R'}
+          {/* Main Celebration Showcase */}
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 items-center">
+            
+            {/* Featured Celebration - Large Card */}
+            <div className="lg:col-span-3">
+              <div 
+                className={`relative group transition-all duration-500 ${
+                  isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                }`}
+              >
+                {/* Outer Glow */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 via-accent/40 to-primary/30 rounded-3xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity" />
+                
+                {/* Main Card */}
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl border-2 border-primary/20 overflow-hidden shadow-2xl">
+                  {/* Top Accent Bar */}
+                  <div className="h-1.5 bg-gradient-to-r from-primary via-accent to-primary" />
+                  
+                  <div className="p-6 sm:p-8 md:p-10">
+                    {/* Emoji Badge */}
+                    <div className="absolute top-6 right-6 text-4xl sm:text-5xl opacity-20 group-hover:opacity-40 transition-opacity">
+                      {current.emoji}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm text-foreground truncate">
-                        {activity.couple} <span className="text-muted-foreground font-normal text-xs">just booked</span>
-                      </p>
-                      <p className="text-primary font-medium text-sm truncate">{activity.vendor}</p>
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
-                        <Badge variant="outline" className="text-[10px] px-1.5 py-0">{activity.category}</Badge>
-                        <span>•</span>
-                        <span>{activity.city}</span>
-                      </div>
+                    
+                    {/* Live Badge */}
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/30 mb-4">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                      </span>
+                      <span className="text-green-700 text-xs font-semibold uppercase tracking-wider">Just Celebrated</span>
                     </div>
-                    <Heart className="h-4 w-4 text-pink-500 shrink-0" />
-                  </div>
-                </div>
 
-                {/* Activity History - Compact */}
-                <div className="mt-3 space-y-1.5 hidden sm:block">
-                  {recentActivities
-                    .filter((_, i) => i !== currentActivity)
-                    .slice(0, 2)
-                    .map((item, index) => (
-                      <div 
-                        key={item.id} 
-                        className="flex items-center gap-2 text-xs text-muted-foreground p-1.5 rounded-md hover:bg-accent/5 transition-colors"
-                        style={{ opacity: 1 - index * 0.3 }}
-                      >
-                        <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-medium shrink-0">
-                          {item.couple.split(' ')[0].charAt(0)}{item.couple.split(' ')[2]?.charAt(0) || 'R'}
+                    {/* Couple Names */}
+                    <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-foreground mb-2">
+                      {current.couple}
+                    </h3>
+                    
+                    {/* Location */}
+                    <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                      <MapPin className="h-4 w-4 text-primary" />
+                      <span className="font-medium">{current.venue}, {current.city}</span>
+                    </div>
+
+                    {/* Quote */}
+                    <blockquote className="text-lg sm:text-xl italic text-foreground/80 mb-6 pl-4 border-l-2 border-primary/40">
+                      "{current.quote}"
+                    </blockquote>
+
+                    {/* Stats Row */}
+                    <div className="flex flex-wrap gap-4 sm:gap-6">
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                          <Sparkles className="h-5 w-5 text-primary" />
                         </div>
-                        <span className="truncate flex-1">
-                          <span className="font-medium text-foreground">{item.couple}</span> booked {item.vendor}
-                        </span>
+                        <div>
+                          <div className="text-xs text-muted-foreground">Theme</div>
+                          <div className="font-semibold text-sm">{current.theme}</div>
+                        </div>
                       </div>
-                    ))}
-                </div>
-
-                <Link to="/search" className="block mt-3">
-                  <div className="text-center py-2 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors cursor-pointer">
-                    <span className="text-primary font-medium text-xs sm:text-sm">Find Your Vendor →</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                          <Heart className="h-5 w-5 text-accent" />
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted-foreground">Guests</div>
+                          <div className="font-semibold text-sm">{current.guests}+</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                          <Star className="h-5 w-5 text-yellow-600" />
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted-foreground">Rating</div>
+                          <div className="font-semibold text-sm">5.0 ★</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Link>
-              </Card>
+                </div>
+              </div>
             </div>
 
-            {/* Trending & Stats - Compact */}
-            <div className="space-y-4">
-              {/* Trending Categories */}
-              <Card className="p-4 bg-card/50 backdrop-blur-sm border border-primary/10 hover:border-primary/20 transition-all duration-300">
-                <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp className="h-4 w-4 text-primary" />
-                  <h3 className="font-semibold text-sm">Trending</h3>
+            {/* Side Panel - Upcoming + Stats */}
+            <div className="lg:col-span-2 space-y-4">
+              
+              {/* Next Celebrations Preview */}
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-accent/20 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">🎉</span>
+                  <h4 className="font-semibold text-sm text-foreground">More Celebrations</h4>
                 </div>
-                <div className="space-y-2">
-                  {trendingCategories.slice(0, 3).map((cat, i) => (
-                    <div key={cat.name} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground w-3">{i + 1}</span>
-                        <span className="font-medium text-xs">{cat.name}</span>
+                
+                <div className="space-y-3">
+                  {nextTwo.map((celebration, i) => (
+                    <div 
+                      key={celebration.id}
+                      className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10 hover:border-primary/30 transition-all cursor-pointer group"
+                      style={{ opacity: 1 - i * 0.2 }}
+                    >
+                      <div className="text-2xl">{celebration.emoji}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-sm truncate">{celebration.couple}</div>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {celebration.city}
+                        </div>
                       </div>
-                      <Badge variant="secondary" className="text-[10px] text-green-600 bg-green-500/10">
-                        {cat.growth}
-                      </Badge>
+                      <Heart className="h-4 w-4 text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   ))}
                 </div>
-              </Card>
+              </div>
 
-              {/* Live Stats - Compact */}
-              <Card className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20">
-                <div className="flex items-center gap-2 mb-3">
-                  <Users className="h-4 w-4 text-primary" />
-                  <h3 className="font-semibold text-sm">Right Now</h3>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div>
-                    <div className="font-bold text-lg">247</div>
-                    <div className="text-[10px] text-muted-foreground">Browsing</div>
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg text-primary">34</div>
-                    <div className="text-[10px] text-muted-foreground">Booked</div>
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg">12</div>
-                    <div className="text-[10px] text-muted-foreground">Reviews</div>
+              {/* Live Stats - Premium Counter */}
+              <div className="bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 rounded-xl border border-primary/20 p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">📊</span>
+                  <h4 className="font-semibold text-sm text-foreground">Shaadi Stats</h4>
+                  <div className="ml-auto flex items-center gap-1 text-[10px] text-green-600 bg-green-500/10 px-2 py-0.5 rounded-full">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                    </span>
+                    LIVE
                   </div>
                 </div>
-              </Card>
+                
+                <div className="space-y-3">
+                  {liveStats.map((stat, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <div className="text-xs text-muted-foreground">{stat.label}</div>
+                      <div className="text-right">
+                        <div className="font-bold text-base text-foreground">{stat.value}</div>
+                        <div className="text-[10px] text-muted-foreground">{stat.subtext}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA */}
+              <Link to="/stories">
+                <Button className="w-full rounded-xl h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg">
+                  <span className="mr-2">💒</span>
+                  Read Success Stories
+                </Button>
+              </Link>
             </div>
           </div>
+
+          {/* Bottom Ticker - Cities */}
+          <div className="mt-10 sm:mt-14">
+            <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-muted-foreground">
+              <span className="font-medium">Trending Cities:</span>
+              <div className="flex flex-wrap justify-center gap-2">
+                {["Mumbai", "Delhi", "Udaipur", "Jaipur", "Bangalore", "Goa"].map((city) => (
+                  <span 
+                    key={city}
+                    className="px-3 py-1 rounded-full bg-white border border-accent/20 hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer"
+                  >
+                    {city}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
