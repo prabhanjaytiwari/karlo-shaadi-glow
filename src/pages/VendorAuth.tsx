@@ -234,13 +234,7 @@ const VendorAuth = () => {
           metadata: { method: "password" },
         });
 
-        // Create vendor role
-        await supabase.from("user_roles").insert([
-          {
-            user_id: data.user.id,
-            role: "vendor",
-          },
-        ]);
+        // Role is now automatically created by database trigger based on business_name metadata
 
         toast({
           title: "Account created!",
