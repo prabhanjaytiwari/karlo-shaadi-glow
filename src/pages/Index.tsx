@@ -105,30 +105,6 @@ const Index = () => {
                     AI Vendor Matchmaking
                   </Button>
                 </div>
-                
-                {/* Quick Tools Row */}
-                <div className="flex flex-wrap justify-center gap-2 mt-3">
-                  <Link to="/budget-calculator">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="bg-white/70 hover:bg-white/90 text-foreground gap-1.5 rounded-full text-xs"
-                    >
-                      <Calculator className="h-3.5 w-3.5" />
-                      Budget Calculator
-                    </Button>
-                  </Link>
-                  <Link to="/muhurat-finder">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="bg-white/70 hover:bg-white/90 text-foreground gap-1.5 rounded-full text-xs"
-                    >
-                      <Calendar className="h-3.5 w-3.5" />
-                      2025 Muhurats
-                    </Button>
-                  </Link>
-                </div>
               </div>
 
               {/* AI Matchmaking Dialog */}
