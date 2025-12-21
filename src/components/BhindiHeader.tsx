@@ -239,6 +239,9 @@ export const BhindiHeader = () => {
                       <ListItem title="Wedding Website" href="/wedding-website" icon={Heart}>
                         Create your beautiful shaadi website
                       </ListItem>
+                      <ListItem title="Music Generator" href="/music-generator" icon={Music}>
+                        AI-powered wedding music creation
+                      </ListItem>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
