@@ -158,7 +158,7 @@ Zaroor padhaarein, apni shubhkamnayein dein`,
   return lyricsTemplates[category] || lyricsTemplates['couples'];
 }
 
-// Helper to poll for task completion using the query endpoint
+// Helper to poll for task completion using the record-info endpoint
 async function pollForCompletion(
   taskId: string, 
   apiKey: string, 
@@ -168,14 +168,13 @@ async function pollForCompletion(
   for (let i = 0; i < maxAttempts; i++) {
     console.log(`Polling attempt ${i + 1}/${maxAttempts} for task ${taskId}`);
     
-    // Use the query endpoint to check task status
-    const response = await fetch('https://api.sunoapi.org/api/v1/query', {
-      method: 'POST',
+    // Use the correct GET endpoint to check task status
+    const response = await fetch(`https://api.sunoapi.org/api/v1/generate/record-info?taskId=${taskId}`, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ taskId }),
     });
 
     if (!response.ok) {
@@ -188,19 +187,22 @@ async function pollForCompletion(
     const data: SunoQueryResponse = await response.json();
     console.log('Task status:', data.data?.status, 'Response code:', data.code);
 
-    // Check for completion
-    if (data.code === 200 && data.data?.status === 'complete') {
+    // Check for SUCCESS status (completed)
+    if (data.code === 200 && data.data?.status === 'SUCCESS') {
       return data;
     }
 
-    // Check for success with data
+    // Check for success with data available
     if (data.code === 200 && data.data?.response?.sunoData && data.data.response.sunoData.length > 0) {
       return data;
     }
 
-    // Check for failure
-    if (data.data?.status === 'failed' || data.data?.status === 'error') {
-      throw new Error('Music generation failed: ' + data.msg);
+    // Check for failure statuses
+    if (data.data?.status === 'CREATE_TASK_FAILED' || 
+        data.data?.status === 'GENERATE_AUDIO_FAILED' ||
+        data.data?.status === 'CALLBACK_EXCEPTION' ||
+        data.data?.status === 'SENSITIVE_WORD_ERROR') {
+      throw new Error('Music generation failed: ' + (data.data?.status || data.msg));
     }
 
     // Wait before next poll
