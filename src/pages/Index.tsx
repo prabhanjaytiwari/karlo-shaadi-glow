@@ -26,7 +26,6 @@ import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
-import { SocialProofPopup } from "@/components/SocialProofPopup";
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
@@ -64,7 +63,6 @@ const Index = () => {
       
       {/* FOMO Components */}
       <FOMOBanner />
-      <SocialProofPopup />
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
