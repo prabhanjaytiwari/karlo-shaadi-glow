@@ -28,19 +28,28 @@ interface SunoGenerateResponse {
   };
 }
 
-interface SunoTaskResponse {
+interface SunoTrack {
+  id: string;
+  title: string;
+  audio_url: string;
+  source_audio_url?: string;
+  image_url?: string;
+  source_image_url?: string;
+  duration?: number;
+  tags?: string;
+  prompt?: string;
+  createTime?: string;
+}
+
+interface SunoQueryResponse {
   code: number;
   msg: string;
   data?: {
     status: string;
-    clips?: Array<{
-      id: string;
-      title: string;
-      audio_url: string;
-      image_url?: string;
-      duration?: number;
-      created_at?: string;
-    }>;
+    response?: {
+      taskId: string;
+      sunoData?: SunoTrack[];
+    };
   };
 }
 
@@ -149,45 +158,56 @@ Zaroor padhaarein, apni shubhkamnayein dein`,
   return lyricsTemplates[category] || lyricsTemplates['couples'];
 }
 
-// Helper to poll for task completion
+// Helper to poll for task completion using the query endpoint
 async function pollForCompletion(
   taskId: string, 
   apiKey: string, 
-  maxAttempts: number = 40,
-  delayMs: number = 3000
-): Promise<SunoTaskResponse> {
+  maxAttempts: number = 60,
+  delayMs: number = 5000
+): Promise<SunoQueryResponse> {
   for (let i = 0; i < maxAttempts; i++) {
     console.log(`Polling attempt ${i + 1}/${maxAttempts} for task ${taskId}`);
     
-    const response = await fetch(`https://api.sunoapi.org/api/v1/task/${taskId}`, {
-      method: 'GET',
+    // Use the query endpoint to check task status
+    const response = await fetch('https://api.sunoapi.org/api/v1/query', {
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ taskId }),
     });
 
     if (!response.ok) {
       console.error('Task polling error:', response.status);
+      const errorText = await response.text();
+      console.error('Error details:', errorText);
       throw new Error(`Failed to check task status: ${response.status}`);
     }
 
-    const data: SunoTaskResponse = await response.json();
-    console.log('Task status:', data.data?.status);
+    const data: SunoQueryResponse = await response.json();
+    console.log('Task status:', data.data?.status, 'Response code:', data.code);
 
-    if (data.data?.status === 'completed' || data.data?.status === 'complete') {
+    // Check for completion
+    if (data.code === 200 && data.data?.status === 'complete') {
       return data;
     }
 
+    // Check for success with data
+    if (data.code === 200 && data.data?.response?.sunoData && data.data.response.sunoData.length > 0) {
+      return data;
+    }
+
+    // Check for failure
     if (data.data?.status === 'failed' || data.data?.status === 'error') {
-      throw new Error('Music generation failed');
+      throw new Error('Music generation failed: ' + data.msg);
     }
 
     // Wait before next poll
     await new Promise(resolve => setTimeout(resolve, delayMs));
   }
 
-  throw new Error('Timeout waiting for music generation');
+  throw new Error('Timeout waiting for music generation (5 minutes)');
 }
 
 serve(async (req) => {
@@ -233,6 +253,10 @@ serve(async (req) => {
       : `${prompt}. Style: ${style}. Indian wedding celebration song with emotional vocals.`;
     
     // Create the music generation request using sunoapi.org with V5 model
+    // Using callback URL from our edge function
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const callBackUrl = `${supabaseUrl}/functions/v1/suno-webhook`;
+    
     const requestBody: Record<string, unknown> = {
       customMode: true,
       instrumental: instrumental,
@@ -240,6 +264,7 @@ serve(async (req) => {
       prompt: enhancedPrompt,
       style: style,
       title: songTitle,
+      callBackUrl: callBackUrl, // Required by Suno API
     };
 
     // Add lyrics if not instrumental
@@ -247,7 +272,8 @@ serve(async (req) => {
       requestBody.lyrics = personalizedLyrics;
     }
 
-    console.log('Sending request to Suno API:', JSON.stringify(requestBody));
+    console.log('Sending request to Suno API with callback:', callBackUrl);
+    console.log('Request body:', JSON.stringify(requestBody));
 
     const generateResponse = await fetch('https://api.sunoapi.org/api/v1/generate', {
       method: 'POST',
@@ -258,9 +284,11 @@ serve(async (req) => {
       body: JSON.stringify(requestBody),
     });
 
-    if (!generateResponse.ok) {
-      const errorText = await generateResponse.text();
-      console.error('Suno API generate error:', generateResponse.status, errorText);
+    const generateData: SunoGenerateResponse = await generateResponse.json();
+    console.log('Suno generate response:', JSON.stringify(generateData));
+
+    if (!generateResponse.ok || generateData.code !== 200) {
+      console.error('Suno API generate error:', generateData.msg);
       
       // If API fails, return demo track for testing
       return new Response(
@@ -279,39 +307,38 @@ serve(async (req) => {
               created_at: new Date().toISOString(),
             }
           ],
-          message: 'Demo track (API key may need activation)'
+          message: 'Demo track - Please check your Suno API key and credits'
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    const generateData: SunoGenerateResponse = await generateResponse.json();
-    console.log('Suno generate response:', JSON.stringify(generateData));
-
-    if (generateData.code !== 0 || !generateData.data?.taskId) {
-      console.error('Suno API error:', generateData.msg);
-      throw new Error(generateData.msg || 'Failed to start music generation');
+    if (!generateData.data?.taskId) {
+      throw new Error('No task ID returned from Suno API');
     }
 
-    // Poll for task completion
+    console.log('Task created with ID:', generateData.data.taskId);
+
+    // Poll for task completion using the query endpoint
     const taskResult = await pollForCompletion(generateData.data.taskId, SUNO_API_KEY);
 
-    if (!taskResult.data?.clips || taskResult.data.clips.length === 0) {
+    const sunoData = taskResult.data?.response?.sunoData;
+    if (!sunoData || sunoData.length === 0) {
       throw new Error('No audio clips generated');
     }
 
     // Format the tracks
-    const tracks = taskResult.data.clips.map(clip => ({
-      id: clip.id,
-      title: clip.title || songTitle,
-      audio_url: clip.audio_url,
-      image_url: clip.image_url,
-      duration: clip.duration || 30,
-      prompt: prompt,
+    const tracks = sunoData.map((track: SunoTrack) => ({
+      id: track.id,
+      title: track.title || songTitle,
+      audio_url: track.audio_url || track.source_audio_url,
+      image_url: track.image_url || track.source_image_url,
+      duration: track.duration || 180,
+      prompt: track.prompt || prompt,
       lyrics: personalizedLyrics,
       category: category,
       names: names,
-      created_at: clip.created_at || new Date().toISOString(),
+      created_at: track.createTime || new Date().toISOString(),
     }));
 
     return new Response(
