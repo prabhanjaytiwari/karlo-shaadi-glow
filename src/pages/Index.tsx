@@ -17,6 +17,12 @@ import weddingHaldi from "@/assets/wedding-haldi.jpg";
 import weddingCeremony from "@/assets/wedding-ceremony.jpg";
 import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
 import weddingCatering from "@/assets/wedding-catering.jpg";
+// Additional wedding photos
+import weddingCoupleRomantic from "@/assets/wedding-couple-romantic.jpg";
+import weddingFireworks from "@/assets/wedding-fireworks.jpg";
+import weddingBridalHair from "@/assets/wedding-bridal-hair.jpg";
+import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
+import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
@@ -284,7 +290,7 @@ const Index = () => {
             {/* Image */}
             <div className={`hidden lg:block ${section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
               <div className="relative rounded-xl overflow-hidden aspect-[4/3] group">
-                <img src={weddingCouple1} alt="Happy wedding couple" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={weddingCoupleRomantic} alt="Happy wedding couple" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -310,7 +316,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 mb-5 sm:mb-8 group">
-              <img src={weddingBridesmaids} alt="Beautiful bridesmaids celebration" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={weddingBengaliBride} alt="Beautiful Bengali bride" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
@@ -350,7 +356,7 @@ const Index = () => {
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group border-2 border-accent/20">
-                <img src={weddingHaldi} alt="Haldi ceremony celebration" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -440,7 +446,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group">
-                <img src={weddingCouple2} alt="Beautiful wedding couple" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
