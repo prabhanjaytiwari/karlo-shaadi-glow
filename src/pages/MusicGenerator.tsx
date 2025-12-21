@@ -1,13 +1,15 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -25,9 +27,14 @@ import {
   Cake,
   Loader2,
   Volume2,
-  SkipBack,
-  SkipForward,
-  RefreshCw
+  RefreshCw,
+  Mic2,
+  FileText,
+  Wand2,
+  Music2,
+  Music4,
+  HeartHandshake,
+  Send
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -37,8 +44,9 @@ interface MusicCategory {
   nameHindi: string;
   icon: React.ElementType;
   description: string;
-  prompts: string[];
+  defaultPrompt: string;
   color: string;
+  gradient: string;
 }
 
 interface GeneratedTrack {
@@ -47,169 +55,232 @@ interface GeneratedTrack {
   audio_url: string;
   duration: number;
   prompt: string;
+  lyrics?: string;
   category: string;
+  names?: {
+    bride?: string;
+    groom?: string;
+    family?: string;
+  };
   created_at: string;
 }
 
 const musicCategories: MusicCategory[] = [
   {
     id: "couples",
-    name: "Couple's Song",
-    nameHindi: "जोड़ी का गाना",
+    name: "Couple's Love Song",
+    nameHindi: "जोड़ी का प्यार गाना",
     icon: Heart,
-    description: "Romantic songs for the bride and groom",
-    prompts: [
-      "Romantic Bollywood wedding song for couple's first dance",
-      "Love ballad celebrating eternal bond of marriage",
-      "Sweet romantic melody for bride and groom entry"
-    ],
-    color: "from-pink-500 to-rose-600"
+    description: "Romantic personalized song with bride & groom names",
+    defaultPrompt: "A romantic Bollywood wedding love song celebrating the eternal bond of marriage",
+    color: "text-pink-500",
+    gradient: "from-pink-500 to-rose-600"
   },
   {
     id: "shaadi-joda",
-    name: "Shaadi Ka Joda",
+    name: "Grand Entry Song",
     nameHindi: "शादी का जोड़ा",
     icon: Crown,
-    description: "Grand entry songs for the wedding couple",
-    prompts: [
-      "Grand Bollywood style couple entry with dhol beats",
-      "Royal rajasthani wedding procession music",
-      "Majestic entry song for dulha dulhan"
-    ],
-    color: "from-amber-500 to-orange-600"
+    description: "Majestic couple entry with personalized lyrics",
+    defaultPrompt: "Grand Bollywood style couple entry song with dhol beats and shehnai",
+    color: "text-amber-500",
+    gradient: "from-amber-500 to-orange-600"
   },
   {
     id: "family",
-    name: "Wedding Family",
-    nameHindi: "परिवार के लिए",
+    name: "Family Celebration",
+    nameHindi: "परिवार का गाना",
     icon: Users,
-    description: "Emotional songs for family moments",
-    prompts: [
-      "Emotional bidaai song for daughter's wedding",
-      "Heartfelt family celebration song",
-      "Parents blessing song for wedding ceremony"
-    ],
-    color: "from-blue-500 to-indigo-600"
+    description: "Emotional family song with your family name",
+    defaultPrompt: "Emotional Indian wedding family celebration song with heartfelt vocals",
+    color: "text-blue-500",
+    gradient: "from-blue-500 to-indigo-600"
   },
   {
     id: "didi-jiju",
-    name: "Didi Jiju",
+    name: "Didi Jiju Special",
     nameHindi: "दीदी जीजू",
     icon: Gift,
-    description: "Fun songs for sister and brother-in-law",
-    prompts: [
-      "Playful teasing song for sister's wedding",
-      "Fun Bollywood song for didi jiju dance",
-      "Cheerful celebration for sister's new journey"
-    ],
-    color: "from-purple-500 to-violet-600"
+    description: "Fun song for sister's wedding",
+    defaultPrompt: "Playful Bollywood song for sister and brother-in-law wedding celebration",
+    color: "text-purple-500",
+    gradient: "from-purple-500 to-violet-600"
   },
   {
     id: "sangeet",
-    name: "Sangeet Night",
-    nameHindi: "संगीत रात",
+    name: "Sangeet Dance",
+    nameHindi: "संगीत नाइट",
     icon: PartyPopper,
-    description: "Energetic songs for sangeet performances",
-    prompts: [
-      "High energy Bollywood dance number for sangeet",
-      "Peppy wedding sangeet performance song",
-      "Groovy party song for sangeet night"
-    ],
-    color: "from-green-500 to-emerald-600"
+    description: "High-energy dance number for performances",
+    defaultPrompt: "High energy Bollywood dance number for sangeet night performance",
+    color: "text-green-500",
+    gradient: "from-green-500 to-emerald-600"
   },
   {
     id: "mehendi",
-    name: "Mehendi Ceremony",
+    name: "Mehendi Celebration",
     nameHindi: "मेहंदी",
     icon: Sparkles,
-    description: "Festive songs for mehendi celebrations",
-    prompts: [
-      "Traditional mehendi ceremony song with folk beats",
-      "Colorful rajasthani mehendi celebration music",
-      "Festive mehendi song for bride and friends"
-    ],
-    color: "from-yellow-500 to-amber-600"
+    description: "Festive mehendi ceremony song",
+    defaultPrompt: "Traditional mehendi ceremony song with folk beats and festive vibes",
+    color: "text-yellow-500",
+    gradient: "from-yellow-500 to-amber-600"
   },
   {
     id: "reception",
     name: "Reception Party",
     nameHindi: "रिसेप्शन",
     icon: Cake,
-    description: "Elegant songs for reception events",
-    prompts: [
-      "Elegant reception entry song for couple",
-      "Sophisticated wedding reception background music",
-      "Classy cocktail party music for wedding reception"
-    ],
-    color: "from-teal-500 to-cyan-600"
+    description: "Elegant cocktail party music",
+    defaultPrompt: "Elegant wedding reception song with sophisticated vibes",
+    color: "text-teal-500",
+    gradient: "from-teal-500 to-cyan-600"
   },
   {
     id: "invitation",
-    name: "Wedding Invite",
-    nameHindi: "शादी का निमंत्रण",
-    icon: Music,
-    description: "Beautiful background music for invitations",
-    prompts: [
-      "Soft instrumental for wedding invitation video",
-      "Beautiful shehnai melody for digital invite",
-      "Elegant background music for wedding card"
-    ],
-    color: "from-red-500 to-pink-600"
+    name: "Invite Music",
+    nameHindi: "निमंत्रण संगीत",
+    icon: Send,
+    description: "Beautiful instrumental for wedding invites",
+    defaultPrompt: "Soft beautiful instrumental for wedding invitation video",
+    color: "text-red-500",
+    gradient: "from-red-500 to-pink-600"
   }
 ];
 
 const musicStyles = [
-  "Bollywood Wedding",
-  "Classical Fusion",
-  "Rajasthani Folk",
-  "Punjabi Bhangra",
-  "Sufi Romantic",
-  "Modern Pop",
-  "Instrumental",
-  "Ghazal Style"
+  { id: "bollywood", name: "Bollywood Wedding", emoji: "🎬" },
+  { id: "classical", name: "Classical Fusion", emoji: "🎻" },
+  { id: "rajasthani", name: "Rajasthani Folk", emoji: "🏜️" },
+  { id: "punjabi", name: "Punjabi Bhangra", emoji: "💪" },
+  { id: "sufi", name: "Sufi Romantic", emoji: "💫" },
+  { id: "modern", name: "Modern Pop", emoji: "🎤" },
+  { id: "ghazal", name: "Ghazal Style", emoji: "🌙" },
+  { id: "edm", name: "Wedding EDM", emoji: "🎧" }
+];
+
+const generationSteps = [
+  { id: 1, label: "Analyzing your preferences", emoji: "🎯" },
+  { id: 2, label: "Writing personalized lyrics", emoji: "✍️" },
+  { id: 3, label: "Composing melody", emoji: "🎼" },
+  { id: 4, label: "Adding vocals & instruments", emoji: "🎤" },
+  { id: 5, label: "Final mastering", emoji: "🎧" }
 ];
 
 export default function MusicGenerator() {
   const [selectedCategory, setSelectedCategory] = useState<MusicCategory | null>(null);
+  const [activeTab, setActiveTab] = useState("quick");
+  
+  // Names for personalization
+  const [brideName, setBrideName] = useState("");
+  const [groomName, setGroomName] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  
+  // Song customization
   const [customPrompt, setCustomPrompt] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("Bollywood Wedding");
+  const [customLyrics, setCustomLyrics] = useState("");
+  const [customTitle, setCustomTitle] = useState("");
+  const [selectedStyle, setSelectedStyle] = useState("bollywood");
   const [isInstrumental, setIsInstrumental] = useState(false);
+  
+  // Generation state
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState(0);
+  const [generationProgress, setGenerationProgress] = useState(0);
   const [generatedTracks, setGeneratedTracks] = useState<GeneratedTrack[]>([]);
+  
+  // Audio playback
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Simulate progress during generation
+  useEffect(() => {
+    if (isGenerating) {
+      const stepDuration = 100000 / generationSteps.length; // Total ~100 seconds max
+      let currentStep = 0;
+      let progress = 0;
+      
+      const interval = setInterval(() => {
+        progress += 2;
+        setGenerationProgress(Math.min(progress, 95));
+        
+        const newStep = Math.floor(progress / (100 / generationSteps.length));
+        if (newStep !== currentStep && newStep < generationSteps.length) {
+          currentStep = newStep;
+          setGenerationStep(currentStep);
+        }
+      }, 2000);
+
+      return () => clearInterval(interval);
+    } else {
+      setGenerationProgress(0);
+      setGenerationStep(0);
+    }
+  }, [isGenerating]);
+
+  // Audio progress tracking
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      const updateProgress = () => {
+        if (audio.duration) {
+          setAudioProgress((audio.currentTime / audio.duration) * 100);
+        }
+      };
+      audio.addEventListener('timeupdate', updateProgress);
+      return () => audio.removeEventListener('timeupdate', updateProgress);
+    }
+  }, [currentlyPlaying]);
 
   const handleCategorySelect = (category: MusicCategory) => {
     setSelectedCategory(category);
-    // Set a random prompt from the category
-    const randomPrompt = category.prompts[Math.floor(Math.random() * category.prompts.length)];
-    setCustomPrompt(randomPrompt);
+    setCustomPrompt(category.defaultPrompt);
+    setIsInstrumental(category.id === 'invitation');
   };
 
   const handleGenerate = async () => {
-    if (!selectedCategory || !customPrompt.trim()) {
-      toast.error("Please select a category and enter a description");
+    if (!selectedCategory) {
+      toast.error("Please select a song category first");
+      return;
+    }
+
+    if (!brideName && !groomName && !familyName && activeTab === "quick") {
+      toast.error("Please enter at least one name for personalization");
       return;
     }
 
     setIsGenerating(true);
+    setGenerationProgress(0);
+    setGenerationStep(0);
     
     try {
+      const style = musicStyles.find(s => s.id === selectedStyle)?.name || "Bollywood Wedding";
+      
       const { data, error } = await supabase.functions.invoke('generate-wedding-music', {
         body: {
-          prompt: customPrompt,
+          prompt: customPrompt || selectedCategory.defaultPrompt,
           category: selectedCategory.id,
-          style: selectedStyle,
-          instrumental: isInstrumental
+          style: style,
+          instrumental: isInstrumental,
+          lyrics: activeTab === "custom" ? customLyrics : undefined,
+          title: customTitle || undefined,
+          names: {
+            bride: brideName,
+            groom: groomName,
+            family: familyName
+          }
         }
       });
 
       if (error) throw error;
 
+      setGenerationProgress(100);
+      
       if (data?.tracks) {
         setGeneratedTracks(prev => [...data.tracks, ...prev]);
-        toast.success("🎵 Music generated successfully!");
+        toast.success("🎵 Your personalized wedding song is ready!");
       }
     } catch (error) {
       console.error('Error generating music:', error);
@@ -245,14 +316,14 @@ export default function MusicGenerator() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      toast.success("Downloaded successfully!");
+      toast.success("Song downloaded!");
     } catch (error) {
       toast.error("Failed to download. Please try again.");
     }
   };
 
   const handleShare = async (track: GeneratedTrack) => {
-    const shareText = `🎵 Check out this wedding music I created on Karlo Shaadi!\n\n${track.title}\n\nCreate your own wedding music: ${window.location.href}`;
+    const shareText = `🎵 Listen to our personalized wedding song "${track.title}" created on Karlo Shaadi!\n\nCreate your own: ${window.location.href}`;
     
     if (navigator.share) {
       try {
@@ -262,17 +333,16 @@ export default function MusicGenerator() {
           url: window.location.href
         });
       } catch (error) {
-        // User cancelled or share failed
+        // User cancelled
       }
     } else {
-      // Fallback to WhatsApp share
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
       window.open(whatsappUrl, '_blank');
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <BhindiHeader />
       
       <main className="container mx-auto px-4 py-8 pt-24">
@@ -282,20 +352,45 @@ export default function MusicGenerator() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
-            <Music className="h-5 w-5" />
-            <span className="font-medium">AI Wedding Music Generator</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Create Your Perfect{" "}
-            <span className="bg-gradient-to-r from-primary to-pink-600 bg-clip-text text-transparent">
-              Wedding Music
+          <motion.div 
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-pink-500/20 text-primary px-6 py-3 rounded-full mb-6 border border-primary/20"
+          >
+            <Music2 className="h-5 w-5 animate-pulse" />
+            <span className="font-semibold">AI Wedding Song Creator</span>
+            <Badge variant="secondary" className="bg-primary/20 text-primary text-xs">Powered by Suno V5</Badge>
+          </motion.div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+            Create Your{" "}
+            <span className="bg-gradient-to-r from-primary via-pink-500 to-rose-500 bg-clip-text text-transparent">
+              Personalized
             </span>
+            <br />
+            Wedding Song
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Generate personalized music for every wedding moment - from couple's entry to bidaai. 
-            Listen, download, and share your unique wedding soundtrack!
+          
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Enter your names and let AI create a unique, personalized song with your names in the lyrics.
+            Perfect for couple entries, sangeet performances, invitation videos, and more!
           </p>
+          
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Mic2 className="h-4 w-4 text-primary" />
+              <span>Personalized Lyrics</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Music4 className="h-4 w-4 text-primary" />
+              <span>8 Music Styles</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <HeartHandshake className="h-4 w-4 text-primary" />
+              <span>Names in Songs</span>
+            </div>
+          </div>
         </motion.div>
 
         {/* Hidden Audio Element */}
@@ -305,155 +400,345 @@ export default function MusicGenerator() {
           className="hidden"
         />
 
-        {/* Category Selection */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-foreground mb-6 text-center">
-            Choose Your Wedding Moment
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {musicCategories.map((category, index) => (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Card 
-                  className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                    selectedCategory?.id === category.id 
-                      ? 'ring-2 ring-primary shadow-lg scale-105' 
-                      : 'hover:scale-102'
-                  }`}
-                  onClick={() => handleCategorySelect(category)}
-                >
-                  <CardContent className="p-4 text-center">
-                    <div className={`w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center`}>
-                      <category.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-semibold text-foreground text-sm">{category.name}</h3>
-                    <p className="text-xs text-primary font-medium">{category.nameHindi}</p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{category.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Generation Form */}
-        <AnimatePresence>
-          {selectedCategory && (
-            <motion.section
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-12"
-            >
-              <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-pink-500/5">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <selectedCategory.icon className="h-6 w-6 text-primary" />
-                    Customize Your {selectedCategory.name} Music
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Prompt Suggestions */}
-                  <div>
-                    <Label className="mb-2 block">Quick Prompts</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedCategory.prompts.map((prompt, index) => (
-                        <Badge 
-                          key={index}
-                          variant={customPrompt === prompt ? "default" : "outline"}
-                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
-                          onClick={() => setCustomPrompt(prompt)}
-                        >
-                          {prompt}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Custom Description */}
-                  <div>
-                    <Label htmlFor="customPrompt">Describe Your Music</Label>
-                    <Textarea
-                      id="customPrompt"
-                      value={customPrompt}
-                      onChange={(e) => setCustomPrompt(e.target.value)}
-                      placeholder="Describe the mood, style, and feeling you want in your music..."
-                      className="mt-2"
-                      rows={3}
-                    />
-                  </div>
-
-                  {/* Style Selection */}
-                  <div>
-                    <Label className="mb-2 block">Music Style</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {musicStyles.map((style) => (
-                        <Badge 
-                          key={style}
-                          variant={selectedStyle === style ? "default" : "outline"}
-                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
-                          onClick={() => setSelectedStyle(style)}
-                        >
-                          {style}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Instrumental Toggle */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label htmlFor="instrumental">Instrumental Only</Label>
-                      <p className="text-sm text-muted-foreground">Generate music without vocals</p>
-                    </div>
-                    <Switch
-                      id="instrumental"
-                      checked={isInstrumental}
-                      onCheckedChange={setIsInstrumental}
-                    />
-                  </div>
-
-                  {/* Generate Button */}
-                  <Button 
-                    onClick={handleGenerate}
-                    disabled={isGenerating || !customPrompt.trim()}
-                    className="w-full bg-gradient-to-r from-primary to-pink-600 hover:from-primary/90 hover:to-pink-600/90"
-                    size="lg"
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          {/* Left Column - Categories */}
+          <div className="lg:col-span-1 space-y-6">
+            <div>
+              <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <Music className="h-5 w-5 text-primary" />
+                Choose Song Type
+              </h2>
+              <div className="grid grid-cols-2 gap-3">
+                {musicCategories.map((category, index) => (
+                  <motion.div
+                    key={category.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.03 }}
                   >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Generating Your Music...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-5 w-5 mr-2" />
-                        Generate Wedding Music
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.section>
-          )}
-        </AnimatePresence>
+                    <Card 
+                      className={`cursor-pointer transition-all duration-300 hover:shadow-lg group ${
+                        selectedCategory?.id === category.id 
+                          ? 'ring-2 ring-primary shadow-lg bg-primary/5' 
+                          : 'hover:bg-muted/50'
+                      }`}
+                      onClick={() => handleCategorySelect(category)}
+                    >
+                      <CardContent className="p-3 text-center">
+                        <div className={`w-10 h-10 mx-auto mb-2 rounded-xl bg-gradient-to-br ${category.gradient} flex items-center justify-center transform group-hover:scale-110 transition-transform`}>
+                          <category.icon className="h-5 w-5 text-white" />
+                        </div>
+                        <h3 className="font-medium text-foreground text-xs leading-tight">{category.name}</h3>
+                        <p className="text-[10px] text-primary font-medium mt-0.5">{category.nameHindi}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Music Style */}
+            <Card className="bg-muted/30">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Wand2 className="h-4 w-4 text-primary" />
+                  Music Style
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex flex-wrap gap-2">
+                  {musicStyles.map((style) => (
+                    <Badge 
+                      key={style.id}
+                      variant={selectedStyle === style.id ? "default" : "outline"}
+                      className={`cursor-pointer transition-all ${
+                        selectedStyle === style.id 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'hover:bg-primary/10'
+                      }`}
+                      onClick={() => setSelectedStyle(style.id)}
+                    >
+                      <span className="mr-1">{style.emoji}</span>
+                      {style.name}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column - Customization */}
+          <div className="lg:col-span-2">
+            <AnimatePresence mode="wait">
+              {selectedCategory ? (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                >
+                  <Card className="border-primary/20 overflow-hidden">
+                    <div className={`h-2 bg-gradient-to-r ${selectedCategory.gradient}`} />
+                    <CardHeader>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${selectedCategory.gradient} flex items-center justify-center`}>
+                          <selectedCategory.icon className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl">Create Your {selectedCategory.name}</CardTitle>
+                          <CardDescription>{selectedCategory.description}</CardDescription>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <Tabs value={activeTab} onValueChange={setActiveTab}>
+                        <TabsList className="grid w-full grid-cols-2">
+                          <TabsTrigger value="quick" className="gap-2">
+                            <Sparkles className="h-4 w-4" />
+                            Quick Create
+                          </TabsTrigger>
+                          <TabsTrigger value="custom" className="gap-2">
+                            <FileText className="h-4 w-4" />
+                            Custom Lyrics
+                          </TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="quick" className="space-y-4 mt-4">
+                          {/* Names Input */}
+                          <div className="grid md:grid-cols-3 gap-4">
+                            <div>
+                              <Label htmlFor="brideName" className="flex items-center gap-2 mb-2">
+                                <Heart className="h-3 w-3 text-pink-500" />
+                                Bride's Name
+                              </Label>
+                              <Input
+                                id="brideName"
+                                value={brideName}
+                                onChange={(e) => setBrideName(e.target.value)}
+                                placeholder="e.g., Priya"
+                                className="border-pink-200 focus:border-pink-400"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="groomName" className="flex items-center gap-2 mb-2">
+                                <Crown className="h-3 w-3 text-amber-500" />
+                                Groom's Name
+                              </Label>
+                              <Input
+                                id="groomName"
+                                value={groomName}
+                                onChange={(e) => setGroomName(e.target.value)}
+                                placeholder="e.g., Rahul"
+                                className="border-amber-200 focus:border-amber-400"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="familyName" className="flex items-center gap-2 mb-2">
+                                <Users className="h-3 w-3 text-blue-500" />
+                                Family Name
+                              </Label>
+                              <Input
+                                id="familyName"
+                                value={familyName}
+                                onChange={(e) => setFamilyName(e.target.value)}
+                                placeholder="e.g., Sharma"
+                                className="border-blue-200 focus:border-blue-400"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Song Description */}
+                          <div>
+                            <Label htmlFor="prompt" className="mb-2 block">Song Description (Optional)</Label>
+                            <Textarea
+                              id="prompt"
+                              value={customPrompt}
+                              onChange={(e) => setCustomPrompt(e.target.value)}
+                              placeholder="Describe the mood, style, or any special elements you want..."
+                              className="min-h-[80px]"
+                            />
+                          </div>
+                        </TabsContent>
+
+                        <TabsContent value="custom" className="space-y-4 mt-4">
+                          {/* Custom Title */}
+                          <div>
+                            <Label htmlFor="customTitle" className="mb-2 block">Song Title</Label>
+                            <Input
+                              id="customTitle"
+                              value={customTitle}
+                              onChange={(e) => setCustomTitle(e.target.value)}
+                              placeholder="Enter your song title"
+                            />
+                          </div>
+
+                          {/* Custom Lyrics */}
+                          <div>
+                            <Label htmlFor="customLyrics" className="mb-2 block">
+                              Write Your Own Lyrics
+                              <span className="text-xs text-muted-foreground ml-2">(Use [Verse], [Chorus], [Hook] tags)</span>
+                            </Label>
+                            <Textarea
+                              id="customLyrics"
+                              value={customLyrics}
+                              onChange={(e) => setCustomLyrics(e.target.value)}
+                              placeholder={`[Verse 1]\nWrite your verse here...\n\n[Chorus]\nWrite your chorus here...`}
+                              className="min-h-[200px] font-mono text-sm"
+                            />
+                          </div>
+
+                          {/* Names for custom lyrics */}
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="brideName2">Bride's Name</Label>
+                              <Input
+                                id="brideName2"
+                                value={brideName}
+                                onChange={(e) => setBrideName(e.target.value)}
+                                placeholder="Optional"
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="groomName2">Groom's Name</Label>
+                              <Input
+                                id="groomName2"
+                                value={groomName}
+                                onChange={(e) => setGroomName(e.target.value)}
+                                placeholder="Optional"
+                              />
+                            </div>
+                          </div>
+                        </TabsContent>
+                      </Tabs>
+
+                      {/* Instrumental Toggle */}
+                      <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                        <div>
+                          <Label htmlFor="instrumental" className="font-medium">Instrumental Only</Label>
+                          <p className="text-sm text-muted-foreground">Generate music without vocals</p>
+                        </div>
+                        <Switch
+                          id="instrumental"
+                          checked={isInstrumental}
+                          onCheckedChange={setIsInstrumental}
+                        />
+                      </div>
+
+                      {/* Generate Button */}
+                      <Button 
+                        onClick={handleGenerate}
+                        disabled={isGenerating}
+                        className="w-full h-14 text-lg bg-gradient-to-r from-primary via-pink-500 to-rose-500 hover:opacity-90 transition-opacity"
+                        size="lg"
+                      >
+                        {isGenerating ? (
+                          <div className="flex items-center gap-3">
+                            <div className="relative">
+                              <Loader2 className="h-6 w-6 animate-spin" />
+                              <div className="absolute inset-0 animate-ping opacity-30">
+                                <Music className="h-6 w-6" />
+                              </div>
+                            </div>
+                            <span>Creating Your Song...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <Wand2 className="h-6 w-6 mr-2" />
+                            Generate Personalized Song
+                          </>
+                        )}
+                      </Button>
+
+                      {/* Generation Progress */}
+                      <AnimatePresence>
+                        {isGenerating && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="space-y-4"
+                          >
+                            <div className="relative">
+                              <Progress value={generationProgress} className="h-3" />
+                              <span className="absolute right-0 top-4 text-xs text-muted-foreground">
+                                {Math.round(generationProgress)}%
+                              </span>
+                            </div>
+                            
+                            <div className="grid grid-cols-5 gap-2">
+                              {generationSteps.map((step, index) => (
+                                <motion.div
+                                  key={step.id}
+                                  initial={{ opacity: 0.3 }}
+                                  animate={{ 
+                                    opacity: index <= generationStep ? 1 : 0.3,
+                                    scale: index === generationStep ? 1.05 : 1
+                                  }}
+                                  className={`text-center p-3 rounded-lg transition-all ${
+                                    index === generationStep 
+                                      ? 'bg-primary/20 ring-2 ring-primary/50' 
+                                      : index < generationStep 
+                                        ? 'bg-green-500/10' 
+                                        : 'bg-muted/50'
+                                  }`}
+                                >
+                                  <div className="text-2xl mb-1">
+                                    {index < generationStep ? '✅' : step.emoji}
+                                  </div>
+                                  <p className="text-[10px] font-medium leading-tight">{step.label}</p>
+                                </motion.div>
+                              ))}
+                            </div>
+
+                            <p className="text-center text-sm text-muted-foreground animate-pulse">
+                              {generationSteps[generationStep]?.label}...
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center justify-center h-full min-h-[400px]"
+                >
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary/20 to-pink-500/20 flex items-center justify-center">
+                      <Music2 className="h-12 w-12 text-primary animate-pulse" />
+                    </div>
+                    <h3 className="text-2xl font-semibold text-foreground mb-3">
+                      Select a Song Type
+                    </h3>
+                    <p className="text-muted-foreground max-w-md mx-auto">
+                      Choose a category from the left to start creating your personalized wedding song
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
 
         {/* Generated Tracks */}
         {generatedTracks.length > 0 && (
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            className="mb-12"
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-foreground">
-                Your Generated Music
+              <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+                <Volume2 className="h-6 w-6 text-primary" />
+                Your Generated Songs
               </h2>
               <Badge variant="secondary" className="text-sm">
-                {generatedTracks.length} Track{generatedTracks.length > 1 ? 's' : ''}
+                {generatedTracks.length} Song{generatedTracks.length > 1 ? 's' : ''}
               </Badge>
             </div>
             
@@ -465,51 +750,70 @@ export default function MusicGenerator() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                    <CardContent className="p-4">
-                      <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        {/* Play Button & Info */}
-                        <div className="flex items-center gap-4 flex-1">
+                  <Card className={`overflow-hidden transition-all ${
+                    currentlyPlaying === track.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'
+                  }`}>
+                    <CardContent className="p-0">
+                      <div className="flex flex-col md:flex-row">
+                        {/* Play Button & Waveform */}
+                        <div className="flex items-center gap-4 p-4 md:p-6 flex-1">
                           <Button
                             size="icon"
-                            variant="outline"
-                            className="h-14 w-14 rounded-full shrink-0 bg-gradient-to-br from-primary to-pink-600 text-white border-0 hover:opacity-90"
+                            className={`h-16 w-16 rounded-full shrink-0 transition-all ${
+                              currentlyPlaying === track.id && isPlaying
+                                ? 'bg-primary animate-pulse'
+                                : 'bg-gradient-to-br from-primary to-pink-600'
+                            }`}
                             onClick={() => handlePlay(track)}
                           >
                             {currentlyPlaying === track.id && isPlaying ? (
-                              <Pause className="h-6 w-6" />
+                              <Pause className="h-7 w-7 text-white" />
                             ) : (
-                              <Play className="h-6 w-6 ml-1" />
+                              <Play className="h-7 w-7 text-white ml-1" />
                             )}
                           </Button>
+                          
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground truncate">{track.title}</h3>
+                            <h3 className="font-semibold text-foreground text-lg truncate">{track.title}</h3>
                             <p className="text-sm text-muted-foreground truncate">{track.prompt}</p>
-                            <div className="flex items-center gap-2 mt-1">
-                              <Badge variant="outline" className="text-xs">
-                                {track.category}
+                            
+                            <div className="flex items-center gap-2 mt-2 flex-wrap">
+                              <Badge variant="outline" className="text-xs capitalize">
+                                {track.category.replace('-', ' ')}
                               </Badge>
+                              {track.names?.bride && track.names?.groom && (
+                                <Badge variant="secondary" className="text-xs">
+                                  {track.names.bride} & {track.names.groom}
+                                </Badge>
+                              )}
                               <span className="text-xs text-muted-foreground">
                                 {track.duration}s
                               </span>
                             </div>
+
+                            {/* Progress bar when playing */}
+                            {currentlyPlaying === track.id && (
+                              <div className="mt-3">
+                                <Progress value={audioProgress} className="h-1" />
+                              </div>
+                            )}
                           </div>
                         </div>
 
-                        {/* Audio Visualizer (Placeholder) */}
+                        {/* Visualizer when playing */}
                         {currentlyPlaying === track.id && isPlaying && (
-                          <div className="flex items-center gap-1 px-4">
-                            {[1, 2, 3, 4, 5].map((i) => (
+                          <div className="hidden md:flex items-center gap-1 px-6 bg-primary/5">
+                            {[...Array(8)].map((_, i) => (
                               <motion.div
                                 key={i}
-                                className="w-1 bg-primary rounded-full"
+                                className="w-1.5 bg-gradient-to-t from-primary to-pink-500 rounded-full"
                                 animate={{
-                                  height: [10, 30, 15, 25, 10],
+                                  height: [12, 40, 20, 35, 12],
                                 }}
                                 transition={{
-                                  duration: 0.5,
+                                  duration: 0.6,
                                   repeat: Infinity,
-                                  delay: i * 0.1,
+                                  delay: i * 0.08,
                                 }}
                               />
                             ))}
@@ -517,12 +821,13 @@ export default function MusicGenerator() {
                         )}
 
                         {/* Actions */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 p-4 border-t md:border-t-0 md:border-l border-border bg-muted/30">
                           <Button
                             size="icon"
                             variant="ghost"
                             onClick={() => handleDownload(track)}
                             title="Download"
+                            className="h-10 w-10"
                           >
                             <Download className="h-5 w-5" />
                           </Button>
@@ -530,9 +835,26 @@ export default function MusicGenerator() {
                             size="icon"
                             variant="ghost"
                             onClick={() => handleShare(track)}
-                            title="Share"
+                            title="Share on WhatsApp"
+                            className="h-10 w-10"
                           >
                             <Share2 className="h-5 w-5" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => {
+                              setSelectedCategory(musicCategories.find(c => c.id === track.category) || null);
+                              if (track.names) {
+                                setBrideName(track.names.bride || '');
+                                setGroomName(track.names.groom || '');
+                                setFamilyName(track.names.family || '');
+                              }
+                            }}
+                            title="Regenerate"
+                            className="h-10 w-10"
+                          >
+                            <RefreshCw className="h-5 w-5" />
                           </Button>
                         </div>
                       </div>
@@ -544,24 +866,26 @@ export default function MusicGenerator() {
           </motion.section>
         )}
 
-        {/* Empty State */}
-        {generatedTracks.length === 0 && !selectedCategory && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-16"
-          >
-            <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-              <Music className="h-10 w-10 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              Start Creating Your Wedding Music
-            </h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Select a category above to begin generating personalized music for your special moments
-            </p>
-          </motion.div>
-        )}
+        {/* Features Section */}
+        <section className="py-12 border-t border-border">
+          <h2 className="text-2xl font-semibold text-center mb-8">Why Create Songs with Karlo Shaadi?</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              { icon: Heart, title: "Names in Lyrics", desc: "Your names beautifully woven into every song" },
+              { icon: Music2, title: "8 Music Styles", desc: "From Bollywood to Sufi to Modern Pop" },
+              { icon: Mic2, title: "AI Vocals", desc: "Professional quality vocals and instruments" },
+              { icon: Download, title: "Download & Share", desc: "Get MP3 files, share on WhatsApp instantly" }
+            ].map((feature, i) => (
+              <Card key={i} className="text-center p-6 bg-muted/30 border-0">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <feature.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground">{feature.desc}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
       </main>
 
       <BhindiFooter />
