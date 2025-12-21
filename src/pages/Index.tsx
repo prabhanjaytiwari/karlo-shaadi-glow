@@ -31,30 +31,36 @@ import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
 import { AIMatchmakingDialog } from "@/components/AIMatchmakingDialog";
-
 const Index = () => {
-  const section1 = useScrollAnimation({ threshold: 0.2 });
-  const section2 = useScrollAnimation({ threshold: 0.2 });
-  const section3 = useScrollAnimation({ threshold: 0.2 });
-  const section4 = useScrollAnimation({ threshold: 0.2 });
-  const humorSection1 = useScrollAnimation({ threshold: 0.2 });
-  const humorSection2 = useScrollAnimation({ threshold: 0.2 });
-  
-  const { ref: parallaxRef, offset } = useParallax(0.3);
+  const section1 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section2 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section3 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const section4 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const humorSection1 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const humorSection2 = useScrollAnimation({
+    threshold: 0.2
+  });
+  const {
+    ref: parallaxRef,
+    offset
+  } = useParallax(0.3);
   const [isLoaded, setIsLoaded] = useState(false);
   const [aiMatchmakingOpen, setAiMatchmakingOpen] = useState(false);
-
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-
-  return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
-      <SEO 
-        title="India's #1 Wedding Planning Platform"
-        description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us."
-        keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning"
-      />
+  return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
+      <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
       {/* FOMO Components */}
       <FOMOBanner />
@@ -62,16 +68,10 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
-        <div 
-          ref={parallaxRef}
-          className="absolute inset-0 z-0"
-          style={{ transform: `translateY(${offset * 0.3}px) scale(1.05)` }}
-        >
-          <img 
-            src={heroWedding} 
-            alt="Indian wedding ceremony" 
-            className="w-full h-full object-cover"
-          />
+        <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
+        transform: `translateY(${offset * 0.3}px) scale(1.05)`
+      }}>
+          <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/40 to-background" />
         </div>
         
@@ -81,7 +81,7 @@ const Index = () => {
             <div className={`w-full max-w-4xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
               {/* Headline */}
               <div className="text-center mb-4 sm:mb-6 md:mb-8">
-                <h1 className="font-display font-semibold text-xl sm:text-2xl md:text-4xl lg:text-5xl leading-tight text-white drop-shadow-lg">
+                <h1 className="font-display font-semibold text-xl sm:text-2xl lg:text-5xl leading-tight text-white drop-shadow-lg md:text-5xl">
                   <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
                   <span className={`inline-block font-quote italic font-normal hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
                   <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
@@ -100,18 +100,11 @@ const Index = () => {
                 {/* 2-Minute Wedding Plan CTA */}
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                   <Link to="/plan-wizard">
-                    <Button
-                      size="lg"
-                      className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto"
-                    >
+                    <Button size="lg" className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto">
                       Get Your 2-Minute Wedding Plan
                     </Button>
                   </Link>
-                  <Button
-                    onClick={() => setAiMatchmakingOpen(true)}
-                    variant="outline"
-                    className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold bg-background/95 hover:bg-background border-2 border-primary/30 hover:border-primary text-foreground transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-primary/20 w-full sm:w-auto"
-                  >
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="outline" className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold bg-background/95 hover:bg-background border-2 border-primary/30 hover:border-primary text-foreground transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-primary/20 w-full sm:w-auto">
                     AI Vendor Matchmaking
                   </Button>
                 </div>
@@ -228,19 +221,19 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-3 sm:mt-6">
-              {[
-                { title: "300+ Calls", subtitle: "Handled for you" },
-                { title: "Zero Fraud", subtitle: "Fully verified" },
-                { title: "Your Day", subtitle: "Stress-free" }
-              ].map((item, i) => (
-                <div 
-                  key={i} 
-                  className="text-center p-2 sm:p-3 rounded-lg bg-white border border-accent/20 hover:border-accent/40 transition-all duration-300"
-                >
+              {[{
+              title: "300+ Calls",
+              subtitle: "Handled for you"
+            }, {
+              title: "Zero Fraud",
+              subtitle: "Fully verified"
+            }, {
+              title: "Your Day",
+              subtitle: "Stress-free"
+            }].map((item, i) => <div key={i} className="text-center p-2 sm:p-3 rounded-lg bg-white border border-accent/20 hover:border-accent/40 transition-all duration-300">
                   <h3 className="font-semibold text-xs sm:text-sm text-accent">{item.title}</h3>
                   <p className="text-[9px] sm:text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
@@ -267,19 +260,24 @@ const Index = () => {
               </p>
 
               <div className="space-y-2">
-                {[
-                  { icon: Users, text: "50,000+ active couples" },
-                  { icon: Shield, text: "Secure payments" },
-                  { icon: Star, text: "Verified reviews" },
-                  { icon: CheckCircle2, text: "Zero commission" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
+                {[{
+                icon: Users,
+                text: "50,000+ active couples"
+              }, {
+                icon: Shield,
+                text: "Secure payments"
+              }, {
+                icon: Star,
+                text: "Verified reviews"
+              }, {
+                icon: CheckCircle2,
+                text: "Zero commission"
+              }].map((item, i) => <div key={i} className="flex items-center gap-2.5">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
                       <item.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                     </div>
                     <p className="text-foreground text-xs sm:text-sm">{item.text}</p>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
               <Button size="sm" variant="default" className="rounded-full px-5 h-9">
@@ -321,21 +319,27 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:gap-4">
-              {[
-                { title: "Photography", specialty: "Capturing moments", description: "Professional photographers documenting weddings beautifully." },
-                { title: "Catering", specialty: "Culinary excellence", description: "Expert caterers handling large events with precision." },
-                { title: "Decoration", specialty: "Venue transformation", description: "Creative decorators bringing your vision to life." },
-                { title: "Entertainment", specialty: "Perfect atmosphere", description: "Experienced DJs and performers for your guests." }
-              ].map((vendor, i) => (
-                <div 
-                  key={i} 
-                  className="bg-white border border-accent/20 rounded-lg p-3 sm:p-4 hover:border-accent/40 transition-all duration-300"
-                >
+              {[{
+              title: "Photography",
+              specialty: "Capturing moments",
+              description: "Professional photographers documenting weddings beautifully."
+            }, {
+              title: "Catering",
+              specialty: "Culinary excellence",
+              description: "Expert caterers handling large events with precision."
+            }, {
+              title: "Decoration",
+              specialty: "Venue transformation",
+              description: "Creative decorators bringing your vision to life."
+            }, {
+              title: "Entertainment",
+              specialty: "Perfect atmosphere",
+              description: "Experienced DJs and performers for your guests."
+            }].map((vendor, i) => <div key={i} className="bg-white border border-accent/20 rounded-lg p-3 sm:p-4 hover:border-accent/40 transition-all duration-300">
                   <h3 className="text-sm sm:text-base font-semibold mb-0.5">{vendor.title}</h3>
                   <div className="text-accent font-medium text-xs mb-1">{vendor.specialty}</div>
                   <p className="text-muted-foreground text-xs leading-relaxed hidden sm:block">{vendor.description}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <div className="mt-5 sm:mt-8 text-center">
@@ -373,12 +377,21 @@ const Index = () => {
               <div className="w-20 h-1 bg-gradient-to-r from-accent to-primary rounded-full" />
 
               <div className="space-y-8">
-                {[
-                  { number: "01", title: "Tell Us Your Vision", description: "Share your wedding date, location, style preferences, and budget" },
-                  { number: "02", title: "Get Matched", description: "We curate the perfect vendors based on your requirements" },
-                  { number: "03", title: "Book & Relax", description: "Secure your vendors with our protected payment system and enjoy the journey" }
-                ].map((step, i) => (
-                  <div key={i} className="flex gap-6 items-start group" style={{ transitionDelay: `${i * 100}ms` }}>
+                {[{
+                number: "01",
+                title: "Tell Us Your Vision",
+                description: "Share your wedding date, location, style preferences, and budget"
+              }, {
+                number: "02",
+                title: "Get Matched",
+                description: "We curate the perfect vendors based on your requirements"
+              }, {
+                number: "03",
+                title: "Book & Relax",
+                description: "Secure your vendors with our protected payment system and enjoy the journey"
+              }].map((step, i) => <div key={i} className="flex gap-6 items-start group" style={{
+                transitionDelay: `${i * 100}ms`
+              }}>
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 border-2 border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-accent/50 transition-all duration-300">
                       <span className="text-accent font-bold text-lg">{step.number}</span>
                     </div>
@@ -386,8 +399,7 @@ const Index = () => {
                       <h3 className="font-bold text-xl mb-2">{step.title}</h3>
                       <p className="text-muted-foreground">{step.description}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
               <Button size="lg" className="rounded-full px-8">
@@ -405,7 +417,9 @@ const Index = () => {
       <ReviewsSection />
 
       {/* Section 4: Success Stories */}
-      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative" style={{ background: 'radial-gradient(ellipse at center, hsl(350 85% 55% / 0.05) 0%, transparent 50%)' }}>
+      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative" style={{
+      background: 'radial-gradient(ellipse at center, hsl(350 85% 55% / 0.05) 0%, transparent 50%)'
+    }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
@@ -483,8 +497,6 @@ const Index = () => {
       </section>
 
       <BhindiFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
