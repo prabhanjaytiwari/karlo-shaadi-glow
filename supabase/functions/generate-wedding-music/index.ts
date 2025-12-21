@@ -58,106 +58,227 @@ interface SunoQueryResponse {
   };
 }
 
-// Helper to create personalized lyrics with names
+// Helper to create personalized lyrics with names - Professional songwriting quality
 function createPersonalizedLyrics(category: string, names: MusicRequest['names'], customLyrics?: string): string {
   if (customLyrics) {
     return customLyrics;
   }
 
-  const bride = names?.bride || 'the bride';
-  const groom = names?.groom || 'the groom';
-  const family = names?.family || 'the family';
+  const bride = names?.bride || 'Dulhaniya';
+  const groom = names?.groom || 'Raja';
+  const family = names?.family || 'Parivaar';
 
   const lyricsTemplates: Record<string, string> = {
     'couples': `[Verse 1]
-${bride} and ${groom}, a love so divine
-Two hearts beating as one, forever entwined
-From this moment on, through joy and through rain
-Together forever, in love we remain
+In the garden where our stories first began
+${bride} met ${groom}, fate's perfect plan
+Every heartbeat whispers only your name
+Through the fire and the rain, we burn the same flame
+
+[Pre-Chorus]
+Tumse mili toh zindagi badal gayi
+Har khwahish meri tujhse jaa mili
+You're the answer to my silent prayer
+The one I'll love beyond compare
 
 [Chorus]
-${bride} aur ${groom} ki shaadi hai
-Khushiyon ki baaraat hai
-Dil se dil mila hai aaj
-Pyaar ki yeh raat hai`,
+${bride} aur ${groom} - yeh ishq hai sachcha
+Saaton janam ka vaada hai pakka
+Chandni raat mein dil ye gaaye
+Do dil ek raaste pe mil jaaye
+Oh-oh, ${bride} aur ${groom}
+Forever and always, forever and always
 
-    'shaadi-joda': `[Verse 1]
-Dekho aa gaya dulha raja ${groom}
-Saath mein dulhan ${bride} ki jodi saja
-Shehnai baje, dhol baje
-Aaj ki raat mein jashn mane
+[Verse 2]
+Hand in hand through seasons we'll dance
+${groom} promised ${bride} a lifetime romance
+From haldi to pheras, every ritual we share
+Is a testament to love, beyond compare`,
+
+    'shaadi-joda': `[Intro - Dhol Beat]
+Balle balle! Shaadi hai aaj!
+
+[Verse 1]
+Sehra bandh ke aa gaya raja ${groom}
+Ghodi pe sawaar, chamke jaisa sooraj
+Dulhan ${bride} tayyar, sharmaaye nazrein jhuka
+Mehendi waale haathon mein chhupa pyaar ka naksha
+
+[Pre-Chorus]
+Shehnai pe chad gayi khushiyon ki dhun
+Band baaje bajenge har gali har nukkad mein
+Rishtey naye banenge, duaayein milegi sabki
+${groom} aur ${bride} ki jodi hai sabse sachchi
 
 [Chorus]
-${groom} aur ${bride} ki jodi
-Duniya mein sabse nyaari
-Baraat chali, band baja
-Shaadi ki dhoom machayi`,
+Jodi kamaal ki - rab ne banayi
+${groom} ke dil mein ${bride} samayi
+Nachho gaao, khushiyan manao
+Shaadi ka jashn hai, sab mil ke aao!
+Ho-ho, jodi number one
+Forever together, our journey's begun
+
+[Bridge]
+Phere saat, vaade saat
+Janmo janmo ka hai yeh saath!`,
 
     'family': `[Verse 1]
-${family} ke ghar mein khushiyan aayi
-${bride} aur ${groom} ne shaadi rachayi
-Maa ki duayen, papa ka pyaar
-Aaj hai sabse sundar tyohar
+${family} ke aangan mein mehfil saji hai
+${bride} aur ${groom} ki khushiyon ki gadi aaji hai
+Nani ki duaayein, dadi ka aashirwaad
+Mummy papa ki aankhon mein sapno ki baaraat
+
+[Pre-Chorus]
+Bade bhaiya muskuraye, choti behen ne gaana gaaya
+Chacha chachi ne dance kiya, ghar mein rang jamaya
+Every cousin, every uncle, every maasi here tonight
+${family} together, everything feels right
 
 [Chorus]
-Parivaar mein aaj jashn hai
-${family} ki aankhon mein noor hai
-Rishton ki gahrai mein
-Pyaar ka samundar hai`,
+Ghar mein aaj jashn hai, roshni hai har taraf
+${family} ki aan baan shaan, pyaar hai beshumaar
+${bride} ki bidaai mein, aankhein bhi muskuraayi
+Kyunki ${groom} ke ghar mein nayi khushiyaan aayi
+Parivaar parivaar, pyaara parivaar!
+
+[Verse 2]
+Rishtey nibhaane ki hai yeh khushi
+${family} ke saath, zindagi lagti hai nayi
+From generation to generation, love passes on
+In ${family}'s embrace, forever we belong`,
 
     'didi-jiju': `[Verse 1]
-Didi ${bride} ki shaadi hai aaj
-Jiju ${groom} le aaye shaadi ka saaj
-Behen ke liye yeh khushi ka din
-Pyaar bhara tohfa hai yeh atin
+Yaad hai wo din jab didi ne rakhi bandhi thi
+Bhai behen ki woh mithi yaadein, sab yaad aati hain
+Aaj ${bride} didi dulhan bani, ${groom} jiju le jaayenge
+Par dil ke kone mein hamesha didi reh jaayengi
+
+[Pre-Chorus]
+Ladaai jhagde, manaana maafi
+Didi ki daant, aur phir pyaar wali chai
+Jiju ${groom} sunlo yeh baat, didi ki izzat rakhna
+Warna bhai aa jayega, yeh waada hai pakka!
 
 [Chorus]
-Didi jiju ki jodi salamat rahe
-Duniya mein unka naam roshan rahe
-Behen ki vidaai pe aankhon mein nami
-Par khushiyon ki hai yeh saugaat ami`,
+Didi meri jaan, jiju mera yaar
+${bride} didi, ${groom} jiju, sabse pyaara pair
+Vidaai ki raat mein, aankhein bhi ro rahi
+Par dil mein khushi hai, nayi zindagi jo basi
+Didi-jiju, didi-jiju, always in my heart!
 
-    'sangeet': `[Hook]
-DJ bajao, floor hilao
-${bride} aur ${groom} ke liye nach gaao
-Sangeet ki raat mein nachte raho
-Khushiyon mein doobte jao
+[Bridge]
+Raksha bandhan ki woh yaadein
+Aaj shaadi ki hai yeh duaayein
+Didi aap khush raho, yahi meri farmaish
+${groom} jiju, didi ki hamesha rakhna laaj`,
 
-[Verse]
-Nachle nachle saari raat
-${family} ki hai yeh baaraat
-Dhamaal macha de dance floor pe
-Yeh raat hai sabse khaas`,
+    'sangeet': `[Intro - Beat Drop]
+Let's go! Sangeet night!
+
+[Verse 1]
+DJ drop that beat, floor's getting hot
+${bride} ke moves dekho, sabko kar de shocked
+${groom} bhi kuch kam nahi, breaking it down
+Saari mehfil nachti hai, we're painting the town
+
+[Pre-Chorus]
+Aunties in the corner, trying to keep up
+Uncles doing bhangra, they never stop
+${family} together on the dance floor tonight
+Sangeet ki raat hai, everything feels right
+
+[Chorus]
+Nachle nachle, saari raat nachle
+${bride} aur ${groom} ke liye pawein thapakle
+Dham dham dham, bajti hai dholki
+Sangeet mein aaj, har khushi hai dolki
+One more time! Nachle nachle!
+Hands up high, let's celebrate!
+
+[Verse 2]
+From Bollywood moves to the trending reels
+${family} ne milke, sabko kiya heal
+Haseen raat hai yeh, music is loud
+${bride} and ${groom} dancing, making everyone proud
+
+[Outro]
+This is how we party, Indian style
+Sangeet night, making memories worthwhile!`,
 
     'mehendi': `[Verse 1]
-Haathon mein ${bride} ke mehendi lagi
-Pyaar ki kahani rang layi
-${groom} ka naam chupa hai kahin
-Dhundho agar mil sake yahin
+Mehendi lagi ${bride} ke haathon mein
+${groom} ka naam chhupa hai lakeeron mein
+Haldi ki khushboo, hawa mein ghuli
+Dulhan ki khushiyon ki kitab khuli
+
+[Pre-Chorus]
+Sakhi sab mili, geet sunaye
+Nani ke nuske se mehendi lagaye
+Rangeen ratein, sapno ki baatein
+${bride} ki aankhon mein chamkein sitaarein
 
 [Chorus]
-Mehendi rachni hai gulistaani
-${bride} bani hai maharani
-Rang laga, dhoom machaya
-Mehendi ki raat hai suhani`,
+Mehendi tere naam ki, rang gehra laaye
+${groom} ki yaad mein, dil ye gaaye
+Haathon mein likhi, prem ki kahaani
+${bride} bani dulhan, sabse suhani
+Mehendi mehendi, rang la mehendi!
+
+[Verse 2]
+Cone se likhe patterns, intricate and fine
+Every swirl and every dot, a love that's divine
+${groom} dhundhega naam, haathon mein ${bride} ke
+Yeh rasmein pyaari, nibhaye sadiyon ke
+
+[Bridge]
+Jitni gehri mehendi, utna gehra pyaar
+${bride} aur ${groom} ka, permanent ikraar!`,
 
     'reception': `[Verse 1]
-Welcome to the celebration night
-${bride} and ${groom} shining so bright
-${family} together, hearts full of joy
-This love story, nothing can destroy
+Welcome everyone to the grandest night
+${bride} and ${groom}, under crystal lights
+Dressed to impress, they walk hand in hand
+The most beautiful couple across the land
+
+[Pre-Chorus]
+Champagne flowing, music playing soft
+${family} gathered, spirits aloft
+Every table decorated, every heart is full
+Tonight we celebrate love, beautiful and wonderful
 
 [Chorus]
-Cheers to the couple, raise your glass
-${bride} aur ${groom} ki shaadi first class
-Reception ki raat mein jashn manao
-Zindagi bhar khushiyan paao`,
+Raise your glass to ${bride} and ${groom}
+Love that blossomed, love that bloomed
+Reception night, stars align
+Cheers to forever, cheers to divine
+To the couple! To the love!
+Blessings shower from above!
 
-    'invitation': `[Instrumental intro]
-Aapko ${family} ki taraf se
-${bride} aur ${groom} ki shaadi mein
-Sadar nimantran hai
-Zaroor padhaarein, apni shubhkamnayein dein`,
+[Verse 2]
+From the first dance to the cake cutting sweet
+Every moment magical, every memory complete
+${groom} holds ${bride}, whispers in her ear
+"I'll love you forever, year after year"
+
+[Outro]
+Thank you all for being here tonight
+To witness love so pure and bright!`,
+
+    'invitation': `[Verse 1]
+A celebration awaits, so grand and divine
+${family} invites you, please do make time
+${bride} and ${groom} are tying the knot
+Your presence is the blessing we've always sought
+
+[Chorus]
+Aapka aashirwaad chahiye, aapki duaayein
+${bride} aur ${groom} ki khushiyon mein, shamil ho jaayein
+Mark your calendars, save the date
+For love and laughter, please don't be late!
+
+[Outro]
+With love and warmth, we welcome you
+To be part of our dreams coming true!`,
   };
 
   return lyricsTemplates[category] || lyricsTemplates['couples'];
