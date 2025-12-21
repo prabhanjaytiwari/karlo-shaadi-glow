@@ -71,11 +71,14 @@ export const BhindiFooter = () => {
             <Button 
               size="default" 
               className="rounded-full px-6"
+              asChild
             >
-              <span className="flex items-center gap-2">
-                Get Started
-                <ArrowRight className="w-4 h-4" />
-              </span>
+              <Link to="/auth">
+                <span className="flex items-center gap-2">
+                  Get Started
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
             </Button>
           </div>
         </div>
