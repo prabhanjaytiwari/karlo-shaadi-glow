@@ -1,27 +1,103 @@
 import { useState, useEffect } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { Sparkles, Heart, Stars, PartyPopper, Crown, Gem } from "lucide-react";
+import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
+import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
+import weddingCeremony from "@/assets/wedding-ceremony.jpg";
+import weddingHaldi from "@/assets/wedding-haldi.jpg";
+import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
+import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 
-const recentActivities = [
-  { name: "Priya", action: "booked a photographer", city: "Mumbai", time: "2 min ago" },
-  { name: "Rahul & Sneha", action: "confirmed venue booking", city: "Delhi", time: "5 min ago" },
-  { name: "Anita", action: "booked catering services", city: "Bangalore", time: "8 min ago" },
-  { name: "Vikram", action: "completed payment", city: "Jaipur", time: "12 min ago" },
-  { name: "Kavita", action: "added vendor to favorites", city: "Pune", time: "15 min ago" },
-  { name: "Rohan & Priya", action: "booked makeup artist", city: "Chennai", time: "18 min ago" },
-  { name: "Meera", action: "submitted booking request", city: "Hyderabad", time: "22 min ago" },
-  { name: "Amit", action: "scheduled consultation", city: "Ahmedabad", time: "25 min ago" },
+// Premium celebration moments with Indian wedding vibes
+const celebrationMoments = [
+  {
+    type: "rishta_pakka",
+    couple: "Rahul & Priya",
+    city: "Mumbai",
+    image: weddingCouple1,
+    quote: "Found our dream vendors!",
+    icon: Heart,
+    accent: "from-rose-500 to-pink-600",
+    bgAccent: "bg-rose-50",
+    borderAccent: "border-rose-200",
+  },
+  {
+    type: "muhurat_booked",
+    couple: "Vikram & Anjali",
+    city: "Delhi",
+    image: weddingCeremony,
+    quote: "Muhurat locked for Feb 2025",
+    icon: Stars,
+    accent: "from-amber-500 to-orange-600",
+    bgAccent: "bg-amber-50",
+    borderAccent: "border-amber-200",
+  },
+  {
+    type: "dream_team",
+    couple: "Arjun & Meera",
+    city: "Jaipur",
+    image: weddingHaldi,
+    quote: "Booked all 8 vendors!",
+    icon: Crown,
+    accent: "from-purple-500 to-violet-600",
+    bgAccent: "bg-purple-50",
+    borderAccent: "border-purple-200",
+  },
+  {
+    type: "celebration",
+    couple: "Karan & Simran",
+    city: "Bangalore",
+    image: weddingBridesmaids,
+    quote: "Wedding planning done!",
+    icon: PartyPopper,
+    accent: "from-emerald-500 to-teal-600",
+    bgAccent: "bg-emerald-50",
+    borderAccent: "border-emerald-200",
+  },
+  {
+    type: "premium_couple",
+    couple: "Aditya & Neha",
+    city: "Pune",
+    image: weddingCouple2,
+    quote: "Upgraded to VIP!",
+    icon: Gem,
+    accent: "from-blue-500 to-indigo-600",
+    bgAccent: "bg-blue-50",
+    borderAccent: "border-blue-200",
+  },
+  {
+    type: "shaadi_magic",
+    couple: "Rohan & Tara",
+    city: "Hyderabad",
+    image: weddingManifesting,
+    quote: "Our fairytale begins!",
+    icon: Sparkles,
+    accent: "from-pink-500 to-rose-600",
+    bgAccent: "bg-pink-50",
+    borderAccent: "border-pink-200",
+  },
 ];
+
+const typeLabels: Record<string, string> = {
+  rishta_pakka: "💍 Rishta Pakka!",
+  muhurat_booked: "🪔 Shubh Muhurat",
+  dream_team: "👑 Dream Team Complete",
+  celebration: "🎊 Badhai Ho!",
+  premium_couple: "✨ Royal Treatment",
+  shaadi_magic: "💫 Shaadi Magic",
+};
 
 export function SocialProofPopup() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    // Start showing after 10 seconds
+    // Start showing after 8 seconds
     const initialTimeout = setTimeout(() => {
       setIsVisible(true);
-    }, 10000);
+      setIsAnimating(true);
+    }, 8000);
 
     return () => clearTimeout(initialTimeout);
   }, []);
@@ -29,44 +105,120 @@ export function SocialProofPopup() {
   useEffect(() => {
     if (!isVisible || hasInteracted) return;
 
-    // Show for 5 seconds, hide for 15 seconds
+    // Show for 6 seconds, hide for 12 seconds
     const hideTimeout = setTimeout(() => {
-      setIsVisible(false);
+      setIsAnimating(false);
       
-      const showTimeout = setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % recentActivities.length);
-        setIsVisible(true);
-      }, 15000);
+      setTimeout(() => {
+        setIsVisible(false);
+        
+        const showTimeout = setTimeout(() => {
+          setCurrentIndex((prev) => (prev + 1) % celebrationMoments.length);
+          setIsVisible(true);
+          setTimeout(() => setIsAnimating(true), 50);
+        }, 12000);
 
-      return () => clearTimeout(showTimeout);
-    }, 5000);
+        return () => clearTimeout(showTimeout);
+      }, 300);
+    }, 6000);
 
     return () => clearTimeout(hideTimeout);
   }, [isVisible, currentIndex, hasInteracted]);
 
   if (!isVisible || hasInteracted) return null;
 
-  const activity = recentActivities[currentIndex];
+  const moment = celebrationMoments[currentIndex];
+  const IconComponent = moment.icon;
 
   return (
     <div 
-      className="fixed bottom-20 left-4 z-50 max-w-xs animate-fade-up cursor-pointer"
+      className={`fixed bottom-20 left-4 z-50 max-w-[280px] cursor-pointer transition-all duration-500 ${
+        isAnimating ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
+      }`}
       onClick={() => setHasInteracted(true)}
     >
-      <div className="bg-white/95 backdrop-blur-md border border-green-200 rounded-xl shadow-lg p-4">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-full bg-green-100">
-            <CheckCircle2 className="h-4 w-4 text-green-600" />
+      {/* Main Card */}
+      <div className={`relative overflow-hidden rounded-2xl shadow-2xl border-2 ${moment.borderAccent} ${moment.bgAccent}`}>
+        {/* Animated Border Glow */}
+        <div className={`absolute inset-0 bg-gradient-to-r ${moment.accent} opacity-20 animate-pulse`} />
+        
+        {/* Content */}
+        <div className="relative p-4">
+          {/* Header Badge */}
+          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r ${moment.accent} text-white text-xs font-bold mb-3 shadow-lg`}>
+            <IconComponent className="w-3 h-3" />
+            <span>{typeLabels[moment.type]}</span>
           </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-foreground">
-              <span className="font-semibold">{activity.name}</span> just {activity.action}
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {activity.city} • {activity.time}
-            </p>
+          
+          {/* Couple Info */}
+          <div className="flex items-center gap-3">
+            {/* Couple Image */}
+            <div className="relative">
+              <div className={`w-14 h-14 rounded-xl overflow-hidden ring-2 ring-offset-2 ring-offset-white shadow-lg`} style={{ 
+                boxShadow: `0 4px 20px -4px ${moment.accent.includes('rose') ? 'rgba(244,63,94,0.4)' : 
+                  moment.accent.includes('amber') ? 'rgba(245,158,11,0.4)' : 
+                  moment.accent.includes('purple') ? 'rgba(168,85,247,0.4)' : 
+                  moment.accent.includes('emerald') ? 'rgba(16,185,129,0.4)' : 
+                  moment.accent.includes('blue') ? 'rgba(59,130,246,0.4)' : 'rgba(236,72,153,0.4)'}` 
+              }}>
+                <img 
+                  src={moment.image} 
+                  alt={moment.couple}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Floating Heart */}
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-md animate-bounce">
+                <Heart className="w-3 h-3 text-rose-500 fill-rose-500" />
+              </div>
+            </div>
+            
+            {/* Details */}
+            <div className="flex-1 min-w-0">
+              <h4 className="font-bold text-foreground text-sm truncate">
+                {moment.couple}
+              </h4>
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                {moment.city}
+              </p>
+              <p className={`text-xs font-medium mt-1 bg-gradient-to-r ${moment.accent} bg-clip-text text-transparent`}>
+                "{moment.quote}"
+              </p>
+            </div>
+          </div>
+          
+          {/* Sparkle Decorations */}
+          <div className="absolute top-2 right-2 opacity-60">
+            <Sparkles className={`w-4 h-4 text-amber-400 animate-pulse`} />
           </div>
         </div>
+        
+        {/* Close hint */}
+        <div className="absolute top-2 right-8 opacity-0 hover:opacity-100 transition-opacity">
+          <span className="text-[10px] text-muted-foreground">Click to dismiss</span>
+        </div>
+      </div>
+      
+      {/* Stats Badge Below */}
+      <div className="mt-2 flex items-center justify-center gap-2">
+        <div className="flex -space-x-1">
+          {[...Array(3)].map((_, i) => (
+            <div 
+              key={i} 
+              className="w-5 h-5 rounded-full border-2 border-white overflow-hidden shadow-sm"
+            >
+              <img 
+                src={celebrationMoments[(currentIndex + i + 1) % celebrationMoments.length].image}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        <span className="text-[10px] text-muted-foreground font-medium">
+          +47 couples planning today
+        </span>
       </div>
     </div>
   );
