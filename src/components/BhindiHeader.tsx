@@ -223,7 +223,7 @@ export const BhindiHeader = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm font-medium">Tools</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-1 p-4 md:grid-cols-2">
+                    <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
                       <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
                         Get a complete wedding plan in 2 minutes
                       </ListItem>
@@ -235,6 +235,9 @@ export const BhindiHeader = () => {
                       </ListItem>
                       <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
                         AI-generated wedding invitations
+                      </ListItem>
+                      <ListItem title="Wedding Website" href="/wedding-website" icon={Heart}>
+                        Create your beautiful shaadi website
                       </ListItem>
                     </ul>
                   </NavigationMenuContent>
