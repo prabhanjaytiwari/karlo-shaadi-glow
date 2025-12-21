@@ -410,6 +410,51 @@ export type Database = {
           },
         ]
       }
+      generated_songs: {
+        Row: {
+          audio_url: string
+          category: string
+          created_at: string
+          duration: number | null
+          id: string
+          lyrics: string | null
+          names: Json | null
+          prompt: string | null
+          style: string | null
+          suno_track_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          audio_url: string
+          category: string
+          created_at?: string
+          duration?: number | null
+          id?: string
+          lyrics?: string | null
+          names?: Json | null
+          prompt?: string | null
+          style?: string | null
+          suno_track_id?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          audio_url?: string
+          category?: string
+          created_at?: string
+          duration?: number | null
+          id?: string
+          lyrics?: string | null
+          names?: Json | null
+          prompt?: string | null
+          style?: string | null
+          suno_track_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       investor_inquiries: {
         Row: {
           company: string | null

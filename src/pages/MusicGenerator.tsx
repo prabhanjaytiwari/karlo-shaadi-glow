@@ -10,8 +10,10 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   Music, 
   Play, 
@@ -34,7 +36,12 @@ import {
   Music2,
   Music4,
   HeartHandshake,
-  Send
+  Send,
+  ChevronDown,
+  ChevronUp,
+  Save,
+  Trash2,
+  Library
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -168,6 +175,7 @@ const generationSteps = [
 ];
 
 export default function MusicGenerator() {
+  const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<MusicCategory | null>(null);
   const [activeTab, setActiveTab] = useState("quick");
   
@@ -188,6 +196,9 @@ export default function MusicGenerator() {
   const [generationStep, setGenerationStep] = useState(0);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [generatedTracks, setGeneratedTracks] = useState<GeneratedTrack[]>([]);
+  const [savedSongs, setSavedSongs] = useState<GeneratedTrack[]>([]);
+  const [expandedLyrics, setExpandedLyrics] = useState<string | null>(null);
+  const [savingTrackId, setSavingTrackId] = useState<string | null>(null);
   
   // Audio playback
   const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
@@ -195,6 +206,100 @@ export default function MusicGenerator() {
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Load saved songs on mount
+  useEffect(() => {
+    if (user) {
+      loadSavedSongs();
+    }
+  }, [user]);
+
+  const loadSavedSongs = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('generated_songs')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      
+      if (data) {
+        const tracks: GeneratedTrack[] = data.map((song: any) => ({
+          id: song.id,
+          title: song.title,
+          audio_url: song.audio_url,
+          duration: song.duration || 180,
+          prompt: song.prompt || '',
+          lyrics: song.lyrics,
+          category: song.category,
+          names: song.names as GeneratedTrack['names'],
+          created_at: song.created_at,
+        }));
+        setSavedSongs(tracks);
+      }
+    } catch (error) {
+      console.error('Error loading saved songs:', error);
+    }
+  };
+
+  const saveSong = async (track: GeneratedTrack) => {
+    if (!user) {
+      toast.error("Please sign in to save songs");
+      return;
+    }
+
+    setSavingTrackId(track.id);
+    
+    try {
+      const { error } = await supabase
+        .from('generated_songs')
+        .insert({
+          user_id: user.id,
+          title: track.title,
+          audio_url: track.audio_url,
+          lyrics: track.lyrics,
+          prompt: track.prompt,
+          category: track.category,
+          style: selectedStyle,
+          duration: track.duration,
+          names: track.names,
+          suno_track_id: track.id,
+        });
+
+      if (error) throw error;
+      
+      toast.success("Song saved to your library!");
+      loadSavedSongs();
+    } catch (error) {
+      console.error('Error saving song:', error);
+      toast.error("Failed to save song");
+    } finally {
+      setSavingTrackId(null);
+    }
+  };
+
+  const deleteSong = async (songId: string) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('generated_songs')
+        .delete()
+        .eq('id', songId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      
+      setSavedSongs(prev => prev.filter(s => s.id !== songId));
+      toast.success("Song removed from library");
+    } catch (error) {
+      console.error('Error deleting song:', error);
+      toast.error("Failed to delete song");
+    }
+  };
 
   // Simulate progress during generation
   useEffect(() => {
@@ -786,7 +891,7 @@ export default function MusicGenerator() {
                   }`}>
                     <CardContent className="p-0">
                       <div className="flex flex-col md:flex-row">
-                        {/* Play Button & Waveform */}
+                        {/* Play Button & Info */}
                         <div className="flex items-center gap-4 p-4 md:p-6 flex-1">
                           <Button
                             size="icon"
@@ -823,6 +928,16 @@ export default function MusicGenerator() {
                               <span className="text-xs text-muted-foreground">
                                 {track.duration}s
                               </span>
+                              {track.lyrics && (
+                                <Badge 
+                                  variant="outline" 
+                                  className="text-xs cursor-pointer hover:bg-primary/10"
+                                  onClick={() => setExpandedLyrics(expandedLyrics === track.id ? null : track.id)}
+                                >
+                                  <FileText className="h-3 w-3 mr-1" />
+                                  Lyrics
+                                </Badge>
+                              )}
                             </div>
 
                             {/* Progress bar when playing */}
@@ -856,6 +971,22 @@ export default function MusicGenerator() {
 
                         {/* Actions */}
                         <div className="flex items-center gap-1 p-4 border-t md:border-t-0 md:border-l border-border bg-muted/30">
+                          {user && (
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => saveSong(track)}
+                              disabled={savingTrackId === track.id}
+                              title="Save to Library"
+                              className="h-10 w-10"
+                            >
+                              {savingTrackId === track.id ? (
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                              ) : (
+                                <Save className="h-5 w-5" />
+                              )}
+                            </Button>
+                          )}
                           <Button
                             size="icon"
                             variant="ghost"
@@ -892,6 +1023,162 @@ export default function MusicGenerator() {
                           </Button>
                         </div>
                       </div>
+
+                      {/* Lyrics Panel */}
+                      <Collapsible open={expandedLyrics === track.id}>
+                        <CollapsibleContent>
+                          {track.lyrics && (
+                            <div className="border-t border-border bg-muted/20 p-4 md:p-6">
+                              <div className="flex items-center gap-2 mb-3">
+                                <FileText className="h-4 w-4 text-primary" />
+                                <h4 className="font-medium text-foreground">Personalized Lyrics</h4>
+                              </div>
+                              <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed bg-background/50 p-4 rounded-lg max-h-64 overflow-y-auto">
+                                {track.lyrics}
+                              </pre>
+                            </div>
+                          )}
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Saved Songs Library */}
+        {user && savedSongs.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold text-foreground flex items-center gap-2">
+                <Library className="h-6 w-6 text-primary" />
+                Your Music Library
+              </h2>
+              <Badge variant="outline" className="text-sm">
+                {savedSongs.length} Saved
+              </Badge>
+            </div>
+            
+            <div className="grid gap-4">
+              {savedSongs.map((track, index) => (
+                <motion.div
+                  key={track.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Card className={`overflow-hidden transition-all ${
+                    currentlyPlaying === track.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'
+                  }`}>
+                    <CardContent className="p-0">
+                      <div className="flex flex-col md:flex-row">
+                        {/* Play Button & Info */}
+                        <div className="flex items-center gap-4 p-4 md:p-6 flex-1">
+                          <Button
+                            size="icon"
+                            className={`h-14 w-14 rounded-full shrink-0 transition-all ${
+                              currentlyPlaying === track.id && isPlaying
+                                ? 'bg-primary'
+                                : 'bg-gradient-to-br from-primary/80 to-pink-600/80'
+                            }`}
+                            onClick={() => handlePlay(track)}
+                            disabled={isLoadingAudio && currentlyPlaying === track.id}
+                          >
+                            {currentlyPlaying === track.id && isLoadingAudio ? (
+                              <Loader2 className="h-6 w-6 text-white animate-spin" />
+                            ) : currentlyPlaying === track.id && isPlaying ? (
+                              <Pause className="h-6 w-6 text-white" />
+                            ) : (
+                              <Play className="h-6 w-6 text-white ml-1" />
+                            )}
+                          </Button>
+                          
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-foreground truncate">{track.title}</h3>
+                            
+                            <div className="flex items-center gap-2 mt-1 flex-wrap">
+                              <Badge variant="outline" className="text-xs capitalize">
+                                {track.category.replace('-', ' ')}
+                              </Badge>
+                              {track.names?.bride && track.names?.groom && (
+                                <Badge variant="secondary" className="text-xs">
+                                  {track.names.bride} & {track.names.groom}
+                                </Badge>
+                              )}
+                              {track.lyrics && (
+                                <Badge 
+                                  variant="outline" 
+                                  className="text-xs cursor-pointer hover:bg-primary/10"
+                                  onClick={() => setExpandedLyrics(expandedLyrics === track.id ? null : track.id)}
+                                >
+                                  <FileText className="h-3 w-3 mr-1" />
+                                  Lyrics
+                                </Badge>
+                              )}
+                            </div>
+
+                            {currentlyPlaying === track.id && (
+                              <div className="mt-2">
+                                <Progress value={audioProgress} className="h-1" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-1 p-4 border-t md:border-t-0 md:border-l border-border bg-muted/30">
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => handleDownload(track)}
+                            title="Download"
+                            className="h-10 w-10"
+                          >
+                            <Download className="h-5 w-5" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => handleShare(track)}
+                            title="Share"
+                            className="h-10 w-10"
+                          >
+                            <Share2 className="h-5 w-5" />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => deleteSong(track.id)}
+                            title="Remove from Library"
+                            className="h-10 w-10 text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="h-5 w-5" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Lyrics Panel */}
+                      <Collapsible open={expandedLyrics === track.id}>
+                        <CollapsibleContent>
+                          {track.lyrics && (
+                            <div className="border-t border-border bg-muted/20 p-4 md:p-6">
+                              <div className="flex items-center gap-2 mb-3">
+                                <FileText className="h-4 w-4 text-primary" />
+                                <h4 className="font-medium text-foreground">Personalized Lyrics</h4>
+                              </div>
+                              <pre className="text-sm text-muted-foreground whitespace-pre-wrap font-sans leading-relaxed bg-background/50 p-4 rounded-lg max-h-64 overflow-y-auto">
+                                {track.lyrics}
+                              </pre>
+                            </div>
+                          )}
+                        </CollapsibleContent>
+                      </Collapsible>
                     </CardContent>
                   </Card>
                 </motion.div>
