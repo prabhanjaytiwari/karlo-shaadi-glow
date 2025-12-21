@@ -166,6 +166,17 @@ const musicStyles = [
   { id: "edm", name: "Wedding EDM", emoji: "🎧" }
 ];
 
+const lyricsMoods = [
+  { id: "romantic", name: "Romantic", emoji: "💕", description: "Tender & emotional" },
+  { id: "playful", name: "Playful", emoji: "😄", description: "Fun & witty" },
+  { id: "emotional", name: "Emotional", emoji: "🥹", description: "Tear-jerking" },
+  { id: "energetic", name: "Energetic", emoji: "🔥", description: "High-energy dance" },
+  { id: "traditional", name: "Traditional", emoji: "🪔", description: "Classical Indian" },
+  { id: "modern", name: "Modern", emoji: "✨", description: "Contemporary vibes" },
+  { id: "sufi", name: "Sufi", emoji: "🌙", description: "Mystical & soulful" },
+  { id: "bollywood", name: "Bollywood", emoji: "🎬", description: "Filmi drama" }
+];
+
 const generationSteps = [
   { id: 1, label: "Analyzing your preferences", emoji: "🎯" },
   { id: 2, label: "Writing personalized lyrics", emoji: "✍️" },
@@ -194,6 +205,8 @@ export default function MusicGenerator() {
   // Lyrics preview state
   const [showLyricsPreview, setShowLyricsPreview] = useState(false);
   const [previewLyrics, setPreviewLyrics] = useState("");
+  const [selectedMood, setSelectedMood] = useState("romantic");
+  const [isRegeneratingWithAI, setIsRegeneratingWithAI] = useState(false);
   const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
   
   // Generation state
@@ -388,6 +401,68 @@ export default function MusicGenerator() {
       toast.error("Failed to generate lyrics preview");
     } finally {
       setIsGeneratingLyrics(false);
+    }
+  };
+
+  // AI-powered lyrics regeneration with mood/style
+  const regenerateLyricsWithAI = async () => {
+    if (!selectedCategory) {
+      toast.error("Please select a song category first");
+      return;
+    }
+
+    if (!brideName && !groomName && !familyName) {
+      toast.error("Please enter at least one name for personalization");
+      return;
+    }
+
+    setIsRegeneratingWithAI(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/regenerate-lyrics`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          category: selectedCategory.id,
+          mood: selectedMood,
+          names: {
+            bride: brideName,
+            groom: groomName,
+            family: familyName
+          },
+          currentLyrics: previewLyrics
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 429) {
+          toast.error("Rate limit reached. Please wait a moment and try again.");
+          return;
+        }
+        if (response.status === 402) {
+          toast.error("AI credits exhausted. Please try again later.");
+          return;
+        }
+        throw new Error(errorData.error || 'Failed to regenerate lyrics');
+      }
+
+      const data = await response.json();
+      
+      if (data.lyrics) {
+        setPreviewLyrics(data.lyrics);
+        const moodName = lyricsMoods.find(m => m.id === selectedMood)?.name || selectedMood;
+        toast.success(`✨ New ${moodName} lyrics created by AI!`);
+      } else {
+        throw new Error('No lyrics received');
+      }
+    } catch (error) {
+      console.error('Error regenerating lyrics with AI:', error);
+      toast.error(error instanceof Error ? error.message : "Failed to regenerate lyrics");
+    } finally {
+      setIsRegeneratingWithAI(false);
     }
   };
 
@@ -1096,15 +1171,44 @@ To be part of our dreams coming true!`,
                               </Button>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Edit the lyrics below before generating your song. Changes will be used in the final song.
+                              Edit the lyrics below or use AI to regenerate with a different mood/style.
                             </p>
+                            
+                            {/* Mood Selection for AI Regeneration */}
+                            <div className="p-4 bg-gradient-to-r from-primary/10 to-pink-500/10 rounded-lg border border-primary/20">
+                              <Label className="flex items-center gap-2 text-sm font-medium mb-3">
+                                <Sparkles className="h-4 w-4 text-primary" />
+                                Choose Mood for AI Regeneration
+                              </Label>
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {lyricsMoods.map((mood) => (
+                                  <Badge
+                                    key={mood.id}
+                                    variant={selectedMood === mood.id ? "default" : "outline"}
+                                    className={`cursor-pointer transition-all py-1.5 px-3 ${
+                                      selectedMood === mood.id
+                                        ? 'bg-primary text-primary-foreground shadow-md'
+                                        : 'hover:bg-primary/10 hover:border-primary/50'
+                                    }`}
+                                    onClick={() => setSelectedMood(mood.id)}
+                                  >
+                                    <span className="mr-1.5">{mood.emoji}</span>
+                                    <span>{mood.name}</span>
+                                  </Badge>
+                                ))}
+                              </div>
+                              <p className="text-xs text-muted-foreground">
+                                {lyricsMoods.find(m => m.id === selectedMood)?.description}
+                              </p>
+                            </div>
+
                             <Textarea
                               value={previewLyrics}
                               onChange={(e) => setPreviewLyrics(e.target.value)}
                               placeholder="Your personalized lyrics will appear here..."
                               className="min-h-[300px] font-mono text-sm border-primary/30 focus:border-primary"
                             />
-                            <div className="flex gap-2">
+                            <div className="flex flex-wrap gap-2">
                               <Button
                                 variant="outline"
                                 size="sm"
@@ -1116,12 +1220,31 @@ To be part of our dreams coming true!`,
                                       family: familyName
                                     });
                                     setPreviewLyrics(freshLyrics);
-                                    toast.success("Lyrics regenerated!");
+                                    toast.success("Lyrics regenerated with template!");
                                   }
                                 }}
                               >
                                 <RefreshCw className="h-4 w-4 mr-1" />
-                                Regenerate Lyrics
+                                Use Template
+                              </Button>
+                              <Button
+                                variant="default"
+                                size="sm"
+                                onClick={regenerateLyricsWithAI}
+                                disabled={isRegeneratingWithAI}
+                                className="bg-gradient-to-r from-primary to-pink-500 hover:opacity-90"
+                              >
+                                {isRegeneratingWithAI ? (
+                                  <>
+                                    <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                                    AI Creating...
+                                  </>
+                                ) : (
+                                  <>
+                                    <Wand2 className="h-4 w-4 mr-1" />
+                                    Regenerate with AI ({lyricsMoods.find(m => m.id === selectedMood)?.name})
+                                  </>
+                                )}
                               </Button>
                             </div>
                           </motion.div>
