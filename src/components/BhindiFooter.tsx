@@ -11,6 +11,12 @@ const footerLinks = {
     { label: "Investors", to: "/investors" },
     { label: "Contact", to: "/support" },
   ],
+  tools: [
+    { label: "AI Wedding Plan", to: "/plan-wizard" },
+    { label: "Budget Calculator", to: "/budget-calculator" },
+    { label: "Muhurat Finder", to: "/muhurat-finder" },
+    { label: "Invite Creator", to: "/invite-creator" },
+  ],
   vendors: [
     { label: "Register", to: "/for-vendors" },
     { label: "Vendor Login", to: "/vendor-auth" },
@@ -21,10 +27,6 @@ const footerLinks = {
     { label: "Help Center", to: "/help" },
     { label: "FAQ", to: "/faq" },
     { label: "Contact Us", to: "/support" },
-  ],
-  opportunities: [
-    { label: "Join as Manager", to: "/join-as-manager" },
-    { label: "Affiliate Program", to: "/affiliate" },
   ],
   legal: [
     { label: "Terms", to: "/legal" },
