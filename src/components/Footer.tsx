@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -103,17 +103,14 @@ export const Footer = () => {
         {/* Social & Copyright */}
         <div className="border-t border-border/50 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex gap-4">
-            <a href="#" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all">
+            <a href="https://www.instagram.com/karloshaadiofficial/" target="_blank" rel="noopener noreferrer" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all" aria-label="Instagram">
               <Instagram className="h-4 w-4" />
             </a>
-            <a href="#" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all">
+            <a href="https://www.facebook.com/profile.php?id=61584618427446" target="_blank" rel="noopener noreferrer" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all" aria-label="Facebook">
               <Facebook className="h-4 w-4" />
             </a>
-            <a href="#" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all">
-              <Twitter className="h-4 w-4" />
-            </a>
-            <a href="#" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all">
-              <Youtube className="h-4 w-4" />
+            <a href="https://www.linkedin.com/company/karlo-shaadi/" target="_blank" rel="noopener noreferrer" className="glass-subtle p-2 rounded-full hover:glass-intense transition-all" aria-label="LinkedIn">
+              <Linkedin className="h-4 w-4" />
             </a>
           </div>
           
