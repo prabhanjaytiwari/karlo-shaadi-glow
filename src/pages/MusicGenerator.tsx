@@ -191,6 +191,11 @@ export default function MusicGenerator() {
   const [selectedStyle, setSelectedStyle] = useState("bollywood");
   const [isInstrumental, setIsInstrumental] = useState(false);
   
+  // Lyrics preview state
+  const [showLyricsPreview, setShowLyricsPreview] = useState(false);
+  const [previewLyrics, setPreviewLyrics] = useState("");
+  const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
+  
   // Generation state
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationStep, setGenerationStep] = useState(0);
@@ -344,6 +349,268 @@ export default function MusicGenerator() {
     setSelectedCategory(category);
     setCustomPrompt(category.defaultPrompt);
     setIsInstrumental(category.id === 'invitation');
+    setShowLyricsPreview(false);
+    setPreviewLyrics("");
+  };
+
+  // Generate lyrics preview for user to edit
+  const generateLyricsPreview = async () => {
+    if (!selectedCategory) {
+      toast.error("Please select a song category first");
+      return;
+    }
+
+    if (!brideName && !groomName && !familyName && activeTab === "quick") {
+      toast.error("Please enter at least one name for personalization");
+      return;
+    }
+
+    if (isInstrumental) {
+      toast.info("Instrumental songs don't have lyrics");
+      return;
+    }
+
+    setIsGeneratingLyrics(true);
+    
+    try {
+      // Generate lyrics locally using the same logic as the edge function
+      const lyrics = createPersonalizedLyricsLocal(selectedCategory.id, {
+        bride: brideName,
+        groom: groomName,
+        family: familyName
+      });
+      
+      setPreviewLyrics(lyrics);
+      setShowLyricsPreview(true);
+      toast.success("Lyrics generated! You can now edit them before creating your song.");
+    } catch (error) {
+      console.error('Error generating lyrics preview:', error);
+      toast.error("Failed to generate lyrics preview");
+    } finally {
+      setIsGeneratingLyrics(false);
+    }
+  };
+
+  // Local lyrics generation function (mirrors the edge function logic)
+  const createPersonalizedLyricsLocal = (category: string, names: { bride?: string; groom?: string; family?: string }): string => {
+    const bride = names?.bride || 'Dulhaniya';
+    const groom = names?.groom || 'Raja';
+    const family = names?.family || 'Parivaar';
+
+    const lyricsTemplates: Record<string, string> = {
+      'couples': `[Verse 1]
+In the garden where our stories first began
+${bride} met ${groom}, fate's perfect plan
+Every heartbeat whispers only your name
+Through the fire and the rain, we burn the same flame
+
+[Pre-Chorus]
+Tumse mili toh zindagi badal gayi
+Har khwahish meri tujhse jaa mili
+You're the answer to my silent prayer
+The one I'll love beyond compare
+
+[Chorus]
+${bride} aur ${groom} - yeh ishq hai sachcha
+Saaton janam ka vaada hai pakka
+Chandni raat mein dil ye gaaye
+Do dil ek raaste pe mil jaaye
+Oh-oh, ${bride} aur ${groom}
+Forever and always, forever and always
+
+[Verse 2]
+Hand in hand through seasons we'll dance
+${groom} promised ${bride} a lifetime romance
+From haldi to pheras, every ritual we share
+Is a testament to love, beyond compare`,
+
+      'shaadi-joda': `[Intro - Dhol Beat]
+Balle balle! Shaadi hai aaj!
+
+[Verse 1]
+Sehra bandh ke aa gaya raja ${groom}
+Ghodi pe sawaar, chamke jaisa sooraj
+Dulhan ${bride} tayyar, sharmaaye nazrein jhuka
+Mehendi waale haathon mein chhupa pyaar ka naksha
+
+[Pre-Chorus]
+Shehnai pe chad gayi khushiyon ki dhun
+Band baaje bajenge har gali har nukkad mein
+Rishtey naye banenge, duaayein milegi sabki
+${groom} aur ${bride} ki jodi hai sabse sachchi
+
+[Chorus]
+Jodi kamaal ki - rab ne banayi
+${groom} ke dil mein ${bride} samayi
+Nachho gaao, khushiyan manao
+Shaadi ka jashn hai, sab mil ke aao!
+Ho-ho, jodi number one
+Forever together, our journey's begun
+
+[Bridge]
+Phere saat, vaade saat
+Janmo janmo ka hai yeh saath!`,
+
+      'family': `[Verse 1]
+${family} ke aangan mein mehfil saji hai
+${bride} aur ${groom} ki khushiyon ki gadi aaji hai
+Nani ki duaayein, dadi ka aashirwaad
+Mummy papa ki aankhon mein sapno ki baaraat
+
+[Pre-Chorus]
+Bade bhaiya muskuraye, choti behen ne gaana gaaya
+Chacha chachi ne dance kiya, ghar mein rang jamaya
+Every cousin, every uncle, every maasi here tonight
+${family} together, everything feels right
+
+[Chorus]
+Ghar mein aaj jashn hai, roshni hai har taraf
+${family} ki aan baan shaan, pyaar hai beshumaar
+${bride} ki bidaai mein, aankhein bhi muskuraayi
+Kyunki ${groom} ke ghar mein nayi khushiyaan aayi
+Parivaar parivaar, pyaara parivaar!
+
+[Verse 2]
+Rishtey nibhaane ki hai yeh khushi
+${family} ke saath, zindagi lagti hai nayi
+From generation to generation, love passes on
+In ${family}'s embrace, forever we belong`,
+
+      'didi-jiju': `[Verse 1]
+Yaad hai wo din jab didi ne rakhi bandhi thi
+Bhai behen ki woh mithi yaadein, sab yaad aati hain
+Aaj ${bride} didi dulhan bani, ${groom} jiju le jaayenge
+Par dil ke kone mein hamesha didi reh jaayengi
+
+[Pre-Chorus]
+Ladaai jhagde, manaana maafi
+Didi ki daant, aur phir pyaar wali chai
+Jiju ${groom} sunlo yeh baat, didi ki izzat rakhna
+Warna bhai aa jayega, yeh waada hai pakka!
+
+[Chorus]
+Didi meri jaan, jiju mera yaar
+${bride} didi, ${groom} jiju, sabse pyaara pair
+Vidaai ki raat mein, aankhein bhi ro rahi
+Par dil mein khushi hai, nayi zindagi jo basi
+Didi-jiju, didi-jiju, always in my heart!
+
+[Bridge]
+Raksha bandhan ki woh yaadein
+Aaj shaadi ki hai yeh duaayein
+Didi aap khush raho, yahi meri farmaish
+${groom} jiju, didi ki hamesha rakhna laaj`,
+
+      'sangeet': `[Intro - Beat Drop]
+Let's go! Sangeet night!
+
+[Verse 1]
+DJ drop that beat, floor's getting hot
+${bride} ke moves dekho, sabko kar de shocked
+${groom} bhi kuch kam nahi, breaking it down
+Saari mehfil nachti hai, we're painting the town
+
+[Pre-Chorus]
+Aunties in the corner, trying to keep up
+Uncles doing bhangra, they never stop
+${family} together on the dance floor tonight
+Sangeet ki raat hai, everything feels right
+
+[Chorus]
+Nachle nachle, saari raat nachle
+${bride} aur ${groom} ke liye pawein thapakle
+Dham dham dham, bajti hai dholki
+Sangeet mein aaj, har khushi hai dolki
+One more time! Nachle nachle!
+Hands up high, let's celebrate!
+
+[Verse 2]
+From Bollywood moves to the trending reels
+${family} ne milke, sabko kiya heal
+Haseen raat hai yeh, music is loud
+${bride} and ${groom} dancing, making everyone proud
+
+[Outro]
+This is how we party, Indian style
+Sangeet night, making memories worthwhile!`,
+
+      'mehendi': `[Verse 1]
+Mehendi lagi ${bride} ke haathon mein
+${groom} ka naam chhupa hai lakeeron mein
+Haldi ki khushboo, hawa mein ghuli
+Dulhan ki khushiyon ki kitab khuli
+
+[Pre-Chorus]
+Sakhi sab mili, geet sunaye
+Nani ke nuske se mehendi lagaye
+Rangeen ratein, sapno ki baatein
+${bride} ki aankhon mein chamkein sitaarein
+
+[Chorus]
+Mehendi tere naam ki, rang gehra laaye
+${groom} ki yaad mein, dil ye gaaye
+Haathon mein likhi, prem ki kahaani
+${bride} bani dulhan, sabse suhani
+Mehendi mehendi, rang la mehendi!
+
+[Verse 2]
+Cone se likhe patterns, intricate and fine
+Every swirl and every dot, a love that's divine
+${groom} dhundhega naam, haathon mein ${bride} ke
+Yeh rasmein pyaari, nibhaye sadiyon ke
+
+[Bridge]
+Jitni gehri mehendi, utna gehra pyaar
+${bride} aur ${groom} ka, permanent ikraar!`,
+
+      'reception': `[Verse 1]
+Welcome everyone to the grandest night
+${bride} and ${groom}, under crystal lights
+Dressed to impress, they walk hand in hand
+The most beautiful couple across the land
+
+[Pre-Chorus]
+Champagne flowing, music playing soft
+${family} gathered, spirits aloft
+Every table decorated, every heart is full
+Tonight we celebrate love, beautiful and wonderful
+
+[Chorus]
+Raise your glass to ${bride} and ${groom}
+Love that blossomed, love that bloomed
+Reception night, stars align
+Cheers to forever, cheers to divine
+To the couple! To the love!
+Blessings shower from above!
+
+[Verse 2]
+From the first dance to the cake cutting sweet
+Every moment magical, every memory complete
+${groom} holds ${bride}, whispers in her ear
+"I'll love you forever, year after year"
+
+[Outro]
+Thank you all for being here tonight
+To witness love so pure and bright!`,
+
+      'invitation': `[Verse 1]
+A celebration awaits, so grand and divine
+${family} invites you, please do make time
+${bride} and ${groom} are tying the knot
+Your presence is the blessing we've always sought
+
+[Chorus]
+Aapka aashirwaad chahiye, aapki duaayein
+${bride} aur ${groom} ki khushiyon mein, shamil ho jaayein
+Mark your calendars, save the date
+For love and laughter, please don't be late!
+
+[Outro]
+With love and warmth, we welcome you
+To be part of our dreams coming true!`,
+    };
+
+    return lyricsTemplates[category] || lyricsTemplates['couples'];
   };
 
   const handleGenerate = async () => {
@@ -364,13 +631,18 @@ export default function MusicGenerator() {
     try {
       const style = musicStyles.find(s => s.id === selectedStyle)?.name || "Bollywood Wedding";
       
+      // Use edited preview lyrics if available, otherwise use custom lyrics or let backend generate
+      const lyricsToUse = showLyricsPreview && previewLyrics 
+        ? previewLyrics 
+        : (activeTab === "custom" ? customLyrics : undefined);
+      
       const { data, error } = await supabase.functions.invoke('generate-wedding-music', {
         body: {
           prompt: customPrompt || selectedCategory.defaultPrompt,
           category: selectedCategory.id,
           style: style,
           instrumental: isInstrumental,
-          lyrics: activeTab === "custom" ? customLyrics : undefined,
+          lyrics: lyricsToUse,
           title: customTitle || undefined,
           names: {
             bride: brideName,
@@ -388,6 +660,10 @@ export default function MusicGenerator() {
         setGeneratedTracks(prev => [...data.tracks, ...prev]);
         toast.success("🎵 Your personalized wedding song is ready!");
         
+        // Reset lyrics preview state
+        setShowLyricsPreview(false);
+        setPreviewLyrics("");
+        
         // Auto-save songs to library if user is logged in
         if (user) {
           for (const track of data.tracks) {
@@ -398,7 +674,7 @@ export default function MusicGenerator() {
                   user_id: user.id,
                   title: track.title,
                   audio_url: track.audio_url,
-                  lyrics: track.lyrics,
+                  lyrics: track.lyrics || lyricsToUse,
                   prompt: track.prompt || customPrompt || selectedCategory.defaultPrompt,
                   category: selectedCategory.id,
                   style: selectedStyle,
@@ -783,34 +1059,127 @@ export default function MusicGenerator() {
                         <Switch
                           id="instrumental"
                           checked={isInstrumental}
-                          onCheckedChange={setIsInstrumental}
+                          onCheckedChange={(checked) => {
+                            setIsInstrumental(checked);
+                            if (checked) {
+                              setShowLyricsPreview(false);
+                              setPreviewLyrics("");
+                            }
+                          }}
                         />
                       </div>
 
-                      {/* Generate Button */}
-                      <Button 
-                        onClick={handleGenerate}
-                        disabled={isGenerating}
-                        className="w-full h-14 text-lg bg-gradient-to-r from-primary via-pink-500 to-rose-500 hover:opacity-90 transition-opacity"
-                        size="lg"
-                      >
-                        {isGenerating ? (
-                          <div className="flex items-center gap-3">
-                            <div className="relative">
-                              <Loader2 className="h-6 w-6 animate-spin" />
-                              <div className="absolute inset-0 animate-ping opacity-30">
-                                <Music className="h-6 w-6" />
-                              </div>
+                      {/* Lyrics Preview Section */}
+                      <AnimatePresence>
+                        {showLyricsPreview && !isInstrumental && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="space-y-3"
+                          >
+                            <div className="flex items-center justify-between">
+                              <Label className="flex items-center gap-2 text-base font-semibold">
+                                <FileText className="h-4 w-4 text-primary" />
+                                Preview & Edit Lyrics
+                              </Label>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setShowLyricsPreview(false);
+                                  setPreviewLyrics("");
+                                }}
+                              >
+                                <ChevronUp className="h-4 w-4 mr-1" />
+                                Hide
+                              </Button>
                             </div>
-                            <span>Creating Your Song...</span>
-                          </div>
-                        ) : (
-                          <>
-                            <Wand2 className="h-6 w-6 mr-2" />
-                            Generate Personalized Song
-                          </>
+                            <p className="text-sm text-muted-foreground">
+                              Edit the lyrics below before generating your song. Changes will be used in the final song.
+                            </p>
+                            <Textarea
+                              value={previewLyrics}
+                              onChange={(e) => setPreviewLyrics(e.target.value)}
+                              placeholder="Your personalized lyrics will appear here..."
+                              className="min-h-[300px] font-mono text-sm border-primary/30 focus:border-primary"
+                            />
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  if (selectedCategory) {
+                                    const freshLyrics = createPersonalizedLyricsLocal(selectedCategory.id, {
+                                      bride: brideName,
+                                      groom: groomName,
+                                      family: familyName
+                                    });
+                                    setPreviewLyrics(freshLyrics);
+                                    toast.success("Lyrics regenerated!");
+                                  }
+                                }}
+                              >
+                                <RefreshCw className="h-4 w-4 mr-1" />
+                                Regenerate Lyrics
+                              </Button>
+                            </div>
+                          </motion.div>
                         )}
-                      </Button>
+                      </AnimatePresence>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-3">
+                        {/* Preview Lyrics Button - Only show for quick mode and non-instrumental */}
+                        {activeTab === "quick" && !isInstrumental && !showLyricsPreview && (
+                          <Button 
+                            onClick={generateLyricsPreview}
+                            disabled={isGeneratingLyrics || isGenerating}
+                            variant="outline"
+                            className="flex-1 h-14 text-lg border-primary/30 hover:bg-primary/10"
+                            size="lg"
+                          >
+                            {isGeneratingLyrics ? (
+                              <div className="flex items-center gap-2">
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                                <span>Generating Lyrics...</span>
+                              </div>
+                            ) : (
+                              <>
+                                <FileText className="h-5 w-5 mr-2" />
+                                Preview & Edit Lyrics
+                              </>
+                            )}
+                          </Button>
+                        )}
+
+                        {/* Generate Button */}
+                        <Button 
+                          onClick={handleGenerate}
+                          disabled={isGenerating}
+                          className={`h-14 text-lg bg-gradient-to-r from-primary via-pink-500 to-rose-500 hover:opacity-90 transition-opacity ${
+                            (activeTab === "quick" && !isInstrumental && !showLyricsPreview) ? 'flex-1' : 'w-full'
+                          }`}
+                          size="lg"
+                        >
+                          {isGenerating ? (
+                            <div className="flex items-center gap-3">
+                              <div className="relative">
+                                <Loader2 className="h-6 w-6 animate-spin" />
+                                <div className="absolute inset-0 animate-ping opacity-30">
+                                  <Music className="h-6 w-6" />
+                                </div>
+                              </div>
+                              <span>Creating Your Song...</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Wand2 className="h-6 w-6 mr-2" />
+                              {showLyricsPreview ? 'Generate Song with These Lyrics' : 'Generate Personalized Song'}
+                            </>
+                          )}
+                        </Button>
+                      </div>
 
                       {/* Generation Progress */}
                       <AnimatePresence>
