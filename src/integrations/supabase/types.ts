@@ -1459,6 +1459,56 @@ export type Database = {
         }
         Relationships: []
       }
+      wedding_rsvps: {
+        Row: {
+          attending: boolean
+          created_at: string
+          dietary_restrictions: string | null
+          email: string | null
+          guest_count: number | null
+          guest_name: string
+          id: string
+          meal_preference: string | null
+          message: string | null
+          phone: string | null
+          website_id: string
+        }
+        Insert: {
+          attending: boolean
+          created_at?: string
+          dietary_restrictions?: string | null
+          email?: string | null
+          guest_count?: number | null
+          guest_name: string
+          id?: string
+          meal_preference?: string | null
+          message?: string | null
+          phone?: string | null
+          website_id: string
+        }
+        Update: {
+          attending?: boolean
+          created_at?: string
+          dietary_restrictions?: string | null
+          email?: string | null
+          guest_count?: number | null
+          guest_name?: string
+          id?: string
+          meal_preference?: string | null
+          message?: string | null
+          phone?: string | null
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wedding_rsvps_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wedding_stories: {
         Row: {
           approved_at: string | null
@@ -1529,6 +1579,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      wedding_websites: {
+        Row: {
+          couple_names: string
+          cover_image_url: string | null
+          created_at: string
+          id: string
+          is_published: boolean | null
+          slug: string
+          story: string | null
+          template: string | null
+          theme: string | null
+          updated_at: string
+          user_id: string
+          venue_address: string | null
+          venue_name: string | null
+          wedding_date: string | null
+        }
+        Insert: {
+          couple_names: string
+          cover_image_url?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean | null
+          slug: string
+          story?: string | null
+          template?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id: string
+          venue_address?: string | null
+          venue_name?: string | null
+          wedding_date?: string | null
+        }
+        Update: {
+          couple_names?: string
+          cover_image_url?: string | null
+          created_at?: string
+          id?: string
+          is_published?: boolean | null
+          slug?: string
+          story?: string | null
+          template?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id?: string
+          venue_address?: string | null
+          venue_name?: string | null
+          wedding_date?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {
