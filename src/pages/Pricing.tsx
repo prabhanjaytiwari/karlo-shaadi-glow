@@ -6,6 +6,7 @@ import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle
 import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
 
 const plans = [
   {
@@ -88,6 +89,25 @@ const faqs = [
 
 export default function Pricing() {
   const navigate = useNavigate();
+  const [isVendor, setIsVendor] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    if (user) {
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id);
+      
+      setIsVendor(roles?.some(r => r.role === "vendor") || false);
+    }
+  };
 
   const handlePremiumClick = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -249,30 +269,59 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* For Vendors Section */}
-      <section className="py-16 px-4 sm:px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
-          <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
-            Are You a Wedding Vendor?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8">
-            Join Karlo Shaadi and grow your business! Featured listings start at ₹4,999/month with zero transaction fees for Premium vendors.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/vendor-pricing">
-              <Button size="lg" variant="hero" className="rounded-full px-8">
-                View Vendor Pricing
-              </Button>
-            </Link>
-            <Link to="/vendor-auth">
-              <Button size="lg" variant="outline" className="rounded-full px-8">
-                Join as Vendor - Free
-              </Button>
-            </Link>
+      {/* For Vendors Section - Only show to non-vendors */}
+      {!isVendor && (
+        <section className="py-16 px-4 sm:px-6">
+          <div className="container mx-auto max-w-4xl text-center">
+            <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
+              Are You a Wedding Vendor?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Join Karlo Shaadi and grow your business! Featured listings start at ₹4,999/month with zero transaction fees for Premium vendors.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/vendor-pricing">
+                <Button size="lg" variant="hero" className="rounded-full px-8">
+                  View Vendor Pricing
+                </Button>
+              </Link>
+              <Link to="/vendor-auth">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
+                  Join as Vendor - Free
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* For Existing Vendors */}
+      {isVendor && (
+        <section className="py-16 px-4 sm:px-6">
+          <div className="container mx-auto max-w-4xl text-center">
+            <Crown className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
+              Manage Your Vendor Subscription
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Upgrade your plan or manage your subscription from your dashboard.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/vendor/dashboard">
+                <Button size="lg" variant="hero" className="rounded-full px-8">
+                  Go to Vendor Dashboard
+                </Button>
+              </Link>
+              <Link to="/vendor-pricing">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
+                  View Upgrade Options
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* FAQ Section */}
       <section className="py-16 px-4 sm:px-6 bg-muted/30">

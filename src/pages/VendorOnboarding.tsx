@@ -50,8 +50,28 @@ export default function VendorOnboarding() {
   const progress = (step / totalSteps) * 100;
 
   useEffect(() => {
+    checkExistingVendor();
     loadCities();
   }, []);
+
+  const checkExistingVendor = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: vendorData } = await supabase
+      .from("vendors")
+      .select("id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (vendorData) {
+      toast({
+        title: "Already Registered",
+        description: "You already have a vendor profile. Redirecting to your dashboard.",
+      });
+      navigate("/vendor/dashboard");
+    }
+  };
 
   const loadCities = async () => {
     const { data } = await supabase.from("cities").select("*").eq("is_active", true);

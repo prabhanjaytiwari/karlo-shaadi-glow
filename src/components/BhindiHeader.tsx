@@ -101,6 +101,7 @@ export const BhindiHeader = () => {
   const [user, setUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isVendor, setIsVendor] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   // Initialize with undefined to prevent hydration mismatch
@@ -139,28 +140,59 @@ export const BhindiHeader = () => {
     checkAuth();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        checkUserRoles(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsVendor(false);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkUserRoles = async (userId: string) => {
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    
+    setIsAdmin(roles?.some(r => r.role === "admin") || false);
+    setIsVendor(roles?.some(r => r.role === "vendor") || false);
+  };
 
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
     
     if (user) {
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id);
-      
-      setIsAdmin(roles?.some(r => r.role === "admin") || false);
+      checkUserRoles(user.id);
     }
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setIsAdmin(false);
+    setIsVendor(false);
     navigate("/");
+  };
+
+  // Navigate to appropriate dashboard based on role
+  const handleDashboardClick = () => {
+    if (isVendor) {
+      navigate("/vendor/dashboard");
+    } else {
+      navigate("/dashboard");
+    }
+  };
+
+  // Navigate to appropriate profile based on role
+  const handleProfileClick = () => {
+    if (isVendor) {
+      navigate("/vendor/dashboard?tab=profile");
+    } else {
+      navigate("/profile");
+    }
   };
 
   const handleMobileSearch = (e: React.FormEvent) => {
@@ -279,7 +311,7 @@ export const BhindiHeader = () => {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
-                {!user && (
+                {!user && !isVendor && (
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link to="/for-vendors" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
@@ -302,13 +334,15 @@ export const BhindiHeader = () => {
             {user ? (
               <>
                 <NotificationCenter />
-                <Button variant="ghost" onClick={() => navigate("/dashboard")}>Dashboard</Button>
+                <Button variant="ghost" onClick={handleDashboardClick}>
+                  {isVendor ? "Vendor Dashboard" : "Dashboard"}
+                </Button>
                 {isAdmin && (
                   <Button variant="ghost" onClick={() => navigate("/admin/dashboard")}>
                     Admin
                   </Button>
                 )}
-                <Button variant="ghost" onClick={() => navigate("/profile")}>Profile</Button>
+                <Button variant="ghost" onClick={handleProfileClick}>Profile</Button>
                 <Button variant="outline" onClick={handleLogout}>Logout</Button>
               </>
             ) : (
@@ -450,7 +484,7 @@ export const BhindiHeader = () => {
                     { label: "Deals", href: "/deals" },
                     ...(user ? [{ label: "Budget Tracker", href: "/budget" }] : []),
                     { label: "Help", href: "/help" },
-                    ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
+                    ...(!user && !isVendor ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
                     { label: "About", href: "/about" },
                   ].map((link) => (
                     <button
@@ -476,11 +510,11 @@ export const BhindiHeader = () => {
                         variant="premium" 
                         className="w-full h-9 text-sm rounded-lg" 
                         onClick={() => { 
-                          navigate("/dashboard"); 
+                          handleDashboardClick(); 
                           setMobileMenuOpen(false); 
                         }}
                       >
-                        Dashboard
+                        {isVendor ? "Vendor Dashboard" : "Dashboard"}
                       </Button>
                       {isAdmin && (
                         <Button 

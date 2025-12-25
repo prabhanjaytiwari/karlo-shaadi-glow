@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import logo from "@/assets/logo-new.png";
 import { Instagram, Linkedin, Facebook, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const footerLinks = {
   company: [
@@ -44,6 +46,102 @@ const socialLinks = [
 
 export const BhindiFooter = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+  const [isVendor, setIsVendor] = useState(false);
+
+  useEffect(() => {
+    checkAuth();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        checkUserRole(session.user.id);
+      } else {
+        setIsVendor(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    if (user) {
+      checkUserRole(user.id);
+    }
+  };
+
+  const checkUserRole = async (userId: string) => {
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    
+    setIsVendor(roles?.some(r => r.role === "vendor") || false);
+  };
+
+  const getCtaButton = () => {
+    if (!user) {
+      return (
+        <Button 
+          size="default" 
+          className="rounded-full px-6"
+          asChild
+        >
+          <Link to="/auth">
+            <span className="flex items-center gap-2">
+              Get Started
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </Link>
+        </Button>
+      );
+    }
+
+    if (isVendor) {
+      return (
+        <Button 
+          size="default" 
+          className="rounded-full px-6"
+          asChild
+        >
+          <Link to="/vendor/dashboard">
+            <span className="flex items-center gap-2">
+              Vendor Dashboard
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </Link>
+        </Button>
+      );
+    }
+
+    return (
+      <Button 
+        size="default" 
+        className="rounded-full px-6"
+        asChild
+      >
+        <Link to="/dashboard">
+          <span className="flex items-center gap-2">
+            Go to Dashboard
+            <ArrowRight className="w-4 h-4" />
+          </span>
+        </Link>
+      </Button>
+    );
+  };
+
+  // Filter vendor links for existing vendors
+  const getVendorLinks = () => {
+    if (isVendor) {
+      return [
+        { label: "Vendor Dashboard", to: "/vendor/dashboard" },
+        { label: "Pricing Plans", to: "/vendor-pricing" },
+      ];
+    }
+    return footerLinks.vendors;
+  };
 
   return (
     <footer className="relative overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
@@ -62,24 +160,23 @@ export const BhindiFooter = () => {
           <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
               <h2 className="font-semibold text-foreground text-lg md:text-xl max-w-2xl">
-                Start Planning Your Wedding Today
+                {!user 
+                  ? "Start Planning Your Wedding Today"
+                  : isVendor 
+                    ? "Manage Your Vendor Profile"
+                    : "Continue Planning Your Wedding"
+                }
               </h2>
               <p className="text-muted-foreground text-sm">
-                Connect with verified vendors and bring your vision to life
+                {!user 
+                  ? "Connect with verified vendors and bring your vision to life"
+                  : isVendor 
+                    ? "Update your profile, manage bookings, and grow your business"
+                    : "Track your bookings, budget, and wedding checklist"
+                }
               </p>
             </div>
-            <Button 
-              size="default" 
-              className="rounded-full px-6"
-              asChild
-            >
-              <Link to="/auth">
-                <span className="flex items-center gap-2">
-                  Get Started
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            </Button>
+            {getCtaButton()}
           </div>
         </div>
       </div>
@@ -126,7 +223,10 @@ export const BhindiFooter = () => {
           </div>
 
           {/* Link Columns with staggered reveal */}
-          {Object.entries(footerLinks).map(([category, links], categoryIndex) => (
+          {Object.entries({
+            ...footerLinks,
+            vendors: getVendorLinks()
+          }).map(([category, links], categoryIndex) => (
             <div 
               key={category} 
               className="space-y-4"
