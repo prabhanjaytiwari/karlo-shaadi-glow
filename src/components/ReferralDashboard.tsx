@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Copy, Share2, Gift, Users, IndianRupee, CheckCircle } from "lucide-react";
+import { Copy, Share2, Gift, Users, IndianRupee, CheckCircle, Trophy, Star, Crown, Sparkles } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface Referral {
   id: string;
@@ -17,6 +18,21 @@ interface Referral {
   completed_at: string | null;
 }
 
+interface Milestone {
+  id: string;
+  referral_count: number;
+  reward_type: string;
+  reward_value: number;
+  badge_name: string;
+  badge_icon: string;
+  description: string;
+}
+
+interface UserMilestone {
+  milestone_id: string;
+  achieved_at: string;
+}
+
 interface ReferralDashboardProps {
   userId: string;
 }
@@ -26,6 +42,8 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [credits, setCredits] = useState(0);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [userMilestones, setUserMilestones] = useState<UserMilestone[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,6 +73,26 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
 
       if (referralData) {
         setReferrals(referralData);
+      }
+
+      // Fetch milestones
+      const { data: milestonesData } = await supabase
+        .from("referral_milestones")
+        .select("*")
+        .order("referral_count", { ascending: true });
+
+      if (milestonesData) {
+        setMilestones(milestonesData);
+      }
+
+      // Fetch user's achieved milestones
+      const { data: userMilestonesData } = await supabase
+        .from("user_referral_milestones")
+        .select("milestone_id, achieved_at")
+        .eq("user_id", userId);
+
+      if (userMilestonesData) {
+        setUserMilestones(userMilestonesData);
       }
     } catch (error) {
       console.error("Error fetching referral data:", error);
@@ -93,9 +131,30 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
 
   const completedReferrals = referrals.filter(r => r.status === "completed" || r.status === "rewarded").length;
   const pendingReferrals = referrals.filter(r => r.status === "pending").length;
-  const totalEarned = referrals
-    .filter(r => r.status === "rewarded")
-    .reduce((sum, r) => sum + (r.reward_amount || 0), 0);
+
+  const isMilestoneAchieved = (milestoneId: string) => {
+    return userMilestones.some(um => um.milestone_id === milestoneId);
+  };
+
+  const getNextMilestone = () => {
+    return milestones.find(m => !isMilestoneAchieved(m.id));
+  };
+
+  const nextMilestone = getNextMilestone();
+  const progressToNext = nextMilestone 
+    ? Math.min((completedReferrals / nextMilestone.referral_count) * 100, 100)
+    : 100;
+
+  const getMilestoneIcon = (iconName: string) => {
+    switch (iconName) {
+      case '🌟': return <Star className="h-5 w-5" />;
+      case '🎊': return <Sparkles className="h-5 w-5" />;
+      case '💫': return <Star className="h-5 w-5" />;
+      case '👑': return <Crown className="h-5 w-5" />;
+      case '🏆': return <Trophy className="h-5 w-5" />;
+      default: return <Gift className="h-5 w-5" />;
+    }
+  };
 
   if (loading) {
     return (
@@ -171,6 +230,25 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
         </Card>
       </div>
 
+      {/* Progress to Next Milestone */}
+      {nextMilestone && (
+        <Card className="bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 border-accent/20">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-accent" />
+                <span className="font-semibold">Next Milestone: {nextMilestone.badge_name}</span>
+              </div>
+              <Badge variant="outline" className="font-mono">
+                {completedReferrals}/{nextMilestone.referral_count} referrals
+              </Badge>
+            </div>
+            <Progress value={progressToNext} className="h-3 mb-2" />
+            <p className="text-sm text-muted-foreground">{nextMilestone.description}</p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Referral Link Card */}
       <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-primary/5">
         <CardHeader>
@@ -202,6 +280,59 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
             <Badge variant="outline" className="font-mono">
               Code: {referralCode || "Loading..."}
             </Badge>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Milestones */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-accent" />
+            Referral Milestones
+          </CardTitle>
+          <CardDescription>Unlock rewards as you refer more friends</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {milestones.map((milestone, index) => {
+              const achieved = isMilestoneAchieved(milestone.id);
+              return (
+                <div
+                  key={milestone.id}
+                  className={`flex items-center gap-4 p-4 rounded-lg border-2 transition-all ${
+                    achieved 
+                      ? "bg-emerald-50 border-emerald-200" 
+                      : "bg-muted/30 border-muted"
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
+                    achieved 
+                      ? "bg-emerald-200 text-emerald-700" 
+                      : "bg-muted text-muted-foreground"
+                  }`}>
+                    {achieved ? <CheckCircle className="h-6 w-6" /> : getMilestoneIcon(milestone.badge_icon)}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h4 className={`font-semibold ${achieved ? "text-emerald-700" : ""}`}>
+                        {milestone.badge_name}
+                      </h4>
+                      <Badge variant={achieved ? "default" : "secondary"} className={achieved ? "bg-emerald-500" : ""}>
+                        {milestone.referral_count} referrals
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{milestone.description}</p>
+                  </div>
+                  {achieved && (
+                    <Badge className="bg-emerald-500">
+                      <CheckCircle className="h-3 w-3 mr-1" />
+                      Achieved
+                    </Badge>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
@@ -252,7 +383,7 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {referrals.slice(0, 5).map((referral) => (
+              {referrals.map((referral) => (
                 <div
                   key={referral.id}
                   className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
@@ -270,12 +401,19 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
                       </p>
                     </div>
                   </div>
-                  <Badge
-                    variant={referral.status === "rewarded" ? "default" : "secondary"}
-                    className={referral.status === "rewarded" ? "bg-emerald-500" : ""}
-                  >
-                    {referral.status}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    {referral.status === "rewarded" && (
+                      <Badge variant="outline" className="text-emerald-600 border-emerald-300">
+                        +₹{referral.reward_amount}
+                      </Badge>
+                    )}
+                    <Badge
+                      variant={referral.status === "rewarded" ? "default" : "secondary"}
+                      className={referral.status === "rewarded" ? "bg-emerald-500" : ""}
+                    >
+                      {referral.status}
+                    </Badge>
+                  </div>
                 </div>
               ))}
             </div>

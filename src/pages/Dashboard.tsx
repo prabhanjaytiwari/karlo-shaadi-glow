@@ -6,11 +6,12 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music, Gift } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { DashboardMusicSection } from "@/components/DashboardMusicSection";
+import { ReferralWidget } from "@/components/ReferralWidget";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -191,6 +192,15 @@ const Dashboard = () => {
                 <CardTitle className="text-sm">Budget</CardTitle>
               </CardHeader>
             </Card>
+
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/referrals")}>
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-emerald-200/50 flex items-center justify-center mb-2">
+                  <Gift className="h-5 w-5 text-accent" />
+                </div>
+                <CardTitle className="text-sm">Refer & Earn</CardTitle>
+              </CardHeader>
+            </Card>
           </div>
 
           {/* Wedding Planning Progress & Profile */}
@@ -204,6 +214,9 @@ const Dashboard = () => {
             )}
 
             <div className="space-y-6">
+              {/* Referral Widget */}
+              {user && <ReferralWidget userId={user.id} />}
+
               {/* Achievement Badges (Compact) */}
               {user && <AchievementBadges userId={user.id} compact />}
 

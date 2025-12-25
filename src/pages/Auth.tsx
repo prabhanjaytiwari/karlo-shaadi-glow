@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,19 +7,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, Gift } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { loginFormSchema, signupFormSchema, sanitizeInput } from "@/lib/validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Badge } from "@/components/ui/badge";
 
 type LoginFormData = z.infer<typeof loginFormSchema>;
 type SignupFormData = z.infer<typeof signupFormSchema>;
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const { trackEvent } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +29,16 @@ const Auth = () => {
   const [magicLinkEmail, setMagicLinkEmail] = useState("");
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [authMethod, setAuthMethod] = useState<'password' | 'magic'>('password');
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+
+  // Extract referral code from URL
+  useEffect(() => {
+    const refCode = searchParams.get("ref");
+    if (refCode) {
+      setReferralCode(refCode);
+    }
+  }, [searchParams]);
+
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -178,6 +190,7 @@ const Auth = () => {
           data: {
             full_name: sanitizeInput(data.fullName),
             phone: data.phone || null,
+            referred_by: referralCode || null,
           },
           emailRedirectTo: `${window.location.origin}/dashboard`,
         },
@@ -186,14 +199,29 @@ const Auth = () => {
       if (error) throw error;
 
       if (authData.user) {
+        // If there's a referral code, update the profile with referred_by
+        if (referralCode) {
+          await supabase
+            .from("profiles")
+            .update({ referred_by: referralCode })
+            .eq("id", authData.user.id);
+        }
+
         await trackEvent({
           event_type: "user_signup",
-          metadata: { role: "couple" },
+          metadata: { 
+            role: "couple",
+            referred_by: referralCode || undefined,
+          },
         });
+
+        const bonusMessage = referralCode 
+          ? " You got ₹500 referral bonus!" 
+          : "";
 
         toast({
           title: "Account created!",
-          description: "Welcome to Karlo Shaadi. Let's plan your perfect wedding!",
+          description: `Welcome to Karlo Shaadi.${bonusMessage} Let's plan your perfect wedding!`,
         });
         navigate("/dashboard");
       }
@@ -211,6 +239,22 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
+        {/* Referral Banner */}
+        {referralCode && (
+          <div className="mb-4 animate-fade-up">
+            <div className="bg-gradient-to-r from-accent/20 via-emerald-100/50 to-accent/20 border-2 border-accent/30 rounded-xl p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                <Gift className="h-5 w-5 text-accent" />
+              </div>
+              <div>
+                <p className="font-semibold text-foreground">You've been referred! 🎉</p>
+                <p className="text-sm text-muted-foreground">Sign up now & get ₹500 off your first booking</p>
+              </div>
+              <Badge className="ml-auto bg-accent text-accent-foreground">₹500 Bonus</Badge>
+            </div>
+          </div>
+        )}
+
         <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
           <CardHeader className="text-center">
             <div className="mx-auto w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
