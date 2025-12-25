@@ -17,6 +17,7 @@ import { VendorQuickInfo } from "@/components/vendor/VendorQuickInfo";
 import { VendorFAQ } from "@/components/vendor/VendorFAQ";
 import { DealBadge } from "@/components/vendor/DealBadge";
 import { VendorProfileFOMO } from "@/components/VendorProfileFOMO";
+import { VendorShareButton } from "@/components/vendor/VendorShareButton";
 import { 
   MapPin, 
   Clock, 
@@ -343,6 +344,7 @@ const VendorProfile = () => {
               <MessageCircle className="h-4 w-4" />
             </Button>
           </MessagingDialog>
+          <VendorShareButton vendorId={id!} vendorName={vendor.business_name} variant="icon" />
         </div>
       </div>
 
@@ -444,9 +446,7 @@ const VendorProfile = () => {
 
                     <div className="flex gap-2">
                       <FavoritesButton vendorId={id!} />
-                      <Button variant="outline" size="lg" className="flex-1">
-                        View Contract
-                      </Button>
+                      <VendorShareButton vendorId={id!} vendorName={vendor.business_name} className="flex-1" />
                     </div>
                   </div>
 
