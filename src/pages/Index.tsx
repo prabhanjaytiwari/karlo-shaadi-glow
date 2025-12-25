@@ -70,7 +70,7 @@ const Index = () => {
         transform: `translateY(${offset * 0.3}px) scale(1.05)`
       }}>
           <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/40 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
         </div>
         
         {/* Hero Content */}
@@ -96,14 +96,15 @@ const Index = () => {
                 <HeroSearchWidget />
                 
                 {/* 2-Minute Wedding Plan CTA */}
-                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-5">
                   <Link to="/plan-wizard">
-                    <Button size="lg" className="rounded-full sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto px-[3px]">
-                      Get Your 2-Minute Wedding Plan
+                    <Button size="default" className="rounded-full px-6 h-10 text-sm font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      2-Minute Wedding Plan
                     </Button>
                   </Link>
-                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="outline" className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold bg-background/95 hover:bg-background border-2 border-primary/30 hover:border-primary text-foreground transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-primary/20 w-full sm:w-auto">
-                    AI Vendor Matchmaking
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-6 h-10 text-sm font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300">
+                    AI Vendor Matching
                   </Button>
                 </div>
               </div>
