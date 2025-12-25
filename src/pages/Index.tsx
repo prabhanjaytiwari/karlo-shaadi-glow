@@ -98,9 +98,10 @@ const Index = () => {
                 {/* 2-Minute Wedding Plan CTA */}
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-5">
                   <Link to="/plan-wizard">
-                    <Button size="default" className="rounded-full px-6 h-10 text-sm font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
-                      
-                      2-Minute Wedding Plan
+                    <Button size="default" className="group relative overflow-hidden rounded-full px-6 h-10 text-sm font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
+                      <span className="relative z-10">2-Minute Wedding Plan</span>
+                      <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out" />
+                      <span className="absolute inset-0 animate-shimmer-subtle bg-gradient-to-r from-transparent via-white/15 to-transparent" />
                     </Button>
                   </Link>
                   <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-6 h-10 text-sm font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300">
