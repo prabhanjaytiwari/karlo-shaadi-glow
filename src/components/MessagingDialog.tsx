@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useOfflineSync } from "@/hooks/useOfflineSync";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, Loader2 } from "lucide-react";
+import { MessageCircle, Send, Loader2, WifiOff } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 
 interface MessagingDialogProps {
@@ -16,12 +17,14 @@ interface MessagingDialogProps {
 
 export function MessagingDialog({ vendorId, vendorName, children }: MessagingDialogProps) {
   const { toast } = useToast();
+  const { isOnline, queueMessage } = useOfflineSync();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [vendorUserId, setVendorUserId] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -49,6 +52,7 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
         .single();
 
       if (!vendor) return;
+      setVendorUserId(vendor.user_id);
 
       const { data, error } = await supabase
         .from("messages")
@@ -91,30 +95,52 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
 
     setSending(true);
     try {
-      // Get vendor's user_id
-      const { data: vendor } = await supabase
-        .from("vendors")
-        .select("user_id")
-        .eq("id", vendorId)
-        .single();
+      // Get vendor's user_id if not already cached
+      let recipientId = vendorUserId;
+      if (!recipientId) {
+        const { data: vendor } = await supabase
+          .from("vendors")
+          .select("user_id")
+          .eq("id", vendorId)
+          .single();
 
-      if (!vendor) throw new Error("Vendor not found");
+        if (!vendor) throw new Error("Vendor not found");
+        recipientId = vendor.user_id;
+        setVendorUserId(recipientId);
+      }
 
-      const { error } = await supabase.from("messages").insert([{
-        sender_id: user.id,
-        recipient_id: vendor.user_id,
-        message: sanitizeInput(trimmedMessage),
-      }]);
+      const sanitizedMessage = sanitizeInput(trimmedMessage);
+      
+      // Use offline-aware queue
+      const result = await queueMessage(user.id, recipientId, sanitizedMessage);
 
-      if (error) throw error;
+      if (result.success) {
+        // Add optimistic message to UI
+        const optimisticMessage = {
+          id: result.id || `temp_${Date.now()}`,
+          sender_id: user.id,
+          recipient_id: recipientId,
+          message: sanitizedMessage,
+          created_at: new Date().toISOString(),
+          read: false,
+          _pending: result.offline,
+        };
+        
+        setMessages(prev => [...prev, optimisticMessage]);
+        setMessage("");
 
-      setMessage("");
-      loadMessages(user.id);
+        toast({
+          title: result.offline ? "Message queued" : "Message sent",
+          description: result.offline 
+            ? "Will be sent when you're back online" 
+            : "The vendor will respond soon",
+        });
 
-      toast({
-        title: "Message sent",
-        description: "The vendor will respond soon",
-      });
+        // Reload messages if online to get the actual message
+        if (!result.offline) {
+          setTimeout(() => loadMessages(user.id), 500);
+        }
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -172,12 +198,17 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
                           msg.sender_id === user.id
                             ? "bg-accent text-accent-foreground"
                             : "bg-muted"
-                        }`}
+                        } ${msg._pending ? "opacity-70" : ""}`}
                       >
                         <p className="text-sm">{msg.message}</p>
-                        <p className="text-xs opacity-70 mt-1">
-                          {new Date(msg.created_at).toLocaleTimeString()}
-                        </p>
+                        <div className="flex items-center gap-1 mt-1">
+                          <p className="text-xs opacity-70">
+                            {new Date(msg.created_at).toLocaleTimeString()}
+                          </p>
+                          {msg._pending && (
+                            <WifiOff className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
