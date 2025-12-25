@@ -65,6 +65,7 @@ import BudgetCalculatorPage from "./pages/BudgetCalculatorPage";
 import MuhuratFinderPage from "./pages/MuhuratFinderPage";
 import InviteCreatorPage from "./pages/InviteCreatorPage";
 import WeddingWebsite from "./pages/WeddingWebsite";
+import WeddingView from "./pages/WeddingView";
 import MusicGenerator from "./pages/MusicGenerator";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -178,6 +179,7 @@ const App = () => (
               <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
               <Route path="/invite-creator" element={<InviteCreatorPage />} />
               <Route path="/wedding-website" element={<WeddingWebsite />} />
+              <Route path="/wedding/:slug" element={<WeddingView />} />
               <Route path="/music-generator" element={<MusicGenerator />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
