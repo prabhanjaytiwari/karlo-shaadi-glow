@@ -11,6 +11,9 @@ import Bookings from "./pages/Bookings";
 import Favorites from "./pages/Favorites";
 import Messages from "./pages/Messages";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import VendorSettings from "./pages/VendorSettings";
+import VendorBilling from "./pages/VendorBilling";
 import Categories from "./pages/Categories";
 import City from "./pages/City";
 import Stories from "./pages/Stories";
@@ -119,6 +122,9 @@ const App = () => (
               <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
               <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/vendor/settings" element={<ProtectedRoute requireRole="vendor"><VendorSettings /></ProtectedRoute>} />
+              <Route path="/vendor/billing" element={<ProtectedRoute requireRole="vendor"><VendorBilling /></ProtectedRoute>} />
               <Route path="/categories" element={<Categories />} />
               <Route path="/category/:category" element={<Categories />} />
               <Route path="/city/:slug" element={<City />} />
