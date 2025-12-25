@@ -39,7 +39,7 @@ function recordFailedAttempt(userId: string): void {
 }
 
 // Function to send payment receipt email
-async function sendPaymentReceiptEmail(supabase: any, params: {
+async function sendPaymentReceiptEmail(supabaseUrl: string, supabaseKey: string, params: {
   userEmail: string;
   userName: string;
   amount: number;
@@ -51,19 +51,50 @@ async function sendPaymentReceiptEmail(supabase: any, params: {
   bookingDate?: string;
 }) {
   try {
-    const { data, error } = await supabase.functions.invoke('send-payment-receipt', {
-      body: params
+    const response = await fetch(`${supabaseUrl}/functions/v1/send-payment-receipt`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`
+      },
+      body: JSON.stringify(params)
     });
     
-    if (error) {
-      console.error('Failed to send payment receipt email:', error);
+    if (!response.ok) {
+      console.error('Failed to send payment receipt email:', await response.text());
     } else {
       console.log('Payment receipt email sent successfully');
     }
-    return { data, error };
   } catch (err) {
-    console.error('Error invoking send-payment-receipt:', err);
-    return { error: err };
+    console.error('Error sending payment receipt:', err);
+  }
+}
+
+// Function to send push notification
+async function sendPushNotification(supabaseUrl: string, supabaseKey: string, params: {
+  user_id: string;
+  title: string;
+  body: string;
+  url?: string;
+  tag?: string;
+}) {
+  try {
+    const response = await fetch(`${supabaseUrl}/functions/v1/send-push-notification`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`
+      },
+      body: JSON.stringify(params)
+    });
+    
+    if (!response.ok) {
+      console.error('Failed to send push notification:', await response.text());
+    } else {
+      console.log('Push notification sent successfully');
+    }
+  } catch (err) {
+    console.error('Error sending push notification:', err);
   }
 }
 
@@ -176,7 +207,7 @@ serve(async (req) => {
       console.log(`Subscription ${subscriptionPlan} activated for user ${user.id}`);
       
       // Send payment receipt email for subscription
-      await sendPaymentReceiptEmail(supabase, {
+      await sendPaymentReceiptEmail(supabaseUrl, supabaseKey, {
         userEmail: user.email!,
         userName,
         amount,
@@ -184,6 +215,15 @@ serve(async (req) => {
         orderId,
         paymentType: 'subscription',
         planName: planNames[subscriptionPlan] || subscriptionPlan
+      });
+      
+      // Send push notification for subscription payment
+      await sendPushNotification(supabaseUrl, supabaseKey, {
+        user_id: user.id,
+        title: "Payment Successful! 🎉",
+        body: `Your ${planNames[subscriptionPlan] || subscriptionPlan} subscription is now active!`,
+        url: "/dashboard",
+        tag: "payment"
       });
       
       return new Response(
@@ -243,7 +283,7 @@ serve(async (req) => {
     }
 
     // Send payment receipt email for booking
-    await sendPaymentReceiptEmail(supabase, {
+    await sendPaymentReceiptEmail(supabaseUrl, supabaseKey, {
       userEmail: user.email!,
       userName,
       amount: paymentRecord?.amount || 0,
@@ -252,6 +292,17 @@ serve(async (req) => {
       paymentType: 'booking',
       vendorName,
       bookingDate
+    });
+    
+    // Send push notification for booking payment
+    const milestoneLabel = paymentRecord?.milestone === 'advance' ? 'Advance' : 
+                          paymentRecord?.milestone === 'completion' ? 'Final' : 'Payment';
+    await sendPushNotification(supabaseUrl, supabaseKey, {
+      user_id: user.id,
+      title: `${milestoneLabel} Payment Confirmed! ✅`,
+      body: `₹${(paymentRecord?.amount || 0).toLocaleString()} paid to ${vendorName}`,
+      url: "/bookings",
+      tag: "payment"
     });
 
     // Check if all milestones are paid to mark booking as confirmed
