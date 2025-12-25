@@ -555,6 +555,20 @@
 .hero-text-reveal-delay-4 { animation-delay: 0.2s; opacity: 0; }
 .hero-text-reveal-delay-5 { animation-delay: 0.25s; opacity: 0; }
 
+/* Subtle Shimmer Animation for CTA */
+@keyframes shimmerSubtle {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer-subtle {
+  animation: shimmerSubtle 3s ease-in-out infinite;
+}
+
 /* Professional Button Hover State */
 .btn-premium {
   position: relative;
