@@ -79,7 +79,7 @@ const Index = () => {
             <div className={`w-full max-w-4xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
               {/* Headline */}
               <div className="text-center mb-4 sm:mb-6 md:mb-8">
-                <h1 className="font-display font-semibold text-xl sm:text-2xl lg:text-5xl leading-tight text-white drop-shadow-lg md:text-5xl">
+                <h1 className="font-display font-semibold sm:text-2xl lg:text-5xl leading-tight text-white drop-shadow-lg md:text-5xl text-3xl">
                   <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
                   <span className={`inline-block font-quote italic font-normal hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
                   <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
@@ -98,7 +98,7 @@ const Index = () => {
                 {/* 2-Minute Wedding Plan CTA */}
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                   <Link to="/plan-wizard">
-                    <Button size="lg" className="rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto">
+                    <Button size="lg" className="rounded-full sm:px-10 h-12 sm:h-14 text-sm sm:text-base font-semibold shadow-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl w-full sm:w-auto px-[3px]">
                       Get Your 2-Minute Wedding Plan
                     </Button>
                   </Link>
