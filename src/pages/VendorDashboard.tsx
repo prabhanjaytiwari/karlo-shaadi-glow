@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,9 +21,11 @@ import { BulkPortfolioUpload } from "@/components/vendor/BulkPortfolioUpload";
 import { VendorMessagingInbox } from "@/components/vendor/VendorMessagingInbox";
 import { RevenueCharts } from "@/components/vendor/RevenueCharts";
 import { ProfileCompletionProgress } from "@/components/vendor/ProfileCompletionProgress";
+import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [vendor, setVendor] = useState<any>(null);
@@ -50,6 +52,20 @@ export default function VendorDashboard() {
     categoryBreakdown: [] as any[],
     conversionData: { inquiries: 0, bookings: 0, conversionRate: 0 }
   });
+  const [activeTab, setActiveTab] = useState("analytics");
+  const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
+  const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string>("");
+
+  // Handle upgrade intent from VendorPricing page
+  useEffect(() => {
+    const state = location.state as { upgradeTo?: string } | null;
+    if (state?.upgradeTo && vendor) {
+      setSelectedUpgradePlan(state.upgradeTo);
+      setUpgradeDialogOpen(true);
+      // Clear the state to prevent reopening on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state, vendor]);
 
   useEffect(() => {
     checkVendorAccess();
@@ -291,8 +307,20 @@ export default function VendorDashboard() {
     <div className="min-h-screen flex flex-col">
       <BhindiHeader />
       
-      <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
+      <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
+          {/* Subscription Checkout Dialog */}
+          {vendor && (
+            <VendorSubscriptionCheckout
+              open={upgradeDialogOpen}
+              onOpenChange={setUpgradeDialogOpen}
+              vendorId={vendor.id}
+              planId={selectedUpgradePlan}
+              onSuccess={() => {
+                checkVendorAccess(); // Refresh data after successful upgrade
+              }}
+            />
+          )}
           <div className="flex justify-between items-center mb-8">
             <div>
               <Badge className="bg-accent text-accent-foreground mb-2">Vendor Portal</Badge>
@@ -300,7 +328,15 @@ export default function VendorDashboard() {
               <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => navigate('/vendor-pricing')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSelectedUpgradePlan("gold");
+                  setUpgradeDialogOpen(true);
+                }} 
+                size="sm" 
+                className="border-accent/30 hover:border-accent/50 hover:bg-accent/5"
+              >
                 Upgrade Plan
               </Button>
               <Button variant="outline" onClick={() => navigate('/vendor/settings')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
@@ -420,11 +456,12 @@ export default function VendorDashboard() {
                 vendor={vendor}
                 servicesCount={services.length}
                 portfolioCount={portfolio.length}
+                onNavigateToTab={setActiveTab}
               />
             </div>
           )}
 
-          <Tabs defaultValue="analytics" className="space-y-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 lg:w-auto">
               <TabsTrigger value="analytics">
                 <BarChart3 className="h-4 w-4 lg:mr-2" />

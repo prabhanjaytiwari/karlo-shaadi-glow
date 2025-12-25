@@ -33,6 +33,18 @@ const Dashboard = () => {
         return;
       }
 
+      // Check if user is a vendor - redirect to vendor dashboard
+      const { data: vendorData } = await supabase
+        .from("vendors")
+        .select("id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (vendorData) {
+        navigate("/vendor/dashboard");
+        return;
+      }
+
       setUser(user);
 
       // Fetch profile
