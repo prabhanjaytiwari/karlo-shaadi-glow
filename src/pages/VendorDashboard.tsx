@@ -20,6 +20,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { BulkPortfolioUpload } from "@/components/vendor/BulkPortfolioUpload";
 import { VendorMessagingInbox } from "@/components/vendor/VendorMessagingInbox";
 import { RevenueCharts } from "@/components/vendor/RevenueCharts";
+import { ProfileCompletionProgress } from "@/components/vendor/ProfileCompletionProgress";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -302,6 +303,10 @@ export default function VendorDashboard() {
               <Button variant="outline" onClick={() => navigate('/vendor-pricing')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
                 Upgrade Plan
               </Button>
+              <Button variant="outline" onClick={() => navigate('/vendor/settings')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Button>
               <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full border-accent/30 hover:border-accent/50 hover:bg-accent/5">
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -407,6 +412,17 @@ export default function VendorDashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Profile Completion Progress */}
+          {vendor && (
+            <div className="mb-8">
+              <ProfileCompletionProgress 
+                vendor={vendor}
+                servicesCount={services.length}
+                portfolioCount={portfolio.length}
+              />
+            </div>
+          )}
 
           <Tabs defaultValue="analytics" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 lg:w-auto">

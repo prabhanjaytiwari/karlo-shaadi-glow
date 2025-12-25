@@ -6,7 +6,7 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music, Gift } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music, Gift, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
@@ -88,6 +88,10 @@ const Dashboard = () => {
                 <Button variant="outline" onClick={() => navigate("/profile")} className="border-accent/30 hover:border-accent/50">
                   <User className="h-4 w-4 mr-2" />
                   Profile
+                </Button>
+                <Button variant="outline" onClick={() => navigate("/settings")} className="border-accent/30 hover:border-accent/50">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
                 </Button>
                 <Button variant="outline" onClick={handleLogout} className="border-accent/30 hover:border-accent/50">
                   <LogOut className="h-4 w-4 mr-2" />
