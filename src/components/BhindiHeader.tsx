@@ -412,12 +412,43 @@ export const BhindiHeader = () => {
 
                 <Separator className="bg-border/30" />
 
+                {/* Tools Section */}
+                <div className="space-y-2">
+                  <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Tools</p>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {[
+                      { icon: Sparkles, label: "AI Plan", href: "/plan-wizard" },
+                      { icon: Calculator, label: "Budget", href: "/budget-calculator" },
+                      { icon: Calendar, label: "Muhurat", href: "/muhurat-finder" },
+                      { icon: Image, label: "Invites", href: "/invite-creator" },
+                      { icon: Heart, label: "Website", href: "/wedding-website" },
+                      { icon: Music, label: "Music", href: "/music-generator" },
+                    ].map((tool) => (
+                      <button
+                        key={tool.href}
+                        className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-accent/5 hover:bg-accent/15 transition-all active:scale-95"
+                        onClick={() => {
+                          navigate(tool.href);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                          <tool.icon className="h-4 w-4 text-accent" />
+                        </div>
+                        <span className="text-[9px] font-medium text-center leading-tight">{tool.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <Separator className="bg-border/30" />
+
                 {/* Compact Other Links */}
                 <div className="grid grid-cols-2 gap-1">
                   {[
                     { label: "Stories", href: "/stories" },
                     { label: "Deals", href: "/deals" },
-                    ...(user ? [{ label: "Budget", href: "/budget" }] : []),
+                    ...(user ? [{ label: "Budget Tracker", href: "/budget" }] : []),
                     { label: "Help", href: "/help" },
                     ...(!user ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
                     { label: "About", href: "/about" },
