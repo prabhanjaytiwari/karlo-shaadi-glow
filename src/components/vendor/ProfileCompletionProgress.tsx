@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CheckCircle2, Circle, AlertCircle, ChevronRight } from "lucide-react";
 
 interface ProfileCompletionProgressProps {
   vendor: {
@@ -18,29 +18,32 @@ interface ProfileCompletionProgressProps {
   };
   servicesCount: number;
   portfolioCount: number;
+  onNavigateToTab?: (tab: string) => void;
 }
 
 interface CompletionItem {
   label: string;
   completed: boolean;
   weight: number;
+  targetTab: string;
 }
 
 export function ProfileCompletionProgress({ 
   vendor, 
   servicesCount, 
-  portfolioCount 
+  portfolioCount,
+  onNavigateToTab
 }: ProfileCompletionProgressProps) {
   const completionItems: CompletionItem[] = useMemo(() => [
-    { label: "Business Name", completed: !!vendor.business_name, weight: 15 },
-    { label: "Description", completed: !!vendor.description && vendor.description.length > 50, weight: 15 },
-    { label: "Phone Number", completed: !!vendor.phone_number, weight: 10 },
-    { label: "Address", completed: !!vendor.address, weight: 10 },
-    { label: "Logo/Photo", completed: !!vendor.logo_url, weight: 10 },
-    { label: "At least 1 Service", completed: servicesCount > 0, weight: 15 },
-    { label: "At least 3 Portfolio Images", completed: portfolioCount >= 3, weight: 15 },
-    { label: "Instagram Handle", completed: !!vendor.instagram_handle, weight: 5 },
-    { label: "Website", completed: !!vendor.website_url, weight: 5 },
+    { label: "Business Name", completed: !!vendor.business_name, weight: 15, targetTab: "profile" },
+    { label: "Description", completed: !!vendor.description && vendor.description.length > 50, weight: 15, targetTab: "profile" },
+    { label: "Phone Number", completed: !!vendor.phone_number, weight: 10, targetTab: "profile" },
+    { label: "Address", completed: !!vendor.address, weight: 10, targetTab: "profile" },
+    { label: "Logo/Photo", completed: !!vendor.logo_url, weight: 10, targetTab: "profile" },
+    { label: "At least 1 Service", completed: servicesCount > 0, weight: 15, targetTab: "services" },
+    { label: "At least 3 Portfolio Images", completed: portfolioCount >= 3, weight: 15, targetTab: "portfolio" },
+    { label: "Instagram Handle", completed: !!vendor.instagram_handle, weight: 5, targetTab: "profile" },
+    { label: "Website", completed: !!vendor.website_url, weight: 5, targetTab: "profile" },
   ], [vendor, servicesCount, portfolioCount]);
 
   const completionPercentage = useMemo(() => {
@@ -52,7 +55,6 @@ export function ProfileCompletionProgress({
   }, [completionItems]);
 
   const incompleteItems = completionItems.filter(item => !item.completed);
-  const completedItems = completionItems.filter(item => item.completed);
 
   const getProgressColor = () => {
     if (completionPercentage >= 80) return "bg-emerald-500";
@@ -68,6 +70,12 @@ export function ProfileCompletionProgress({
       return <Badge className="bg-amber-500/20 text-amber-700 border-amber-300">Needs Work</Badge>;
     }
     return <Badge className="bg-rose-500/20 text-rose-700 border-rose-300">Incomplete</Badge>;
+  };
+
+  const handleItemClick = (tab: string) => {
+    if (onNavigateToTab) {
+      onNavigateToTab(tab);
+    }
   };
 
   return (
@@ -98,15 +106,22 @@ export function ProfileCompletionProgress({
               <AlertCircle className="h-4 w-4" />
               Complete these to boost visibility:
             </p>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {incompleteItems.slice(0, 4).map((item) => (
-                <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Circle className="h-3.5 w-3.5" />
-                  <span>{item.label}</span>
-                </div>
+                <button
+                  key={item.label}
+                  onClick={() => handleItemClick(item.targetTab)}
+                  className="w-full flex items-center justify-between gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 p-2 rounded-md transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2">
+                    <Circle className="h-3.5 w-3.5" />
+                    <span>{item.label}</span>
+                  </div>
+                  <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
               ))}
               {incompleteItems.length > 4 && (
-                <p className="text-xs text-muted-foreground pl-5">
+                <p className="text-xs text-muted-foreground pl-2 pt-1">
                   +{incompleteItems.length - 4} more items
                 </p>
               )}

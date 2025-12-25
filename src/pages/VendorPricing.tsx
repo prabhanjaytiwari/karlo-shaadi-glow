@@ -125,6 +125,7 @@ export default function VendorPricing() {
     if (planId === 'free') {
       navigate('/vendor-onboarding');
     } else {
+      // Navigate to dashboard with upgrade intent
       navigate('/vendor/dashboard', { state: { upgradeTo: planId } });
     }
   };
