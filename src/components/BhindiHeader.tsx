@@ -43,6 +43,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
+import { useCapacitor } from "@/hooks/useCapacitor";
 
 const categories = [
   {
@@ -104,6 +105,7 @@ export const BhindiHeader = () => {
   const [scrolled, setScrolled] = useState(false);
   // Initialize with undefined to prevent hydration mismatch
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
+  const { isNative } = useCapacitor();
 
   useEffect(() => {
     // Set initial width
@@ -127,6 +129,11 @@ export const BhindiHeader = () => {
 
   const isDesktop = windowWidth !== undefined && windowWidth >= 768;
   const isMobile = windowWidth !== undefined && windowWidth < 768;
+
+  // Hide header completely in native mobile app (we use bottom navigation instead)
+  if (isNative && isMobile && user) {
+    return null;
+  }
 
   useEffect(() => {
     checkAuth();

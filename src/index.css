@@ -27,6 +27,12 @@
   }
   
   :root {
+    /* Safe Area Insets for Mobile */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+    
     /* Bright Wedding Color System - Vibrant & Trustworthy */
     --background: 0 0% 100%;
     --foreground: 350 25% 15%;
