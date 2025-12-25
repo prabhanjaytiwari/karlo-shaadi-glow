@@ -23,7 +23,7 @@ import weddingFireworks from "@/assets/wedding-fireworks.jpg";
 import weddingBridalHair from "@/assets/wedding-bridal-hair.jpg";
 import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
 import weddingManifesting from "@/assets/wedding-manifesting.jpg";
-import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Sparkles, Heart } from "lucide-react";
+import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { FOMOBanner } from "@/components/FOMOBanner";
 import { useEffect, useState } from "react";
@@ -99,7 +99,7 @@ const Index = () => {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-5">
                   <Link to="/plan-wizard">
                     <Button size="default" className="rounded-full px-6 h-10 text-sm font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
-                      <Sparkles className="h-4 w-4 mr-2" />
+                      
                       2-Minute Wedding Plan
                     </Button>
                   </Link>
