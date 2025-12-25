@@ -73,6 +73,15 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
         </div>
         
+        {/* Floating Bokeh Elements */}
+        <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
+          <div className="absolute top-[15%] left-[10%] w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float-slow" />
+          <div className="absolute top-[25%] right-[15%] w-24 h-24 rounded-full bg-accent/25 blur-2xl animate-float-delayed" />
+          <div className="absolute bottom-[30%] left-[20%] w-20 h-20 rounded-full bg-white/10 blur-2xl animate-float-slow" />
+          <div className="absolute top-[40%] right-[8%] w-16 h-16 rounded-full bg-primary/15 blur-xl animate-float-delayed" />
+          <div className="absolute bottom-[45%] right-[25%] w-28 h-28 rounded-full bg-accent/15 blur-3xl animate-float-slow" />
+        </div>
+        
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center py-6 sm:py-8">
           <div className="container mx-auto px-4 sm:px-6">
@@ -104,7 +113,7 @@ const Index = () => {
                       <span className="absolute inset-0 animate-shimmer-subtle bg-gradient-to-r from-transparent via-white/15 to-transparent" />
                     </Button>
                   </Link>
-                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-6 h-10 text-sm font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300">
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-6 h-10 text-sm font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 animate-glow-pulse">
                     AI Vendor Matching
                   </Button>
                 </div>
