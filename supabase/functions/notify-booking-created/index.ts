@@ -67,6 +67,38 @@ serve(async (req: Request) => {
       },
     ]);
 
+    // Send push notifications
+    const pushPromises = [
+      fetch(`${supabaseUrl}/functions/v1/send-push-notification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${supabaseServiceKey}`,
+        },
+        body: JSON.stringify({
+          user_id: vendor.user_id,
+          title: "New Booking Request 🎉",
+          body: `${couple.full_name} wants to book you for their wedding!`,
+          url: "/vendor/dashboard",
+          tag: "booking"
+        }),
+      }),
+      fetch(`${supabaseUrl}/functions/v1/send-push-notification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${supabaseServiceKey}`,
+        },
+        body: JSON.stringify({
+          user_id: booking.couple_id,
+          title: "Booking Request Sent ✅",
+          body: `Your request to ${vendor.business_name} has been sent!`,
+          url: "/bookings",
+          tag: "booking"
+        }),
+      }),
+    ];
+
     // Send emails in background
     const emailPromises = [
       // Email to vendor
@@ -115,8 +147,8 @@ serve(async (req: Request) => {
       }),
     ];
 
-    // Don't await emails, let them run in background
-    Promise.all(emailPromises).catch(err => console.error("Email sending error:", err));
+    // Don't await, let them run in background
+    Promise.all([...pushPromises, ...emailPromises]).catch(err => console.error("Notification sending error:", err));
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },

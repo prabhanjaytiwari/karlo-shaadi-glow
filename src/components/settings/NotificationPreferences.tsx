@@ -5,7 +5,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Mail, MessageSquare, Loader2 } from "lucide-react";
+import { Bell, Mail, MessageSquare, Loader2, Smartphone } from "lucide-react";
+import { PushNotificationToggle } from "@/components/PushNotificationToggle";
 
 interface NotificationSettings {
   email_new_booking: boolean;
@@ -125,6 +126,17 @@ export function NotificationPreferences() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Push Notifications */}
+        <div className="space-y-4">
+          <h4 className="font-medium flex items-center gap-2">
+            <Smartphone className="h-4 w-4" />
+            Push Notifications
+          </h4>
+          <div className="pl-6">
+            <PushNotificationToggle variant="switch" showLabel={true} />
+          </div>
+        </div>
+
         {/* Email Notifications */}
         <div className="space-y-4">
           <h4 className="font-medium flex items-center gap-2">

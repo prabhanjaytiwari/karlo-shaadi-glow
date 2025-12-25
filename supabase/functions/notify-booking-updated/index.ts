@@ -106,6 +106,22 @@ serve(async (req: Request) => {
       link: "/bookings",
     });
 
+    // Send push notification
+    fetch(`${supabaseUrl}/functions/v1/send-push-notification`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${supabaseServiceKey}`,
+      },
+      body: JSON.stringify({
+        user_id: newBooking.couple_id,
+        title: notificationTitle,
+        body: notificationMessage,
+        url: "/bookings",
+        tag: "booking-update"
+      }),
+    }).catch(err => console.error("Push notification error:", err));
+
     // Send email in background
     fetch(`${supabaseUrl}/functions/v1/send-email`, {
       method: "POST",
