@@ -38,6 +38,35 @@ function recordFailedAttempt(userId: string): void {
   }
 }
 
+// Function to send payment receipt email
+async function sendPaymentReceiptEmail(supabase: any, params: {
+  userEmail: string;
+  userName: string;
+  amount: number;
+  paymentId: string;
+  orderId: string;
+  paymentType: 'subscription' | 'booking';
+  planName?: string;
+  vendorName?: string;
+  bookingDate?: string;
+}) {
+  try {
+    const { data, error } = await supabase.functions.invoke('send-payment-receipt', {
+      body: params
+    });
+    
+    if (error) {
+      console.error('Failed to send payment receipt email:', error);
+    } else {
+      console.log('Payment receipt email sent successfully');
+    }
+    return { data, error };
+  } catch (err) {
+    console.error('Error invoking send-payment-receipt:', err);
+    return { error: err };
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -97,6 +126,15 @@ serve(async (req) => {
       throw new Error("Invalid payment signature");
     }
 
+    // Get user profile for email
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .single();
+
+    const userName = profile?.full_name || "Customer";
+
     // Handle subscription payment
     if (subscriptionPlan) {
       console.log(`Processing subscription payment for plan: ${subscriptionPlan}`);
@@ -105,6 +143,11 @@ serve(async (req) => {
       const planPrices: Record<string, number> = {
         'premium': 2999,
         'vip': 9999
+      };
+      
+      const planNames: Record<string, string> = {
+        'premium': 'Premium Plan',
+        'vip': 'VIP Plan'
       };
       
       const amount = planPrices[subscriptionPlan] || 0;
@@ -132,6 +175,17 @@ serve(async (req) => {
 
       console.log(`Subscription ${subscriptionPlan} activated for user ${user.id}`);
       
+      // Send payment receipt email for subscription
+      await sendPaymentReceiptEmail(supabase, {
+        userEmail: user.email!,
+        userName,
+        amount,
+        paymentId,
+        orderId,
+        paymentType: 'subscription',
+        planName: planNames[subscriptionPlan] || subscriptionPlan
+      });
+      
       return new Response(
         JSON.stringify({ success: true, verified: true }),
         {
@@ -142,22 +196,69 @@ serve(async (req) => {
 
     // Handle booking payment
     // Update payment record
-    const { error: updateError } = await supabase
+    const { data: paymentRecord, error: updateError } = await supabase
       .from("payments")
       .update({
         status: "paid",
         paid_at: new Date().toISOString(),
         transaction_id: paymentId,
       })
-      .eq("transaction_id", orderId);
+      .eq("transaction_id", orderId)
+      .select("amount, milestone, booking_id")
+      .single();
 
     if (updateError) throw updateError;
+
+    // Get booking details for email
+    let vendorName = "Vendor";
+    let bookingDate = "";
+    
+    if (bookingId || paymentRecord?.booking_id) {
+      const targetBookingId = bookingId || paymentRecord?.booking_id;
+      
+      const { data: booking } = await supabase
+        .from("bookings")
+        .select("wedding_date, vendor_id")
+        .eq("id", targetBookingId)
+        .single();
+      
+      if (booking) {
+        bookingDate = new Date(booking.wedding_date).toLocaleDateString('en-IN', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        
+        // Get vendor name
+        const { data: vendor } = await supabase
+          .from("vendors")
+          .select("business_name")
+          .eq("id", booking.vendor_id)
+          .single();
+        
+        if (vendor) {
+          vendorName = vendor.business_name;
+        }
+      }
+    }
+
+    // Send payment receipt email for booking
+    await sendPaymentReceiptEmail(supabase, {
+      userEmail: user.email!,
+      userName,
+      amount: paymentRecord?.amount || 0,
+      paymentId,
+      orderId,
+      paymentType: 'booking',
+      vendorName,
+      bookingDate
+    });
 
     // Check if all milestones are paid to mark booking as confirmed
     const { data: payments } = await supabase
       .from("payments")
       .select("*")
-      .eq("booking_id", bookingId);
+      .eq("booking_id", bookingId || paymentRecord?.booking_id);
 
     const allPaid = payments?.every(p => p.status === "paid");
     
@@ -168,7 +269,7 @@ serve(async (req) => {
           status: "confirmed",
           confirmed_at: new Date().toISOString(),
         })
-        .eq("id", bookingId);
+        .eq("id", bookingId || paymentRecord?.booking_id);
     }
 
     return new Response(
