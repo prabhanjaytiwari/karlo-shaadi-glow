@@ -5,7 +5,8 @@ import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, MapPin, Users, DollarSign, Heart, Share2, Camera, Sparkles } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
+import { Calendar, MapPin, Users, DollarSign, Heart, Camera, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
@@ -146,10 +147,12 @@ const StoryDetail = () => {
                 <Heart className={`h-5 w-5 ${liked ? "fill-current" : ""}`} />
                 {liked ? "Liked" : "Like Story"}
               </Button>
-              <Button variant="outline" size="lg" className="gap-2">
-                <Share2 className="h-5 w-5" />
-                Share
-              </Button>
+              <ShareButton
+                path={`/stories/${id}`}
+                title={`${story.couple_names}'s Wedding Story`}
+                description={`Read ${story.couple_names}'s beautiful ${story.theme} wedding story on Karlo Shaadi!`}
+                size="lg"
+              />
             </div>
           </div>
         </div>

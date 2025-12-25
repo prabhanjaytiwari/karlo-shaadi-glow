@@ -5,7 +5,8 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Calendar, MapPin, Phone, Mail, Download } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
+import { CheckCircle, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -210,7 +211,7 @@ const BookingConfirmation = () => {
           </CardContent>
         </Card>
 
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Button 
             onClick={() => navigate("/bookings")}
             className="w-full"
@@ -232,6 +233,12 @@ const BookingConfirmation = () => {
             <Calendar className="w-4 h-4 mr-2" />
             Add to Calendar
           </Button>
+          <ShareButton
+            path={`/booking/${booking.id}`}
+            title={`Booking with ${booking.vendor.business_name}`}
+            description={`I just booked ${booking.vendor.business_name} for my wedding on Karlo Shaadi!`}
+            className="w-full"
+          />
         </div>
       </main>
       <BhindiFooter />
