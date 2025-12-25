@@ -171,14 +171,42 @@ self.addEventListener('notificationclick', function(event) {
 
 // Background sync for offline actions
 self.addEventListener('sync', function(event) {
+  console.log('[SW] Background sync triggered:', event.tag);
+  
   if (event.tag === 'sync-data') {
     event.waitUntil(syncData());
+  }
+  
+  if (event.tag === 'sync-messages') {
+    event.waitUntil(syncMessages());
+  }
+  
+  if (event.tag === 'sync-bookings') {
+    event.waitUntil(syncBookings());
   }
 });
 
 async function syncData() {
-  // Placeholder for syncing offline actions when back online
-  console.log('Syncing offline data...');
+  console.log('[SW] Syncing all offline data...');
+  await Promise.all([syncMessages(), syncBookings()]);
+}
+
+async function syncMessages() {
+  console.log('[SW] Syncing offline messages...');
+  // Notify the client to sync messages
+  const clients = await self.clients.matchAll({ type: 'window' });
+  clients.forEach(client => {
+    client.postMessage({ type: 'SYNC_MESSAGES' });
+  });
+}
+
+async function syncBookings() {
+  console.log('[SW] Syncing offline bookings...');
+  // Notify the client to sync bookings
+  const clients = await self.clients.matchAll({ type: 'window' });
+  clients.forEach(client => {
+    client.postMessage({ type: 'SYNC_BOOKINGS' });
+  });
 }
 
 // Message handler for cache management
@@ -193,5 +221,19 @@ self.addEventListener('message', function(event) {
     event.waitUntil(
       caches.open(DYNAMIC_CACHE).then(cache => cache.addAll(event.data.urls))
     );
+  }
+  
+  // Trigger background sync when requested
+  if (event.data && event.data.type === 'TRIGGER_SYNC') {
+    if ('sync' in self.registration) {
+      event.waitUntil(
+        self.registration.sync.register('sync-data')
+          .then(() => console.log('[SW] Sync registered'))
+          .catch(err => console.error('[SW] Sync registration failed:', err))
+      );
+    } else {
+      // Fallback: sync immediately
+      event.waitUntil(syncData());
+    }
   }
 });

@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useOfflineSync } from "@/hooks/useOfflineSync";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Loader2, AlertCircle, CheckCircle } from "lucide-react";
+import { Calendar, Loader2, AlertCircle, CheckCircle, WifiOff } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { sanitizeInput } from "@/lib/validation";
 import { SuccessAnimation } from "@/components/SuccessAnimation";
@@ -23,6 +24,7 @@ interface BookingDialogProps {
 export function BookingDialog({ vendorId, serviceId, initialDate, children }: BookingDialogProps) {
   const { toast } = useToast();
   const { trackEvent } = useAnalytics();
+  const { isOnline, queueBooking } = useOfflineSync();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [services, setServices] = useState<any[]>([]);
@@ -216,53 +218,64 @@ export function BookingDialog({ vendorId, serviceId, initialDate, children }: Bo
 
     setLoading(true);
     try {
-      const { error } = await supabase.from("bookings").insert([{
-        couple_id: user.id,
-        vendor_id: vendorId,
-        service_id: selectedService || null,
-        wedding_date: weddingDate,
-        total_amount: amountNum,
-        special_requirements: trimmedRequirements ? sanitizeInput(trimmedRequirements) : null,
-        status: "pending",
-        advance_percentage: advancePercentage,
-      }]);
+      const bookingData = {
+        coupleId: user.id,
+        vendorId: vendorId,
+        serviceId: selectedService || null,
+        weddingDate: weddingDate,
+        totalAmount: amountNum,
+        specialRequirements: trimmedRequirements ? sanitizeInput(trimmedRequirements) : null,
+        advancePercentage: advancePercentage,
+      };
 
-      if (error) throw error;
+      // Use offline-aware queue
+      const result = await queueBooking(bookingData);
 
-      // Track booking creation event
-      await trackEvent({
-        event_type: 'booking_created',
-        vendor_id: vendorId,
-        metadata: {
-          service_id: selectedService,
-          amount: parseFloat(amount),
-          wedding_date: weddingDate,
-        },
-      });
-
-      // Get the newly created booking ID
-      const { data: newBooking } = await supabase
-        .from("bookings")
-        .select("id")
-        .eq("couple_id", user.id)
-        .eq("vendor_id", vendorId)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .single();
-
-      setShowSuccess(true);
-      setOpen(false);
-      setWeddingDate("");
-      setAmount("");
-      setRequirements("");
-      setSelectedService("");
-
-      // Navigate to confirmation page after animation
-      setTimeout(() => {
-        if (newBooking) {
-          window.location.href = `/booking-confirmation?bookingId=${newBooking.id}`;
+      if (result.success) {
+        // Track booking creation event (only if online)
+        if (!result.offline) {
+          await trackEvent({
+            event_type: 'booking_created',
+            vendor_id: vendorId,
+            metadata: {
+              service_id: selectedService,
+              amount: amountNum,
+              wedding_date: weddingDate,
+            },
+          });
         }
-      }, 2000);
+
+        setShowSuccess(true);
+        setOpen(false);
+        setWeddingDate("");
+        setAmount("");
+        setRequirements("");
+        setSelectedService("");
+
+        if (result.offline) {
+          toast({
+            title: "Booking queued",
+            description: "Your booking request will be sent when you're back online",
+          });
+        } else {
+          // Get the newly created booking ID for navigation
+          const { data: newBooking } = await supabase
+            .from("bookings")
+            .select("id")
+            .eq("couple_id", user.id)
+            .eq("vendor_id", vendorId)
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .single();
+
+          // Navigate to confirmation page after animation
+          setTimeout(() => {
+            if (newBooking) {
+              window.location.href = `/booking-confirmation?bookingId=${newBooking.id}`;
+            }
+          }, 2000);
+        }
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -293,9 +306,14 @@ export function BookingDialog({ vendorId, serviceId, initialDate, children }: Bo
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Request Booking</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            Request Booking
+            {!isOnline && <WifiOff className="h-4 w-4 text-muted-foreground" />}
+          </DialogTitle>
           <DialogDescription>
-            Send a booking request to the vendor. They'll get back to you with availability and quote.
+            {isOnline 
+              ? "Send a booking request to the vendor. They'll get back to you with availability and quote."
+              : "You're offline. Your booking will be saved and sent when you're back online."}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
