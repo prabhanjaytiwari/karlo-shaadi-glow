@@ -75,6 +75,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BhindiHeader } from "@/components/BhindiHeader";
+import { MobileLayout } from "@/layouts/MobileLayout";
 
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
@@ -106,6 +107,7 @@ const App = () => (
           <BrowserRouter>
             <AuthProvider>
             <BhindiHeader />
+            <MobileLayout>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -178,6 +180,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            </MobileLayout>
             <WhatsAppButton />
             </AuthProvider>
           </BrowserRouter>
