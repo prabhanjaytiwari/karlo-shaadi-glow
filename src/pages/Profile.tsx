@@ -43,6 +43,22 @@ const Profile = () => {
         return;
       }
 
+      // Check if user is a vendor - redirect to vendor dashboard
+      const { data: vendorData } = await supabase
+        .from("vendors")
+        .select("id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (vendorData) {
+        toast({
+          title: "Redirecting...",
+          description: "Please update your profile from the Vendor Dashboard",
+        });
+        navigate("/vendor/dashboard?tab=profile");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
