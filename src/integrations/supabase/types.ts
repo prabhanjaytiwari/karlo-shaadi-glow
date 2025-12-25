@@ -1905,6 +1905,7 @@ export type Database = {
         | "jewelry"
         | "pandit"
         | "entertainment"
+        | "social-media-managers"
       vendor_subscription_plan: "free" | "featured" | "sponsored"
     }
     CompositeTypes: {
@@ -2061,6 +2062,7 @@ export const Constants = {
         "jewelry",
         "pandit",
         "entertainment",
+        "social-media-managers",
       ],
       vendor_subscription_plan: ["free", "featured", "sponsored"],
     },
