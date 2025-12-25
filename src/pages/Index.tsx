@@ -25,7 +25,7 @@ import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
 import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { FOMOBanner } from "@/components/FOMOBanner";
+
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
@@ -61,8 +61,6 @@ const Index = () => {
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
-      {/* FOMO Components */}
-      <FOMOBanner />
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}

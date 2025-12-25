@@ -256,36 +256,36 @@ export const BhindiHeader = () => {
                 {/* Regular Links */}
 
                 <NavigationMenuItem>
-                  <Link to="/blog">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                  <NavigationMenuLink asChild>
+                    <Link to="/blog" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                       Blog
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/pricing">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                  <NavigationMenuLink asChild>
+                    <Link to="/pricing" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                       Pricing
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/deals">
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
+                  <NavigationMenuLink asChild>
+                    <Link to="/deals" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
                       Deals
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 {!user && (
                   <NavigationMenuItem>
-                    <Link to="/for-vendors">
-                      <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                    <NavigationMenuLink asChild>
+                      <Link to="/for-vendors" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                         For Vendors
-                      </NavigationMenuLink>
-                    </Link>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 )}
               </NavigationMenuList>
