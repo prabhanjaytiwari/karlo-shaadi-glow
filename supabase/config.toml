@@ -41,3 +41,12 @@ verify_jwt = false
 
 [functions.regenerate-lyrics]
 verify_jwt = false
+
+[functions.send-payment-receipt]
+verify_jwt = false
+
+[functions.send-referral-notification]
+verify_jwt = false
+
+[functions.send-booking-reminder]
+verify_jwt = false

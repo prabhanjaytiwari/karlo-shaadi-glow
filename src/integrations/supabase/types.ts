@@ -618,6 +618,51 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          created_at: string | null
+          email_booking_status: boolean | null
+          email_marketing: boolean | null
+          email_new_booking: boolean | null
+          email_new_message: boolean | null
+          email_referral: boolean | null
+          email_review: boolean | null
+          id: string
+          sms_booking_status: boolean | null
+          sms_new_booking: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email_booking_status?: boolean | null
+          email_marketing?: boolean | null
+          email_new_booking?: boolean | null
+          email_new_message?: boolean | null
+          email_referral?: boolean | null
+          email_review?: boolean | null
+          id?: string
+          sms_booking_status?: boolean | null
+          sms_new_booking?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email_booking_status?: boolean | null
+          email_marketing?: boolean | null
+          email_new_booking?: boolean | null
+          email_new_message?: boolean | null
+          email_referral?: boolean | null
+          email_review?: boolean | null
+          id?: string
+          sms_booking_status?: boolean | null
+          sms_new_booking?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
@@ -1233,6 +1278,56 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "vendor_discounts_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_payments: {
+        Row: {
+          amount: number
+          created_at: string | null
+          description: string | null
+          id: string
+          invoice_number: string | null
+          paid_at: string | null
+          payment_type: string
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
+          status: string | null
+          vendor_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          invoice_number?: string | null
+          paid_at?: string | null
+          payment_type: string
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          status?: string | null
+          vendor_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          invoice_number?: string | null
+          paid_at?: string | null
+          payment_type?: string
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          status?: string | null
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_payments_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "vendors"
