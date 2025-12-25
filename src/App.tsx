@@ -76,6 +76,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { MobileLayout } from "@/layouts/MobileLayout";
+import { AppProviders } from "@/components/AppProviders";
 
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
@@ -106,6 +107,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <AuthProvider>
+            <AppProviders>
             <BhindiHeader />
             <MobileLayout>
             <Routes>
@@ -182,6 +184,7 @@ const App = () => (
             </Routes>
             </MobileLayout>
             <WhatsAppButton />
+            </AppProviders>
             </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>

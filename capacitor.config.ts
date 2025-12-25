@@ -10,11 +10,15 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
+      launchShowDuration: 2500,
       launchAutoHide: true,
-      backgroundColor: '#ffffff',
+      launchFadeOutDuration: 500,
+      backgroundColor: '#FFF5F5',
       androidSplashResourceName: 'splash',
+      androidScaleType: 'CENTER_CROP',
       showSpinner: false,
+      splashFullScreen: true,
+      splashImmersive: true,
     },
     StatusBar: {
       style: 'dark',
@@ -23,13 +27,21 @@ const config: CapacitorConfig = {
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
+    // Deep linking configuration
+    App: {
+      // URL scheme for deep links (karloshaadi://)
+      launchUrl: 'karloshaadi://',
+    },
   },
   ios: {
     contentInset: 'automatic',
     preferredContentMode: 'mobile',
+    // Universal links configuration for iOS
+    // Will be handled in Xcode with Associated Domains entitlement
   },
   android: {
     allowMixedContent: true,
+    // Android App Links will be configured in AndroidManifest.xml
   },
 };
 
