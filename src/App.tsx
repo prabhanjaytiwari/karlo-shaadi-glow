@@ -43,6 +43,7 @@ import FAQ from "./pages/FAQ";
 import HelpCenter from "./pages/HelpCenter";
 import VendorGuide from "./pages/VendorGuide";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Testimonials from "./pages/Testimonials";
 import SuccessStories from "./pages/SuccessStories";
 import Pricing from "./pages/Pricing";
@@ -157,6 +158,7 @@ const App = () => (
               <Route path="/help" element={<HelpCenter />} />
               <Route path="/vendor-guide" element={<VendorGuide />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/success-stories" element={<SuccessStories />} />
               <Route path="/pricing" element={<Pricing />} />

@@ -202,10 +202,12 @@ export default function Blog() {
                   </div>
                 </div>
                 
-                <Button className="w-fit group/btn">
-                  Read Full Article
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
-                </Button>
+                <Link to={`/blog/${featuredArticle.id}`}>
+                  <Button className="w-fit group/btn">
+                    Read Full Article
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -254,10 +256,12 @@ export default function Blog() {
                     </div>
                   </div>
                   
-                  <Button variant="ghost" className="w-full group/btn justify-between">
-                    Read More
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
+                  <Link to={`/blog/${article.id}`}>
+                    <Button variant="ghost" className="w-full group/btn justify-between">
+                      Read More
+                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
                 </div>
               </article>
             ))}
