@@ -755,6 +755,39 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_milestones: {
+        Row: {
+          badge_icon: string | null
+          badge_name: string | null
+          created_at: string
+          description: string
+          id: string
+          referral_count: number
+          reward_type: string
+          reward_value: number
+        }
+        Insert: {
+          badge_icon?: string | null
+          badge_name?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          referral_count: number
+          reward_type: string
+          reward_value?: number
+        }
+        Update: {
+          badge_icon?: string | null
+          badge_name?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          referral_count?: number
+          reward_type?: string
+          reward_value?: number
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           completed_at: string | null
@@ -1074,6 +1107,35 @@ export type Database = {
             columns: ["achievement_id"]
             isOneToOne: false
             referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_referral_milestones: {
+        Row: {
+          achieved_at: string
+          id: string
+          milestone_id: string
+          user_id: string
+        }
+        Insert: {
+          achieved_at?: string
+          id?: string
+          milestone_id: string
+          user_id: string
+        }
+        Update: {
+          achieved_at?: string
+          id?: string
+          milestone_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_referral_milestones_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "referral_milestones"
             referencedColumns: ["id"]
           },
         ]
