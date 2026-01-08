@@ -3,6 +3,8 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { PremiumBackground, PoweredByBadge, PremiumLoader } from "@/components/ui/premium-background";
+import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -836,14 +838,15 @@ To be part of our dreams coming true!`,
   };
 
   const handleShare = async (track: GeneratedTrack) => {
-    const shareText = `🎵 Listen to our personalized wedding song "${track.title}" created on Karlo Shaadi!\n\nCreate your own: ${window.location.href}`;
+    const shareUrl = `https://karloshaadi.com/music-generator`;
+    const shareText = `🎵 Listen to our personalized wedding song "${track.title}" created with Karlo Shaadi AI Music Generator!\n\n💕 Create your own wedding songs: ${shareUrl}\n\n#KarloShaadi #WeddingSong #IndianWedding`;
     
     if (navigator.share) {
       try {
         await navigator.share({
-          title: track.title,
+          title: `${track.title} - Karlo Shaadi`,
           text: shareText,
-          url: window.location.href
+          url: shareUrl
         });
       } catch (error) {
         // User cancelled
@@ -855,10 +858,10 @@ To be part of our dreams coming true!`,
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <PremiumBackground variant="festive" pattern animated className="min-h-screen">
       <BhindiHeader />
       
-      <main className="container mx-auto px-4 py-8 pt-24">
+      <main className="container mx-auto px-4 py-8 pt-24 relative">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -869,16 +872,16 @@ To be part of our dreams coming true!`,
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-pink-500/20 text-primary px-6 py-3 rounded-full mb-6 border border-primary/20"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-accent/20 to-primary/20 text-accent px-6 py-3 rounded-full mb-6 border border-accent/30 backdrop-blur-sm"
           >
             <Music2 className="h-5 w-5 animate-pulse" />
             <span className="font-semibold">AI Wedding Song Creator</span>
-            <Badge variant="secondary" className="bg-primary/20 text-primary text-xs">Powered by Suno V5</Badge>
+            <PremiumBadge variant="gold" icon={<Sparkles className="h-3 w-3" />}>Powered by AI</PremiumBadge>
           </motion.div>
           
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
             Create Your{" "}
-            <span className="bg-gradient-to-r from-primary via-pink-500 to-rose-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
               Personalized
             </span>
             <br />
@@ -890,17 +893,17 @@ To be part of our dreams coming true!`,
             Perfect for couple entries, sangeet performances, invitation videos, and more!
           </p>
           
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Mic2 className="h-4 w-4 text-primary" />
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+              <Mic2 className="h-4 w-4 text-accent" />
               <span>Personalized Lyrics</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Music4 className="h-4 w-4 text-primary" />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+              <Music4 className="h-4 w-4 text-accent" />
               <span>8 Music Styles</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <HeartHandshake className="h-4 w-4 text-primary" />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+              <HeartHandshake className="h-4 w-4 text-accent" />
               <span>Names in Songs</span>
             </div>
           </div>
@@ -1706,7 +1709,7 @@ To be part of our dreams coming true!`,
         )}
 
         {/* Features Section */}
-        <section className="py-12 border-t border-border">
+        <section className="py-12 border-t border-border/50">
           <h2 className="text-2xl font-semibold text-center mb-8">Why Create Songs with Karlo Shaadi?</h2>
           <div className="grid md:grid-cols-4 gap-6">
             {[
@@ -1715,19 +1718,22 @@ To be part of our dreams coming true!`,
               { icon: Mic2, title: "AI Vocals", desc: "Professional quality vocals and instruments" },
               { icon: Download, title: "Download & Share", desc: "Get MP3 files, share on WhatsApp instantly" }
             ].map((feature, i) => (
-              <Card key={i} className="text-center p-6 bg-muted/30 border-0">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                  <feature.icon className="h-6 w-6 text-primary" />
+              <PremiumCard key={i} variant="default" hover className="text-center p-6">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                  <feature.icon className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="font-semibold mb-2">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground">{feature.desc}</p>
-              </Card>
+              </PremiumCard>
             ))}
+          </div>
+          <div className="flex justify-center mt-8">
+            <PoweredByBadge />
           </div>
         </section>
       </main>
 
       <BhindiFooter />
-    </div>
+    </PremiumBackground>
   );
 }
