@@ -215,6 +215,16 @@ const Auth = () => {
           },
         });
 
+        // Send welcome email (fire and forget - don't block signup)
+        supabase.functions.invoke('onboarding-email', {
+          body: {
+            user_id: authData.user.id,
+            email: data.email,
+            name: data.fullName,
+            user_type: 'couple'
+          }
+        }).catch(err => console.error('Welcome email failed:', err));
+
         const bonusMessage = referralCode 
           ? " You got ₹500 referral bonus!" 
           : "";

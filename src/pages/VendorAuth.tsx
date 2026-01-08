@@ -234,7 +234,15 @@ const VendorAuth = () => {
           metadata: { method: "password" },
         });
 
-        // Role is now automatically created by database trigger based on business_name metadata
+        // Send welcome email (fire and forget - don't block signup)
+        supabase.functions.invoke('onboarding-email', {
+          body: {
+            user_id: data.user.id,
+            email: trimmedEmail,
+            name: trimmedOwnerName,
+            user_type: 'vendor'
+          }
+        }).catch(err => console.error('Welcome email failed:', err));
 
         toast({
           title: "Account created!",
