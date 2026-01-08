@@ -56,3 +56,9 @@ verify_jwt = false
 
 [functions.notify-message-created]
 verify_jwt = false
+
+[functions.onboarding-email]
+verify_jwt = false
+
+[functions.send-email]
+verify_jwt = false
