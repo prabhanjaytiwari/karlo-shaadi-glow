@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { BhindiHeader } from "@/components/BhindiHeader";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
+import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
 import { 
   Globe, 
   Heart, 
@@ -34,7 +37,8 @@ import {
   MessageSquare,
   Phone,
   Mail,
-  Loader2
+  Loader2,
+  Share2
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -360,6 +364,12 @@ const WeddingWebsite = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const shareOnWhatsApp = () => {
+    const shareText = `💒 Check out our wedding website!\n\n💕 ${formData.brideName} & ${formData.groomName}\n📅 ${formData.weddingDate}\n📍 ${formData.venue}\n\n🌐 ${generatedUrl}\n\n✨ Create your own wedding website: https://karloshaadi.com/wedding-website`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const rsvpStats = {
     total: rsvpList.length,
     attending: rsvpList.filter(r => r.attending).length,
@@ -368,7 +378,8 @@ const WeddingWebsite = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <PremiumBackground variant="wedding" pattern className="min-h-screen">
+      <BhindiHeader />
       <SEO
         title="Create Your Wedding Website - Free with Karlo Shaadi"
         description="Design a beautiful, personalized wedding website in minutes. Share your love story, event details, and RSVP with guests. Free wedding website builder with premium templates."
@@ -377,21 +388,15 @@ const WeddingWebsite = () => {
       
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-background to-primary/5" />
-        <div className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        
         <div className="container mx-auto px-4 relative">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <Badge className="mb-4 bg-accent/10 text-accent border-accent/20 px-4 py-1.5">
-              <Globe className="w-3.5 h-3.5 mr-2" />
+            <PremiumBadge variant="gold" icon={<Globe className="w-3.5 h-3.5" />} className="mb-4">
               FREE Wedding Website Builder
-            </Badge>
+            </PremiumBadge>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Your Love Story
@@ -418,9 +423,9 @@ const WeddingWebsite = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card/50 border border-border/50"
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50"
                 >
-                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
                     <feature.icon className="w-5 h-5 text-accent" />
                   </div>
                   <span className="text-sm font-medium">{feature.label}</span>
@@ -1338,7 +1343,7 @@ const WeddingWebsite = () => {
       </Dialog>
 
       <BhindiFooter />
-    </div>
+    </PremiumBackground>
   );
 };
 

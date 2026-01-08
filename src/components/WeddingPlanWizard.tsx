@@ -10,9 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, ArrowRight, ArrowLeft, Sparkles, Heart, Loader2 } from "lucide-react";
+import { CalendarIcon, ArrowRight, ArrowLeft, Sparkles, Heart, Loader2, MapPin, Users, IndianRupee, Palette } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PremiumBackground, PoweredByBadge, PremiumLoader } from "@/components/ui/premium-background";
+import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
 
 interface WizardData {
   side: "bride" | "groom" | null;
@@ -377,34 +379,38 @@ export function WeddingPlanWizard() {
 
   if (isGenerating) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-6">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          >
-            <Sparkles className="h-16 w-16 text-primary mx-auto" />
-          </motion.div>
-          <div>
-            <h2 className="text-2xl font-bold mb-2">Creating your perfect wedding plan...</h2>
-            <p className="text-muted-foreground">Our AI is crafting something special for {data.yourName} & {data.partnerName}</p>
+      <PremiumBackground variant="wedding" pattern animated className="min-h-screen flex items-center justify-center">
+        <PremiumCard variant="gold" glow hover={false} className="max-w-md mx-4 p-8">
+          <div className="text-center space-y-6">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center"
+            >
+              <Sparkles className="h-10 w-10 text-accent" />
+            </motion.div>
+            <div>
+              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Creating your perfect wedding plan...</h2>
+              <p className="text-muted-foreground">Our AI is crafting something special for {data.yourName} & {data.partnerName}</p>
+            </div>
+            <div className="flex items-center justify-center gap-2 bg-accent/10 px-4 py-2 rounded-full">
+              <Loader2 className="h-5 w-5 animate-spin text-accent" />
+              <span className="text-sm text-accent font-medium">This may take a moment</span>
+            </div>
+            <PoweredByBadge />
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="text-sm text-muted-foreground">This may take a moment</span>
-          </div>
-        </div>
-      </div>
+        </PremiumCard>
+      </PremiumBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <PremiumBackground variant="wedding" pattern className="min-h-screen flex flex-col">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm">
-        <div className="h-1 bg-muted">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+        <div className="h-1.5 bg-muted">
           <motion.div
-            className="h-full bg-primary"
+            className="h-full bg-gradient-to-r from-accent to-primary"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -413,20 +419,33 @@ export function WeddingPlanWizard() {
         <div className="container py-4 flex items-center justify-between">
           <button
             onClick={() => navigate("/")}
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
           >
-            ← Back to Home
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
           </button>
-          <div className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-primary" />
-            <span className="font-semibold">Step {step} of {totalSteps}</span>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <div
+                  key={s}
+                  className={cn(
+                    "w-2 h-2 rounded-full transition-all",
+                    step >= s ? "bg-accent w-3" : "bg-muted-foreground/30"
+                  )}
+                />
+              ))}
+            </div>
+            <PremiumBadge variant="gold" icon={<Heart className="h-3 w-3" />}>
+              Step {step} of {totalSteps}
+            </PremiumBadge>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex items-center justify-center pt-24 pb-32 px-4">
-        <div className="w-full max-w-2xl">
+      <div className="flex-1 flex items-center justify-center pt-28 pb-36 px-4">
+        <PremiumCard variant="default" glow={false} hover={false} className="w-full max-w-2xl p-8 md:p-10">
           <AnimatePresence mode="wait" custom={step}>
             <motion.div
               key={step}
@@ -440,25 +459,28 @@ export function WeddingPlanWizard() {
               {renderStep()}
             </motion.div>
           </AnimatePresence>
-        </div>
+        </PremiumCard>
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background border-t">
+      <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border/50">
         <div className="container py-4 flex items-center justify-between gap-4">
           <Button
             variant="outline"
             onClick={handleBack}
             disabled={step === 1}
-            className="gap-2"
+            className="gap-2 border-border/50"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
+          <div className="flex items-center gap-2">
+            <PoweredByBadge />
+          </div>
           <Button
             onClick={handleNext}
             disabled={!canProceed()}
-            className="gap-2 min-w-[140px]"
+            className="gap-2 min-w-[160px] bg-gradient-to-r from-accent to-primary hover:opacity-90 transition-opacity"
           >
             {step === totalSteps ? (
               <>
@@ -474,6 +496,6 @@ export function WeddingPlanWizard() {
           </Button>
         </div>
       </div>
-    </div>
+    </PremiumBackground>
   );
 }

@@ -11,6 +11,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { SEO } from "@/components/SEO";
+import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
+import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
 import {
   Calendar,
   MapPin,
@@ -27,6 +29,7 @@ import {
   ChevronRight,
   Loader2,
   PartyPopper,
+  ExternalLink,
 } from "lucide-react";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -102,8 +105,8 @@ export default function WeddingPlanResult() {
   const handleShare = () => {
     if (!plan) return;
 
-    const shareUrl = `${window.location.origin}/plan/${plan.planId}`;
-    const message = `${plan.shareableMessage}\n\nView full plan: ${shareUrl}`;
+    const shareUrl = `https://karloshaadi.com/plan/${plan.planId}`;
+    const message = `💒 Check out our wedding plan created with Karlo Shaadi!\n\n💕 ${plan.coupleNames}\n📅 ${plan.weddingDate}\n📍 ${plan.city}\n💰 Budget: ${formatCurrency(plan.totalBudget)}\n👥 ${plan.guestCount} Guests\n\n✨ View full plan: ${shareUrl}\n\n🎯 Create your own AI wedding plan: https://karloshaadi.com/plan`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
@@ -162,20 +165,28 @@ export default function WeddingPlanResult() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
+      <PremiumBackground variant="wedding" pattern className="min-h-screen flex items-center justify-center">
+        <PremiumCard variant="gold" glow className="p-8">
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-10 w-10 animate-spin text-accent" />
+            <p className="text-muted-foreground">Loading your wedding plan...</p>
+          </div>
+        </PremiumCard>
+      </PremiumBackground>
     );
   }
 
   if (!plan) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Plan not found</h2>
-          <Button onClick={() => navigate("/")}>Go Home</Button>
-        </div>
-      </div>
+      <PremiumBackground variant="wedding" pattern className="min-h-screen flex items-center justify-center">
+        <PremiumCard variant="maroon" className="p-8 max-w-md text-center">
+          <h2 className="text-2xl font-bold mb-4">Plan not found</h2>
+          <p className="text-muted-foreground mb-6">This wedding plan may have been removed or the link is incorrect.</p>
+          <Button onClick={() => navigate("/")} className="bg-gradient-to-r from-accent to-primary">
+            Go Home
+          </Button>
+        </PremiumCard>
+      </PremiumBackground>
     );
   }
 
@@ -191,10 +202,9 @@ export default function WeddingPlanResult() {
       />
       <BhindiHeader />
 
-      <main className="min-h-screen bg-gradient-to-b from-background to-muted/30 pt-20">
+      <PremiumBackground variant="wedding" pattern animated className="min-h-screen pt-20">
         {/* Hero Section */}
         <section className="relative py-12 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-pink-500/5" />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -205,33 +215,33 @@ export default function WeddingPlanResult() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring" }}
-                className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6"
               >
-                <Sparkles className="h-4 w-4" />
-                <span className="text-sm font-medium">Your Wedding Plan is Ready!</span>
+                <PremiumBadge variant="gold" icon={<Sparkles className="h-3 w-3" />} className="mb-6">
+                  Your Wedding Plan is Ready!
+                </PremiumBadge>
               </motion.div>
 
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-primary to-pink-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
                   {plan.coupleNames}
                 </span>
               </h1>
 
               <div className="flex flex-wrap items-center justify-center gap-4 text-muted-foreground mb-8">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
+                <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50">
+                  <Calendar className="h-4 w-4 text-accent" />
                   <span>{plan.weddingDate}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
+                <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50">
+                  <MapPin className="h-4 w-4 text-accent" />
                   <span>{plan.city}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
+                <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50">
+                  <Users className="h-4 w-4 text-accent" />
                   <span>{plan.guestCount} Guests</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <IndianRupee className="h-4 w-4" />
+                <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50">
+                  <IndianRupee className="h-4 w-4 text-accent" />
                   <span>{formatCurrency(plan.totalBudget)}</span>
                 </div>
               </div>
@@ -249,7 +259,7 @@ export default function WeddingPlanResult() {
                   onClick={handleSave}
                   variant="outline"
                   size="lg"
-                  className="gap-2"
+                  className="gap-2 border-accent/30 hover:bg-accent/10"
                   disabled={saving}
                 >
                   {saving ? (
@@ -259,6 +269,10 @@ export default function WeddingPlanResult() {
                   )}
                   {user ? "Save Plan" : "Sign in to Save"}
                 </Button>
+              </div>
+              
+              <div className="mt-6">
+                <PoweredByBadge />
               </div>
             </div>
           </motion.div>
@@ -570,7 +584,7 @@ export default function WeddingPlanResult() {
             </TabsContent>
           </Tabs>
         </section>
-      </main>
+      </PremiumBackground>
 
       <BhindiFooter />
     </>
