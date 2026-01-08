@@ -169,13 +169,19 @@ ${formData.city ? `🏙️ ${formData.city}` : ""}
 
 We would be honored by your presence!
 
-Create your own invite: ${window.location.origin}/invite-creator`;
+📲 Create your FREE invite at:
+${window.location.origin}/invite-creator
+
+Made with 💕 on Karlo Shaadi`;
 
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-background via-accent/5 to-background py-8 px-4 relative overflow-hidden">
+      {/* Decorative background orbs */}
+      <div className="absolute -z-10 top-20 -left-32 w-96 h-96 rounded-full blur-3xl opacity-20 bg-gradient-to-br from-accent/30 to-primary/20" />
+      <div className="absolute -z-10 bottom-20 -right-32 w-[500px] h-[500px] rounded-full blur-3xl opacity-15 bg-gradient-to-tl from-primary/30 to-accent/20" />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

@@ -1,14 +1,15 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Star, Share2, CalendarPlus, Clock, Sparkles, AlertTriangle } from "lucide-react";
+import { Calendar, Star, Share2, CalendarPlus, Clock, Sparkles, AlertTriangle, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MUHURAT_2025, MONTHS, type MuhuratDate } from "@/data/muhuratDates2025";
 import { format, differenceInDays, parseISO } from "date-fns";
+import { PremiumCard, PremiumCardContent, PremiumBadge } from "@/components/ui/premium-card";
+import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
 
 const MuhuratFinder = () => {
   const [selectedMonth, setSelectedMonth] = useState<number | "all">("all");
@@ -18,20 +19,16 @@ const MuhuratFinder = () => {
   const filteredMuhurats = useMemo(() => {
     let muhurats = MUHURAT_2025;
 
-    // Filter by month
     if (selectedMonth !== "all") {
       muhurats = muhurats.filter(m => m.month === selectedMonth);
     }
 
-    // Filter by minimum rating
     muhurats = muhurats.filter(m => m.rating >= minRating);
 
-    // Filter by day of week
     if (selectedDays.length > 0) {
       muhurats = muhurats.filter(m => selectedDays.includes(m.day));
     }
 
-    // Sort by date
     return muhurats.sort((a, b) => a.date.localeCompare(b.date));
   }, [selectedMonth, minRating, selectedDays]);
 
@@ -46,7 +43,8 @@ const MuhuratFinder = () => {
 ${stars} ${muhurat.rating === 5 ? "Most Auspicious!" : muhurat.rating >= 4 ? "Very Auspicious" : "Good Muhurat"}
 ${muhurat.notes ? `\n💫 ${muhurat.notes}` : ""}
 
-Find your perfect date: ${window.location.origin}/muhurat-finder
+📲 Find your perfect date:
+${window.location.origin}/muhurat-finder
 
 Made with 💕 on Karlo Shaadi`;
 
@@ -54,11 +52,10 @@ Made with 💕 on Karlo Shaadi`;
   };
 
   const addToCalendar = (muhurat: MuhuratDate) => {
-    const eventTitle = `Wedding Muhurat - ${muhurat.nakshatra}`;
-    const eventDetails = `Tithi: ${muhurat.tithi}%0ATiming: ${muhurat.timing}%0A${muhurat.notes || ""}`;
+    const eventTitle = `💒 Wedding Muhurat - ${muhurat.nakshatra}`;
+    const eventDetails = `Tithi: ${muhurat.tithi}%0ATiming: ${muhurat.timing}%0A${muhurat.notes || ""}%0A%0AFound on Karlo Shaadi`;
     const startDate = muhurat.date.replace(/-/g, "");
     
-    // Google Calendar URL
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startDate}/${startDate}&details=${eventDetails}`;
     
     window.open(googleUrl, "_blank");
@@ -72,272 +69,294 @@ Made with 💕 on Karlo Shaadi`;
     return `${days} days away`;
   };
 
-  const dayOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const renderStars = (rating: number) => (
+    <div className="star-rating">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`h-4 w-4 ${i < rating ? "star-filled fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`}
+        />
+      ))}
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <Calendar className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">2025 Muhurat Calendar</span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
-            Shubh Muhurat Finder
-          </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Find the most auspicious wedding dates in 2025 based on Hindu Panchang
-          </p>
-        </motion.div>
+    <PremiumBackground variant="festive" pattern>
+      <div className="py-8 px-4">
+        <div className="max-w-5xl mx-auto">
+          {/* Premium Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="premium-tool-header rounded-3xl mb-8 px-6"
+          >
+            <div className="flex flex-col items-center">
+              <PremiumBadge variant="gold" icon={<Calendar className="h-3.5 w-3.5" />}>
+                2025 Muhurat Calendar
+              </PremiumBadge>
+              <h1 className="text-3xl md:text-5xl font-display font-bold mt-4 mb-3">
+                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Shubh Muhurat
+                </span>{" "}
+                Finder
+              </h1>
+              <p className="text-muted-foreground max-w-xl mx-auto text-center">
+                Find the most auspicious wedding dates in 2025 based on Hindu Panchang
+              </p>
+            </div>
+          </motion.div>
 
-        {/* Month Selection Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-6"
-        >
-          <h3 className="text-sm font-medium mb-3">Select Month</h3>
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-            <button
-              onClick={() => setSelectedMonth("all")}
-              className={`p-3 rounded-lg border text-center transition-all ${
-                selectedMonth === "all"
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "bg-card hover:bg-accent/10 border-border"
-              }`}
-            >
-              <span className="text-sm font-medium">All</span>
-              <p className="text-xs opacity-70">{MUHURAT_2025.length}</p>
-            </button>
-            {MONTHS.map(month => (
-              <button
-                key={month.value}
-                onClick={() => setSelectedMonth(month.value)}
-                className={`p-3 rounded-lg border text-center transition-all relative ${
-                  selectedMonth === month.value
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : month.highlight
-                    ? "bg-accent/10 hover:bg-accent/20 border-accent/30"
-                    : month.warning
-                    ? "bg-amber-50 hover:bg-amber-100 border-amber-200"
-                    : "bg-card hover:bg-accent/10 border-border"
-                }`}
-              >
-                {month.highlight && (
-                  <Star className="h-3 w-3 absolute top-1 right-1 text-accent fill-accent" />
-                )}
-                {month.warning && (
-                  <AlertTriangle className="h-3 w-3 absolute top-1 right-1 text-amber-500" />
-                )}
-                <span className="text-sm font-medium">{month.label.slice(0, 3)}</span>
-                <p className="text-xs opacity-70">{month.muhuratCount}</p>
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card className="mb-6">
-            <CardContent className="p-4">
-              <div className="flex flex-wrap gap-4 items-center">
-                {/* Minimum Rating */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">Min Rating:</span>
-                  <Select value={minRating.toString()} onValueChange={(v) => setMinRating(parseInt(v))}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="3">3+ Stars</SelectItem>
-                      <SelectItem value="4">4+ Stars</SelectItem>
-                      <SelectItem value="5">5 Stars Only</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Day of Week Filter */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-medium">Days:</span>
-                  {["Friday", "Saturday", "Sunday"].map(day => (
-                    <label key={day} className="flex items-center gap-1.5 cursor-pointer">
-                      <Checkbox
-                        checked={selectedDays.includes(day)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            setSelectedDays([...selectedDays, day]);
-                          } else {
-                            setSelectedDays(selectedDays.filter(d => d !== day));
-                          }
-                        }}
-                      />
-                      <span className="text-sm">{day}</span>
-                    </label>
+          {/* Month Selection Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-6"
+          >
+            <PremiumCard variant="gradient">
+              <PremiumCardContent className="p-6">
+                <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-accent" />
+                  Select Month
+                </h3>
+                <div className="grid grid-cols-4 md:grid-cols-7 gap-2">
+                  <button
+                    onClick={() => setSelectedMonth("all")}
+                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                      selectedMonth === "all"
+                        ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-primary shadow-lg"
+                        : "bg-card/50 hover:bg-accent/10 border-border/50 hover:border-accent/30"
+                    }`}
+                  >
+                    <span className="text-sm font-semibold">All</span>
+                    <p className="text-xs opacity-70">{MUHURAT_2025.length}</p>
+                  </button>
+                  {MONTHS.map(month => (
+                    <button
+                      key={month.value}
+                      onClick={() => setSelectedMonth(month.value)}
+                      className={`p-3 rounded-xl border-2 text-center transition-all relative ${
+                        selectedMonth === month.value
+                          ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-primary shadow-lg"
+                          : month.highlight
+                          ? "bg-accent/10 hover:bg-accent/20 border-accent/30"
+                          : month.warning
+                          ? "bg-amber-50 hover:bg-amber-100 border-amber-200"
+                          : "bg-card/50 hover:bg-accent/10 border-border/50 hover:border-accent/30"
+                      }`}
+                    >
+                      {month.highlight && (
+                        <Star className="h-3 w-3 absolute top-1 right-1 text-accent fill-accent" />
+                      )}
+                      {month.warning && (
+                        <AlertTriangle className="h-3 w-3 absolute top-1 right-1 text-amber-500" />
+                      )}
+                      <span className="text-sm font-semibold">{month.label.slice(0, 3)}</span>
+                      <p className="text-xs opacity-70">{month.muhuratCount}</p>
+                    </button>
                   ))}
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              </PremiumCardContent>
+            </PremiumCard>
+          </motion.div>
 
-        {/* Results Count */}
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-muted-foreground">
-            Found <span className="font-bold text-foreground">{filteredMuhurats.length}</span> auspicious dates
-          </p>
-          {selectedDays.length > 0 && (
-            <Button variant="ghost" size="sm" onClick={() => setSelectedDays([])}>
-              Clear filters
-            </Button>
-          )}
-        </div>
+          {/* Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <PremiumCard className="mb-6">
+              <PremiumCardContent className="p-4">
+                <div className="flex flex-wrap gap-6 items-center">
+                  {/* Minimum Rating */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium text-muted-foreground">Min Rating:</span>
+                    <Select value={minRating.toString()} onValueChange={(v) => setMinRating(parseInt(v))}>
+                      <SelectTrigger className="w-36 bg-background/50">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="3">⭐⭐⭐ 3+ Stars</SelectItem>
+                        <SelectItem value="4">⭐⭐⭐⭐ 4+ Stars</SelectItem>
+                        <SelectItem value="5">⭐⭐⭐⭐⭐ 5 Stars Only</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-        {/* Muhurat Cards */}
-        <div className="space-y-4">
-          <AnimatePresence mode="popLayout">
-            {filteredMuhurats.map((muhurat, index) => {
-              const daysUntil = getDaysUntil(muhurat.date);
-              const isPast = daysUntil === null;
+                  {/* Day of Week Filter */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="text-sm font-medium text-muted-foreground">Days:</span>
+                    {["Friday", "Saturday", "Sunday"].map(day => (
+                      <label key={day} className="flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-lg border border-border/50 hover:border-accent/30 hover:bg-accent/5 transition-all">
+                        <Checkbox
+                          checked={selectedDays.includes(day)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedDays([...selectedDays, day]);
+                            } else {
+                              setSelectedDays(selectedDays.filter(d => d !== day));
+                            }
+                          }}
+                        />
+                        <span className="text-sm">{day}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </PremiumCardContent>
+            </PremiumCard>
+          </motion.div>
 
-              return (
-                <motion.div
-                  key={muhurat.date}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ delay: index * 0.03 }}
-                >
-                  <Card className={`overflow-hidden ${isPast ? "opacity-60" : ""} ${muhurat.rating === 5 ? "border-2 border-primary/50" : ""}`}>
-                    <CardContent className="p-0">
+          {/* Results Count */}
+          <div className="flex justify-between items-center mb-4 px-2">
+            <p className="text-sm text-muted-foreground">
+              Found <span className="font-bold text-primary text-lg">{filteredMuhurats.length}</span> auspicious dates
+            </p>
+            {selectedDays.length > 0 && (
+              <Button variant="ghost" size="sm" onClick={() => setSelectedDays([])} className="text-accent hover:text-accent">
+                Clear filters
+              </Button>
+            )}
+          </div>
+
+          {/* Muhurat Cards */}
+          <div className="space-y-4">
+            <AnimatePresence mode="popLayout">
+              {filteredMuhurats.map((muhurat, index) => {
+                const daysUntil = getDaysUntil(muhurat.date);
+                const isPast = daysUntil === null;
+                const isFiveStar = muhurat.rating === 5;
+
+                return (
+                  <motion.div
+                    key={muhurat.date}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: index * 0.03 }}
+                  >
+                    <div className={`muhurat-card ${isFiveStar ? "five-star" : ""} ${isPast ? "opacity-60" : ""}`}>
                       <div className="flex flex-col md:flex-row">
                         {/* Date Column */}
-                        <div className={`p-4 md:w-40 flex flex-col items-center justify-center text-center ${
-                          muhurat.rating === 5 ? "bg-primary/10" : "bg-accent/5"
-                        }`}>
-                          <span className="text-3xl font-bold">
+                        <div className="date-column">
+                          <span className="text-4xl font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
                             {format(parseISO(muhurat.date), "d")}
                           </span>
-                          <span className="text-sm font-medium">
+                          <span className="text-sm font-semibold text-foreground/80">
                             {format(parseISO(muhurat.date), "MMMM")}
                           </span>
                           <span className="text-xs text-muted-foreground">
                             {muhurat.day}
                           </span>
                           {daysUntil && (
-                            <Badge variant="outline" className="mt-2 text-xs">
+                            <Badge variant="outline" className="mt-2 text-xs bg-background/50 border-accent/30 text-accent">
                               {daysUntil}
                             </Badge>
                           )}
                         </div>
 
                         {/* Details Column */}
-                        <div className="flex-1 p-4">
+                        <div className="flex-1 p-4 md:p-5">
                           <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                             <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-semibold">{muhurat.nakshatra}</h3>
-                                <div className="flex">
-                                  {Array.from({ length: muhurat.rating }).map((_, i) => (
-                                    <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
-                                  ))}
-                                </div>
+                              <div className="flex items-center gap-3 mb-1">
+                                <h3 className="font-semibold text-lg">{muhurat.nakshatra}</h3>
+                                {renderStars(muhurat.rating)}
                               </div>
                               <p className="text-sm text-muted-foreground">{muhurat.tithi}</p>
                             </div>
-                            <div className="flex items-center gap-1 text-sm">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
-                              <span className="font-medium">{muhurat.timing}</span>
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent/10 border border-accent/20">
+                              <Clock className="h-4 w-4 text-accent" />
+                              <span className="font-medium text-sm">{muhurat.timing}</span>
                             </div>
                           </div>
 
                           {muhurat.notes && (
-                            <Badge className="mb-3 bg-accent/20 text-accent-foreground hover:bg-accent/30">
+                            <Badge className="mb-3 bg-gradient-to-r from-accent/20 to-primary/20 text-foreground border border-accent/20 hover:bg-accent/30">
                               ✨ {muhurat.notes}
                             </Badge>
                           )}
 
                           {/* Actions */}
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-2 pt-2">
                             <Button
                               size="sm"
-                              variant="outline"
                               onClick={() => handleWhatsAppShare(muhurat)}
-                              className="gap-1"
+                              className="gap-1.5 bg-green-600 hover:bg-green-700"
                             >
-                              <Share2 className="h-3 w-3" />
+                              <Share2 className="h-3.5 w-3.5" />
                               Share
                             </Button>
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => addToCalendar(muhurat)}
-                              className="gap-1"
+                              className="gap-1.5 border-accent/30 hover:bg-accent/10"
                             >
-                              <CalendarPlus className="h-3 w-3" />
+                              <CalendarPlus className="h-3.5 w-3.5" />
                               Add to Calendar
                             </Button>
                             <Link to={`/search?date=${muhurat.date}`}>
-                              <Button size="sm" variant="ghost" className="gap-1">
+                              <Button size="sm" variant="ghost" className="gap-1.5">
+                                <ExternalLink className="h-3.5 w-3.5" />
                                 Find Vendors
                               </Button>
                             </Link>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+
+          {filteredMuhurats.length === 0 && (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">🔍</div>
+              <p className="text-muted-foreground mb-4 text-lg">No muhurats found with current filters</p>
+              <Button variant="outline" onClick={() => {
+                setMinRating(3);
+                setSelectedDays([]);
+              }} className="border-accent/30 hover:bg-accent/10">
+                Reset Filters
+              </Button>
+            </div>
+          )}
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mt-12"
+          >
+            <PremiumCard variant="gold" glow>
+              <PremiumCardContent className="p-8 text-center">
+                <h3 className="text-xl font-semibold mb-2">Found your perfect date?</h3>
+                <p className="text-muted-foreground mb-6">Let us help you plan your dream wedding</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/plan-wizard">
+                    <Button size="lg" className="gap-2 w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg">
+                      <Sparkles className="h-5 w-5" />
+                      Get AI Wedding Plan
+                    </Button>
+                  </Link>
+                  <Link to="/budget-calculator">
+                    <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto border-accent/30 hover:bg-accent/10">
+                      Calculate Budget
+                    </Button>
+                  </Link>
+                </div>
+                <PoweredByBadge className="mt-6" />
+              </PremiumCardContent>
+            </PremiumCard>
+          </motion.div>
         </div>
-
-        {filteredMuhurats.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No muhurats found with current filters</p>
-            <Button variant="outline" onClick={() => {
-              setMinRating(3);
-              setSelectedDays([]);
-            }}>
-              Reset Filters
-            </Button>
-          </div>
-        )}
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 text-center"
-        >
-          <p className="text-muted-foreground mb-4">Found your perfect date?</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/plan-wizard">
-              <Button size="lg" className="gap-2 w-full sm:w-auto">
-                <Sparkles className="h-5 w-5" />
-                Get AI Wedding Plan
-              </Button>
-            </Link>
-            <Link to="/budget-calculator">
-              <Button size="lg" variant="outline" className="gap-2 w-full sm:w-auto">
-                Calculate Budget
-              </Button>
-            </Link>
-          </div>
-        </motion.div>
       </div>
-    </div>
+    </PremiumBackground>
   );
 };
 
