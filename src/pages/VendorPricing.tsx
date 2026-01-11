@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,40 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Crown, TrendingUp, Gem, Star } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export default function VendorPricing() {
   const navigate = useNavigate();
+  const [isVendor, setIsVendor] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkVendorStatus();
+  }, []);
+
+  const checkVendorStatus = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      // Check if user is a vendor
+      const { data: vendor } = await supabase
+        .from("vendors")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+
+      setIsVendor(!!vendor);
+    } catch (error) {
+      console.error("Error checking vendor status:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const plans = [
     {
@@ -121,13 +152,29 @@ export default function VendorPricing() {
     },
   ];
 
-  const handleUpgrade = (planId: string) => {
+  const handleUpgrade = async (planId: string) => {
     if (planId === 'free') {
       navigate('/vendor-onboarding');
-    } else {
-      // Navigate to dashboard with upgrade intent
-      navigate('/vendor/dashboard', { state: { upgradeTo: planId } });
+      return;
     }
+    
+    // Check if user is logged in
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast.error("Please sign in first to upgrade your plan");
+      navigate('/vendor-auth', { state: { from: '/vendor-pricing', upgradeTo: planId } });
+      return;
+    }
+
+    // Check if user is a vendor
+    if (!isVendor) {
+      toast.info("Complete your vendor registration first");
+      navigate('/vendor-onboarding', { state: { upgradeTo: planId } });
+      return;
+    }
+
+    // Navigate to dashboard with upgrade intent
+    navigate('/vendor/dashboard', { state: { upgradeTo: planId } });
   };
 
   return (

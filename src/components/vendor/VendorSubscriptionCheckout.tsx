@@ -26,14 +26,24 @@ interface VendorSubscriptionCheckoutProps {
   onSuccess: () => void;
 }
 
-const PLAN_DETAILS = {
+// Plan tiers mapping to vendor_subscription_plan enum values
+// Note: The database enum has: free, featured, sponsored
+// We map Silver->free (with paid benefits), Gold->featured, Diamond->sponsored
+const PLAN_DETAILS: Record<string, {
+  name: string;
+  price: number;
+  icon: typeof Star;
+  color: string;
+  bgColor: string;
+  tierValue: "free" | "featured" | "sponsored";
+}> = {
   silver: {
     name: "Silver",
     price: 4999,
     icon: Star,
     color: "text-slate-500",
     bgColor: "bg-slate-100",
-    tierValue: "free" as const, // Maps to vendor_subscription_plan enum
+    tierValue: "free", // Silver uses 'free' tier value in DB
   },
   gold: {
     name: "Gold",
@@ -41,7 +51,7 @@ const PLAN_DETAILS = {
     icon: Sparkles,
     color: "text-amber-600",
     bgColor: "bg-amber-100",
-    tierValue: "featured" as const,
+    tierValue: "featured",
   },
   diamond: {
     name: "Diamond",
@@ -49,7 +59,7 @@ const PLAN_DETAILS = {
     icon: Crown,
     color: "text-primary",
     bgColor: "bg-primary/10",
-    tierValue: "sponsored" as const,
+    tierValue: "sponsored",
   },
 };
 
@@ -64,7 +74,8 @@ export function VendorSubscriptionCheckout({
   const [loading, setLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
-  const plan = PLAN_DETAILS[planId as keyof typeof PLAN_DETAILS];
+  // Get plan details safely
+  const plan = planId && PLAN_DETAILS[planId] ? PLAN_DETAILS[planId] : null;
 
   useEffect(() => {
     // Load Razorpay script
@@ -201,7 +212,14 @@ export function VendorSubscriptionCheckout({
     }
   };
 
-  if (!plan) return null;
+  // Don't render dialog if plan is invalid
+  if (!plan) {
+    // Close dialog if it's open but plan is invalid
+    if (open) {
+      console.warn('VendorSubscriptionCheckout: Invalid planId:', planId);
+    }
+    return null;
+  }
 
   const PlanIcon = plan.icon;
 
