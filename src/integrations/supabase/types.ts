@@ -1658,6 +1658,88 @@ export type Database = {
         }
         Relationships: []
       }
+      wedding_events: {
+        Row: {
+          created_at: string | null
+          dress_code: string | null
+          event_date: string | null
+          event_name: string
+          event_time: string | null
+          id: string
+          sort_order: number | null
+          venue_address: string | null
+          venue_name: string | null
+          website_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dress_code?: string | null
+          event_date?: string | null
+          event_name: string
+          event_time?: string | null
+          id?: string
+          sort_order?: number | null
+          venue_address?: string | null
+          venue_name?: string | null
+          website_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dress_code?: string | null
+          event_date?: string | null
+          event_name?: string
+          event_time?: string | null
+          id?: string
+          sort_order?: number | null
+          venue_address?: string | null
+          venue_name?: string | null
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wedding_events_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wedding_gallery: {
+        Row: {
+          caption: string | null
+          created_at: string | null
+          id: string
+          image_url: string
+          sort_order: number | null
+          website_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string | null
+          id?: string
+          image_url: string
+          sort_order?: number | null
+          website_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string
+          sort_order?: number | null
+          website_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wedding_gallery_website_id_fkey"
+            columns: ["website_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_websites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wedding_plans: {
         Row: {
           created_at: string
@@ -1814,48 +1896,72 @@ export type Database = {
       }
       wedding_websites: {
         Row: {
+          bride_parents: string | null
+          bride_photo_url: string | null
+          contact_email: string | null
+          contact_phone: string | null
           couple_names: string
           cover_image_url: string | null
           created_at: string
+          groom_parents: string | null
+          groom_photo_url: string | null
           id: string
           is_published: boolean | null
           slug: string
           story: string | null
+          tagline: string | null
           template: string | null
           theme: string | null
           updated_at: string
+          upi_id: string | null
           user_id: string
           venue_address: string | null
           venue_name: string | null
           wedding_date: string | null
         }
         Insert: {
+          bride_parents?: string | null
+          bride_photo_url?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           couple_names: string
           cover_image_url?: string | null
           created_at?: string
+          groom_parents?: string | null
+          groom_photo_url?: string | null
           id?: string
           is_published?: boolean | null
           slug: string
           story?: string | null
+          tagline?: string | null
           template?: string | null
           theme?: string | null
           updated_at?: string
+          upi_id?: string | null
           user_id: string
           venue_address?: string | null
           venue_name?: string | null
           wedding_date?: string | null
         }
         Update: {
+          bride_parents?: string | null
+          bride_photo_url?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           couple_names?: string
           cover_image_url?: string | null
           created_at?: string
+          groom_parents?: string | null
+          groom_photo_url?: string | null
           id?: string
           is_published?: boolean | null
           slug?: string
           story?: string | null
+          tagline?: string | null
           template?: string | null
           theme?: string | null
           updated_at?: string
+          upi_id?: string | null
           user_id?: string
           venue_address?: string | null
           venue_name?: string | null
