@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
 import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
+import { EventManager, WeddingEvent } from "@/components/wedding/EventManager";
+import { PhotoGalleryUpload, GalleryImage } from "@/components/wedding/PhotoGalleryUpload";
 import { 
   Globe, 
   Heart, 
@@ -39,7 +41,8 @@ import {
   Mail,
   Loader2,
   Share2,
-  QrCode
+  QrCode,
+  Image as ImageIcon
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -182,6 +185,11 @@ const WeddingWebsite = () => {
   const [downloadingQr, setDownloadingQr] = useState(false);
   const [showQrDialog, setShowQrDialog] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState("");
+  
+  // Event and gallery state
+  const [events, setEvents] = useState<WeddingEvent[]>([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [coverImage, setCoverImage] = useState("");
 
   // RSVP Form State
   const [rsvpForm, setRsvpForm] = useState({
@@ -283,17 +291,60 @@ const WeddingWebsite = () => {
           contact_email: formData.contactEmail || null,
           bride_parents: formData.brideParents || null,
           groom_parents: formData.groomParents || null,
+          cover_image_url: coverImage || null,
         })
         .select()
         .single();
 
       if (error) throw error;
 
+      const websiteId = data.id;
+
+      // Save events
+      if (events.length > 0) {
+        const eventsToInsert = events.map((e, index) => ({
+          website_id: websiteId,
+          event_name: e.event_name,
+          event_date: e.event_date || null,
+          event_time: e.event_time || null,
+          venue_name: e.venue_name || null,
+          venue_address: e.venue_address || null,
+          dress_code: e.dress_code || null,
+          sort_order: index,
+        }));
+
+        const { error: eventsError } = await supabase
+          .from("wedding_events")
+          .insert(eventsToInsert);
+
+        if (eventsError) {
+          console.error("Error saving events:", eventsError);
+        }
+      }
+
+      // Save gallery images
+      if (galleryImages.length > 0) {
+        const imagesToInsert = galleryImages.map((img, index) => ({
+          website_id: websiteId,
+          image_url: img.image_url,
+          caption: img.caption || null,
+          sort_order: index,
+        }));
+
+        const { error: galleryError } = await supabase
+          .from("wedding_gallery")
+          .insert(imagesToInsert);
+
+        if (galleryError) {
+          console.error("Error saving gallery:", galleryError);
+        }
+      }
+
       // Use production URL for sharing
       const url = `${PRODUCTION_URL}/wedding/${slug}`;
       setGeneratedUrl(url);
-      setCurrentWebsiteId(data.id);
-      setStep(4);
+      setCurrentWebsiteId(websiteId);
+      setStep(5); // Updated to step 5 since we added a new step
       toast.success("Your wedding website is ready! 🎉");
     } catch (error) {
       console.error("Error creating website:", error);
@@ -538,9 +589,9 @@ const WeddingWebsite = () => {
 
           {/* Step Progress - Only show in create mode */}
           {activeTab === "create" && (
-            <div className="max-w-3xl mx-auto mb-8">
-              <div className="flex items-center justify-center gap-2 md:gap-4">
-                {[1, 2, 3, 4].map((s) => (
+            <div className="max-w-4xl mx-auto mb-8">
+              <div className="flex items-center justify-center gap-1 md:gap-2">
+                {[1, 2, 3, 4, 5].map((s) => (
                   <div key={s} className="flex items-center">
                     <motion.div
                       initial={false}
@@ -548,25 +599,26 @@ const WeddingWebsite = () => {
                         scale: step === s ? 1.1 : 1,
                         backgroundColor: step >= s ? "hsl(var(--accent))" : "hsl(var(--muted))"
                       }}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
+                      className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-bold transition-colors ${
                         step >= s ? "text-accent-foreground" : "text-muted-foreground"
                       }`}
                     >
-                      {step > s ? <Check className="w-5 h-5" /> : s}
+                      {step > s ? <Check className="w-4 h-4 md:w-5 md:h-5" /> : s}
                     </motion.div>
-                    {s < 4 && (
-                      <div className={`w-8 md:w-16 h-1 mx-1 rounded-full transition-colors ${
+                    {s < 5 && (
+                      <div className={`w-4 md:w-10 h-1 mx-0.5 md:mx-1 rounded-full transition-colors ${
                         step > s ? "bg-accent" : "bg-muted"
                       }`} />
                     )}
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between text-xs md:text-sm text-muted-foreground mt-3 px-2">
+              <div className="flex justify-between text-[10px] md:text-sm text-muted-foreground mt-3 px-1">
                 <span className={step >= 1 ? "text-foreground font-medium" : ""}>Details</span>
-                <span className={step >= 2 ? "text-foreground font-medium" : ""}>Theme</span>
-                <span className={step >= 3 ? "text-foreground font-medium" : ""}>Preview</span>
-                <span className={step >= 4 ? "text-foreground font-medium" : ""}>Publish</span>
+                <span className={step >= 2 ? "text-foreground font-medium" : ""}>Events</span>
+                <span className={step >= 3 ? "text-foreground font-medium" : ""}>Theme</span>
+                <span className={step >= 4 ? "text-foreground font-medium" : ""}>Preview</span>
+                <span className={step >= 5 ? "text-foreground font-medium" : ""}>Publish</span>
               </div>
             </div>
           )}
@@ -837,14 +889,62 @@ const WeddingWebsite = () => {
                         }}
                         className="gap-2"
                       >
+                        Add Events & Photos <ChevronRight className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Step 2: Events & Photos */}
+                {step === 2 && (
+                  <motion.div
+                    key="step2"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="p-6 md:p-8"
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                        <Calendar className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h2 className="text-xl md:text-2xl font-bold">Events & Photos</h2>
+                        <p className="text-muted-foreground text-sm">Add your wedding events and upload photos</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-8">
+                      {/* Event Manager */}
+                      <EventManager 
+                        events={events}
+                        onChange={setEvents}
+                        weddingDate={formData.weddingDate}
+                      />
+
+                      {/* Photo Gallery Upload */}
+                      <PhotoGalleryUpload
+                        images={galleryImages}
+                        onChange={setGalleryImages}
+                        coverImage={coverImage}
+                        onCoverChange={setCoverImage}
+                        maxImages={10}
+                      />
+                    </div>
+
+                    <div className="flex justify-between mt-8">
+                      <Button variant="outline" onClick={() => setStep(1)}>
+                        Back
+                      </Button>
+                      <Button size="lg" onClick={() => setStep(3)} className="gap-2">
                         Choose Theme <ChevronRight className="w-4 h-4" />
                       </Button>
                     </div>
                   </motion.div>
                 )}
 
-                {/* Step 2: Theme Selection */}
-                {step === 2 && (
+                {/* Step 3: Theme Selection */}
+                {step === 3 && (
                   <motion.div
                     key="step2"
                     initial={{ opacity: 0, x: 20 }}
@@ -923,20 +1023,20 @@ const WeddingWebsite = () => {
                     </div>
 
                     <div className="flex justify-between">
-                      <Button variant="outline" onClick={() => setStep(1)}>
+                      <Button variant="outline" onClick={() => setStep(2)}>
                         Back
                       </Button>
-                      <Button size="lg" onClick={() => setStep(3)} className="gap-2">
+                      <Button size="lg" onClick={() => setStep(4)} className="gap-2">
                         Preview Website <ChevronRight className="w-4 h-4" />
                       </Button>
                     </div>
                   </motion.div>
                 )}
 
-                {/* Step 3: Preview */}
-                {step === 3 && (
+                {/* Step 4: Preview */}
+                {step === 4 && (
                   <motion.div
-                    key="step3"
+                    key="step4"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
@@ -1034,7 +1134,7 @@ const WeddingWebsite = () => {
                     </div>
 
                     <div className="flex justify-between">
-                      <Button variant="outline" onClick={() => setStep(2)}>
+                      <Button variant="outline" onClick={() => setStep(3)}>
                         Back
                       </Button>
                       <Button 
@@ -1063,10 +1163,10 @@ const WeddingWebsite = () => {
                   </motion.div>
                 )}
 
-                {/* Step 4: Success with RSVP Form */}
-                {step === 4 && (
+                {/* Step 5: Success with RSVP Form */}
+                {step === 5 && (
                   <motion.div
-                    key="step4"
+                    key="step5"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="p-6 md:p-8"
