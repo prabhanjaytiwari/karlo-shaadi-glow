@@ -16,7 +16,7 @@ export function SplashScreen() {
     // Fade out after app loads
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 1500);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [isNative]);
