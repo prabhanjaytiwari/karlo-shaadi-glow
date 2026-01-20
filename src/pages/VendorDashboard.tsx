@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp } from "lucide-react";
+import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp, FileQuestion } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -22,6 +22,7 @@ import { VendorMessagingInbox } from "@/components/vendor/VendorMessagingInbox";
 import { RevenueCharts } from "@/components/vendor/RevenueCharts";
 import { ProfileCompletionProgress } from "@/components/vendor/ProfileCompletionProgress";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
+import { VendorInquiryManagement } from "@/components/vendor/VendorInquiryManagement";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -462,10 +463,14 @@ export default function VendorDashboard() {
           )}
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 lg:w-auto">
+            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-9 lg:w-auto">
               <TabsTrigger value="analytics">
                 <BarChart3 className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Analytics</span>
+              </TabsTrigger>
+              <TabsTrigger value="inquiries" className="relative">
+                <FileQuestion className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Inquiries</span>
               </TabsTrigger>
               <TabsTrigger value="revenue">
                 <TrendingUp className="h-4 w-4 lg:mr-2" />
@@ -499,6 +504,10 @@ export default function VendorDashboard() {
 
             <TabsContent value="analytics">
               <VendorAnalytics stats={stats} />
+            </TabsContent>
+
+            <TabsContent value="inquiries">
+              {vendor && <VendorInquiryManagement vendorId={vendor.id} />}
             </TabsContent>
 
             <TabsContent value="revenue">
