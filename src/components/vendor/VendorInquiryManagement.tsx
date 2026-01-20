@@ -75,6 +75,29 @@ export function VendorInquiryManagement({ vendorId }: VendorInquiryManagementPro
         title: "Status updated",
         description: `Inquiry marked as ${newStatus}`,
       });
+      
+      // Calculate response time when marking as contacted
+      if (newStatus === "contacted") {
+        try {
+          await fetch(
+            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/calculate-response-time`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+              },
+              body: JSON.stringify({
+                vendor_id: vendorId,
+                inquiry_id: inquiryId,
+              }),
+            }
+          );
+        } catch (err) {
+          console.log("Response time calculation error (non-critical):", err);
+        }
+      }
+      
       loadInquiries();
     }
   };

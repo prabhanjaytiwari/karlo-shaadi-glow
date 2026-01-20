@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { AlertTriangle, Trash2 } from "lucide-react";
+import { AlertTriangle, Trash2, Loader2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +25,8 @@ export function DeleteAccount() {
   const { toast } = useToast();
   const [confirmText, setConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleDelete = async () => {
     if (confirmText !== "DELETE") {
@@ -36,22 +39,61 @@ export function DeleteAccount() {
     }
 
     setDeleting(true);
+    setProgress(10);
+    setStatusMessage("Initiating account deletion...");
+    
     try {
-      // Sign out user (actual deletion would require admin API or edge function)
+      // Get current session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("You must be logged in to delete your account");
+      }
+
+      setProgress(30);
+      setStatusMessage("Removing your data...");
+
+      // Call edge function to delete all user data
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/delete-user-account`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session.access_token}`,
+          },
+        }
+      );
+
+      setProgress(70);
+      setStatusMessage("Finalizing deletion...");
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to delete account");
+      }
+
+      setProgress(100);
+      setStatusMessage("Account deleted successfully");
+
+      // Sign out locally
       await supabase.auth.signOut();
       
       toast({
-        title: "Account deletion requested",
-        description: "Your account deletion request has been submitted. You will be signed out now.",
+        title: "Account Deleted",
+        description: "Your account and all associated data have been permanently deleted.",
       });
       
       navigate("/");
     } catch (error: any) {
+      console.error("Account deletion error:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to process deletion request",
+        title: "Deletion Failed",
+        description: error.message || "Failed to delete account. Please contact support.",
         variant: "destructive",
       });
+      setProgress(0);
+      setStatusMessage("");
     } finally {
       setDeleting(false);
     }
@@ -94,21 +136,32 @@ export function DeleteAccount() {
                   This action cannot be undone. This will permanently delete your
                   account and remove all your data from our servers.
                 </p>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-delete">
-                    Type <strong>DELETE</strong> to confirm
-                  </Label>
-                  <Input
-                    id="confirm-delete"
-                    value={confirmText}
-                    onChange={(e) => setConfirmText(e.target.value)}
-                    placeholder="Type DELETE"
-                  />
-                </div>
+                
+                {deleting ? (
+                  <div className="space-y-3 py-4">
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="text-sm">{statusMessage}</span>
+                    </div>
+                    <Progress value={progress} className="h-2" />
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-delete">
+                      Type <strong>DELETE</strong> to confirm
+                    </Label>
+                    <Input
+                      id="confirm-delete"
+                      value={confirmText}
+                      onChange={(e) => setConfirmText(e.target.value)}
+                      placeholder="Type DELETE"
+                    />
+                  </div>
+                )}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setConfirmText("")}>
+              <AlertDialogCancel onClick={() => setConfirmText("")} disabled={deleting}>
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
@@ -116,7 +169,14 @@ export function DeleteAccount() {
                 disabled={confirmText !== "DELETE" || deleting}
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
-                {deleting ? "Deleting..." : "Delete Account"}
+                {deleting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete Account"
+                )}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
