@@ -1431,6 +1431,7 @@ export type Database = {
           image_url: string
           title: string | null
           vendor_id: string
+          video_url: string | null
         }
         Insert: {
           created_at?: string
@@ -1441,6 +1442,7 @@ export type Database = {
           image_url: string
           title?: string | null
           vendor_id: string
+          video_url?: string | null
         }
         Update: {
           created_at?: string
@@ -1451,6 +1453,7 @@ export type Database = {
           image_url?: string
           title?: string | null
           vendor_id?: string
+          video_url?: string | null
         }
         Relationships: [
           {
@@ -1566,6 +1569,7 @@ export type Database = {
         Row: {
           address: string | null
           average_rating: number | null
+          avg_response_time_hours: number | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           city_id: string | null
@@ -1601,6 +1605,7 @@ export type Database = {
         Insert: {
           address?: string | null
           average_rating?: number | null
+          avg_response_time_hours?: number | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           city_id?: string | null
@@ -1636,6 +1641,7 @@ export type Database = {
         Update: {
           address?: string | null
           average_rating?: number | null
+          avg_response_time_hours?: number | null
           business_name?: string
           category?: Database["public"]["Enums"]["vendor_category"]
           city_id?: string | null
