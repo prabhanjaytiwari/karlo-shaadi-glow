@@ -1315,6 +1315,62 @@ export type Database = {
           },
         ]
       }
+      vendor_inquiries: {
+        Row: {
+          budget_range: string | null
+          created_at: string
+          email: string
+          guest_count: number | null
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          status: string
+          updated_at: string
+          user_id: string | null
+          vendor_id: string
+          wedding_date: string | null
+        }
+        Insert: {
+          budget_range?: string | null
+          created_at?: string
+          email: string
+          guest_count?: number | null
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vendor_id: string
+          wedding_date?: string | null
+        }
+        Update: {
+          budget_range?: string | null
+          created_at?: string
+          email?: string
+          guest_count?: number | null
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+          vendor_id?: string
+          wedding_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_inquiries_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_payments: {
         Row: {
           amount: number
@@ -1517,6 +1573,7 @@ export type Database = {
           description: string | null
           facebook_page: string | null
           featured_until: string | null
+          gender_preference: string | null
           google_maps_link: string | null
           homepage_featured: boolean | null
           id: string
@@ -1524,6 +1581,7 @@ export type Database = {
           is_active: boolean
           logo_url: string | null
           phone_number: string | null
+          starting_price: number | null
           subscription_tier:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1537,6 +1595,7 @@ export type Database = {
           verified: boolean
           verified_by: string | null
           website_url: string | null
+          whatsapp_number: string | null
           years_experience: number | null
         }
         Insert: {
@@ -1549,6 +1608,7 @@ export type Database = {
           description?: string | null
           facebook_page?: string | null
           featured_until?: string | null
+          gender_preference?: string | null
           google_maps_link?: string | null
           homepage_featured?: boolean | null
           id?: string
@@ -1556,6 +1616,7 @@ export type Database = {
           is_active?: boolean
           logo_url?: string | null
           phone_number?: string | null
+          starting_price?: number | null
           subscription_tier?:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1569,6 +1630,7 @@ export type Database = {
           verified?: boolean
           verified_by?: string | null
           website_url?: string | null
+          whatsapp_number?: string | null
           years_experience?: number | null
         }
         Update: {
@@ -1581,6 +1643,7 @@ export type Database = {
           description?: string | null
           facebook_page?: string | null
           featured_until?: string | null
+          gender_preference?: string | null
           google_maps_link?: string | null
           homepage_featured?: boolean | null
           id?: string
@@ -1588,6 +1651,7 @@ export type Database = {
           is_active?: boolean
           logo_url?: string | null
           phone_number?: string | null
+          starting_price?: number | null
           subscription_tier?:
             | Database["public"]["Enums"]["vendor_subscription_plan"]
             | null
@@ -1601,6 +1665,7 @@ export type Database = {
           verified?: boolean
           verified_by?: string | null
           website_url?: string | null
+          whatsapp_number?: string | null
           years_experience?: number | null
         }
         Relationships: [

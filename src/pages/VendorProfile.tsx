@@ -18,6 +18,9 @@ import { VendorFAQ } from "@/components/vendor/VendorFAQ";
 import { DealBadge } from "@/components/vendor/DealBadge";
 import { VendorProfileFOMO } from "@/components/VendorProfileFOMO";
 import { VendorShareButton } from "@/components/vendor/VendorShareButton";
+import { WhatsAppChatButton } from "@/components/vendor/WhatsAppChatButton";
+import { QuickInquiryDialog } from "@/components/QuickInquiryDialog";
+import { Badge } from "@/components/ui/badge";
 import { 
   MapPin, 
   Clock, 
@@ -27,7 +30,8 @@ import {
   CheckCircle2,
   Loader2,
   MessageCircle,
-  Navigation
+  Navigation,
+  User
 } from "lucide-react";
 
 const VendorProfile = () => {
@@ -135,6 +139,8 @@ const VendorProfile = () => {
   if (vendor.verified) badges.push("Verified");
   if (vendor.average_rating >= 4.5) badges.push("Top Rated");
   if (vendor.years_experience >= 5) badges.push("Experienced");
+  if (vendor.gender_preference === 'female') badges.push("Female Artist");
+  if (vendor.gender_preference === 'male') badges.push("Male Artist");
 
   const mockData = {
     whyMatched: [
@@ -333,17 +339,19 @@ const VendorProfile = () => {
       {/* Sticky Action Bar (Mobile) */}
       <div className="lg:hidden sticky top-14 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-3">
         <div className="flex gap-2">
-          <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
+          <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
             <Button className="flex-1 h-10 text-sm">
-              Check Availability
+              Get Quote
             </Button>
-          </BookingDialog>
+          </QuickInquiryDialog>
           <FavoritesButton vendorId={id!} />
-          <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
-            <Button variant="outline" size="icon" className="h-10 w-10">
-              <MessageCircle className="h-4 w-4" />
-            </Button>
-          </MessagingDialog>
+          {vendor.whatsapp_number && (
+            <WhatsAppChatButton 
+              whatsappNumber={vendor.whatsapp_number} 
+              vendorName={vendor.business_name}
+              variant="icon"
+            />
+          )}
           <VendorShareButton vendorId={id!} vendorName={vendor.business_name} variant="icon" />
         </div>
       </div>
@@ -432,17 +440,25 @@ const VendorProfile = () => {
                   />
 
                   <div className="pt-4 border-t border-accent/20 space-y-3">
-                    <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
+                    <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
                       <Button size="lg" className="w-full">
-                        Book Now
+                        Get Quote
+                      </Button>
+                    </QuickInquiryDialog>
+                    
+                    {vendor.whatsapp_number && (
+                      <WhatsAppChatButton 
+                        whatsappNumber={vendor.whatsapp_number} 
+                        vendorName={vendor.business_name}
+                        variant="full"
+                      />
+                    )}
+
+                    <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
+                      <Button variant="secondary" size="lg" className="w-full">
+                        Check Availability & Book
                       </Button>
                     </BookingDialog>
-                    
-                    <MessagingDialog vendorId={id!} vendorName={vendor.business_name}>
-                      <Button variant="secondary" size="lg" className="w-full">
-                        Chat with Vendor
-                      </Button>
-                    </MessagingDialog>
 
                     <div className="flex gap-2">
                       <FavoritesButton vendorId={id!} />
