@@ -68,6 +68,7 @@ import InviteCreatorPage from "./pages/InviteCreatorPage";
 import WeddingWebsite from "./pages/WeddingWebsite";
 import WeddingView from "./pages/WeddingView";
 import MusicGenerator from "./pages/MusicGenerator";
+import CityVendors from "./pages/CityVendors";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
@@ -138,6 +139,8 @@ const App = () => (
               <Route path="/stories/:id" element={<StoryDetail />} />
               <Route path="/search" element={<Search />} />
               <Route path="/vendors/:id" element={<VendorProfile />} />
+              <Route path="/vendors/:city/:category" element={<CityVendors />} />
+              <Route path="/vendors-in/:city" element={<CityVendors />} />
               <Route path="/vendor/onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
               <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
               <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />

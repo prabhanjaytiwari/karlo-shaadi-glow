@@ -16,6 +16,8 @@ interface VendorCardProps {
     verified?: boolean;
     subscription_tier?: string | null;
     years_experience?: number | null;
+    starting_price?: number | null;
+    gender_preference?: string | null;
     cities?: { name: string; state?: string } | null;
   };
   badge?: { text: string; variant: string } | null;
@@ -125,10 +127,17 @@ export const VendorCard = ({
               )}
             </div>
 
-            <div className="flex items-center gap-1">
-              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-              <span className="text-xs font-medium">{vendor.average_rating?.toFixed(1) || "0.0"}</span>
-              <span className="text-[10px] text-muted-foreground">({vendor.total_reviews || 0})</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                <span className="text-xs font-medium">{vendor.average_rating?.toFixed(1) || "0.0"}</span>
+                <span className="text-[10px] text-muted-foreground">({vendor.total_reviews || 0})</span>
+              </div>
+              {vendor.starting_price && (
+                <span className="text-xs font-semibold text-primary">
+                  From ₹{(vendor.starting_price / 1000).toFixed(0)}K
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -232,15 +241,21 @@ export const VendorCard = ({
           {/* Stats row */}
           <div className="flex items-center justify-between text-xs sm:text-sm">
             {vendor.cities?.name && (
-              <div className="flex items-center gap-1 text-muted-foreground truncate max-w-[50%]">
+              <div className="flex items-center gap-1 text-muted-foreground truncate max-w-[40%]">
                 <MapPin className="h-3 w-3 flex-shrink-0" />
                 <span className="truncate">{vendor.cities.name}</span>
               </div>
             )}
-            <div className="flex items-center gap-1">
-              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-              <span className="font-medium">{vendor.average_rating?.toFixed(1) || "0.0"}</span>
-              <span className="text-muted-foreground text-[10px] sm:text-xs">({vendor.total_reviews || 0})</span>
+            <div className="flex items-center gap-2">
+              {vendor.starting_price && (
+                <span className="font-semibold text-primary">
+                  ₹{vendor.starting_price.toLocaleString()}
+                </span>
+              )}
+              <div className="flex items-center gap-1">
+                <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                <span className="font-medium">{vendor.average_rating?.toFixed(1) || "0.0"}</span>
+              </div>
             </div>
           </div>
         </div>

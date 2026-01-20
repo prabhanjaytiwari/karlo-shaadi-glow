@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, Upload, Loader2, Globe, Map } from "lucide-react";
+import { Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, Upload, Loader2, Globe, Map, IndianRupee, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { sanitizeInput } from "@/lib/validation";
 import { Progress } from "@/components/ui/progress";
@@ -43,7 +43,10 @@ export default function VendorOnboarding() {
     facebookPage: "",
     googleMapsLink: "",
     phoneNumber: "",
+    whatsappNumber: "",
     address: "",
+    startingPrice: "",
+    genderPreference: "",
   });
 
   const totalSteps = 3;
@@ -183,7 +186,10 @@ export default function VendorOnboarding() {
         facebook_page: formData.facebookPage ? sanitizeInput(formData.facebookPage.trim()) : null,
         google_maps_link: formData.googleMapsLink ? sanitizeInput(formData.googleMapsLink.trim()) : null,
         phone_number: formData.phoneNumber ? sanitizeInput(formData.phoneNumber.trim()) : null,
+        whatsapp_number: formData.whatsappNumber ? sanitizeInput(formData.whatsappNumber.trim()) : null,
         address: formData.address ? sanitizeInput(formData.address.trim()) : null,
+        starting_price: formData.startingPrice ? parseInt(formData.startingPrice) : null,
+        gender_preference: formData.genderPreference || null,
         logo_url: logoUrl,
         verification_status: 'pending',
       }]);
@@ -332,6 +338,48 @@ export default function VendorOnboarding() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Starting Price */}
+                  <div className="space-y-2">
+                    <Label htmlFor="startingPrice">Starting Price (₹) *</Label>
+                    <div className="relative">
+                      <IndianRupee className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="startingPrice"
+                        type="number"
+                        placeholder="25000"
+                        className="pl-10"
+                        value={formData.startingPrice}
+                        onChange={(e) => setFormData({ ...formData, startingPrice: e.target.value })}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      This helps couples filter vendors by budget
+                    </p>
+                  </div>
+
+                  {/* Gender Preference - Only for relevant categories */}
+                  {(formData.category === 'makeup' || formData.category === 'photography' || formData.category === 'mehendi') && (
+                    <div className="space-y-2">
+                      <Label htmlFor="genderPreference">Service Provider Gender</Label>
+                      <Select
+                        value={formData.genderPreference}
+                        onValueChange={(value) => setFormData({ ...formData, genderPreference: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select preference" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="female">Female Only</SelectItem>
+                          <SelectItem value="male">Male Only</SelectItem>
+                          <SelectItem value="any">Both Available</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <p className="text-xs text-muted-foreground">
+                        Important for clients who prefer a specific gender
+                      </p>
+                    </div>
+                  )}
                 </>
               )}
 
@@ -410,18 +458,38 @@ export default function VendorOnboarding() {
                     </p>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number *</Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+91 98765 43210"
-                        className="pl-10"
-                        value={formData.phoneNumber}
-                        onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                      />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number *</Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          className="pl-10"
+                          value={formData.phoneNumber}
+                          onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="whatsapp">WhatsApp Number *</Label>
+                      <div className="relative">
+                        <MessageCircle className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="whatsapp"
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          className="pl-10"
+                          value={formData.whatsappNumber}
+                          onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Couples will use this for direct WhatsApp chat
+                      </p>
                     </div>
                   </div>
 
