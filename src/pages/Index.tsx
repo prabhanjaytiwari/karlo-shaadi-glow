@@ -59,7 +59,7 @@ const Index = () => {
     setIsLoaded(true);
   }, []);
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
-      <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. 50,000+ happy couples trust us." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
+      <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
@@ -269,16 +269,16 @@ const Index = () => {
               <div className="space-y-2">
                 {[{
                 icon: Users,
-                text: "50,000+ active couples"
+                text: "Couples across 20+ cities"
               }, {
                 icon: Shield,
-                text: "Secure payments"
+                text: "100% secure payments"
               }, {
                 icon: Star,
-                text: "Verified reviews"
+                text: "Verified reviews only"
               }, {
                 icon: CheckCircle2,
-                text: "Zero commission"
+                text: "Start free, pay when booked"
               }].map((item, i) => <div key={i} className="flex items-center gap-2.5">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
                       <item.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />

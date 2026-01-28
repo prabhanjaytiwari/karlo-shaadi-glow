@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Heart, ShieldCheck, Users, MapPin } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface StatItemProps {
   icon: React.ReactNode;
@@ -69,38 +70,90 @@ const StatItem = ({ icon, value, suffix, label, delay }: StatItemProps) => {
   );
 };
 
-const stats = [
-  {
-    icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-    value: 50000,
-    suffix: "+",
-    label: "Happy Couples",
-    delay: 0,
-  },
-  {
-    icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-    value: 500,
-    suffix: "+",
-    label: "Verified Vendors",
-    delay: 100,
-  },
-  {
-    icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-    value: 100,
-    suffix: "%",
-    label: "Secure Payments",
-    delay: 200,
-  },
-  {
-    icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-    value: 20,
-    suffix: "+",
-    label: "Cities Covered",
-    delay: 300,
-  },
-];
-
 export const TrustStatsBanner = () => {
+  const [stats, setStats] = useState([
+    {
+      icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+      value: 0,
+      suffix: "+",
+      label: "Couples Joined",
+      delay: 0,
+    },
+    {
+      icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+      value: 0,
+      suffix: "+",
+      label: "Verified Vendors",
+      delay: 100,
+    },
+    {
+      icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+      value: 100,
+      suffix: "%",
+      label: "Secure Payments",
+      delay: 200,
+    },
+    {
+      icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+      value: 20,
+      suffix: "+",
+      label: "Cities Covered",
+      delay: 300,
+    },
+  ]);
+
+  useEffect(() => {
+    const fetchRealStats = async () => {
+      try {
+        // Fetch real counts from database
+        const [profilesResult, vendorsResult, citiesResult] = await Promise.all([
+          supabase.from("profiles").select("id", { count: "exact", head: true }),
+          supabase.from("vendors").select("id", { count: "exact", head: true }).eq("verified", true),
+          supabase.from("cities").select("id", { count: "exact", head: true }).eq("is_active", true),
+        ]);
+
+        const coupleCount = profilesResult.count || 0;
+        const vendorCount = vendorsResult.count || 0;
+        const cityCount = citiesResult.count || 20;
+
+        setStats([
+          {
+            icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+            value: coupleCount,
+            suffix: "+",
+            label: "Couples Joined",
+            delay: 0,
+          },
+          {
+            icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+            value: vendorCount,
+            suffix: "+",
+            label: "Verified Vendors",
+            delay: 100,
+          },
+          {
+            icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+            value: 100,
+            suffix: "%",
+            label: "Secure Payments",
+            delay: 200,
+          },
+          {
+            icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
+            value: cityCount,
+            suffix: "+",
+            label: "Cities Covered",
+            delay: 300,
+          },
+        ]);
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+
+    fetchRealStats();
+  }, []);
+
   return (
     <section className="py-6 sm:py-8 md:py-12 bg-gradient-to-b from-background to-secondary/30">
       <div className="container mx-auto px-3 sm:px-4">

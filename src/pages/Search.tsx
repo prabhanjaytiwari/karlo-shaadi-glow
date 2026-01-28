@@ -253,9 +253,9 @@ export default function Search() {
                 const isFeatured = vendor.subscription_tier === 'featured';
                 const isSelected = selectedForComparison.some(v => v.id === vendor.id);
                 
-                // Mock trust signal data (in production, fetch from database)
-                const lastBookedHours = Math.random() > 0.5 ? Math.floor(Math.random() * 48) : undefined;
-                const availabilityCount = Math.random() > 0.7 ? Math.floor(Math.random() * 5) + 1 : undefined;
+                // Use real data from vendor record
+                const lastBookedHours = undefined; // Only show when we have real booking data
+                const availabilityCount = undefined; // Only show when vendor has set availability
 
                 return (
                   <div key={vendor.id} className="relative">
