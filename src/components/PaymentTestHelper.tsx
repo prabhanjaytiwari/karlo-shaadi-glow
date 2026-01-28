@@ -21,7 +21,14 @@ import { CreditCard, Wallet, AlertCircle } from "lucide-react";
  * - OTP: 0007 (for testing)
  */
 export function PaymentTestHelper() {
+  // Only show in development mode
+  const isDevelopment = import.meta.env.DEV;
   const [mode, setMode] = useState<"card" | "upi" | "netbanking">("card");
+
+  // Don't render in production
+  if (!isDevelopment) {
+    return null;
+  }
   
   const testCards = {
     success: {
