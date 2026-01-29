@@ -201,8 +201,6 @@ const Index = () => {
       </section>
 
       {/* Sponsored Vendors Carousel */}
-
-      {/* Sponsored Vendors Carousel */}
       <SponsoredVendorsCarousel />
 
       {/* Value Proposition Section */}
