@@ -339,10 +339,11 @@ Most of these are intentional for public-facing features.
 
 ### Priority 1: Blocking Issues
 
-| Issue | Impact | Fix |
-|-------|--------|-----|
-| No admin user | Admin dashboard inaccessible | Run SQL to add admin role |
-| Duplicate comment in Index.tsx | Code cleanup | Remove line 204 duplicate |
+| Issue | Impact | Fix | Status |
+|-------|--------|-----|--------|
+| No admin user | Admin dashboard inaccessible | Run SQL to add admin role | ⏳ Pending user action |
+| Duplicate comment in Index.tsx | Code cleanup | Remove line 204 duplicate | ✅ Fixed |
+| Unused Header.tsx component | Code cleanup | Removed (BhindiHeader is used) | ✅ Fixed |
 
 ### Priority 2: Data Seeding Needed
 
