@@ -24,8 +24,7 @@ export function StoryModerationTab() {
         .from("wedding_stories")
         .select(`
           *,
-          city:cities(name),
-          submitter:profiles!submitted_by(full_name)
+          city:cities(name)
         `)
         .eq("status", "pending")
         .order("created_at", { ascending: false });
@@ -140,7 +139,7 @@ export function StoryModerationTab() {
                     <div>
                       <p className="font-medium">{story.couple_names}</p>
                       <p className="text-sm text-muted-foreground">
-                        by {story.submitter?.full_name}
+                        Submitted {format(new Date(story.created_at), "MMM dd, yyyy")}
                       </p>
                     </div>
                   </TableCell>

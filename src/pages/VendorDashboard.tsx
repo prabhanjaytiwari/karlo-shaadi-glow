@@ -463,40 +463,40 @@ export default function VendorDashboard() {
           )}
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-9 lg:w-auto">
-              <TabsTrigger value="analytics">
+            <TabsList className="w-full flex overflow-x-auto scrollbar-hide justify-start lg:justify-center gap-1 p-1">
+              <TabsTrigger value="analytics" className="shrink-0">
                 <BarChart3 className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Analytics</span>
               </TabsTrigger>
-              <TabsTrigger value="inquiries" className="relative">
+              <TabsTrigger value="inquiries" className="shrink-0 relative">
                 <FileQuestion className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Inquiries</span>
               </TabsTrigger>
-              <TabsTrigger value="revenue">
+              <TabsTrigger value="revenue" className="shrink-0">
                 <TrendingUp className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Revenue</span>
               </TabsTrigger>
-              <TabsTrigger value="bookings">
+              <TabsTrigger value="bookings" className="shrink-0">
                 <Calendar className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Bookings</span>
               </TabsTrigger>
-              <TabsTrigger value="messages">
+              <TabsTrigger value="messages" className="shrink-0">
                 <MessageSquare className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Messages</span>
               </TabsTrigger>
-              <TabsTrigger value="services">
+              <TabsTrigger value="services" className="shrink-0">
                 <Package className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Services</span>
               </TabsTrigger>
-              <TabsTrigger value="portfolio">
+              <TabsTrigger value="portfolio" className="shrink-0">
                 <Images className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Portfolio</span>
               </TabsTrigger>
-              <TabsTrigger value="reviews">
+              <TabsTrigger value="reviews" className="shrink-0">
                 <Star className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Reviews</span>
               </TabsTrigger>
-              <TabsTrigger value="profile">
+              <TabsTrigger value="profile" className="shrink-0">
                 <User className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Profile</span>
               </TabsTrigger>

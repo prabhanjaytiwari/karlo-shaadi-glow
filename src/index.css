@@ -836,3 +836,13 @@
 .animate-pulse-subtle {
   animation: pulse-subtle 2s infinite;
 }
+
+/* Hide scrollbar for tabs while allowing scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
