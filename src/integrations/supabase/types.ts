@@ -455,6 +455,72 @@ export type Database = {
         }
         Relationships: []
       }
+      guest_list: {
+        Row: {
+          category: string | null
+          created_at: string
+          dietary_notes: string | null
+          email: string | null
+          events: string[] | null
+          food_preference: string | null
+          id: string
+          invitation_sent: boolean | null
+          invitation_sent_at: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          plus_ones: number | null
+          relation: string | null
+          rsvp_responded_at: string | null
+          rsvp_status: string | null
+          table_number: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          dietary_notes?: string | null
+          email?: string | null
+          events?: string[] | null
+          food_preference?: string | null
+          id?: string
+          invitation_sent?: boolean | null
+          invitation_sent_at?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          plus_ones?: number | null
+          relation?: string | null
+          rsvp_responded_at?: string | null
+          rsvp_status?: string | null
+          table_number?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          dietary_notes?: string | null
+          email?: string | null
+          events?: string[] | null
+          food_preference?: string | null
+          id?: string
+          invitation_sent?: boolean | null
+          invitation_sent_at?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          plus_ones?: number | null
+          relation?: string | null
+          rsvp_responded_at?: string | null
+          rsvp_status?: string | null
+          table_number?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       investor_inquiries: {
         Row: {
           company: string | null
