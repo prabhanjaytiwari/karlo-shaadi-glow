@@ -53,7 +53,7 @@ export default function PaymentFailure() {
     <div className="min-h-screen flex flex-col bg-background">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-12">
+      <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 animate-fade-in">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 mb-6">

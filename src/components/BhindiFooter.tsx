@@ -1,40 +1,52 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import logo from "@/assets/logo-new.png";
-import { Instagram, Linkedin, Facebook, ArrowRight } from "lucide-react";
+import { Instagram, Linkedin, Facebook, ArrowRight, Youtube, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const footerLinks = {
   company: [
-    { label: "About", to: "/about" },
-    { label: "Stories", to: "/stories" },
+    { label: "About Us", to: "/about" },
+    { label: "Real Weddings", to: "/stories" },
     { label: "Blog", to: "/blog" },
+    { label: "Leaderboard", to: "/leaderboard" },
     { label: "Investors", to: "/investors" },
-    { label: "Contact", to: "/support" },
+    { label: "Careers", to: "/join-as-manager" },
   ],
-  tools: [
+  planning: [
     { label: "AI Wedding Plan", to: "/plan-wizard" },
     { label: "Budget Calculator", to: "/budget-calculator" },
     { label: "Muhurat Finder", to: "/muhurat-finder" },
     { label: "Invite Creator", to: "/invite-creator" },
+    { label: "Guest List", to: "/guest-list" },
+    { label: "Music Generator", to: "/music-generator" },
   ],
   vendors: [
-    { label: "Register", to: "/for-vendors" },
+    { label: "Register as Vendor", to: "/for-vendors" },
     { label: "Vendor Login", to: "/vendor-auth" },
-    { label: "Onboarding Guide", to: "/vendor-guide" },
-    { label: "Pricing Plans", to: "/vendor-pricing" },
+    { label: "Vendor Guide", to: "/vendor-guide" },
+    { label: "Vendor Pricing", to: "/vendor-pricing" },
+    { label: "Success Stories", to: "/vendor-success-stories" },
+  ],
+  explore: [
+    { label: "Photography", to: "/category/photography" },
+    { label: "Venues", to: "/category/venues" },
+    { label: "Catering", to: "/category/catering" },
+    { label: "Decoration", to: "/category/decoration" },
+    { label: "All Categories", to: "/categories" },
   ],
   support: [
     { label: "Help Center", to: "/help" },
     { label: "FAQ", to: "/faq" },
     { label: "Contact Us", to: "/support" },
+    { label: "Report an Issue", to: "/support" },
   ],
   legal: [
-    { label: "Terms", to: "/legal" },
-    { label: "Privacy", to: "/privacy" },
-    { label: "Cancellation & Refunds", to: "/cancellation-refunds" },
-    { label: "Shipping", to: "/shipping" },
+    { label: "Terms of Service", to: "/legal" },
+    { label: "Privacy Policy", to: "/privacy" },
+    { label: "Refund Policy", to: "/cancellation-refunds" },
+    { label: "Shipping Policy", to: "/shipping" },
   ],
 };
 
@@ -42,6 +54,8 @@ const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/karloshaadiofficial/", label: "Instagram" },
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584618427446", label: "Facebook" },
   { icon: Linkedin, href: "https://www.linkedin.com/company/karlo-shaadi/", label: "LinkedIn" },
+  { icon: Youtube, href: "https://youtube.com/@karloshaadiofficial", label: "YouTube" },
+  { icon: Twitter, href: "https://twitter.com/karloshaadi", label: "Twitter" },
 ];
 
 export const BhindiFooter = () => {
@@ -137,10 +151,22 @@ export const BhindiFooter = () => {
     if (isVendor) {
       return [
         { label: "Vendor Dashboard", to: "/vendor/dashboard" },
-        { label: "Pricing Plans", to: "/vendor-pricing" },
+        { label: "Vendor Pricing", to: "/vendor-pricing" },
+        { label: "Success Stories", to: "/vendor-success-stories" },
       ];
     }
     return footerLinks.vendors;
+  };
+
+  // Get all footer sections
+  const getFooterSections = () => {
+    return {
+      Company: footerLinks.company,
+      Planning: footerLinks.planning,
+      Explore: footerLinks.explore,
+      Vendors: getVendorLinks(),
+      Support: footerLinks.support,
+    };
   };
 
   return (
@@ -186,9 +212,9 @@ export const BhindiFooter = () => {
         {/* Divider with gradient */}
         <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 lg:gap-6 mb-16">
           {/* Brand Section */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="col-span-2 md:col-span-3 lg:col-span-2 space-y-5">
             <div className="flex items-center gap-3">
               <div className="relative group/logo">
                 <div className="absolute -inset-2 bg-accent/20 rounded-xl blur-lg opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500" />
@@ -199,48 +225,56 @@ export const BhindiFooter = () => {
                 />
               </div>
             </div>
-            <p className="text-muted-foreground leading-relaxed max-w-md">
-              Karlo Shaadi is your wedding planning platform, connecting you with verified vendors to create seamless wedding experiences.
+            <p className="text-muted-foreground leading-relaxed text-sm max-w-sm">
+              India's trusted wedding planning platform. Connecting couples with 5000+ verified vendors across 50+ cities.
             </p>
             
-            {/* Social Links with glow effects */}
-            <div className="flex gap-3">
+            {/* Contact Info */}
+            <div className="space-y-2 text-sm">
+              <a href="tel:+917011460321" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>+91 70114 60321</span>
+              </a>
+              <a href="mailto:hello@karloshaadi.com" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+                <Mail className="h-4 w-4" />
+                <span>hello@karloshaadi.com</span>
+              </a>
+              <div className="flex items-start gap-2 text-muted-foreground">
+                <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <span>Delhi NCR, India</span>
+              </div>
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex gap-2 flex-wrap">
               {socialLinks.map((social, index) => (
                 <a 
                   key={social.label}
                   href={social.href} 
-                  className="group/social relative w-10 h-10 rounded-xl bg-white border-2 border-accent/20 hover:border-accent/50 transition-all duration-300 flex items-center justify-center overflow-hidden shadow-sm"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group/social relative w-9 h-9 rounded-lg bg-white border border-accent/20 hover:border-accent/50 transition-all duration-300 flex items-center justify-center overflow-hidden shadow-sm"
                   aria-label={social.label}
                 >
-                  {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/10 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300" />
-                  
-                  <social.icon className="relative w-4 h-4 text-muted-foreground group-hover/social:text-accent transition-colors duration-300 group-hover/social:scale-110 transform" />
+                  <social.icon className="relative w-4 h-4 text-muted-foreground group-hover/social:text-accent transition-colors duration-300" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Link Columns with staggered reveal */}
-          {Object.entries({
-            ...footerLinks,
-            vendors: getVendorLinks()
-          }).map(([category, links], categoryIndex) => (
+          {/* Link Columns */}
+          {Object.entries(getFooterSections()).map(([category, links], categoryIndex) => (
             <div 
               key={category} 
-              className="space-y-4"
-              style={{ animationDelay: `${categoryIndex * 100}ms` }}
+              className="space-y-3"
             >
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-accent">
-                {category.charAt(0).toUpperCase() + category.slice(1)}
+              <h3 className="font-semibold text-xs uppercase tracking-wider text-accent">
+                {category}
               </h3>
-              <ul className="space-y-3">
-                {links.map((link, linkIndex) => (
-                  <li 
-                    key={link.to}
-                    style={{ animationDelay: `${(categoryIndex * 100) + (linkIndex * 50)}ms` }}
-                  >
+              <ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link.to}>
                     <Link 
                       to={link.to} 
                       className="group/link relative inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
@@ -255,6 +289,18 @@ export const BhindiFooter = () => {
                 ))}
               </ul>
             </div>
+          ))}
+        </div>
+
+        {/* Legal Links Row */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-12 text-xs text-muted-foreground">
+          {footerLinks.legal.map((link, index) => (
+            <span key={link.to} className="flex items-center gap-4">
+              <Link to={link.to} className="hover:text-accent transition-colors">
+                {link.label}
+              </Link>
+              {index < footerLinks.legal.length - 1 && <span className="text-border">•</span>}
+            </span>
           ))}
         </div>
 
