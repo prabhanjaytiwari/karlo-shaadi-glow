@@ -367,14 +367,14 @@ export default function AdminDashboard() {
           </div>
 
           <Tabs defaultValue="verification" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="verification">Vendor Verification</TabsTrigger>
-              <TabsTrigger value="vendors">All Vendors</TabsTrigger>
-              <TabsTrigger value="performance">Performance</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="testing">Payment Testing</TabsTrigger>
-              <TabsTrigger value="stories">Wedding Stories</TabsTrigger>
-              <TabsTrigger value="moderation">Content Moderation</TabsTrigger>
+            <TabsList className="w-full flex overflow-x-auto scrollbar-hide justify-start md:justify-center gap-1 p-1">
+              <TabsTrigger value="verification" className="shrink-0">Verification</TabsTrigger>
+              <TabsTrigger value="vendors" className="shrink-0">Vendors</TabsTrigger>
+              <TabsTrigger value="performance" className="shrink-0">Performance</TabsTrigger>
+              <TabsTrigger value="analytics" className="shrink-0">Analytics</TabsTrigger>
+              <TabsTrigger value="testing" className="shrink-0">Payments</TabsTrigger>
+              <TabsTrigger value="stories" className="shrink-0">Stories</TabsTrigger>
+              <TabsTrigger value="moderation" className="shrink-0">Moderation</TabsTrigger>
             </TabsList>
 
             <TabsContent value="analytics">
