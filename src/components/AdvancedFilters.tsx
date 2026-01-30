@@ -3,6 +3,7 @@ import { Filter, X, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Collapsible,
   CollapsibleContent,
@@ -217,24 +218,47 @@ export const AdvancedFilters = (props: AdvancedFiltersProps) => {
         </div>
       </div>
 
-      {/* Mobile Sheet */}
+      {/* Mobile Sheet - More prominent button */}
       <div className="lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button 
+              variant="default" 
+              size="sm" 
+              className="gap-2 bg-primary text-primary-foreground shadow-md"
+            >
               <Filter className="h-4 w-4" />
-              Filters
+              <span className="font-medium">Filters</span>
+              {(props.filters.experience.length > 0 || 
+                props.filters.rating !== null || 
+                props.filters.quickFilters.length > 0 ||
+                props.filters.budgetRange[0] > 50000 ||
+                props.filters.budgetRange[1] < 5000000) && (
+                <span className="bg-white/20 text-white text-xs rounded-full px-1.5 py-0.5 ml-1">
+                  {props.filters.experience.length + 
+                   (props.filters.rating ? 1 : 0) + 
+                   props.filters.quickFilters.length +
+                   (props.filters.budgetRange[0] > 50000 || props.filters.budgetRange[1] < 5000000 ? 1 : 0)}
+                </span>
+              )}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-80">
-            <SheetHeader>
-              <SheetTitle className="flex items-center gap-2">
-                <Filter className="h-4 w-4 text-primary" />
-                Filters
+          <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl">
+            <SheetHeader className="pb-4 border-b">
+              <SheetTitle className="flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-primary" />
+                  Filter Vendors
+                </span>
               </SheetTitle>
             </SheetHeader>
-            <div className="mt-6">
+            <ScrollArea className="h-[calc(100%-80px)] mt-4">
               <FiltersContent {...props} />
+            </ScrollArea>
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-background border-t">
+              <Button className="w-full" size="lg">
+                Apply Filters
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
