@@ -325,7 +325,7 @@ export default function GuestList() {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-6 md:py-8">
+      <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-6 md:pb-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">

@@ -125,7 +125,7 @@ export default function PremiumDashboard() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
       <BhindiHeader />
       
-      <main className="flex-1 py-12 px-4">
+      <main className="flex-1 pt-20 md:pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8 animate-fade-in">

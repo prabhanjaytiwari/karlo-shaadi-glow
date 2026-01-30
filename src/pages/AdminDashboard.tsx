@@ -208,7 +208,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen flex flex-col">
       <BhindiHeader />
       
-      <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 py-12 px-4">
+      <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 pt-20 md:pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>

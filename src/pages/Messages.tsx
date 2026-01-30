@@ -267,7 +267,7 @@ export default function Messages() {
     <div className="min-h-screen flex flex-col bg-background">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-4 md:py-8">
+      <main className="flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8">
         <div className="max-w-6xl mx-auto">
           {(!isMobile || !selectedVendor) && (
             <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-8">Messages</h1>
