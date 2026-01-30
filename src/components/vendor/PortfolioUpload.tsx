@@ -12,14 +12,16 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2, Upload } from "lucide-react";
+import { CalendarIcon, Loader2, Upload, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const portfolioSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
   event_date: z.date().optional(),
   display_order: z.number().optional(),
+  video_url: z.string().url().optional().or(z.literal("")),
 });
 
 type PortfolioFormData = z.infer<typeof portfolioSchema>;
@@ -43,8 +45,10 @@ export function PortfolioUpload({ vendorId, open, onOpenChange, onSuccess }: Por
       title: "",
       description: "",
       display_order: 0,
+      video_url: "",
     },
   });
+  const [uploadType, setUploadType] = useState<"image" | "video">("image");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -59,48 +63,70 @@ export function PortfolioUpload({ vendorId, open, onOpenChange, onSuccess }: Por
   };
 
   const onSubmit = async (data: PortfolioFormData) => {
-    if (!selectedFile) {
+    // For video uploads, we don't need an image file
+    if (uploadType === "image" && !selectedFile) {
       toast({ title: "Please select an image", variant: "destructive" });
+      return;
+    }
+    
+    if (uploadType === "video" && !data.video_url) {
+      toast({ title: "Please enter a video URL", variant: "destructive" });
       return;
     }
 
     setLoading(true);
     try {
-      const fileExt = selectedFile.name.split(".").pop();
-      const fileName = `${vendorId}/${Date.now()}.${fileExt}`;
+      let imageUrl = "/placeholder.svg";
+      
+      if (uploadType === "image" && selectedFile) {
+        const fileExt = selectedFile.name.split(".").pop();
+        const fileName = `${vendorId}/${Date.now()}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from("vendor-portfolio")
-        .upload(fileName, selectedFile);
+        const { error: uploadError } = await supabase.storage
+          .from("vendor-portfolio")
+          .upload(fileName, selectedFile);
 
-      if (uploadError) throw uploadError;
+        if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from("vendor-portfolio")
-        .getPublicUrl(fileName);
+        const { data: urlData } = supabase.storage
+          .from("vendor-portfolio")
+          .getPublicUrl(fileName);
+        
+        imageUrl = urlData.publicUrl;
+      } else if (uploadType === "video" && data.video_url) {
+        // For YouTube videos, use the thumbnail
+        const youtubeMatch = data.video_url.match(
+          /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+        );
+        if (youtubeMatch) {
+          imageUrl = `https://img.youtube.com/vi/${youtubeMatch[1]}/maxresdefault.jpg`;
+        }
+      }
 
       const { error: insertError } = await supabase
         .from("vendor_portfolio")
         .insert({
           vendor_id: vendorId,
-          image_url: publicUrl,
+          image_url: imageUrl,
           title: data.title,
           description: data.description,
           event_date: data.event_date?.toISOString().split("T")[0],
           display_order: data.display_order,
+          video_url: uploadType === "video" ? data.video_url : null,
         });
 
       if (insertError) throw insertError;
 
-      toast({ title: "Portfolio image uploaded successfully" });
+      toast({ title: uploadType === "video" ? "Video added successfully" : "Portfolio image uploaded successfully" });
       form.reset();
       setSelectedFile(null);
       setPreview(null);
+      setUploadType("image");
       onOpenChange(false);
       onSuccess();
     } catch (error) {
       console.error("Error:", error);
-      toast({ title: "Error uploading image", variant: "destructive" });
+      toast({ title: "Error uploading", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -118,28 +144,66 @@ export function PortfolioUpload({ vendorId, open, onOpenChange, onSuccess }: Por
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="border-2 border-dashed rounded-lg p-6 text-center">
-              {preview ? (
-                <div className="space-y-4">
-                  <img src={preview} alt="Preview" className="max-h-64 mx-auto rounded-lg" />
-                  <Button type="button" variant="outline" onClick={() => { setPreview(null); setSelectedFile(null); }}>
-                    Change Image
-                  </Button>
+            {/* Upload Type Tabs */}
+            <Tabs value={uploadType} onValueChange={(v) => setUploadType(v as "image" | "video")}>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="image" className="gap-2">
+                  <Upload className="h-4 w-4" />
+                  Image
+                </TabsTrigger>
+                <TabsTrigger value="video" className="gap-2">
+                  <Video className="h-4 w-4" />
+                  Video
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="image" className="mt-4">
+                <div className="border-2 border-dashed rounded-lg p-6 text-center">
+                  {preview ? (
+                    <div className="space-y-4">
+                      <img src={preview} alt="Preview" className="max-h-64 mx-auto rounded-lg" />
+                      <Button type="button" variant="outline" onClick={() => { setPreview(null); setSelectedFile(null); }}>
+                        Change Image
+                      </Button>
+                    </div>
+                  ) : (
+                    <label className="cursor-pointer block">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                      <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
+                      <p className="text-sm text-muted-foreground">Click to upload or drag and drop</p>
+                      <p className="text-xs text-muted-foreground mt-1">PNG, JPG, WEBP up to 10MB</p>
+                    </label>
+                  )}
                 </div>
-              ) : (
-                <label className="cursor-pointer block">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                  <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
-                  <p className="text-sm text-muted-foreground">Click to upload or drag and drop</p>
-                  <p className="text-xs text-muted-foreground mt-1">PNG, JPG, WEBP up to 10MB</p>
-                </label>
-              )}
-            </div>
+              </TabsContent>
+
+              <TabsContent value="video" className="mt-4">
+                <FormField
+                  control={form.control}
+                  name="video_url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Video URL (YouTube or Vimeo)</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="https://www.youtube.com/watch?v=..." 
+                          {...field}
+                        />
+                      </FormControl>
+                      <p className="text-xs text-muted-foreground">
+                        Paste a YouTube or Vimeo video link
+                      </p>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </TabsContent>
+            </Tabs>
 
             <FormField
               control={form.control}
@@ -232,9 +296,9 @@ export function PortfolioUpload({ vendorId, open, onOpenChange, onSuccess }: Por
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading || !selectedFile}>
+              <Button type="submit" disabled={loading || (uploadType === "image" && !selectedFile)}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Upload
+                {uploadType === "video" ? "Add Video" : "Upload"}
               </Button>
             </div>
           </form>

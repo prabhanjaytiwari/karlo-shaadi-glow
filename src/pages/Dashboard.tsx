@@ -6,7 +6,7 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music, Gift, Settings } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Music, Gift, Settings, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
@@ -215,6 +215,15 @@ const Dashboard = () => {
                   <Gift className="h-5 w-5 text-accent" />
                 </div>
                 <CardTitle className="text-sm">Refer & Earn</CardTitle>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/guest-list")}>
+              <CardHeader className="p-4">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-rose-200/50 flex items-center justify-center mb-2">
+                  <Users className="h-5 w-5 text-accent" />
+                </div>
+                <CardTitle className="text-sm">Guest List</CardTitle>
               </CardHeader>
             </Card>
           </div>
