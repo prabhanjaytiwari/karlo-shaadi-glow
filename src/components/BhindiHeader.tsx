@@ -290,14 +290,6 @@ export const BhindiHeader = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link to="/blog" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
-                      Blog
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
                     <Link to="/pricing" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
                       Pricing
                     </Link>
