@@ -120,14 +120,14 @@ export default function Search() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 py-8 md:py-12 px-4">
+      <main className="flex-1 py-4 sm:py-8 md:py-12 px-4 pt-14 sm:pt-20">
         <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
-          <div className="mb-8 animate-fade-in">
-            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
-            <GlassCard className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+          <div className="mb-4 sm:mb-8 animate-fade-in">
+            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-2 sm:mb-4 text-[10px] sm:text-xs">Find Vendors</Badge>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center">Find Your Perfect Vendors</h1>
+            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-4 sm:mb-6 rounded-full" />
+            <GlassCard className="p-3 sm:p-4 md:p-6 bg-white/90 backdrop-blur-sm border border-accent/20">
               <div className="grid md:grid-cols-4 gap-3 md:gap-4">
                 <div className="md:col-span-2">
                   <Input
@@ -262,21 +262,21 @@ export default function Search() {
                     <Link to={`/vendors/${vendor.id}`}>
                       <GlassCard 
                         hover
-                        className={`p-6 animate-fade-up transition-all duration-300 ${
+                        className={`p-4 sm:p-6 animate-fade-up transition-all duration-300 ${
                           isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
                         }`}
                         style={{ animationDelay: `${i * 100}ms` }}
                       >
-                        <div className="flex flex-col md:flex-row gap-6">
-                          <div className="md:w-1/4 relative">
-                            <div className={`aspect-square rounded-xl flex items-center justify-center ${
+                        <div className="flex flex-col md:flex-row gap-3 sm:gap-6">
+                          <div className="md:w-1/4 relative w-20 h-20 sm:w-auto sm:h-auto flex-shrink-0">
+                            <div className={`aspect-square rounded-xl flex items-center justify-center w-20 h-20 sm:w-full sm:h-auto ${
                               isSponsored 
                                 ? 'bg-gradient-to-br from-primary/30 to-accent/30' 
                                 : isFeatured 
                                   ? 'bg-gradient-to-br from-accent/30 to-secondary/30'
                                   : 'bg-gradient-to-br from-accent/20 to-secondary/20'
                             }`}>
-                              <span className={`text-4xl font-bold ${
+                              <span className={`text-2xl sm:text-4xl font-bold ${
                                 isSponsored ? 'text-primary' : 'text-accent'
                               }`}>
                                 {vendor.business_name.charAt(0)}
@@ -317,8 +317,8 @@ export default function Search() {
                               </Badge>
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
-                            <p className="text-muted-foreground mb-4 line-clamp-2">
+                            <h3 className="text-lg sm:text-2xl font-bold mb-1 sm:mb-2">{vendor.business_name}</h3>
+                            <p className="text-muted-foreground mb-2 sm:mb-4 line-clamp-2 text-xs sm:text-base">
                               {vendor.description || "Professional wedding services"}
                             </p>
 

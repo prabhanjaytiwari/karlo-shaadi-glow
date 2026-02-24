@@ -51,7 +51,6 @@ export function BottomNavigation() {
   const fetchBadgeCounts = async () => {
     if (!user) return;
 
-    // Fetch unread messages
     const { count: msgCount } = await supabase
       .from('messages')
       .select('*', { count: 'exact', head: true })
@@ -59,7 +58,6 @@ export function BottomNavigation() {
       .eq('read', false);
     setUnreadMessages(msgCount || 0);
 
-    // Fetch pending bookings
     const { count: bookingCount } = await supabase
       .from('bookings')
       .select('*', { count: 'exact', head: true })
@@ -78,7 +76,7 @@ export function BottomNavigation() {
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Search', path: '/search' },
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
-    { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
+    { icon: MessageSquare, label: 'Chat', path: '/messages', badge: unreadMessages },
     { icon: User, label: 'Profile', path: isVendor ? '/vendor/dashboard' : '/dashboard' },
   ];
 
@@ -89,12 +87,12 @@ export function BottomNavigation() {
 
   return (
     <nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border/50"
       style={{ 
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      <div className="flex items-center justify-around h-16 px-2">
+      <div className="flex items-center justify-around h-14 px-1">
         {navItems.map((item) => {
           const active = isActive(item.path);
           return (
@@ -102,8 +100,8 @@ export function BottomNavigation() {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
-                "transition-all duration-200 active:scale-95",
+                "relative flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-0",
+                "transition-all duration-200 active:scale-90",
                 active ? "text-primary" : "text-muted-foreground"
               )}
             >
@@ -113,16 +111,17 @@ export function BottomNavigation() {
                     "h-5 w-5 transition-all duration-200",
                     active && "scale-110"
                   )} 
+                  strokeWidth={active ? 2.5 : 2}
                 />
                 {item.badge && item.badge > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 flex items-center justify-center bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full">
+                  <span className="absolute -top-1 -right-1.5 min-w-[14px] h-3.5 px-0.5 flex items-center justify-center bg-destructive text-destructive-foreground text-[9px] font-bold rounded-full">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 )}
               </div>
               <span className={cn(
-                "text-[10px] font-medium transition-all duration-200",
-                active && "font-semibold"
+                "text-[10px] leading-tight transition-all duration-200",
+                active ? "font-semibold" : "font-medium"
               )}>
                 {item.label}
               </span>
