@@ -78,6 +78,7 @@ import SpeechWriterPage from "./pages/SpeechWriterPage";
 import ShaadiSeva from "./pages/ShaadiSeva";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -201,6 +202,7 @@ const App = () => (
             </Routes>
             </MobileLayout>
             <WhatsAppButton />
+            <PWAInstallPrompt />
             </AppProviders>
             </AuthProvider>
           </BrowserRouter>

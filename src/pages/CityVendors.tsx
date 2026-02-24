@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Loader2, MapPin, Star, Users, ArrowRight, Filter } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
 // Category display names for SEO
 const CATEGORY_NAMES: Record<string, string> = {
@@ -124,6 +125,7 @@ const CityVendors = () => {
         description={pageDescription}
         keywords={`wedding vendors ${formatCityName(city || "")}, ${category ? CATEGORY_NAMES[category] + " " + formatCityName(city || "") : "wedding services"}, marriage vendors`}
       />
+      <LocalBusinessJsonLd city={formatCityName(city || "")} category={category && CATEGORY_NAMES[category] ? CATEGORY_NAMES[category] : undefined} />
       <BhindiHeader />
 
       {/* Hero Section */}

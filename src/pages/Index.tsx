@@ -26,6 +26,7 @@ import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { FAQPageJsonLd } from "@/components/JsonLd";
 
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
@@ -61,6 +62,13 @@ const Index = () => {
   }, []);
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
+      <FAQPageJsonLd faqs={[
+        { question: "Is Karlo Shaadi free?", answer: "Yes! Creating an account, browsing vendors, and booking is completely free. We don't charge any commission or hidden fees." },
+        { question: "How do I find wedding vendors near me?", answer: "Use our search or browse by city — we have verified vendors across 20+ Indian cities including Delhi, Mumbai, Lucknow, Bangalore, and more." },
+        { question: "Are vendors on Karlo Shaadi verified?", answer: "Yes, every vendor goes through our verification process including identity checks, portfolio review, and reference validation." },
+        { question: "What is the 2-Minute Wedding Plan?", answer: "It's a free AI-powered tool that generates a complete wedding plan with budget breakdown, timeline, and vendor recommendations — no signup needed." },
+        { question: "What is Shaadi Seva?", answer: "10% of every payment on Karlo Shaadi goes to the Shaadi Seva Fund — supporting financially disadvantaged couples and Saamuhik Vivaah (mass wedding) events." },
+      ]} />
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">

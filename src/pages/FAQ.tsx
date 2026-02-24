@@ -7,6 +7,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Heart, Shield, Calendar, CreditCard, Users, Star } from "lucide-react";
+import { FAQPageJsonLd } from "@/components/JsonLd";
+import { SEO } from "@/components/SEO";
 
 const faqCategories = [
   {
@@ -142,6 +144,11 @@ const faqCategories = [
 export default function FAQ() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="FAQ - Wedding Planning Questions Answered"
+        description="Find answers to all your wedding planning questions. How Karlo Shaadi works, payment security, booking process, vendor verification, and more."
+      />
+      <FAQPageJsonLd faqs={faqCategories.flatMap(c => c.faqs.map(f => ({ question: f.question, answer: f.answer })))} />
       <BhindiHeader />
       
       {/* Hero Section */}
