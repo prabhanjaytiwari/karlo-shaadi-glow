@@ -3,6 +3,7 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle } from "lucide-react";
+import { FAQPageJsonLd } from "@/components/JsonLd";
 import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { supabase } from "@/integrations/supabase/client";
@@ -124,6 +125,7 @@ export default function Pricing() {
         title="Pricing - 100% Free Wedding Planning"
         description="Karlo Shaadi is 100% FREE forever! Get AI Premium for ₹999/month for AI wedding planner, personal consultant, and exclusive discounts."
       />
+      <FAQPageJsonLd faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       <BhindiHeader />
       
       {/* Hero Section */}
