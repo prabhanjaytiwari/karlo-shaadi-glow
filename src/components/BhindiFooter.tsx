@@ -169,8 +169,22 @@ export const BhindiFooter = () => {
     };
   };
 
+  // Check if bottom nav is visible (mobile + logged in)
+  const isMobileWithNav = typeof window !== 'undefined' && window.innerWidth < 768 && user;
+
+  // On mobile with bottom nav, show minimal footer
+  if (isMobileWithNav) {
+    return (
+      <footer className="py-4 text-center border-t border-border/30 bg-background/50">
+        <p className="text-[11px] text-muted-foreground">
+          © {currentYear} Karlo Shaadi · Made in India 🇮🇳
+        </p>
+      </footer>
+    );
+  }
+
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+    <footer className="relative overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 hidden sm:block">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_90%_55%/0.05)_0%,transparent_50%)]" />
       
