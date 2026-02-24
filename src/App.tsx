@@ -73,6 +73,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import VendorLeaderboard from "./pages/VendorLeaderboard";
 import GuestList from "./pages/GuestList";
+import VendorProfileSetup from "./pages/VendorProfileSetup";
+import SpeechWriterPage from "./pages/SpeechWriterPage";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -190,6 +192,8 @@ const App = () => (
               <Route path="/music-generator" element={<MusicGenerator />} />
               <Route path="/leaderboard" element={<VendorLeaderboard />} />
               <Route path="/guest-list" element={<ProtectedRoute><GuestList /></ProtectedRoute>} />
+              <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
+              <Route path="/speech-writer" element={<SpeechWriterPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

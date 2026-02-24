@@ -1578,6 +1578,57 @@ export type Database = {
           },
         ]
       }
+      vendor_setup_orders: {
+        Row: {
+          amount: number
+          business_name: string
+          category: string
+          city: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          instagram_handle: string | null
+          name: string
+          notes: string | null
+          phone: string
+          razorpay_payment_id: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number
+          business_name: string
+          category: string
+          city: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          instagram_handle?: string | null
+          name: string
+          notes?: string | null
+          phone: string
+          razorpay_payment_id?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          business_name?: string
+          category?: string
+          city?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          instagram_handle?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string
+          razorpay_payment_id?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       vendor_subscriptions: {
         Row: {
           amount: number | null
