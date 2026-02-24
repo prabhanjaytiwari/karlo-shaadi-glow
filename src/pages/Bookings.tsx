@@ -90,14 +90,14 @@ export default function Bookings() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-4 sm:py-8 pt-16 sm:pt-24">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-2">My Bookings</h1>
-            <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+          <div className="mb-4 sm:mb-8">
+            <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-1 sm:mb-2">My Bookings</h1>
+            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
           </div>
 
-          <div className="flex gap-2 mb-6 flex-wrap">
+          <div className="flex gap-2 mb-4 sm:mb-6 flex-wrap overflow-x-auto scrollbar-hide">
             <Button
               variant={filter === "all" ? "default" : "outline"}
               onClick={() => setFilter("all")}
@@ -145,14 +145,14 @@ export default function Bookings() {
           ) : (
             <div className="space-y-4">
               {filteredBookings.map((booking) => (
-                <Card key={booking.id} className="bg-white/90 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
+                <Card key={booking.id} className="bg-white/90 border border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
+                  <CardHeader className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
                       <div>
-                        <CardTitle className="text-2xl mb-2">
+                        <CardTitle className="text-lg sm:text-2xl mb-1 sm:mb-2">
                           {booking.vendor.business_name}
                         </CardTitle>
-                        <Badge className={getStatusColor(booking.status)}>
+                        <Badge className={`${getStatusColor(booking.status)} text-[10px] sm:text-xs`}>
                           {booking.status}
                         </Badge>
                       </div>
@@ -160,22 +160,24 @@ export default function Bookings() {
                         <Button
                           variant="outline"
                           size="sm"
+                          className="text-xs h-8"
                           onClick={() => navigate(`/booking/${booking.id}`)}
                         >
-                          View Details
+                          Details
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
+                          className="text-xs h-8"
                           onClick={() => navigate(`/vendors/${booking.vendor.id}`)}
                         >
-                          View Vendor
+                          Vendor
                         </Button>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4">
+                  <CardContent className="px-4 pb-4 sm:px-6 sm:pb-6 pt-0">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span>Wedding Date: {format(new Date(booking.wedding_date), "PPP")}</span>
