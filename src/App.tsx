@@ -76,6 +76,9 @@ import GuestList from "./pages/GuestList";
 import VendorProfileSetup from "./pages/VendorProfileSetup";
 import SpeechWriterPage from "./pages/SpeechWriterPage";
 import ShaadiSeva from "./pages/ShaadiSeva";
+import WeddingDirectory from "./pages/WeddingDirectory";
+import EmbedWidget from "./pages/EmbedWidget";
+import WebStories from "./pages/WebStories";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
@@ -199,6 +202,10 @@ const App = () => (
               <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
               <Route path="/speech-writer" element={<SpeechWriterPage />} />
               <Route path="/shaadi-seva" element={<ShaadiSeva />} />
+              <Route path="/wedding-directory" element={<WeddingDirectory />} />
+              <Route path="/embed" element={<EmbedWidget />} />
+              <Route path="/web-stories" element={<WebStories />} />
+              <Route path="/web-stories/:id" element={<WebStories />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
