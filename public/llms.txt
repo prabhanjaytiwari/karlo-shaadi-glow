@@ -1,0 +1,71 @@
+# Karlo Shaadi
+
+> India's #1 wedding planning platform. Verified vendors, milestone payments, fraud protection. Every wedding you plan helps someone get married through Shaadi Seva.
+
+## About
+
+Karlo Shaadi is a premium Indian wedding planning and vendor matchmaking platform. We connect couples with verified wedding vendors across categories like photography, venues, catering, decoration, mehendi, music, and more. Our tagline: "aap shaadi karo, tension hum sambhal lenge" (you focus on the wedding, we'll handle the tension).
+
+10% of every payment on the platform goes to Shaadi Seva — a fund supporting financially disadvantaged couples and Saamuhik Vivaah (mass wedding) events.
+
+## Core Pages
+
+- [Home](https://karloshaadi.com/)
+- [Search Vendors](https://karloshaadi.com/search)
+- [Vendor Categories](https://karloshaadi.com/categories)
+- [Deals & Offers](https://karloshaadi.com/deals)
+- [Compare Vendors](https://karloshaadi.com/compare)
+- [Shaadi Seva (Social Impact)](https://karloshaadi.com/shaadi-seva)
+
+## Planning Tools
+
+- [Wedding Plan Wizard](https://karloshaadi.com/plan-wizard)
+- [Budget Calculator](https://karloshaadi.com/budget-calculator)
+- [Muhurat Finder](https://karloshaadi.com/muhurat-finder)
+- [Invite Creator](https://karloshaadi.com/invite-creator)
+- [Wedding Website Builder](https://karloshaadi.com/wedding-website)
+- [AI Wedding Music Generator](https://karloshaadi.com/music-generator)
+- [Speech Writer](https://karloshaadi.com/speech-writer)
+
+## Content
+
+- [Wedding Stories](https://karloshaadi.com/stories)
+- [Success Stories](https://karloshaadi.com/success-stories)
+- [Testimonials](https://karloshaadi.com/testimonials)
+- [Blog](https://karloshaadi.com/blog)
+
+## For Vendors
+
+- [Vendor Portal](https://karloshaadi.com/for-vendors)
+- [Vendor Pricing](https://karloshaadi.com/vendor-pricing)
+- [Vendor Guide](https://karloshaadi.com/vendor-guide)
+- [Vendor Success Stories](https://karloshaadi.com/vendor-success-stories)
+
+## Cities Served
+
+- [Lucknow](https://karloshaadi.com/city/lucknow)
+- [Delhi](https://karloshaadi.com/city/delhi)
+- [Mumbai](https://karloshaadi.com/city/mumbai)
+- [Bangalore](https://karloshaadi.com/city/bangalore)
+- [Hyderabad](https://karloshaadi.com/city/hyderabad)
+- [Kolkata](https://karloshaadi.com/city/kolkata)
+- [Chennai](https://karloshaadi.com/city/chennai)
+- [Pune](https://karloshaadi.com/city/pune)
+- [Jaipur](https://karloshaadi.com/city/jaipur)
+- [Ahmedabad](https://karloshaadi.com/city/ahmedabad)
+
+## Information
+
+- [About Us](https://karloshaadi.com/about)
+- [Pricing](https://karloshaadi.com/pricing)
+- [FAQ](https://karloshaadi.com/faq)
+- [Help Center](https://karloshaadi.com/help)
+- [Support](https://karloshaadi.com/support)
+- [Privacy Policy](https://karloshaadi.com/privacy)
+- [Terms & Conditions](https://karloshaadi.com/legal)
+- [Cancellation & Refunds](https://karloshaadi.com/cancellation-refunds)
+
+## Contact
+
+- Website: https://karloshaadi.com
+- Location: India
