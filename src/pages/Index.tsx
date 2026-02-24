@@ -62,7 +62,7 @@ const Index = () => {
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-14 sm:pt-24">
+      <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
         <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
         transform: `translateY(${offset * 0.3}px) scale(1.05)`
@@ -72,7 +72,7 @@ const Index = () => {
         </div>
         
         {/* Floating Bokeh Elements */}
-        <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden hidden sm:block">
+        <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
           <div className="absolute top-[15%] left-[10%] w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float-slow" />
           <div className="absolute top-[25%] right-[15%] w-24 h-24 rounded-full bg-accent/25 blur-2xl animate-float-delayed" />
           <div className="absolute bottom-[30%] left-[20%] w-20 h-20 rounded-full bg-white/10 blur-2xl animate-float-slow" />
@@ -134,7 +134,7 @@ const Index = () => {
       <TensionsSection />
 
       {/* Free Wedding Tools Section */}
-      <section className="py-6 sm:py-16 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
+      <section className="py-12 sm:py-16 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <div className="inline-block px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -148,10 +148,10 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 gap-3 sm:gap-6 max-w-5xl mx-auto pb-2 sm:pb-0 scrollbar-hide snap-x snap-mandatory">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {/* Budget Calculator */}
-            <Link to="/budget-calculator" className="group min-w-[75vw] sm:min-w-0 snap-start">
-              <div className="relative h-full p-4 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+            <Link to="/budget-calculator" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Calculator className="h-7 w-7 text-primary" />
                 </div>
@@ -166,8 +166,8 @@ const Index = () => {
             </Link>
 
             {/* Muhurat Finder */}
-            <Link to="/muhurat-finder" className="group min-w-[75vw] sm:min-w-0 snap-start">
-              <div className="relative h-full p-4 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+            <Link to="/muhurat-finder" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Calendar className="h-7 w-7 text-primary" />
                 </div>
@@ -182,8 +182,8 @@ const Index = () => {
             </Link>
 
             {/* Invite Creator */}
-            <Link to="/invite-creator" className="group min-w-[75vw] sm:min-w-0 snap-start">
-              <div className="relative h-full p-4 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+            <Link to="/invite-creator" className="group">
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Heart className="h-7 w-7 text-primary" />
                 </div>
@@ -359,7 +359,7 @@ const Index = () => {
       </section>
 
       {/* Section 3: How It Works */}
-      <section ref={section2.ref} className="py-8 sm:py-24 md:py-32 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section2.ref} className="py-16 sm:py-24 md:py-32 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
@@ -422,7 +422,7 @@ const Index = () => {
       <ReviewsSection />
 
       {/* Section 4: Success Stories */}
-      <section ref={section3.ref} className="py-8 sm:py-24 md:py-32 relative" style={{
+      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative" style={{
       background: 'radial-gradient(ellipse at center, hsl(350 85% 55% / 0.05) 0%, transparent 50%)'
     }}>
         <div className="container mx-auto px-4 sm:px-6">
@@ -474,7 +474,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section ref={section4.ref} className="py-8 sm:py-24 md:py-32 relative overflow-hidden">
+      <section ref={section4.ref} className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className={`max-w-4xl mx-auto text-center ${section4.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>

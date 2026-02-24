@@ -131,6 +131,11 @@ export const BhindiHeader = () => {
   const isDesktop = windowWidth !== undefined && windowWidth >= 768;
   const isMobile = windowWidth !== undefined && windowWidth < 768;
 
+  // Hide header completely in native mobile app (we use bottom navigation instead)
+  if (isNative && isMobile && user) {
+    return null;
+  }
+
   useEffect(() => {
     checkAuth();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -145,11 +150,6 @@ export const BhindiHeader = () => {
 
     return () => subscription.unsubscribe();
   }, []);
-
-  // Hide header completely on mobile when user is logged in (bottom nav handles navigation)
-  if (isMobile && user) {
-    return null;
-  }
 
   const checkUserRoles = async (userId: string) => {
     const { data: roles } = await supabase
@@ -221,14 +221,14 @@ export const BhindiHeader = () => {
       />
       
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
-        <div className="flex items-center justify-between h-12 sm:h-14 md:h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16 md:h-18">
           {/* Logo - Compact on mobile */}
           <Link to="/" className="flex items-center gap-2 group relative">
             <div className="absolute -inset-2 bg-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
             <img 
               src={logo} 
               alt="Karlo Shaadi Logo" 
-              className="relative h-7 sm:h-9 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
+              className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
             />
           </Link>
 

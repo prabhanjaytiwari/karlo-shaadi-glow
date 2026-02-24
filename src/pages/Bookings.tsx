@@ -90,25 +90,42 @@ export default function Bookings() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-4 sm:py-8 pt-16 sm:pt-24">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-4 sm:mb-8">
-            <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-1 sm:mb-2">My Bookings</h1>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-foreground mb-2">My Bookings</h1>
+            <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
           </div>
 
-          <div className="flex gap-1.5 sm:gap-2 mb-3 sm:mb-6 overflow-x-auto scrollbar-hide">
-            {["all", "pending", "confirmed", "completed"].map((f) => (
-              <Button
-                key={f}
-                variant={filter === f ? "default" : "outline"}
-                size="sm"
-                onClick={() => setFilter(f)}
-                className={`text-xs h-8 px-3 rounded-full whitespace-nowrap ${filter === f ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}`}
-              >
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </Button>
-            ))}
+          <div className="flex gap-2 mb-6 flex-wrap">
+            <Button
+              variant={filter === "all" ? "default" : "outline"}
+              onClick={() => setFilter("all")}
+              className={filter === "all" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              All
+            </Button>
+            <Button
+              variant={filter === "pending" ? "default" : "outline"}
+              onClick={() => setFilter("pending")}
+              className={filter === "pending" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Pending
+            </Button>
+            <Button
+              variant={filter === "confirmed" ? "default" : "outline"}
+              onClick={() => setFilter("confirmed")}
+              className={filter === "confirmed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Confirmed
+            </Button>
+            <Button
+              variant={filter === "completed" ? "default" : "outline"}
+              onClick={() => setFilter("completed")}
+              className={filter === "completed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Completed
+            </Button>
           </div>
 
           {loading ? (
@@ -126,16 +143,16 @@ export default function Bookings() {
               actionLink="/search"
             />
           ) : (
-            <div className="space-y-2 sm:space-y-4">
+            <div className="space-y-4">
               {filteredBookings.map((booking) => (
-                <Card key={booking.id} className="bg-white/90 border border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
-                  <CardHeader className="p-3 sm:p-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
+                <Card key={booking.id} className="bg-white/90 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
                       <div>
-                        <CardTitle className="text-lg sm:text-2xl mb-1 sm:mb-2">
+                        <CardTitle className="text-2xl mb-2">
                           {booking.vendor.business_name}
                         </CardTitle>
-                        <Badge className={`${getStatusColor(booking.status)} text-[10px] sm:text-xs`}>
+                        <Badge className={getStatusColor(booking.status)}>
                           {booking.status}
                         </Badge>
                       </div>
@@ -143,24 +160,22 @@ export default function Bookings() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="text-xs h-8"
                           onClick={() => navigate(`/booking/${booking.id}`)}
                         >
-                          Details
+                          View Details
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="text-xs h-8"
                           onClick={() => navigate(`/vendors/${booking.vendor.id}`)}
                         >
-                          Vendor
+                          View Vendor
                         </Button>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="px-4 pb-4 sm:px-6 sm:pb-6 pt-0">
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span>Wedding Date: {format(new Date(booking.wedding_date), "PPP")}</span>

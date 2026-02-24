@@ -267,13 +267,13 @@ export default function Messages() {
     <div className="min-h-screen flex flex-col bg-background">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-0 sm:px-4 pt-2 sm:pt-24 pb-0 sm:pb-8">
+      <main className="flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8">
         <div className="max-w-6xl mx-auto">
           {(!isMobile || !selectedVendor) && (
-            <h1 className="text-lg sm:text-2xl md:text-4xl font-bold mb-2 sm:mb-4 md:mb-8 px-3 sm:px-0">Messages</h1>
+            <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-8">Messages</h1>
           )}
 
-          <Card className="h-[calc(100vh-80px)] sm:h-[calc(100vh-200px)] md:h-[600px] overflow-hidden rounded-none sm:rounded-xl border-0 sm:border">
+          <Card className="h-[calc(100vh-200px)] md:h-[600px] overflow-hidden">
             <div className="grid md:grid-cols-3 h-full">
               {/* Conversations List */}
               {showConversationList && (

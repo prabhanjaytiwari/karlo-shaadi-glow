@@ -35,26 +35,26 @@ export default function Settings() {
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
         
-        <main className="pt-4 sm:pt-24 pb-4 sm:pb-16">
-          <div className="container mx-auto px-3 sm:px-6 max-w-4xl">
+        <main className="pt-24 pb-16">
+          <div className="container mx-auto px-6 max-w-4xl">
             <Button
               variant="ghost"
               onClick={() => navigate("/dashboard")}
-              className="mb-4 sm:mb-6 hover:text-accent text-sm"
+              className="mb-6 hover:text-accent"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              Back to Dashboard
             </Button>
 
-            <div className="mb-4 sm:mb-8">
-              <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-3 sm:mb-4" />
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Settings</h1>
-              <p className="text-muted-foreground mt-1 sm:mt-2 text-sm">
+            <div className="mb-8">
+              <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+              <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+              <p className="text-muted-foreground mt-2">
                 Manage your account preferences and security
               </p>
             </div>
 
-            <Tabs defaultValue="account" className="space-y-4 sm:space-y-6">
+            <Tabs defaultValue="account" className="space-y-6">
               <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
                 <TabsTrigger value="account" className="flex items-center gap-2">
                   <User className="h-4 w-4" />
@@ -70,9 +70,9 @@ export default function Settings() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="account" className="space-y-4 sm:space-y-6">
+              <TabsContent value="account" className="space-y-6">
                 {/* Profile Link */}
-                <div className="bg-white/90 border border-accent/20 rounded-lg p-4 sm:p-6">
+                <div className="bg-white/90 border-2 border-accent/20 rounded-lg p-6">
                   <h3 className="font-medium mb-2">Profile Information</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Update your wedding details and preferences
@@ -83,7 +83,7 @@ export default function Settings() {
                 </div>
 
                 {/* Logout */}
-                <div className="bg-white/90 border border-accent/20 rounded-lg p-4 sm:p-6">
+                <div className="bg-white/90 border-2 border-accent/20 rounded-lg p-6">
                   <h3 className="font-medium mb-2">Sign Out</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Sign out of your account on this device
@@ -99,7 +99,7 @@ export default function Settings() {
                 <NotificationPreferences />
               </TabsContent>
 
-              <TabsContent value="security" className="space-y-4 sm:space-y-6">
+              <TabsContent value="security" className="space-y-6">
                 <PasswordChange />
                 <DeleteAccount />
               </TabsContent>

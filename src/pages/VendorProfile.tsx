@@ -327,7 +327,7 @@ const VendorProfile = () => {
     <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
 
       {/* Gallery Section */}
-      <section className="relative h-[28vh] sm:h-[50vh] md:h-[60vh] overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
         <img 
           src={portfolio[0]?.image_url || "/placeholder.svg"} 
           alt={vendor.business_name}
@@ -337,7 +337,7 @@ const VendorProfile = () => {
       </section>
 
       {/* Sticky Action Bar (Mobile) */}
-      <div className="lg:hidden sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-2.5 sm:p-3">
+      <div className="lg:hidden sticky top-14 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-3">
         <div className="flex gap-2">
           <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
             <Button className="flex-1 h-10 text-sm">
@@ -357,13 +357,13 @@ const VendorProfile = () => {
       </div>
 
       {/* Main Content */}
-      <section className="py-2 sm:py-8 md:py-12 -mt-8 sm:-mt-16 md:-mt-20 relative z-10">
-        <div className="container mx-auto px-2.5 sm:px-4">
-          <div className="grid lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
+      <section className="py-8 md:py-12 -mt-16 md:-mt-20 relative z-10">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Header */}
-              <GlassCard className="p-4 sm:p-5 md:p-6 animate-fade-up bg-white border border-accent/20">
+              <GlassCard className="p-5 md:p-6 animate-fade-up bg-white border-2 border-accent/20">
                 <div className="flex flex-wrap gap-2 mb-3">
                   {badges.map((badge, i) => (
                     <span 
@@ -376,10 +376,10 @@ const VendorProfile = () => {
                   ))}
                 </div>
 
-                <h1 className="font-display font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-1">{vendor.business_name}</h1>
-                <p className="text-muted-foreground text-sm sm:text-base mb-3 sm:mb-4 capitalize">{vendor.category}</p>
+                <h1 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-1">{vendor.business_name}</h1>
+                <p className="text-muted-foreground text-base mb-4 capitalize">{vendor.category}</p>
 
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm">
+                <div className="flex flex-wrap items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-accent" />
                     <span>{vendor.cities?.name || "India"}</span>
@@ -395,18 +395,18 @@ const VendorProfile = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-accent/20">
+                <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-accent/20">
                   <div className="text-center">
-                    <p className="font-display font-bold text-lg sm:text-xl text-accent">{vendor.years_experience}+</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Years Active</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.years_experience}+</p>
+                    <p className="text-xs text-muted-foreground">Years Active</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-lg sm:text-xl text-accent">{vendor.total_bookings || 0}+</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Weddings</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.total_bookings || 0}+</p>
+                    <p className="text-xs text-muted-foreground">Weddings</p>
                   </div>
                   <div className="text-center">
-                    <p className="font-display font-bold text-lg sm:text-xl text-accent">{vendor.team_size || 1}</p>
-                    <p className="text-[10px] sm:text-xs text-muted-foreground">Team Size</p>
+                    <p className="font-display font-bold text-xl text-accent">{vendor.team_size || 1}</p>
+                    <p className="text-xs text-muted-foreground">Team Size</p>
                   </div>
                 </div>
               </GlassCard>
@@ -417,7 +417,7 @@ const VendorProfile = () => {
               </div>
 
               {/* Tabbed Content */}
-              <GlassCard className="p-3 sm:p-5 md:p-6 animate-fade-up bg-white border border-accent/20">
+              <GlassCard className="p-5 md:p-6 animate-fade-up bg-white border-2 border-accent/20">
                 <VendorProfileTabs 
                   children={{
                     details: <DetailsContent />,

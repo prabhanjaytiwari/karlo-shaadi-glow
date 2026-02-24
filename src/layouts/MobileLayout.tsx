@@ -37,11 +37,11 @@ export function MobileLayout({ children, hideBottomNav = false }: MobileLayoutPr
         // Add safe area padding for native apps
         paddingTop: isNative ? 'env(safe-area-inset-top, 0px)' : undefined,
         // Add bottom padding when bottom nav is shown
-        paddingBottom: showBottomNav ? 'calc(56px + env(safe-area-inset-bottom, 0px))' : undefined,
+        paddingBottom: showBottomNav ? 'calc(4rem + env(safe-area-inset-bottom, 0px))' : undefined,
       }}
     >
-      {/* Main content with mobile page transition */}
-      <main className={`${isNative && platform === 'ios' ? 'pt-safe' : ''} ${isMobile ? 'mobile-page-enter' : ''}`}>
+      {/* Main content */}
+      <main className={isNative && platform === 'ios' ? 'pt-safe' : ''}>
         {children}
       </main>
 

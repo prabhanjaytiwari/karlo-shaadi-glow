@@ -12,7 +12,7 @@ const MuhuratFinderPage = () => {
         keywords="shubh muhurat 2025, wedding muhurat dates, auspicious wedding dates, vivah muhurat, hindu wedding dates, panchang 2025"
       />
       <BhindiHeader />
-      <main className="flex-1 pt-4 sm:pt-16 md:pt-20">
+      <main className="flex-1 pt-16 md:pt-20">
         <MuhuratFinder />
       </main>
       <BhindiFooter />

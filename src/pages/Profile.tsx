@@ -192,27 +192,27 @@ const Profile = () => {
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
       
-      <main className="pt-4 sm:pt-24 pb-4 sm:pb-16">
-        <div className="container mx-auto px-3 sm:px-6 max-w-2xl">
+      <main className="pt-24 pb-16">
+        <div className="container mx-auto px-6 max-w-2xl">
           <Button
             variant="ghost"
             onClick={() => navigate("/dashboard")}
-            className="mb-4 sm:mb-6 hover:text-accent text-sm"
+            className="mb-6 hover:text-accent"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Back to Dashboard
           </Button>
 
-          <Card className="animate-fade-up bg-white/90 border border-accent/20 shadow-xl">
-            <CardHeader className="p-4 sm:p-6">
-              <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-3 sm:mb-4" />
-              <CardTitle className="text-2xl sm:text-3xl text-foreground">Edit Profile</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">
+          <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
+            <CardHeader>
+              <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+              <CardTitle className="text-3xl text-foreground">Edit Profile</CardTitle>
+              <CardDescription>
                 Update your wedding details and preferences
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 sm:p-6 pt-0">
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="full_name">Full Name *</Label>
                   <Input
