@@ -13,6 +13,7 @@ const footerLinks = {
     { label: "Leaderboard", to: "/leaderboard" },
     { label: "Investors", to: "/investors" },
     { label: "Careers", to: "/join-as-manager" },
+    { label: "Shaadi Seva ❤️", to: "/shaadi-seva" },
   ],
   planning: [
     { label: "AI Wedding Plan", to: "/plan-wizard" },
@@ -222,6 +223,7 @@ export const BhindiFooter = () => {
                   src={logo} 
                   alt="Karlo Shaadi Logo" 
                   className="relative h-12 w-auto"
+                  style={{ mixBlendMode: 'multiply' }}
                 />
               </div>
             </div>

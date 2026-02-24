@@ -17,6 +17,7 @@ import { StoryModerationTab } from "@/components/admin/StoryModerationTab";
 import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { PaymentTestingPanel } from "@/components/admin/PaymentTestingPanel";
 import { VendorVerificationPanel } from "@/components/admin/VendorVerificationPanel";
+import { ShaadiSevaAdminTab } from "@/components/admin/ShaadiSevaAdminTab";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -375,6 +376,7 @@ export default function AdminDashboard() {
               <TabsTrigger value="testing" className="shrink-0">Payments</TabsTrigger>
               <TabsTrigger value="stories" className="shrink-0">Stories</TabsTrigger>
               <TabsTrigger value="moderation" className="shrink-0">Moderation</TabsTrigger>
+              <TabsTrigger value="seva" className="shrink-0">Shaadi Seva</TabsTrigger>
             </TabsList>
 
             <TabsContent value="analytics">
@@ -558,6 +560,10 @@ export default function AdminDashboard() {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="seva">
+              <ShaadiSevaAdminTab />
             </TabsContent>
           </Tabs>
         </div>

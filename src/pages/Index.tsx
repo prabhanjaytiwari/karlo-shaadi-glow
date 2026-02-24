@@ -24,6 +24,7 @@ import weddingBridalHair from "@/assets/wedding-bridal-hair.jpg";
 import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
 import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
+import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 import { useEffect, useState } from "react";
@@ -67,7 +68,7 @@ const Index = () => {
         <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
         transform: `translateY(${offset * 0.3}px) scale(1.05)`
       }}>
-          <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
+          <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
         </div>
         
@@ -285,9 +286,11 @@ const Index = () => {
                   </div>)}
               </div>
 
-              <Button size="sm" variant="default" className="rounded-full px-5 h-9">
-                Join as Vendor
-              </Button>
+              <Link to="/for-vendors">
+                <Button size="sm" variant="default" className="rounded-full px-5 h-9">
+                  Join as Vendor
+                </Button>
+              </Link>
             </div>
 
             {/* Image */}
@@ -407,10 +410,36 @@ const Index = () => {
                   </div>)}
               </div>
 
-              <Button size="lg" className="rounded-full px-8">
-                Start Planning Free
-              </Button>
+              <Link to="/plan-wizard">
+                <Button size="lg" className="rounded-full px-8">
+                  Start Planning Free
+                </Button>
+              </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Shaadi Seva Impact Section */}
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-white via-rose-50/30 to-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <Heart className="h-4 w-4 text-primary fill-primary" />
+              <span className="text-primary text-xs font-semibold">Shaadi Seva</span>
+            </div>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl mb-3">
+              Every Wedding You Plan <span className="text-primary">Helps Someone Get Married</span>
+            </h2>
+            <p className="text-muted-foreground text-sm sm:text-base mb-8 max-w-xl mx-auto">
+              10% of every payment on Karlo Shaadi goes to the Shaadi Seva Fund — supporting couples in need and Saamuhik Vivaah events.
+            </p>
+            <ShaadiSevaCounter />
+            <Link to="/shaadi-seva">
+              <Button variant="outline" className="rounded-full mt-6 border-primary/30 hover:border-primary">
+                Learn More About Shaadi Seva
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

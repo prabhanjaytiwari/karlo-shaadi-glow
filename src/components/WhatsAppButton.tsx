@@ -51,7 +51,7 @@ export const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
+      className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50 group"
     >
       {/* Help Label */}
       {showLabel && (
@@ -63,7 +63,7 @@ export const WhatsAppButton = () => {
 
       <Button
         size="lg"
-        className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-[#25D366] hover:bg-[#20BD5A] border-2 border-white/20 group-hover:scale-110 animate-pulse-subtle"
+        className="h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-[#25D366] hover:bg-[#20BD5A] border-2 border-white/20 group-hover:scale-110 animate-pulse-subtle"
       >
         <MessageCircle className="h-6 w-6 text-white" />
       </Button>
