@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { WhatsAppStatusShare } from "@/components/WhatsAppStatusShare";
 
 interface PlanData {
   planId: string;
@@ -269,6 +270,15 @@ export default function WeddingPlanResult() {
                   )}
                   {user ? "Save Plan" : "Sign in to Save"}
                 </Button>
+                <WhatsAppStatusShare
+                  title={`${plan.coupleNames} Wedding Plan`}
+                  subtitle={`${plan.city} • ${plan.weddingDate}`}
+                  stats={[
+                    { label: "Budget", value: formatCurrency(plan.totalBudget) },
+                    { label: "Guests", value: `${plan.guestCount}` },
+                  ]}
+                  shareUrl={`https://karloshaadi.com/plan/${plan.planId}`}
+                />
               </div>
               
               <div className="mt-6">

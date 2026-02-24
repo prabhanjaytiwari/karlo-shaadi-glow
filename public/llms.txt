@@ -30,9 +30,17 @@ Karlo Shaadi is a premium Indian wedding planning and vendor matchmaking platfor
 ## Content
 
 - [Wedding Stories](https://karloshaadi.com/stories)
+- [Web Stories (Google Discover)](https://karloshaadi.com/web-stories)
+- [Wedding Directory](https://karloshaadi.com/wedding-directory)
 - [Success Stories](https://karloshaadi.com/success-stories)
 - [Testimonials](https://karloshaadi.com/testimonials)
 - [Blog](https://karloshaadi.com/blog)
+
+## Embeddable Widgets
+
+Karlo Shaadi offers free embeddable wedding widgets for blogs and websites:
+- Wedding Countdown Timer: `<iframe src="https://karloshaadi.com/embed?type=countdown&date=YYYY-MM-DD&names=Name1+%26+Name2" width="320" height="200" />`
+- Budget Preview: `<iframe src="https://karloshaadi.com/embed?type=budget-preview&budget=1000000" width="320" height="240" />`
 
 ## For Vendors
 

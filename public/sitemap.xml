@@ -289,4 +289,40 @@
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
+
+  <!-- Programmatic SEO Pages -->
+  <url>
+    <loc>https://karloshaadi.com/wedding-directory</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/web-stories</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- City + Category SEO Pages -->
+  <url><loc>https://karloshaadi.com/vendors/delhi/photography</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/mumbai/photography</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/lucknow/photography</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/jaipur/photography</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/bangalore/photography</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/venues</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/mumbai/venues</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/lucknow/venues</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/jaipur/venues</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/udaipur/venues</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/catering</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/mumbai/catering</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/lucknow/catering</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/decoration</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/mumbai/decoration</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/makeup</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/mumbai/makeup</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/mehendi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/lucknow/mehendi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://karloshaadi.com/vendors/delhi/music</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>

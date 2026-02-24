@@ -31,11 +31,13 @@ const footerLinks = {
     { label: "Success Stories", to: "/vendor-success-stories" },
   ],
   explore: [
+    { label: "Wedding Directory", to: "/wedding-directory" },
     { label: "Photography", to: "/category/photography" },
     { label: "Venues", to: "/category/venues" },
     { label: "Catering", to: "/category/catering" },
     { label: "Decoration", to: "/category/decoration" },
     { label: "All Categories", to: "/categories" },
+    { label: "Web Stories", to: "/web-stories" },
   ],
   support: [
     { label: "Help Center", to: "/help" },
