@@ -192,8 +192,8 @@ const Profile = () => {
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
       
-      <main className="pt-16 sm:pt-24 pb-8 sm:pb-16">
-        <div className="container mx-auto px-4 sm:px-6 max-w-2xl">
+      <main className="pt-24 pb-16">
+        <div className="container mx-auto px-6 max-w-2xl">
           <Button
             variant="ghost"
             onClick={() => navigate("/dashboard")}
@@ -206,7 +206,7 @@ const Profile = () => {
           <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
             <CardHeader>
               <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
-              <CardTitle className="text-xl sm:text-3xl text-foreground">Edit Profile</CardTitle>
+              <CardTitle className="text-3xl text-foreground">Edit Profile</CardTitle>
               <CardDescription>
                 Update your wedding details and preferences
               </CardDescription>

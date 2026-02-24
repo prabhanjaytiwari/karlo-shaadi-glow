@@ -62,7 +62,7 @@ const Index = () => {
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       
       {/* Hero Section */}
-      <section className="relative min-h-[55vh] sm:min-h-[70vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-14 sm:pt-24">
+      <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
         <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
         transform: `translateY(${offset * 0.3}px) scale(1.05)`
@@ -134,7 +134,7 @@ const Index = () => {
       <TensionsSection />
 
       {/* Free Wedding Tools Section */}
-      <section className="py-6 sm:py-12 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
+      <section className="py-12 sm:py-16 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <div className="inline-block px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
@@ -148,12 +148,12 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {/* Budget Calculator */}
             <Link to="/budget-calculator" className="group">
-              <div className="relative h-full p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl bg-white border border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 flex sm:block items-center gap-4 sm:gap-0">
-                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center sm:mb-4 group-hover:scale-110 transition-transform duration-300 shrink-0">
-                  <Calculator className="h-5 w-5 sm:h-7 sm:w-7 text-primary" />
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Calculator className="h-7 w-7 text-primary" />
                 </div>
                 <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Budget Calculator</h3>
                 <p className="text-muted-foreground text-sm mb-4">

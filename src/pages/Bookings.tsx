@@ -90,31 +90,42 @@ export default function Bookings() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 container mx-auto px-4 py-4 sm:py-8 pt-16 sm:pt-24">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-4 sm:mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-foreground mb-2">My Bookings</h1>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-foreground mb-2">My Bookings</h1>
+            <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
           </div>
 
-          {/* Horizontal scroll filter chips */}
-          <div className="flex gap-2 mb-4 sm:mb-6 overflow-x-auto pb-1 scrollbar-hide snap-x">
-            {[
-              { key: "all", label: "All" },
-              { key: "pending", label: "Pending" },
-              { key: "confirmed", label: "Confirmed" },
-              { key: "completed", label: "Completed" },
-            ].map((f) => (
-              <Button
-                key={f.key}
-                variant={filter === f.key ? "default" : "outline"}
-                size="sm"
-                onClick={() => setFilter(f.key)}
-                className={`shrink-0 snap-start text-xs h-8 px-3 rounded-full ${filter === f.key ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}`}
-              >
-                {f.label}
-              </Button>
-            ))}
+          <div className="flex gap-2 mb-6 flex-wrap">
+            <Button
+              variant={filter === "all" ? "default" : "outline"}
+              onClick={() => setFilter("all")}
+              className={filter === "all" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              All
+            </Button>
+            <Button
+              variant={filter === "pending" ? "default" : "outline"}
+              onClick={() => setFilter("pending")}
+              className={filter === "pending" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Pending
+            </Button>
+            <Button
+              variant={filter === "confirmed" ? "default" : "outline"}
+              onClick={() => setFilter("confirmed")}
+              className={filter === "confirmed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Confirmed
+            </Button>
+            <Button
+              variant={filter === "completed" ? "default" : "outline"}
+              onClick={() => setFilter("completed")}
+              className={filter === "completed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
+            >
+              Completed
+            </Button>
           </div>
 
           {loading ? (
@@ -132,56 +143,54 @@ export default function Bookings() {
               actionLink="/search"
             />
           ) : (
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-4">
               {filteredBookings.map((booking) => (
-                <Card key={booking.id} className="bg-white/90 border border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
-                  <CardHeader className="p-4 sm:p-6">
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="min-w-0 flex-1">
-                        <CardTitle className="text-base sm:text-xl md:text-2xl mb-1 sm:mb-2 truncate">
+                <Card key={booking.id} className="bg-white/90 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-2xl mb-2">
                           {booking.vendor.business_name}
                         </CardTitle>
-                        <Badge className={`${getStatusColor(booking.status)} text-[10px] sm:text-xs`}>
+                        <Badge className={getStatusColor(booking.status)}>
                           {booking.status}
                         </Badge>
                       </div>
-                      <div className="flex gap-1.5 shrink-0">
+                      <div className="flex gap-2">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="text-xs h-8 px-2 sm:px-3"
                           onClick={() => navigate(`/booking/${booking.id}`)}
                         >
-                          Details
+                          View Details
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="text-xs h-8 px-2 sm:px-3 hidden sm:inline-flex"
                           onClick={() => navigate(`/vendors/${booking.vendor.id}`)}
                         >
-                          Vendor
+                          View Vendor
                         </Button>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        <span className="truncate">{format(new Date(booking.wedding_date), "dd MMM yyyy")}</span>
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <span>Wedding Date: {format(new Date(booking.wedding_date), "PPP")}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <DollarSign className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        <span>₹{booking.total_amount.toLocaleString()}</span>
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="h-4 w-4 text-muted-foreground" />
+                        <span>Amount: ₹{booking.total_amount.toLocaleString()}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        <span className="capitalize truncate">{booking.vendor.category}</span>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span className="capitalize">{booking.vendor.category}</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <MessageSquare className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        <span className="truncate">{format(new Date(booking.created_at), "dd MMM")}</span>
+                      <div className="flex items-center gap-2">
+                        <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                        <span>Booked {format(new Date(booking.created_at), "PPP")}</span>
                       </div>
                     </div>
                     {booking.special_requirements && (

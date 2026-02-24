@@ -37,7 +37,7 @@ export function MobileLayout({ children, hideBottomNav = false }: MobileLayoutPr
         // Add safe area padding for native apps
         paddingTop: isNative ? 'env(safe-area-inset-top, 0px)' : undefined,
         // Add bottom padding when bottom nav is shown
-        paddingBottom: showBottomNav ? 'calc(3.5rem + env(safe-area-inset-bottom, 0px))' : undefined,
+        paddingBottom: showBottomNav ? 'calc(4rem + env(safe-area-inset-bottom, 0px))' : undefined,
       }}
     >
       {/* Main content */}

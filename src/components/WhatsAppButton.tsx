@@ -2,21 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
 
 export const WhatsAppButton = () => {
-  const isMobile = useIsMobile();
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user ?? null));
-    return () => subscription.unsubscribe();
-  }, []);
-
-  // Bottom nav is visible when mobile + logged in
-  const hasBottomNav = isMobile && user;
   const location = useLocation();
   const [showLabel, setShowLabel] = useState(false);
   const phoneNumber = "917011460321";
@@ -64,9 +51,7 @@ export const WhatsAppButton = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed right-4 sm:right-6 z-50 group transition-all duration-300 ${
-        hasBottomNav ? 'bottom-20' : 'bottom-4 sm:bottom-6'
-      }`}
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
     >
       {/* Help Label */}
       {showLabel && (
@@ -78,11 +63,9 @@ export const WhatsAppButton = () => {
 
       <Button
         size="lg"
-        className={`rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-[#25D366] hover:bg-[#20BD5A] border-2 border-white/20 group-hover:scale-110 animate-pulse-subtle ${
-          isMobile ? 'h-12 w-12' : 'h-14 w-14'
-        }`}
+        className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-[#25D366] hover:bg-[#20BD5A] border-2 border-white/20 group-hover:scale-110 animate-pulse-subtle"
       >
-        <MessageCircle className={`text-white ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
+        <MessageCircle className="h-6 w-6 text-white" />
       </Button>
 
       {/* Hover tooltip */}
