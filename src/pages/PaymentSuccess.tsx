@@ -165,6 +165,31 @@ export default function PaymentSuccess() {
             </CardContent>
           </Card>
 
+          {/* Shaadi Seva Social Share */}
+          <Card className="bg-gradient-to-br from-primary/5 to-accent/5 mb-8 animate-fade-up border-primary/20" style={{ animationDelay: '0.15s' }}>
+            <CardContent className="p-6 text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+                <span className="text-primary text-xs font-semibold">❤️ Shaadi Seva</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                10% of your payment goes to help someone in need get married
+              </p>
+              {booking && (
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(
+                    `I just booked my ${booking.vendor.category} vendor on Karlo Shaadi! And 10% of my payment helps fund a wedding for someone in need. Plan yours: https://karloshaadi.com`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline" size="sm" className="rounded-full border-primary/30">
+                    Share on WhatsApp 💚
+                  </Button>
+                </a>
+              )}
+            </CardContent>
+          </Card>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
             <Button
               size="lg"

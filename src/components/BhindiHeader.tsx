@@ -229,6 +229,7 @@ export const BhindiHeader = () => {
               src={logo} 
               alt="Karlo Shaadi Logo" 
               className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
+              style={{ mixBlendMode: 'multiply' }}
             />
           </Link>
 
@@ -307,6 +308,15 @@ export const BhindiHeader = () => {
                   <NavigationMenuLink asChild>
                     <Link to="/deals" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
                       Deals
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link to="/shaadi-seva" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-primary font-medium")}>
+                      <Heart className="h-4 w-4 mr-1 fill-primary" />
+                      Shaadi Seva
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

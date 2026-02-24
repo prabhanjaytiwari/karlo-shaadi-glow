@@ -323,6 +323,19 @@ serve(async (req) => {
         .eq("id", bookingId || paymentRecord?.booking_id);
     }
 
+    // Auto-track 10% to Shaadi Seva Fund
+    const sevaAmount = (paymentRecord?.amount || 0) * 0.1;
+    if (sevaAmount > 0) {
+      await supabase.from("shaadi_seva_fund").insert({
+        payment_id: paymentId,
+        booking_id: bookingId || paymentRecord?.booking_id || null,
+        source_type: subscriptionPlan ? "subscription" : "booking",
+        total_amount: paymentRecord?.amount || 0,
+        seva_amount: sevaAmount,
+      });
+      console.log(`Shaadi Seva: ₹${sevaAmount} contributed from payment ${paymentId}`);
+    }
+
     return new Response(
       JSON.stringify({ success: true, verified: true }),
       {

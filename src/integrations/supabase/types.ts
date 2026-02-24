@@ -1031,6 +1031,78 @@ export type Database = {
           },
         ]
       }
+      shaadi_seva_applications: {
+        Row: {
+          applicant_name: string
+          approved_at: string | null
+          city: string
+          created_at: string
+          estimated_need: number | null
+          funded_amount: number
+          id: string
+          phone: string
+          situation: string
+          status: string
+          wedding_date: string | null
+        }
+        Insert: {
+          applicant_name: string
+          approved_at?: string | null
+          city: string
+          created_at?: string
+          estimated_need?: number | null
+          funded_amount?: number
+          id?: string
+          phone: string
+          situation: string
+          status?: string
+          wedding_date?: string | null
+        }
+        Update: {
+          applicant_name?: string
+          approved_at?: string | null
+          city?: string
+          created_at?: string
+          estimated_need?: number | null
+          funded_amount?: number
+          id?: string
+          phone?: string
+          situation?: string
+          status?: string
+          wedding_date?: string | null
+        }
+        Relationships: []
+      }
+      shaadi_seva_fund: {
+        Row: {
+          booking_id: string | null
+          created_at: string
+          id: string
+          payment_id: string
+          seva_amount: number
+          source_type: string
+          total_amount: number
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          payment_id: string
+          seva_amount: number
+          source_type: string
+          total_amount: number
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          payment_id?: string
+          seva_amount?: number
+          source_type?: string
+          total_amount?: number
+        }
+        Relationships: []
+      }
       story_budget_breakdown: {
         Row: {
           amount: number
