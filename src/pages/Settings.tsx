@@ -35,8 +35,8 @@ export default function Settings() {
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
         
-        <main className="pt-24 pb-16">
-          <div className="container mx-auto px-6 max-w-4xl">
+        <main className="pt-16 sm:pt-24 pb-8 sm:pb-16">
+          <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
             <Button
               variant="ghost"
               onClick={() => navigate("/dashboard")}
@@ -48,7 +48,7 @@ export default function Settings() {
 
             <div className="mb-8">
               <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
-              <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+              <h1 className="text-xl sm:text-3xl font-bold text-foreground">Settings</h1>
               <p className="text-muted-foreground mt-2">
                 Manage your account preferences and security
               </p>

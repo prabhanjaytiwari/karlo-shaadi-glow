@@ -89,12 +89,12 @@ export function BottomNavigation() {
 
   return (
     <nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-2xl border-t border-border/50 shadow-[0_-2px_20px_rgba(0,0,0,0.05)]"
       style={{ 
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
-      <div className="flex items-center justify-around h-16 px-2">
+      <div className="flex items-center justify-around h-14 px-1">
         {navItems.map((item) => {
           const active = isActive(item.path);
           return (
@@ -102,11 +102,15 @@ export function BottomNavigation() {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
-                "transition-all duration-200 active:scale-95",
+                "relative flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-[56px]",
+                "transition-all duration-200 active:scale-90",
                 active ? "text-primary" : "text-muted-foreground"
               )}
             >
+              {/* Active pill indicator */}
+              {active && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-[3px] bg-primary rounded-full transition-all duration-300" />
+              )}
               <div className="relative">
                 <item.icon 
                   className={cn(
@@ -115,20 +119,17 @@ export function BottomNavigation() {
                   )} 
                 />
                 {item.badge && item.badge > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 flex items-center justify-center bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full">
+                  <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 flex items-center justify-center bg-destructive text-destructive-foreground text-[9px] font-bold rounded-full">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 )}
               </div>
               <span className={cn(
-                "text-[10px] font-medium transition-all duration-200",
-                active && "font-semibold"
+                "text-[10px] font-medium transition-all duration-200 leading-tight",
+                active && "font-semibold text-primary"
               )}>
                 {item.label}
               </span>
-              {active && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
-              )}
             </button>
           );
         })}
