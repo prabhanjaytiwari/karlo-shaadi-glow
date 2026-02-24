@@ -87,12 +87,13 @@ export function BottomNavigation() {
 
   return (
     <nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border/50"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-2xl border-t border-border/30"
       style={{ 
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        boxShadow: '0 -4px 20px -4px rgba(0,0,0,0.08)',
       }}
     >
-      <div className="flex items-center justify-around h-14 px-1">
+      <div className="flex items-center justify-around h-[56px] px-1">
         {navItems.map((item) => {
           const active = isActive(item.path);
           return (
@@ -105,29 +106,29 @@ export function BottomNavigation() {
                 active ? "text-primary" : "text-muted-foreground"
               )}
             >
-              <div className="relative">
+              <div className={cn(
+                "relative flex items-center justify-center rounded-full transition-all duration-200",
+                active ? "w-12 h-7 bg-primary/12" : "w-7 h-7"
+              )}>
                 <item.icon 
                   className={cn(
-                    "h-5 w-5 transition-all duration-200",
-                    active && "scale-110"
+                    "h-[22px] w-[22px] transition-all duration-200",
+                    active && "scale-105"
                   )} 
-                  strokeWidth={active ? 2.5 : 2}
+                  strokeWidth={active ? 2.5 : 1.8}
                 />
                 {item.badge && item.badge > 0 && (
-                  <span className="absolute -top-1 -right-1.5 min-w-[14px] h-3.5 px-0.5 flex items-center justify-center bg-destructive text-destructive-foreground text-[9px] font-bold rounded-full">
+                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 flex items-center justify-center bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full">
                     {item.badge > 99 ? '99+' : item.badge}
                   </span>
                 )}
               </div>
               <span className={cn(
                 "text-[10px] leading-tight transition-all duration-200",
-                active ? "font-semibold" : "font-medium"
+                active ? "font-bold" : "font-medium opacity-70"
               )}>
                 {item.label}
               </span>
-              {active && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
-              )}
             </button>
           );
         })}

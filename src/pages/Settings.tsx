@@ -35,8 +35,8 @@ export default function Settings() {
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
         
-        <main className="pt-16 sm:pt-24 pb-8 sm:pb-16">
-          <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
+        <main className="pt-4 sm:pt-24 pb-4 sm:pb-16">
+          <div className="container mx-auto px-3 sm:px-6 max-w-4xl">
             <Button
               variant="ghost"
               onClick={() => navigate("/dashboard")}

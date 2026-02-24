@@ -120,15 +120,15 @@ export default function Search() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="flex-1 py-4 sm:py-8 md:py-12 px-4 pt-14 sm:pt-20">
+      <main className="flex-1 py-2 sm:py-8 md:py-12 px-3 sm:px-4 pt-3 sm:pt-20">
         <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
-          <div className="mb-4 sm:mb-8 animate-fade-in">
-            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-2 sm:mb-4 text-[10px] sm:text-xs">Find Vendors</Badge>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center">Find Your Perfect Vendors</h1>
-            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-4 sm:mb-6 rounded-full" />
-            <GlassCard className="p-3 sm:p-4 md:p-6 bg-white/90 backdrop-blur-sm border border-accent/20">
-              <div className="grid md:grid-cols-4 gap-3 md:gap-4">
+          <div className="mb-3 sm:mb-8 animate-fade-in">
+            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-1.5 sm:mb-4 text-[10px] sm:text-xs hidden sm:block">Find Vendors</Badge>
+            <h1 className="text-lg sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-center">Find Your Perfect Vendors</h1>
+            <div className="w-12 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-3 sm:mb-6 rounded-full" />
+            <GlassCard className="p-2.5 sm:p-4 md:p-6 bg-white/90 backdrop-blur-sm border border-accent/20">
+              <div className="grid md:grid-cols-4 gap-2 md:gap-4">
                 <div className="md:col-span-2">
                   <Input
                     placeholder="Search vendors..."
