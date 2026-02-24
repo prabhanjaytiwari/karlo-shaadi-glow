@@ -97,16 +97,14 @@ export const BhindiFooter = () => {
     setIsVendor(roles?.some(r => r.role === "vendor") || false);
   };
 
-  // On mobile with logged-in user (bottom nav visible), show minimal footer
-  const showMinimalFooter = isMobile && user;
-
-  if (showMinimalFooter) {
+  // On mobile (any user), show minimal footer - bottom nav handles navigation
+  if (isMobile) {
     return (
-      <footer className="py-4 pb-20 text-center border-t border-border/30">
-        <p className="text-xs text-muted-foreground">
-          © {currentYear} Karlo Shaadi • Made with ❤️ in India
+      <footer className={`py-3 text-center border-t border-border/20 bg-background/50 ${user ? 'pb-[72px]' : 'pb-4'}`}>
+        <p className="text-[10px] text-muted-foreground">
+          © {currentYear} Karlo Shaadi
         </p>
-        <div className="flex justify-center gap-3 mt-2">
+        <div className="flex justify-center gap-3 mt-1">
           <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-accent">Terms</Link>
           <Link to="/privacy" className="text-[10px] text-muted-foreground hover:text-accent">Privacy</Link>
           <Link to="/support" className="text-[10px] text-muted-foreground hover:text-accent">Help</Link>

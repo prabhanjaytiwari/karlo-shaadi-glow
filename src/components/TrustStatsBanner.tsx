@@ -155,11 +155,13 @@ export const TrustStatsBanner = () => {
   }, []);
 
   return (
-    <section className="py-6 sm:py-8 md:py-12 bg-gradient-to-b from-background to-secondary/30">
-      <div className="container mx-auto px-3 sm:px-4">
-        <div className="grid grid-cols-4 gap-1 sm:gap-3 md:gap-6 max-w-3xl mx-auto">
+    <section className="py-4 sm:py-8 md:py-12 bg-gradient-to-b from-background to-secondary/30">
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex overflow-x-auto sm:grid sm:grid-cols-4 gap-0 sm:gap-3 md:gap-6 max-w-3xl mx-auto scrollbar-hide">
           {stats.map((stat, index) => (
-            <StatItem key={index} {...stat} />
+            <div key={index} className="min-w-[25%] sm:min-w-0">
+              <StatItem {...stat} />
+            </div>
           ))}
         </div>
       </div>

@@ -327,7 +327,7 @@ const VendorProfile = () => {
     <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
 
       {/* Gallery Section */}
-      <section className="relative h-[35vh] sm:h-[50vh] md:h-[60vh] overflow-hidden">
+      <section className="relative h-[28vh] sm:h-[50vh] md:h-[60vh] overflow-hidden">
         <img 
           src={portfolio[0]?.image_url || "/placeholder.svg"} 
           alt={vendor.business_name}
@@ -337,7 +337,7 @@ const VendorProfile = () => {
       </section>
 
       {/* Sticky Action Bar (Mobile) */}
-      <div className="lg:hidden sticky top-14 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-3">
+      <div className="lg:hidden sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-accent/20 p-2.5 sm:p-3">
         <div className="flex gap-2">
           <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
             <Button className="flex-1 h-10 text-sm">
@@ -357,9 +357,9 @@ const VendorProfile = () => {
       </div>
 
       {/* Main Content */}
-      <section className="py-4 sm:py-8 md:py-12 -mt-12 sm:-mt-16 md:-mt-20 relative z-10">
-        <div className="container mx-auto px-3 sm:px-4">
-          <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      <section className="py-2 sm:py-8 md:py-12 -mt-8 sm:-mt-16 md:-mt-20 relative z-10">
+        <div className="container mx-auto px-2.5 sm:px-4">
+          <div className="grid lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-6">
               {/* Header */}

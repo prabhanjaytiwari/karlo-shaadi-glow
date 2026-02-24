@@ -83,10 +83,10 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
       
-      <main className="pt-16 sm:pt-24 pb-8 sm:pb-16">
-        <div className="container mx-auto px-4 sm:px-6">
+      <main className="pt-4 sm:pt-24 pb-4 sm:pb-16">
+        <div className="container mx-auto px-3 sm:px-6">
           {/* Welcome Section */}
-          <div className="mb-6 sm:mb-12 animate-fade-up">
+          <div className="mb-4 sm:mb-12 animate-fade-up">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-1 sm:mb-2 text-foreground">
@@ -113,15 +113,15 @@ const Dashboard = () => {
             </div>
 
             {profile?.wedding_date && (
-              <Card className="bg-gradient-to-r from-accent/10 via-rose-100/50 to-amber-100/50 border-2 border-accent/30">
-                <CardContent className="pt-6">
+              <Card className="bg-gradient-to-r from-accent/10 via-rose-100/50 to-amber-100/50 border border-accent/30 sm:border-2">
+                <CardContent className="py-3 px-3 sm:pt-6 sm:px-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
-                      <Calendar className="h-6 w-6 text-accent" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center">
+                      <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Your wedding date</p>
-                      <p className="text-2xl font-bold text-foreground">
+                      <p className="text-xs sm:text-sm text-muted-foreground">Wedding date</p>
+                      <p className="text-lg sm:text-2xl font-bold text-foreground">
                         {new Date(profile.wedding_date).toLocaleDateString('en-IN', { 
                           year: 'numeric', 
                           month: 'long', 
@@ -136,7 +136,7 @@ const Dashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4 mb-6 sm:mb-12 animate-fade-up">
+          <div className="grid grid-cols-4 lg:grid-cols-8 gap-1.5 sm:gap-4 mb-4 sm:mb-12 animate-fade-up">
             <Card className="bg-white/80 border border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer active:scale-95" onClick={() => navigate("/search")}>
               <CardHeader className="p-3 sm:p-4">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center mb-1 sm:mb-2">

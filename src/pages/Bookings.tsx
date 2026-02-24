@@ -97,35 +97,18 @@ export default function Bookings() {
             <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
           </div>
 
-          <div className="flex gap-2 mb-4 sm:mb-6 flex-wrap overflow-x-auto scrollbar-hide">
-            <Button
-              variant={filter === "all" ? "default" : "outline"}
-              onClick={() => setFilter("all")}
-              className={filter === "all" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              All
-            </Button>
-            <Button
-              variant={filter === "pending" ? "default" : "outline"}
-              onClick={() => setFilter("pending")}
-              className={filter === "pending" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Pending
-            </Button>
-            <Button
-              variant={filter === "confirmed" ? "default" : "outline"}
-              onClick={() => setFilter("confirmed")}
-              className={filter === "confirmed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Confirmed
-            </Button>
-            <Button
-              variant={filter === "completed" ? "default" : "outline"}
-              onClick={() => setFilter("completed")}
-              className={filter === "completed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Completed
-            </Button>
+          <div className="flex gap-1.5 sm:gap-2 mb-3 sm:mb-6 overflow-x-auto scrollbar-hide">
+            {["all", "pending", "confirmed", "completed"].map((f) => (
+              <Button
+                key={f}
+                variant={filter === f ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(f)}
+                className={`text-xs h-8 px-3 rounded-full whitespace-nowrap ${filter === f ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}`}
+              >
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+              </Button>
+            ))}
           </div>
 
           {loading ? (
@@ -143,10 +126,10 @@ export default function Bookings() {
               actionLink="/search"
             />
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-2 sm:space-y-4">
               {filteredBookings.map((booking) => (
                 <Card key={booking.id} className="bg-white/90 border border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all">
-                  <CardHeader className="p-4 sm:p-6">
+                  <CardHeader className="p-3 sm:p-6">
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-0">
                       <div>
                         <CardTitle className="text-lg sm:text-2xl mb-1 sm:mb-2">
