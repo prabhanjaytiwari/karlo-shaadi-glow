@@ -79,6 +79,8 @@ import ShaadiSeva from "./pages/ShaadiSeva";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
+import { ScrollDepthCTA } from "@/components/ScrollDepthCTA";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -203,6 +205,8 @@ const App = () => (
             </MobileLayout>
             <WhatsAppButton />
             <PWAInstallPrompt />
+            <ExitIntentPopup />
+            <ScrollDepthCTA />
             </AppProviders>
             </AuthProvider>
           </BrowserRouter>
