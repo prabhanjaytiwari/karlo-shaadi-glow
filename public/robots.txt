@@ -53,5 +53,8 @@ Allow: /
 # Sitemap Location
 Sitemap: https://karloshaadi.com/sitemap.xml
 
+# LLMs.txt for AI crawlers
+LLMs-txt: https://karloshaadi.com/llms.txt
+
 # Crawl Delay (optional, for politeness)
 Crawl-delay: 1
