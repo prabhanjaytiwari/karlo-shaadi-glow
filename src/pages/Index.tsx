@@ -8,21 +8,11 @@ import { HeroSearchWidget } from "@/components/HeroSearchWidget";
 import { TrustStatsBanner } from "@/components/TrustStatsBanner";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { CinematicImage } from "@/components/CinematicImage";
 import heroWedding from "@/assets/hero-wedding-phere.jpeg";
-import sectionVendors from "@/assets/section-vendors.jpg";
-import sectionProcess from "@/assets/section-process.jpg";
-// Real wedding photos
-import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
-import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
-import weddingHaldi from "@/assets/wedding-haldi.jpg";
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
-import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
-import weddingCatering from "@/assets/wedding-catering.jpg";
-// Additional wedding photos
 import weddingCoupleRomantic from "@/assets/wedding-couple-romantic.jpg";
 import weddingFireworks from "@/assets/wedding-fireworks.jpg";
-import weddingBridalHair from "@/assets/wedding-bridal-hair.jpg";
-import weddingBengaliBride from "@/assets/wedding-bengali-bride.jpg";
+import weddingCeremony from "@/assets/wedding-ceremony.jpg";
 import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
@@ -77,7 +67,7 @@ const Index = () => {
         <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
         transform: `translateY(${offset * 0.3}px) scale(1.05)`
       }}>
-          <img src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full object-cover" style={{ objectPosition: 'center 25%' }} />
+          <CinematicImage src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full" cinematic objectPosition="center 25%" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
         </div>
         
@@ -214,7 +204,7 @@ const Index = () => {
       <SponsoredVendorsCarousel />
 
       {/* Value Proposition Section */}
-      <section ref={humorSection1.ref} className="py-8 sm:py-12 md:py-16 relative overflow-hidden bg-gradient-to-b from-rose-50/50 to-white">
+      <section ref={humorSection1.ref} className="py-8 sm:py-10 md:py-14 relative overflow-hidden bg-gradient-to-b from-rose-50/50 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-5xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <div className="text-center mb-4 sm:mb-6">
@@ -231,7 +221,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 group">
-              <img src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <CinematicImage src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full" cinematic />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
@@ -255,7 +245,7 @@ const Index = () => {
       </section>
 
       {/* Section 2: For Vendors */}
-      <section ref={section1.ref} className="py-8 sm:py-12 md:py-16 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section1.ref} className="py-8 sm:py-10 md:py-14 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
             {/* Content */}
@@ -305,7 +295,7 @@ const Index = () => {
             {/* Image */}
             <div className={`hidden lg:block ${section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
               <div className="relative rounded-xl overflow-hidden aspect-[4/3] group">
-                <img src={weddingCoupleRomantic} alt="Happy wedding couple" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <CinematicImage src={weddingCoupleRomantic} alt="Happy wedding couple" className="w-full h-full" cinematic sharp />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -317,13 +307,13 @@ const Index = () => {
       <LiveActivityFeed />
 
       {/* Section 3: How It Works */}
-      <section ref={section2.ref} className="py-16 sm:py-24 md:py-32 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section2.ref} className="py-10 sm:py-14 md:py-20 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group border-2 border-accent/20">
-                <img src={weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <CinematicImage src={weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full" cinematic />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -406,7 +396,7 @@ const Index = () => {
       <ReviewsSection />
 
       {/* Section 4: Success Stories */}
-      <section ref={section3.ref} className="py-16 sm:py-24 md:py-32 relative" style={{
+      <section ref={section3.ref} className="py-10 sm:py-14 md:py-20 relative" style={{
       background: 'radial-gradient(ellipse at center, hsl(350 85% 55% / 0.05) 0%, transparent 50%)'
     }}>
         <div className="container mx-auto px-4 sm:px-6">
@@ -449,7 +439,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group">
-                <img src={weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <CinematicImage src={weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full" cinematic sharp />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -458,7 +448,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section ref={section4.ref} className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
+      <section ref={section4.ref} className="py-10 sm:py-14 md:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className={`max-w-4xl mx-auto text-center ${section4.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>

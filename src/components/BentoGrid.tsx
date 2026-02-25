@@ -1,4 +1,5 @@
 import { ArrowRight, Shield, Sparkles, Users, Zap } from "lucide-react";
+import { CinematicImage } from "@/components/CinematicImage";
 import weddingFriends from "@/assets/wedding-friends.jpg";
 import weddingBride from "@/assets/wedding-bride.jpg";
 import weddingDecoration from "@/assets/wedding-decoration.jpg";
@@ -66,11 +67,7 @@ export const BentoGrid = () => {
                   {/* Before */}
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border border-border">
-                      <img 
-                        src={weddingFriends}
-                        alt="Wedding planning stress"
-                        className="w-full h-full object-cover"
-                      />
+                      <CinematicImage src={weddingFriends} alt="Wedding planning stress" className="w-full h-full" sharp />
                       <div className="absolute top-2 left-2 px-2 py-1 rounded bg-destructive text-destructive-foreground text-xs font-medium">
                         Before
                       </div>
@@ -85,11 +82,7 @@ export const BentoGrid = () => {
                   {/* After */}
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border-2 border-accent/30">
-                      <img 
-                        src={weddingBride}
-                        alt="Stress-free planning"
-                        className="w-full h-full object-cover"
-                      />
+                      <CinematicImage src={weddingBride} alt="Stress-free planning" className="w-full h-full" cinematic sharp />
                       <div className="absolute top-2 left-2 px-2 py-1 rounded bg-accent text-accent-foreground text-xs font-medium">
                         After
                       </div>
@@ -119,11 +112,7 @@ export const BentoGrid = () => {
               </div>
               
               <div className="relative rounded-lg overflow-hidden aspect-square mt-4 border border-border">
-                <img 
-                  src={weddingCeremony}
-                  alt="Magical planning"
-                  className="w-full h-full object-cover"
-                />
+                <CinematicImage src={weddingCeremony} alt="Magical planning" className="w-full h-full" cinematic />
               </div>
 
               <div className="mt-4 flex items-center gap-2 text-primary font-medium text-sm">
@@ -154,11 +143,7 @@ export const BentoGrid = () => {
                   </div>
                 </div>
                 <div className="relative h-full min-h-[180px] sm:min-h-[200px] overflow-hidden">
-                  <img 
-                    src={weddingCatering}
-                    alt="Verified vendors"
-                    className="w-full h-full object-cover"
-                  />
+                  <CinematicImage src={weddingCatering} alt="Verified vendors" className="w-full h-full" cinematic sharp />
                 </div>
               </div>
             </div>
@@ -178,11 +163,7 @@ export const BentoGrid = () => {
               </div>
               
               <div className="relative rounded-lg overflow-hidden aspect-square mt-4 border border-border">
-                <img 
-                  src={weddingDecoration}
-                  alt="Secure celebrations"
-                  className="w-full h-full object-cover"
-                />
+                <CinematicImage src={weddingDecoration} alt="Secure celebrations" className="w-full h-full" sharp />
               </div>
             </div>
           </BentoCard>
