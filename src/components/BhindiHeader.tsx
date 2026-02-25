@@ -276,11 +276,11 @@ export const BhindiHeader = () => {
                       <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
                         AI-generated wedding invitations
                       </ListItem>
-                      <ListItem title="Wedding Website" href="/wedding-website" icon={Heart}>
-                        Create your beautiful shaadi website
+                      <ListItem title="Couple Quiz" href="/couple-quiz" icon={Heart}>
+                        Wedding compatibility score
                       </ListItem>
-                      <ListItem title="Music Generator" href="/music-generator" icon={Music}>
-                        AI-powered wedding music creation
+                      <ListItem title="Vendor Checker" href="/vendor-check" icon={Search}>
+                        Check if your vendor is legit
                       </ListItem>
                     </ul>
                   </NavigationMenuContent>

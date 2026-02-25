@@ -1,9 +1,22 @@
-# Karlo Shaadi - Indian Wedding Planning Platform
+# Karlo Shaadi - India's #1 Wedding Planning Platform
 # https://karloshaadi.com
 
 # Allow all crawlers by default
 User-agent: *
 Allow: /
+Allow: /for-vendors
+Allow: /vendor-pricing
+Allow: /vendor-guide
+Allow: /vendor-success-stories
+Allow: /vendor-check
+Allow: /vendor-auth
+Allow: /vendor-profile-setup
+Allow: /couple-quiz
+Allow: /budget-roast
+Allow: /leaderboard
+Allow: /wedding-directory
+Allow: /web-stories
+Allow: /embed
 
 # Protected/Auth Pages - Don't index
 Disallow: /dashboard
@@ -17,6 +30,8 @@ Disallow: /admin/*
 Disallow: /vendor/dashboard
 Disallow: /vendor/onboarding
 Disallow: /vendor/verification
+Disallow: /vendor/settings
+Disallow: /vendor/billing
 Disallow: /premium-upgrade
 Disallow: /premium-dashboard
 Disallow: /subscription-checkout
@@ -31,6 +46,12 @@ Disallow: /payment-failure
 Disallow: /booking-confirmation
 Disallow: /plan/*
 Disallow: /reset-password
+Disallow: /settings
+Disallow: /notifications
+Disallow: /shaadi-wrapped
+Disallow: /onboarding
+Disallow: /data-export
+Disallow: /guest-list
 
 # Google Bot
 User-agent: Googlebot
@@ -48,6 +69,25 @@ User-agent: facebookexternalhit
 Allow: /
 
 User-agent: LinkedInBot
+Allow: /
+
+# AI Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 # Sitemap Location

@@ -1,79 +1,86 @@
 # Karlo Shaadi
 
-> India's #1 wedding planning platform. Verified vendors, milestone payments, fraud protection. Every wedding you plan helps someone get married through Shaadi Seva.
+> India's #1 wedding planning platform. Zero-commission vendor marketplace. Verified vendors, milestone payments, fraud protection. 10% of every wedding helps someone in need through Shaadi Seva.
 
 ## About
 
-Karlo Shaadi is a premium Indian wedding planning and vendor matchmaking platform. We connect couples with verified wedding vendors across categories like photography, venues, catering, decoration, mehendi, music, and more. Our tagline: "aap shaadi karo, tension hum sambhal lenge" (you focus on the wedding, we'll handle the tension).
+Karlo Shaadi is a premium Indian wedding planning and vendor matchmaking platform connecting couples with verified wedding vendors across 20+ cities in India. Categories include photography, venues, catering, decoration, mehendi, makeup, music, entertainment, invitations, choreography, transport, jewelry, and more.
 
-10% of every payment on the platform goes to Shaadi Seva — a fund supporting financially disadvantaged couples and Saamuhik Vivaah (mass wedding) events.
+**Tagline**: "aap shaadi karo, tension hum sambhal lenge" (you focus on the wedding, we'll handle the stress)
+
+**Key Differentiators**:
+- Zero commission for vendors (vs 15-20% on competitors)
+- AI-first experience with instant wedding plans
+- WhatsApp-native communication
+- Real-time price transparency
+- Shaadi Seva social impact: 10% of payments support disadvantaged couples
+
+## For Wedding Vendors
+
+Karlo Shaadi is the fastest-growing vendor platform in India. Wedding photographers, caterers, decorators, makeup artists, and venue owners can register for free and start receiving inquiries immediately.
+
+**Why vendors choose Karlo Shaadi**:
+- Free registration and profile creation
+- Zero commission on bookings (competitors charge 15-20%)
+- Verified badge to build trust
+- AI-powered matching with ready-to-book couples
+- Dashboard for managing bookings, payments, and reviews
+- Subscription tiers for premium features (Silver ₹4,999, Gold ₹9,999, Diamond ₹19,999)
+
+- [Register as Vendor](https://karloshaadi.com/for-vendors)
+- [Vendor Pricing](https://karloshaadi.com/vendor-pricing)
+- [Vendor Guide](https://karloshaadi.com/vendor-guide)
+- [Vendor Success Stories](https://karloshaadi.com/vendor-success-stories)
+- [Check Vendor Trust Score](https://karloshaadi.com/vendor-check)
+- [Vendor Leaderboard](https://karloshaadi.com/leaderboard)
+
+## Free Planning Tools
+
+- [2-Minute AI Wedding Plan](https://karloshaadi.com/plan-wizard) — Complete plan with budget, timeline, vendor recommendations
+- [Budget Calculator](https://karloshaadi.com/budget-calculator) — Category-wise breakdown by city & guest count
+- [Muhurat Finder](https://karloshaadi.com/muhurat-finder) — Auspicious wedding dates 2025-2026
+- [AI Invite Creator](https://karloshaadi.com/invite-creator) — Generate wedding invitations instantly
+- [Wedding Website Builder](https://karloshaadi.com/wedding-website) — Free shaadi website with RSVP
+- [AI Music Generator](https://karloshaadi.com/music-generator) — Custom wedding songs
+- [Speech Writer](https://karloshaadi.com/speech-writer) — AI wedding speech generation
+- [Couple Quiz](https://karloshaadi.com/couple-quiz) — Wedding compatibility score
+- [Budget Roast](https://karloshaadi.com/budget-roast) — Funny AI budget reality check
 
 ## Core Pages
 
 - [Home](https://karloshaadi.com/)
 - [Search Vendors](https://karloshaadi.com/search)
 - [Vendor Categories](https://karloshaadi.com/categories)
+- [Wedding Directory](https://karloshaadi.com/wedding-directory)
 - [Deals & Offers](https://karloshaadi.com/deals)
 - [Compare Vendors](https://karloshaadi.com/compare)
 - [Shaadi Seva (Social Impact)](https://karloshaadi.com/shaadi-seva)
 
-## Planning Tools
-
-- [Wedding Plan Wizard](https://karloshaadi.com/plan-wizard)
-- [Budget Calculator](https://karloshaadi.com/budget-calculator)
-- [Muhurat Finder](https://karloshaadi.com/muhurat-finder)
-- [Invite Creator](https://karloshaadi.com/invite-creator)
-- [Wedding Website Builder](https://karloshaadi.com/wedding-website)
-- [AI Wedding Music Generator](https://karloshaadi.com/music-generator)
-- [Speech Writer](https://karloshaadi.com/speech-writer)
-
 ## Content
 
-- [Wedding Stories](https://karloshaadi.com/stories)
-- [Web Stories (Google Discover)](https://karloshaadi.com/web-stories)
-- [Wedding Directory](https://karloshaadi.com/wedding-directory)
+- [Real Wedding Stories](https://karloshaadi.com/stories)
+- [Web Stories](https://karloshaadi.com/web-stories)
 - [Success Stories](https://karloshaadi.com/success-stories)
 - [Testimonials](https://karloshaadi.com/testimonials)
 - [Blog](https://karloshaadi.com/blog)
 
-## Embeddable Widgets
-
-Karlo Shaadi offers free embeddable wedding widgets for blogs and websites:
-- Wedding Countdown Timer: `<iframe src="https://karloshaadi.com/embed?type=countdown&date=YYYY-MM-DD&names=Name1+%26+Name2" width="320" height="200" />`
-- Budget Preview: `<iframe src="https://karloshaadi.com/embed?type=budget-preview&budget=1000000" width="320" height="240" />`
-
-## For Vendors
-
-- [Vendor Portal](https://karloshaadi.com/for-vendors)
-- [Vendor Pricing](https://karloshaadi.com/vendor-pricing)
-- [Vendor Guide](https://karloshaadi.com/vendor-guide)
-- [Vendor Success Stories](https://karloshaadi.com/vendor-success-stories)
-
 ## Cities Served
 
-- [Lucknow](https://karloshaadi.com/city/lucknow)
-- [Delhi](https://karloshaadi.com/city/delhi)
-- [Mumbai](https://karloshaadi.com/city/mumbai)
-- [Bangalore](https://karloshaadi.com/city/bangalore)
-- [Hyderabad](https://karloshaadi.com/city/hyderabad)
-- [Kolkata](https://karloshaadi.com/city/kolkata)
-- [Chennai](https://karloshaadi.com/city/chennai)
-- [Pune](https://karloshaadi.com/city/pune)
-- [Jaipur](https://karloshaadi.com/city/jaipur)
-- [Ahmedabad](https://karloshaadi.com/city/ahmedabad)
+Delhi, Mumbai, Lucknow, Bangalore, Hyderabad, Kolkata, Chennai, Pune, Jaipur, Ahmedabad, Chandigarh, Indore, Surat, Kanpur, Nagpur, Patna, Bhopal, Varanasi, Udaipur, Agra
 
-## Information
+City vendor pages: https://karloshaadi.com/vendors-in/{city}
+City-category pages: https://karloshaadi.com/vendors/{city}/{category}
 
-- [About Us](https://karloshaadi.com/about)
-- [Pricing](https://karloshaadi.com/pricing)
-- [FAQ](https://karloshaadi.com/faq)
-- [Help Center](https://karloshaadi.com/help)
-- [Support](https://karloshaadi.com/support)
-- [Privacy Policy](https://karloshaadi.com/privacy)
-- [Terms & Conditions](https://karloshaadi.com/legal)
-- [Cancellation & Refunds](https://karloshaadi.com/cancellation-refunds)
+## Embeddable Widgets
+
+Free embeddable wedding widgets for blogs and partner websites:
+- Wedding Countdown: `<iframe src="https://karloshaadi.com/embed?type=countdown&date=YYYY-MM-DD&names=Name1+%26+Name2" />`
+- Budget Preview: `<iframe src="https://karloshaadi.com/embed?type=budget-preview&budget=1000000" />`
 
 ## Contact
 
 - Website: https://karloshaadi.com
-- Location: India
+- Phone: +91 70114 60321
+- Email: hello@karloshaadi.com
+- Instagram: @karloshaadiofficial
+- Location: Delhi NCR, India
