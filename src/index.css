@@ -856,3 +856,14 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Cinematic Image Enhancement */
+.img-cinematic {
+  filter: contrast(1.03) saturate(1.08) brightness(1.01);
+  image-rendering: auto;
+}
+
+.img-sharp {
+  filter: contrast(1.02) saturate(1.05);
+  image-rendering: -webkit-optimize-contrast;
+}

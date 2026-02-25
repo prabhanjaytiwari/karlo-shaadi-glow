@@ -3,6 +3,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
 import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel";
+import { LiveActivityFeed } from "@/components/LiveActivityFeed";
 import { HeroSearchWidget } from "@/components/HeroSearchWidget";
 import { TrustStatsBanner } from "@/components/TrustStatsBanner";
 import { Button } from "@/components/ui/button";
@@ -312,62 +313,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Expert Vendors Section */}
-      <section ref={humorSection2.ref} className="py-8 sm:py-12 md:py-16 relative bg-gradient-to-b from-white via-rose-50/40 to-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className={`max-w-6xl mx-auto ${humorSection2.isVisible ? 'scroll-reveal is-visible' : 'scroll-reveal'}`}>
-            <div className="text-center mb-5 sm:mb-8">
-              <div className="inline-block px-2.5 py-1 rounded-lg bg-accent/15 border border-accent/30 mb-3">
-                <span className="text-accent font-semibold text-xs">Our Experts</span>
-              </div>
-              <h2 className="font-display font-semibold text-xl sm:text-2xl md:text-3xl mb-2 px-2">
-                Industry-Leading <span className="text-accent">Wedding Professionals</span>
-              </h2>
-              <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-3" />
-              <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed px-2">
-                Every vendor is vetted for quality, reliability, and professionalism
-              </p>
-            </div>
-            
-            <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 mb-5 sm:mb-8 group">
-              <img src={weddingBengaliBride} alt="Beautiful Bengali bride" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 sm:gap-4">
-              {[{
-              title: "Photography",
-              specialty: "Capturing moments",
-              description: "Professional photographers documenting weddings beautifully."
-            }, {
-              title: "Catering",
-              specialty: "Culinary excellence",
-              description: "Expert caterers handling large events with precision."
-            }, {
-              title: "Decoration",
-              specialty: "Venue transformation",
-              description: "Creative decorators bringing your vision to life."
-            }, {
-              title: "Entertainment",
-              specialty: "Perfect atmosphere",
-              description: "Experienced DJs and performers for your guests."
-            }].map((vendor, i) => <div key={i} className="bg-white border border-accent/20 rounded-lg p-3 sm:p-4 hover:border-accent/40 transition-all duration-300">
-                  <h3 className="text-sm sm:text-base font-semibold mb-0.5">{vendor.title}</h3>
-                  <div className="text-accent font-medium text-xs mb-1">{vendor.specialty}</div>
-                  <p className="text-muted-foreground text-xs leading-relaxed hidden sm:block">{vendor.description}</p>
-                </div>)}
-            </div>
-
-            <div className="mt-5 sm:mt-8 text-center">
-              <Link to="/categories">
-                <Button size="sm" className="rounded-full px-6">
-                  Browse All Vendors
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Live Activity Feed (replaces Expert Vendors) */}
+      <LiveActivityFeed />
 
       {/* Section 3: How It Works */}
       <section ref={section2.ref} className="py-16 sm:py-24 md:py-32 relative bg-gradient-to-b from-white via-amber-50/30 to-white">

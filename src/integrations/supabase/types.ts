@@ -381,6 +381,42 @@ export type Database = {
         }
         Relationships: []
       }
+      couple_quiz_results: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          partner1_name: string
+          partner2_name: string
+          personality_description: string | null
+          personality_type: string
+          score: number
+          share_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          partner1_name: string
+          partner2_name: string
+          personality_description?: string | null
+          personality_type?: string
+          score?: number
+          share_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          partner1_name?: string
+          partner2_name?: string
+          personality_description?: string | null
+          personality_type?: string
+          score?: number
+          share_id?: string
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string
@@ -1402,6 +1438,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "vendor_availability_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_check_requests: {
+        Row: {
+          created_at: string
+          id: string
+          requester_phone: string | null
+          search_query: string
+          search_type: string
+          trust_score: number | null
+          vendor_found: boolean
+          vendor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          requester_phone?: string | null
+          search_query: string
+          search_type?: string
+          trust_score?: number | null
+          vendor_found?: boolean
+          vendor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          requester_phone?: string | null
+          search_query?: string
+          search_type?: string
+          trust_score?: number | null
+          vendor_found?: boolean
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_check_requests_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "vendors"
