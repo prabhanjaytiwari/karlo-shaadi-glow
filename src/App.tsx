@@ -91,6 +91,11 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { MobileLayout } from "@/layouts/MobileLayout";
 import { AppProviders } from "@/components/AppProviders";
+import Onboarding from "./pages/Onboarding";
+import Notifications from "./pages/Notifications";
+import { OfflineScreen } from "@/components/OfflineScreen";
+import { WhatsNewModal } from "@/components/WhatsNewModal";
+import { RateAppPrompt } from "@/components/RateAppPrompt";
 
 import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
@@ -125,6 +130,7 @@ const App = () => (
             <BhindiHeader />
             <MobileLayout>
             <Routes>
+              <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -206,6 +212,7 @@ const App = () => (
               <Route path="/embed" element={<EmbedWidget />} />
               <Route path="/web-stories" element={<WebStories />} />
               <Route path="/web-stories/:id" element={<WebStories />} />
+              <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -214,6 +221,9 @@ const App = () => (
             <PWAInstallPrompt />
             <ExitIntentPopup />
             <ScrollDepthCTA />
+            <OfflineScreen />
+            <WhatsNewModal />
+            <RateAppPrompt />
             </AppProviders>
             </AuthProvider>
           </BrowserRouter>
