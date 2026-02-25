@@ -197,6 +197,21 @@ const Index = () => {
               </div>
             </Link>
           </div>
+
+          {/* Viral Tools Row */}
+          <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-3xl mx-auto">
+            {[
+              { label: "Couple Quiz", to: "/couple-quiz" },
+              { label: "Budget Roast", to: "/budget-roast" },
+              { label: "Vendor Checker", to: "/vendor-check" },
+              { label: "Speech Writer", to: "/speech-writer" },
+              { label: "Music Generator", to: "/music-generator" },
+            ].map((tool) => (
+              <Link key={tool.to} to={tool.to} className="px-4 py-2 rounded-full border border-accent/20 bg-white hover:border-primary/40 hover:bg-primary/5 text-xs font-medium text-muted-foreground hover:text-foreground transition-all">
+                {tool.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -468,6 +483,32 @@ const Index = () => {
               <Link to="/auth">
                 <Button size="lg" variant="outline" className="text-lg px-10 py-6 rounded-full border-primary/30 hover:border-primary">
                   Create Free Account
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vendor Acquisition Banner */}
+      <section className="py-10 sm:py-14 bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto text-center space-y-4">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl">
+              Are You a <span className="text-accent">Wedding Vendor?</span>
+            </h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
+              Register free on India's zero-commission wedding platform. 5,000+ vendors already growing their business with us.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/for-vendors">
+                <Button size="lg" className="rounded-full px-8">
+                  Register as Vendor — Free
+                </Button>
+              </Link>
+              <Link to="/vendor-check">
+                <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent">
+                  Check Your Vendor Score
                 </Button>
               </Link>
             </div>

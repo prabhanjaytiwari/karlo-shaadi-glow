@@ -13,7 +13,7 @@ const footerLinks = {
     { label: "Leaderboard", to: "/leaderboard" },
     { label: "Investors", to: "/investors" },
     { label: "Careers", to: "/join-as-manager" },
-    { label: "Shaadi Seva ❤️", to: "/shaadi-seva" },
+    { label: "Shaadi Seva", to: "/shaadi-seva" },
   ],
   planning: [
     { label: "AI Wedding Plan", to: "/plan-wizard" },
@@ -22,6 +22,8 @@ const footerLinks = {
     { label: "Invite Creator", to: "/invite-creator" },
     { label: "Guest List", to: "/guest-list" },
     { label: "Music Generator", to: "/music-generator" },
+    { label: "Couple Quiz", to: "/couple-quiz" },
+    { label: "Budget Roast", to: "/budget-roast" },
   ],
   vendors: [
     { label: "Register as Vendor", to: "/for-vendors" },
@@ -29,6 +31,8 @@ const footerLinks = {
     { label: "Vendor Guide", to: "/vendor-guide" },
     { label: "Vendor Pricing", to: "/vendor-pricing" },
     { label: "Success Stories", to: "/vendor-success-stories" },
+    { label: "Check Vendor Trust", to: "/vendor-check" },
+    { label: "Profile Setup Service", to: "/vendor-profile-setup" },
   ],
   explore: [
     { label: "Wedding Directory", to: "/wedding-directory" },
