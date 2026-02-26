@@ -65,7 +65,7 @@ export const ReviewsSection = () => {
   }, [emblaApi]);
 
   return (
-    <section ref={ref} className="py-24 bg-gradient-to-b from-rose-50/40 via-white to-amber-50/30 overflow-hidden relative">
+    <section ref={ref} className="py-16 md:py-24 bg-gradient-to-b from-rose-50/40 via-white to-amber-50/30 overflow-hidden relative">
       {/* Premium Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
@@ -75,22 +75,20 @@ export const ReviewsSection = () => {
       </div>
       
       <div 
-        className="container mx-auto px-6 mb-12"
+        className="container mx-auto px-4 sm:px-6 mb-12"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        <div className="inline-block mb-4">
-          <div className="px-4 py-2 rounded-lg bg-accent/15 border-2 border-accent/30">
-            <span className="text-accent font-semibold text-sm">Customer Stories</span>
-          </div>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
+          <span className="text-accent font-medium text-sm">Customer Stories</span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">
           Voices From <span className="text-accent">Happy Couples</span>
         </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+        <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 rounded-full" />
       </div>
 
       <div className="overflow-hidden" ref={emblaRef}>

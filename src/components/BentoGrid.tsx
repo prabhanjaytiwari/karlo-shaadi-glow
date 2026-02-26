@@ -34,16 +34,16 @@ export const BentoGrid = () => {
   const { containerRef, visibleItems } = useStaggeredReveal(7, 100);
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-white via-amber-50/30 to-rose-50/40">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-rose-50/40">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8 sm:mb-10">
-          <div className="inline-block px-4 py-2 rounded-lg bg-accent/15 border-2 border-accent/30 mb-4">
-            <span className="text-accent font-semibold text-sm">Why Choose Us</span>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
+            <span className="text-accent font-medium text-sm">Why Choose Us</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-3">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-3">
             Why <span className="text-accent">Karlo Shaadi</span>?
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-3" />
+          <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-3" />
           <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
             Everything you need for a stress-free wedding
           </p>
@@ -60,11 +60,10 @@ export const BentoGrid = () => {
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center">
                     <Sparkles className="h-5 w-5 text-accent" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-semibold">The Old Way vs. Our Way</h3>
+                  <h3 className="text-lg font-semibold">The Old Way vs. Our Way</h3>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-4">
-                  {/* Before */}
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border border-border">
                       <CinematicImage src={weddingFriends} alt="Wedding planning stress" className="w-full h-full" sharp />
@@ -78,8 +77,6 @@ export const BentoGrid = () => {
                       <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-destructive"></span>Fraud worries</li>
                     </ul>
                   </div>
-
-                  {/* After */}
                   <div className="space-y-3">
                     <div className="relative rounded-lg overflow-hidden aspect-[4/3] border-2 border-accent/30">
                       <CinematicImage src={weddingBride} alt="Stress-free planning" className="w-full h-full" cinematic sharp />
@@ -105,7 +102,7 @@ export const BentoGrid = () => {
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center">
                   <Zap className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="text-lg md:text-xl font-semibold">AI-Powered Matching</h3>
+                <h3 className="text-lg font-semibold">Smart Vendor Matching</h3>
                 <p className="text-muted-foreground text-sm">
                   Get matched with perfect vendors in under 2 minutes
                 </p>
@@ -130,12 +127,12 @@ export const BentoGrid = () => {
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center">
                       <Users className="h-5 w-5 text-accent" />
                     </div>
-                    <h3 className="text-lg md:text-xl font-semibold">5,000+ Verified Vendors</h3>
+                    <h3 className="text-lg font-semibold">5,000+ Verified Vendors</h3>
                     <p className="text-muted-foreground text-sm">
                       Every vendor undergoes strict verification with background checks and portfolio reviews
                     </p>
                     <div className="pt-2">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/15 border border-accent/30 text-accent text-xs font-semibold">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-medium">
                         <Shield className="h-3.5 w-3.5" />
                         100% Verified
                       </div>
@@ -156,7 +153,7 @@ export const BentoGrid = () => {
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center">
                   <Shield className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="text-base md:text-lg font-semibold">Fraud Protection</h3>
+                <h3 className="text-lg font-semibold">Fraud Protection</h3>
                 <p className="text-muted-foreground text-xs">
                   Safe milestone-based payments
                 </p>
@@ -172,7 +169,7 @@ export const BentoGrid = () => {
           <BentoCard index={4} isVisible={visibleItems[4]}>
             <div className="h-full bg-gradient-to-br from-primary to-primary/90 rounded-lg p-5 sm:p-6 text-primary-foreground shadow-lg">
               <div className="space-y-4">
-                <h3 className="text-base sm:text-lg font-semibold">By the Numbers</h3>
+                <h3 className="text-lg font-semibold">By the Numbers</h3>
                 <div className="space-y-3">
                   {[
                     { value: "50K+", label: "Couples" },
@@ -196,7 +193,7 @@ export const BentoGrid = () => {
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center">
                   <Sparkles className="h-5 w-5 text-primary" />
                 </div>
-                <h3 className="text-base md:text-lg font-semibold">No Tension</h3>
+                <h3 className="text-lg font-semibold">No Tension</h3>
                 <p className="text-muted-foreground text-xs">
                   Personal planner handles stress
                 </p>

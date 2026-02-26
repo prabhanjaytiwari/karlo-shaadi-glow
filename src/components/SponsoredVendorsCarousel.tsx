@@ -77,7 +77,7 @@ export function SponsoredVendorsCarousel() {
             </Badge>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-4">
             Top-Rated Wedding <span className="text-accent">Professionals</span>
           </h2>
           <p className="text-muted-foreground text-base max-w-2xl mx-auto">

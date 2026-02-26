@@ -73,7 +73,7 @@ const ForVendors = () => {
       
       <main className="pt-20 pb-0">
         {/* Hero Section - Vendor Focused */}
-        <section className="relative py-16 sm:py-20 md:py-28 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
           <div className="absolute top-[20%] right-[10%] w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute bottom-[10%] left-[5%] w-48 h-48 rounded-full bg-accent/10 blur-3xl" />
@@ -86,7 +86,7 @@ const ForVendors = () => {
                   <span className="text-accent text-xs font-semibold">Zero Commission Platform</span>
                 </div>
                 
-                <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight">
+                <h1 className="font-display font-semibold text-3xl md:text-5xl leading-tight">
                   Grow Your Wedding Business <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">10x Faster</span>
                 </h1>
                 
@@ -99,13 +99,13 @@ const ForVendors = () => {
                   <Button 
                     size="lg" 
                     onClick={() => navigate("/vendor-auth")}
-                    className="text-base px-8 py-6 rounded-full"
+                    className="rounded-full px-8"
                   >
                     Register Free Now
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <a href="tel:+917011460321">
-                    <Button size="lg" variant="outline" className="text-base px-6 py-6 rounded-full border-accent/30 hover:border-accent w-full sm:w-auto">
+                    <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent w-full sm:w-auto">
                       <Phone className="mr-2 h-4 w-4" />
                       Talk to Us
                     </Button>
@@ -140,10 +140,10 @@ const ForVendors = () => {
         </section>
 
         {/* Why Vendors Choose Us - vs Competitors */}
-        <section className="py-12 sm:py-16 bg-gradient-to-b from-white via-rose-50/30 to-white">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/30 to-white">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="text-center mb-10">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-3">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
                 Why <span className="text-primary">5,000+ Vendors</span> Choose Us
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -173,10 +173,10 @@ const ForVendors = () => {
         </section>
 
         {/* Categories We Accept */}
-        <section className="py-12 sm:py-16">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="text-center mb-10">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-3">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
                 All Wedding Categories Welcome
               </h2>
               <p className="text-muted-foreground">Join the fastest-growing category on India's #1 wedding platform</p>
@@ -201,7 +201,7 @@ const ForVendors = () => {
         </section>
 
         {/* How It Works */}
-        <section className="py-12 sm:py-16 bg-gradient-to-b from-white via-amber-50/30 to-white">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
@@ -211,7 +211,7 @@ const ForVendors = () => {
               </div>
 
               <div className="space-y-6">
-                <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl">
+                <h2 className="font-display font-semibold text-2xl md:text-3xl">
                   Start Getting Bookings in <span className="text-accent">4 Simple Steps</span>
                 </h2>
 
@@ -248,10 +248,10 @@ const ForVendors = () => {
         </section>
 
         {/* Social Proof / Vendor Testimonials */}
-        <section className="py-12 sm:py-16">
+        <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="text-center mb-10">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-3">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
                 Vendors Love <span className="text-primary">Karlo Shaadi</span>
               </h2>
             </div>
@@ -289,10 +289,10 @@ const ForVendors = () => {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-12 sm:py-16 bg-gradient-to-b from-white via-rose-50/20 to-white">
+        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/20 to-white">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-3xl mx-auto">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl text-center mb-8">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl text-center mb-8">
                 Frequently Asked Questions
               </h2>
 
@@ -312,23 +312,23 @@ const ForVendors = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-16 sm:py-20 relative overflow-hidden">
+        <section className="py-16 md:py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
           <div className="container mx-auto px-4 sm:px-6 relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Ready to Get More <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Wedding Bookings?</span>
               </h2>
-              <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto">
-                Join 5,000+ vendors who grew their wedding business with zero commission and AI-powered matching.
+              <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
+                Join 5,000+ vendors who grew their wedding business with zero commission and smart matching.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="text-base px-10 py-6 rounded-full">
+                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
                   Register Free Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Link to="/vendor-pricing">
-                  <Button size="lg" variant="outline" className="text-base px-8 py-6 rounded-full border-primary/30 w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 w-full sm:w-auto">
                     View Plans & Pricing
                   </Button>
                 </Link>
