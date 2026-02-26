@@ -5,6 +5,7 @@ import { Sparkles, Zap, Shield, Music } from 'lucide-react';
 
 const CURRENT_VERSION = '2.5.0';
 const VERSION_KEY = 'karlo-whats-new-version';
+const DISMISS_KEY = 'karlo-whats-new-dismissed';
 
 const features = [
   { icon: Sparkles, title: 'AI Wedding Planner', desc: 'Get a full plan in 60 seconds with our AI assistant' },
@@ -18,8 +19,9 @@ export function WhatsNewModal() {
 
   useEffect(() => {
     const seen = localStorage.getItem(VERSION_KEY);
-    if (seen !== CURRENT_VERSION) {
-      // Small delay so it doesn't clash with other modals
+    const dismissed = localStorage.getItem(DISMISS_KEY);
+    // Only show if version hasn't been seen AND not previously dismissed for this version
+    if (seen !== CURRENT_VERSION && dismissed !== CURRENT_VERSION) {
       const t = setTimeout(() => setOpen(true), 3000);
       return () => clearTimeout(t);
     }
@@ -27,6 +29,7 @@ export function WhatsNewModal() {
 
   const dismiss = () => {
     localStorage.setItem(VERSION_KEY, CURRENT_VERSION);
+    localStorage.setItem(DISMISS_KEY, CURRENT_VERSION);
     setOpen(false);
   };
 
