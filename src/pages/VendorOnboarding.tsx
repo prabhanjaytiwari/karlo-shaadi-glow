@@ -34,6 +34,7 @@ const CATEGORIES: { value: Database["public"]["Enums"]["vendor_category"]; label
   { value: "influencer", label: "Influencer" },
   { value: "anchor", label: "Anchor / Emcee" },
   { value: "content-creator", label: "Content Creator" },
+  { value: "social-media-managers", label: "Shaadi Social Media Manager" },
 ];
 
 export default function VendorOnboarding() {

@@ -15,6 +15,7 @@ const footerLinks = {
     { label: "Investors", to: "/investors" },
     { label: "Careers", to: "/join-as-manager" },
     { label: "Shaadi Seva", to: "/shaadi-seva" },
+    { label: "Earn with Us", to: "/earn" },
   ],
   planning: [
     { label: "AI Wedding Plan", to: "/plan-wizard" },
