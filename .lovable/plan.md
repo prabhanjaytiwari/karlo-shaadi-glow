@@ -1,65 +1,93 @@
 
 
-## Plan: Add Influencer/Anchor Categories + Vendor Productivity Tools
+## Plan: Add Social Media Manager Category + "Earn with Karlo Shaadi" Referral Program
 
-### Part 1: New Vendor Categories
+### 1. Add "Social Media Manager" to Vendor Categories
 
-The current `vendor_category` enum has 16 categories. We need to add new ones for **influencers**, **anchors/emcees**, and potentially **wedding content creators**.
+The enum already has `social-media-managers` in the database. We just need to add it to the onboarding UI.
 
-**Database Migration:**
-- Add new values to the `vendor_category` enum: `influencer`, `anchor`, `content-creator`
-- These professionals can then register, get verified, and appear in the marketplace
+**File to edit:** `src/pages/VendorOnboarding.tsx`
+- Add `{ value: "social-media-managers", label: "Shaadi Social Media Manager" }` to the CATEGORIES array
 
-**UI Updates:**
-- Update `src/pages/VendorOnboarding.tsx` category selector to include the new categories with appropriate labels
-- Update `src/pages/Categories.tsx` to display the new categories with icons
-- Add category images/icons for the new types
+**File to edit:** `src/pages/Categories.tsx`
+- Map `social-media-managers` slug to an appropriate image in the categoryImages record
 
 ---
 
-### Part 2: Vendor Productivity Tools (New Dashboard Tab)
+### 2. New "Earn with Karlo Shaadi" Page (`/earn`)
 
-Add a **"Tools"** tab to the Vendor Dashboard (`src/pages/VendorDashboard.tsx`) with productivity features:
+A public-facing page (no login required to view) that serves as both a partner/associate program AND a mega referral contest. This replaces/extends the existing `/referrals` concept for non-users.
 
-**Tool 1 - AI Quote Generator**
-- Vendors enter event details (date, type, guest count, location) and get a professional quote/proposal they can copy or download as PDF
-- Uses the existing Lovable AI integration (no extra API key needed)
+**New file:** `src/pages/EarnWithUs.tsx`
 
-**Tool 2 - Client Follow-Up Reminders**
-- Shows a list of inquiries that haven't been responded to or followed up on (from `vendor_inquiries` table)
-- Highlights stale leads (older than 24h, 48h, 7d) with color-coded urgency
-- One-click "Mark as Followed Up" action
+**Page sections:**
 
-**Tool 3 - Social Media Caption Generator**
-- AI-powered tool: vendor uploads a portfolio image or describes their work, gets ready-to-post Instagram/WhatsApp captions with hashtags
-- Tailored to Indian wedding industry keywords
+**Hero Section** - Bold headline: "Earn with Karlo Shaadi" with tagline about turning connections into rewards
 
-**Tool 4 - Quick Invoice Generator**
-- Simple form: client name, service, amount, date, notes
-- Generates a branded PDF invoice with the vendor's business name and logo (using jsPDF, already installed)
+**How It Works** - 3 simple steps:
+1. Know someone getting married? Share their details
+2. If they book through Karlo Shaadi, you earn rewards
+3. Top referrers win mega prizes every month
 
-**Tool 5 - Seasonal Demand Insights**
-- Shows upcoming muhurat dates (from existing `muhuratDates2025` data) and high-demand periods
-- Suggests when to run promotions or increase pricing
+**Prize Showcase** - Eye-catching grid/carousel of monthly prizes:
+- Trip to Maldives
+- Trip to Dubai
+- Tata Safari Car
+- iPhone 17 Pro Max
+- MacBook M4
+- Cash prizes (multiple tiers)
+- "...and much more!"
+- Note: "Winners announced every month starting now"
 
-### Files to Create
-1. `src/components/vendor/VendorToolkit.tsx` - Main tools container with sub-tool cards
-2. `src/components/vendor/QuoteGenerator.tsx` - AI quote/proposal builder
-3. `src/components/vendor/InvoiceGenerator.tsx` - PDF invoice creator
-4. `src/components/vendor/CaptionGenerator.tsx` - Social media caption AI tool
-5. `src/components/vendor/FollowUpTracker.tsx` - Lead follow-up reminders
-6. `src/components/vendor/SeasonalInsights.tsx` - Demand calendar/insights
+**Referral Form** - Simple form for anyone (no signup needed) to submit a lead:
+- Your name, phone, email
+- Referred person's name, phone, wedding month/year
+- How do you know them (neighbor, friend, family, colleague)
+- Submit stores to a new database table
 
-### Files to Edit
-1. **Database migration** - Add `influencer`, `anchor`, `content-creator` to `vendor_category` enum
-2. `src/pages/VendorDashboard.tsx` - Add "Tools" tab with `Wrench` icon pointing to `VendorToolkit`
-3. `src/pages/VendorOnboarding.tsx` - Add new categories to the registration form
-4. `src/pages/Categories.tsx` - Display new categories in the browse grid
-5. `src/pages/ForVendors.tsx` - Mention productivity tools as a selling point
+**Leaderboard Preview** - Show top referrers (anonymized) and prize tiers
+
+**CTA** - "Already a Karlo Shaadi user? Log in to track all your referrals" linking to `/referrals`
+
+---
+
+### 3. Database: New Table for Lead Referrals
+
+**New table:** `lead_referrals`
+- `id` (uuid, PK)
+- `referrer_name` (text, required)
+- `referrer_phone` (text, required)
+- `referrer_email` (text)
+- `referred_name` (text, required)
+- `referred_phone` (text, required)
+- `wedding_month` (text)
+- `relation` (text) -- friend, neighbor, family, colleague
+- `status` (text, default 'submitted') -- submitted, contacted, converted, rewarded
+- `user_id` (uuid, nullable) -- if logged-in user submitted
+- `notes` (text)
+- `created_at` (timestamptz)
+
+**RLS Policies:**
+- Anyone can INSERT (public form)
+- Logged-in users can SELECT their own (where user_id matches)
+- Admins can SELECT/UPDATE all
+
+---
+
+### 4. Route + Navigation
+
+**File to edit:** `src/App.tsx`
+- Add route: `/earn` pointing to `EarnWithUs`
+
+**File to edit:** `src/components/BhindiFooter.tsx`
+- Add "Earn with Us" link in the footer navigation
+
+---
 
 ### Technical Notes
-- AI features (Quote Generator, Caption Generator) will use Lovable AI via an edge function with `gemini-2.5-flash` for speed
-- Invoice PDF generation uses the already-installed `jspdf` library
-- Follow-up tracker queries existing `vendor_inquiries` table -- no new tables needed
-- Seasonal insights reuse existing `muhuratDates2025` data
+- The prize showcase uses static content (no database needed for prizes)
+- Form submission uses the new `lead_referrals` table with public INSERT policy
+- Input validation via zod for phone numbers and required fields
+- The page is fully public -- no authentication required to submit a lead
+- Monthly winner announcements can be managed via the admin dashboard later
 
