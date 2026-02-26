@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { SEO } from "@/components/SEO";
 
 // Standalone embeddable widget page - renders without header/footer
 // Usage: <iframe src="https://karloshaadi.com/embed?type=countdown&date=2025-12-15&names=Priya+%26+Rahul" width="320" height="200" />
+// Badge: <iframe src="https://karloshaadi.com/embed?type=verified-badge&vendorId=xxx&style=light" width="280" height="80" />
 
-const WIDGET_TYPES = ["countdown", "budget-preview"] as const;
+const WIDGET_TYPES = ["countdown", "budget-preview", "verified-badge"] as const;
 
 const EmbedWidget = () => {
   const [params] = useSearchParams();
@@ -13,7 +15,12 @@ const EmbedWidget = () => {
   const names = params.get("names") || "Your Wedding";
   const date = params.get("date") || "";
   const budget = params.get("budget") || "1000000";
+  const vendorId = params.get("vendorId") || "";
+  const style = (params.get("style") || "light") as "light" | "dark" | "minimal";
 
+  if (type === "verified-badge" && vendorId) {
+    return <VerifiedBadgeWidget vendorId={vendorId} style={style} />;
+  }
   if (type === "countdown") {
     return <CountdownWidget names={names} date={date} />;
   }
@@ -164,6 +171,82 @@ const BudgetPreviewWidget = ({ budget }: { budget: number }) => {
         ✨ Powered by Karlo Shaadi — Calculate Your Full Budget
       </a>
     </div>
+  );
+};
+
+const VerifiedBadgeWidget = ({ vendorId, style }: { vendorId: string; style: "light" | "dark" | "minimal" }) => {
+  const [vendor, setVendor] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchVendor = async () => {
+      const { data } = await supabase
+        .from("vendors")
+        .select("business_name, category, verified")
+        .eq("id", vendorId)
+        .single();
+      if (data) setVendor(data);
+    };
+    fetchVendor();
+  }, [vendorId]);
+
+  if (!vendor || !vendor.verified) {
+    return null;
+  }
+
+  const isDark = style === "dark";
+  const isMinimal = style === "minimal";
+
+  return (
+    <a
+      href={`https://karloshaadi.com/vendors/${vendorId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "10px 16px",
+        borderRadius: "12px",
+        textDecoration: "none",
+        fontFamily: "'Inter', sans-serif",
+        maxWidth: "280px",
+        background: isDark ? "#1a1a2e" : isMinimal ? "#ffffff" : "linear-gradient(135deg, #fff1f2, #fef3c7)",
+        border: isDark ? "1px solid #2d2d4a" : isMinimal ? "1px solid #e5e7eb" : "1px solid rgba(219, 39, 119, 0.2)",
+      }}
+    >
+      <div style={{
+        width: "36px",
+        height: "36px",
+        borderRadius: "50%",
+        background: "linear-gradient(135deg, #db2777, #f59e0b)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <div>
+        <div style={{
+          fontSize: "13px",
+          fontWeight: 700,
+          color: isDark ? "#ffffff" : "#1f2937",
+          lineHeight: 1.2,
+        }}>
+          {vendor.business_name}
+        </div>
+        <div style={{
+          fontSize: "10px",
+          color: "#db2777",
+          fontWeight: 600,
+          marginTop: "2px",
+        }}>
+          ✓ Karlo Shaadi Verified
+        </div>
+      </div>
+    </a>
   );
 };
 
