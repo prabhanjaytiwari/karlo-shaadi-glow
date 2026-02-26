@@ -2349,6 +2349,9 @@ export type Database = {
         | "pandit"
         | "entertainment"
         | "social-media-managers"
+        | "influencer"
+        | "anchor"
+        | "content-creator"
       vendor_subscription_plan: "free" | "featured" | "sponsored"
     }
     CompositeTypes: {
@@ -2506,6 +2509,9 @@ export const Constants = {
         "pandit",
         "entertainment",
         "social-media-managers",
+        "influencer",
+        "anchor",
+        "content-creator",
       ],
       vendor_subscription_plan: ["free", "featured", "sponsored"],
     },
