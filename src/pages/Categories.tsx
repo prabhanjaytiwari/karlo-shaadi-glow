@@ -45,6 +45,9 @@ const Categories = () => {
     pandit: panditImg,
     entertainment: entertainmentImg,
     'social-media-managers': photographyImg,
+    'influencer': photographyImg,
+    'anchor': entertainmentImg,
+    'content-creator': photographyImg,
   };
 
   useEffect(() => {

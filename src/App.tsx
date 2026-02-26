@@ -86,6 +86,7 @@ import VendorCheck from "./pages/VendorCheck";
 import ShaadiWrapped from "./pages/ShaadiWrapped";
 import CountdownPublic from "./pages/CountdownPublic";
 import WhyKarloShaadi from "./pages/WhyKarloShaadi";
+import EarnWithUs from "./pages/EarnWithUs";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
@@ -226,6 +227,7 @@ const App = () => (
               <Route path="/shaadi-wrapped" element={<ProtectedRoute><ShaadiWrapped /></ProtectedRoute>} />
               <Route path="/countdown/:slug" element={<CountdownPublic />} />
               <Route path="/why-karlo-shaadi" element={<WhyKarloShaadi />} />
+              <Route path="/earn" element={<EarnWithUs />} />
               <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

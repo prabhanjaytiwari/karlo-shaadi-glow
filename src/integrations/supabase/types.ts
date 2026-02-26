@@ -596,6 +596,51 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_referrals: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          referred_name: string
+          referred_phone: string
+          referrer_email: string | null
+          referrer_name: string
+          referrer_phone: string
+          relation: string | null
+          status: string
+          user_id: string | null
+          wedding_month: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          referred_name: string
+          referred_phone: string
+          referrer_email?: string | null
+          referrer_name: string
+          referrer_phone: string
+          relation?: string | null
+          status?: string
+          user_id?: string | null
+          wedding_month?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          referred_name?: string
+          referred_phone?: string
+          referrer_email?: string | null
+          referrer_name?: string
+          referrer_phone?: string
+          relation?: string | null
+          status?: string
+          user_id?: string | null
+          wedding_month?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           booking_id: string | null
