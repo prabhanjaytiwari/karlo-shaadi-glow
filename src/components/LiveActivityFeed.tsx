@@ -98,7 +98,7 @@ export const LiveActivityFeed = () => {
   ];
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       {/* Premium Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 via-rose-50/50 to-white" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(38_90%_55%/0.15)_0%,transparent_60%)]" />
@@ -121,7 +121,7 @@ export const LiveActivityFeed = () => {
               </span>
             </div>
             
-            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-3 tracking-tight">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3 tracking-tight">
               <span className="text-foreground">Real Weddings,</span>{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">Real Magic</span>
             </h2>

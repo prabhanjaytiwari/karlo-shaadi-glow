@@ -156,7 +156,7 @@ export const TrustStatsBanner = () => {
   }, []);
 
   return (
-    <section className="py-6 sm:py-8 md:py-12 bg-gradient-to-b from-background to-secondary/30">
+    <section className="py-10 md:py-16 bg-gradient-to-b from-background to-secondary/30">
       <div className="container mx-auto px-3 sm:px-4">
         <div className="grid grid-cols-4 gap-1 sm:gap-3 md:gap-6 max-w-3xl mx-auto">
           {stats.map((stat, index) => (

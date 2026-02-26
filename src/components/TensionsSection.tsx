@@ -29,7 +29,7 @@ export const TensionsSection = () => {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <section ref={ref} className="relative py-12 sm:py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/40 to-amber-50/30 overflow-hidden">
+    <section ref={ref} className="relative py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/40 to-amber-50/30 overflow-hidden">
       {/* Premium Background Effects - Hidden on mobile */}
       <div className="absolute inset-0 pointer-events-none hidden sm:block">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -75,22 +75,22 @@ export const TensionsSection = () => {
           }}
         >
           <div className="inline-block mb-4">
-            <div className="px-4 py-2 rounded-lg bg-accent/15 border-2 border-accent/30">
-              <span className="text-accent font-semibold text-xs sm:text-sm">Categories</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20">
+              <span className="text-accent font-medium text-sm">Categories</span>
             </div>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">
+          <h2 className="text-2xl md:text-3xl font-semibold leading-tight">
             <span className="hero-text-reveal" style={{ animationDelay: '0.1s' }}>2000+ Wedding Services.</span>
             <br />
             <span className="text-accent font-quote italic hero-text-reveal" style={{ animationDelay: '0.2s' }}>
               One Platform.
             </span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full" />
+          <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full" />
           
           <p 
-            className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed hero-text-reveal px-2"
+            className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed hero-text-reveal px-2"
             style={{ animationDelay: '0.3s' }}
           >
             From photographers to caterers—every wedding service you need, verified and ready to book.
@@ -100,7 +100,7 @@ export const TensionsSection = () => {
             <Link to="/categories">
               <Button 
                 size="default"
-                className="rounded-full px-6 sm:px-8 h-10 sm:h-11 text-sm sm:text-base font-semibold"
+                className="rounded-full px-6"
               >
                 Explore All Categories
               </Button>

@@ -879,7 +879,7 @@ To be part of our dreams coming true!`,
             <PremiumBadge variant="gold" icon={<Sparkles className="h-3 w-3" />}>Powered by AI</PremiumBadge>
           </motion.div>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-semibold text-foreground mb-6 leading-tight">
             Create Your{" "}
             <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
               Personalized
@@ -888,7 +888,7 @@ To be part of our dreams coming true!`,
             Wedding Song
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Enter your names and let AI create a unique, personalized song with your names in the lyrics.
             Perfect for couple entries, sangeet performances, invitation videos, and more!
           </p>

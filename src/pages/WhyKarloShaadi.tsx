@@ -105,12 +105,12 @@ export default function WhyKarloShaadi() {
             <p className="text-white/80 text-sm tracking-[0.3em] uppercase mb-4 font-medium">
               More than a platform
             </p>
-            <h1 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-[1.1]">
+            <h1 className="font-display font-semibold text-3xl md:text-5xl text-white mb-6 leading-[1.1]">
               Every Family Member
               <br />
               <span className="text-accent">Has a Role</span>
             </h1>
-            <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-8">
+            <p className="text-white/80 text-sm sm:text-base max-w-2xl mx-auto mb-8">
               Karlo Shaadi isn't just for the couple. It's built for everyone who makes a wedding happen — 
               the parents who worry, the siblings who plan, and the friends who celebrate.
             </p>
@@ -161,11 +161,11 @@ export default function WhyKarloShaadi() {
             viewport={{ once: true }}
           >
             <p className="text-accent text-sm tracking-[0.2em] uppercase font-medium mb-3">Built for everyone</p>
-            <h2 className="font-display font-bold text-3xl md:text-5xl mb-4">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-4">
               A Wedding is a <span className="text-primary">Family Affair</span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-4" />
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-4" />
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
               Every person brings something irreplaceable. We built tools for each of them.
             </p>
           </motion.div>
@@ -203,7 +203,7 @@ export default function WhyKarloShaadi() {
                 {/* Content */}
                 <div className="md:w-1/2">
                   <p className="text-accent text-sm font-medium tracking-wider uppercase mb-2">{role.subtitle}</p>
-                  <h3 className="font-display font-bold text-2xl md:text-3xl mb-4">{role.title}</h3>
+                  <h3 className="font-display font-semibold text-2xl md:text-3xl mb-4">{role.title}</h3>
                   <p className="text-muted-foreground text-base md:text-lg mb-6 leading-relaxed">
                     {role.description}
                   </p>
@@ -252,10 +252,10 @@ export default function WhyKarloShaadi() {
               transition={{ duration: 0.6, delay: 0.15 }}
             >
               <p className="text-primary text-sm tracking-[0.2em] uppercase font-medium mb-3">For vendors</p>
-              <h2 className="font-display font-bold text-3xl md:text-4xl mb-4">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-4">
                 Grow Your Wedding Business <span className="text-primary">Your Way</span>
               </h2>
-              <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+              <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed">
                 No commissions. No middlemen. Just direct connections with couples who are ready to book. 
                 Join India's most vendor-friendly wedding marketplace.
               </p>
@@ -291,7 +291,7 @@ export default function WhyKarloShaadi() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <motion.div
             className="max-w-3xl mx-auto text-center"
@@ -300,23 +300,23 @@ export default function WhyKarloShaadi() {
             viewport={{ once: true }}
           >
             <Heart className="h-10 w-10 text-primary mx-auto mb-6" />
-            <h2 className="font-display font-bold text-3xl md:text-5xl mb-6 leading-tight">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-6 leading-tight">
               Your Wedding Deserves
               <br />
               <span className="text-primary">The Whole Family</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
+            <p className="text-muted-foreground text-sm sm:text-base mb-10 max-w-xl mx-auto">
               Start planning together. Share tools, split responsibilities, and make memories before the big day even begins.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/plan-wizard">
-                <Button size="lg" className="rounded-full px-10 text-base h-14">
+                <Button size="lg" className="rounded-full px-8">
                   <Sparkles className="mr-2 h-5 w-5" />
                   Plan Your Wedding
                 </Button>
               </Link>
               <Link to="/categories">
-                <Button size="lg" variant="outline" className="rounded-full px-10 text-base h-14">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
                   Browse Vendors
                 </Button>
               </Link>

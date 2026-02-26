@@ -127,30 +127,30 @@ const EarnWithUs = () => {
       />
 
       {/* Hero */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
+      <section className="relative pt-28 pb-16 md:pb-24 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(38_90%_55%/0.12)_0%,transparent_60%)]" />
-        <div className="container mx-auto px-6 relative">
+        <div className="container mx-auto px-4 sm:px-6 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
               <PartyPopper className="h-4 w-4 text-accent" />
               <span className="text-sm font-medium text-accent">Winners announced every month</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-4">
+            <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">
               Earn with{" "}
               <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
                 Karlo Shaadi
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-8">
               Turn your connections into incredible rewards. Refer couples getting married and win
               trips, cars, gadgets, and cash prizes — every single month.
             </p>
-            <Button size="lg" className="rounded-full px-8 text-base" asChild>
+            <Button size="lg" className="rounded-full px-8" asChild>
               <a href="#referral-form">
                 <span className="flex items-center gap-2">
                   Start Referring Now <ArrowRight className="h-4 w-4" />
@@ -162,9 +162,9 @@ const EarnWithUs = () => {
       </section>
 
       {/* How it Works */}
-      <section className="py-16 bg-white/50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-foreground mb-12">
+      <section className="py-16 md:py-24 bg-white/50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-12">
             How It Works
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -190,14 +190,14 @@ const EarnWithUs = () => {
       </section>
 
       {/* Prize Showcase */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 mb-3">
-              <Sparkles className="h-5 w-5 text-accent" />
-              <span className="text-sm font-semibold uppercase tracking-wider text-accent">Monthly Prizes</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
+              <Sparkles className="h-4 w-4 text-accent" />
+              <span className="text-sm font-medium text-accent">Monthly Prizes</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
               What You Can Win
             </h2>
           </div>
@@ -229,13 +229,13 @@ const EarnWithUs = () => {
       </section>
 
       {/* Referral Form */}
-      <section id="referral-form" className="py-20 bg-gradient-to-b from-white/50 to-amber-50/30">
-        <div className="container mx-auto px-6 max-w-2xl">
+      <section id="referral-form" className="py-16 md:py-24 bg-gradient-to-b from-white/50 to-amber-50/30">
+        <div className="container mx-auto px-4 sm:px-6 max-w-2xl">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+            <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
               {submitted ? "Thank You! 🎉" : "Submit a Referral"}
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground">
               {submitted
                 ? "Your referral has been recorded. Keep referring more to increase your chances!"
                 : "Know someone who's getting married? Fill in the details below — no signup needed!"
@@ -352,12 +352,12 @@ const EarnWithUs = () => {
       </section>
 
       {/* CTA for existing users */}
-      <section className="py-16 bg-white/50">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-muted-foreground mb-4">
+      <section className="py-16 md:py-24 bg-white/50">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
+          <p className="text-muted-foreground text-sm sm:text-base mb-4">
             Already a Karlo Shaadi user? Track all your referrals and earnings in one place.
           </p>
-          <Button variant="outline" className="rounded-full" asChild>
+          <Button variant="outline" className="rounded-full px-6" asChild>
             <Link to="/referrals">
               <span className="flex items-center gap-2">Go to Referral Dashboard <ArrowRight className="h-4 w-4" /></span>
             </Link>

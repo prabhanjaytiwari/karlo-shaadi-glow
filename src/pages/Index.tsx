@@ -86,14 +86,14 @@ const Index = () => {
             <div className={`w-full max-w-4xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
               {/* Headline */}
               <div className="text-center mb-4 sm:mb-6 md:mb-8">
-                <h1 className="font-display font-semibold sm:text-2xl lg:text-5xl leading-tight text-white drop-shadow-lg md:text-5xl text-3xl">
+                <h1 className="font-display font-semibold text-3xl md:text-5xl leading-tight text-white drop-shadow-lg">
                   <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
                   <span className={`inline-block font-quote italic font-normal hero-text-reveal hero-text-reveal-delay-1 ${isLoaded ? '' : 'opacity-0'}`}>Shaadi</span>{' '}
                   <span className={`inline-block hero-text-reveal hero-text-reveal-delay-2 ${isLoaded ? '' : 'opacity-0'}`}>Karo,</span>
                   <br />
                   <span className={`inline-block hero-text-reveal hero-text-reveal-delay-3 ${isLoaded ? '' : 'opacity-0'}`}>Tension Hum Sambhal Lenge</span>
                 </h1>
-                <p className={`text-white/90 text-xs sm:text-sm md:text-lg mt-2 sm:mt-3 hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
+                <p className={`text-white/90 text-sm sm:text-base mt-2 sm:mt-3 hero-text-reveal hero-text-reveal-delay-4 ${isLoaded ? '' : 'opacity-0'}`}>
                   India's Most Trusted Wedding Platform
                 </p>
               </div>
@@ -105,14 +105,14 @@ const Index = () => {
                 {/* 2-Minute Wedding Plan CTA */}
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-5">
                   <Link to="/plan-wizard">
-                    <Button size="default" className="group relative overflow-hidden rounded-full px-6 h-10 text-sm font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
+                    <Button size="lg" className="group relative overflow-hidden rounded-full px-8 font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
                       <span className="relative z-10">2-Minute Wedding Plan</span>
                       <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out" />
                       <span className="absolute inset-0 animate-shimmer-subtle bg-gradient-to-r from-transparent via-white/15 to-transparent" />
                     </Button>
                   </Link>
-                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-6 h-10 text-sm font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 animate-glow-pulse">
-                    AI Vendor Matching
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-8 font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 animate-glow-pulse">
+                    Vendor Matching
                   </Button>
                 </div>
               </div>
@@ -134,15 +134,16 @@ const Index = () => {
       <TensionsSection />
 
       {/* Free Wedding Tools Section */}
-      <section className="py-12 sm:py-16 md:py-20 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
+      <section className="py-16 md:py-24 relative bg-gradient-to-b from-white via-rose-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-12">
-            <div className="inline-block px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
-              <span className="text-primary text-xs sm:text-sm font-semibold">Free Planning Tools</span>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <span className="text-primary text-sm font-medium">Free Planning Tools</span>
             </div>
-            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-3">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
               Plan Your Perfect Wedding <span className="text-primary">For Free</span>
             </h2>
+            <div className="w-16 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 mx-auto rounded-full mb-3" />
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
               Use our powerful tools to budget, find auspicious dates, and create beautiful invites
             </p>
@@ -155,7 +156,7 @@ const Index = () => {
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Calculator className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Budget Calculator</h3>
+                <h3 className="font-semibold text-lg mb-2">Budget Calculator</h3>
                 <p className="text-muted-foreground text-sm mb-4">
                   Get a detailed breakdown of your wedding budget based on city, guest count, and preferences
                 </p>
@@ -171,7 +172,7 @@ const Index = () => {
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Calendar className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Muhurat Finder</h3>
+                <h3 className="font-semibold text-lg mb-2">Muhurat Finder</h3>
                 <p className="text-muted-foreground text-sm mb-4">
                   Find the most auspicious wedding dates for 2025 & 2026 with detailed timings
                 </p>
@@ -187,9 +188,9 @@ const Index = () => {
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Heart className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="font-display font-semibold text-lg sm:text-xl mb-2">Invite Creator</h3>
+                <h3 className="font-semibold text-lg mb-2">Invite Creator</h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  Create stunning AI-generated wedding invitations in seconds with your details
+                  Create stunning wedding invitations in seconds with your details
                 </p>
                 <span className="inline-flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
                   Create Invite <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
@@ -219,18 +220,18 @@ const Index = () => {
       <SponsoredVendorsCarousel />
 
       {/* Value Proposition Section */}
-      <section ref={humorSection1.ref} className="py-8 sm:py-10 md:py-14 relative overflow-hidden bg-gradient-to-b from-rose-50/50 to-white">
+      <section ref={humorSection1.ref} className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-rose-50/50 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-5xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
-            <div className="text-center mb-4 sm:mb-6">
-              <div className="inline-block px-2.5 py-1 rounded-lg bg-accent/15 border border-accent/30 mb-3">
-                <span className="text-accent font-semibold text-xs">Your Wedding, Simplified</span>
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
+                <span className="text-accent font-medium text-sm">Your Wedding, Simplified</span>
               </div>
-              <h2 className="font-display font-semibold text-xl sm:text-2xl md:text-3xl mb-2 px-2">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
                 We Handle Everything, <span className="text-accent">You Celebrate</span>
               </h2>
-              <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-3" />
-              <p className="text-xs sm:text-sm md:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed px-2">
+              <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-3" />
+              <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
                 Focus on your love story while we take care of the details
               </p>
             </div>
@@ -260,22 +261,22 @@ const Index = () => {
       </section>
 
       {/* Section 2: For Vendors */}
-      <section ref={section1.ref} className="py-8 sm:py-10 md:py-14 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section1.ref} className="py-16 md:py-24 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
             {/* Content */}
             <div className={`space-y-3 sm:space-y-5 ${section1.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
-              <div className="inline-block px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20">
-                <span className="text-primary text-xs font-semibold">For Vendors</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                <span className="text-primary text-sm font-medium">For Vendors</span>
               </div>
               
-              <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Grow Your Wedding<br />
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Business 10x Faster</span>
               </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full" />
+              <div className="w-16 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full" />
 
-              <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 Join India's #1 wedding platform. Get verified, showcase your portfolio, and connect with ready-to-book clients.
               </p>
 
@@ -296,12 +297,12 @@ const Index = () => {
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
                       <item.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                     </div>
-                    <p className="text-foreground text-xs sm:text-sm">{item.text}</p>
+                    <p className="text-foreground text-sm">{item.text}</p>
                   </div>)}
               </div>
 
               <Link to="/for-vendors">
-                <Button size="sm" variant="default" className="rounded-full px-5 h-9">
+                <Button size="default" className="rounded-full px-6">
                   Join as Vendor
                 </Button>
               </Link>
@@ -322,7 +323,7 @@ const Index = () => {
       <LiveActivityFeed />
 
       {/* Section 3: How It Works */}
-      <section ref={section2.ref} className="py-10 sm:py-14 md:py-20 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section2.ref} className="py-16 md:py-24 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
@@ -335,14 +336,14 @@ const Index = () => {
 
             {/* Content */}
             <div className={`order-1 lg:order-2 space-y-8 ${section2.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
-              <div className="inline-block px-4 py-2 rounded-full bg-accent/15 border border-accent/30">
-                <span className="text-accent font-semibold text-sm">Simple Process</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20">
+                <span className="text-accent font-medium text-sm">Simple Process</span>
               </div>
               
-              <h2 className="font-display font-semibold text-2xl sm:text-3xl md:text-4xl">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Planning Made <span className="text-accent">Simple</span>
               </h2>
-              <div className="w-20 h-1 bg-gradient-to-r from-accent to-primary rounded-full" />
+              <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 rounded-full" />
 
               <div className="space-y-8">
                 {[{
@@ -361,11 +362,11 @@ const Index = () => {
                 transitionDelay: `${i * 100}ms`
               }}>
                     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 border-2 border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-accent/50 transition-all duration-300">
-                      <span className="text-accent font-bold text-lg">{step.number}</span>
+                      <span className="text-accent font-semibold text-lg">{step.number}</span>
                     </div>
                     <div className="group-hover:translate-x-2 transition-transform duration-300">
-                      <h3 className="font-bold text-xl mb-2">{step.title}</h3>
-                      <p className="text-muted-foreground">{step.description}</p>
+                      <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
+                      <p className="text-muted-foreground text-sm sm:text-base">{step.description}</p>
                     </div>
                   </div>)}
               </div>
@@ -381,14 +382,14 @@ const Index = () => {
       </section>
 
       {/* Shaadi Seva Impact Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-b from-white via-rose-50/30 to-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/30 to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Heart className="h-4 w-4 text-primary fill-primary" />
-              <span className="text-primary text-xs font-semibold">Shaadi Seva</span>
+              <span className="text-primary text-sm font-medium">Shaadi Seva</span>
             </div>
-            <h2 className="font-display font-bold text-2xl sm:text-3xl mb-3">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
               Every Wedding You Plan <span className="text-primary">Helps Someone Get Married</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base mb-8 max-w-xl mx-auto">
@@ -396,7 +397,7 @@ const Index = () => {
             </p>
             <ShaadiSevaCounter />
             <Link to="/shaadi-seva">
-              <Button variant="outline" className="rounded-full mt-6 border-primary/30 hover:border-primary">
+              <Button variant="outline" className="rounded-full mt-6 px-6 border-primary/30 hover:border-primary">
                 Learn More About Shaadi Seva
               </Button>
             </Link>
@@ -411,23 +412,23 @@ const Index = () => {
       <ReviewsSection />
 
       {/* Section 4: Success Stories */}
-      <section ref={section3.ref} className="py-10 sm:py-14 md:py-20 relative" style={{
+      <section ref={section3.ref} className="py-16 md:py-24 relative" style={{
       background: 'radial-gradient(ellipse at center, hsl(350 85% 55% / 0.05) 0%, transparent 50%)'
     }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Content */}
             <div className={`space-y-8 ${section3.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
-              <div className="inline-block px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-                <span className="text-primary text-sm font-semibold">Success Stories</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                <span className="text-primary text-sm font-medium">Success Stories</span>
               </div>
               
-              <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+              <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Real Couples,<br />
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Real Celebrations</span>
               </h2>
 
-              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 Over 50,000 couples have trusted us with their special day. From intimate gatherings to grand celebrations, 
                 we've been part of beautiful love stories across India.
               </p>
@@ -438,7 +439,7 @@ const Index = () => {
                     <Star className="h-6 w-6 text-accent-foreground" />
                   </div>
                   <div className="group-hover:translate-x-2 transition-transform duration-300">
-                    <div className="text-2xl font-bold">4.9/5</div>
+                    <div className="text-2xl font-semibold">4.9/5</div>
                     <div className="text-muted-foreground text-sm">Average Rating</div>
                   </div>
                 </div>
@@ -463,25 +464,25 @@ const Index = () => {
       </section>
 
       {/* Final CTA */}
-      <section ref={section4.ref} className="py-10 sm:py-14 md:py-20 relative overflow-hidden">
+      <section ref={section4.ref} className="py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className={`max-w-4xl mx-auto text-center ${section4.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl mb-6">
               Ready to Start Your<br />
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Dream Wedding Journey?</span>
             </h2>
-            <p className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8">
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-8">
               Join 50,000+ happy couples who planned their perfect wedding with zero stress. Your happily ever after starts here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/categories">
-                <Button size="lg" variant="premium" className="text-lg px-10 py-6 rounded-full">
+                <Button size="lg" variant="premium" className="rounded-full px-8">
                   Explore Vendors
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button size="lg" variant="outline" className="text-lg px-10 py-6 rounded-full border-primary/30 hover:border-primary">
+                <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 hover:border-primary">
                   Create Free Account
                 </Button>
               </Link>
@@ -491,10 +492,10 @@ const Index = () => {
       </section>
 
       {/* Vendor Acquisition Banner */}
-      <section className="py-10 sm:py-14 bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5">
+      <section className="py-16 md:py-24 bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center space-y-4">
-            <h2 className="font-display font-bold text-2xl sm:text-3xl">
+            <h2 className="font-display font-semibold text-2xl md:text-3xl">
               Are You a <span className="text-accent">Wedding Vendor?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
