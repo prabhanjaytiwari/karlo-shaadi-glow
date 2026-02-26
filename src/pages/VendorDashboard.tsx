@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp, FileQuestion, ShieldCheck } from "lucide-react";
+import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp, FileQuestion, ShieldCheck, Wrench } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
@@ -24,6 +24,7 @@ import { ProfileCompletionProgress } from "@/components/vendor/ProfileCompletion
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 import { VendorInquiryManagement } from "@/components/vendor/VendorInquiryManagement";
 import { VerifiedBadgeShowcase } from "@/components/vendor/VerifiedBadgeShowcase";
+import { VendorToolkit } from "@/components/vendor/VendorToolkit";
 
 export default function VendorDashboard() {
   const navigate = useNavigate();
@@ -497,6 +498,10 @@ export default function VendorDashboard() {
                 <Star className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Reviews</span>
               </TabsTrigger>
+              <TabsTrigger value="tools" className="shrink-0">
+                <Wrench className="h-4 w-4 lg:mr-2" />
+                <span className="hidden lg:inline">Tools</span>
+              </TabsTrigger>
               <TabsTrigger value="badge" className="shrink-0">
                 <ShieldCheck className="h-4 w-4 lg:mr-2" />
                 <span className="hidden lg:inline">Badge</span>
@@ -734,6 +739,10 @@ export default function VendorDashboard() {
                   </div>
                 )}
               </div>
+            </TabsContent>
+
+            <TabsContent value="tools">
+              {vendor && <VendorToolkit vendorId={vendor.id} vendorName={vendor.business_name} />}
             </TabsContent>
 
             <TabsContent value="badge">

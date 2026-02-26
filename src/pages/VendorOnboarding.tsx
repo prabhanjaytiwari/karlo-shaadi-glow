@@ -15,11 +15,25 @@ import { Progress } from "@/components/ui/progress";
 
 import { Database } from "@/integrations/supabase/types";
 
-const CATEGORIES: Database["public"]["Enums"]["vendor_category"][] = [
-  "venues", "catering", "photography", "decoration", 
-  "mehendi", "music", "cakes", "planning", "makeup",
-  "invitations", "choreography", "transport", "jewelry", 
-  "pandit", "entertainment"
+const CATEGORIES: { value: Database["public"]["Enums"]["vendor_category"]; label: string }[] = [
+  { value: "venues", label: "Venues" },
+  { value: "catering", label: "Catering" },
+  { value: "photography", label: "Photography" },
+  { value: "decoration", label: "Decoration" },
+  { value: "mehendi", label: "Mehendi" },
+  { value: "music", label: "Music & DJ" },
+  { value: "cakes", label: "Cakes & Desserts" },
+  { value: "planning", label: "Wedding Planning" },
+  { value: "makeup", label: "Makeup" },
+  { value: "invitations", label: "Invitations" },
+  { value: "choreography", label: "Choreography" },
+  { value: "transport", label: "Transport" },
+  { value: "jewelry", label: "Jewelry" },
+  { value: "pandit", label: "Pandit" },
+  { value: "entertainment", label: "Entertainment" },
+  { value: "influencer", label: "Influencer" },
+  { value: "anchor", label: "Anchor / Emcee" },
+  { value: "content-creator", label: "Content Creator" },
 ];
 
 export default function VendorOnboarding() {
@@ -278,8 +292,8 @@ export default function VendorOnboarding() {
                         </SelectTrigger>
                         <SelectContent>
                           {CATEGORIES.map((cat) => (
-                            <SelectItem key={cat} value={cat}>
-                              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            <SelectItem key={cat.value} value={cat.value}>
+                              {cat.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
