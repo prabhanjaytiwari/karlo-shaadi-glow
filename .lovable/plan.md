@@ -1,60 +1,65 @@
 
 
-# Launch Readiness Audit -- Fixes & Hardening
+## Plan: Add Influencer/Anchor Categories + Vendor Productivity Tools
 
-## Audit Results
+### Part 1: New Vendor Categories
 
-After testing every dropdown, page, and link on the website, here is the status:
+The current `vendor_category` enum has 16 categories. We need to add new ones for **influencers**, **anchors/emcees**, and potentially **wedding content creators**.
 
-**All core flows are functional**: Service dropdown (16 categories), City dropdown (20 cities), Search page (5 vendors found), Categories grid, Vendor profiles, For Vendors landing, all header/footer navigation links -- all verified working.
+**Database Migration:**
+- Add new values to the `vendor_category` enum: `influencer`, `anchor`, `content-creator`
+- These professionals can then register, get verified, and appear in the marketplace
 
-The "empty dropdown" issue you saw was caused by a temporary network connectivity blip, not a code bug. However, to prevent this from happening again during your vendor launch, I'll add the following fixes:
-
----
-
-## Fixes to Implement
-
-### 1. Hardened Hero Search Widget with Static Fallbacks
-**Problem**: If the database fetch fails (network blip, slow connection), dropdowns show nothing.
-**Fix**: Add hardcoded fallback data for categories and cities so the dropdowns always have options, even if the database call fails. This means the search widget never appears empty.
-
-**File**: `src/components/HeroSearchWidget.tsx`
-
-### 2. Missing Category Image -- "Wedding Social Media Managers"
-**Problem**: The `social-media-managers` slug has no image mapping in `Categories.tsx`, so it shows a plain "W" letter instead of a photo.
-**Fix**: Map the `social-media-managers` slug to an existing relevant image (e.g., `category-photography.jpg` or another appropriate asset).
-
-**File**: `src/pages/Categories.tsx`
-
-### 3. Search Page -- Same Fallback Hardening
-**Problem**: The Search page also fetches categories/cities from DB. If it fails, the filter dropdowns are empty.
-**Fix**: Apply the same static fallback pattern to `src/pages/Search.tsx`.
-
-**File**: `src/pages/Search.tsx`
-
-### 4. "What's New" Modal -- Reduce Annoyance
-**Problem**: The modal appears on every fresh session, which can frustrate returning users and feel unprofessional during vendor demos.
-**Fix**: Ensure the version check in `localStorage` properly suppresses the modal after first dismissal. Verify the version string matches so it doesn't re-trigger.
-
-**File**: `src/components/WhatsNewModal.tsx`
-
-### 5. CityVendors Page -- Fallback for No Vendors
-**Problem**: City-category pages like `/vendors/delhi/photography` may show an empty state if no vendors exist for that combination yet (since you only have 5 vendors).
-**Fix**: Add a friendly "Coming soon" empty state with a CTA to register as a vendor or browse other categories, instead of showing nothing.
-
-**File**: `src/pages/CityVendors.tsx`
+**UI Updates:**
+- Update `src/pages/VendorOnboarding.tsx` category selector to include the new categories with appropriate labels
+- Update `src/pages/Categories.tsx` to display the new categories with icons
+- Add category images/icons for the new types
 
 ---
 
-## Technical Summary
+### Part 2: Vendor Productivity Tools (New Dashboard Tab)
 
-| Fix | File | Impact |
-|---|---|---|
-| Static fallback data for dropdowns | `HeroSearchWidget.tsx` | Dropdowns never empty |
-| Static fallback for search filters | `Search.tsx` | Search filters never empty |
-| Social media managers image | `Categories.tsx` | 1 line fix |
-| What's New modal version check | `WhatsNewModal.tsx` | No repeat popups |
-| CityVendors empty state | `CityVendors.tsx` | Better UX for sparse data |
+Add a **"Tools"** tab to the Vendor Dashboard (`src/pages/VendorDashboard.tsx`) with productivity features:
 
-All fixes are small, surgical changes -- no new dependencies, no database changes. Total estimated changes: ~100 lines across 5 files.
+**Tool 1 - AI Quote Generator**
+- Vendors enter event details (date, type, guest count, location) and get a professional quote/proposal they can copy or download as PDF
+- Uses the existing Lovable AI integration (no extra API key needed)
+
+**Tool 2 - Client Follow-Up Reminders**
+- Shows a list of inquiries that haven't been responded to or followed up on (from `vendor_inquiries` table)
+- Highlights stale leads (older than 24h, 48h, 7d) with color-coded urgency
+- One-click "Mark as Followed Up" action
+
+**Tool 3 - Social Media Caption Generator**
+- AI-powered tool: vendor uploads a portfolio image or describes their work, gets ready-to-post Instagram/WhatsApp captions with hashtags
+- Tailored to Indian wedding industry keywords
+
+**Tool 4 - Quick Invoice Generator**
+- Simple form: client name, service, amount, date, notes
+- Generates a branded PDF invoice with the vendor's business name and logo (using jsPDF, already installed)
+
+**Tool 5 - Seasonal Demand Insights**
+- Shows upcoming muhurat dates (from existing `muhuratDates2025` data) and high-demand periods
+- Suggests when to run promotions or increase pricing
+
+### Files to Create
+1. `src/components/vendor/VendorToolkit.tsx` - Main tools container with sub-tool cards
+2. `src/components/vendor/QuoteGenerator.tsx` - AI quote/proposal builder
+3. `src/components/vendor/InvoiceGenerator.tsx` - PDF invoice creator
+4. `src/components/vendor/CaptionGenerator.tsx` - Social media caption AI tool
+5. `src/components/vendor/FollowUpTracker.tsx` - Lead follow-up reminders
+6. `src/components/vendor/SeasonalInsights.tsx` - Demand calendar/insights
+
+### Files to Edit
+1. **Database migration** - Add `influencer`, `anchor`, `content-creator` to `vendor_category` enum
+2. `src/pages/VendorDashboard.tsx` - Add "Tools" tab with `Wrench` icon pointing to `VendorToolkit`
+3. `src/pages/VendorOnboarding.tsx` - Add new categories to the registration form
+4. `src/pages/Categories.tsx` - Display new categories in the browse grid
+5. `src/pages/ForVendors.tsx` - Mention productivity tools as a selling point
+
+### Technical Notes
+- AI features (Quote Generator, Caption Generator) will use Lovable AI via an edge function with `gemini-2.5-flash` for speed
+- Invoice PDF generation uses the already-installed `jspdf` library
+- Follow-up tracker queries existing `vendor_inquiries` table -- no new tables needed
+- Seasonal insights reuse existing `muhuratDates2025` data
 
