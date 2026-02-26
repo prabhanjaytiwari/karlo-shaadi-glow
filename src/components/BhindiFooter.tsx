@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 const footerLinks = {
   company: [
     { label: "About Us", to: "/about" },
+    { label: "Why Karlo Shaadi", to: "/why-karlo-shaadi" },
     { label: "Real Weddings", to: "/stories" },
     { label: "Blog", to: "/blog" },
     { label: "Leaderboard", to: "/leaderboard" },

@@ -488,6 +488,7 @@ export const BhindiHeader = () => {
                     { label: "Help", href: "/help" },
                     ...(!user && !isVendor ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
                     { label: "About", href: "/about" },
+                    { label: "Why Karlo Shaadi", href: "/why-karlo-shaadi" },
                   ].map((link) => (
                     <button
                       key={link.href}
