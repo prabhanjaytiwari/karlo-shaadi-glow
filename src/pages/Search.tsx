@@ -19,13 +19,41 @@ import { EmptyState } from "@/components/EmptyState";
 import { SmartVendorMatch } from "@/components/SmartVendorMatch";
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
 
+const FALLBACK_CATEGORIES = [
+  { id: "fb-1", name: "Photography", slug: "photography" },
+  { id: "fb-2", name: "Wedding Venues", slug: "venues" },
+  { id: "fb-3", name: "Catering", slug: "catering" },
+  { id: "fb-4", name: "Decoration", slug: "decoration" },
+  { id: "fb-5", name: "Mehendi", slug: "mehendi" },
+  { id: "fb-6", name: "Makeup", slug: "makeup" },
+  { id: "fb-7", name: "Music & DJ", slug: "music" },
+  { id: "fb-8", name: "Wedding Planning", slug: "planning" },
+  { id: "fb-9", name: "Invitations", slug: "invitations" },
+  { id: "fb-10", name: "Choreography", slug: "choreography" },
+  { id: "fb-11", name: "Transport", slug: "transport" },
+  { id: "fb-12", name: "Jewelry", slug: "jewelry" },
+  { id: "fb-13", name: "Pandit & Priests", slug: "pandit" },
+  { id: "fb-14", name: "Entertainment", slug: "entertainment" },
+];
+
+const FALLBACK_CITIES = [
+  { id: "fc-1", name: "Delhi", state: "Delhi" },
+  { id: "fc-2", name: "Mumbai", state: "Maharashtra" },
+  { id: "fc-3", name: "Bangalore", state: "Karnataka" },
+  { id: "fc-4", name: "Jaipur", state: "Rajasthan" },
+  { id: "fc-5", name: "Hyderabad", state: "Telangana" },
+  { id: "fc-6", name: "Chennai", state: "Tamil Nadu" },
+  { id: "fc-7", name: "Kolkata", state: "West Bengal" },
+  { id: "fc-8", name: "Pune", state: "Maharashtra" },
+];
+
 export default function Search() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { trackEvent } = useAnalytics();
   const [vendors, setVendors] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [cities, setCities] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>(FALLBACK_CATEGORIES);
+  const [cities, setCities] = useState<any[]>(FALLBACK_CITIES);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all");
@@ -48,7 +76,7 @@ export default function Search() {
         .eq("is_active", true)
         .order("display_order");
       
-      if (categoriesData) setCategories(categoriesData);
+      if (categoriesData && categoriesData.length > 0) setCategories(categoriesData);
 
       // Load cities
       const { data: citiesData } = await supabase
@@ -56,7 +84,7 @@ export default function Search() {
         .select("*")
         .eq("is_active", true);
       
-      if (citiesData) setCities(citiesData);
+      if (citiesData && citiesData.length > 0) setCities(citiesData);
 
       // Build vendor query
       let query = supabase

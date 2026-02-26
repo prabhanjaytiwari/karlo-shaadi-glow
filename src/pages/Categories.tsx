@@ -44,6 +44,7 @@ const Categories = () => {
     jewelry: jewelryImg,
     pandit: panditImg,
     entertainment: entertainmentImg,
+    'social-media-managers': photographyImg,
   };
 
   useEffect(() => {

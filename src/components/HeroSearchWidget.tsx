@@ -24,6 +24,43 @@ interface City {
   state: string;
 }
 
+const FALLBACK_CATEGORIES: Category[] = [
+  { id: "fb-1", name: "Photography", slug: "photography" },
+  { id: "fb-2", name: "Wedding Venues", slug: "venues" },
+  { id: "fb-3", name: "Catering", slug: "catering" },
+  { id: "fb-4", name: "Decoration", slug: "decoration" },
+  { id: "fb-5", name: "Mehendi", slug: "mehendi" },
+  { id: "fb-6", name: "Makeup", slug: "makeup" },
+  { id: "fb-7", name: "Music & DJ", slug: "music" },
+  { id: "fb-8", name: "Wedding Planning", slug: "planning" },
+  { id: "fb-9", name: "Invitations", slug: "invitations" },
+  { id: "fb-10", name: "Choreography", slug: "choreography" },
+  { id: "fb-11", name: "Transport", slug: "transport" },
+  { id: "fb-12", name: "Jewelry", slug: "jewelry" },
+  { id: "fb-13", name: "Pandit & Priests", slug: "pandit" },
+  { id: "fb-14", name: "Entertainment", slug: "entertainment" },
+  { id: "fb-15", name: "Cakes & Desserts", slug: "cakes-desserts" },
+  { id: "fb-16", name: "Wedding Social Media Managers", slug: "social-media-managers" },
+];
+
+const FALLBACK_CITIES: City[] = [
+  { id: "fc-1", name: "Delhi", state: "Delhi" },
+  { id: "fc-2", name: "Mumbai", state: "Maharashtra" },
+  { id: "fc-3", name: "Bangalore", state: "Karnataka" },
+  { id: "fc-4", name: "Jaipur", state: "Rajasthan" },
+  { id: "fc-5", name: "Hyderabad", state: "Telangana" },
+  { id: "fc-6", name: "Chennai", state: "Tamil Nadu" },
+  { id: "fc-7", name: "Kolkata", state: "West Bengal" },
+  { id: "fc-8", name: "Pune", state: "Maharashtra" },
+  { id: "fc-9", name: "Ahmedabad", state: "Gujarat" },
+  { id: "fc-10", name: "Lucknow", state: "Uttar Pradesh" },
+  { id: "fc-11", name: "Chandigarh", state: "Punjab" },
+  { id: "fc-12", name: "Udaipur", state: "Rajasthan" },
+  { id: "fc-13", name: "Goa", state: "Goa" },
+  { id: "fc-14", name: "Indore", state: "Madhya Pradesh" },
+  { id: "fc-15", name: "Bhopal", state: "Madhya Pradesh" },
+];
+
 const popularSearches = [
   { label: "Wedding Venues Delhi", category: "venues", city: "Delhi" },
   { label: "Photographers Mumbai", category: "photography", city: "Mumbai" },
@@ -33,21 +70,25 @@ const popularSearches = [
 
 export const HeroSearchWidget = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
+  const [categories, setCategories] = useState<Category[]>(FALLBACK_CATEGORIES);
+  const [cities, setCities] = useState<City[]>(FALLBACK_CITIES);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const loadData = async () => {
-      const [categoriesRes, citiesRes] = await Promise.all([
-        supabase.from("categories").select("id, name, slug").eq("is_active", true).order("display_order"),
-        supabase.from("cities").select("id, name, state").eq("is_active", true).order("name"),
-      ]);
-      
-      if (categoriesRes.data) setCategories(categoriesRes.data);
-      if (citiesRes.data) setCities(citiesRes.data);
+      try {
+        const [categoriesRes, citiesRes] = await Promise.all([
+          supabase.from("categories").select("id, name, slug").eq("is_active", true).order("display_order"),
+          supabase.from("cities").select("id, name, state").eq("is_active", true).order("name"),
+        ]);
+        
+        if (categoriesRes.data && categoriesRes.data.length > 0) setCategories(categoriesRes.data);
+        if (citiesRes.data && citiesRes.data.length > 0) setCities(citiesRes.data);
+      } catch (error) {
+        console.warn("Using fallback data for search widget:", error);
+      }
     };
     loadData();
   }, []);

@@ -204,13 +204,25 @@ const CityVendors = () => {
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           ) : vendors.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-muted-foreground mb-4">
-                No vendors found in {formatCityName(city || "")} yet.
+            <div className="text-center py-20 max-w-lg mx-auto">
+              <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+                <Users className="h-8 w-8 text-accent" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Coming Soon to {formatCityName(city || "")}</h3>
+              <p className="text-muted-foreground mb-6">
+                We're onboarding {category && CATEGORY_NAMES[category] ? CATEGORY_NAMES[category].toLowerCase() : "vendors"} in {formatCityName(city || "")} right now. Be among the first to list here!
               </p>
-              <Link to="/for-vendors">
-                <Button>Register Your Business</Button>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/for-vendors">
+                  <Button size="lg">
+                    Register Your Business
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                </Link>
+                <Link to="/categories">
+                  <Button variant="outline" size="lg">Browse All Categories</Button>
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
