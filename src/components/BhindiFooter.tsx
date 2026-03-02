@@ -95,8 +95,8 @@ export const BhindiFooter = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Hide footer on mobile for logged-in users (apps don't have footers)
-  if (isMobile && user) return null;
+  // Hide footer on mobile (app-style navigation used instead)
+  if (isMobile) return null;
 
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();

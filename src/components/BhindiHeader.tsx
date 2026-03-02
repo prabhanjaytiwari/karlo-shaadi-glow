@@ -146,8 +146,8 @@ export const BhindiHeader = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Hide header on mobile for logged-in users (bottom navigation is used instead)
-  if (isMobile && user) {
+  // Hide header on mobile (bottom navigation + MobileHomeScreen used instead)
+  if (isMobile) {
     return null;
   }
 
