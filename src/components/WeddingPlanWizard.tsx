@@ -109,18 +109,28 @@ export function WeddingPlanWizard() {
       });
 
       if (response.error) {
-        throw new Error(response.error.message || "Failed to generate plan");
+        const errorMsg = response.error.message || "";
+        if (errorMsg.includes("429") || errorMsg.includes("rate limit")) {
+          toast.error("Too many requests. Please wait a moment and try again.");
+        } else if (errorMsg.includes("402")) {
+          toast.error("Service temporarily unavailable. Please try again later.");
+        } else {
+          toast.error("Failed to generate plan. Please try again.");
+        }
+        return;
       }
 
       const planId = response.data?.planId;
       if (planId) {
         navigate(`/plan/${planId}`);
+      } else if (response.data?.error) {
+        toast.error(response.data.error);
       } else {
         throw new Error("No plan ID returned");
       }
     } catch (error) {
       console.error("Error generating plan:", error);
-      toast.error("Failed to generate your plan. Please try again.");
+      toast.error("Something went wrong. Please check your connection and try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -271,8 +281,8 @@ export function WeddingPlanWizard() {
 
             <div className="max-w-md mx-auto space-y-8">
               <div className="text-center">
-                <div className="text-5xl font-bold text-primary mb-2">
-                  ₹{data.budget} Lakhs
+              <div className="text-5xl font-bold text-primary mb-2">
+                  {data.budget >= 100 ? `₹${(data.budget / 100).toFixed(data.budget % 100 === 0 ? 0 : 2)} Crore` : `₹${data.budget} Lakhs`}
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {data.budget < 15
@@ -289,14 +299,14 @@ export function WeddingPlanWizard() {
                 value={[data.budget]}
                 onValueChange={(value) => setData({ ...data, budget: value[0] })}
                 min={5}
-                max={200}
+                max={500}
                 step={5}
                 className="py-4"
               />
 
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>₹5 Lakhs</span>
-                <span>₹2 Crore+</span>
+                <span>₹5 Crore</span>
               </div>
             </div>
           </div>

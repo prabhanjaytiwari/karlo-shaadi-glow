@@ -99,7 +99,7 @@ export function BottomNavigation() {
     { icon: Search, label: 'Search', path: '/search' },
     // Center gap for FAB
     { icon: LayoutGrid, label: 'Categories', path: '/categories' },
-    { icon: Wrench, label: 'Tools', path: '/budget-calculator' },
+    { icon: Wrench, label: 'Tools', path: '/tools' },
     { icon: LogIn, label: 'Login', path: '/auth' },
   ];
 
