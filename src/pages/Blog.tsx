@@ -1,5 +1,6 @@
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -120,8 +121,10 @@ const categories = [
 ];
 
 export default function Blog() {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Blog" />
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
         <div className="container mx-auto max-w-6xl text-center">
@@ -298,7 +301,6 @@ export default function Blog() {
         </div>
       </section>
 
-      <BhindiFooter />
     </div>
   );
 }

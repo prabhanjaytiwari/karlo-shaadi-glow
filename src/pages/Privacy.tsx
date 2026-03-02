@@ -1,16 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Privacy = () => {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
       <SEO 
         title="Privacy Policy"
         description="Learn how Karlo Shaadi collects, uses, and protects your personal information"
       />
+      <MobilePageHeader title="Privacy Policy" />
       
-      
-      <main className="pt-24 pb-16">
+      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-12 animate-fade-up">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>

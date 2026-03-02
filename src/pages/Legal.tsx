@@ -1,12 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Legal = () => {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Legal" />
       
-      
-      <main className="pt-24 pb-16">
+      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-12 animate-fade-up">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Legal Information</h1>

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -163,6 +163,7 @@ const contactOptions = [
 
 export default function HelpCenter() {
   const [searchQuery, setSearchQuery] = useState("");
+  const isMobile = useIsMobile();
 
   const filteredQuickAnswers = quickAnswers.filter(
     qa => 
@@ -176,7 +177,7 @@ export default function HelpCenter() {
         title="Help Center | Karlo Shaadi"
         description="Get help with your Karlo Shaadi account, bookings, payments, and more. Find answers to common questions or contact our support team."
       />
-      <BhindiHeader />
+      <MobilePageHeader title="Help Center" />
       
       {/* Hero Section with Search */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10">
@@ -394,7 +395,6 @@ export default function HelpCenter() {
         </div>
       </section>
 
-      <BhindiFooter />
     </div>
   );
 }

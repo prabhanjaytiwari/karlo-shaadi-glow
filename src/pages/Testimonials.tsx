@@ -1,7 +1,8 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Star, Quote, MapPin, Calendar, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
 
 const testimonials = [
   {
@@ -86,9 +87,10 @@ const stats = [
 ];
 
 export default function Testimonials() {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      <MobilePageHeader title="Testimonials" />
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
@@ -219,7 +221,6 @@ export default function Testimonials() {
         </div>
       </section>
 
-      <BhindiFooter />
     </div>
   );
 }

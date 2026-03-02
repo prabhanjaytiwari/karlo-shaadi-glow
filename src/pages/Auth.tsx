@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Eye, EyeOff, Loader2, Gift } from "lucide-react";
+import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import { loginFormSchema, signupFormSchema, sanitizeInput } from "@/lib/validation";
 import { useForm } from "react-hook-form";
@@ -350,9 +351,14 @@ const Auth = () => {
             </div>
           </div>
           
-          <div className="px-4 py-5 -mt-3 relative z-10">
+          <motion.div 
+            className="px-4 py-5 -mt-3 relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+          >
             {authFormContent}
-          </div>
+          </motion.div>
         </div>
       ) : (
         /* Desktop: split layout - image left, form right */
@@ -366,11 +372,16 @@ const Auth = () => {
               <p className="text-white/70 text-base max-w-md">Aap Shaadi Karo, Tension Hum Sambhal Lenge</p>
             </div>
           </div>
-          <div className="flex-1 flex items-center justify-center p-8 pt-24">
+          <motion.div 
+            className="flex-1 flex items-center justify-center p-8 pt-24"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+          >
             <div className="w-full max-w-md">
               {authFormContent}
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
