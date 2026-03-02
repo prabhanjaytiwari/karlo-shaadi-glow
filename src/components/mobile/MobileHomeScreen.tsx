@@ -214,17 +214,6 @@ export function MobileHomeScreen() {
           </div>
 
           <div className="px-4 pb-8 space-y-5">
-            {/* Search */}
-            <div className="relative -mt-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search vendors, venues..."
-                className="pl-9 h-11 bg-muted/20 border-border/30 rounded-xl text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              />
-            </div>
 
             {/* Featured Image Cards */}
             <div className="space-y-2.5">
