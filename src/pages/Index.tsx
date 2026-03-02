@@ -23,7 +23,13 @@ import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
 import { useParallax } from "@/hooks/usePremiumAnimations";
 import { AIMatchmakingDialog } from "@/components/AIMatchmakingDialog";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { MobileHomeScreen } from "@/components/mobile/MobileHomeScreen";
+
 const Index = () => {
+  const isMobile = useIsMobile();
+  const { user, loading: authLoading } = useAuthContext();
   const section1 = useScrollAnimation({
     threshold: 0.2
   });
@@ -51,6 +57,12 @@ const Index = () => {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  // Mobile logged-in users see the app home screen
+  if (isMobile && user && !authLoading) {
+    return <MobileHomeScreen />;
+  }
+
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
       <FAQPageJsonLd faqs={[
