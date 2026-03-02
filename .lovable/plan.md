@@ -1,101 +1,216 @@
 
 
-## Plan: Standardize Design System Across Entire Website
+# Master Plan: Transform Karlo Shaadi into a Mobile-First App
 
-### Problem
-The website has accumulated inconsistent sizing, typography, spacing, and button styles across pages and sections — a hallmark of AI-generated code where each section was built independently. Key issues:
+## What This Plan Does
 
-- **Section padding varies wildly**: `py-8`, `py-10`, `py-12`, `py-14`, `py-16`, `py-20`, `py-24`, `py-28` used interchangeably
-- **Heading sizes are inconsistent**: `text-2xl md:text-3xl`, `text-3xl md:text-5xl`, `text-4xl md:text-6xl` — no standard hierarchy
-- **Button sizes/styles differ per section**: Some use `size="lg"`, others `size="default"`, `size="sm"`, with mixed `rounded-full`, `px-8`, `px-10`, `py-6` overrides
-- **Section label badges differ**: Some use `rounded-full`, others `rounded-lg`; different padding, border styles, font sizes
-- **Font weight keywords vary**: `font-bold` vs `font-semibold` used inconsistently for same heading levels
-- **Container max-widths differ**: `max-w-3xl`, `max-w-4xl`, `max-w-5xl`, `max-w-6xl`, `max-w-7xl` with no pattern
-
-### Solution: Establish and Enforce a Standard
-
-**Standard Section Rhythm** (apply everywhere):
-- Section padding: `py-16 md:py-24` (one size for all content sections)
-- Section label badge: `inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium`
-- Container: `container mx-auto px-4 sm:px-6`
-
-**Standard Heading Hierarchy**:
-- h1 (page hero): `text-3xl md:text-5xl font-semibold`
-- h2 (section title): `text-2xl md:text-3xl font-semibold`
-- h3 (card/sub-section): `text-lg font-semibold`
-- Body text: `text-sm sm:text-base text-muted-foreground`
-
-**Standard Button Patterns**:
-- Primary CTA: `size="lg" className="rounded-full px-8"`
-- Secondary CTA: `size="lg" variant="outline" className="rounded-full px-8"`
-- In-section link: `size="default" className="rounded-full px-6"`
-- Remove all custom `py-6`, `text-lg`, `px-10` overrides
-
-**Standard Divider**:
-- Use `w-16 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 mx-auto rounded-full` (or accent variant) consistently
+This plan converts your current website into a true mobile-app experience -- the kind that feels like Instagram, Zomato, or Swiggy when opened on a phone. Every page will be rethought for thumb-friendly navigation, fast loading, and native-feeling interactions.
 
 ---
 
-### Files to Edit
+## Current State (What Already Exists)
 
-1. **`src/pages/Index.tsx`** (~522 lines)
-   - Standardize all 8+ section paddings to `py-16 md:py-24`
-   - Normalize heading sizes: h2s all become `text-2xl md:text-3xl font-semibold`
-   - Standardize all section label badges to same pattern
-   - Normalize all Button sizes (remove `text-lg px-10 py-6` overrides from Final CTA)
-   - Standardize container max-widths to `max-w-5xl` for content sections
+Your project already has some mobile foundations:
+- A **bottom navigation bar** (Home, Search, Bookings, Messages, Profile) -- but only shows for logged-in users
+- **Capacitor** configured for native iOS/Android builds
+- A **PWA setup** with service worker and offline support
+- A **mobile hamburger menu** in the header
+- Safe area handling for notched phones
 
-2. **`src/components/TensionsSection.tsx`**
-   - Normalize h2 from `text-3xl sm:text-4xl md:text-5xl` to `text-2xl md:text-3xl`
-   - Standardize section padding and badge style
+**What's Missing:**
+- Most pages are still desktop-first with tiny text, desktop grids, and wasted space on mobile
+- The homepage is a long marketing page -- not an app home screen
+- No mobile-optimized Dashboard (the couple dashboard has desktop-only button rows)
+- Footer renders on every page (apps don't have footers)
+- Header still shows on mobile even with bottom nav (double navigation)
+- Pages like Search, Bookings, Messages use `BhindiHeader` and `BhindiFooter` redundantly
+- No pull-to-refresh, no swipe gestures, no app-like page transitions
 
-3. **`src/components/BentoGrid.tsx`**
-   - Standardize section padding
-   - Normalize badge and heading sizes
+---
 
-4. **`src/components/ReviewsSection.tsx`**
-   - Section padding from `py-24` to `py-16 md:py-24`
-   - Standardize badge and heading
+## The Transformation (Phase by Phase)
 
-5. **`src/components/TrustStatsBanner.tsx`**
-   - Standardize padding
+### Phase 1: Mobile Shell and Navigation Overhaul
 
-6. **`src/pages/EarnWithUs.tsx`**
-   - h1 from `text-4xl md:text-6xl` to `text-3xl md:text-5xl`
-   - All h2s to `text-2xl md:text-3xl`
-   - Standardize section paddings, badge style
+**Goal:** Make the app skeleton feel native on mobile.
 
-7. **`src/pages/ForVendors.tsx`**
-   - Standardize hero heading, section paddings, button sizes
+**1.1 Hide Header + Footer on Mobile (for logged-in users)**
+- Edit `src/App.tsx`: Wrap `BhindiHeader` in a condition that hides it on mobile when bottom nav is visible
+- Edit `src/components/BhindiFooter.tsx`: Hide footer entirely on mobile screens (apps don't scroll to footers)
+- The bottom navigation already exists and handles Home/Search/Bookings/Messages/Profile
 
-8. **`src/pages/SpeechWriterPage.tsx`**
-   - Standardize hero heading and section padding
+**1.2 Upgrade Bottom Navigation**
+- Edit `src/components/mobile/BottomNavigation.tsx`:
+  - Add haptic-style press animation (scale-95 already exists, add spring physics)
+  - Add a floating "+" FAB (Floating Action Button) in the center for quick actions (Book Vendor, Create Invite, Wedding Plan)
+  - Show bottom nav for non-logged-in users too, but with different tabs (Home, Search, Categories, Tools, Login)
 
-9. **`src/pages/BudgetCalculatorPage.tsx`**
-   - Ensure consistent spacing pattern
+**1.3 Mobile Page Header Component**
+- Create `src/components/mobile/MobilePageHeader.tsx`:
+  - A slim, sticky top bar with back arrow, page title, and optional action icons
+  - Replaces the desktop BhindiHeader on inner pages
+  - Used by all pages (Bookings, Messages, Search, Profile, etc.)
 
-10. **`src/components/SponsoredVendorsCarousel.tsx`**
-    - Standardize section padding and heading size
+**Files to create:** `src/components/mobile/MobilePageHeader.tsx`, `src/components/mobile/QuickActionFAB.tsx`
+**Files to edit:** `src/App.tsx`, `src/components/mobile/BottomNavigation.tsx`, `src/components/BhindiFooter.tsx`
 
-11. **`src/components/LiveActivityFeed.tsx`**
-    - Standardize padding and heading
+---
 
-12. **`src/pages/WhyKarloShaadi.tsx`**
-    - Normalize heading sizes from `text-3xl md:text-5xl` to standard
-    - Standardize section paddings
+### Phase 2: Mobile Home Screen (Replace Marketing Page)
 
-13. **`src/pages/MusicGenerator.tsx`**
-    - h1 from `text-4xl md:text-6xl` to `text-3xl md:text-5xl`
+**Goal:** Logged-in mobile users see an app home screen, not a marketing landing page.
 
-### Scope Boundaries
-- This plan does NOT change colors, gradients, or the design language
-- This plan does NOT touch component library files (ui/button.tsx etc.)
-- This is purely about making sizes, spacing, and typography uniform across pages
-- Wedding website builder (`WeddingWebsite.tsx`, `WeddingView.tsx`) excluded as those are user-facing customizable templates
+**2.1 Create Mobile Home Screen**
+- Create `src/components/mobile/MobileHomeScreen.tsx`:
+  - **Greeting bar**: "Hey [Name]! Your wedding is in X days"
+  - **Quick Action Pills**: Horizontal scroll row (Search Vendors, Budget, Checklist, Guest List, Muhurat)
+  - **Wedding Countdown Card**: Days/hours/minutes to wedding date
+  - **Recent Bookings**: Compact card list of latest 3 bookings
+  - **Trending Vendors**: Horizontal scroll carousel
+  - **Tools Grid**: 2x3 grid of quick-access tools (Budget Calculator, Invite Creator, Music Generator, Speech Writer, Couple Quiz, Vendor Checker)
 
-### Technical Notes
-- No database changes needed
-- No new dependencies
-- Purely CSS class standardization across ~13 files
-- All changes are visual consistency fixes following the existing design system values
+**2.2 Conditional Rendering on Index**
+- Edit `src/pages/Index.tsx`: If mobile AND logged in, render `MobileHomeScreen` instead of the full marketing page. Non-logged-in users still see the full landing page.
+
+**Files to create:** `src/components/mobile/MobileHomeScreen.tsx`
+**Files to edit:** `src/pages/Index.tsx`
+
+---
+
+### Phase 3: Mobile-Optimized Core Pages
+
+**Goal:** Every key page gets a mobile-first layout.
+
+**3.1 Dashboard (Couple)**
+- Edit `src/pages/Dashboard.tsx`:
+  - On mobile: Remove the 3-button header row (Profile/Settings/Logout -- these live in bottom nav now)
+  - Replace 8-column quick actions grid with a 2-column compact grid
+  - Stack cards vertically instead of side-by-side
+  - Add pull-to-refresh gesture
+
+**3.2 Search Page**
+- Edit `src/pages/Search.tsx`:
+  - On mobile: Sticky search bar at top (below MobilePageHeader)
+  - Category chips as horizontal scroll
+  - Vendor results as full-width cards (not grid)
+  - Filter as a bottom sheet drawer instead of sidebar
+
+**3.3 Bookings Page**
+- Edit `src/pages/Bookings.tsx`:
+  - On mobile: Swipeable filter tabs (All, Pending, Confirmed, Completed)
+  - Full-width booking cards with status color bar on left edge
+  - Tap to expand details
+
+**3.4 Messages Page**
+- Already uses `useIsMobile()` for layout -- needs minor tweaks:
+  - On mobile: Full-screen conversation view (back arrow to return to list)
+  - Floating compose button
+  - Message bubbles with proper padding
+
+**3.5 Profile / Settings**
+- Edit `src/pages/Profile.tsx` and `src/pages/Settings.tsx`:
+  - On mobile: Stack all sections vertically
+  - Use list-style navigation (like iOS Settings app)
+  - Avatar + name at top, then grouped menu items
+
+**Files to edit:** `src/pages/Dashboard.tsx`, `src/pages/Search.tsx`, `src/pages/Bookings.tsx`, `src/pages/Messages.tsx`, `src/pages/Profile.tsx`, `src/pages/Settings.tsx`
+
+---
+
+### Phase 4: Mobile UX Enhancements
+
+**Goal:** Add app-like interactions and micro-animations.
+
+**4.1 Page Transitions**
+- Create `src/components/mobile/PageTransition.tsx`:
+  - Wrap route content in framer-motion AnimatePresence
+  - Slide-in from right for forward navigation, slide-out-left for back
+  - Fade for tab switches
+
+**4.2 Pull-to-Refresh**
+- Create `src/hooks/usePullToRefresh.ts`:
+  - Custom hook that adds pull-to-refresh on mobile pages
+  - Shows a spinner at top and calls a refresh callback
+  - Apply to Dashboard, Bookings, Messages, Search
+
+**4.3 Bottom Sheet for Filters/Actions**
+- Create `src/components/mobile/BottomSheet.tsx`:
+  - Replaces modals/dialogs on mobile with swipeable bottom sheets (using vaul, already installed)
+  - Used for Search filters, booking actions, vendor quick inquiry
+
+**4.4 Swipe Gestures**
+- Add swipe-to-go-back on inner pages
+- Swipe left on booking cards to reveal quick actions (Message, Cancel)
+
+**Files to create:** `src/components/mobile/PageTransition.tsx`, `src/hooks/usePullToRefresh.ts`, `src/components/mobile/BottomSheet.tsx`
+**Files to edit:** `src/App.tsx` (wrap Routes in AnimatePresence)
+
+---
+
+### Phase 5: Vendor Mobile Experience
+
+**Goal:** Vendors get an equally polished mobile dashboard.
+
+**5.1 Vendor Dashboard Mobile**
+- Edit `src/pages/VendorDashboard.tsx`:
+  - On mobile: Replace horizontal tabs with a vertical card-based menu
+  - Key stats (bookings, inquiries, revenue) as a compact top strip
+  - Quick actions: "View Inquiries", "Update Availability", "Open Toolkit"
+
+**5.2 Vendor Bottom Nav**
+- Edit `src/components/mobile/BottomNavigation.tsx`:
+  - When user is a vendor, show vendor-specific tabs: Home, Inquiries, Calendar, Tools, Profile
+  - This already partially exists (Profile routes to vendor dashboard) -- needs dedicated vendor tabs
+
+**Files to edit:** `src/pages/VendorDashboard.tsx`, `src/components/mobile/BottomNavigation.tsx`
+
+---
+
+### Phase 6: Polish and Platform Consistency
+
+**6.1 Remove Redundant Headers/Footers from All Pages**
+- Audit all ~60 pages that import `BhindiHeader` and `BhindiFooter`
+- On mobile: Use `MobilePageHeader` instead, hide footer
+- On desktop: Keep existing header/footer
+
+**6.2 Touch-Optimized UI**
+- Increase all tap targets to minimum 44px on mobile
+- Replace hover states with active/pressed states
+- Add `active:scale-95` to all interactive cards
+- Ensure all inputs are at least 48px height on mobile
+
+**6.3 Typography Mobile Pass**
+- Apply the standardized design system consistently:
+  - Mobile h1: `text-2xl font-semibold` (not text-3xl+ which is too big on phone)
+  - Mobile body: `text-sm` as default
+  - Card titles: `text-base font-semibold`
+
+**Files to edit:** Multiple pages (~15-20 key pages need header/footer conditional rendering)
+
+---
+
+## Implementation Order (Recommended)
+
+| Step | What | Effort |
+|------|------|--------|
+| 1 | Phase 1: Shell + Nav | Medium |
+| 2 | Phase 2: Mobile Home | Medium |
+| 3 | Phase 3: Core Pages | Large |
+| 4 | Phase 4: UX Enhancements | Medium |
+| 5 | Phase 5: Vendor Mobile | Medium |
+| 6 | Phase 6: Polish | Small |
+
+---
+
+## Technical Notes
+
+- All mobile detection uses the existing `useIsMobile()` hook (768px breakpoint)
+- No new dependencies needed -- framer-motion (installed) handles transitions, vaul (installed) handles bottom sheets
+- No database changes required -- this is purely a UI/UX transformation
+- Desktop experience remains completely unchanged
+- The Capacitor native build will automatically benefit from all these changes since it loads the web app
+
+## How to Proceed
+
+Since this is a large transformation, I recommend we tackle it **one phase at a time**. After you approve, I'll start with **Phase 1** (the mobile shell, navigation, and header/footer cleanup) which is the foundation everything else builds on. Each phase can be reviewed and tested before moving to the next.
 
