@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -66,9 +66,10 @@ export default function Investors() {
     }
   };
 
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      <MobilePageHeader title="Investors" />
       
       <main className="container mx-auto px-4 py-20">
         <div className="text-center mb-16 animate-fade-in">
@@ -198,7 +199,6 @@ export default function Investors() {
         </div>
       </main>
 
-      <BhindiFooter />
     </div>
   );
 }

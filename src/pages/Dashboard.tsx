@@ -12,6 +12,7 @@ import { DashboardMusicSection } from "@/components/DashboardMusicSection";
 import { ReferralWidget } from "@/components/ReferralWidget";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { motion } from "framer-motion";
 import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
 
 const quickActions = [
@@ -118,7 +119,12 @@ const Dashboard = () => {
 
           {/* Wedding Countdown Banner */}
           {profile?.wedding_date && (
-            <div className="relative overflow-hidden rounded-2xl">
+            <motion.div 
+              className="relative overflow-hidden rounded-2xl"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <img src={heroPlanning} alt="Wedding planning" className="w-full h-32 md:h-40 object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" />
               <div className="absolute inset-0 flex items-center px-5 md:px-8">
@@ -137,27 +143,35 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Quick Actions - Horizontal scroll on mobile */}
           {isMobile ? (
-            <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <motion.div 
+              className="overflow-x-auto scrollbar-hide -mx-4 px-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
               <div className="flex gap-3" style={{ width: 'max-content' }}>
-                {quickActions.map((action) => (
-                  <button
+                {quickActions.map((action, i) => (
+                  <motion.button
                     key={action.route}
                     onClick={() => navigate(action.route)}
                     className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 + i * 0.04 }}
                   >
                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.gradient} flex items-center justify-center ring-1 ring-accent/20`}>
                       <action.icon className="h-6 w-6 text-accent" />
                     </div>
                     <span className="text-[11px] font-medium text-foreground">{action.label}</span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3">
               {quickActions.map((action) => (

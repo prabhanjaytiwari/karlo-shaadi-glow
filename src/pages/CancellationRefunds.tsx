@@ -1,16 +1,17 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const CancellationRefunds = () => {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
       <SEO 
         title="Cancellation & Refunds Policy"
         description="Understand our cancellation policy and refund process for bookings on Karlo Shaadi"
       />
-      <BhindiHeader />
+      <MobilePageHeader title="Cancellation & Refunds" />
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-5xl">
@@ -117,7 +118,6 @@ const CancellationRefunds = () => {
         </div>
       </main>
 
-      <BhindiFooter />
     </div>
   );
 };

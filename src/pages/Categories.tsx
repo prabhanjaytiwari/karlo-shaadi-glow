@@ -4,8 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Star, Shield } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import heroMosaicImg from "@/assets/hero-categories-mosaic.jpg";
+import { AnimatedSection } from "@/components/AnimatedSection";
 import photographyImg from "@/assets/category-photography.jpg";
 import venueImg from "@/assets/category-venue.jpg";
 import mehendiImg from "@/assets/category-mehendi.jpg";
@@ -157,7 +157,7 @@ const Categories = () => {
         </div>
       </section>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 };

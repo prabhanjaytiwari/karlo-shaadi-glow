@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { MessageCircle, Mail, HelpCircle } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -74,11 +76,12 @@ const Support = () => {
     }
   };
 
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Support" />
       
-      
-      <main className="pt-24 pb-16">
+      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-pink-500 to-purple-600 bg-clip-text text-transparent">

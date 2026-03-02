@@ -33,7 +33,7 @@ export default function Settings() {
         keywords="settings, account, notifications, privacy"
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+      <div className="min-h-screen bg-background">
         
         <MobilePageHeader title="Settings" />
         
@@ -78,7 +78,7 @@ export default function Settings() {
 
               <TabsContent value="account" className="space-y-6">
                 {/* Profile Link */}
-                <div className="bg-white/90 border-2 border-accent/20 rounded-lg p-6">
+                <div className="bg-card border border-border/50 rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Profile Information</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Update your wedding details and preferences
@@ -89,7 +89,7 @@ export default function Settings() {
                 </div>
 
                 {/* Logout */}
-                <div className="bg-white/90 border-2 border-accent/20 rounded-lg p-6">
+                <div className="bg-card border border-border/50 rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Sign Out</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Sign out of your account on this device
