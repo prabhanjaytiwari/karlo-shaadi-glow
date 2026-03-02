@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -266,7 +264,7 @@ export default function Messages() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <BhindiHeader />
+      
       {!selectedVendor && <MobilePageHeader title="Messages" showBack={false} />}
       
       <main className={isMobile ? "flex-1" : "flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8"}>
@@ -425,7 +423,7 @@ export default function Messages() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -202,11 +200,9 @@ export default function BookingDetails() {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <BhindiHeader />
         <main className="flex-1 container mx-auto px-4 py-12 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </main>
-        <BhindiFooter />
       </div>
     );
   }
@@ -214,14 +210,12 @@ export default function BookingDetails() {
   if (!booking) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <BhindiHeader />
         <main className="flex-1 container mx-auto px-4 py-12">
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>Booking not found</AlertDescription>
           </Alert>
         </main>
-        <BhindiFooter />
       </div>
     );
   }
@@ -232,7 +226,6 @@ export default function BookingDetails() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <BhindiHeader />
       
       <main className="flex-1 container mx-auto px-4 py-12">
         {/* Header */}
@@ -507,7 +500,7 @@ export default function BookingDetails() {
         </Tabs>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

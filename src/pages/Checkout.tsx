@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, Shield, Calendar, DollarSign, CheckCircle2 } from "lucide-react";
@@ -208,11 +206,9 @@ export default function Checkout() {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <BhindiHeader />
         <div className="flex-1 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-accent" />
         </div>
-        <BhindiFooter />
       </div>
     );
   }
@@ -224,7 +220,6 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <BhindiHeader />
       
       <main className="flex-1 container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
@@ -361,7 +356,7 @@ export default function Checkout() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

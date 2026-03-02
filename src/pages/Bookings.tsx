@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -92,7 +90,7 @@ export default function Bookings() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-      <BhindiHeader />
+      
       <MobilePageHeader title="My Bookings" />
       
       <main className={isMobile ? "flex-1 px-4 py-4" : "flex-1 container mx-auto px-4 py-8"}>
@@ -256,7 +254,7 @@ export default function Bookings() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
       
       {selectedBooking && (
         <>

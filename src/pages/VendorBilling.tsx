@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -163,7 +161,7 @@ Thank you for your business!
       />
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-        <BhindiHeader />
+        
         
         <main className="pt-24 pb-16">
           <div className="container mx-auto px-6 max-w-5xl">
@@ -301,7 +299,7 @@ Thank you for your business!
           </div>
         </main>
 
-        <BhindiFooter />
+        
       </div>
     </>
   );

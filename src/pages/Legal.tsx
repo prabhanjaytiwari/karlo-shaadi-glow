@@ -1,12 +1,10 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Legal = () => {
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-5xl">
@@ -186,7 +184,7 @@ const Legal = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

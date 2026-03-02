@@ -1,5 +1,3 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -78,7 +76,7 @@ const Support = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6">
@@ -247,7 +245,7 @@ const Support = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

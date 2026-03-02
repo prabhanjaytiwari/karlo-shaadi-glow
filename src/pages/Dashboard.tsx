@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -85,7 +83,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-      <BhindiHeader />
+      
       <MobilePageHeader title="Dashboard" showBack={false} />
       
       <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
@@ -303,7 +301,7 @@ const Dashboard = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

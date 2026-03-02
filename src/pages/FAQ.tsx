@@ -1,5 +1,3 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import {
   Accordion,
   AccordionContent,
@@ -149,7 +147,7 @@ export default function FAQ() {
         description="Find answers to all your wedding planning questions. How Karlo Shaadi works, payment security, booking process, vendor verification, and more."
       />
       <FAQPageJsonLd faqs={faqCategories.flatMap(c => c.faqs.map(f => ({ question: f.question, answer: f.answer })))} />
-      <BhindiHeader />
+      
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6">
@@ -218,7 +216,7 @@ export default function FAQ() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

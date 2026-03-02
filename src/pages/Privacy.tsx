@@ -1,5 +1,3 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
 
@@ -10,7 +8,7 @@ const Privacy = () => {
         title="Privacy Policy"
         description="Learn how Karlo Shaadi collects, uses, and protects your personal information"
       />
-      <BhindiHeader />
+      
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-5xl">
@@ -104,7 +102,7 @@ const Privacy = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

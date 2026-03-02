@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -150,7 +148,7 @@ export default function Search() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-      <BhindiHeader />
+      
       <MobilePageHeader title="Search Vendors" showBack={false} />
       
       <main className={isMobile ? "flex-1 px-4 py-3" : "flex-1 py-8 md:py-12 px-4"}>
@@ -456,7 +454,7 @@ export default function Search() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
 
       {/* Vendor Comparison Toggle */}
       <VendorComparisonToggle
