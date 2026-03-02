@@ -215,6 +215,37 @@ export function MobileHomeScreen() {
 
           <div className="px-4 pb-8 space-y-5">
 
+            {/* Auth section - at top */}
+            {user ? (
+              <div className="space-y-1">
+                <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
+                  <Users className="h-4 w-4 text-primary" />
+                  Dashboard
+                </button>
+                <button onClick={() => { navigate('/profile'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
+                  <Star className="h-4 w-4 text-primary" />
+                  Profile
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                <button
+                  onClick={() => { navigate('/auth'); setMenuOpen(false); }}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-primary/85 text-primary-foreground text-sm font-semibold shadow-md active:scale-[0.97] transition-transform"
+                >
+                  Login / Sign Up
+                </button>
+                <button
+                  onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
+                  className="w-full py-3 rounded-xl border border-border/50 text-sm font-medium text-foreground active:scale-[0.97] transition-transform"
+                >
+                  Register as Vendor
+                </button>
+              </div>
+            )}
+
+            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
             {/* Featured Image Cards */}
             <div className="space-y-2.5">
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Explore</p>
@@ -253,37 +284,6 @@ export function MobileHomeScreen() {
                 ))}
               </nav>
             </div>
-
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-            {/* Auth section */}
-            {user ? (
-              <div className="space-y-1">
-                <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
-                  <Users className="h-4 w-4 text-primary" />
-                  Dashboard
-                </button>
-                <button onClick={() => { navigate('/profile'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
-                  <Star className="h-4 w-4 text-primary" />
-                  Profile
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-2.5">
-                <button
-                  onClick={() => { navigate('/auth'); setMenuOpen(false); }}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-primary/85 text-primary-foreground text-sm font-semibold shadow-md active:scale-[0.97] transition-transform"
-                >
-                  Login / Sign Up
-                </button>
-                <button
-                  onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
-                  className="w-full py-3 rounded-xl border border-border/50 text-sm font-medium text-foreground active:scale-[0.97] transition-transform"
-                >
-                  Register as Vendor
-                </button>
-              </div>
-            )}
           </div>
         </SheetContent>
       </Sheet>
