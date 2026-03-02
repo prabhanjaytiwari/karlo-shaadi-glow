@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { XCircle, ArrowLeft, RefreshCw, HelpCircle } from "lucide-react";
@@ -51,7 +49,7 @@ export default function PaymentFailure() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <BhindiHeader />
+      
       
       <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-12">
         <div className="max-w-2xl mx-auto">
@@ -168,7 +166,7 @@ export default function PaymentFailure() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

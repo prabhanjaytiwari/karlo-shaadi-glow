@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -323,7 +321,7 @@ export default function GuestList() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
-      <BhindiHeader />
+      
       
       <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-6 md:pb-8">
         <div className="max-w-6xl mx-auto">
@@ -664,7 +662,7 @@ export default function GuestList() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

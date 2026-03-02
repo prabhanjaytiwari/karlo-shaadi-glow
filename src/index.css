@@ -607,6 +607,72 @@
       transform: none;
     }
   }
+  
+  /* Mobile Touch Targets - 44px minimum */
+  @media (max-width: 767px) {
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Ensure buttons and interactive elements meet touch target size */
+    button, 
+    a, 
+    [role="button"],
+    input[type="checkbox"],
+    input[type="radio"] {
+      min-height: 44px;
+    }
+    
+    /* Touch-optimized inputs */
+    input, select, textarea {
+      min-height: 48px;
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+    
+    /* Active press states for mobile cards */
+    .active-press {
+      transition: transform 0.1s var(--ease-smooth);
+    }
+    
+    .active-press:active {
+      transform: scale(0.97);
+    }
+  }
+  
+  /* Mobile Typography Override */
+  @media (max-width: 767px) {
+    h1 {
+      font-size: 1.5rem !important; /* text-2xl */
+      line-height: 1.25;
+    }
+    
+    h2 {
+      font-size: 1.25rem !important; /* text-xl */
+      line-height: 1.3;
+    }
+    
+    h3 {
+      font-size: 1rem !important; /* text-base */
+      line-height: 1.4;
+    }
+    
+    h4, h5, h6 {
+      font-size: 0.875rem !important; /* text-sm */
+      line-height: 1.4;
+    }
+    
+    p, li {
+      font-size: 0.875rem; /* text-sm as default body */
+      line-height: 1.6;
+    }
+    
+    /* Card title sizing on mobile */
+    .card-title-mobile {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
 }
 
 /* Professional Keyframe Animations */

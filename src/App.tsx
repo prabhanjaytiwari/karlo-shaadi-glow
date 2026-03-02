@@ -99,6 +99,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BhindiHeader } from "@/components/BhindiHeader";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { MobileLayout } from "@/layouts/MobileLayout";
 import { AppProviders } from "@/components/AppProviders";
 import Onboarding from "./pages/Onboarding";
@@ -247,6 +248,7 @@ const App = () => (
             <MobileLayout>
             <AnimatedRoutes />
             </MobileLayout>
+            <BhindiFooter />
             <WhatsAppButton />
             <PWAInstallPrompt />
             <ExitIntentPopup />

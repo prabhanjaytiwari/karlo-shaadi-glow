@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -193,7 +191,7 @@ const Profile = () => {
       />
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-        <BhindiHeader />
+        
         <MobilePageHeader title="Edit Profile" />
       
       <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
@@ -381,7 +379,7 @@ const Profile = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
     </>
   );

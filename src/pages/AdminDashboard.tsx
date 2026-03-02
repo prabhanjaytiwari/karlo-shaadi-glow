@@ -10,8 +10,6 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, Users, CheckCircle, XCircle, TrendingUp, IndianRupee, BarChart3, MessageSquare, Star, Calendar, Eye, Flag, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { format } from "date-fns";
 import { StoryModerationTab } from "@/components/admin/StoryModerationTab";
 import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
@@ -207,7 +205,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BhindiHeader />
+      
       
       <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 pt-20 md:pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
@@ -569,7 +567,7 @@ export default function AdminDashboard() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

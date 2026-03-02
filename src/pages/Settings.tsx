@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, User, Bell, Shield, LogOut, ChevronRight } from "lucide-react";
@@ -36,7 +34,7 @@ export default function Settings() {
       />
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-        <BhindiHeader />
+        
         <MobilePageHeader title="Settings" />
         
         <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
@@ -115,7 +113,7 @@ export default function Settings() {
           </div>
         </main>
 
-        <BhindiFooter />
+        
       </div>
     </>
   );

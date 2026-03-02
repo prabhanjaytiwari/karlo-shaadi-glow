@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { AIWeddingPlanner } from "@/components/AIWeddingPlanner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -123,7 +121,7 @@ export default function PremiumDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
-      <BhindiHeader />
+      
       
       <main className="flex-1 pt-20 md:pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
@@ -285,7 +283,7 @@ export default function PremiumDashboard() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

@@ -1,5 +1,3 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Heart, HelpCircle } from "lucide-react";
@@ -126,7 +124,7 @@ export default function Pricing() {
         description="Karlo Shaadi is 100% FREE forever! Get AI Premium for ₹999/month for AI wedding planner, personal consultant, and exclusive discounts."
       />
       <FAQPageJsonLd faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
-      <BhindiHeader />
+      
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6">
@@ -385,7 +383,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

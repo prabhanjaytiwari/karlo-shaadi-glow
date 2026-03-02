@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { ReferralDashboard } from "@/components/ReferralDashboard";
 import { SEO } from "@/components/SEO";
 
@@ -45,7 +43,7 @@ const Referrals = () => {
         title="Refer & Earn | Karlo Shaadi"
         description="Refer friends to Karlo Shaadi and earn ₹500 for each successful booking. Share your unique link and grow your credits!"
       />
-      <BhindiHeader />
+      
 
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
@@ -62,7 +60,7 @@ const Referrals = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

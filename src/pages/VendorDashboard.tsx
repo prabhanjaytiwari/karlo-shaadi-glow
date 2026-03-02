@@ -7,8 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut, Plus, Trash2, Settings, TrendingUp, FileQuestion, ShieldCheck, Wrench } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ServiceForm } from "@/components/vendor/ServiceForm";
@@ -320,7 +318,7 @@ export default function VendorDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BhindiHeader />
+      
       <MobilePageHeader title={vendor?.business_name || 'Dashboard'} showBack={false} />
       
       <main className={`flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
@@ -800,7 +798,7 @@ export default function VendorDashboard() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
 
       {vendor && (
         <>

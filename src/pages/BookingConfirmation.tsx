@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShareButton } from "@/components/ShareButton";
@@ -102,14 +100,12 @@ const BookingConfirmation = () => {
   if (loading) {
     return (
       <>
-        <BhindiHeader />
         <div className="container mx-auto px-4 py-16 flex items-center justify-center min-h-[60vh]">
           <div className="animate-pulse text-center">
             <div className="h-8 w-64 bg-muted rounded mx-auto mb-4" />
             <div className="h-4 w-48 bg-muted rounded mx-auto" />
           </div>
         </div>
-        <BhindiFooter />
       </>
     );
   }
@@ -117,12 +113,10 @@ const BookingConfirmation = () => {
   if (!booking) {
     return (
       <>
-        <BhindiHeader />
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Booking Not Found</h1>
           <Button onClick={() => navigate("/dashboard")}>Go to Dashboard</Button>
         </div>
-        <BhindiFooter />
       </>
     );
   }
@@ -132,7 +126,6 @@ const BookingConfirmation = () => {
 
   return (
     <>
-      <BhindiHeader />
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
@@ -241,7 +234,7 @@ const BookingConfirmation = () => {
           />
         </div>
       </main>
-      <BhindiFooter />
+      
     </>
   );
 };
