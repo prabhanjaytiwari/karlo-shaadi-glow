@@ -33,6 +33,17 @@ import vendorImage4 from '@/assets/wedding-haldi.jpg';
 import fireworksImage from '@/assets/wedding-fireworks.jpg';
 import logoImage from '@/assets/logo-new.png';
 
+// Tool images
+import toolBudgetCalc from '@/assets/tool-budget-calculator.jpg';
+import toolMuhurat from '@/assets/tool-muhurat-finder.jpg';
+import toolInvite from '@/assets/tool-invite-creator.jpg';
+import toolPlanner from '@/assets/tool-wedding-planner.jpg';
+import toolCoupleQuiz from '@/assets/tool-couple-quiz.jpg';
+import toolBudgetRoast from '@/assets/tool-budget-roast.jpg';
+import toolSpeechWriter from '@/assets/tool-speech-writer.jpg';
+import toolMusicGen from '@/assets/tool-music-generator.jpg';
+import toolVendorScore from '@/assets/tool-vendor-score.jpg';
+
 // ─── DATA ─────────────────────────────────────────────
 
 const vendorCategories = [
@@ -48,18 +59,18 @@ const vendorCategories = [
 ];
 
 const planningTools = [
-  { title: 'Budget Calculator', desc: 'Plan your budget smartly', icon: Calculator, route: '/budget-calculator', gradient: 'from-amber-50 to-orange-50' },
-  { title: 'Muhurat Finder', desc: 'Find auspicious dates', icon: CalendarHeart, route: '/muhurat-finder', gradient: 'from-rose-50 to-pink-50' },
-  { title: 'Invite Creator', desc: 'Design digital invites', icon: Heart, route: '/invite-creator', gradient: 'from-violet-50 to-purple-50' },
-  { title: 'Wedding Planner', desc: 'Smart wedding planning', icon: Sparkles, route: '/plan-wizard', gradient: 'from-emerald-50 to-teal-50' },
+  { title: 'Budget Calculator', desc: 'Plan your budget smartly', icon: Calculator, route: '/budget-calculator', image: toolBudgetCalc },
+  { title: 'Muhurat Finder', desc: 'Find auspicious dates', icon: CalendarHeart, route: '/muhurat-finder', image: toolMuhurat },
+  { title: 'Invite Creator', desc: 'Design digital invites', icon: Heart, route: '/invite-creator', image: toolInvite },
+  { title: 'Wedding Planner', desc: 'Smart wedding planning', icon: Sparkles, route: '/plan-wizard', image: toolPlanner },
 ];
 
 const funTools = [
-  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, color: 'from-rose-500 to-pink-400' },
-  { title: 'Budget Roast', tagline: 'Get roasted hilariously', route: '/budget-roast', icon: FlameKindling, color: 'from-orange-500 to-amber-400' },
-  { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, color: 'from-violet-500 to-purple-400' },
-  { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, color: 'from-cyan-500 to-teal-400' },
-  { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, color: 'from-emerald-500 to-green-400' },
+  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, image: toolCoupleQuiz },
+  { title: 'Budget Roast', tagline: 'Get roasted hilariously', route: '/budget-roast', icon: FlameKindling, image: toolBudgetRoast },
+  { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, image: toolSpeechWriter },
+  { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, image: toolMusicGen },
+  { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, image: toolVendorScore },
 ];
 
 const howItWorksSteps = [
@@ -388,13 +399,15 @@ export function MobileHomeScreen() {
               <button
                 key={tool.route}
                 onClick={() => navigate(tool.route)}
-                className={`flex flex-col items-start p-3 rounded-xl bg-gradient-to-br ${tool.gradient} border border-border/30 active:scale-[0.97] transition-transform text-left`}
+                className="flex flex-col rounded-xl overflow-hidden border border-border/30 bg-card active:scale-[0.97] transition-transform text-left shadow-sm"
               >
-                <div className="w-8 h-8 rounded-lg bg-white/80 border border-border/20 flex items-center justify-center mb-2">
-                  <tool.icon className="h-4 w-4 text-primary" />
+                <div className="w-full h-20 overflow-hidden">
+                  <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-xs font-semibold text-foreground leading-tight">{tool.title}</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">{tool.desc}</p>
+                <div className="p-2.5">
+                  <p className="text-xs font-semibold text-foreground leading-tight">{tool.title}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">{tool.desc}</p>
+                </div>
               </button>
             ))}
           </div>
@@ -411,12 +424,12 @@ export function MobileHomeScreen() {
                 <button
                   key={tool.route}
                   onClick={() => navigate(tool.route)}
-                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-sm"
+                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-sm border border-border/40"
                 >
-                  <div className={`w-full h-20 bg-gradient-to-br ${tool.color} flex items-center justify-center`}>
-                    <tool.icon className="h-7 w-7 text-white/90" />
+                  <div className="w-full h-20 overflow-hidden">
+                    <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
                   </div>
-                  <div className="p-2.5 bg-card border border-t-0 border-border/40 rounded-b-xl">
+                  <div className="p-2.5 bg-card">
                     <p className="text-[11px] font-semibold text-foreground leading-tight">{tool.title}</p>
                     <p className="text-[9px] text-muted-foreground mt-0.5 leading-snug">{tool.tagline}</p>
                   </div>
