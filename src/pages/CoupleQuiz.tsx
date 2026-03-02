@@ -4,69 +4,70 @@ import { Heart, Share2, ChevronRight, Sparkles, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const questions = [
   {
-    q: "Shaadi ka budget kaun handle karega? 💸",
-    options: ["Main karunga/karungi, full control", "Mummy-Papa sambhal lenge 🙏", "Koi planner dhundho yaar", "Budget? Kya budget? YOLO!"],
+    q: "Who's the bigger planner in the relationship?",
+    options: ["Me, obviously", "My partner, 100%", "We're both control freaks", "Neither — we wing everything"],
     category: "planning"
   },
   {
-    q: "Baraat mein entry kaisi hogi? 🐴",
-    options: ["Full Govinda mode — naachte hue", "Ghodi pe baith ke royal entry", "Vintage car mein swag se", "Seedha mandap, no drama please"],
-    category: "personality"
-  },
-  {
-    q: "Sangeet mein kaun jeetega? 💃🕺",
-    options: ["Humara side — rehearsals done!", "Unka side — they're filmy af", "Dono milke ek performance karenge", "Koi nahi, DJ pe free dance"],
-    category: "personality"
-  },
-  {
-    q: "Shaadi ka khana kaisa hoga? 🍽️",
-    options: ["20 counter minimum, full spread", "Biryani aur paneer hai toh kaafi", "Street food stalls — pani puri counter must!", "Diet food bhi rakhna, aunty log bolenge"],
+    q: "Dream wedding vibe?",
+    options: ["Royal Palace — go BIG", "Intimate garden — keep it cozy", "Beach sunset — barefoot vibes", "Destination — let's fly everyone out"],
     category: "style"
   },
   {
-    q: "Guest list mein kitne log? 😰",
-    options: ["500+ — Papa ka 'chhota sa function'", "200 tak rok lenge somehow", "50 log bas, intimate vibes", "Elope karke photo bhej denge 📸"],
+    q: "The DJ plays your song. What happens?",
+    options: ["We own the dance floor", "Awkward swaying, max romance", "We disappear to the food counter", "Flash mob — we've been rehearsing"],
+    category: "personality"
+  },
+  {
+    q: "Budget approach?",
+    options: ["Spend it ALL on this one day", "Smart budgeting with splurges", "Minimalist — save for honeymoon", "Parents are handling it 😅"],
+    category: "budget"
+  },
+  {
+    q: "Mandap or beach altar?",
+    options: ["Traditional mandap, always", "Beach altar, no questions", "Something completely unique", "Wherever the pandit says"],
+    category: "style"
+  },
+  {
+    q: "Guest list drama — how do you handle it?",
+    options: ["Invite EVERYONE", "Keep it under 100", "Let parents decide", "Elope and send photos later"],
     category: "planning"
   },
   {
-    q: "Honeymoon ka plan kiska hai? ✈️",
-    options: ["Maldives/Bali — Instagram worthy!", "Goa chalte hain, budget mein rahega", "Manali/Shimla — desi romance", "Honeymoon baad mein, pehle neend lo 😴"],
-    category: "style"
-  },
-  {
-    q: "Mehendi lagwaoge ya skip? 🌿",
-    options: ["Dulha-dulhan dono full haath-pair", "Sirf dulhan, dulha shy hai", "Mehendi + cocktail same night!", "Skip — seedha shaadi karo yaar"],
-    category: "style"
-  },
-  {
-    q: "Shaadi stress handle kaise? 😤",
-    options: ["Ladte hain, phir chai pe settle", "Ek chup, ek shaant — cold war mode", "Stress eating — mithai khatam!", "Planner hai na, uska kaam hai 😎"],
+    q: "Food priority at the wedding?",
+    options: ["Live counters everywhere", "One epic buffet is enough", "We're doing a food truck festival", "As long as there's paan, we're good"],
     category: "personality"
   },
   {
-    q: "Joota churai mein kitna maangoge? 👠",
-    options: ["₹51,000 minimum — non-negotiable", "₹11,000 se start, negotiation karenge", "Joota waapas nahi karenge 😈", "Ye sab drama nahi chahiye"],
+    q: "Mehendi vs. cocktail night?",
+    options: ["Mehendi — it's non-negotiable", "Cocktail night, let's party", "BOTH, obviously", "Skip both, straight to the shaadi"],
+    category: "style"
+  },
+  {
+    q: "How do you handle wedding stress?",
+    options: ["We fight, then fix", "One of us goes silent", "We eat our feelings", "What stress? We have a planner"],
     category: "personality"
   },
   {
-    q: "Shaadi ke baad pehla kaam? 🏠",
-    options: ["Instagram pe photos daalenge", "Saare gifts kholenge", "FINALLY so jaayenge 💤", "Leftover khana khaayenge"],
+    q: "First dance or first plate of biryani?",
+    options: ["Dance — it's our moment", "Biryani — priorities straight", "Both at the same time", "We'll skip both for photos"],
     category: "personality"
   }
 ];
 
 const personalityTypes = [
-  { type: "Shaadi Ke CEO", emoji: "👑", range: [85, 100], desc: "Tum dono ki shaadi mein sab kuch planned hai — vendor se lekar paan ke patte tak. Budget? Bas ek number hai. Tumhari shaadi legend hogi, bhai log!", color: "from-amber-500 to-yellow-400" },
-  { type: "Chill Couple Goals", emoji: "🌴", range: [70, 84], desc: "No drama, only karma! Tum log ka vibe hai — accha khana, accha music, aur baaki sab chill. Aunties bhi bolenge 'kya couple hai yaar!'", color: "from-teal-500 to-cyan-400" },
-  { type: "Insta-Perfect Planners", emoji: "✨", range: [55, 69], desc: "Moodboard ready, Pinterest boards saved, colour palette decided. Tum log plan karte ho toh NASA bhi inspire hota hai. Shaadi stunning hogi!", color: "from-pink-500 to-rose-400" },
-  { type: "Bollywood Romantics", emoji: "🎬", range: [40, 54], desc: "Tumhari love story ko background music chahiye! Grand entry, filmy dances, aur aankhon mein aansu wali vidaai. Shah Rukh bhi clap karega!", color: "from-red-500 to-orange-400" },
-  { type: "Jugaadu Jodi", emoji: "🔥", range: [0, 39], desc: "Rules? Kya rules? Tum log apni shaadi apne style mein karoge. Chahe destination ho ya terrace, tumhara scene alag hai. Respect! 🫡", color: "from-purple-500 to-violet-400" },
+  { type: "The Royal Planners", emoji: "👑", range: [85, 100], desc: "You two run this show like a Bollywood production. Every detail is planned, every guest is VIP, and the budget? Just a suggestion. Your wedding will be legendary.", color: "from-amber-500 to-yellow-400" },
+  { type: "The Chill Couple", emoji: "🌴", range: [70, 84], desc: "Low-key legends. You'll have the most relaxed, fun wedding anyone's ever been to. No drama, just good food, good music, and great vibes.", color: "from-teal-500 to-cyan-400" },
+  { type: "The Pinterest Perfectionists", emoji: "✨", range: [55, 69], desc: "Every mood board is organized, every vendor is researched. You two don't wing it — you PLAN it. And it's going to be stunning.", color: "from-pink-500 to-rose-400" },
+  { type: "The Bollywood Romantics", emoji: "🎬", range: [40, 54], desc: "Your love story needs a soundtrack. Big entrance, bigger emotions, biggest dance number. Shah Rukh would approve.", color: "from-red-500 to-orange-400" },
+  { type: "The Rebel Couple", emoji: "🔥", range: [0, 39], desc: "Who says weddings have to be traditional? You're rewriting the rules. Expect the unexpected — and that's exactly why everyone loves you.", color: "from-purple-500 to-violet-400" },
 ];
 
 function getPersonality(score: number) {
@@ -430,6 +431,7 @@ export default function CoupleQuiz() {
         </AnimatePresence>
       </div>
 
+      <BhindiFooter />
     </div>
   );
 }

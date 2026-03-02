@@ -109,9 +109,6 @@ export default function Search() {
         query = query.or(`business_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
       }
 
-      // Always sort by popularity (rating + reviews) for default results
-      query = query.order("average_rating", { ascending: false }).order("total_reviews", { ascending: false });
-
       const { data: vendorsData } = await query;
       
       // Apply ranking algorithm
@@ -150,7 +147,7 @@ export default function Search() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       
       <MobilePageHeader title="Search Vendors" showBack={false} />
       
@@ -278,46 +275,42 @@ export default function Search() {
                 />
               ) : (
                 <div className="space-y-4">
-                  {/* Section Header */}
-                  {!searchQuery && selectedCategory === "all" && selectedCity === "all" ? (
-                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Sparkles className="h-5 w-5 text-accent" /> Popular Vendors
-                    </h2>
-                  ) : (
-                    <div className="flex items-center justify-between">
-                      <p className="text-muted-foreground text-sm">
-                        Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="lg:hidden">
-                          <AdvancedFilters
-                            filters={filters}
-                            onFiltersChange={setFilters}
-                            onClearFilters={() => setFilters(defaultFilters)}
-                            category={selectedCategory !== "all" ? selectedCategory : undefined}
-                          />
-                        </div>
-                        <div className="hidden md:flex items-center gap-1 border border-border/50 rounded-lg p-1">
-                          <Button
-                            variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                            size="icon"
-                            className="h-8 w-8"
-                            onClick={() => setViewMode('list')}
-                          >
-                            <List className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-                            size="icon"
-                            className="h-8 w-8"
-                            onClick={() => setViewMode('grid')}
-                          >
-                            <LayoutGrid className="h-4 w-4" />
-                          </Button>
-                        </div>
+                  {/* Results Header */}
+                  <div className="flex items-center justify-between">
+                    <p className="text-muted-foreground text-sm">
+                      Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      {/* Mobile Filters */}
+                      <div className="lg:hidden">
+                        <AdvancedFilters
+                          filters={filters}
+                          onFiltersChange={setFilters}
+                          onClearFilters={() => setFilters(defaultFilters)}
+                          category={selectedCategory !== "all" ? selectedCategory : undefined}
+                        />
+                      </div>
+                      {/* View Toggle */}
+                      <div className="hidden md:flex items-center gap-1 border border-border/50 rounded-lg p-1">
+                        <Button
+                          variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => setViewMode('list')}
+                        >
+                          <List className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => setViewMode('grid')}
+                        >
+                          <LayoutGrid className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
-                  )}
+                  </div>
               
               {vendors.map((vendor, i) => {
                 const badge = getVendorBadge(vendor as Vendor);

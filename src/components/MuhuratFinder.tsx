@@ -6,21 +6,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Star, Share2, CalendarPlus, Clock, Sparkles, AlertTriangle, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ALL_MUHURATS, MONTHS_2025, MONTHS_2026, type MuhuratDate } from "@/data/muhuratDates2025";
+import { MUHURAT_2025, MONTHS, type MuhuratDate } from "@/data/muhuratDates2025";
 import { format, differenceInDays, parseISO } from "date-fns";
 import { PremiumCard, PremiumCardContent, PremiumBadge } from "@/components/ui/premium-card";
 import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
 
 const MuhuratFinder = () => {
-  const [selectedYear, setSelectedYear] = useState<2025 | 2026>(2025);
   const [selectedMonth, setSelectedMonth] = useState<number | "all">("all");
   const [minRating, setMinRating] = useState(3);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
-  const currentMonths = selectedYear === 2025 ? MONTHS_2025 : MONTHS_2026;
-
   const filteredMuhurats = useMemo(() => {
-    let muhurats = ALL_MUHURATS.filter(m => m.year === selectedYear);
+    let muhurats = MUHURAT_2025;
 
     if (selectedMonth !== "all") {
       muhurats = muhurats.filter(m => m.month === selectedMonth);
@@ -33,7 +30,7 @@ const MuhuratFinder = () => {
     }
 
     return muhurats.sort((a, b) => a.date.localeCompare(b.date));
-  }, [selectedYear, selectedMonth, minRating, selectedDays]);
+  }, [selectedMonth, minRating, selectedDays]);
 
   const handleWhatsAppShare = (muhurat: MuhuratDate) => {
     const stars = "⭐".repeat(muhurat.rating);
@@ -95,7 +92,7 @@ Made with 💕 on Karlo Shaadi`;
           >
             <div className="flex flex-col items-center">
               <PremiumBadge variant="gold" icon={<Calendar className="h-3.5 w-3.5" />}>
-                2025–2026 Muhurat Calendar
+                2025 Muhurat Calendar
               </PremiumBadge>
               <h1 className="text-3xl md:text-5xl font-display font-bold mt-4 mb-3">
                 <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
@@ -104,24 +101,8 @@ Made with 💕 on Karlo Shaadi`;
                 Finder
               </h1>
               <p className="text-muted-foreground max-w-xl mx-auto text-center">
-                Find the most auspicious wedding dates in 2025 & 2026 based on Hindu Panchang
+                Find the most auspicious wedding dates in 2025 based on Hindu Panchang
               </p>
-              {/* Year Toggle */}
-              <div className="flex gap-2 mt-4">
-                {([2025, 2026] as const).map(yr => (
-                  <button
-                    key={yr}
-                    onClick={() => { setSelectedYear(yr); setSelectedMonth("all"); }}
-                    className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                      selectedYear === yr
-                        ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-lg"
-                        : "bg-card/50 border border-border/50 hover:border-accent/30"
-                    }`}
-                  >
-                    {yr}
-                  </button>
-                ))}
-              </div>
             </div>
           </motion.div>
 
@@ -148,9 +129,9 @@ Made with 💕 on Karlo Shaadi`;
                     }`}
                   >
                     <span className="text-sm font-semibold">All</span>
-                    <p className="text-xs opacity-70">{ALL_MUHURATS.filter(m => m.year === selectedYear).length}</p>
+                    <p className="text-xs opacity-70">{MUHURAT_2025.length}</p>
                   </button>
-                  {currentMonths.map(month => (
+                  {MONTHS.map(month => (
                     <button
                       key={month.value}
                       onClick={() => setSelectedMonth(month.value)}
@@ -255,12 +236,7 @@ Made with 💕 on Karlo Shaadi`;
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: index * 0.03 }}
                   >
-                    <div className={`muhurat-card ${isFiveStar ? "five-star" : ""} ${isPast ? "opacity-80" : ""}`}>
-                      {isPast && (
-                        <div className="absolute top-3 right-3 z-10">
-                          <Badge variant="outline" className="text-[10px] bg-muted/80 text-muted-foreground border-muted-foreground/20">Past</Badge>
-                        </div>
-                      )}
+                    <div className={`muhurat-card ${isFiveStar ? "five-star" : ""} ${isPast ? "opacity-60" : ""}`}>
                       <div className="flex flex-col md:flex-row">
                         {/* Date Column */}
                         <div className="date-column">

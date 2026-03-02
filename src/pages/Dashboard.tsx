@@ -82,7 +82,7 @@ const Dashboard = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary via-background to-secondary/50">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       
       <MobilePageHeader title="Dashboard" showBack={false} />
       

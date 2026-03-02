@@ -321,7 +321,7 @@ export default function VendorDashboard() {
       
       <MobilePageHeader title={vendor?.business_name || 'Dashboard'} showBack={false} />
       
-      <main className={`flex-1 bg-background ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
+      <main className={`flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
         <div className={isMobile ? '' : 'max-w-7xl mx-auto'}>
           {/* Subscription Checkout Dialog */}
           {vendor && (

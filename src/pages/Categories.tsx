@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
+import { BhindiFooter } from "@/components/BhindiFooter";
 import { GlassCard } from "@/components/GlassCard";
-import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Star, Shield } from "lucide-react";
@@ -94,31 +94,9 @@ const Categories = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-background pt-16 pb-20">
-      <MobilePageHeader title="Categories" showBack />
-      
-      {/* Category tabs - horizontal scroll */}
-      {!currentCategory && categories.length > 0 && (
-        <div className="overflow-x-auto scrollbar-hide px-4 py-3 border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-16 z-30">
-          <div className="flex gap-2 min-w-max">
-            {categories.map(cat => (
-              <Link
-                key={cat.id}
-                to={`/category/${cat.slug}`}
-                className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border/50 hover:border-accent/40 transition-all text-sm font-medium"
-              >
-                {categoryImages[cat.slug] && (
-                  <img src={categoryImages[cat.slug]} alt="" className="w-6 h-6 rounded-full object-cover" />
-                )}
-                {cat.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
+    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
       {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-b from-rose-50/60 to-white">
+      <section className="py-20 bg-gradient-to-b from-rose-50/60 to-white">
         <div className="container mx-auto px-4">
           {currentCategory ? (
             <div className="max-w-4xl mx-auto text-center animate-fade-in duration-500">
@@ -249,6 +227,7 @@ const Categories = () => {
         </div>
       </section>
 
+      <BhindiFooter />
     </div>
   );
 };

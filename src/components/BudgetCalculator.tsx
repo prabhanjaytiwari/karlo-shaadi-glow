@@ -134,25 +134,13 @@ Made with 💕 on Karlo Shaadi`;
                     value={[budget]}
                     onValueChange={(v) => setBudget(v[0])}
                     min={500000}
-                    max={50000000}
+                    max={20000000}
                     step={100000}
                     className="w-full py-2"
                   />
                   <div className="flex justify-between text-xs text-muted-foreground mt-2">
                     <span>₹5 Lakhs</span>
-                    <span>₹5 Crore</span>
-                  </div>
-
-                  {/* Per-plate & per-guest cost */}
-                  <div className="grid grid-cols-2 gap-3 mt-4">
-                    <div className="p-3 rounded-xl bg-accent/10 border border-accent/20 text-center">
-                      <p className="text-xs text-muted-foreground mb-1">Cost per Guest</p>
-                      <p className="font-bold text-accent">{formatIndianCurrency(Math.round(budget / guestCount))}</p>
-                    </div>
-                    <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 text-center">
-                      <p className="text-xs text-muted-foreground mb-1">Per Plate (est.)</p>
-                      <p className="font-bold text-primary">{formatIndianCurrency(Math.round((budget * 0.2) / guestCount))}</p>
-                    </div>
+                    <span>₹2 Crore</span>
                   </div>
                 </div>
 
