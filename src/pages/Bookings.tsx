@@ -38,155 +38,99 @@ export default function Bookings() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
-  useEffect(() => {
-    loadBookings();
-  }, []);
+  useEffect(() => { loadBookings(); }, []);
 
   const loadBookings = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from("bookings")
-        .select(`
-          *,
-          vendor:vendors(business_name, category, id)
-        `)
-        .eq("couple_id", user.id)
-        .order("created_at", { ascending: false });
-
+      if (!user) { navigate("/auth"); return; }
+      const { data, error } = await supabase.from("bookings").select(`*, vendor:vendors(business_name, category, id)`).eq("couple_id", user.id).order("created_at", { ascending: false });
       if (error) throw error;
       setBookings(data || []);
     } catch (error: any) {
-      toast({
-        title: "Error loading bookings",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+      toast({ title: "Error loading bookings", description: error.message, variant: "destructive" });
+    } finally { setLoading(false); }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "confirmed": return "bg-green-500";
-      case "completed": return "bg-blue-500";
+      case "confirmed": return "bg-green-600";
+      case "completed": return "bg-blue-600";
       case "cancelled": return "bg-red-500";
-      default: return "bg-yellow-500";
+      default: return "bg-amber-500";
     }
   };
 
-  const filteredBookings = filter === "all" 
-    ? bookings 
-    : bookings.filter(b => b.status === filter);
-
-  const isMobile = useIsMobile();
+  const filteredBookings = filter === "all" ? bookings : bookings.filter(b => b.status === filter);
+  const filters = ["all", "pending", "confirmed", "completed"];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
-      
+    <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="My Bookings" />
       
-      <main className={isMobile ? "flex-1 px-4 py-4" : "flex-1 container mx-auto px-4 py-8"}>
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 py-8 pt-24"}>
         <div className={isMobile ? "" : "max-w-6xl mx-auto"}>
           {!isMobile && (
-            <div className="mb-8">
-              <h1 className="text-4xl font-bold text-foreground mb-2">My Bookings</h1>
-              <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold text-foreground mb-1">My Bookings</h1>
+              <p className="text-sm text-muted-foreground">Track and manage your vendor bookings</p>
             </div>
           )}
 
-          <div className={`flex gap-2 mb-4 ${isMobile ? 'overflow-x-auto scrollbar-hide pb-1' : 'flex-wrap mb-6'}`}>
-            <Button
-              variant={filter === "all" ? "default" : "outline"}
-              onClick={() => setFilter("all")}
-              className={filter === "all" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              All
-            </Button>
-            <Button
-              variant={filter === "pending" ? "default" : "outline"}
-              onClick={() => setFilter("pending")}
-              className={filter === "pending" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Pending
-            </Button>
-            <Button
-              variant={filter === "confirmed" ? "default" : "outline"}
-              onClick={() => setFilter("confirmed")}
-              className={filter === "confirmed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Confirmed
-            </Button>
-            <Button
-              variant={filter === "completed" ? "default" : "outline"}
-              onClick={() => setFilter("completed")}
-              className={filter === "completed" ? "bg-accent hover:bg-accent/90" : "border-accent/30 hover:border-accent/50"}
-            >
-              Completed
-            </Button>
+          {/* Filter chips */}
+          <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-hide pb-1">
+            {filters.map(f => (
+              <Button
+                key={f}
+                variant={filter === f ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(f)}
+                className={`rounded-full capitalize shrink-0 ${filter === f ? "" : "border-border/50"}`}
+              >
+                {f}
+              </Button>
+            ))}
           </div>
 
           {loading ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map(i => (
-                <Skeleton key={i} className="h-48 w-full" />
-              ))}
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => <Skeleton key={i} className="h-28 w-full rounded-2xl" />)}
             </div>
           ) : filteredBookings.length === 0 ? (
-            <EmptyState
-              icon={Calendar}
-              title="No Bookings Yet"
-              description="You haven't made any bookings yet. Start exploring our verified vendors and book your dream wedding services."
-              actionText="Browse Vendors"
-              actionLink="/search"
-            />
+            <EmptyState icon={Calendar} title="No Bookings Yet" description="You haven't made any bookings yet. Start exploring our verified vendors and book your dream wedding services." actionText="Browse Vendors" actionLink="/search" />
           ) : (
             <div className="space-y-3">
               {filteredBookings.map((booking) => (
                 <Card 
                   key={booking.id} 
-                  className={`bg-white/90 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all overflow-hidden ${isMobile ? 'active:scale-[0.98]' : ''}`}
+                  className={`rounded-2xl border-border/50 overflow-hidden hover:shadow-md transition-all ${isMobile ? 'active:scale-[0.98]' : ''}`}
                   onClick={isMobile ? () => navigate(`/booking/${booking.id}`) : undefined}
                 >
-                  {/* Mobile: colored status bar on left */}
                   <div className={isMobile ? 'flex' : ''}>
-                    {isMobile && (
-                      <div className={`w-1.5 shrink-0 ${getStatusColor(booking.status)}`} />
-                    )}
+                    {isMobile && <div className={`w-1.5 shrink-0 ${getStatusColor(booking.status)}`} />}
                     <div className="flex-1">
-                      <CardHeader className={isMobile ? 'p-3 pb-1' : ''}>
+                      <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
                         <div className="flex justify-between items-start">
                           <div className="min-w-0 flex-1">
-                            <CardTitle className={isMobile ? 'text-base truncate' : 'text-2xl mb-2'}>
+                            <CardTitle className={isMobile ? 'text-base truncate' : 'text-xl mb-1'}>
                               {booking.vendor.business_name}
                             </CardTitle>
                             <div className="flex items-center gap-2 mt-1">
-                              <Badge className={`${getStatusColor(booking.status)} text-xs`}>
-                                {booking.status}
-                              </Badge>
+                              <Badge className={`${getStatusColor(booking.status)} text-xs text-white`}>{booking.status}</Badge>
                               <span className="text-xs text-muted-foreground capitalize">{booking.vendor.category}</span>
                             </div>
                           </div>
                           {!isMobile && (
                             <div className="flex gap-2">
-                              <Button variant="outline" size="sm" onClick={() => navigate(`/booking/${booking.id}`)}>
-                                View Details
-                              </Button>
-                              <Button variant="outline" size="sm" onClick={() => navigate(`/vendors/${booking.vendor.id}`)}>
-                                View Vendor
-                              </Button>
+                              <Button variant="outline" size="sm" className="rounded-full border-border/50" onClick={() => navigate(`/booking/${booking.id}`)}>View Details</Button>
+                              <Button variant="outline" size="sm" className="rounded-full border-border/50" onClick={() => navigate(`/vendors/${booking.vendor.id}`)}>View Vendor</Button>
                             </div>
                           )}
                         </div>
                       </CardHeader>
-                      <CardContent className={isMobile ? 'p-3 pt-1' : ''}>
+                      <CardContent className={isMobile ? 'p-3 pt-1' : 'pt-0'}>
                         {isMobile ? (
                           <div className="flex items-center justify-between text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
@@ -196,53 +140,54 @@ export default function Bookings() {
                             <span className="font-semibold text-foreground">₹{booking.total_amount.toLocaleString()}</span>
                           </div>
                         ) : (
-                          <div className="grid md:grid-cols-2 gap-4">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>Wedding Date: {format(new Date(booking.wedding_date), "PPP")}</span>
+                          <>
+                            <div className="grid md:grid-cols-2 gap-3">
+                              <div className="flex items-center gap-2 text-sm">
+                                <Calendar className="h-4 w-4 text-muted-foreground" />
+                                <span>Wedding: {format(new Date(booking.wedding_date), "PPP")}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                                <span>₹{booking.total_amount.toLocaleString()}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                <MapPin className="h-4 w-4 text-muted-foreground" />
+                                <span className="capitalize">{booking.vendor.category}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                                <span>Booked {format(new Date(booking.created_at), "PPP")}</span>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="h-4 w-4 text-muted-foreground" />
-                              <span>Amount: ₹{booking.total_amount.toLocaleString()}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4 text-muted-foreground" />
-                              <span className="capitalize">{booking.vendor.category}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                              <span>Booked {format(new Date(booking.created_at), "PPP")}</span>
-                            </div>
-                          </div>
-                        )}
-                    {booking.special_requirements && (
-                      <div className="mt-4 p-3 bg-muted rounded-lg">
-                        <p className="text-sm font-medium mb-1">Special Requirements:</p>
-                        <p className="text-sm text-muted-foreground">{booking.special_requirements}</p>
-                      </div>
-                    )}
-                    
-                        {!isMobile && (booking.status === "pending" || booking.status === "confirmed" || booking.status === "completed") && (
-                          <div className="mt-4 pt-4 border-t flex gap-3 flex-wrap">
-                            {booking.status === "pending" && (
-                              <Button onClick={() => navigate(`/checkout/${booking.id}`)} className="flex-1">
-                                <DollarSign className="h-4 w-4 mr-2" /> Pay Advance
-                              </Button>
+                            {booking.special_requirements && (
+                              <div className="mt-3 p-3 bg-muted/50 rounded-xl">
+                                <p className="text-sm font-medium mb-0.5">Special Requirements:</p>
+                                <p className="text-sm text-muted-foreground">{booking.special_requirements}</p>
+                              </div>
                             )}
-                            {booking.status === "completed" && (
-                              <Button onClick={() => { setSelectedBooking(booking); setFinalPaymentDialogOpen(true); }} className="flex-1">
-                                <DollarSign className="h-4 w-4 mr-2" /> Pay Remaining Amount
-                              </Button>
+                            {(booking.status === "pending" || booking.status === "confirmed" || booking.status === "completed") && (
+                              <div className="mt-4 pt-3 border-t border-border/50 flex gap-2 flex-wrap">
+                                {booking.status === "pending" && (
+                                  <Button onClick={() => navigate(`/checkout/${booking.id}`)} className="flex-1 rounded-full">
+                                    <DollarSign className="h-4 w-4 mr-2" /> Pay Advance
+                                  </Button>
+                                )}
+                                {booking.status === "completed" && (
+                                  <Button onClick={() => { setSelectedBooking(booking); setFinalPaymentDialogOpen(true); }} className="flex-1 rounded-full">
+                                    <DollarSign className="h-4 w-4 mr-2" /> Pay Remaining
+                                  </Button>
+                                )}
+                                <Button variant="outline" className="rounded-full border-border/50" onClick={() => navigate(`/messages?vendor=${booking.vendor.id}`)}>
+                                  <MessageSquare className="h-4 w-4 mr-2" /> Message
+                                </Button>
+                                {booking.status !== "completed" && (
+                                  <Button variant="outline" className="rounded-full text-destructive hover:bg-destructive/10 border-border/50" onClick={() => { setSelectedBooking(booking); setCancelDialogOpen(true); }}>
+                                    <XCircle className="h-4 w-4 mr-2" /> Cancel
+                                  </Button>
+                                )}
+                              </div>
                             )}
-                            <Button variant="outline" onClick={() => navigate(`/messages?vendor=${booking.vendor.id}`)}>
-                              <MessageSquare className="h-4 w-4 mr-2" /> Message Vendor
-                            </Button>
-                            {booking.status !== "completed" && (
-                              <Button variant="outline" onClick={() => { setSelectedBooking(booking); setCancelDialogOpen(true); }} className="text-destructive hover:bg-destructive/10">
-                                <XCircle className="h-4 w-4 mr-2" /> Cancel Booking
-                              </Button>
-                            )}
-                          </div>
+                          </>
                         )}
                       </CardContent>
                     </div>
@@ -254,30 +199,10 @@ export default function Bookings() {
         </div>
       </main>
 
-      
-      
       {selectedBooking && (
         <>
-          <BookingCancellationDialog
-            bookingId={selectedBooking.id}
-            vendorName={selectedBooking.vendor.business_name}
-            weddingDate={selectedBooking.wedding_date}
-            totalAmount={selectedBooking.total_amount}
-            paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100}
-            open={cancelDialogOpen}
-            onOpenChange={setCancelDialogOpen}
-            onSuccess={loadBookings}
-          />
-          <FinalPaymentDialog
-            bookingId={selectedBooking.id}
-            vendorName={selectedBooking.vendor.business_name}
-            totalAmount={selectedBooking.total_amount}
-            paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100}
-            weddingDate={selectedBooking.wedding_date}
-            open={finalPaymentDialogOpen}
-            onOpenChange={setFinalPaymentDialogOpen}
-            onSuccess={loadBookings}
-          />
+          <BookingCancellationDialog bookingId={selectedBooking.id} vendorName={selectedBooking.vendor.business_name} weddingDate={selectedBooking.wedding_date} totalAmount={selectedBooking.total_amount} paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100} open={cancelDialogOpen} onOpenChange={setCancelDialogOpen} onSuccess={loadBookings} />
+          <FinalPaymentDialog bookingId={selectedBooking.id} vendorName={selectedBooking.vendor.business_name} totalAmount={selectedBooking.total_amount} paidAmount={(selectedBooking.total_amount * selectedBooking.advance_percentage) / 100} weddingDate={selectedBooking.wedding_date} open={finalPaymentDialogOpen} onOpenChange={setFinalPaymentDialogOpen} onSuccess={loadBookings} />
         </>
       )}
     </div>

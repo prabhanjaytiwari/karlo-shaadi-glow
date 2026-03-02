@@ -5,6 +5,8 @@ import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -144,6 +146,8 @@ export default function Checklist() {
   const [newTask, setNewTask] = useState({ task_name: "", category: "Other", months_before: 6, notes: "" });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editNotes, setEditNotes] = useState("");
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     checkAuth();
@@ -339,7 +343,7 @@ export default function Checklist() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 pt-20 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -349,9 +353,11 @@ export default function Checklist() {
   const completedCount = items.filter(i => i.is_completed).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 pt-20">
+    <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Wedding Checklist" />
+
       {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-br from-primary/5 via-rose-50/50 to-accent/5">
+      <section className={`py-10 md:py-12 bg-muted/30 ${isMobile ? '' : 'pt-24'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -372,7 +378,7 @@ export default function Checklist() {
               </div>
               
               {/* Progress Card */}
-              <Card className="p-6 bg-white border-2 border-accent/20 min-w-[200px]">
+              <Card className="p-5 bg-card border border-border/50 rounded-2xl min-w-[180px]">
                 <div className="text-center">
                   <div className="relative w-24 h-24 mx-auto mb-3">
                     <svg className="w-24 h-24 transform -rotate-90">
@@ -412,7 +418,7 @@ export default function Checklist() {
       </section>
 
       {/* Actions Bar */}
-      <section className="py-4 border-b bg-white/50 sticky top-14 z-30 backdrop-blur-sm">
+      <section className="py-3 border-b bg-card/50 sticky top-12 z-30 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -501,8 +507,7 @@ export default function Checklist() {
         </div>
       </section>
 
-      {/* Checklist Timeline */}
-      <section className="py-8">
+      <section className={`py-6 ${isMobile ? 'pb-24' : ''}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Accordion type="multiple" defaultValue={TIMELINE_GROUPS.map((_, i) => `group-${i}`)} className="space-y-4">
@@ -516,7 +521,7 @@ export default function Checklist() {
                   <AccordionItem 
                     key={groupIndex} 
                     value={`group-${groupIndex}`}
-                    className="border-2 border-accent/20 rounded-xl bg-white overflow-hidden"
+                    className="border border-border/50 rounded-2xl bg-card overflow-hidden"
                   >
                     <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-accent/5">
                       <div className="flex items-center justify-between w-full pr-4">
@@ -584,7 +589,7 @@ export default function Checklist() {
                                         </Badge>
                                       )}
                                       {!item.is_completed && timelineStatus === "urgent" && (
-                                        <Badge className="text-xs bg-amber-500">
+                                        <Badge className="text-xs bg-accent text-accent-foreground">
                                           Due Soon
                                         </Badge>
                                       )}
@@ -666,7 +671,7 @@ export default function Checklist() {
         </section>
       )}
 
-      <BhindiFooter />
+      {!isMobile && <BhindiFooter />}
     </div>
   );
 }
