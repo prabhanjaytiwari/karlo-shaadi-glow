@@ -341,13 +341,12 @@ const Auth = () => {
       {/* Mobile: hero banner on top + form below */}
       {isMobile ? (
         <div className="flex flex-col">
-          {/* Hero Banner */}
-          <div className="relative h-44 overflow-hidden">
+          {/* Compact Hero Banner */}
+          <div className="relative h-28 overflow-hidden">
             <img src={heroAuthImage} alt="Wedding ceremony" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-background" />
-            <div className="absolute bottom-4 left-4 right-4">
-              <p className="text-white/90 text-xs font-medium tracking-wide uppercase">Karlo Shaadi</p>
-              <p className="text-white text-lg font-semibold leading-tight">Your Dream Wedding<br />Starts Here</p>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-background" />
+            <div className="absolute bottom-3 left-4 right-4">
+              <p className="text-white text-base font-semibold leading-tight">Your Dream Wedding Starts Here</p>
             </div>
           </div>
           

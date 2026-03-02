@@ -83,24 +83,31 @@ Made with 💕 on Karlo Shaadi`;
     return `conic-gradient(${segments.join(", ")})`;
   }, [breakdown]);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <PremiumBackground variant="wedding" pattern>
-      <div className="py-8 px-4">
+      <div className={isMobile ? "py-4 px-4" : "py-8 px-4"}>
         <div className="max-w-5xl mx-auto">
           {/* Premium Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="premium-tool-header rounded-3xl mb-8 px-6"
+            className={isMobile ? "mb-5" : "premium-tool-header rounded-3xl mb-8 px-6"}
           >
             <div className="flex flex-col items-center">
-              <PremiumBadge variant="gold" icon={<Calculator className="h-3.5 w-3.5" />}>
-                Instant Results • No Signup
-              </PremiumBadge>
-              <h1 className="text-3xl md:text-5xl font-display font-bold mt-4 mb-3 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text">
+              {!isMobile && (
+                <PremiumBadge variant="gold" icon={<Calculator className="h-3.5 w-3.5" />}>
+                  Instant Results • No Signup
+                </PremiumBadge>
+              )}
+              <h1 className={isMobile 
+                ? "text-xl font-bold mt-1 text-foreground text-center"
+                : "text-3xl md:text-5xl font-display font-bold mt-4 mb-3 bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text"
+              }>
                 Wedding Budget Calculator
               </h1>
-              <p className="text-muted-foreground max-w-xl mx-auto text-center">
+              <p className={isMobile ? "text-muted-foreground text-sm text-center" : "text-muted-foreground max-w-xl mx-auto text-center"}>
                 Get a detailed category-wise breakdown tailored to your city and guest count
               </p>
             </div>

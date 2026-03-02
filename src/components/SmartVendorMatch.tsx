@@ -63,13 +63,13 @@ export const SmartVendorMatch = ({ category, budget, city }: SmartVendorMatchPro
 
   return (
     <div className="space-y-6">
-      <Card className="border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-primary/5">
-        <CardHeader>
+      <Card className="rounded-2xl border border-border/50 bg-card shadow-sm">
+        <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-accent" />
-            <CardTitle>AI-Powered Smart Matching</CardTitle>
+            <Sparkles className="h-5 w-5 text-accent" />
+            <CardTitle className="text-base">Smart Matching</CardTitle>
           </div>
-          <CardDescription>
+          <CardDescription className="text-sm">
             Get personalized vendor recommendations based on your preferences, budget, and past interactions
           </CardDescription>
         </CardHeader>
@@ -77,17 +77,16 @@ export const SmartVendorMatch = ({ category, budget, city }: SmartVendorMatchPro
           <Button
             onClick={getRecommendations}
             disabled={loading}
-            size="lg"
-            className="w-full"
+            className="w-full rounded-xl"
           >
             {loading ? (
               <>
-                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                Analyzing Your Preferences...
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Analyzing...
               </>
             ) : (
               <>
-                <Sparkles className="h-5 w-5 mr-2" />
+                <Sparkles className="h-4 w-4 mr-2" />
                 Get Smart Recommendations
               </>
             )}

@@ -149,9 +149,9 @@ export default function Search() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       
-      <MobilePageHeader title="Search Vendors" showBack={false} />
+      <MobilePageHeader title="Search Vendors" />
       
-      <main className={isMobile ? "flex-1 px-4 py-3" : "flex-1 pt-24 pb-12 px-4"}>
+      <main className={isMobile ? "flex-1 px-4 py-3 pb-24" : "flex-1 pt-24 pb-12 px-4"}>
         <div className={isMobile ? "" : "max-w-7xl mx-auto"}>
           {/* Search Bar */}
           <div className={isMobile ? "mb-4" : "mb-8 animate-fade-in"}>
@@ -162,7 +162,7 @@ export default function Search() {
               </>
             )}
             {isMobile ? (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="relative">
                   <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -170,17 +170,17 @@ export default function Search() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    className="pl-10 h-11"
+                    className="pl-10 h-11 rounded-xl bg-muted/50 border-border/50"
                   />
                 </div>
-                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4">
                   {categories.slice(0, 8).map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => setSelectedCategory(cat.slug === selectedCategory ? "all" : cat.slug)}
                       className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                         selectedCategory === cat.slug
-                          ? 'bg-accent text-accent-foreground'
+                          ? 'bg-primary text-primary-foreground'
                           : 'bg-muted text-muted-foreground'
                       }`}
                     >
@@ -240,7 +240,7 @@ export default function Search() {
           </div>
 
           {/* Smart Matching */}
-          <div className="mb-8">
+          <div className={isMobile ? "mb-4" : "mb-8"}>
             <SmartVendorMatch
               category={selectedCategory !== "all" ? selectedCategory : undefined}
               budget={undefined}
@@ -249,14 +249,16 @@ export default function Search() {
           </div>
 
           {/* Results with Sidebar */}
-          <div className="flex gap-6">
-            {/* Advanced Filters Sidebar */}
-            <AdvancedFilters
-              filters={filters}
-              onFiltersChange={setFilters}
-              onClearFilters={() => setFilters(defaultFilters)}
-              category={selectedCategory !== "all" ? selectedCategory : undefined}
-            />
+          <div className={isMobile ? "" : "flex gap-6"}>
+            {/* Advanced Filters Sidebar - Desktop only */}
+            {!isMobile && (
+              <AdvancedFilters
+                filters={filters}
+                onFiltersChange={setFilters}
+                onClearFilters={() => setFilters(defaultFilters)}
+                category={selectedCategory !== "all" ? selectedCategory : undefined}
+              />
+            )}
 
             {/* Results */}
             <div className="flex-1 min-w-0">
