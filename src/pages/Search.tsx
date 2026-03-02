@@ -147,19 +147,18 @@ export default function Search() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+    <div className="min-h-screen flex flex-col bg-background">
       
       <MobilePageHeader title="Search Vendors" showBack={false} />
       
-      <main className={isMobile ? "flex-1 px-4 py-3" : "flex-1 py-8 md:py-12 px-4"}>
+      <main className={isMobile ? "flex-1 px-4 py-3" : "flex-1 pt-24 pb-12 px-4"}>
         <div className={isMobile ? "" : "max-w-7xl mx-auto"}>
           {/* Search Bar */}
           <div className={isMobile ? "mb-4" : "mb-8 animate-fade-in"}>
             {!isMobile && (
               <>
-                <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
-                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
-                <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
+                <h1 className="text-3xl font-bold mb-4 text-center text-foreground">Find Your Perfect Vendors</h1>
+                <div className="w-12 h-0.5 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
               </>
             )}
             {isMobile ? (
@@ -191,7 +190,7 @@ export default function Search() {
                 </div>
               </div>
             ) : (
-              <GlassCard className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <GlassCard className="p-4 md:p-6 bg-background border border-border/50 rounded-2xl">
                 <div className="grid md:grid-cols-4 gap-3 md:gap-4">
                   <div className="md:col-span-2">
                     <Input
