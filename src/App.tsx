@@ -90,6 +90,7 @@ import CountdownPublic from "./pages/CountdownPublic";
 import WhyKarloShaadi from "./pages/WhyKarloShaadi";
 import EarnWithUs from "./pages/EarnWithUs";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
+import ToolsLanding from "./pages/ToolsLanding";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
@@ -200,6 +201,7 @@ const AnimatedRoutes = () => {
           <Route path="/ai-matches" element={<ProtectedRoute><AIMatchResults /></ProtectedRoute>} />
           <Route path="/referrals" element={<ProtectedRoute><Referrals /></ProtectedRoute>} />
           <Route path="/vendor-success-stories" element={<VendorSuccessStories />} />
+          <Route path="/tools" element={<ToolsLanding />} />
           <Route path="/plan-wizard" element={<WeddingPlanWizard />} />
           <Route path="/plan/:planId" element={<WeddingPlanResult />} />
           <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
