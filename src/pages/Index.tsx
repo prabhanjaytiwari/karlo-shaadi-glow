@@ -58,8 +58,8 @@ const Index = () => {
     setIsLoaded(true);
   }, []);
 
-  // Mobile logged-in users see the app home screen
-  if (isMobile && user && !authLoading) {
+  // All mobile users see the app home screen
+  if (isMobile && !authLoading) {
     return <MobileHomeScreen />;
   }
 

@@ -65,7 +65,7 @@ export function QuickActionFAB() {
           "bottom-[calc(4rem+env(safe-area-inset-bottom,0px)+0.5rem)] left-1/2 -translate-x-1/2",
           open
             ? "bg-muted-foreground rotate-45"
-            : "bg-primary"
+            : "bg-gradient-to-br from-amber-400 to-amber-600 shadow-amber-400/40 shadow-lg"
         )}
         aria-label={open ? "Close quick actions" : "Quick actions"}
       >

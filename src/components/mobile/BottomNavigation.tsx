@@ -86,7 +86,7 @@ export function BottomNavigation() {
   // Logged-in couple nav items
   const coupleNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Search, label: 'Search', path: '/search' },
+    { icon: Search, label: 'Vendors', path: '/search' },
     // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
@@ -96,9 +96,9 @@ export function BottomNavigation() {
   // Guest nav items
   const guestNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Search, label: 'Search', path: '/search' },
+    { icon: Search, label: 'Vendors', path: '/search' },
     // Center gap for FAB
-    { icon: LayoutGrid, label: 'Categories', path: '/categories' },
+    { icon: Calendar, label: 'Bookings', path: '/bookings' },
     { icon: Wrench, label: 'Tools', path: '/budget-calculator' },
     { icon: LogIn, label: 'Login', path: '/auth' },
   ];
