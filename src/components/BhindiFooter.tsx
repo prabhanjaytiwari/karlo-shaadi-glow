@@ -72,6 +72,14 @@ export const BhindiFooter = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [isVendor, setIsVendor] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     checkAuth();
@@ -86,6 +94,9 @@ export const BhindiFooter = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Hide footer on mobile for logged-in users (apps don't have footers)
+  if (isMobile && user) return null;
 
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
