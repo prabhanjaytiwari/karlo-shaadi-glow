@@ -5,6 +5,10 @@ import { CheckCircle2, TrendingUp, Users, Shield, Star, Zap, IndianRupee, Camera
 import { SEO } from "@/components/SEO";
 import { FAQPageJsonLd } from "@/components/JsonLd";
 import { CinematicImage } from "@/components/CinematicImage";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import heroVendorsImg from "@/assets/hero-vendors-success.jpg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import weddingFriends from "@/assets/wedding-friends.jpg";
 
@@ -30,6 +34,7 @@ const vendorCategories = [
 
 const ForVendors = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,7 +45,6 @@ const ForVendors = () => {
       />
       <FAQPageJsonLd faqs={vendorFaqs} />
       
-      {/* JSON-LD for Vendor Registration page */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -54,117 +58,92 @@ const ForVendors = () => {
               "@type": "Service",
               "name": "Karlo Shaadi Vendor Registration",
               "serviceType": "Wedding Vendor Marketplace",
-              "provider": {
-                "@type": "Organization",
-                "name": "Karlo Shaadi",
-                "url": "https://karloshaadi.com"
-              },
+              "provider": { "@type": "Organization", "name": "Karlo Shaadi", "url": "https://karloshaadi.com" },
               "areaServed": { "@type": "Country", "name": "India" },
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "INR",
-                "description": "Free vendor registration with zero commission"
-              }
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR", "description": "Free vendor registration with zero commission" }
             }
           })
         }}
       />
+
+      <MobilePageHeader title="For Vendors" />
       
-      <main className="pt-20 pb-0">
-        {/* Hero Section - Vendor Focused */}
-        <section className="relative py-16 md:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-          <div className="absolute top-[20%] right-[10%] w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute bottom-[10%] left-[5%] w-48 h-48 rounded-full bg-accent/10 blur-3xl" />
+      <main className={isMobile ? "pb-20" : "pt-20 pb-0"}>
+        {/* Hero Section with Cinematic Image */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0">
+            <CinematicImage src={heroVendorsImg} alt="Wedding vendors celebrating" className="w-full h-full" cinematic />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+          </div>
           
-          <div className="container mx-auto px-4 sm:px-6 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-7xl mx-auto">
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/15 border border-accent/30">
-                  <BadgeCheck className="h-4 w-4 text-accent" />
-                  <span className="text-accent text-xs font-semibold">Zero Commission Platform</span>
-                </div>
-                
-                <h1 className="font-display font-semibold text-3xl md:text-5xl leading-tight">
-                  Grow Your Wedding Business <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">10x Faster</span>
-                </h1>
-                
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-xl">
-                  Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples via AI. 
-                  <strong className="text-foreground"> Zero commission. Free registration.</strong>
-                </p>
+          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
+            <div className="max-w-xl space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/15 border border-accent/30">
+                <BadgeCheck className="h-4 w-4 text-accent" />
+                <span className="text-accent text-xs font-semibold">Zero Commission Platform</span>
+              </div>
+              
+              <h1 className="font-display font-semibold text-2xl md:text-5xl leading-tight">
+                Grow Your Wedding Business <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">10x Faster</span>
+              </h1>
+              
+              <p className="text-muted-foreground text-sm sm:text-lg leading-relaxed">
+                Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples.
+                <strong className="text-foreground"> Zero commission. Free registration.</strong>
+              </p>
 
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button 
-                    size="lg" 
-                    onClick={() => navigate("/vendor-auth")}
-                    className="rounded-full px-8"
-                  >
-                    Register Free Now
-                    <ArrowRight className="ml-2 h-5 w-5" />
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
+                  Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <a href="tel:+917011460321">
+                  <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent w-full sm:w-auto">
+                    <Phone className="mr-2 h-4 w-4" /> Talk to Us
                   </Button>
-                  <a href="tel:+917011460321">
-                    <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent w-full sm:w-auto">
-                      <Phone className="mr-2 h-4 w-4" />
-                      Talk to Us
-                    </Button>
-                  </a>
-                </div>
-
-                {/* Trust metrics */}
-                <div className="flex flex-wrap gap-6 pt-2">
-                  {[
-                    { value: "5,000+", label: "Vendors" },
-                    { value: "0%", label: "Commission" },
-                    { value: "20+", label: "Cities" },
-                    { value: "4.8★", label: "Rating" },
-                  ].map((stat) => (
-                    <div key={stat.label} className="text-center">
-                      <div className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
-                      <div className="text-xs text-muted-foreground">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
+                </a>
               </div>
 
-              {/* Hero Image */}
-              <div className="hidden lg:block">
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border-2 border-accent/20 shadow-2xl">
-                  <CinematicImage src={sectionVendors} alt="Successful wedding vendors on Karlo Shaadi platform" className="w-full h-full" cinematic />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
-                </div>
+              <div className="flex flex-wrap gap-6 pt-2">
+                {[
+                  { value: "5,000+", label: "Vendors" },
+                  { value: "0%", label: "Commission" },
+                  { value: "20+", label: "Cities" },
+                  { value: "4.8★", label: "Rating" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
+                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Why Vendors Choose Us - vs Competitors */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/30 to-white">
+        {/* Why Vendors Choose Us */}
+        <section className="py-10 md:py-20">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center mb-10">
-              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
+            <div className="text-center mb-8">
+              <h2 className="font-display font-semibold text-xl md:text-3xl mb-2">
                 Why <span className="text-primary">5,000+ Vendors</span> Choose Us
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Unlike WedMeGood or Shaadidukaan, we don't eat into your profits
-              </p>
+              <p className="text-muted-foreground text-sm">Unlike WedMeGood or Shaadidukaan, we don't eat into your profits</p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 max-w-5xl mx-auto">
               {[
                 { icon: IndianRupee, title: "Zero Commission", desc: "Keep 100% of your booking revenue. We never take a cut — competitors charge 15-20%.", highlight: true },
-                { icon: Zap, title: "AI Couple Matching", desc: "Our AI matches you with couples whose budget, location, and style fit your services perfectly." },
+                { icon: Zap, title: "Couple Matching", desc: "Smart matching connects you with couples whose budget, location, and style fit your services." },
                 { icon: BadgeCheck, title: "Verified Badge", desc: "Earn a trust badge after verification. Verified vendors get 3x more inquiries." },
                 { icon: BarChart3, title: "Business Dashboard", desc: "Track inquiries, bookings, payments, reviews, and revenue analytics in one place." },
-                { icon: MessageSquare, title: "Direct Inquiries", desc: "Couples contact you directly via WhatsApp or the platform. No middleman, no lead quality issues." },
+                { icon: MessageSquare, title: "Direct Inquiries", desc: "Couples contact you directly via WhatsApp or the platform. No middleman." },
                 { icon: Star, title: "Reviews & Ratings", desc: "Build your reputation with verified reviews from real couples who booked you." },
               ].map((item, i) => (
-                <div key={i} className={`relative p-6 rounded-2xl border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.highlight ? 'border-primary/40 bg-primary/5' : 'border-accent/20 bg-white'}`}>
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${item.highlight ? 'bg-primary/15' : 'bg-accent/10'}`}>
-                    <item.icon className={`h-6 w-6 ${item.highlight ? 'text-primary' : 'text-accent'}`} />
+                <div key={i} className={`relative p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.highlight ? 'border-primary/40 bg-primary/5' : 'border-border/50 bg-card'}`}>
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 ${item.highlight ? 'bg-primary/15' : 'bg-accent/10'}`}>
+                    <item.icon className={`h-5 w-5 ${item.highlight ? 'text-primary' : 'text-accent'}`} />
                   </div>
-                  <h3 className="font-display font-semibold text-lg mb-2">{item.title}</h3>
+                  <h3 className="font-display font-semibold text-base mb-1.5">{item.title}</h3>
                   <p className="text-muted-foreground text-sm">{item.desc}</p>
                 </div>
               ))}
@@ -173,18 +152,16 @@ const ForVendors = () => {
         </section>
 
         {/* Categories We Accept */}
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center mb-10">
-              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
-                All Wedding Categories Welcome
-              </h2>
-              <p className="text-muted-foreground">Join the fastest-growing category on India's #1 wedding platform</p>
+            <div className="text-center mb-8">
+              <h2 className="font-display font-semibold text-xl md:text-3xl mb-2">All Wedding Categories Welcome</h2>
+              <p className="text-muted-foreground text-sm">Join the fastest-growing category on India's #1 wedding platform</p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto">
               {vendorCategories.map((cat) => (
-                <div key={cat.name} className="text-center p-4 rounded-xl border border-accent/20 bg-white hover:border-primary/40 hover:shadow-md transition-all duration-300">
+                <div key={cat.name} className="text-center p-4 rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mx-auto mb-3">
                     <cat.icon className="h-6 w-6 text-primary" />
                   </div>
@@ -193,76 +170,68 @@ const ForVendors = () => {
                 </div>
               ))}
             </div>
-
-            <p className="text-center text-sm text-muted-foreground mt-6">
+            <p className="text-center text-xs text-muted-foreground mt-5">
               Also: Mehendi, Invitations, Choreography, Entertainment, Transport, Jewelry, Pandit, Bridal Wear, and more
             </p>
           </div>
         </section>
 
         {/* How It Works */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-amber-50/30 to-white">
+        <section className="py-10 md:py-20">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border-2 border-accent/20">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border border-border/50">
                   <CinematicImage src={weddingFriends} alt="Wedding vendor team celebrating" className="w-full h-full" cinematic />
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <h2 className="font-display font-semibold text-2xl md:text-3xl">
+              <div className="space-y-5">
+                <h2 className="font-display font-semibold text-xl md:text-3xl">
                   Start Getting Bookings in <span className="text-accent">4 Simple Steps</span>
                 </h2>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {[
                     { num: "01", title: "Register Free", desc: "Create your account in 2 minutes. No fees, no credit card required." },
                     { num: "02", title: "Build Your Profile", desc: "Add your portfolio, pricing, services, and availability calendar." },
                     { num: "03", title: "Get Verified", desc: "Complete verification for the trusted badge — appear higher in search results." },
-                    { num: "04", title: "Receive Bookings", desc: "Couples find you via AI matching and send direct inquiries. Manage everything from your dashboard." },
+                    { num: "04", title: "Receive Bookings", desc: "Couples find you via smart matching and send direct inquiries." },
                   ].map((step, i) => (
                     <div key={i} className="flex gap-4 items-start group">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                        <span className="text-accent font-bold">{step.num}</span>
+                      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <span className="text-accent font-bold text-sm">{step.num}</span>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
+                        <h3 className="font-semibold text-base mb-0.5">{step.title}</h3>
                         <p className="text-muted-foreground text-sm">{step.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <Button 
-                  size="lg" 
-                  onClick={() => navigate("/vendor-auth")}
-                  className="rounded-full px-8"
-                >
-                  Create Free Profile
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
+                  Create Free Profile <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Social Proof / Vendor Testimonials */}
-        <section className="py-16 md:py-24">
+        {/* Vendor Testimonials */}
+        <section className="py-10 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center mb-10">
-              <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
-                Vendors Love <span className="text-primary">Karlo Shaadi</span>
-              </h2>
-            </div>
+            <h2 className="font-display font-semibold text-xl md:text-3xl text-center mb-8">
+              Vendors Love <span className="text-primary">Karlo Shaadi</span>
+            </h2>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 max-w-5xl mx-auto">
               {[
                 { name: "Rajesh Photography", city: "Delhi", quote: "We got 40+ inquiries in our first month. The zero commission model means we keep every rupee we earn.", rating: 5 },
-                { name: "Ananya Mehendi Arts", city: "Lucknow", quote: "The AI matching sends us couples who actually fit our budget range. No more time wasted on mismatched leads.", rating: 5 },
+                { name: "Ananya Mehendi Arts", city: "Lucknow", quote: "The smart matching sends us couples who actually fit our budget range. No more time wasted on mismatched leads.", rating: 5 },
                 { name: "Royal Caterers", city: "Jaipur", quote: "Unlike other platforms, Karlo Shaadi doesn't take a cut from our bookings. Our revenue increased by 35% after joining.", rating: 5 },
               ].map((testimonial, i) => (
-                <div key={i} className="p-6 rounded-2xl border border-accent/20 bg-white">
+                <div key={i} className="p-5 rounded-2xl border border-border/50 bg-card">
                   <div className="flex gap-1 mb-3">
                     {Array.from({ length: testimonial.rating }).map((_, j) => (
                       <Star key={j} className="h-4 w-4 text-accent fill-accent" />
@@ -277,55 +246,61 @@ const ForVendors = () => {
               ))}
             </div>
 
-            <div className="text-center mt-8">
+            <div className="text-center mt-6">
               <Link to="/vendor-success-stories">
                 <Button variant="outline" className="rounded-full border-primary/30">
-                  Read More Success Stories
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  Read More Success Stories <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/20 to-white">
+        {/* FAQ Section - Now using Accordion */}
+        <section className="py-10 md:py-20">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-3xl mx-auto">
-              <h2 className="font-display font-semibold text-2xl md:text-3xl text-center mb-8">
+              <h2 className="font-display font-semibold text-xl md:text-3xl text-center mb-8">
                 Frequently Asked Questions
               </h2>
 
-              <div className="space-y-4">
+              <Accordion type="single" collapsible className="space-y-3">
                 {vendorFaqs.map((faq, i) => (
-                  <details key={i} className="group p-4 rounded-xl border border-accent/20 bg-white">
-                    <summary className="font-semibold text-sm sm:text-base cursor-pointer list-none flex items-center justify-between">
-                      <span>{faq.question}</span>
-                      <span className="text-accent ml-2 group-open:rotate-45 transition-transform text-xl">+</span>
-                    </summary>
-                    <p className="text-muted-foreground text-sm mt-3 leading-relaxed">{faq.answer}</p>
-                  </details>
+                  <AccordionItem
+                    key={i}
+                    value={`faq-${i}`}
+                    className="border border-border/50 rounded-2xl px-5 bg-card hover:border-primary/30 transition-colors"
+                  >
+                    <AccordionTrigger className="text-left text-sm sm:text-base font-semibold hover:no-underline py-4">
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-sm pb-4 leading-relaxed">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
             </div>
           </div>
         </section>
 
         {/* Final CTA */}
-        <section className="py-16 md:py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
-          <div className="container mx-auto px-4 sm:px-6 relative z-10">
-            <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="font-display font-semibold text-2xl md:text-3xl">
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0">
+            <CinematicImage src={sectionVendors} alt="Wedding vendors" className="w-full h-full" cinematic />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/70" />
+          </div>
+          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">
+            <div className="max-w-3xl mx-auto text-center space-y-5">
+              <h2 className="font-display font-semibold text-xl md:text-3xl">
                 Ready to Get More <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Wedding Bookings?</span>
               </h2>
-              <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
+              <p className="text-muted-foreground text-sm max-w-xl mx-auto">
                 Join 5,000+ vendors who grew their wedding business with zero commission and smart matching.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
-                  Register Free Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Link to="/vendor-pricing">
                   <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 w-full sm:w-auto">
@@ -338,7 +313,7 @@ const ForVendors = () => {
         </section>
       </main>
 
-      <BhindiFooter />
+      {!isMobile && <BhindiFooter />}
     </div>
   );
 };
