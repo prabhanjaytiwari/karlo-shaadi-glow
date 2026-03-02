@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { GlassCard } from "@/components/GlassCard";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown, LayoutGrid, List } from "lucide-react";
+import { Search as SearchIcon, MapPin, Star, Shield, Loader2, Sparkles, Crown, LayoutGrid, List, ArrowLeft, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
@@ -16,7 +16,6 @@ import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
 import { SmartVendorMatch } from "@/components/SmartVendorMatch";
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
-import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const FALLBACK_CATEGORIES = [
@@ -146,101 +145,195 @@ export default function Search() {
 
   const isMobile = useIsMobile();
 
+  // Mobile vendor card component
+  const MobileVendorCard = ({ vendor, i }: { vendor: any; i: number }) => {
+    const badge = getVendorBadge(vendor as Vendor);
+    const isSponsored = vendor.subscription_tier === 'sponsored';
+    const isFeatured = vendor.subscription_tier === 'featured';
+
+    return (
+      <Link to={`/vendors/${vendor.id}`} className="block">
+        <div className="flex gap-3 p-3 rounded-2xl bg-card border border-border/50 active:scale-[0.98] transition-transform">
+          {/* Avatar */}
+          <div className={`w-16 h-16 shrink-0 rounded-xl flex items-center justify-center ${
+            isSponsored 
+              ? 'bg-gradient-to-br from-primary/20 to-accent/20' 
+              : 'bg-gradient-to-br from-accent/10 to-secondary/10'
+          }`}>
+            <span className={`text-xl font-bold ${isSponsored ? 'text-primary' : 'text-accent'}`}>
+              {vendor.business_name.charAt(0)}
+            </span>
+            {isSponsored && <Crown className="absolute -top-1 -right-1 h-4 w-4 text-primary" />}
+          </div>
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <h3 className="text-sm font-semibold text-foreground truncate">{vendor.business_name}</h3>
+              {vendor.verified && <Shield className="h-3.5 w-3.5 text-primary shrink-0" />}
+            </div>
+            <p className="text-xs text-muted-foreground truncate mb-1.5">
+              {vendor.description || vendor.category}
+            </p>
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Star className="h-3 w-3 text-accent fill-accent" />
+                <span className="font-medium text-foreground">{vendor.average_rating || '0'}</span>
+                <span>({vendor.total_reviews || 0})</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <MapPin className="h-3 w-3" />
+                {vendor.cities?.name || 'India'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  };
+
+  if (isMobile) {
+    return (
+      <div className="min-h-screen bg-background">
+        {/* ── STICKY HEADER ── */}
+        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50">
+          <div className="flex items-center h-14 px-4 gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 -ml-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5 text-foreground" />
+            </button>
+            <h1 className="text-lg font-bold text-foreground">Search Vendors</h1>
+          </div>
+        </header>
+
+        {/* ── CONTENT ── */}
+        <div className="px-4 pt-3 pb-28 space-y-4">
+          {/* Search Input */}
+          <div className="relative">
+            <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search vendors..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="pl-10 h-12 rounded-2xl bg-muted/40 border-border/50 text-sm"
+            />
+          </div>
+
+          {/* Category Chips */}
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.slug === selectedCategory ? "all" : cat.slug)}
+                className={`shrink-0 px-4 py-2 rounded-full text-xs font-medium transition-all active:scale-95 ${
+                  selectedCategory === cat.slug
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'bg-muted/60 text-muted-foreground'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Smart Matching Card */}
+          <SmartVendorMatch
+            category={selectedCategory !== "all" ? selectedCategory : undefined}
+            budget={undefined}
+            city={selectedCity !== "all" ? selectedCity : undefined}
+          />
+
+          {/* Results */}
+          {loading ? (
+            <div className="flex justify-center items-center py-16">
+              <Loader2 className="h-7 w-7 animate-spin text-primary" />
+            </div>
+          ) : vendors.length === 0 ? (
+            <EmptyState
+              icon={SearchIcon}
+              title="No Vendors Found"
+              description="Try adjusting your filters or browse all vendors."
+              actionText="Browse All"
+              actionLink="/categories"
+            />
+          ) : (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-muted-foreground font-medium">
+                  {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
+                </p>
+              </div>
+              {vendors.map((vendor, i) => (
+                <MobileVendorCard key={vendor.id} vendor={vendor} i={i} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <VendorComparisonToggle
+          selectedVendors={selectedForComparison}
+          onRemove={(vendorId) => setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendorId))}
+          onClear={() => setSelectedForComparison([])}
+        />
+      </div>
+    );
+  }
+
+  // ── DESKTOP LAYOUT ──
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      
-      <MobilePageHeader title="Search Vendors" />
-      
-      <main className={isMobile ? "flex-1 px-4 py-3 pb-24" : "flex-1 pt-24 pb-12 px-4"}>
-        <div className={isMobile ? "" : "max-w-7xl mx-auto"}>
+      <main className="flex-1 pt-24 pb-12 px-4">
+        <div className="max-w-7xl mx-auto">
           {/* Search Bar */}
-          <div className={isMobile ? "mb-4" : "mb-8 animate-fade-in"}>
-            {!isMobile && (
-              <>
-                <h1 className="text-3xl font-bold mb-4 text-center text-foreground">Find Your Perfect Vendors</h1>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
-              </>
-            )}
-            {isMobile ? (
-              <div className="space-y-3">
-                <div className="relative">
-                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="mb-8 animate-fade-in">
+            <h1 className="text-3xl font-bold mb-4 text-center text-foreground">Find Your Perfect Vendors</h1>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
+            <GlassCard className="p-4 md:p-6 bg-background border border-border/50 rounded-2xl">
+              <div className="grid md:grid-cols-4 gap-3 md:gap-4">
+                <div className="md:col-span-2">
                   <Input
                     placeholder="Search vendors..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    className="pl-10 h-11 rounded-xl bg-muted/50 border-border/50"
+                    className="w-full h-11"
                   />
                 </div>
-                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4">
-                  {categories.slice(0, 8).map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => setSelectedCategory(cat.slug === selectedCategory ? "all" : cat.slug)}
-                      className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                        selectedCategory === cat.slug
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
-                      {cat.name}
-                    </button>
-                  ))}
-                </div>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="h-11">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.id} value={cat.slug}>{cat.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedCity} onValueChange={setSelectedCity}>
+                  <SelectTrigger className="h-11">
+                    <SelectValue placeholder="City" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Cities</SelectItem>
+                    {cities.map((city) => (
+                      <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-            ) : (
-              <GlassCard className="p-4 md:p-6 bg-background border border-border/50 rounded-2xl">
-                <div className="grid md:grid-cols-4 gap-3 md:gap-4">
-                  <div className="md:col-span-2">
-                    <Input
-                      placeholder="Search vendors..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                      className="w-full h-11"
-                    />
-                  </div>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
-                      {categories.map((cat) => (
-                        <SelectItem key={cat.id} value={cat.slug}>
-                          {cat.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={selectedCity} onValueChange={setSelectedCity}>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="City" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Cities</SelectItem>
-                      {cities.map((city) => (
-                        <SelectItem key={city.id} value={city.id}>
-                          {city.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button 
-                  className="w-full md:w-auto mt-4 h-11"
-                  onClick={handleSearch}
-                >
-                  <SearchIcon className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
-              </GlassCard>
-            )}
+              <Button className="w-full md:w-auto mt-4 h-11" onClick={handleSearch}>
+                <SearchIcon className="h-4 w-4 mr-2" />
+                Search
+              </Button>
+            </GlassCard>
           </div>
 
           {/* Smart Matching */}
-          <div className={isMobile ? "mb-4" : "mb-8"}>
+          <div className="mb-8">
             <SmartVendorMatch
               category={selectedCategory !== "all" ? selectedCategory : undefined}
               budget={undefined}
@@ -249,18 +342,14 @@ export default function Search() {
           </div>
 
           {/* Results with Sidebar */}
-          <div className={isMobile ? "" : "flex gap-6"}>
-            {/* Advanced Filters Sidebar - Desktop only */}
-            {!isMobile && (
-              <AdvancedFilters
-                filters={filters}
-                onFiltersChange={setFilters}
-                onClearFilters={() => setFilters(defaultFilters)}
-                category={selectedCategory !== "all" ? selectedCategory : undefined}
-              />
-            )}
+          <div className="flex gap-6">
+            <AdvancedFilters
+              filters={filters}
+              onFiltersChange={setFilters}
+              onClearFilters={() => setFilters(defaultFilters)}
+              category={selectedCategory !== "all" ? selectedCategory : undefined}
+            />
 
-            {/* Results */}
             <div className="flex-1 min-w-0">
               {loading ? (
                 <div className="flex justify-center items-center py-20">
@@ -276,177 +365,107 @@ export default function Search() {
                 />
               ) : (
                 <div className="space-y-4">
-                  {/* Results Header */}
                   <div className="flex items-center justify-between">
                     <p className="text-muted-foreground text-sm">
                       Found {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
                     </p>
-                    <div className="flex items-center gap-2">
-                      {/* Mobile Filters */}
-                      <div className="lg:hidden">
-                        <AdvancedFilters
-                          filters={filters}
-                          onFiltersChange={setFilters}
-                          onClearFilters={() => setFilters(defaultFilters)}
-                          category={selectedCategory !== "all" ? selectedCategory : undefined}
-                        />
-                      </div>
-                      {/* View Toggle */}
-                      <div className="hidden md:flex items-center gap-1 border border-border/50 rounded-lg p-1">
-                        <Button
-                          variant={viewMode === 'list' ? 'secondary' : 'ghost'}
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => setViewMode('list')}
-                        >
-                          <List className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => setViewMode('grid')}
-                        >
-                          <LayoutGrid className="h-4 w-4" />
-                        </Button>
-                      </div>
+                    <div className="flex items-center gap-1 border border-border/50 rounded-lg p-1">
+                      <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8" onClick={() => setViewMode('list')}>
+                        <List className="h-4 w-4" />
+                      </Button>
+                      <Button variant={viewMode === 'grid' ? 'secondary' : 'ghost'} size="icon" className="h-8 w-8" onClick={() => setViewMode('grid')}>
+                        <LayoutGrid className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-              
-              {vendors.map((vendor, i) => {
-                const badge = getVendorBadge(vendor as Vendor);
-                const isSponsored = vendor.subscription_tier === 'sponsored';
-                const isFeatured = vendor.subscription_tier === 'featured';
-                const isSelected = selectedForComparison.some(v => v.id === vendor.id);
-                
-                // Use real data from vendor record
-                const lastBookedHours = undefined; // Only show when we have real booking data
-                const availabilityCount = undefined; // Only show when vendor has set availability
 
-                return (
-                  <div key={vendor.id} className="relative">
-                    <Link to={`/vendors/${vendor.id}`}>
-                      <GlassCard 
-                        hover
-                        className={`p-6 animate-fade-up transition-all duration-300 ${
-                          isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
-                        }`}
-                        style={{ animationDelay: `${i * 100}ms` }}
-                      >
-                        <div className="flex flex-col md:flex-row gap-6">
-                          <div className="md:w-1/4 relative">
-                            <div className={`aspect-square rounded-xl flex items-center justify-center ${
-                              isSponsored 
-                                ? 'bg-gradient-to-br from-primary/30 to-accent/30' 
-                                : isFeatured 
-                                  ? 'bg-gradient-to-br from-accent/30 to-secondary/30'
-                                  : 'bg-gradient-to-br from-accent/20 to-secondary/20'
-                            }`}>
-                              <span className={`text-4xl font-bold ${
-                                isSponsored ? 'text-primary' : 'text-accent'
-                              }`}>
-                                {vendor.business_name.charAt(0)}
-                              </span>
-                            </div>
-                            {isSponsored && (
-                              <div className="absolute -top-2 -right-2">
-                                <Crown className="h-6 w-6 text-primary fill-primary/20" />
+                  {vendors.map((vendor, i) => {
+                    const badge = getVendorBadge(vendor as Vendor);
+                    const isSponsored = vendor.subscription_tier === 'sponsored';
+                    const isFeatured = vendor.subscription_tier === 'featured';
+                    const isSelected = selectedForComparison.some(v => v.id === vendor.id);
+
+                    return (
+                      <div key={vendor.id} className="relative">
+                        <Link to={`/vendors/${vendor.id}`}>
+                          <GlassCard
+                            hover
+                            className={`p-6 animate-fade-up transition-all duration-300 ${
+                              isSponsored ? 'border-primary/50 shadow-lg' : isFeatured ? 'border-accent/50' : ''
+                            }`}
+                            style={{ animationDelay: `${i * 100}ms` }}
+                          >
+                            <div className="flex flex-col md:flex-row gap-6">
+                              <div className="md:w-1/4 relative">
+                                <div className={`aspect-square rounded-xl flex items-center justify-center ${
+                                  isSponsored ? 'bg-gradient-to-br from-primary/30 to-accent/30' : isFeatured ? 'bg-gradient-to-br from-accent/30 to-secondary/30' : 'bg-gradient-to-br from-accent/20 to-secondary/20'
+                                }`}>
+                                  <span className={`text-4xl font-bold ${isSponsored ? 'text-primary' : 'text-accent'}`}>
+                                    {vendor.business_name.charAt(0)}
+                                  </span>
+                                </div>
+                                {isSponsored && <div className="absolute -top-2 -right-2"><Crown className="h-6 w-6 text-primary fill-primary/20" /></div>}
+                                {isFeatured && <div className="absolute -top-2 -right-2"><Sparkles className="h-6 w-6 text-accent fill-accent/20" /></div>}
                               </div>
-                            )}
-                            {isFeatured && (
-                              <div className="absolute -top-2 -right-2">
-                                <Sparkles className="h-6 w-6 text-accent fill-accent/20" />
+                              <div className="md:w-3/4">
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                  {badge && (
+                                    <Badge variant={badge.variant} className="flex items-center gap-1 font-semibold">
+                                      {badge.variant === 'premium' && <Crown className="h-3 w-3" />}
+                                      {badge.variant === 'accent' && <Sparkles className="h-3 w-3" />}
+                                      {badge.text}
+                                    </Badge>
+                                  )}
+                                  {vendor.verified && (
+                                    <Badge variant="outline" className="flex items-center gap-1">
+                                      <Shield className="h-3 w-3" />
+                                      Verified
+                                    </Badge>
+                                  )}
+                                  <Badge variant="secondary">{vendor.category}</Badge>
+                                </div>
+                                <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
+                                <p className="text-muted-foreground mb-4 line-clamp-2">{vendor.description || "Professional wedding services"}</p>
+                                <TrustSignals totalBookings={vendor.total_reviews} responseTime="2 hours" className="mb-4" />
+                                <div className="flex flex-wrap items-center gap-4 text-sm">
+                                  <div className="flex items-center gap-2">
+                                    <MapPin className="h-4 w-4 text-accent" />
+                                    <span>{vendor.cities?.name || "India"}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Star className="h-4 w-4 text-accent fill-accent" />
+                                    <span className="font-semibold">{vendor.average_rating || 0}</span>
+                                    <span className="text-muted-foreground">({vendor.total_reviews || 0} reviews)</span>
+                                  </div>
+                                  <div>
+                                    <span className="font-semibold">{vendor.years_experience}+</span>
+                                    <span className="text-muted-foreground"> years exp</span>
+                                  </div>
+                                </div>
                               </div>
-                            )}
-                          </div>
-                          
-                          <div className="md:w-3/4">
-                            <div className="flex flex-wrap gap-2 mb-3">
-                              {badge && (
-                                <Badge 
-                                  variant={badge.variant}
-                                  className="flex items-center gap-1 font-semibold"
-                                >
-                                  {badge.variant === 'premium' && <Crown className="h-3 w-3" />}
-                                  {badge.variant === 'accent' && <Sparkles className="h-3 w-3" />}
-                                  {badge.text}
-                                </Badge>
-                              )}
-                              {vendor.verified && (
-                                <Badge variant="outline" className="flex items-center gap-1">
-                                  <Shield className="h-3 w-3" />
-                                  Verified
-                                </Badge>
-                              )}
-                              <Badge variant="secondary">
-                                {vendor.category}
-                              </Badge>
                             </div>
-
-                            <h3 className="text-2xl font-bold mb-2">{vendor.business_name}</h3>
-                            <p className="text-muted-foreground mb-4 line-clamp-2">
-                              {vendor.description || "Professional wedding services"}
-                            </p>
-
-                            <TrustSignals 
-                              lastBookedHours={lastBookedHours}
-                              totalBookings={vendor.total_reviews}
-                              responseTime="2 hours"
-                              availabilityCount={availabilityCount}
-                              className="mb-4"
+                          </GlassCard>
+                        </Link>
+                        <div className="absolute top-4 right-4 z-10" onClick={(e) => e.preventDefault()}>
+                          <div className="flex items-center gap-2 bg-background/95 backdrop-blur-sm border rounded-lg px-3 py-2 shadow-md">
+                            <Checkbox
+                              id={`compare-${vendor.id}`}
+                              checked={isSelected}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  if (selectedForComparison.length >= 3) return;
+                                  setSelectedForComparison([...selectedForComparison, vendor]);
+                                } else {
+                                  setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendor.id));
+                                }
+                              }}
+                              disabled={!isSelected && selectedForComparison.length >= 3}
                             />
-
-                            <div className="flex flex-wrap items-center gap-4 text-sm">
-                              <div className="flex items-center gap-2">
-                                <MapPin className="h-4 w-4 text-accent" />
-                                <span>{vendor.cities?.name || "India"}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Star className="h-4 w-4 text-accent fill-accent" />
-                                <span className="font-semibold">{vendor.average_rating || 0}</span>
-                                <span className="text-muted-foreground">
-                                  ({vendor.total_reviews || 0} reviews)
-                                </span>
-                              </div>
-                              <div>
-                                <span className="font-semibold">{vendor.years_experience}+</span>
-                                <span className="text-muted-foreground"> years exp</span>
-                              </div>
-                            </div>
+                            <label htmlFor={`compare-${vendor.id}`} className="text-sm font-medium cursor-pointer">Compare</label>
                           </div>
                         </div>
-                      </GlassCard>
-                    </Link>
-                    
-                    {/* Compare Checkbox */}
-                    <div 
-                      className="absolute top-4 right-4 z-10"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <div className="flex items-center gap-2 bg-background/95 backdrop-blur-sm border rounded-lg px-3 py-2 shadow-md">
-                        <Checkbox
-                          id={`compare-${vendor.id}`}
-                          checked={isSelected}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              if (selectedForComparison.length >= 3) return;
-                              setSelectedForComparison([...selectedForComparison, vendor]);
-                            } else {
-                              setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendor.id));
-                            }
-                          }}
-                          disabled={!isSelected && selectedForComparison.length >= 3}
-                        />
-                        <label 
-                          htmlFor={`compare-${vendor.id}`}
-                          className="text-sm font-medium cursor-pointer"
-                        >
-                          Compare
-                        </label>
                       </div>
-                    </div>
-                  </div>
-                );
+                    );
                   })}
                 </div>
               )}
@@ -455,14 +474,9 @@ export default function Search() {
         </div>
       </main>
 
-      
-
-      {/* Vendor Comparison Toggle */}
       <VendorComparisonToggle
         selectedVendors={selectedForComparison}
-        onRemove={(vendorId) => {
-          setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendorId));
-        }}
+        onRemove={(vendorId) => setSelectedForComparison(selectedForComparison.filter(v => v.id !== vendorId))}
         onClear={() => setSelectedForComparison([])}
       />
     </div>
