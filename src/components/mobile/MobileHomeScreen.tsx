@@ -44,6 +44,11 @@ import toolSpeechWriter from '@/assets/tool-speech-writer.jpg';
 import toolMusicGen from '@/assets/tool-music-generator.jpg';
 import toolVendorScore from '@/assets/tool-vendor-score.jpg';
 
+// Menu images
+import menuCategoriesImg from '@/assets/menu-categories.jpg';
+import menuDealsImg from '@/assets/menu-deals.jpg';
+import menuSevaImg from '@/assets/menu-seva.jpg';
+
 // ─── DATA ─────────────────────────────────────────────
 
 const vendorCategories = [
@@ -85,13 +90,18 @@ const reviewQuotes = [
   { name: 'Ananya & Vikram', city: 'Bangalore', quote: 'The budget calculator saved us lakhs. Best wedding planning platform!', rating: 5 },
 ];
 
-const menuLinks = [
-  { label: 'Categories', icon: LayoutGrid, route: '/categories' },
-  { label: 'Deals & Offers', icon: Tag, route: '/deals' },
+const menuQuickLinks = [
   { label: 'Pricing', icon: IndianRupee, route: '/pricing' },
-  { label: 'Shaadi Seva', icon: HandHeart, route: '/shaadi-seva' },
   { label: 'Budget Calculator', icon: Calculator, route: '/budget-calculator' },
   { label: 'Muhurat Finder', icon: CalendarHeart, route: '/muhurat-finder' },
+  { label: 'Couple Quiz', icon: Heart, route: '/couple-quiz' },
+  { label: 'Music Generator', icon: Headphones, route: '/music-generator' },
+];
+
+const menuFeatureCards = [
+  { label: 'Browse Categories', subtitle: '50+ vendor types', image: menuCategoriesImg, route: '/categories' },
+  { label: 'Deals & Offers', subtitle: 'Exclusive savings', image: menuDealsImg, route: '/deals' },
+  { label: 'Shaadi Seva', subtitle: 'Give back with love', image: menuSevaImg, route: '/shaadi-seva' },
 ];
 
 // ─── HOOKS ────────────────────────────────────────────
@@ -192,65 +202,94 @@ export function MobileHomeScreen() {
 
       {/* ── SLIDE-OUT MENU ── */}
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side="left" className="w-[80%] sm:w-[350px]">
-          <SheetHeader>
-            <SheetTitle className="text-left">
-              <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
-            </SheetTitle>
+        <SheetContent side="left" className="w-[85%] sm:w-[380px] p-0 overflow-y-auto">
+          <SheetHeader className="sr-only">
+            <SheetTitle>Menu</SheetTitle>
           </SheetHeader>
 
-          <div className="mt-4 space-y-5">
+          {/* Menu Header with gradient */}
+          <div className="relative px-5 pt-6 pb-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+            <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
+            <p className="text-[10px] text-muted-foreground mt-1 tracking-wide">India's Most Trending Wedding Platform</p>
+          </div>
+
+          <div className="px-4 pb-8 space-y-5">
             {/* Search */}
-            <div className="relative">
+            <div className="relative -mt-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search vendors, venues..."
-                className="pl-9 h-10 bg-muted/30 border-border/40"
+                className="pl-9 h-11 bg-muted/20 border-border/30 rounded-xl text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
 
-            {/* Links */}
-            <nav className="space-y-1">
-              {menuLinks.map((link) => (
-                <button
-                  key={link.route}
-                  onClick={() => { navigate(link.route); setMenuOpen(false); }}
-                  className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50 active:scale-[0.98] transition-all"
-                >
-                  <link.icon className="h-4 w-4 text-muted-foreground" />
-                  {link.label}
-                </button>
-              ))}
-            </nav>
+            {/* Featured Image Cards */}
+            <div className="space-y-2.5">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Explore</p>
+              <div className="space-y-2">
+                {menuFeatureCards.map((card) => (
+                  <button
+                    key={card.route}
+                    onClick={() => { navigate(card.route); setMenuOpen(false); }}
+                    className="relative w-full h-20 rounded-xl overflow-hidden active:scale-[0.97] transition-transform group"
+                  >
+                    <img src={card.image} alt={card.label} className="w-full h-full object-cover group-active:scale-105 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 flex flex-col justify-center px-4">
+                      <p className="text-white text-sm font-semibold">{card.label}</p>
+                      <p className="text-white/70 text-[10px]">{card.subtitle}</p>
+                    </div>
+                    <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/60" />
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            <div className="h-px bg-border/50" />
+            {/* Quick Links */}
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest px-1">Quick Access</p>
+              <nav className="grid grid-cols-2 gap-1.5">
+                {menuQuickLinks.map((link) => (
+                  <button
+                    key={link.route}
+                    onClick={() => { navigate(link.route); setMenuOpen(false); }}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium text-foreground bg-muted/20 border border-border/20 hover:bg-muted/40 active:scale-[0.97] transition-all"
+                  >
+                    <link.icon className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    {link.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
 
-            {/* Auth links */}
+            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+            {/* Auth section */}
             {user ? (
               <div className="space-y-1">
-                <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50">
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
+                  <Users className="h-4 w-4 text-primary" />
                   Dashboard
                 </button>
-                <button onClick={() => { navigate('/profile'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50">
-                  <Star className="h-4 w-4 text-muted-foreground" />
+                <button onClick={() => { navigate('/profile'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-foreground hover:bg-muted/30 active:scale-[0.98] transition-all">
+                  <Star className="h-4 w-4 text-primary" />
                   Profile
                 </button>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <button
                   onClick={() => { navigate('/auth'); setMenuOpen(false); }}
-                  className="w-full py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold active:scale-95 transition-transform"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-primary/85 text-primary-foreground text-sm font-semibold shadow-md active:scale-[0.97] transition-transform"
                 >
                   Login / Sign Up
                 </button>
                 <button
                   onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
-                  className="w-full py-2.5 rounded-full border border-border text-sm font-medium text-foreground active:scale-95 transition-transform"
+                  className="w-full py-3 rounded-xl border border-border/50 text-sm font-medium text-foreground active:scale-[0.97] transition-transform"
                 >
                   Register as Vendor
                 </button>
