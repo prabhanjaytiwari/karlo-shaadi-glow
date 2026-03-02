@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobilePageHeader } from '@/components/mobile/MobilePageHeader';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,6 +71,7 @@ const defaultCategories = [
 
 const BudgetTracker = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [totalBudget, setTotalBudget] = useState<number>(0);
@@ -232,7 +235,7 @@ const BudgetTracker = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-background to-amber-50/60 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-pulse text-muted-foreground">Loading budget tracker...</div>
       </div>
     );
@@ -247,22 +250,21 @@ const BudgetTracker = () => {
         description="Track your wedding budget and spending across all vendor categories."
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-background to-amber-50/60">
-        <div className="container mx-auto px-4 py-8 max-w-5xl">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-display font-semibold text-foreground mb-2">
-              Budget Tracker
-            </h1>
-            <p className="text-muted-foreground">
-              Plan and track your wedding expenses across categories
-            </p>
-          </div>
+      <div className="min-h-screen bg-background">
+        <MobilePageHeader title="Budget Tracker" />
+        <div className={isMobile ? "px-4 py-4 pb-24 space-y-4" : "container mx-auto px-4 py-8 pt-24 max-w-5xl space-y-6"}>
+          {/* Header - Desktop only */}
+          {!isMobile && (
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1">Budget Tracker</h1>
+              <p className="text-muted-foreground text-sm">Plan and track your wedding expenses</p>
+            </div>
+          )}
 
           {/* Budget Overview Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className={`grid ${isMobile ? 'grid-cols-1 gap-3' : 'grid-cols-1 md:grid-cols-3 gap-4'}`}>
             {/* Total Budget */}
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
+            <Card className="rounded-2xl border border-border/50">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-2">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20">
@@ -307,7 +309,7 @@ const BudgetTracker = () => {
             </Card>
 
             {/* Total Spent */}
-            <Card className="border-2 border-accent/20 hover:border-accent/40 transition-colors">
+            <Card className="rounded-2xl border border-border/50">
               <CardContent className="pt-6">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 w-fit mb-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
@@ -323,7 +325,7 @@ const BudgetTracker = () => {
             </Card>
 
             {/* Remaining */}
-            <Card className={`border-2 transition-colors ${getRemainingBudget() < 0 ? 'border-destructive/40' : 'border-accent/20 hover:border-accent/40'}`}>
+            <Card className={`rounded-2xl border transition-colors ${getRemainingBudget() < 0 ? 'border-destructive/40' : 'border-border/50'}`}>
               <CardContent className="pt-6">
                 <div className={`p-2 rounded-lg w-fit mb-2 ${getRemainingBudget() < 0 ? 'bg-destructive/20' : 'bg-gradient-to-br from-primary/20 to-accent/20'}`}>
                   <AlertCircle className={`h-5 w-5 ${getRemainingBudget() < 0 ? 'text-destructive' : 'text-primary'}`} />
@@ -343,7 +345,7 @@ const BudgetTracker = () => {
 
           {/* Overall Progress */}
           {totalBudget > 0 && (
-            <Card className="mb-8 border-2 border-accent/20">
+            <Card className="rounded-2xl border border-border/50">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-medium">Overall Spending Progress</h3>
@@ -365,7 +367,7 @@ const BudgetTracker = () => {
 
           {/* Category Allocations */}
           {totalBudget > 0 && allocations.length > 0 ? (
-            <Card className="border-2 border-accent/20">
+            <Card className="rounded-2xl border border-border/50">
               <CardHeader>
                 <CardTitle className="text-xl">Category Breakdown</CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -385,7 +387,7 @@ const BudgetTracker = () => {
                   const label = defaultCategories.find(c => c.name === allocation.category)?.label || allocation.category;
 
                   return (
-                    <div key={allocation.id} className="p-4 rounded-lg bg-muted/30 border border-border/50">
+                    <div key={allocation.id} className="p-4 rounded-xl bg-muted/30 border border-border/30">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                           <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20">
@@ -453,7 +455,7 @@ const BudgetTracker = () => {
               </CardContent>
             </Card>
           ) : totalBudget === 0 ? (
-            <Card className="border-2 border-dashed border-accent/40">
+            <Card className="rounded-2xl border-2 border-dashed border-border/50">
               <CardContent className="py-12 text-center">
                 <div className="p-4 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 w-fit mx-auto mb-4">
                   <PiggyBank className="h-8 w-8 text-primary" />
@@ -477,7 +479,7 @@ const BudgetTracker = () => {
           ) : null}
 
           {/* Tips Section */}
-          <Card className="mt-8 border-2 border-accent/20 bg-gradient-to-br from-primary/5 to-accent/5">
+          <Card className="mt-4 rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-accent/5">
             <CardContent className="pt-6">
               <h3 className="font-medium mb-3">Budget Tips</h3>
               <ul className="text-sm text-muted-foreground space-y-2">

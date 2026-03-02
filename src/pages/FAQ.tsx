@@ -88,22 +88,28 @@ export default function FAQ() {
       <MobilePageHeader title="FAQ" />
 
       {/* Hero Banner */}
-      <section className={`relative overflow-hidden ${isMobile ? '' : 'pt-20'}`}>
-        <div className="absolute inset-0">
-          <CinematicImage src={heroFaqImg} alt="Support team" className="w-full h-full" cinematic />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
+      {isMobile ? (
+        <div className="px-4 pt-3 pb-2">
+          <p className="text-sm text-muted-foreground">Got questions? We've got answers for your dream wedding.</p>
         </div>
-        <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">
-          <div className="max-w-3xl mx-auto text-center space-y-3">
-            <h1 className="font-display font-bold text-2xl sm:text-4xl md:text-5xl">
-              Frequently Asked <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Questions</span>
-            </h1>
-            <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-              Got questions? We've got answers! Find everything you need to know about booking vendors for your dream wedding.
-            </p>
+      ) : (
+        <section className="relative overflow-hidden pt-20">
+          <div className="absolute inset-0">
+            <CinematicImage src={heroFaqImg} alt="Support team" className="w-full h-full" cinematic />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
           </div>
-        </div>
-      </section>
+          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">
+            <div className="max-w-3xl mx-auto text-center space-y-3">
+              <h1 className="font-bold text-2xl sm:text-4xl md:text-5xl">
+                Frequently Asked <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Questions</span>
+              </h1>
+              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Got questions? We've got answers! Find everything you need to know about booking vendors for your dream wedding.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* FAQ Categories */}
       <section className={`px-4 sm:px-6 py-10 md:py-16 ${isMobile ? 'pb-24' : ''}`}>
