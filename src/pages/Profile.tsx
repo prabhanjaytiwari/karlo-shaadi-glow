@@ -12,10 +12,13 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Save, Download } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { sanitizeInput } from "@/lib/validation";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
@@ -191,17 +194,20 @@ const Profile = () => {
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
+        <MobilePageHeader title="Edit Profile" />
       
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6 max-w-2xl">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/dashboard")}
-            className="mb-6 hover:text-accent"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
-          </Button>
+      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
+        <div className={isMobile ? "" : "container mx-auto px-6 max-w-2xl"}>
+          {!isMobile && (
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/dashboard")}
+              className="mb-6 hover:text-accent"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Dashboard
+            </Button>
+          )}
 
           <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
             <CardHeader>

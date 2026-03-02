@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -266,14 +267,15 @@ export default function Messages() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <BhindiHeader />
+      {!selectedVendor && <MobilePageHeader title="Messages" showBack={false} />}
       
-      <main className="flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8">
-        <div className="max-w-6xl mx-auto">
-          {(!isMobile || !selectedVendor) && (
-            <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-8">Messages</h1>
+      <main className={isMobile ? "flex-1" : "flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8"}>
+        <div className={isMobile ? "h-full" : "max-w-6xl mx-auto"}>
+          {!isMobile && (
+            <h1 className="text-4xl font-bold mb-8">Messages</h1>
           )}
 
-          <Card className="h-[calc(100vh-200px)] md:h-[600px] overflow-hidden">
+          <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[600px]'}`}>
             <div className="grid md:grid-cols-3 h-full">
               {/* Conversations List */}
               {showConversationList && (

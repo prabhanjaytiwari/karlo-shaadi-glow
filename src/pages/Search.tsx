@@ -18,6 +18,8 @@ import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
 import { SmartVendorMatch } from "@/components/SmartVendorMatch";
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const FALLBACK_CATEGORIES = [
   { id: "fb-1", name: "Photography", slug: "photography" },
@@ -144,63 +146,100 @@ export default function Search() {
     navigate(`/search?${params.toString()}`);
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
+      <MobilePageHeader title="Search Vendors" showBack={false} />
       
-      <main className="flex-1 py-8 md:py-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <main className={isMobile ? "flex-1 px-4 py-3" : "flex-1 py-8 md:py-12 px-4"}>
+        <div className={isMobile ? "" : "max-w-7xl mx-auto"}>
           {/* Search Bar */}
-          <div className="mb-8 animate-fade-in">
-            <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
-            <GlassCard className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <div className="grid md:grid-cols-4 gap-3 md:gap-4">
-                <div className="md:col-span-2">
+          <div className={isMobile ? "mb-4" : "mb-8 animate-fade-in"}>
+            {!isMobile && (
+              <>
+                <Badge className="bg-accent text-accent-foreground mx-auto block w-fit mb-4">Find Vendors</Badge>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">Find Your Perfect Vendors</h1>
+                <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mb-6 rounded-full" />
+              </>
+            )}
+            {isMobile ? (
+              <div className="space-y-2">
+                <div className="relative">
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search vendors..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                    className="w-full h-11"
+                    className="pl-10 h-11"
                   />
                 </div>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.slug}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="City" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Cities</SelectItem>
-                    {cities.map((city) => (
-                      <SelectItem key={city.id} value={city.id}>
-                        {city.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+                  {categories.slice(0, 8).map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.slug === selectedCategory ? "all" : cat.slug)}
+                      className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        selectedCategory === cat.slug
+                          ? 'bg-accent text-accent-foreground'
+                          : 'bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <Button 
-                className="w-full md:w-auto mt-4 h-11"
-                onClick={handleSearch}
-              >
-                <SearchIcon className="h-4 w-4 mr-2" />
-                Search
-              </Button>
-            </GlassCard>
+            ) : (
+              <GlassCard className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+                <div className="grid md:grid-cols-4 gap-3 md:gap-4">
+                  <div className="md:col-span-2">
+                    <Input
+                      placeholder="Search vendors..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                      className="w-full h-11"
+                    />
+                  </div>
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger className="h-11">
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.slug}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger className="h-11">
+                      <SelectValue placeholder="City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Cities</SelectItem>
+                      {cities.map((city) => (
+                        <SelectItem key={city.id} value={city.id}>
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button 
+                  className="w-full md:w-auto mt-4 h-11"
+                  onClick={handleSearch}
+                >
+                  <SearchIcon className="h-4 w-4 mr-2" />
+                  Search
+                </Button>
+              </GlassCard>
+            )}
           </div>
 
           {/* Smart Matching */}
