@@ -2,14 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
   Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
-  BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart
+  BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart,
+  Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award
 } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
 
-// Category images (vendor categories ONLY)
+// Category images
 import categoryVenue from '@/assets/category-venue.jpg';
 import categoryPhotography from '@/assets/category-photography.jpg';
 import categoryDecoration from '@/assets/category-decoration.jpg';
@@ -33,42 +36,51 @@ import logoImage from '@/assets/logo-new.png';
 // ─── DATA ─────────────────────────────────────────────
 
 const vendorCategories = [
-  { image: categoryVenue, label: 'Venue', category: 'venue', icon: MapPin },
-  { image: categoryPhotography, label: 'Photography', category: 'photography', icon: Camera },
-  { image: categoryDecoration, label: 'Decoration', category: 'decoration', icon: Palette },
-  { image: categoryMakeup, label: 'Makeup', category: 'makeup', icon: Sparkles },
-  { image: categoryCatering, label: 'Catering', category: 'catering', icon: Utensils },
-  { image: categoryMehendi, label: 'Mehendi', category: 'mehendi', icon: Heart },
-  { image: categoryMusic, label: 'Music', category: 'music', icon: Music },
-  { image: categoryJewelry, label: 'Jewelry', category: 'jewelry', icon: Gem },
-  { image: categoryEntertainment, label: 'Entertainment', category: 'entertainment', icon: PartyPopper },
+  { image: categoryVenue, label: 'Venue', category: 'venue' },
+  { image: categoryPhotography, label: 'Photography', category: 'photography' },
+  { image: categoryDecoration, label: 'Decoration', category: 'decoration' },
+  { image: categoryMakeup, label: 'Makeup', category: 'makeup' },
+  { image: categoryCatering, label: 'Catering', category: 'catering' },
+  { image: categoryMehendi, label: 'Mehendi', category: 'mehendi' },
+  { image: categoryMusic, label: 'Music', category: 'music' },
+  { image: categoryJewelry, label: 'Jewelry', category: 'jewelry' },
+  { image: categoryEntertainment, label: 'Entertainment', category: 'entertainment' },
 ];
 
 const planningTools = [
-  { title: 'Budget Calculator', desc: 'Plan your wedding budget smartly', icon: Calculator, route: '/budget-calculator', gradient: 'from-amber-50 to-orange-50' },
-  { title: 'Muhurat Finder', desc: 'Find auspicious wedding dates', icon: CalendarHeart, route: '/muhurat-finder', gradient: 'from-rose-50 to-pink-50' },
-  { title: 'Invite Creator', desc: 'Design beautiful digital invites', icon: Heart, route: '/invite-creator', gradient: 'from-violet-50 to-purple-50' },
-  { title: 'Wedding Planner', desc: 'AI-powered wedding planning', icon: Sparkles, route: '/plan-wizard', gradient: 'from-emerald-50 to-teal-50' },
+  { title: 'Budget Calculator', desc: 'Plan your budget smartly', icon: Calculator, route: '/budget-calculator', gradient: 'from-amber-50 to-orange-50' },
+  { title: 'Muhurat Finder', desc: 'Find auspicious dates', icon: CalendarHeart, route: '/muhurat-finder', gradient: 'from-rose-50 to-pink-50' },
+  { title: 'Invite Creator', desc: 'Design digital invites', icon: Heart, route: '/invite-creator', gradient: 'from-violet-50 to-purple-50' },
+  { title: 'Wedding Planner', desc: 'Smart wedding planning', icon: Sparkles, route: '/plan-wizard', gradient: 'from-emerald-50 to-teal-50' },
 ];
 
 const funTools = [
-  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', key: 'couple-quiz', icon: Heart },
-  { title: 'Budget Roast', tagline: 'Get your budget humorously roasted', route: '/budget-roast', key: 'budget-roast', icon: FlameKindling },
-  { title: 'Speech Writer', tagline: 'AI-crafted wedding speeches', route: '/speech-writer', key: 'speech-writer', icon: Mic },
-  { title: 'Music Generator', tagline: 'Create your wedding anthem', route: '/music-generator', key: 'music-generator', icon: Music },
-  { title: 'Vendor Score', tagline: 'Check any vendor\'s trust score', route: '/vendor-check', key: 'vendor-score', icon: BadgeCheck },
+  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, color: 'from-rose-500 to-pink-400' },
+  { title: 'Budget Roast', tagline: 'Get roasted hilariously', route: '/budget-roast', icon: FlameKindling, color: 'from-orange-500 to-amber-400' },
+  { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, color: 'from-violet-500 to-purple-400' },
+  { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, color: 'from-cyan-500 to-teal-400' },
+  { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, color: 'from-emerald-500 to-green-400' },
 ];
 
 const howItWorksSteps = [
-  { num: '01', title: 'Tell Us Your Vision', desc: 'Share your wedding date, city, budget & style preferences' },
-  { num: '02', title: 'Get Matched', desc: 'We match you with verified vendors perfectly suited to your needs' },
-  { num: '03', title: 'Book & Celebrate', desc: 'Secure your vendors with safe payments & enjoy your big day' },
+  { num: '1', title: 'Share Vision', desc: 'Date, city & budget' },
+  { num: '2', title: 'Get Matched', desc: 'Verified vendors' },
+  { num: '3', title: 'Celebrate', desc: 'Book & enjoy' },
 ];
 
 const reviewQuotes = [
   { name: 'Priya & Rahul', city: 'Mumbai', quote: 'Karlo Shaadi made our dream wedding a reality. The vendor matching was spot on!', rating: 5 },
   { name: 'Sneha & Amit', city: 'Delhi', quote: 'From venue to catering, every vendor was top-notch. Truly premium service.', rating: 5 },
   { name: 'Ananya & Vikram', city: 'Bangalore', quote: 'The budget calculator saved us lakhs. Best wedding planning platform!', rating: 5 },
+];
+
+const menuLinks = [
+  { label: 'Categories', icon: LayoutGrid, route: '/categories' },
+  { label: 'Deals & Offers', icon: Tag, route: '/deals' },
+  { label: 'Pricing', icon: IndianRupee, route: '/pricing' },
+  { label: 'Shaadi Seva', icon: HandHeart, route: '/shaadi-seva' },
+  { label: 'Budget Calculator', icon: Calculator, route: '/budget-calculator' },
+  { label: 'Muhurat Finder', icon: CalendarHeart, route: '/muhurat-finder' },
 ];
 
 // ─── HOOKS ────────────────────────────────────────────
@@ -85,41 +97,6 @@ function useVendors() {
       return data || [];
     },
   });
-}
-
-function useBannerImages() {
-  const [banners, setBanners] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadBanners() {
-      try {
-        const { data: files } = await supabase.storage.from('home-banners').list();
-        if (files && files.length >= 5) {
-          const urls: Record<string, string> = {};
-          for (const f of files) {
-            const key = f.name.replace('.png', '');
-            const { data } = supabase.storage.from('home-banners').getPublicUrl(f.name);
-            urls[key] = data.publicUrl;
-          }
-          setBanners(urls);
-          setLoading(false);
-          return;
-        }
-        const { data, error } = await supabase.functions.invoke('generate-home-banners');
-        if (!error && data?.banners) {
-          setBanners(data.banners);
-        }
-      } catch (e) {
-        console.error('Banner load error:', e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadBanners();
-  }, []);
-
-  return { banners, loading };
 }
 
 function useWeddingCountdown() {
@@ -142,37 +119,15 @@ function useWeddingCountdown() {
   });
 }
 
-// ─── SUB-COMPONENTS ───────────────────────────────────
-
-function SectionHeader({ title, seeAllRoute }: { title: string; seeAllRoute?: string }) {
-  const navigate = useNavigate();
-  return (
-    <div className="flex items-center justify-between mb-4">
-      <h2 className="text-base font-semibold text-foreground tracking-tight">{title}</h2>
-      {seeAllRoute && (
-        <button
-          onClick={() => navigate(seeAllRoute)}
-          className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform"
-        >
-          See All <ChevronRight className="h-3.5 w-3.5" />
-        </button>
-      )}
-    </div>
-  );
-}
-
-function PremiumDivider() {
-  return <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />;
-}
-
 // ─── MAIN COMPONENT ───────────────────────────────────
 
 export function MobileHomeScreen() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { data: vendors = [] } = useVendors();
-  const { banners } = useBannerImages();
   const { data: countdown } = useWeddingCountdown();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const placeholderVendors = [
     { id: 'p1', business_name: 'Royal Palace Venue', category: 'venue', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: vendorImage1 },
@@ -183,16 +138,40 @@ export function MobileHomeScreen() {
 
   const displayVendors = vendors.length > 0 ? vendors : placeholderVendors;
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setMenuOpen(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
 
-      {/* ── SECTION 1: Sticky Header ── */}
-      <header className="sticky top-0 z-50 glass-intense">
+      {/* ── STICKY HEADER with Menu ── */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center justify-between px-4 h-14">
-          <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="p-2 -ml-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all"
+            >
+              <Menu className="h-5 w-5 text-foreground" />
+            </button>
+            <img src={logoImage} alt="Karlo Shaadi" className="h-7 object-contain" />
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => navigate('/search')}
+              className="p-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all"
+            >
+              <Search className="h-5 w-5 text-foreground" />
+            </button>
             {user && (
-              <button onClick={() => navigate('/notifications')} className="relative p-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all">
+              <button
+                onClick={() => navigate('/notifications')}
+                className="relative p-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all"
+              >
                 <Bell className="h-5 w-5 text-foreground" />
               </button>
             )}
@@ -200,66 +179,128 @@ export function MobileHomeScreen() {
         </div>
       </header>
 
-      <div className="space-y-8 pb-8">
+      {/* ── SLIDE-OUT MENU ── */}
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent side="left" className="w-[80%] sm:w-[350px]">
+          <SheetHeader>
+            <SheetTitle className="text-left">
+              <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
+            </SheetTitle>
+          </SheetHeader>
 
-        {/* ── SECTION 2: Hero Banner ── */}
-        <section className="px-4 pt-4">
-          <div className="relative rounded-2xl overflow-hidden shadow-xl border border-accent/20">
-            <img src={heroImage} alt="Wedding celebration" className="w-full h-52 object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="mt-4 space-y-5">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search vendors, venues..."
+                className="pl-9 h-10 bg-muted/30 border-border/40"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+            </div>
+
+            {/* Links */}
+            <nav className="space-y-1">
+              {menuLinks.map((link) => (
+                <button
+                  key={link.route}
+                  onClick={() => { navigate(link.route); setMenuOpen(false); }}
+                  className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50 active:scale-[0.98] transition-all"
+                >
+                  <link.icon className="h-4 w-4 text-muted-foreground" />
+                  {link.label}
+                </button>
+              ))}
+            </nav>
+
+            <div className="h-px bg-border/50" />
+
+            {/* Auth links */}
+            {user ? (
+              <div className="space-y-1">
+                <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50">
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  Dashboard
+                </button>
+                <button onClick={() => { navigate('/profile'); setMenuOpen(false); }} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/50">
+                  <Star className="h-4 w-4 text-muted-foreground" />
+                  Profile
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <button
+                  onClick={() => { navigate('/auth'); setMenuOpen(false); }}
+                  className="w-full py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold active:scale-95 transition-transform"
+                >
+                  Login / Sign Up
+                </button>
+                <button
+                  onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
+                  className="w-full py-2.5 rounded-full border border-border text-sm font-medium text-foreground active:scale-95 transition-transform"
+                >
+                  Register as Vendor
+                </button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* ── CONTENT ── */}
+      <div className="space-y-5 pb-20">
+
+        {/* ── HERO BANNER (full-bleed) ── */}
+        <section className="mx-3 mt-3">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-accent/20">
+            <img src={heroImage} alt="Wedding celebration" className="w-full h-56 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
-              <p className="text-amber-300 text-[10px] font-semibold tracking-[0.2em] uppercase mb-1">
-                India's Most Trending Wedding Planning Platform
-              </p>
-              <h1 className="text-white text-xl font-display font-semibold leading-tight mb-1">
+              <span className="inline-block text-amber-300 text-[9px] font-bold tracking-[0.25em] uppercase mb-2 bg-black/30 px-2 py-0.5 rounded-full">
+                India's Most Trending Platform
+              </span>
+              <h1 className="text-white text-2xl font-display font-bold leading-[1.15] mb-0.5">
                 Aap Shaadi Karo,
               </h1>
-              <p className="text-white/90 text-base font-display font-medium leading-tight mb-3">
+              <p className="text-white/90 text-lg font-display font-medium leading-tight mb-4">
                 Tension Hum Sambhal Lenge
               </p>
               <button
                 onClick={() => navigate('/plan-wizard')}
-                className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
+                className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
               >
-                Start Planning Free
+                Start Planning Free <ArrowRight className="inline h-3.5 w-3.5 ml-1" />
               </button>
-            </div>
-            <div className="absolute bottom-3 right-4 flex gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
             </div>
           </div>
         </section>
 
-        {/* ── Wedding Countdown (logged-in only) ── */}
+        {/* ── Wedding Countdown ── */}
         {countdown && (
-          <section className="px-4 -mt-4">
+          <section className="px-4 -mt-2">
             <div className="bg-gradient-to-r from-accent/10 via-accent/5 to-primary/10 rounded-xl px-4 py-3 border border-accent/20 flex items-center gap-3">
               <CalendarHeart className="h-5 w-5 text-accent flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-foreground">
-                  {countdown.days} days to your wedding! 🎉
-                </p>
-                {countdown.partnerName && (
-                  <p className="text-xs text-muted-foreground">With {countdown.partnerName}</p>
-                )}
+                <p className="text-sm font-semibold text-foreground">{countdown.days} days to your wedding! 🎉</p>
+                {countdown.partnerName && <p className="text-xs text-muted-foreground">With {countdown.partnerName}</p>}
               </div>
             </div>
           </section>
         )}
 
-        {/* ── SECTION 3: Trust Stats ── */}
-        <section className="px-4">
+        {/* ── TRUST STATS (attached, no gap) ── */}
+        <section className="px-4 -mt-1">
           <div className="grid grid-cols-4 gap-2">
             {[
               { icon: Users, value: '500+', label: 'Couples', color: 'text-primary' },
-              { icon: Star, value: '50+', label: 'Vendors', color: 'text-accent' },
+              { icon: Award, value: '50+', label: 'Vendors', color: 'text-accent' },
               { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
               { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center py-3 px-1 rounded-xl bg-card border border-border/50">
-                <stat.icon className={`h-5 w-5 ${stat.color} mb-1.5`} />
+              <div key={stat.label} className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40">
+                <stat.icon className={`h-5 w-5 ${stat.color} mb-1`} />
                 <span className="text-sm font-bold text-foreground">{stat.value}</span>
                 <span className="text-[10px] text-muted-foreground font-medium">{stat.label}</span>
               </div>
@@ -267,44 +308,50 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 4: Vendor Categories (ONLY vendors, no tools) ── */}
+        {/* ── VENDOR CATEGORIES (tight, 5+ visible) ── */}
         <section className="px-4">
-          <SectionHeader title="Browse by Category" seeAllRoute="/categories" />
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Browse by Category</h2>
+            <button onClick={() => navigate('/categories')} className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform">
+              See All <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-            <div className="flex gap-4 pb-2" style={{ width: 'max-content' }}>
+            <div className="flex gap-3 pb-1" style={{ width: 'max-content' }}>
               {vendorCategories.map((cat) => (
                 <button
                   key={cat.category}
                   onClick={() => navigate(`/search?category=${cat.category}`)}
-                  className="flex flex-col items-center gap-2 active:scale-95 transition-transform"
-                  style={{ minWidth: '72px' }}
+                  className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                  style={{ minWidth: '64px' }}
                 >
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20 shadow-md">
+                  <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-accent/30 shadow-md">
                     <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[11px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
+                  <span className="text-[10px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
                 </button>
               ))}
             </div>
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 5: Top Rated Vendors ── */}
+        {/* ── TOP RATED VENDORS (single section, wider cards) ── */}
         <section className="px-4">
-          <SectionHeader title="Top Rated Vendors" seeAllRoute="/search" />
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Top Rated Vendors</h2>
+            <button onClick={() => navigate('/search')} className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform">
+              See All <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+            <div className="flex gap-3 pb-1" style={{ width: 'max-content' }}>
               {displayVendors.map((vendor: any) => {
                 const image = vendor.image || vendor.logo_url || vendor.portfolio_images?.[0] || vendorImage1;
                 return (
                   <button
                     key={vendor.id}
                     onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendor/${vendor.id}`)}
-                    className="flex-shrink-0 w-40 rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
+                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/40 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
                   >
                     <div className="w-full h-28 overflow-hidden">
                       <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" />
@@ -325,35 +372,25 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
-        {/* ── Top Vendors Photo Grid ── */}
+        {/* Divider */}
+        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+        {/* ── FREE PLANNING TOOLS (compact 2x2) ── */}
         <section className="px-4">
-          <SectionHeader title="Top Vendors" seeAllRoute="/search" />
-          <div className="grid grid-cols-2 gap-2">
-            {[vendorImage1, vendorImage2, vendorImage3, vendorImage4].map((img, i) => (
-              <button
-                key={i}
-                onClick={() => navigate('/search')}
-                className="rounded-xl overflow-hidden aspect-square active:scale-[0.97] transition-transform shadow-sm"
-              >
-                <img src={img} alt={`Top vendor ${i + 1}`} className="w-full h-full object-cover" />
-              </button>
-            ))}
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Free Planning Tools</h2>
+            <button onClick={() => navigate('/budget-calculator')} className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform">
+              See All <ChevronRight className="h-3.5 w-3.5" />
+            </button>
           </div>
-        </section>
-
-        <PremiumDivider />
-
-        {/* ── SECTION 6: Free Planning Tools (separate from categories!) ── */}
-        <section className="px-4">
-          <SectionHeader title="Free Planning Tools" seeAllRoute="/budget-calculator" />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2.5">
             {planningTools.map((tool) => (
               <button
                 key={tool.route}
                 onClick={() => navigate(tool.route)}
-                className={`flex flex-col items-start p-4 rounded-xl bg-gradient-to-br ${tool.gradient} border border-border/30 shadow-sm active:scale-[0.97] transition-transform text-left`}
+                className={`flex flex-col items-start p-3 rounded-xl bg-gradient-to-br ${tool.gradient} border border-border/30 active:scale-[0.97] transition-transform text-left`}
               >
-                <div className="w-9 h-9 rounded-lg bg-white/80 border border-border/20 flex items-center justify-center mb-2.5 shadow-sm">
+                <div className="w-8 h-8 rounded-lg bg-white/80 border border-border/20 flex items-center justify-center mb-2">
                   <tool.icon className="h-4 w-4 text-primary" />
                 </div>
                 <p className="text-xs font-semibold text-foreground leading-tight">{tool.title}</p>
@@ -363,106 +400,86 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 7: Fun Wedding Tools (with generated images) ── */}
+        {/* ── FUN WEDDING TOOLS (horizontal scroll, gradient cards) ── */}
         <section className="px-4">
-          <SectionHeader title="Fun Wedding Tools" />
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Fun Wedding Tools</h2>
+          </div>
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
-              {funTools.map((tool) => {
-                const bannerUrl = banners[tool.key];
-                return (
-                  <button
-                    key={tool.key}
-                    onClick={() => navigate(tool.route)}
-                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
-                  >
-                    <div className="w-full h-24 bg-gradient-to-br from-accent/10 via-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
-                      {bannerUrl ? (
-                        <img src={bannerUrl} alt={tool.title} className="w-full h-full object-cover" />
-                      ) : (
-                        <tool.icon className="h-8 w-8 text-primary/40" />
-                      )}
-                    </div>
-                    <div className="p-3">
-                      <p className="text-xs font-semibold text-foreground">{tool.title}</p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">{tool.tagline}</p>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
+              {funTools.map((tool) => (
+                <button
+                  key={tool.route}
+                  onClick={() => navigate(tool.route)}
+                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-sm"
+                >
+                  <div className={`w-full h-20 bg-gradient-to-br ${tool.color} flex items-center justify-center`}>
+                    <tool.icon className="h-7 w-7 text-white/90" />
+                  </div>
+                  <div className="p-2.5 bg-card border border-t-0 border-border/40 rounded-b-xl">
+                    <p className="text-[11px] font-semibold text-foreground leading-tight">{tool.title}</p>
+                    <p className="text-[9px] text-muted-foreground mt-0.5 leading-snug">{tool.tagline}</p>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         </section>
 
-        <PremiumDivider />
+        {/* Divider */}
+        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-        {/* ── SECTION 8: How It Works ── */}
+        {/* ── HOW IT WORKS (compact horizontal strip) ── */}
         <section className="px-4">
-          <SectionHeader title="How It Works" />
-          <div className="space-y-3">
+          <h2 className="text-base font-semibold text-foreground mb-3">How It Works</h2>
+          <div className="flex gap-2">
             {howItWorksSteps.map((step, i) => (
-              <div key={i} className="flex gap-4 items-start p-4 rounded-xl bg-card border border-border/50">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center flex-shrink-0 border border-primary/20">
+              <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card border border-border/40">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2 border border-primary/20">
                   <span className="text-xs font-bold text-primary">{step.num}</span>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{step.title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{step.desc}</p>
-                </div>
+                <p className="text-[11px] font-semibold text-foreground leading-tight">{step.title}</p>
+                <p className="text-[9px] text-muted-foreground mt-0.5 leading-snug">{step.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 9: Shaadi Seva (Social Impact) ── */}
+        {/* ── SHAADI SEVA ── */}
         <section className="px-4">
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/50 p-5">
-            <div className="flex items-start gap-3">
-              <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                <HandHeart className="h-5 w-5 text-emerald-700" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-foreground">Shaadi Seva</p>
-                <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                  Every booking contributes to helping underprivileged couples celebrate their wedding. ₹25,000+ raised so far.
-                </p>
-                <button
-                  onClick={() => navigate('/shaadi-seva')}
-                  className="text-xs font-semibold text-emerald-700 mt-2 flex items-center gap-1 active:scale-95 transition-transform"
-                >
-                  Learn More <ArrowRight className="h-3 w-3" />
-                </button>
-              </div>
+          <div className="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/50">
+            <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+              <HandHeart className="h-5 w-5 text-emerald-700" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-foreground">Shaadi Seva</p>
+              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                Every booking helps underprivileged couples celebrate their wedding. ₹25,000+ raised.
+              </p>
+              <button onClick={() => navigate('/shaadi-seva')} className="text-xs font-semibold text-emerald-700 mt-2 flex items-center gap-1 active:scale-95 transition-transform">
+                Learn More <ArrowRight className="h-3 w-3" />
+              </button>
             </div>
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 10: Success Stories + Reviews ── */}
-        <section className="px-4 space-y-4">
-          <div className="relative rounded-2xl overflow-hidden">
-            <img src={coupleImage} alt="Real couples" className="w-full h-44 object-cover" />
+        {/* ── SUCCESS STORIES + REVIEWS ── */}
+        <section className="px-4 space-y-3">
+          <div className="relative rounded-xl overflow-hidden">
+            <img src={coupleImage} alt="Real couples" className="w-full h-36 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
-              <p className="text-white text-base font-display font-semibold">Real Couples, Real Celebrations</p>
-              <p className="text-white/70 text-xs mt-0.5">Trusted by 500+ couples across India</p>
+              <p className="text-white text-sm font-display font-semibold">Real Couples, Real Celebrations</p>
+              <p className="text-white/70 text-[10px] mt-0.5">Trusted by 500+ couples across India</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/50">
+          <div className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/40">
             <div className="flex items-center gap-2">
               <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
-                ))}
+                {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />)}
               </div>
               <span className="text-sm font-bold text-foreground">4.9/5</span>
-              <span className="text-xs text-muted-foreground">from 500+ reviews</span>
             </div>
             <button onClick={() => navigate('/testimonials')} className="text-xs font-semibold text-primary active:scale-95 transition-transform">
               Read Stories
@@ -470,35 +487,28 @@ export function MobileHomeScreen() {
           </div>
 
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+            <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
               {reviewQuotes.map((review, i) => (
-                <div
-                  key={i}
-                  className="flex-shrink-0 w-72 p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm"
-                >
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(review.rating)].map((_, j) => (
-                      <Star key={j} className="h-3 w-3 text-amber-400 fill-amber-400" />
-                    ))}
+                <div key={i} className="flex-shrink-0 w-64 p-3 rounded-xl bg-card border border-border/40">
+                  <div className="flex items-center gap-0.5 mb-1.5">
+                    {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-3 w-3 text-amber-400 fill-amber-400" />)}
                   </div>
-                  <p className="text-xs text-foreground leading-relaxed italic">&ldquo;{review.quote}&rdquo;</p>
-                  <p className="text-[10px] font-semibold text-muted-foreground mt-2">{review.name} · {review.city}</p>
+                  <p className="text-[11px] text-foreground leading-relaxed italic">&ldquo;{review.quote}&rdquo;</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground mt-1.5">{review.name} · {review.city}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 11: For Vendors Banner ── */}
+        {/* ── FOR VENDORS BANNER ── */}
         <section className="px-4">
-          <div className="relative rounded-2xl overflow-hidden">
-            <img src={fireworksImage} alt="For vendors" className="w-full h-40 object-cover" />
+          <div className="relative rounded-xl overflow-hidden">
+            <img src={fireworksImage} alt="For vendors" className="w-full h-36 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <p className="text-white text-base font-display font-semibold">Grow Your Wedding Business</p>
-              <p className="text-white/70 text-xs mt-0.5 mb-3">Join 50+ verified vendors on Karlo Shaadi</p>
+            <div className="absolute bottom-0 left-0 right-0 p-4">
+              <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>
+              <p className="text-white/70 text-[10px] mt-0.5 mb-2.5">Join 50+ verified vendors on Karlo Shaadi</p>
               <button
                 onClick={() => navigate('/for-vendors')}
                 className="bg-accent text-accent-foreground text-xs font-semibold px-4 py-2 rounded-full active:scale-95 transition-transform"
@@ -509,14 +519,12 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
-        <PremiumDivider />
-
-        {/* ── SECTION 12: Final CTA ── */}
-        <section className="px-4 pb-4">
-          <div className="text-center py-8 px-6 rounded-2xl bg-gradient-to-br from-primary/5 via-card to-accent/5 border border-border/50">
-            <Sparkles className="h-8 w-8 text-accent mx-auto mb-3" />
-            <h2 className="text-lg font-display font-semibold text-foreground mb-1">Start Your Dream Wedding</h2>
-            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+        {/* ── FINAL CTA ── */}
+        <section className="px-4">
+          <div className="text-center py-6 px-5 rounded-xl bg-gradient-to-br from-primary/5 via-card to-accent/5 border border-border/40">
+            <Sparkles className="h-7 w-7 text-accent mx-auto mb-2" />
+            <h2 className="text-base font-display font-semibold text-foreground mb-1">Start Your Dream Wedding</h2>
+            <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
               Plan, book, and celebrate — all in one place
             </p>
             <button
@@ -528,7 +536,7 @@ export function MobileHomeScreen() {
             {!user && (
               <button
                 onClick={() => navigate('/for-vendors')}
-                className="block mx-auto mt-3 text-xs font-medium text-muted-foreground underline underline-offset-2 active:scale-95 transition-transform"
+                className="block mx-auto mt-2 text-xs font-medium text-muted-foreground underline underline-offset-2 active:scale-95 transition-transform"
               >
                 Are You a Vendor? Register Here →
               </button>
