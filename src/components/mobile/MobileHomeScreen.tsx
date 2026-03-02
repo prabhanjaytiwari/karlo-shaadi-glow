@@ -1,561 +1,542 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { 
-  Bell, ArrowRight, Star, ChevronRight, Heart, 
-  Calculator, Calendar, Shield, CheckCircle2, Users, 
-  MapPin, ShieldCheck, IndianRupee
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import {
+  Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
+  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
+  BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart
 } from 'lucide-react';
-import { differenceInDays, format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Button } from '@/components/ui/button';
 
-import logo from '@/assets/logo-new.png';
-import heroWedding from '@/assets/hero-wedding-phere.jpeg';
-import iconVenue from '@/assets/icon-venue.jpg';
-import iconPhotography from '@/assets/icon-photography.jpg';
-import iconDecoration from '@/assets/icon-decoration.jpg';
-import iconMehendi from '@/assets/icon-mehendi.jpg';
-import iconCatering from '@/assets/icon-catering.jpg';
-import weddingCouple1 from '@/assets/wedding-couple-1.jpg';
-import weddingCeremony from '@/assets/wedding-ceremony.jpg';
-import weddingDecoration from '@/assets/wedding-decoration.jpg';
-import weddingHaldi from '@/assets/wedding-haldi.jpg';
-import weddingManifesting from '@/assets/wedding-manifesting.jpg';
-import weddingFireworks from '@/assets/wedding-fireworks.jpg';
+// Category images (vendor categories ONLY)
+import categoryVenue from '@/assets/category-venue.jpg';
+import categoryPhotography from '@/assets/category-photography.jpg';
+import categoryDecoration from '@/assets/category-decoration.jpg';
+import categoryMakeup from '@/assets/category-makeup.jpg';
+import categoryCatering from '@/assets/category-catering.jpg';
+import categoryMehendi from '@/assets/category-mehendi.jpg';
+import categoryMusic from '@/assets/category-music.jpg';
+import categoryJewelry from '@/assets/category-jewelry.jpg';
+import categoryEntertainment from '@/assets/category-entertainment.jpg';
 
-// ─── Static Data ───
-const categories = [
-  { image: iconVenue, label: 'Budget Calculator', path: '/budget-calculator' },
-  { image: iconPhotography, label: 'Muhurat Finder', path: '/muhurat-finder' },
-  { image: iconDecoration, label: 'Photographer', path: '/search?category=photography' },
-  { image: iconMehendi, label: 'Makeup Artist', path: '/search?category=makeup' },
-  { image: iconCatering, label: 'Invite Creator', path: '/invite-creator' },
+// Section images
+import heroImage from '@/assets/hero-wedding-phere.jpeg';
+import coupleImage from '@/assets/section-couples.jpg';
+import vendorImage1 from '@/assets/wedding-couple-1.jpg';
+import vendorImage2 from '@/assets/wedding-ceremony.jpg';
+import vendorImage3 from '@/assets/wedding-decoration.jpg';
+import vendorImage4 from '@/assets/wedding-haldi.jpg';
+import fireworksImage from '@/assets/wedding-fireworks.jpg';
+import logoImage from '@/assets/logo-new.png';
+
+// ─── DATA ─────────────────────────────────────────────
+
+const vendorCategories = [
+  { image: categoryVenue, label: 'Venue', category: 'venue', icon: MapPin },
+  { image: categoryPhotography, label: 'Photography', category: 'photography', icon: Camera },
+  { image: categoryDecoration, label: 'Decoration', category: 'decoration', icon: Palette },
+  { image: categoryMakeup, label: 'Makeup', category: 'makeup', icon: Sparkles },
+  { image: categoryCatering, label: 'Catering', category: 'catering', icon: Utensils },
+  { image: categoryMehendi, label: 'Mehendi', category: 'mehendi', icon: Heart },
+  { image: categoryMusic, label: 'Music', category: 'music', icon: Music },
+  { image: categoryJewelry, label: 'Jewelry', category: 'jewelry', icon: Gem },
+  { image: categoryEntertainment, label: 'Entertainment', category: 'entertainment', icon: PartyPopper },
 ];
 
-const topVendorPhotos = [
-  { image: weddingCouple1, label: 'Wedding Photography' },
-  { image: weddingCeremony, label: 'Ceremony' },
-  { image: weddingDecoration, label: 'Decoration' },
-  { image: weddingHaldi, label: 'Haldi Ceremony' },
+const planningTools = [
+  { title: 'Budget Calculator', desc: 'Plan your wedding budget smartly', icon: Calculator, route: '/budget-calculator', gradient: 'from-amber-50 to-orange-50' },
+  { title: 'Muhurat Finder', desc: 'Find auspicious wedding dates', icon: CalendarHeart, route: '/muhurat-finder', gradient: 'from-rose-50 to-pink-50' },
+  { title: 'Invite Creator', desc: 'Design beautiful digital invites', icon: Heart, route: '/invite-creator', gradient: 'from-violet-50 to-purple-50' },
+  { title: 'Wedding Planner', desc: 'AI-powered wedding planning', icon: Sparkles, route: '/plan-wizard', gradient: 'from-emerald-50 to-teal-50' },
 ];
 
-const checklistItems = [
-  { label: 'Book wedding venue', checked: true },
-  { label: 'Finalize photographer', checked: false },
-  { label: 'Order wedding cards', checked: false },
-];
-
-const guestItems = [
-  { label: 'Sharma Family (4)', checked: true },
-  { label: 'College Friends (8)', checked: false },
-  { label: 'Office Colleagues (6)', checked: false },
-];
-
-const viralTools = [
-  { label: 'Couple Quiz', to: '/couple-quiz' },
-  { label: 'Budget Roast', to: '/budget-roast' },
-  { label: 'Vendor Checker', to: '/vendor-check' },
-  { label: 'Speech Writer', to: '/speech-writer' },
-  { label: 'Music Generator', to: '/music-generator' },
+const funTools = [
+  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', key: 'couple-quiz', icon: Heart },
+  { title: 'Budget Roast', tagline: 'Get your budget humorously roasted', route: '/budget-roast', key: 'budget-roast', icon: FlameKindling },
+  { title: 'Speech Writer', tagline: 'AI-crafted wedding speeches', route: '/speech-writer', key: 'speech-writer', icon: Mic },
+  { title: 'Music Generator', tagline: 'Create your wedding anthem', route: '/music-generator', key: 'music-generator', icon: Music },
+  { title: 'Vendor Score', tagline: 'Check any vendor\'s trust score', route: '/vendor-check', key: 'vendor-score', icon: BadgeCheck },
 ];
 
 const howItWorksSteps = [
-  { number: '01', title: 'Tell Us Your Vision', description: 'Share your wedding date, location, style & budget' },
-  { number: '02', title: 'Get Matched', description: 'We curate perfect vendors for your requirements' },
-  { number: '03', title: 'Book & Relax', description: 'Secure vendors with protected payments' },
+  { num: '01', title: 'Tell Us Your Vision', desc: 'Share your wedding date, city, budget & style preferences' },
+  { num: '02', title: 'Get Matched', desc: 'We match you with verified vendors perfectly suited to your needs' },
+  { num: '03', title: 'Book & Celebrate', desc: 'Secure your vendors with safe payments & enjoy your big day' },
 ];
 
-interface VendorCard {
-  id: string;
-  business_name: string;
-  category: string;
-  average_rating: number | null;
-  total_reviews: number | null;
-  logo_url: string | null;
+const reviewQuotes = [
+  { name: 'Priya & Rahul', city: 'Mumbai', quote: 'Karlo Shaadi made our dream wedding a reality. The vendor matching was spot on!', rating: 5 },
+  { name: 'Sneha & Amit', city: 'Delhi', quote: 'From venue to catering, every vendor was top-notch. Truly premium service.', rating: 5 },
+  { name: 'Ananya & Vikram', city: 'Bangalore', quote: 'The budget calculator saved us lakhs. Best wedding planning platform!', rating: 5 },
+];
+
+// ─── HOOKS ────────────────────────────────────────────
+
+function useVendors() {
+  return useQuery({
+    queryKey: ['mobile-top-vendors'],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('vendors')
+        .select('id, business_name, category, city, average_rating, total_reviews, logo_url, portfolio_images')
+        .order('average_rating', { ascending: false })
+        .limit(8);
+      return data || [];
+    },
+  });
 }
 
-export function MobileHomeScreen() {
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
-  const [profile, setProfile] = useState<any>(null);
-  const [vendors, setVendors] = useState<VendorCard[]>([]);
+function useBannerImages() {
+  const [banners, setBanners] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchVendors();
-    if (user) fetchProfile();
-  }, [user]);
+    async function loadBanners() {
+      try {
+        const { data: files } = await supabase.storage.from('home-banners').list();
+        if (files && files.length >= 5) {
+          const urls: Record<string, string> = {};
+          for (const f of files) {
+            const key = f.name.replace('.png', '');
+            const { data } = supabase.storage.from('home-banners').getPublicUrl(f.name);
+            urls[key] = data.publicUrl;
+          }
+          setBanners(urls);
+          setLoading(false);
+          return;
+        }
+        const { data, error } = await supabase.functions.invoke('generate-home-banners');
+        if (!error && data?.banners) {
+          setBanners(data.banners);
+        }
+      } catch (e) {
+        console.error('Banner load error:', e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBanners();
+  }, []);
 
-  const fetchProfile = async () => {
-    if (!user) return;
-    const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-    if (data) setProfile(data);
-  };
+  return { banners, loading };
+}
 
-  const fetchVendors = async () => {
-    const { data } = await supabase
-      .from('vendors')
-      .select('id, business_name, category, average_rating, total_reviews, logo_url')
-      .eq('verified', true)
-      .order('average_rating', { ascending: false })
-      .limit(6);
-    if (data) setVendors(data as unknown as VendorCard[]);
-  };
+function useWeddingCountdown() {
+  const { user } = useAuthContext();
+  return useQuery({
+    queryKey: ['wedding-countdown', user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('profiles')
+        .select('wedding_date, partner_name')
+        .eq('id', user.id)
+        .single();
+      if (!data?.wedding_date) return null;
+      const diff = new Date(data.wedding_date).getTime() - Date.now();
+      if (diff <= 0) return null;
+      return { days: Math.ceil(diff / (1000 * 60 * 60 * 24)), partnerName: data.partner_name };
+    },
+    enabled: !!user,
+  });
+}
 
-  const weddingDate = profile?.wedding_date ? new Date(profile.wedding_date) : null;
-  const daysLeft = weddingDate ? differenceInDays(weddingDate, new Date()) : null;
+// ─── SUB-COMPONENTS ───────────────────────────────────
 
-  const placeholderVendors: VendorCard[] = [
-    { id: '1', business_name: 'Royal Photography', category: 'Photography', average_rating: 4.8, total_reviews: 120, logo_url: null },
-    { id: '2', business_name: 'Shahi Decorators', category: 'Decoration', average_rating: 4.7, total_reviews: 89, logo_url: null },
-    { id: '3', business_name: 'Ritu Makeup Studio', category: 'Makeup', average_rating: 4.9, total_reviews: 156, logo_url: null },
-    { id: '4', business_name: 'Annapurna Caterers', category: 'Catering', average_rating: 4.6, total_reviews: 74, logo_url: null },
-  ];
-  const placeholderImages = [weddingCouple1, weddingCeremony, weddingDecoration, weddingHaldi];
-  const displayVendors = vendors.length > 0 ? vendors : placeholderVendors;
-
+function SectionHeader({ title, seeAllRoute }: { title: string; seeAllRoute?: string }) {
+  const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-background pb-24">
-      {/* ─── Sticky Header ─── */}
-      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border px-4 h-12 flex items-center justify-between">
-        <img src={logo} alt="Karlo Shaadi" className="h-7 w-auto" style={{ mixBlendMode: 'multiply' }} />
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-base font-semibold text-foreground tracking-tight">{title}</h2>
+      {seeAllRoute && (
         <button
-          onClick={() => navigate(user ? '/notifications' : '/auth')}
-          className="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-muted active:scale-95 transition-transform"
+          onClick={() => navigate(seeAllRoute)}
+          className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform"
         >
-          <Bell className="h-5 w-5 text-muted-foreground" />
+          See All <ChevronRight className="h-3.5 w-3.5" />
         </button>
-      </header>
-
-      <div className="px-4 pt-4 space-y-6">
-        {/* ─── Hero Banner ─── */}
-        <section
-          className="relative rounded-2xl overflow-hidden aspect-[16/10] cursor-pointer active:scale-[0.98] transition-transform"
-          onClick={() => navigate('/budget-calculator')}
-        >
-          <img src={heroWedding} alt="Dream wedding" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-5">
-            <h1 className="text-white font-display font-bold text-xl leading-tight drop-shadow-md">
-              {user ? 'Aap Shaadi Karo,\nTension Hum\nSambhal Lenge' : 'Your Dream\nWedding Starts Here'}
-            </h1>
-            <button className="mt-3 px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold shadow-lg active:scale-95 transition-transform">
-              Calculate Services
-            </button>
-          </div>
-          <div className="absolute bottom-2.5 right-5 flex gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-white" />
-            <span className="w-2 h-2 rounded-full bg-white/40" />
-            <span className="w-2 h-2 rounded-full bg-white/40" />
-          </div>
-        </section>
-
-        {/* ─── Wedding Countdown ─── */}
-        {user && daysLeft !== null && daysLeft > 0 && (
-          <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200">
-            <Heart className="h-5 w-5 text-amber-500 shrink-0" />
-            <p className="text-sm text-amber-800 font-medium">
-              <span className="font-bold text-amber-600">{daysLeft} days</span> to your wedding
-              {weddingDate && <span className="text-amber-600/70"> · {format(weddingDate, 'MMM d, yyyy')}</span>}
-            </p>
-          </div>
-        )}
-
-        {/* ─── Trust Stats ─── */}
-        <section className="grid grid-cols-4 gap-1">
-          {[
-            { icon: <Heart className="h-4 w-4 text-primary" />, value: '500+', label: 'Couples' },
-            { icon: <Users className="h-4 w-4 text-primary" />, value: '50+', label: 'Vendors' },
-            { icon: <ShieldCheck className="h-4 w-4 text-primary" />, value: '100%', label: 'Secure' },
-            { icon: <MapPin className="h-4 w-4 text-primary" />, value: '20+', label: 'Cities' },
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center text-center py-2.5 rounded-xl bg-secondary/40 border border-border">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mb-1">
-                {stat.icon}
-              </div>
-              <span className="text-sm font-bold text-foreground">{stat.value}</span>
-              <span className="text-[9px] text-muted-foreground">{stat.label}</span>
-            </div>
-          ))}
-        </section>
-
-        {/* ─── Category Quick Access ─── */}
-        <section>
-          <div className="flex gap-4 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
-            {categories.map((cat) => (
-              <button
-                key={cat.path}
-                onClick={() => navigate(cat.path)}
-                className="flex flex-col items-center gap-2 shrink-0 active:scale-95 transition-transform"
-              >
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm">
-                  <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
-                </div>
-                <span className="text-[10px] font-medium text-foreground text-center leading-tight w-16">
-                  {cat.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Categories Banner ─── */}
-        <section className="rounded-2xl bg-gradient-to-br from-rose-50 via-white to-amber-50/50 border border-border p-5 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-3">
-            <span className="text-accent text-[10px] font-medium">Categories</span>
-          </div>
-          <h2 className="text-base font-semibold text-foreground mb-1">
-            2000+ Wedding Services. <span className="text-accent font-quote italic">One Platform.</span>
-          </h2>
-          <p className="text-[11px] text-muted-foreground mb-3">
-            From photographers to caterers — every service, verified and ready.
-          </p>
-          <Button size="sm" className="rounded-full px-5 text-xs" onClick={() => navigate('/categories')}>
-            Explore All Categories
-          </Button>
-        </section>
-
-        {/* ─── Find Best Vendors ─── */}
-        <section>
-          <SectionHeader title="Find Best Vendors" onSeeAll={() => navigate('/search')} />
-          <div className="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
-            {displayVendors.map((vendor, i) => {
-              const img = vendor.logo_url || placeholderImages[i % placeholderImages.length];
-              return (
-                <button
-                  key={vendor.id}
-                  onClick={() => navigate(vendors.length > 0 ? `/vendor/${vendor.id}` : '/search')}
-                  className="shrink-0 w-36 rounded-xl overflow-hidden border border-border bg-background active:scale-95 transition-transform"
-                >
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img src={img as string} alt={vendor.business_name} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="p-2.5">
-                    <p className="text-xs font-semibold text-foreground truncate">{vendor.business_name}</p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-                      <span className="text-[10px] font-medium text-foreground">{vendor.average_rating || 0}</span>
-                      <span className="text-[10px] text-muted-foreground">({vendor.total_reviews || 0})</span>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ─── Free Planning Tools ─── */}
-        <section>
-          <SectionHeader title="Free Planning Tools" onSeeAll={() => navigate('/budget-calculator')} />
-          <div className="grid grid-cols-3 gap-2.5">
-            {[
-              { icon: Calculator, title: 'Budget Calculator', desc: 'Detailed budget breakdown', path: '/budget-calculator', cta: 'Calculate' },
-              { icon: Calendar, title: 'Muhurat Finder', desc: 'Auspicious wedding dates', path: '/muhurat-finder', cta: 'Find Dates' },
-              { icon: Heart, title: 'Invite Creator', desc: 'Stunning invitations', path: '/invite-creator', cta: 'Create' },
-            ].map((tool) => (
-              <button
-                key={tool.path}
-                onClick={() => navigate(tool.path)}
-                className="p-3 rounded-xl border border-border bg-background text-left active:scale-[0.97] transition-transform"
-              >
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2">
-                  <tool.icon className="h-4 w-4 text-primary" />
-                </div>
-                <p className="text-[11px] font-semibold text-foreground leading-tight mb-0.5">{tool.title}</p>
-                <p className="text-[9px] text-muted-foreground leading-tight">{tool.desc}</p>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Viral Tools Row ─── */}
-        <section>
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
-            {viralTools.map((tool) => (
-              <Link
-                key={tool.to}
-                to={tool.to}
-                className="shrink-0 px-3.5 py-2 rounded-full border border-border bg-background hover:border-primary/30 hover:bg-primary/5 text-[11px] font-medium text-muted-foreground active:scale-95 transition-all"
-              >
-                {tool.label}
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Top Vendors Photo Grid ─── */}
-        <section>
-          <SectionHeader title="Top Vendors" onSeeAll={() => navigate('/search')} />
-          <div className="grid grid-cols-2 gap-2.5">
-            {topVendorPhotos.map((photo) => (
-              <button
-                key={photo.label}
-                onClick={() => navigate('/search')}
-                className="relative aspect-[4/3] rounded-xl overflow-hidden active:scale-[0.97] transition-transform"
-              >
-                <img src={photo.image} alt={photo.label} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute bottom-2 left-2.5 text-[11px] font-semibold text-white drop-shadow">
-                  {photo.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── Value Proposition ─── */}
-        <section className="rounded-2xl overflow-hidden border border-border">
-          <div className="relative aspect-video overflow-hidden">
-            <img src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-            <div className="absolute bottom-3 left-4 right-4">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20 mb-2">
-                <span className="text-accent text-[10px] font-medium">Your Wedding, Simplified</span>
-              </div>
-              <h3 className="text-sm font-semibold text-foreground">
-                We Handle Everything, <span className="text-accent">You Celebrate</span>
-              </h3>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-1.5 p-3">
-            {[
-              { title: '300+ Calls', subtitle: 'Handled for you' },
-              { title: 'Zero Fraud', subtitle: 'Fully verified' },
-              { title: 'Your Day', subtitle: 'Stress-free' },
-            ].map((item, i) => (
-              <div key={i} className="text-center py-2 px-1 rounded-lg bg-secondary/40 border border-border">
-                <p className="text-[11px] font-semibold text-accent">{item.title}</p>
-                <p className="text-[9px] text-muted-foreground">{item.subtitle}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─── How It Works ─── */}
-        <section>
-          <SectionHeader title="How It Works" onSeeAll={() => navigate('/plan-wizard')} />
-          <div className="space-y-3">
-            {howItWorksSteps.map((step, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-background">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center shrink-0">
-                  <span className="text-accent font-semibold text-xs">{step.number}</span>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-foreground">{step.title}</p>
-                  <p className="text-[10px] text-muted-foreground leading-snug mt-0.5">{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Button size="sm" className="rounded-full px-5 text-xs w-full mt-3" onClick={() => navigate('/plan-wizard')}>
-            Start Planning Free
-          </Button>
-        </section>
-
-        {/* ─── Planning Tools (Checklist & Guest List) ─── */}
-        <section>
-          <SectionHeader title="Planning Tools" onSeeAll={() => navigate('/checklist')} />
-          <div className="grid grid-cols-2 gap-2.5">
-            <button
-              onClick={() => navigate('/checklist')}
-              className="p-3.5 rounded-xl border border-border bg-background text-left active:scale-[0.97] transition-transform"
-            >
-              <p className="text-xs font-semibold text-foreground mb-2.5">Wedding Checklist</p>
-              <div className="space-y-2">
-                {checklistItems.map((item) => (
-                  <div key={item.label} className="flex items-center gap-2">
-                    <Checkbox checked={item.checked} className="h-3.5 w-3.5 pointer-events-none" />
-                    <span className={cn('text-[10px] leading-tight', item.checked ? 'text-muted-foreground line-through' : 'text-foreground')}>
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-0.5 mt-3 text-primary">
-                <span className="text-[10px] font-medium">View All</span>
-                <ChevronRight className="h-3 w-3" />
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigate('/guest-list')}
-              className="p-3.5 rounded-xl border border-border bg-background text-left active:scale-[0.97] transition-transform"
-            >
-              <p className="text-xs font-semibold text-foreground mb-2.5">Guest List</p>
-              <div className="space-y-2">
-                {guestItems.map((item) => (
-                  <div key={item.label} className="flex items-center gap-2">
-                    <Checkbox checked={item.checked} className="h-3.5 w-3.5 pointer-events-none" />
-                    <span className={cn('text-[10px] leading-tight', item.checked ? 'text-muted-foreground line-through' : 'text-foreground')}>
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-0.5 mt-3 text-primary">
-                <span className="text-[10px] font-medium">View All</span>
-                <ChevronRight className="h-3 w-3" />
-              </div>
-            </button>
-          </div>
-        </section>
-
-        {/* ─── Shaadi Seva ─── */}
-        <section className="rounded-2xl bg-gradient-to-br from-rose-50 via-white to-amber-50/50 border border-primary/15 p-5 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-3">
-            <Heart className="h-3 w-3 text-primary fill-primary" />
-            <span className="text-primary text-[10px] font-medium">Shaadi Seva</span>
-          </div>
-          <h3 className="text-sm font-semibold text-foreground mb-1.5">
-            Every Wedding You Plan <span className="text-primary">Helps Someone Get Married</span>
-          </h3>
-          <p className="text-[11px] text-muted-foreground mb-4 leading-relaxed">
-            10% of every payment goes to the Shaadi Seva Fund — supporting couples in need.
-          </p>
-          <div className="grid grid-cols-2 gap-2.5 mb-3">
-            <div className="py-3 px-2 rounded-xl bg-primary/5 border border-primary/15">
-              <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-1.5">
-                <IndianRupee className="h-3.5 w-3.5 text-primary" />
-              </div>
-              <p className="text-sm font-bold text-primary">₹25,000+</p>
-              <p className="text-[9px] text-muted-foreground">Total Raised</p>
-            </div>
-            <div className="py-3 px-2 rounded-xl bg-accent/5 border border-accent/15">
-              <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-1.5">
-                <Heart className="h-3.5 w-3.5 text-accent" />
-              </div>
-              <p className="text-sm font-bold text-accent">3+</p>
-              <p className="text-[9px] text-muted-foreground">Weddings Supported</p>
-            </div>
-          </div>
-          <Button size="sm" variant="outline" className="rounded-full px-5 text-xs border-primary/30" onClick={() => navigate('/shaadi-seva')}>
-            Learn More
-          </Button>
-        </section>
-
-        {/* ─── Success Stories ─── */}
-        <section className="rounded-2xl overflow-hidden border border-border">
-          <div className="relative aspect-[16/10] overflow-hidden">
-            <img src={weddingManifesting} alt="Happy couple" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-            <div className="absolute bottom-3 left-4 right-4">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 mb-2">
-                <span className="text-primary text-[10px] font-medium">Success Stories</span>
-              </div>
-              <h3 className="text-sm font-semibold text-foreground">
-                Real Couples, <span className="text-primary">Real Celebrations</span>
-              </h3>
-            </div>
-          </div>
-          <div className="p-4">
-            <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              Over 50,000 couples trusted us with their special day across India.
-            </p>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center shrink-0">
-                <Star className="h-5 w-5 text-accent-foreground" />
-              </div>
-              <div>
-                <p className="text-lg font-bold text-foreground">4.9/5</p>
-                <p className="text-[10px] text-muted-foreground">Average Rating</p>
-              </div>
-            </div>
-            <Button size="sm" variant="outline" className="rounded-full px-5 text-xs w-full border-primary/30" onClick={() => navigate('/testimonials')}>
-              Read Their Stories
-            </Button>
-          </div>
-        </section>
-
-        {/* ─── For Vendors Banner ─── */}
-        <section className="rounded-2xl overflow-hidden border border-border">
-          <div className="relative aspect-[2/1] overflow-hidden">
-            <img src={weddingFireworks} alt="Wedding celebration" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-          </div>
-          <div className="p-4">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 mb-2">
-              <span className="text-primary text-[10px] font-medium">For Vendors</span>
-            </div>
-            <h3 className="text-sm font-semibold text-foreground mb-1">
-              Grow Your Business <span className="text-primary">10x Faster</span>
-            </h3>
-            <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              Join India's #1 zero-commission wedding platform. Get verified & connect with ready-to-book clients.
-            </p>
-            <div className="space-y-1.5 mb-3">
-              {[
-                { icon: Users, text: 'Couples across 20+ cities' },
-                { icon: Shield, text: '100% secure payments' },
-                { icon: Star, text: 'Verified reviews only' },
-                { icon: CheckCircle2, text: 'Start free, pay when booked' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center shrink-0">
-                    <item.icon className="h-3 w-3 text-primary" />
-                  </div>
-                  <p className="text-[11px] text-foreground">{item.text}</p>
-                </div>
-              ))}
-            </div>
-            <Button size="sm" className="rounded-full px-5 text-xs w-full" onClick={() => navigate('/for-vendors')}>
-              Join as Vendor — Free
-            </Button>
-          </div>
-        </section>
-
-        {/* ─── Final CTA ─── */}
-        <section className="rounded-2xl bg-gradient-to-br from-primary/10 via-background to-accent/10 border border-border p-5 text-center">
-          <h3 className="text-sm font-semibold text-foreground mb-1.5">
-            Ready to Start Your <span className="text-primary">Dream Wedding?</span>
-          </h3>
-          <p className="text-[11px] text-muted-foreground mb-4 leading-relaxed">
-            Join 50,000+ happy couples who planned their perfect wedding stress-free.
-          </p>
-          <div className="flex flex-col gap-2">
-            <Button size="sm" className="rounded-full text-xs w-full" onClick={() => navigate('/categories')}>
-              Explore Vendors
-            </Button>
-            {!user && (
-              <Button size="sm" variant="outline" className="rounded-full text-xs w-full border-primary/30" onClick={() => navigate('/auth')}>
-                Create Free Account
-              </Button>
-            )}
-          </div>
-        </section>
-
-        {/* ─── Vendor Acquisition ─── */}
-        <section className="rounded-2xl bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5 border border-border p-5 text-center">
-          <h3 className="text-sm font-semibold text-foreground mb-1">
-            Are You a <span className="text-accent">Wedding Vendor?</span>
-          </h3>
-          <p className="text-[11px] text-muted-foreground mb-3">
-            Register free on India's zero-commission platform. 5,000+ vendors growing with us.
-          </p>
-          <div className="flex flex-col gap-2">
-            <Button size="sm" className="rounded-full text-xs w-full" onClick={() => navigate('/for-vendors')}>
-              Register as Vendor — Free
-            </Button>
-            <Button size="sm" variant="outline" className="rounded-full text-xs w-full border-accent/30" onClick={() => navigate('/vendor-check')}>
-              Check Your Vendor Score
-            </Button>
-          </div>
-        </section>
-      </div>
+      )}
     </div>
   );
 }
 
-// ─── Section Header ───
-function SectionHeader({ title, onSeeAll }: { title: string; onSeeAll: () => void }) {
+function PremiumDivider() {
+  return <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />;
+}
+
+// ─── MAIN COMPONENT ───────────────────────────────────
+
+export function MobileHomeScreen() {
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const { data: vendors = [] } = useVendors();
+  const { banners } = useBannerImages();
+  const { data: countdown } = useWeddingCountdown();
+
+  const placeholderVendors = [
+    { id: 'p1', business_name: 'Royal Palace Venue', category: 'venue', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: vendorImage1 },
+    { id: 'p2', business_name: 'Candid Captures', category: 'photography', city: 'Delhi', average_rating: 4.8, total_reviews: 95, image: vendorImage2 },
+    { id: 'p3', business_name: 'Dream Decor Studio', category: 'decoration', city: 'Jaipur', average_rating: 4.7, total_reviews: 67, image: vendorImage3 },
+    { id: 'p4', business_name: 'Haldi Moments', category: 'photography', city: 'Bangalore', average_rating: 4.9, total_reviews: 112, image: vendorImage4 },
+  ];
+
+  const displayVendors = vendors.length > 0 ? vendors : placeholderVendors;
+
   return (
-    <div className="flex items-center justify-between mb-3">
-      <h2 className="text-sm font-semibold text-foreground">{title}</h2>
-      <button onClick={onSeeAll} className="flex items-center gap-0.5 text-primary active:scale-95 transition-transform">
-        <span className="text-xs font-medium">See All</span>
-        <ArrowRight className="h-3.5 w-3.5" />
-      </button>
+    <div className="min-h-screen bg-background">
+
+      {/* ── SECTION 1: Sticky Header ── */}
+      <header className="sticky top-0 z-50 glass-intense">
+        <div className="flex items-center justify-between px-4 h-14">
+          <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
+          <div className="flex items-center gap-3">
+            {user && (
+              <button onClick={() => navigate('/notifications')} className="relative p-2 rounded-full hover:bg-muted/50 active:scale-95 transition-all">
+                <Bell className="h-5 w-5 text-foreground" />
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      <div className="space-y-8 pb-8">
+
+        {/* ── SECTION 2: Hero Banner ── */}
+        <section className="px-4 pt-4">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl border border-accent/20">
+            <img src={heroImage} alt="Wedding celebration" className="w-full h-52 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-amber-300 text-[10px] font-semibold tracking-[0.2em] uppercase mb-1">
+                India's Most Trending Wedding Planning Platform
+              </p>
+              <h1 className="text-white text-xl font-display font-semibold leading-tight mb-1">
+                Aap Shaadi Karo,
+              </h1>
+              <p className="text-white/90 text-base font-display font-medium leading-tight mb-3">
+                Tension Hum Sambhal Lenge
+              </p>
+              <button
+                onClick={() => navigate('/plan-wizard')}
+                className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
+              >
+                Start Planning Free
+              </button>
+            </div>
+            <div className="absolute bottom-3 right-4 flex gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
+            </div>
+          </div>
+        </section>
+
+        {/* ── Wedding Countdown (logged-in only) ── */}
+        {countdown && (
+          <section className="px-4 -mt-4">
+            <div className="bg-gradient-to-r from-accent/10 via-accent/5 to-primary/10 rounded-xl px-4 py-3 border border-accent/20 flex items-center gap-3">
+              <CalendarHeart className="h-5 w-5 text-accent flex-shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-foreground">
+                  {countdown.days} days to your wedding! 🎉
+                </p>
+                {countdown.partnerName && (
+                  <p className="text-xs text-muted-foreground">With {countdown.partnerName}</p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── SECTION 3: Trust Stats ── */}
+        <section className="px-4">
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { icon: Users, value: '500+', label: 'Couples', color: 'text-primary' },
+              { icon: Star, value: '50+', label: 'Vendors', color: 'text-accent' },
+              { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
+              { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col items-center py-3 px-1 rounded-xl bg-card border border-border/50">
+                <stat.icon className={`h-5 w-5 ${stat.color} mb-1.5`} />
+                <span className="text-sm font-bold text-foreground">{stat.value}</span>
+                <span className="text-[10px] text-muted-foreground font-medium">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 4: Vendor Categories (ONLY vendors, no tools) ── */}
+        <section className="px-4">
+          <SectionHeader title="Browse by Category" seeAllRoute="/categories" />
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-4 pb-2" style={{ width: 'max-content' }}>
+              {vendorCategories.map((cat) => (
+                <button
+                  key={cat.category}
+                  onClick={() => navigate(`/search?category=${cat.category}`)}
+                  className="flex flex-col items-center gap-2 active:scale-95 transition-transform"
+                  style={{ minWidth: '72px' }}
+                >
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20 shadow-md">
+                    <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-[11px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 5: Top Rated Vendors ── */}
+        <section className="px-4">
+          <SectionHeader title="Top Rated Vendors" seeAllRoute="/search" />
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+              {displayVendors.map((vendor: any) => {
+                const image = vendor.image || vendor.logo_url || vendor.portfolio_images?.[0] || vendorImage1;
+                return (
+                  <button
+                    key={vendor.id}
+                    onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendor/${vendor.id}`)}
+                    className="flex-shrink-0 w-40 rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
+                  >
+                    <div className="w-full h-28 overflow-hidden">
+                      <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-2.5">
+                      <p className="text-xs font-semibold text-foreground truncate">{vendor.business_name}</p>
+                      <p className="text-[10px] text-muted-foreground capitalize">{vendor.category} · {vendor.city}</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                        <span className="text-[10px] font-semibold text-foreground">{vendor.average_rating || '4.8'}</span>
+                        <span className="text-[10px] text-muted-foreground">({vendor.total_reviews || 0})</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Top Vendors Photo Grid ── */}
+        <section className="px-4">
+          <SectionHeader title="Top Vendors" seeAllRoute="/search" />
+          <div className="grid grid-cols-2 gap-2">
+            {[vendorImage1, vendorImage2, vendorImage3, vendorImage4].map((img, i) => (
+              <button
+                key={i}
+                onClick={() => navigate('/search')}
+                className="rounded-xl overflow-hidden aspect-square active:scale-[0.97] transition-transform shadow-sm"
+              >
+                <img src={img} alt={`Top vendor ${i + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 6: Free Planning Tools (separate from categories!) ── */}
+        <section className="px-4">
+          <SectionHeader title="Free Planning Tools" seeAllRoute="/budget-calculator" />
+          <div className="grid grid-cols-2 gap-3">
+            {planningTools.map((tool) => (
+              <button
+                key={tool.route}
+                onClick={() => navigate(tool.route)}
+                className={`flex flex-col items-start p-4 rounded-xl bg-gradient-to-br ${tool.gradient} border border-border/30 shadow-sm active:scale-[0.97] transition-transform text-left`}
+              >
+                <div className="w-9 h-9 rounded-lg bg-white/80 border border-border/20 flex items-center justify-center mb-2.5 shadow-sm">
+                  <tool.icon className="h-4 w-4 text-primary" />
+                </div>
+                <p className="text-xs font-semibold text-foreground leading-tight">{tool.title}</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">{tool.desc}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 7: Fun Wedding Tools (with generated images) ── */}
+        <section className="px-4">
+          <SectionHeader title="Fun Wedding Tools" />
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+              {funTools.map((tool) => {
+                const bannerUrl = banners[tool.key];
+                return (
+                  <button
+                    key={tool.key}
+                    onClick={() => navigate(tool.route)}
+                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
+                  >
+                    <div className="w-full h-24 bg-gradient-to-br from-accent/10 via-primary/5 to-accent/5 flex items-center justify-center overflow-hidden">
+                      {bannerUrl ? (
+                        <img src={bannerUrl} alt={tool.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <tool.icon className="h-8 w-8 text-primary/40" />
+                      )}
+                    </div>
+                    <div className="p-3">
+                      <p className="text-xs font-semibold text-foreground">{tool.title}</p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">{tool.tagline}</p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 8: How It Works ── */}
+        <section className="px-4">
+          <SectionHeader title="How It Works" />
+          <div className="space-y-3">
+            {howItWorksSteps.map((step, i) => (
+              <div key={i} className="flex gap-4 items-start p-4 rounded-xl bg-card border border-border/50">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center flex-shrink-0 border border-primary/20">
+                  <span className="text-xs font-bold text-primary">{step.num}</span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{step.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 9: Shaadi Seva (Social Impact) ── */}
+        <section className="px-4">
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/50 p-5">
+            <div className="flex items-start gap-3">
+              <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <HandHeart className="h-5 w-5 text-emerald-700" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Shaadi Seva</p>
+                <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                  Every booking contributes to helping underprivileged couples celebrate their wedding. ₹25,000+ raised so far.
+                </p>
+                <button
+                  onClick={() => navigate('/shaadi-seva')}
+                  className="text-xs font-semibold text-emerald-700 mt-2 flex items-center gap-1 active:scale-95 transition-transform"
+                >
+                  Learn More <ArrowRight className="h-3 w-3" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 10: Success Stories + Reviews ── */}
+        <section className="px-4 space-y-4">
+          <div className="relative rounded-2xl overflow-hidden">
+            <img src={coupleImage} alt="Real couples" className="w-full h-44 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4">
+              <p className="text-white text-base font-display font-semibold">Real Couples, Real Celebrations</p>
+              <p className="text-white/70 text-xs mt-0.5">Trusted by 500+ couples across India</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/50">
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
+                ))}
+              </div>
+              <span className="text-sm font-bold text-foreground">4.9/5</span>
+              <span className="text-xs text-muted-foreground">from 500+ reviews</span>
+            </div>
+            <button onClick={() => navigate('/testimonials')} className="text-xs font-semibold text-primary active:scale-95 transition-transform">
+              Read Stories
+            </button>
+          </div>
+
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+              {reviewQuotes.map((review, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 w-72 p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm"
+                >
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(review.rating)].map((_, j) => (
+                      <Star key={j} className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs text-foreground leading-relaxed italic">&ldquo;{review.quote}&rdquo;</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground mt-2">{review.name} · {review.city}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 11: For Vendors Banner ── */}
+        <section className="px-4">
+          <div className="relative rounded-2xl overflow-hidden">
+            <img src={fireworksImage} alt="For vendors" className="w-full h-40 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-white text-base font-display font-semibold">Grow Your Wedding Business</p>
+              <p className="text-white/70 text-xs mt-0.5 mb-3">Join 50+ verified vendors on Karlo Shaadi</p>
+              <button
+                onClick={() => navigate('/for-vendors')}
+                className="bg-accent text-accent-foreground text-xs font-semibold px-4 py-2 rounded-full active:scale-95 transition-transform"
+              >
+                Register as Vendor
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <PremiumDivider />
+
+        {/* ── SECTION 12: Final CTA ── */}
+        <section className="px-4 pb-4">
+          <div className="text-center py-8 px-6 rounded-2xl bg-gradient-to-br from-primary/5 via-card to-accent/5 border border-border/50">
+            <Sparkles className="h-8 w-8 text-accent mx-auto mb-3" />
+            <h2 className="text-lg font-display font-semibold text-foreground mb-1">Start Your Dream Wedding</h2>
+            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+              Plan, book, and celebrate — all in one place
+            </p>
+            <button
+              onClick={() => navigate('/plan-wizard')}
+              className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
+            >
+              Get Started Free
+            </button>
+            {!user && (
+              <button
+                onClick={() => navigate('/for-vendors')}
+                className="block mx-auto mt-3 text-xs font-medium text-muted-foreground underline underline-offset-2 active:scale-95 transition-transform"
+              >
+                Are You a Vendor? Register Here →
+              </button>
+            )}
+          </div>
+        </section>
+
+      </div>
     </div>
   );
 }
