@@ -131,11 +131,6 @@ export const BhindiHeader = () => {
   const isDesktop = windowWidth !== undefined && windowWidth >= 768;
   const isMobile = windowWidth !== undefined && windowWidth < 768;
 
-  // Hide header completely in native mobile app (we use bottom navigation instead)
-  if (isNative && isMobile && user) {
-    return null;
-  }
-
   useEffect(() => {
     checkAuth();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -150,6 +145,11 @@ export const BhindiHeader = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Hide header on mobile for logged-in users (bottom navigation is used instead)
+  if (isMobile && user) {
+    return null;
+  }
 
   const checkUserRoles = async (userId: string) => {
     const { data: roles } = await supabase
