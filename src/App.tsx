@@ -2,8 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { AnimatePresence } from "framer-motion";
+import { PageTransition } from "@/components/mobile/PageTransition";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import VendorAuth from "./pages/VendorAuth";
@@ -125,6 +127,111 @@ const queryClient = new QueryClient({
   },
 });
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <PageTransition key={location.pathname}>
+        <Routes location={location}>
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/vendor-auth" element={<VendorAuth />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+          <Route path="/booking-confirmation" element={<ProtectedRoute><BookingConfirmation /></ProtectedRoute>} />
+          <Route path="/booking/:id" element={<ProtectedRoute><BookingDetails /></ProtectedRoute>} />
+          <Route path="/checkout/:bookingId" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+          <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
+          <Route path="/payment-failure" element={<ProtectedRoute><PaymentFailure /></ProtectedRoute>} />
+          <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+          <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/vendor/settings" element={<ProtectedRoute requireRole="vendor"><VendorSettings /></ProtectedRoute>} />
+          <Route path="/vendor/billing" element={<ProtectedRoute requireRole="vendor"><VendorBilling /></ProtectedRoute>} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:category" element={<Categories />} />
+          <Route path="/city/:slug" element={<City />} />
+          <Route path="/stories" element={<Stories />} />
+          <Route path="/stories/:id" element={<StoryDetail />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/vendors/:id" element={<VendorProfile />} />
+          <Route path="/vendors/:city/:category" element={<CityVendors />} />
+          <Route path="/vendors-in/:city" element={<CityVendors />} />
+          <Route path="/vendor/onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
+          <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
+          <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
+          <Route path="/vendor-pricing" element={<VendorPricing />} />
+          <Route path="/vendor/verification" element={<ProtectedRoute requireRole="vendor"><VendorVerificationStatus /></ProtectedRoute>} />
+          <Route path="/admin/dashboard" element={<ProtectedRoute requireRole="admin"><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/for-vendors" element={<ForVendors />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/cancellation-refunds" element={<CancellationRefunds />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/investors" element={<Investors />} />
+          <Route path="/join-as-manager" element={<JoinAsManager />} />
+          <Route path="/affiliate" element={<Affiliate />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/vendor-guide" element={<VendorGuide />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/success-stories" element={<SuccessStories />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/premium-upgrade" element={<ProtectedRoute><PremiumUpgrade /></ProtectedRoute>} />
+          <Route path="/premium-dashboard" element={<ProtectedRoute><PremiumDashboard /></ProtectedRoute>} />
+          <Route path="/subscription-checkout" element={<ProtectedRoute><SubscriptionCheckout /></ProtectedRoute>} />
+          <Route path="/data-export" element={<DataExport />} />
+          <Route path="/moodboards" element={<ProtectedRoute><Moodboards /></ProtectedRoute>} />
+          <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
+          <Route path="/deals" element={<Deals />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/checklist" element={<ProtectedRoute><Checklist /></ProtectedRoute>} />
+          <Route path="/budget" element={<ProtectedRoute><BudgetTracker /></ProtectedRoute>} />
+          <Route path="/ai-matches" element={<ProtectedRoute><AIMatchResults /></ProtectedRoute>} />
+          <Route path="/referrals" element={<ProtectedRoute><Referrals /></ProtectedRoute>} />
+          <Route path="/vendor-success-stories" element={<VendorSuccessStories />} />
+          <Route path="/plan-wizard" element={<WeddingPlanWizard />} />
+          <Route path="/plan/:planId" element={<WeddingPlanResult />} />
+          <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
+          <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
+          <Route path="/invite-creator" element={<InviteCreatorPage />} />
+          <Route path="/wedding-website" element={<WeddingWebsite />} />
+          <Route path="/wedding/:slug" element={<WeddingView />} />
+          <Route path="/music-generator" element={<MusicGenerator />} />
+          <Route path="/leaderboard" element={<VendorLeaderboard />} />
+          <Route path="/guest-list" element={<ProtectedRoute><GuestList /></ProtectedRoute>} />
+          <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
+          <Route path="/speech-writer" element={<SpeechWriterPage />} />
+          <Route path="/shaadi-seva" element={<ShaadiSeva />} />
+          <Route path="/wedding-directory" element={<WeddingDirectory />} />
+          <Route path="/embed" element={<EmbedWidget />} />
+          <Route path="/web-stories" element={<WebStories />} />
+          <Route path="/web-stories/:id" element={<WebStories />} />
+          <Route path="/couple-quiz" element={<CoupleQuiz />} />
+          <Route path="/budget-roast" element={<BudgetRoast />} />
+          <Route path="/vendor-check" element={<VendorCheck />} />
+          <Route path="/shaadi-wrapped" element={<ProtectedRoute><ShaadiWrapped /></ProtectedRoute>} />
+          <Route path="/countdown/:slug" element={<CountdownPublic />} />
+          <Route path="/why-karlo-shaadi" element={<WhyKarloShaadi />} />
+          <Route path="/earn" element={<EarnWithUs />} />
+          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </PageTransition>
+    </AnimatePresence>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
@@ -138,100 +245,7 @@ const App = () => (
             <AppProviders>
             <BhindiHeader />
             <MobileLayout>
-            <Routes>
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/vendor-auth" element={<VendorAuth />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
-              <Route path="/booking-confirmation" element={<ProtectedRoute><BookingConfirmation /></ProtectedRoute>} />
-              <Route path="/booking/:id" element={<ProtectedRoute><BookingDetails /></ProtectedRoute>} />
-              <Route path="/checkout/:bookingId" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-              <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
-              <Route path="/payment-failure" element={<ProtectedRoute><PaymentFailure /></ProtectedRoute>} />
-              <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-              <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-              <Route path="/vendor/settings" element={<ProtectedRoute requireRole="vendor"><VendorSettings /></ProtectedRoute>} />
-              <Route path="/vendor/billing" element={<ProtectedRoute requireRole="vendor"><VendorBilling /></ProtectedRoute>} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/category/:category" element={<Categories />} />
-              <Route path="/city/:slug" element={<City />} />
-              <Route path="/stories" element={<Stories />} />
-              <Route path="/stories/:id" element={<StoryDetail />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/vendors/:id" element={<VendorProfile />} />
-              <Route path="/vendors/:city/:category" element={<CityVendors />} />
-              <Route path="/vendors-in/:city" element={<CityVendors />} />
-              <Route path="/vendor/onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
-              <Route path="/vendor-onboarding" element={<ProtectedRoute><VendorOnboarding /></ProtectedRoute>} />
-              <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
-              <Route path="/vendor-pricing" element={<VendorPricing />} />
-              <Route path="/vendor/verification" element={<ProtectedRoute requireRole="vendor"><VendorVerificationStatus /></ProtectedRoute>} />
-              <Route path="/admin/dashboard" element={<ProtectedRoute requireRole="admin"><AdminDashboard /></ProtectedRoute>} />
-              <Route path="/for-vendors" element={<ForVendors />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/legal" element={<Legal />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/cancellation-refunds" element={<CancellationRefunds />} />
-              <Route path="/shipping" element={<Shipping />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/investors" element={<Investors />} />
-              <Route path="/join-as-manager" element={<JoinAsManager />} />
-              <Route path="/affiliate" element={<Affiliate />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/help" element={<HelpCenter />} />
-              <Route path="/vendor-guide" element={<VendorGuide />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/testimonials" element={<Testimonials />} />
-              <Route path="/success-stories" element={<SuccessStories />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/premium-upgrade" element={<ProtectedRoute><PremiumUpgrade /></ProtectedRoute>} />
-              <Route path="/premium-dashboard" element={<ProtectedRoute><PremiumDashboard /></ProtectedRoute>} />
-              <Route path="/subscription-checkout" element={<ProtectedRoute><SubscriptionCheckout /></ProtectedRoute>} />
-              <Route path="/data-export" element={<DataExport />} />
-              <Route path="/moodboards" element={<ProtectedRoute><Moodboards /></ProtectedRoute>} />
-              <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
-              <Route path="/deals" element={<Deals />} />
-              <Route path="/compare" element={<Compare />} />
-              <Route path="/checklist" element={<ProtectedRoute><Checklist /></ProtectedRoute>} />
-              <Route path="/budget" element={<ProtectedRoute><BudgetTracker /></ProtectedRoute>} />
-              <Route path="/ai-matches" element={<ProtectedRoute><AIMatchResults /></ProtectedRoute>} />
-              <Route path="/referrals" element={<ProtectedRoute><Referrals /></ProtectedRoute>} />
-              <Route path="/vendor-success-stories" element={<VendorSuccessStories />} />
-              <Route path="/plan-wizard" element={<WeddingPlanWizard />} />
-              <Route path="/plan/:planId" element={<WeddingPlanResult />} />
-              <Route path="/budget-calculator" element={<BudgetCalculatorPage />} />
-              <Route path="/muhurat-finder" element={<MuhuratFinderPage />} />
-              <Route path="/invite-creator" element={<InviteCreatorPage />} />
-              <Route path="/wedding-website" element={<WeddingWebsite />} />
-              <Route path="/wedding/:slug" element={<WeddingView />} />
-              <Route path="/music-generator" element={<MusicGenerator />} />
-              <Route path="/leaderboard" element={<VendorLeaderboard />} />
-              <Route path="/guest-list" element={<ProtectedRoute><GuestList /></ProtectedRoute>} />
-              <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
-              <Route path="/speech-writer" element={<SpeechWriterPage />} />
-              <Route path="/shaadi-seva" element={<ShaadiSeva />} />
-              <Route path="/wedding-directory" element={<WeddingDirectory />} />
-              <Route path="/embed" element={<EmbedWidget />} />
-              <Route path="/web-stories" element={<WebStories />} />
-              <Route path="/web-stories/:id" element={<WebStories />} />
-              <Route path="/couple-quiz" element={<CoupleQuiz />} />
-              <Route path="/budget-roast" element={<BudgetRoast />} />
-              <Route path="/vendor-check" element={<VendorCheck />} />
-              <Route path="/shaadi-wrapped" element={<ProtectedRoute><ShaadiWrapped /></ProtectedRoute>} />
-              <Route path="/countdown/:slug" element={<CountdownPublic />} />
-              <Route path="/why-karlo-shaadi" element={<WhyKarloShaadi />} />
-              <Route path="/earn" element={<EarnWithUs />} />
-              <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AnimatedRoutes />
             </MobileLayout>
             <WhatsAppButton />
             <PWAInstallPrompt />
