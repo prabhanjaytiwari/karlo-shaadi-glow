@@ -1,90 +1,94 @@
 
+# Mobile Home Screen -- Premium Overhaul
 
-# Complete Mobile Home Screen Redesign
+## Problems Identified
 
-## What We're Building
-
-A visually rich, app-store-quality mobile home screen that matches your reference image -- with a hero banner, circular category icons, vendor photo grids, inline planning tools (checklist/guest list), and a polished bottom navigation. This replaces the current minimal MobileHomeScreen for **both** logged-in and guest users.
-
----
-
-## Reference Breakdown (From Your Image)
-
-The reference shows these sections top-to-bottom:
-
-1. **Logo Header** -- "KARLO SHAADI" branding at top
-2. **Hero Banner** -- Full-width card with wedding couple photo, headline ("Your Dream Wedding" / "Aap Shaadi Karo..."), and a CTA button ("Calculate Services")
-3. **Category Icon Row** -- Horizontal scroll of circular icons with labels (Budget Calculator, Muhurat Finder, Photographer, Makeup Artist, Invite Venue)
-4. **Find Best Vendors** -- Horizontal scroll of vendor cards with photos, names, star ratings
-5. **Top Vendors Grid** -- 2x2 photo grid of featured vendor images with a "See All" link
-6. **Planning Tools** -- Side-by-side cards for "Wedding Checklist" and "Guest List" showing actual items with checkboxes
-7. **Golden FAB** -- A gold/amber floating action button
-8. **Bottom Nav** -- 5 tabs: Home, Vendors, Tools, Bookings, Profile
+1. **Category row mixes tools with vendor categories** -- Budget Calculator and Photographer sit side by side in the same circular icon row, which makes no sense
+2. **Missing tagline** -- "Aap Shaadi Karo, Tension Hum Sambhal Lenge" and "India's Most Trending Wedding Planning Platform" are nowhere visible
+3. **Sections feel repetitive/unstructured** -- Two separate "Planning Tools" sections, vendor grid and vendor cards look similar, no clear visual hierarchy
+4. **Missing desktop sections on mobile** -- No BentoGrid equivalent, no Reviews/Testimonials carousel, no Live Activity Feed, no AI Matchmaking entry point
+5. **Links don't feel purposeful** -- Viral tools row looks like random pills, "See All" links sometimes go to wrong places
+6. **No premium polish** -- Everything uses the same card border style, no visual variety, no generated imagery to add richness
 
 ---
 
-## Implementation Plan
+## Redesign Structure (Top to Bottom)
 
-### 1. Rewrite `MobileHomeScreen.tsx` (Complete Overhaul)
+The new home screen will have **12 distinct, well-separated sections** with clear visual hierarchy. Each section has a single purpose.
 
-The entire component will be rebuilt with these sections:
+### Section 1: Sticky Header (keep existing)
+Logo + notification bell, no changes needed.
 
-**1a. Logo Header Bar**
-- Sticky top bar with the Karlo Shaadi logo (already exists) + notification bell
-- Slim, 48px height, backdrop blur
+### Section 2: Hero Banner (redesign)
+- Full-width card with existing `hero-wedding-phere.jpeg`
+- **Tagline overlay**: "Aap Shaadi Karo, Tension Hum Sambhal Lenge" (always visible, not just for logged-in)
+- **Subtitle**: "India's Most Trending Wedding Planning Platform"
+- **CTA**: "Start Planning Free" linking to `/plan-wizard`
+- Wedding countdown strip below (if logged-in with date set)
 
-**1b. Hero Banner Card**
-- Full-width rounded card with the `hero-wedding-phere.jpeg` image as background
-- Gradient overlay (dark to transparent from bottom)
-- Bold headline: "Your Dream Wedding" (guest) / "Aap Shaadi Karo, Tension Hum Sambhal Lenge" (logged-in with wedding countdown)
-- Rose-colored CTA button: "Calculate Services" linking to `/budget-calculator`
-- Dot indicators at the bottom (decorative, matching reference)
+### Section 3: Trust Stats Strip (keep, refine spacing)
+4-column grid -- 500+ Couples, 50+ Vendors, 100% Secure, 20+ Cities. Slightly larger icons, better spacing.
 
-**1c. Category Quick Access Row**
-- Horizontal scrollable row of 5 circular icons
-- Each icon uses existing category images from `src/assets/icon-*.jpg` (venue, photography, decoration, mehendi, catering, etc.)
-- Circular image thumbnails (not just lucide icons) with labels below
-- Items: Budget Calculator, Muhurat Finder, Photographer, Makeup Artist, Invite Creator
+### Section 4: Vendor Categories (NEW -- separate from tools)
+- **Header**: "Browse by Category" + "See All" -> `/categories`
+- 2-row horizontal scroll of **vendor categories only**: Venue, Photography, Decoration, Makeup, Catering, Mehendi, Music, Jewelry, Entertainment
+- Circular image thumbnails using existing `category-*.jpg` assets
+- Each links to `/search?category=X`
 
-**1d. Find Best Vendors Section**
-- Section header: "Find Best Vendors" + "See All" link (routes to `/search`)
-- Horizontal scroll of vendor cards fetched from the database
-- Each card: rounded image, vendor name, star rating with review count
-- Fallback: if no vendors in DB, show placeholder cards with existing wedding images
+### Section 5: Top Vendors (keep, polish)
+- **Header**: "Top Rated Vendors" + "See All" -> `/search`
+- Horizontal scroll of vendor cards (from DB or placeholders)
+- Slightly wider cards (w-40), better image aspect ratio
 
-**1e. Top Vendors Photo Grid**
-- Section header: "Top Vendors" + "See All" link
-- 2x2 grid of large, rounded vendor/wedding photos using existing assets (`wedding-couple-1.jpg`, `wedding-ceremony.jpg`, `wedding-decoration.jpg`, `wedding-haldi.jpg`)
-- Tappable, routes to `/search`
+### Section 6: Free Planning Tools (NEW -- completely separate section)
+- **Header**: "Free Planning Tools" + "See All" -> `/budget-calculator`
+- 2x2 grid of tool cards (not circular icons, not pills):
+  - Budget Calculator (Calculator icon, -> `/budget-calculator`)
+  - Muhurat Finder (Calendar icon, -> `/muhurat-finder`)
+  - Invite Creator (Heart icon, -> `/invite-creator`)
+  - Wedding Planner (Sparkles icon, -> `/plan-wizard`)
+- Each card: icon + title + one-line description + subtle gradient bg
 
-**1f. Planning Tools Section**
-- Section header: "Planning Tools" + "See All" link
-- Two side-by-side cards:
-  - **Wedding Checklist**: Shows 3 checklist items with checkboxes (static display, taps navigate to `/checklist`)
-  - **Guest List**: Shows 3 guest items with checkboxes (static display, taps navigate to `/guest-list`)
-- Cards have a subtle border and rounded corners
+### Section 7: Fun Wedding Tools (replaces "Viral Tools Row")
+- **Header**: "Fun Wedding Tools"
+- Horizontal scroll of **image cards** (not pills) -- each with a generated banner image from Nano Banana Pro
+- Cards: Couple Quiz, Budget Roast, Speech Writer, Music Generator, Vendor Score Checker
+- Each card: generated image (top), title + short tagline (bottom)
+- **5 images generated** via edge function using `google/gemini-3-pro-image-preview`
 
-**1g. Wedding Countdown (logged-in only)**
-- If user has a wedding date set, show a slim countdown strip between hero and categories
-- Gold/amber accent: "X days to your wedding"
+### Section 8: How It Works (keep, compact)
+3 numbered steps in a vertical stack. No changes except consistent spacing.
 
-### 2. Update Bottom Navigation Tabs
+### Section 9: Shaadi Seva (keep, minor polish)
+Social impact card. Keep as-is with minor margin fixes.
 
-Change the **guest** nav items to match the reference:
-- Home, **Vendors** (instead of Search), **Tools** (center), **Bookings**, **Profile/Login**
+### Section 10: Success Stories + Reviews (combine into one section)
+- Top: Image card with "Real Couples, Real Celebrations" overlay
+- Below: 4.9/5 rating badge + "Read Their Stories" CTA
+- Below that: horizontal scroll of 2-3 review quotes (hardcoded)
 
-Change the **couple** nav items similarly:
-- Home, **Vendors**, Tools (FAB), **Bookings**, **Profile**
+### Section 11: For Vendors Banner (keep, polish)
+Vendor acquisition with fireworks image. Keep structure, fix spacing.
 
-### 3. Update `Index.tsx` Conditional
+### Section 12: Final CTA + Vendor Registration (combine)
+Single closing section with "Start Your Dream Wedding" CTA and a secondary "Are You a Vendor?" strip below.
 
-Currently only logged-in mobile users see MobileHomeScreen. Change this so **all mobile users** (guest and logged-in) see the new MobileHomeScreen. The full marketing page remains desktop-only.
+---
 
-### 4. Golden FAB Styling
+## Image Generation via Edge Function
 
-Update `QuickActionFAB.tsx`:
-- Change the FAB button color from `bg-primary` (rose) to a gold/amber gradient (`bg-gradient-to-br from-amber-400 to-amber-600`) to match the reference image's golden star button
-- Add a subtle gold glow/shadow
+Create a new edge function `generate-home-banners` that uses **Nano Banana Pro** (`google/gemini-3-pro-image-preview`) to generate 5 card banner images for the "Fun Wedding Tools" section. Images are generated once and stored in Supabase Storage (`home-banners` bucket).
+
+The MobileHomeScreen will check if images exist in storage first; if not, it triggers generation. This avoids re-generating on every load.
+
+**Prompts for 5 images:**
+1. "Couple Quiz" -- Playful Indian couple silhouette with hearts, warm rose/gold tones, minimal illustration style
+2. "Budget Roast" -- Humorous wedding budget with flames, Indian wedding gold/red theme, flat illustration
+3. "Speech Writer" -- Elegant microphone with wedding flowers, warm tones, minimal design
+4. "Music Generator" -- Musical notes with Indian wedding instruments, rose gold palette, minimal illustration
+5. "Vendor Score" -- Checkmark badge with wedding motifs, gold/amber tones, premium feel
+
+Each image: 400x200px landscape, stored as PNG in `home-banners` bucket.
 
 ---
 
@@ -92,20 +96,70 @@ Update `QuickActionFAB.tsx`:
 
 | File | Action |
 |------|--------|
-| `src/components/mobile/MobileHomeScreen.tsx` | **Rewrite** -- Complete redesign with all 7 sections above |
-| `src/pages/Index.tsx` | **Edit** -- Show MobileHomeScreen for all mobile users (remove `user` condition) |
-| `src/components/mobile/BottomNavigation.tsx` | **Edit** -- Update tab labels (Search -> Vendors, adjust guest tabs) |
-| `src/components/mobile/QuickActionFAB.tsx` | **Edit** -- Gold gradient styling |
+| `src/components/mobile/MobileHomeScreen.tsx` | **Rewrite** -- Complete restructure with 12 clean sections |
+| `supabase/functions/generate-home-banners/index.ts` | **Create** -- Edge function for Nano Banana Pro image generation |
 
-## Assets Used (Already in Project)
+## No other files change
+Bottom navigation, FAB, Index.tsx routing -- all stay the same.
 
-- `src/assets/hero-wedding-phere.jpeg` -- Hero banner background
-- `src/assets/icon-venue.jpg`, `icon-photography.jpg`, `icon-decoration.jpg`, `icon-mehendi.jpg`, `icon-catering.jpg` -- Category circles
-- `src/assets/wedding-couple-1.jpg`, `wedding-ceremony.jpg`, `wedding-decoration.jpg`, `wedding-haldi.jpg` -- Top vendors grid
-- `src/assets/logo-new.png` -- Header logo
-- `src/assets/category-photography.jpg`, `category-makeup.jpg` -- Additional category images
+---
 
-## No Backend Changes
+## Technical Details
 
-This is a purely frontend UI transformation. Vendor data is fetched from the existing `vendors` table (same query pattern as `SponsoredVendorsCarousel`). No new tables, migrations, or edge functions needed.
+### MobileHomeScreen.tsx Structure
 
+```text
+Header (sticky)
+  |
+Hero Banner (tagline always visible)
+  |
+Trust Stats (4-col grid)
+  |
+Browse by Category (horizontal scroll, vendor categories ONLY)
+  |
+Top Rated Vendors (horizontal scroll, DB query)
+  |
+Free Planning Tools (2x2 grid, tools ONLY)
+  |
+Fun Wedding Tools (horizontal scroll, generated images)
+  |
+How It Works (3 steps)
+  |
+Shaadi Seva (impact card)
+  |
+Success Stories + Reviews (image + rating + quotes)
+  |
+For Vendors (acquisition banner)
+  |
+Final CTA (dream wedding + vendor registration)
+```
+
+### Edge Function: `generate-home-banners`
+
+- Uses `google/gemini-3-pro-image-preview` model via Lovable AI gateway
+- Generates 5 images with specific prompts
+- Uploads to Supabase Storage bucket `home-banners`
+- Returns public URLs
+- Called once; MobileHomeScreen checks storage first before calling
+
+### Category Data (separated from tools)
+
+```typescript
+const vendorCategories = [
+  { image: categoryVenue, label: 'Venue', category: 'venue' },
+  { image: categoryPhotography, label: 'Photography', category: 'photography' },
+  { image: categoryDecoration, label: 'Decoration', category: 'decoration' },
+  { image: categoryMakeup, label: 'Makeup', category: 'makeup' },
+  { image: categoryCatering, label: 'Catering', category: 'catering' },
+  { image: categoryMehendi, label: 'Mehendi', category: 'mehendi' },
+  { image: categoryMusic, label: 'Music', category: 'music' },
+  { image: categoryJewelry, label: 'Jewelry', category: 'jewelry' },
+];
+```
+
+### Premium Design Touches
+- Section dividers using `divider-premium` gradient lines between major sections
+- Gold accent borders on the hero card
+- Staggered fade-in animations on section entry
+- Consistent `space-y-8` between sections (increased from `space-y-6`)
+- Review quotes in a premium glassmorphism card style
