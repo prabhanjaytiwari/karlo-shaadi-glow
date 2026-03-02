@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, Calendar, MessageSquare, User, LogIn, LayoutGrid, Wrench } from 'lucide-react';
+import { Home, Search, Calendar, MessageSquare, User, LogIn, LayoutGrid, Wrench, BarChart3, FileQuestion } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useCapacitor } from '@/hooks/useCapacitor';
@@ -73,14 +73,24 @@ export function BottomNavigation() {
   // Only show on mobile devices or in native app
   if (!isMobile && !isNative) return null;
 
-  // Logged-in nav items
-  const loggedInNavItems: NavItem[] = [
+  // Vendor nav items
+  const vendorNavItems: NavItem[] = [
+    { icon: Home, label: 'Home', path: '/vendor/dashboard' },
+    { icon: FileQuestion, label: 'Inquiries', path: '/vendor/dashboard?tab=inquiries' },
+    // Center gap for FAB
+    { icon: Calendar, label: 'Bookings', path: '/vendor/dashboard?tab=bookings', badge: pendingBookings },
+    { icon: MessageSquare, label: 'Messages', path: '/vendor/dashboard?tab=messages', badge: unreadMessages },
+    { icon: User, label: 'Profile', path: '/vendor/dashboard?tab=profile' },
+  ];
+
+  // Logged-in couple nav items
+  const coupleNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Search', path: '/search' },
     // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
-    { icon: User, label: 'Profile', path: isVendor ? '/vendor/dashboard' : '/dashboard' },
+    { icon: User, label: 'Profile', path: '/dashboard' },
   ];
 
   // Guest nav items
@@ -93,11 +103,28 @@ export function BottomNavigation() {
     { icon: LogIn, label: 'Login', path: '/auth' },
   ];
 
-  const navItems = user ? loggedInNavItems : guestNavItems;
+  const navItems = user ? (isVendor ? vendorNavItems : coupleNavItems) : guestNavItems;
 
   const isActive = (path: string) => {
-    if (path === '/') return location.pathname === '/';
-    return location.pathname.startsWith(path);
+    const basePath = path.split('?')[0];
+    if (basePath === '/') return location.pathname === '/';
+    if (basePath === '/vendor/dashboard' && location.pathname === '/vendor/dashboard') {
+      // For vendor tabs, check the tab query param
+      const tabParam = new URLSearchParams(path.split('?')[1]).get('tab');
+      const currentTab = new URLSearchParams(location.search).get('tab');
+      if (tabParam) return currentTab === tabParam;
+      return !currentTab; // Home tab = no tab param
+    }
+    return location.pathname.startsWith(basePath);
+  };
+
+  const handleNavClick = (path: string) => {
+    const [basePath, query] = path.split('?');
+    if (query) {
+      navigate(`${basePath}?${query}`);
+    } else {
+      navigate(basePath);
+    }
   };
 
   return (
@@ -122,7 +149,7 @@ export function BottomNavigation() {
               <div key={item.path} className="contents">
                 {showSpacer && <div className="w-14 flex-shrink-0" />}
                 <button
-                  onClick={() => navigate(item.path)}
+                  onClick={() => handleNavClick(item.path)}
                   className={cn(
                     "relative flex flex-col items-center justify-center gap-1 flex-1 h-full",
                     "transition-all duration-200 active:scale-90",
