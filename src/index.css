@@ -43,42 +43,45 @@
     --safe-area-left: env(safe-area-inset-left, 0px);
     --safe-area-right: env(safe-area-inset-right, 0px);
     
-    /* Bright Wedding Color System - Vibrant & Trustworthy */
-    --background: 0 0% 100%;
+    /* Premium Indian Wedding — Warm Cream + Deep Maroon + Gold */
+    --background: 35 30% 97%;
     --foreground: 350 25% 15%;
 
-    --card: 0 0% 99%;
+    --card: 35 25% 98%;
     --card-foreground: 350 25% 15%;
 
-    --popover: 0 0% 100%;
+    --popover: 35 20% 99%;
     --popover-foreground: 350 25% 15%;
 
-    /* Primary - Vibrant Rose/Magenta (Wedding, Celebratory) */
-    --primary: 340 75% 50%;
+    /* Primary - Deep Maroon (Traditional Indian Wedding) */
+    --primary: 340 65% 33%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 350 15% 95%;
+    --secondary: 35 20% 94%;
     --secondary-foreground: 350 25% 20%;
 
-    /* Accent - Rich Gold (Luxurious, Bright) */
-    --accent: 38 90% 55%;
+    /* Accent - Rich Gold (Luxurious, Traditional) */
+    --accent: 38 55% 50%;
     --accent-foreground: 38 90% 15%;
 
-    --muted: 350 10% 94%;
-    --muted-foreground: 350 15% 45%;
+    --muted: 35 15% 93%;
+    --muted-foreground: 350 12% 45%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 350 15% 88%;
-    --input: 350 10% 96%;
-    --ring: 340 75% 50%;
+    --border: 35 15% 88%;
+    --input: 35 15% 95%;
+    --ring: 340 65% 33%;
+
+    /* Warm cream token */
+    --cream: 35 40% 96%;
 
     --radius: 0.5rem;
     
     /* Vibrant Glow Colors */
-    --glow-primary: 340 75% 50%;
-    --glow-accent: 38 90% 55%;
+    --glow-primary: 340 65% 33%;
+    --glow-accent: 38 55% 50%;
     
     /* Professional Timing Functions */
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,12 +96,12 @@
     --duration-slow: 400ms;
     --duration-slower: 600ms;
     
-    /* Vibrant Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(340 75% 55%), hsl(340 70% 45%));
-    --gradient-accent: linear-gradient(135deg, hsl(38 90% 58%), hsl(38 85% 50%));
-    --gradient-hero: linear-gradient(180deg, hsl(350 20% 98% / 0.95), hsl(0 0% 100% / 0.98));
-    --gradient-section: radial-gradient(ellipse at top, hsl(340 75% 50% / 0.06) 0%, transparent 50%);
-    --gradient-section-alt: radial-gradient(ellipse at bottom, hsl(38 90% 55% / 0.08) 0%, transparent 50%);
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(340 65% 38%), hsl(340 60% 28%));
+    --gradient-accent: linear-gradient(135deg, hsl(38 55% 55%), hsl(38 50% 45%));
+    --gradient-hero: linear-gradient(180deg, hsl(35 30% 97% / 0.95), hsl(35 25% 98% / 0.98));
+    --gradient-section: radial-gradient(ellipse at top, hsl(340 65% 33% / 0.06) 0%, transparent 50%);
+    --gradient-section-alt: radial-gradient(ellipse at bottom, hsl(38 55% 50% / 0.08) 0%, transparent 50%);
 
     /* Shadow System for Light Theme */
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
@@ -106,14 +109,14 @@
     --shadow-lg: 0 12px 28px rgba(0,0,0,0.08), 0 8px 10px rgba(0,0,0,0.04);
     --shadow-xl: 0 24px 48px rgba(0,0,0,0.1), 0 12px 24px rgba(0,0,0,0.06);
 
-    --sidebar-background: 0 0% 99%;
+    --sidebar-background: 35 25% 98%;
     --sidebar-foreground: 350 25% 15%;
-    --sidebar-primary: 340 75% 50%;
+    --sidebar-primary: 340 65% 33%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 350 15% 95%;
+    --sidebar-accent: 35 20% 94%;
     --sidebar-accent-foreground: 350 25% 15%;
-    --sidebar-border: 350 15% 88%;
-    --sidebar-ring: 340 75% 50%;
+    --sidebar-border: 35 15% 88%;
+    --sidebar-ring: 340 65% 33%;
   }
 
   .dark {
@@ -123,11 +126,11 @@
     --card-foreground: 350 10% 95%;
     --popover: 350 18% 11%;
     --popover-foreground: 350 10% 95%;
-    --primary: 340 75% 55%;
+    --primary: 340 65% 40%;
     --primary-foreground: 0 0% 100%;
     --secondary: 350 15% 16%;
     --secondary-foreground: 0 0% 98%;
-    --accent: 38 90% 55%;
+    --accent: 38 55% 55%;
     --accent-foreground: 38 90% 15%;
     --muted: 350 12% 18%;
     --muted-foreground: 350 10% 55%;
@@ -138,19 +141,19 @@
     --ring: 340 75% 50%;
     --sidebar-background: 350 18% 11%;
     --sidebar-foreground: 350 10% 95%;
-    --sidebar-primary: 340 75% 55%;
+    --sidebar-primary: 340 65% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 350 15% 16%;
     --sidebar-accent-foreground: 350 10% 95%;
     --sidebar-border: 350 12% 22%;
-    --sidebar-ring: 340 75% 55%;
+    --sidebar-ring: 340 65% 40%;
   }
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground font-body antialiased;
-    background: linear-gradient(180deg, hsl(350 30% 98%) 0%, hsl(0 0% 100%) 30%, hsl(40 40% 99%) 70%, hsl(350 25% 98%) 100%);
+    background: linear-gradient(180deg, hsl(35 30% 97%) 0%, hsl(35 25% 98%) 30%, hsl(38 20% 97%) 70%, hsl(35 30% 97%) 100%);
     background-attachment: fixed;
     font-size: 16px;
     line-height: 1.6;

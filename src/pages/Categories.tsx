@@ -94,7 +94,7 @@ const Categories = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 pt-16 pb-20">
+    <div className="min-h-screen bg-background pt-16 pb-20">
       <MobilePageHeader title="Categories" showBack />
       
       {/* Category tabs - horizontal scroll */}

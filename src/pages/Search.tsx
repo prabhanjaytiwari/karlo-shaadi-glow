@@ -150,7 +150,7 @@ export default function Search() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+    <div className="min-h-screen flex flex-col bg-background">
       
       <MobilePageHeader title="Search Vendors" showBack={false} />
       
