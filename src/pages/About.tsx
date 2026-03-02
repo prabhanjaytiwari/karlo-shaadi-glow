@@ -14,22 +14,28 @@ const About = () => {
 
       <main className={isMobile ? "pb-20" : "pt-24 pb-16"}>
         {/* Hero Banner */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <CinematicImage src={sectionVendors} alt="Karlo Shaadi team" className="w-full h-full" cinematic />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
-          </div>
-          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
-            <div className="max-w-3xl mx-auto text-center space-y-4">
-              <h1 className="text-3xl md:text-5xl font-bold">
-                About <span className="bg-gradient-to-r from-primary via-pink-500 to-accent bg-clip-text text-transparent">Karlo Shaadi</span>
-              </h1>
-              <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto">
-                India's most trusted wedding planning platform, connecting couples with verified vendors across the country
-              </p>
+        {isMobile ? (
+          <section className="px-4 pt-3 pb-2">
+            <p className="text-sm text-muted-foreground">India's most trusted wedding planning platform</p>
+          </section>
+        ) : (
+          <section className="relative overflow-hidden">
+            <div className="absolute inset-0">
+              <CinematicImage src={sectionVendors} alt="Karlo Shaadi team" className="w-full h-full" cinematic />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
             </div>
-          </div>
-        </section>
+            <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
+              <div className="max-w-3xl mx-auto text-center space-y-4">
+                <h1 className="text-3xl md:text-5xl font-bold">
+                  About <span className="bg-gradient-to-r from-primary via-pink-500 to-accent bg-clip-text text-transparent">Karlo Shaadi</span>
+                </h1>
+                <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto">
+                  India's most trusted wedding planning platform, connecting couples with verified vendors across the country
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         <div className="container mx-auto px-4 sm:px-6 space-y-10 md:space-y-20 py-10 md:py-16">
           {/* Our Story */}

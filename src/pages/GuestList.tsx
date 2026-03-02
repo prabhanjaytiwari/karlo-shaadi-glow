@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -319,197 +321,154 @@ export default function GuestList() {
     );
   }
 
+  const isMobile = useIsMobile();
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+    <div className="min-h-screen flex flex-col bg-background">
+      <MobilePageHeader title="Guest List" />
       
-      
-      <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-6 md:pb-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <div>
-              <h1 className="font-display text-2xl md:text-3xl font-bold">Guest List</h1>
-              <p className="text-muted-foreground">Manage your wedding guests and RSVPs</p>
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 pt-24 pb-8"}>
+        <div className={isMobile ? "" : "max-w-6xl mx-auto"}>
+          {/* Header - Desktop */}
+          {!isMobile && (
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold">Guest List</h1>
+                <p className="text-muted-foreground text-sm">Manage your wedding guests and RSVPs</p>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={exportToCSV} className="rounded-full border-border/50">
+                  <Download className="h-4 w-4 mr-2" /> Export
+                </Button>
+                <Button size="sm" className="rounded-full" onClick={() => setIsAddDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" /> Add Guest
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={exportToCSV}>
-                <Download className="h-4 w-4 mr-2" />
-                Export
+          )}
+
+          {/* Mobile action bar */}
+          {isMobile && (
+            <div className="flex gap-2 mb-4">
+              <Button variant="outline" size="sm" onClick={exportToCSV} className="rounded-full border-border/50 shrink-0">
+                <Download className="h-3.5 w-3.5 mr-1.5" /> Export
               </Button>
-              <Dialog open={isAddDialogOpen} onOpenChange={(open) => {
-                if (!open) resetForm();
-                setIsAddDialogOpen(open);
-              }}>
-                <DialogTrigger asChild>
-                  <Button size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Guest
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>{editingGuest ? "Edit Guest" : "Add New Guest"}</DialogTitle>
-                  </DialogHeader>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>Name *</Label>
-                      <Input
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
-                        placeholder="Guest name"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Email</Label>
-                        <Input
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="email@example.com"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Phone</Label>
-                        <Input
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+91..."
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Category</Label>
-                        <Select
-                          value={formData.category}
-                          onValueChange={(value) => setFormData({ ...formData, category: value })}
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {CATEGORIES.map((cat) => (
-                              <SelectItem key={cat.value} value={cat.value}>
-                                {cat.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Relation</Label>
-                        <Input
-                          value={formData.relation}
-                          onChange={(e) => setFormData({ ...formData, relation: e.target.value })}
-                          placeholder="e.g., Uncle, Best Friend"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>Plus Ones</Label>
-                        <Input
-                          type="number"
-                          min="0"
-                          value={formData.plus_ones}
-                          onChange={(e) => setFormData({ ...formData, plus_ones: parseInt(e.target.value) || 0 })}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Table Number</Label>
-                        <Input
-                          type="number"
-                          value={formData.table_number}
-                          onChange={(e) => setFormData({ ...formData, table_number: e.target.value })}
-                          placeholder="e.g., 5"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Food Preference</Label>
-                      <Select
-                        value={formData.food_preference}
-                        onValueChange={(value) => setFormData({ ...formData, food_preference: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {FOOD_PREFERENCES.map((pref) => (
-                            <SelectItem key={pref.value} value={pref.value}>
-                              {pref.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Notes</Label>
-                      <Input
-                        value={formData.notes}
-                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                        placeholder="Any special notes..."
-                      />
-                    </div>
-                    <div className="flex gap-2 justify-end">
-                      <Button type="button" variant="outline" onClick={resetForm}>
-                        Cancel
-                      </Button>
-                      <Button type="submit">
-                        {editingGuest ? "Update" : "Add Guest"}
-                      </Button>
-                    </div>
-                  </form>
-                </DialogContent>
-              </Dialog>
+              <Button size="sm" className="rounded-full shrink-0" onClick={() => setIsAddDialogOpen(true)}>
+                <Plus className="h-3.5 w-3.5 mr-1.5" /> Add Guest
+              </Button>
             </div>
-          </div>
+          )}
+
+          {/* Add/Edit Guest Dialog */}
+          <Dialog open={isAddDialogOpen} onOpenChange={(open) => { if (!open) resetForm(); setIsAddDialogOpen(open); }}>
+            <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{editingGuest ? "Edit Guest" : "Add New Guest"}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Name *</Label>
+                  <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required placeholder="Guest name" className="rounded-xl" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Email</Label>
+                    <Input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="email@example.com" className="rounded-xl" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Phone</Label>
+                    <Input value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+91..." className="rounded-xl" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Category</Label>
+                    <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {CATEGORIES.map((cat) => (<SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Relation</Label>
+                    <Input value={formData.relation} onChange={(e) => setFormData({ ...formData, relation: e.target.value })} placeholder="e.g., Uncle" className="rounded-xl" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Plus Ones</Label>
+                    <Input type="number" min="0" value={formData.plus_ones} onChange={(e) => setFormData({ ...formData, plus_ones: parseInt(e.target.value) || 0 })} className="rounded-xl" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Table No.</Label>
+                    <Input type="number" value={formData.table_number} onChange={(e) => setFormData({ ...formData, table_number: e.target.value })} placeholder="e.g., 5" className="rounded-xl" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Food Preference</Label>
+                  <Select value={formData.food_preference} onValueChange={(value) => setFormData({ ...formData, food_preference: value })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {FOOD_PREFERENCES.map((pref) => (<SelectItem key={pref.value} value={pref.value}>{pref.label}</SelectItem>))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Notes</Label>
+                  <Input value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} placeholder="Any special notes..." className="rounded-xl" />
+                </div>
+                <div className="flex gap-2 justify-end">
+                  <Button type="button" variant="outline" onClick={resetForm} className="rounded-full">Cancel</Button>
+                  <Button type="submit" className="rounded-full">{editingGuest ? "Update" : "Add Guest"}</Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <Card className="border-2 border-accent/20">
-              <CardContent className="p-4 text-center">
-                <Users className="h-6 w-6 mx-auto mb-2 text-accent" />
-                <p className="text-2xl font-bold">{totalGuests}</p>
-                <p className="text-xs text-muted-foreground">Total Guests</p>
+          <div className={`grid grid-cols-2 ${isMobile ? 'gap-3 mb-4' : 'md:grid-cols-4 gap-4 mb-6'}`}>
+            <Card className="rounded-2xl border border-border/50">
+              <CardContent className="p-3 text-center">
+                <Users className={`mx-auto mb-1.5 text-primary ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
+                <p className={`font-bold ${isMobile ? 'text-lg' : 'text-2xl'}`}>{totalGuests}</p>
+                <p className="text-xs text-muted-foreground">Total</p>
               </CardContent>
             </Card>
-            <Card className="border-2 border-emerald-200 bg-emerald-50/50">
-              <CardContent className="p-4 text-center">
-                <Check className="h-6 w-6 mx-auto mb-2 text-emerald-600" />
-                <p className="text-2xl font-bold text-emerald-600">{confirmedGuests}</p>
+            <Card className="rounded-2xl border border-border/50">
+              <CardContent className="p-3 text-center">
+                <Check className={`mx-auto mb-1.5 text-accent ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
+                <p className={`font-bold text-accent ${isMobile ? 'text-lg' : 'text-2xl'}`}>{confirmedGuests}</p>
                 <p className="text-xs text-muted-foreground">Confirmed</p>
               </CardContent>
             </Card>
-            <Card className="border-2 border-amber-200 bg-amber-50/50">
-              <CardContent className="p-4 text-center">
-                <HelpCircle className="h-6 w-6 mx-auto mb-2 text-amber-600" />
-                <p className="text-2xl font-bold text-amber-600">{pendingGuests}</p>
+            <Card className="rounded-2xl border border-border/50">
+              <CardContent className="p-3 text-center">
+                <HelpCircle className={`mx-auto mb-1.5 text-muted-foreground ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
+                <p className={`font-bold ${isMobile ? 'text-lg' : 'text-2xl'}`}>{pendingGuests}</p>
                 <p className="text-xs text-muted-foreground">Pending</p>
               </CardContent>
             </Card>
-            <Card className="border-2 border-accent/20">
-              <CardContent className="p-4 text-center">
-                <Utensils className="h-6 w-6 mx-auto mb-2 text-accent" />
-                <p className="text-sm font-medium">{vegCount} Veg / {nonVegCount} Non-Veg</p>
-                <p className="text-xs text-muted-foreground">Food Preferences</p>
+            <Card className="rounded-2xl border border-border/50">
+              <CardContent className="p-3 text-center">
+                <Utensils className={`mx-auto mb-1.5 text-primary ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
+                <p className="text-sm font-medium">{vegCount}V / {nonVegCount}NV</p>
+                <p className="text-xs text-muted-foreground">Food</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Filters */}
-          <Card className="mb-4 border-2 border-accent/20">
-            <CardContent className="p-4">
-              <div className="flex flex-col md:flex-row gap-4">
+          <Card className={`mb-4 rounded-2xl border border-border/50`}>
+            <CardContent className={isMobile ? "p-3" : "p-4"}>
+              <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search guests..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 rounded-xl"
                   />
                 </div>
                 <Select value={filterCategory} onValueChange={setFilterCategory}>
@@ -543,7 +502,7 @@ export default function GuestList() {
           </Card>
 
           {/* Guest Table */}
-          <Card className="border-2 border-accent/20">
+          <Card className="rounded-2xl border border-border/50">
             <ScrollArea className="h-[500px]">
               <Table>
                 <TableHeader>

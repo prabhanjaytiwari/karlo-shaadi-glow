@@ -357,61 +357,44 @@ export default function Checklist() {
       <MobilePageHeader title="Wedding Checklist" />
 
       {/* Hero Section */}
-      <section className={`py-10 md:py-12 bg-muted/30 ${isMobile ? '' : 'pt-24'}`}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <Badge className="bg-accent text-accent-foreground mb-4">
-                  <ListChecks className="h-3 w-3 mr-1" />
-                  Wedding Checklist
-                </Badge>
-                <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">
-                  Your Wedding <span className="text-accent">Checklist</span>
-                </h1>
-                <p className="text-muted-foreground">
-                  {weddingDate 
-                    ? `Wedding Date: ${format(weddingDate, "MMMM d, yyyy")}`
-                    : "Set your wedding date in your profile for timeline reminders"
-                  }
-                </p>
-              </div>
-              
-              {/* Progress Card */}
-              <Card className="p-5 bg-card border border-border/50 rounded-2xl min-w-[180px]">
+      <section className={isMobile ? "px-4 py-4" : "py-10 md:py-12 bg-muted/30 pt-24"}>
+        <div className={isMobile ? "" : "container mx-auto px-4"}>
+          <div className={isMobile ? "" : "max-w-4xl mx-auto"}>
+            <div className={`flex ${isMobile ? 'items-center gap-4' : 'flex-col md:flex-row md:items-center md:justify-between gap-6'}`}>
+              {/* Progress Ring */}
+              <Card className={`bg-card border border-border/50 rounded-2xl ${isMobile ? 'p-3 shrink-0' : 'p-5 min-w-[180px]'}`}>
                 <div className="text-center">
-                  <div className="relative w-24 h-24 mx-auto mb-3">
-                    <svg className="w-24 h-24 transform -rotate-90">
-                      <circle
-                        cx="48"
-                        cy="48"
-                        r="40"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        fill="none"
-                        className="text-muted/20"
-                      />
-                      <circle
-                        cx="48"
-                        cy="48"
-                        r="40"
-                        stroke="currentColor"
-                        strokeWidth="8"
-                        fill="none"
-                        strokeDasharray={`${totalProgress * 2.51} 251`}
-                        className="text-accent transition-all duration-500"
-                        strokeLinecap="round"
-                      />
+                  <div className={`relative mx-auto ${isMobile ? 'w-16 h-16 mb-1' : 'w-24 h-24 mb-3'}`}>
+                    <svg className={`${isMobile ? 'w-16 h-16' : 'w-24 h-24'} transform -rotate-90`}>
+                      <circle cx={isMobile ? "32" : "48"} cy={isMobile ? "32" : "48"} r={isMobile ? "26" : "40"} stroke="currentColor" strokeWidth={isMobile ? "6" : "8"} fill="none" className="text-muted/20" />
+                      <circle cx={isMobile ? "32" : "48"} cy={isMobile ? "32" : "48"} r={isMobile ? "26" : "40"} stroke="currentColor" strokeWidth={isMobile ? "6" : "8"} fill="none" strokeDasharray={isMobile ? `${totalProgress * 1.63} 163` : `${totalProgress * 2.51} 251`} className="text-accent transition-all duration-500" strokeLinecap="round" />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold">{totalProgress}%</span>
+                      <span className={`font-bold ${isMobile ? 'text-base' : 'text-2xl'}`}>{totalProgress}%</span>
                     </div>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    {completedCount} of {items.length} tasks
+                  <p className={`text-muted-foreground ${isMobile ? 'text-[11px]' : 'text-sm'}`}>
+                    {completedCount}/{items.length} done
                   </p>
                 </div>
               </Card>
+
+              <div className="flex-1 min-w-0">
+                {!isMobile && (
+                  <Badge className="bg-accent text-accent-foreground mb-4">
+                    <ListChecks className="h-3 w-3 mr-1" />Wedding Checklist
+                  </Badge>
+                )}
+                <h1 className={`font-bold ${isMobile ? 'text-lg' : 'text-3xl md:text-4xl'} mb-1`}>
+                  {isMobile ? 'Wedding Checklist' : <>Your Wedding <span className="text-accent">Checklist</span></>}
+                </h1>
+                <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>
+                  {weddingDate 
+                    ? `Wedding: ${format(weddingDate, "MMM d, yyyy")}`
+                    : "Set your wedding date for timeline reminders"
+                  }
+                </p>
+              </div>
             </div>
           </div>
         </div>
