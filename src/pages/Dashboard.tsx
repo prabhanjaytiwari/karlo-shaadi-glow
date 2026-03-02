@@ -12,6 +12,8 @@ import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { DashboardMusicSection } from "@/components/DashboardMusicSection";
 import { ReferralWidget } from "@/components/ReferralWidget";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -79,38 +81,51 @@ const Dashboard = () => {
     );
   }
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <BhindiHeader />
+      <MobilePageHeader title="Dashboard" showBack={false} />
       
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6">
+      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
+        <div className={isMobile ? "" : "container mx-auto px-6"}>
           {/* Welcome Section */}
-          <div className="mb-12 animate-fade-up">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-4xl font-bold mb-2 text-foreground">
-                  Welcome back, {profile?.full_name || "there"}!
+          <div className={isMobile ? "mb-6" : "mb-12 animate-fade-up"}>
+            {!isMobile && (
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h1 className="text-4xl font-bold mb-2 text-foreground">
+                    Welcome back, {profile?.full_name || "there"}!
+                  </h1>
+                  <p className="text-muted-foreground text-lg">
+                    Let's make your wedding planning journey amazing
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => navigate("/profile")} className="border-accent/30 hover:border-accent/50">
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </Button>
+                  <Button variant="outline" onClick={() => navigate("/settings")} className="border-accent/30 hover:border-accent/50">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Button>
+                  <Button variant="outline" onClick={handleLogout} className="border-accent/30 hover:border-accent/50">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              </div>
+            )}
+            {isMobile && (
+              <div className="mb-4">
+                <h1 className="text-xl font-semibold text-foreground">
+                  Hey, {profile?.full_name?.split(' ')[0] || "there"} 👋
                 </h1>
-                <p className="text-muted-foreground text-lg">
-                  Let's make your wedding planning journey amazing
-                </p>
+                <p className="text-sm text-muted-foreground">Your wedding planner</p>
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => navigate("/profile")} className="border-accent/30 hover:border-accent/50">
-                  <User className="h-4 w-4 mr-2" />
-                  Profile
-                </Button>
-                <Button variant="outline" onClick={() => navigate("/settings")} className="border-accent/30 hover:border-accent/50">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-                <Button variant="outline" onClick={handleLogout} className="border-accent/30 hover:border-accent/50">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </div>
-            </div>
+            )}
 
             {profile?.wedding_date && (
               <Card className="bg-gradient-to-r from-accent/10 via-rose-100/50 to-amber-100/50 border-2 border-accent/30">
@@ -136,7 +151,7 @@ const Dashboard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-12 animate-fade-up">
+          <div className={`grid ${isMobile ? 'grid-cols-3 gap-3 mb-6' : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-12'} animate-fade-up`}>
             <Card className="bg-white/80 border-2 border-accent/20 hover:border-accent/40 hover:shadow-lg transition-all cursor-pointer" onClick={() => navigate("/search")}>
               <CardHeader className="p-4">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center mb-2">

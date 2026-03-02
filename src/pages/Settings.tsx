@@ -3,8 +3,10 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, User, Bell, Shield, LogOut } from "lucide-react";
+import { ArrowLeft, User, Bell, Shield, LogOut, ChevronRight } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { PasswordChange } from "@/components/settings/PasswordChange";
 import { NotificationPreferences } from "@/components/settings/NotificationPreferences";
 import { DeleteAccount } from "@/components/settings/DeleteAccount";
@@ -14,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function Settings() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -34,25 +37,30 @@ export default function Settings() {
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
         <BhindiHeader />
+        <MobilePageHeader title="Settings" />
         
-        <main className="pt-24 pb-16">
-          <div className="container mx-auto px-6 max-w-4xl">
-            <Button
-              variant="ghost"
-              onClick={() => navigate("/dashboard")}
-              className="mb-6 hover:text-accent"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Button>
+        <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
+          <div className={isMobile ? "" : "container mx-auto px-6 max-w-4xl"}>
+            {!isMobile && (
+              <>
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate("/dashboard")}
+                  className="mb-6 hover:text-accent"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Dashboard
+                </Button>
 
-            <div className="mb-8">
-              <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
-              <h1 className="text-3xl font-bold text-foreground">Settings</h1>
-              <p className="text-muted-foreground mt-2">
-                Manage your account preferences and security
-              </p>
-            </div>
+                <div className="mb-8">
+                  <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+                  <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+                  <p className="text-muted-foreground mt-2">
+                    Manage your account preferences and security
+                  </p>
+                </div>
+              </>
+            )}
 
             <Tabs defaultValue="account" className="space-y-6">
               <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
