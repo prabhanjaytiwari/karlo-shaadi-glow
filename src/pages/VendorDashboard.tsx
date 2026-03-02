@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { BarChart3, Calendar, Package, Images, Star, MessageSquare, User, LogOut
 import { useToast } from "@/hooks/use-toast";
 import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ServiceForm } from "@/components/vendor/ServiceForm";
 import { PortfolioUpload } from "@/components/vendor/PortfolioUpload";
 import { AvailabilityCalendar } from "@/components/vendor/AvailabilityCalendar";
@@ -55,9 +57,16 @@ export default function VendorDashboard() {
     categoryBreakdown: [] as any[],
     conversionData: { inquiries: 0, bookings: 0, conversionRate: 0 }
   });
-  const [activeTab, setActiveTab] = useState("analytics");
+  const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || "analytics");
   const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
   const [selectedUpgradePlan, setSelectedUpgradePlan] = useState<string>("");
+
+  // Sync tab from URL query param
+  useEffect(() => {
+    const tabFromUrl = searchParams.get('tab');
+    if (tabFromUrl) setActiveTab(tabFromUrl);
+  }, [searchParams]);
 
   // Handle upgrade intent from VendorPricing page
   useEffect(() => {
@@ -306,12 +315,16 @@ export default function VendorDashboard() {
     );
   }
 
+  const isMobile = useIsMobile();
+  const subBadge = getSubscriptionBadge();
+
   return (
     <div className="min-h-screen flex flex-col">
       <BhindiHeader />
+      <MobilePageHeader title={vendor?.business_name || 'Dashboard'} showBack={false} />
       
-      <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 pt-24 pb-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <main className={`flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
+        <div className={isMobile ? '' : 'max-w-7xl mx-auto'}>
           {/* Subscription Checkout Dialog */}
           {vendor && (
             <VendorSubscriptionCheckout
@@ -320,37 +333,58 @@ export default function VendorDashboard() {
               vendorId={vendor.id}
               planId={selectedUpgradePlan}
               onSuccess={() => {
-                checkVendorAccess(); // Refresh data after successful upgrade
+                checkVendorAccess();
               }}
             />
           )}
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <Badge className="bg-accent text-accent-foreground mb-2">Vendor Portal</Badge>
-              <h1 className="text-4xl font-bold mb-2">{vendor?.business_name}</h1>
-              <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+
+          {/* Desktop header */}
+          {!isMobile && (
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <Badge className="bg-accent text-accent-foreground mb-2">Vendor Portal</Badge>
+                <h1 className="text-4xl font-bold mb-2">{vendor?.business_name}</h1>
+                <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setSelectedUpgradePlan("gold");
+                    setUpgradeDialogOpen(true);
+                  }} 
+                  size="sm" 
+                  className="border-accent/30 hover:border-accent/50 hover:bg-accent/5"
+                >
+                  Upgrade Plan
+                </Button>
+                <Button variant="outline" onClick={() => navigate('/vendor/settings')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
+                </Button>
+                <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full border-accent/30 hover:border-accent/50 hover:bg-accent/5">
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setSelectedUpgradePlan("gold");
-                  setUpgradeDialogOpen(true);
-                }} 
-                size="sm" 
-                className="border-accent/30 hover:border-accent/50 hover:bg-accent/5"
-              >
-                Upgrade Plan
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/vendor/settings')} size="sm" className="border-accent/30 hover:border-accent/50 hover:bg-accent/5">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
-              <Button variant="outline" onClick={handleLogout} size="icon" className="rounded-full border-accent/30 hover:border-accent/50 hover:bg-accent/5">
-                <LogOut className="h-4 w-4" />
-              </Button>
+          )}
+
+          {/* Mobile: Plan badge + upgrade strip */}
+          {isMobile && vendor && (
+            <div className="flex items-center justify-between mb-4 p-3 bg-white/90 rounded-xl border border-accent/20">
+              <div className="flex items-center gap-2">
+                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${subBadge.color}`}>
+                  {subBadge.label}
+                </span>
+                <span className="text-xs text-muted-foreground">Plan</span>
+              </div>
+              {vendor.subscription_tier === 'free' && (
+                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => navigate('/vendor-pricing')}>
+                  Upgrade
+                </Button>
+              )}
             </div>
-          </div>
+          )}
 
           {/* Subscription Status Card */}
           {vendor && (
@@ -411,42 +445,43 @@ export default function VendorDashboard() {
             </Card>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
+          {/* Stats Grid */}
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-1 md:grid-cols-4 gap-6 mb-8'}`}>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+                <CardTitle className="text-xs font-medium text-muted-foreground">Bookings</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold">{stats.totalBookings}</div>
+              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+                <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.totalBookings}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Pending</CardTitle>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+                <CardTitle className="text-xs font-medium text-muted-foreground">Pending</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-primary">{stats.pendingBookings}</div>
+              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+                <div className={`font-bold text-primary ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.pendingBookings}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+                <CardTitle className="text-xs font-medium text-muted-foreground">Revenue</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold">₹{stats.revenue.toLocaleString()}</div>
+              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+                <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>₹{stats.revenue.toLocaleString()}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20 hover:border-accent/40 transition-colors">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium">Rating</CardTitle>
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+                <CardTitle className="text-xs font-medium text-muted-foreground">Rating</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold flex items-center">
+              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+                <div className={`font-bold flex items-center ${isMobile ? 'text-2xl' : 'text-3xl'}`}>
                   {vendor?.average_rating || 0}
-                  <Star className="ml-2 h-6 w-6 fill-accent text-accent" />
+                  <Star className={`ml-1 fill-accent text-accent ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
                 </div>
               </CardContent>
             </Card>
