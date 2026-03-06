@@ -1864,6 +1864,50 @@ export type Database = {
           },
         ]
       }
+      vendor_mini_sites: {
+        Row: {
+          created_at: string
+          custom_tagline: string | null
+          id: string
+          is_published: boolean
+          sections_config: Json
+          slug: string
+          theme: string
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          custom_tagline?: string | null
+          id?: string
+          is_published?: boolean
+          sections_config?: Json
+          slug: string
+          theme?: string
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          custom_tagline?: string | null
+          id?: string
+          is_published?: boolean
+          sections_config?: Json
+          slug?: string
+          theme?: string
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_mini_sites_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: true
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_payments: {
         Row: {
           amount: number

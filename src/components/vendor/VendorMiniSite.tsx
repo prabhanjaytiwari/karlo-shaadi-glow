@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Globe, Eye, Copy, QrCode, Palette, ExternalLink, Loader2 } from "lucide-react";
+import { Globe, Copy, QrCode, Palette, ExternalLink, Loader2 } from "lucide-react";
 import QRCode from "qrcode";
 
 interface VendorMiniSiteProps {
@@ -47,7 +47,8 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
 
   const loadMiniSite = async () => {
     setLoading(true);
-    const { data } = await supabase
+    // Use any to handle new table not yet in generated types
+    const { data } = await (supabase as any)
       .from("vendor_mini_sites")
       .select("*")
       .eq("vendor_id", vendorId)
@@ -58,11 +59,10 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
       setSlug(data.slug);
       setTheme(data.theme);
       setTagline(data.custom_tagline || "");
-      setSections(data.sections_config as typeof DEFAULT_SECTIONS || DEFAULT_SECTIONS);
+      setSections(data.sections_config || DEFAULT_SECTIONS);
       setIsPublished(data.is_published);
       generateQR(data.slug);
     } else {
-      // Auto-generate slug from vendor name
       const autoSlug = vendorName
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
@@ -95,13 +95,13 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
       };
 
       if (miniSite) {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("vendor_mini_sites")
           .update(payload)
           .eq("id", miniSite.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("vendor_mini_sites")
           .insert(payload);
         if (error) throw error;
@@ -132,16 +132,11 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
   };
 
   if (loading) {
-    return (
-      <Card className="animate-pulse">
-        <CardContent className="h-48" />
-      </Card>
-    );
+    return <Card className="animate-pulse"><CardContent className="h-48" /></Card>;
   }
 
   return (
     <div className="space-y-6">
-      {/* URL & Status */}
       <Card className="border-accent/20">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
@@ -175,7 +170,6 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
             </div>
             <p className="text-xs text-muted-foreground mt-1">{siteUrl}</p>
           </div>
-
           <div>
             <Label className="text-sm">Tagline</Label>
             <Input
@@ -188,7 +182,6 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
         </CardContent>
       </Card>
 
-      {/* Theme */}
       <Card className="border-accent/20">
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
@@ -217,7 +210,6 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
         </CardContent>
       </Card>
 
-      {/* Sections Toggle */}
       <Card className="border-accent/20">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Sections</CardTitle>
@@ -235,7 +227,6 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
         </CardContent>
       </Card>
 
-      {/* QR Code */}
       {qrDataUrl && (
         <Card className="border-accent/20">
           <CardHeader className="pb-3">
@@ -246,14 +237,11 @@ export function VendorMiniSite({ vendorId, vendorName }: VendorMiniSiteProps) {
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-3">
             <img src={qrDataUrl} alt="QR Code" className="w-40 h-40 rounded-lg border" />
-            <Button size="sm" variant="outline" onClick={downloadQR}>
-              Download QR Code
-            </Button>
+            <Button size="sm" variant="outline" onClick={downloadQR}>Download QR Code</Button>
           </CardContent>
         </Card>
       )}
 
-      {/* Publish */}
       <Card className="border-accent/30 bg-accent/5">
         <CardContent className="pt-6">
           <div className="flex items-center justify-between mb-4">

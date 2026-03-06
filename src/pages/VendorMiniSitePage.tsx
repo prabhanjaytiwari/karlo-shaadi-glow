@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Phone, MapPin, Camera, IndianRupee, MessageSquare, ArrowLeft } from "lucide-react";
+import { Star, MapPin, Camera, IndianRupee, MessageSquare, ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/SEO";
 
 const THEME_STYLES: Record<string, { bg: string; accent: string; text: string; card: string }> = {
@@ -30,7 +30,7 @@ export default function VendorMiniSitePage() {
   const loadSite = async (siteSlug: string) => {
     setLoading(true);
 
-    const { data: site } = await supabase
+    const { data: site } = await (supabase as any)
       .from("vendor_mini_sites")
       .select("*")
       .eq("slug", siteSlug)
@@ -44,7 +44,7 @@ export default function VendorMiniSitePage() {
     }
 
     setMiniSite(site);
-    const sections = site.sections_config as Record<string, boolean>;
+    const sections = (site.sections_config || {}) as Record<string, boolean>;
 
     const { data: vendorData } = await supabase
       .from("vendors")
@@ -56,19 +56,19 @@ export default function VendorMiniSitePage() {
 
     const promises: Promise<any>[] = [];
 
-    if (sections?.portfolio) {
+    if (sections.portfolio) {
       promises.push(
-        supabase.from("vendor_portfolio").select("*").eq("vendor_id", site.vendor_id).order("display_order").then(r => setPortfolio(r.data || []))
+        supabase.from("vendor_portfolio").select("*").eq("vendor_id", site.vendor_id).order("display_order").then(r => { setPortfolio(r.data || []); })
       );
     }
-    if (sections?.services) {
+    if (sections.services) {
       promises.push(
-        supabase.from("vendor_services").select("*").eq("vendor_id", site.vendor_id).eq("is_active", true).then(r => setServices(r.data || []))
+        supabase.from("vendor_services").select("*").eq("vendor_id", site.vendor_id).eq("is_active", true).then(r => { setServices(r.data || []); })
       );
     }
-    if (sections?.reviews) {
+    if (sections.reviews) {
       promises.push(
-        supabase.from("reviews").select("*").eq("vendor_id", site.vendor_id).order("created_at", { ascending: false }).limit(6).then(r => setReviews(r.data || []))
+        supabase.from("reviews").select("*").eq("vendor_id", site.vendor_id).order("created_at", { ascending: false }).limit(6).then(r => { setReviews(r.data || []); })
       );
     }
 
@@ -90,7 +90,7 @@ export default function VendorMiniSitePage() {
     );
   }
 
-  const theme = THEME_STYLES[miniSite?.theme] || THEME_STYLES["elegant-rose"];
+  const themeStyle = THEME_STYLES[miniSite?.theme] || THEME_STYLES["elegant-rose"];
   const sections = (miniSite?.sections_config || {}) as Record<string, boolean>;
 
   return (
@@ -100,18 +100,17 @@ export default function VendorMiniSitePage() {
         description={vendor?.description?.slice(0, 160) || `${vendor?.business_name} — Professional wedding services`}
       />
 
-      <div className={`min-h-screen bg-gradient-to-b ${theme.bg}`}>
-        {/* Hero */}
+      <div className={`min-h-screen bg-gradient-to-b ${themeStyle.bg}`}>
         <header className="relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
             {vendor?.logo_url && (
               <img src={vendor.logo_url} alt={vendor.business_name} className="w-24 h-24 rounded-full mx-auto mb-6 object-cover border-4 border-white shadow-lg" />
             )}
-            <h1 className={`text-4xl md:text-5xl font-bold mb-3 ${theme.text}`} style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className={`text-4xl md:text-5xl font-bold mb-3 ${themeStyle.text}`} style={{ fontFamily: "'Playfair Display', serif" }}>
               {vendor?.business_name}
             </h1>
             {miniSite?.custom_tagline && (
-              <p className={`text-lg ${theme.accent} mb-4`}>{miniSite.custom_tagline}</p>
+              <p className={`text-lg ${themeStyle.accent} mb-4`}>{miniSite.custom_tagline}</p>
             )}
             <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground flex-wrap">
               {vendor?.category && <Badge variant="secondary">{vendor.category}</Badge>}
@@ -126,20 +125,18 @@ export default function VendorMiniSitePage() {
         </header>
 
         <main className="max-w-4xl mx-auto px-6 pb-16 space-y-12">
-          {/* About */}
           {sections.about && vendor?.description && (
             <section>
-              <h2 className={`text-2xl font-bold mb-4 ${theme.text}`}>About</h2>
-              <div className={`rounded-xl p-6 ${theme.card}`}>
+              <h2 className={`text-2xl font-bold mb-4 ${themeStyle.text}`}>About</h2>
+              <div className={`rounded-xl p-6 ${themeStyle.card}`}>
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{vendor.description}</p>
               </div>
             </section>
           )}
 
-          {/* Portfolio */}
           {sections.portfolio && portfolio.length > 0 && (
             <section>
-              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${theme.text}`}>
+              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${themeStyle.text}`}>
                 <Camera className="h-6 w-6" /> Portfolio
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -152,15 +149,14 @@ export default function VendorMiniSitePage() {
             </section>
           )}
 
-          {/* Services */}
           {sections.services && services.length > 0 && (
             <section>
-              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${theme.text}`}>
+              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${themeStyle.text}`}>
                 <IndianRupee className="h-6 w-6" /> Services & Pricing
               </h2>
               <div className="grid gap-3">
                 {services.map(svc => (
-                  <div key={svc.id} className={`rounded-xl p-5 ${theme.card}`}>
+                  <div key={svc.id} className={`rounded-xl p-5 ${themeStyle.card}`}>
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-semibold">{svc.service_name}</h3>
@@ -168,7 +164,7 @@ export default function VendorMiniSitePage() {
                       </div>
                       <div className="text-right shrink-0 ml-4">
                         {svc.base_price && (
-                          <span className={`font-bold ${theme.accent}`}>₹{Number(svc.base_price).toLocaleString("en-IN")}</span>
+                          <span className={`font-bold ${themeStyle.accent}`}>₹{Number(svc.base_price).toLocaleString("en-IN")}</span>
                         )}
                         {svc.price_range_min && svc.price_range_max && (
                           <span className="text-sm text-muted-foreground block">
@@ -183,15 +179,14 @@ export default function VendorMiniSitePage() {
             </section>
           )}
 
-          {/* Reviews */}
           {sections.reviews && reviews.length > 0 && (
             <section>
-              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${theme.text}`}>
+              <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${themeStyle.text}`}>
                 <Star className="h-6 w-6" /> Client Reviews
               </h2>
               <div className="grid md:grid-cols-2 gap-3">
                 {reviews.map(rev => (
-                  <div key={rev.id} className={`rounded-xl p-5 ${theme.card}`}>
+                  <div key={rev.id} className={`rounded-xl p-5 ${themeStyle.card}`}>
                     <div className="flex gap-1 mb-2">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star key={i} className={`h-4 w-4 ${i < rev.rating ? "fill-yellow-400 text-yellow-400" : "text-muted"}`} />
@@ -204,7 +199,6 @@ export default function VendorMiniSitePage() {
             </section>
           )}
 
-          {/* WhatsApp CTA */}
           {sections.whatsapp_cta && vendor?.whatsapp_number && (
             <section className="text-center">
               <Button
@@ -218,9 +212,8 @@ export default function VendorMiniSitePage() {
           )}
         </main>
 
-        {/* Footer */}
         <footer className="text-center py-8 text-xs text-muted-foreground border-t">
-          Powered by <a href="/" className={`font-semibold ${theme.accent} hover:underline`}>Karlo Shaadi</a>
+          Powered by <a href="/" className={`font-semibold ${themeStyle.accent} hover:underline`}>Karlo Shaadi</a>
         </footer>
       </div>
     </>

@@ -106,7 +106,7 @@ export function BusinessIntelligence({ vendorId, vendorName, vendorCategory }: B
       { label: "Logo uploaded", icon: <Camera className="h-4 w-4" />, completed: !!vendor?.logo_url, weight: 10 },
       { label: "5+ portfolio images", icon: <Camera className="h-4 w-4" />, completed: (portfolio?.length || 0) >= 5, weight: 20 },
       { label: "At least 1 service listed", icon: <FileText className="h-4 w-4" />, completed: (services?.length || 0) >= 1, weight: 20 },
-      { label: "Phone number added", icon: <MessageSquare className="h-4 w-4" />, completed: !!vendor?.phone, weight: 10 },
+      { label: "Phone number added", icon: <MessageSquare className="h-4 w-4" />, completed: !!(vendor as any)?.phone, weight: 10 },
       { label: "WhatsApp number added", icon: <MessageSquare className="h-4 w-4" />, completed: !!vendor?.whatsapp_number, weight: 10 },
       { label: "At least 1 review", icon: <Star className="h-4 w-4" />, completed: (reviews?.length || 0) >= 1, weight: 15 },
     ];
