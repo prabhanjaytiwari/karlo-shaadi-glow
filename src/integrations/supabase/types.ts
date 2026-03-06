@@ -843,6 +843,109 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_schedule_milestones: {
+        Row: {
+          amount: number
+          created_at: string
+          due_date: string | null
+          id: string
+          milestone_name: string
+          paid_at: string | null
+          payment_method: string | null
+          reminder_sent_at: string | null
+          schedule_id: string
+          status: string
+          transaction_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          milestone_name: string
+          paid_at?: string | null
+          payment_method?: string | null
+          reminder_sent_at?: string | null
+          schedule_id: string
+          status?: string
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          milestone_name?: string
+          paid_at?: string | null
+          payment_method?: string | null
+          reminder_sent_at?: string | null
+          schedule_id?: string
+          status?: string
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_schedule_milestones_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "payment_schedules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payment_schedules: {
+        Row: {
+          client_email: string | null
+          client_name: string
+          client_phone: string | null
+          created_at: string
+          event_date: string | null
+          id: string
+          notes: string | null
+          service_description: string | null
+          status: string
+          total_amount: number
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          client_email?: string | null
+          client_name: string
+          client_phone?: string | null
+          created_at?: string
+          event_date?: string | null
+          id?: string
+          notes?: string | null
+          service_description?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          client_email?: string | null
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string
+          event_date?: string | null
+          id?: string
+          notes?: string | null
+          service_description?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_schedules_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payments: {
         Row: {
           amount: number
@@ -1531,6 +1634,80 @@ export type Database = {
           },
         ]
       }
+      vendor_contracts: {
+        Row: {
+          additional_clauses: string | null
+          cancellation_policy: string | null
+          client_accepted: boolean | null
+          client_accepted_at: string | null
+          client_email: string | null
+          client_name: string
+          client_phone: string | null
+          created_at: string
+          event_date: string | null
+          event_type: string | null
+          id: string
+          payment_terms: string | null
+          services_description: string
+          status: string
+          template_type: string
+          total_amount: number
+          updated_at: string
+          vendor_id: string
+          vendor_signature: boolean | null
+        }
+        Insert: {
+          additional_clauses?: string | null
+          cancellation_policy?: string | null
+          client_accepted?: boolean | null
+          client_accepted_at?: string | null
+          client_email?: string | null
+          client_name: string
+          client_phone?: string | null
+          created_at?: string
+          event_date?: string | null
+          event_type?: string | null
+          id?: string
+          payment_terms?: string | null
+          services_description: string
+          status?: string
+          template_type?: string
+          total_amount?: number
+          updated_at?: string
+          vendor_id: string
+          vendor_signature?: boolean | null
+        }
+        Update: {
+          additional_clauses?: string | null
+          cancellation_policy?: string | null
+          client_accepted?: boolean | null
+          client_accepted_at?: string | null
+          client_email?: string | null
+          client_name?: string
+          client_phone?: string | null
+          created_at?: string
+          event_date?: string | null
+          event_type?: string | null
+          id?: string
+          payment_terms?: string | null
+          services_description?: string
+          status?: string
+          template_type?: string
+          total_amount?: number
+          updated_at?: string
+          vendor_id?: string
+          vendor_signature?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_contracts_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_discounts: {
         Row: {
           applicable_to: string[] | null
@@ -1582,9 +1759,14 @@ export type Database = {
           email: string
           guest_count: number | null
           id: string
+          last_contacted_at: string | null
+          lead_score: number | null
+          lead_temperature: string | null
           message: string | null
           name: string
+          notes_internal: string | null
           phone: string
+          pipeline_stage: string | null
           status: string
           updated_at: string
           user_id: string | null
@@ -1597,9 +1779,14 @@ export type Database = {
           email: string
           guest_count?: number | null
           id?: string
+          last_contacted_at?: string | null
+          lead_score?: number | null
+          lead_temperature?: string | null
           message?: string | null
           name: string
+          notes_internal?: string | null
           phone: string
+          pipeline_stage?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
@@ -1612,9 +1799,14 @@ export type Database = {
           email?: string
           guest_count?: number | null
           id?: string
+          last_contacted_at?: string | null
+          lead_score?: number | null
+          lead_temperature?: string | null
           message?: string | null
           name?: string
+          notes_internal?: string | null
           phone?: string
+          pipeline_stage?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
@@ -1624,6 +1816,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "vendor_inquiries_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vendor_message_templates: {
+        Row: {
+          created_at: string
+          id: string
+          is_default: boolean | null
+          message_body: string
+          template_category: string
+          template_name: string
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          message_body: string
+          template_category?: string
+          template_name: string
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          message_body?: string
+          template_category?: string
+          template_name?: string
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_message_templates_vendor_id_fkey"
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "vendors"

@@ -1,140 +1,179 @@
 
 
-## Current State: Existing Vendor Tools
+# Complete Platform UI/UX Transformation
 
-Your toolkit currently has:
-- **AI Quote Generator** — generates proposal text via AI
-- **Caption Generator** — Instagram captions
-- **Invoice Generator** — basic PDF invoice
-- **Seasonal Insights** — demand calendar (static)
-- **Follow-Up Tracker** — lead status tracking
+## Scope
 
-These are lightweight utilities. They're "nice to have" but not "I'll pay ₹9,999/month for this." Here's what would change that:
+The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
+
+This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
 
 ---
 
-## Proposed: 6 Tools Vendors Will Actually Pay For
+## Design Language to Replicate
 
-### 1. Smart CRM & Lead Pipeline (₹₹₹ value)
-**The problem:** Wedding vendors lose 30-40% of leads because they reply late or forget to follow up. They manage leads in WhatsApp chat history or notebooks.
-
-**The tool:**
-- Kanban board: New → Contacted → Meeting Done → Quote Sent → Booked → Lost
-- Auto-reminders: "You haven't replied to Priya in 48 hours"
-- Lead scoring: hot/warm/cold based on wedding date proximity and budget match
-- WhatsApp message templates: one-tap "Thank you for your inquiry" / "Following up on our quote"
-- Monthly conversion funnel: X inquiries → Y meetings → Z bookings
-
-**Why they'll pay:** This replaces expensive CRM tools like Zoho/HubSpot that vendors can't figure out. Built specifically for wedding workflows.
+From `MobileHomeScreen.tsx`, the established patterns are:
+- Near full-bleed hero banners with gradient overlays on real images
+- Compact trust stat grids
+- Horizontal scroll cards with generated images
+- Gold accent ring borders on icons
+- `space-y-5` tight section spacing
+- Gradient-background interactive cards
+- Sheet-based slide-out menus
+- Mobile-first compact typography (H1: text-2xl, body: text-sm)
 
 ---
 
-### 2. Digital Contract & Agreement Generator
-**The problem:** Most Indian wedding vendors operate on verbal agreements. When clients cancel or dispute, vendors lose lakhs. No vendor has a lawyer on retainer.
+## Phase 1: Core User Journey Pages (Priority)
 
-**The tool:**
-- Pre-built legal templates for each vendor category (photography, catering, venue, makeup)
-- Auto-fills: client name, event date, services, payment terms, cancellation policy
-- Generates professional PDF with vendor branding
-- Tracks: Sent → Viewed → Accepted (digital acceptance via OTP/checkbox)
-- Cancellation clause calculator: auto-suggests fair refund % based on days-before-event
+### 1. Auth Page (`src/pages/Auth.tsx`)
+- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
+- Split layout on desktop: image left, form right
+- Mobile: image banner on top (h-40), form below
+- Gold accent divider and brand tagline above form
+- Rounded-2xl card with subtle ring-1 ring-accent/20
 
-**Why they'll pay:** Peace of mind. One saved cancellation dispute pays for years of subscription.
+### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
+- Replace flat gradient bg with clean white background
+- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
+- Wedding countdown: immersive banner card with generated celebration image
+- Tighter spacing throughout (space-y-4 on mobile)
+- Profile completion: compact progress bar instead of badge list
 
----
+### 3. Search Page (`src/pages/Search.tsx`)
+- Mobile: sticky search bar with category chips as horizontal scroll
+- Generated category header images when a category is selected
+- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
+- Compact card layout with image left, info right on mobile
 
-### 3. Payment Collection & Installment Tracker
-**The problem:** Vendors chase payments via WhatsApp. "Bhaiya advance bhej do" is not a system. They lose track of who paid what.
+### 4. Categories Page (`src/pages/Categories.tsx`)
+- Generate a hero banner image (wedding collage mosaic)
+- Category grid: use existing category images with overlay text
+- Mobile: 2-column grid with tighter gap-3
+- Add MobilePageHeader for mobile consistency
 
-**The tool:**
-- Create payment schedule: 30% advance → 40% before event → 30% after
-- Generate Razorpay payment links per milestone (shareable via WhatsApp)
-- Auto-reminders to clients: "₹50,000 balance due in 3 days"
-- Payment receipt auto-generation (branded PDF)
-- Dashboard: Total receivable, overdue, collected this month
-- GST invoice generation with proper tax breakdowns
+### 5. Bookings Page (`src/pages/Bookings.tsx`)  
+- Already mobile-optimized but needs visual polish
+- Add subtle card backgrounds with vendor category-colored left borders
+- Empty state: generate a "no bookings" illustration
 
-**Why they'll pay:** Direct revenue impact. Faster collections = better cash flow.
-
----
-
-### 4. Client Communication Automation
-**The problem:** Vendors send the same 10 WhatsApp messages to every client — booking confirmation, day-before checklist, directions, timeline. All manually typed each time.
-
-**The tool:**
-- Template library: Booking Confirmed, Event Reminder (3 days before), Day-of Timeline, Thank You + Review Request, Payment Reminder
-- Auto-personalization: fills in client name, date, venue, time
-- One-tap copy-to-WhatsApp or direct WhatsApp API send
-- Post-event automation: sends "How was the experience?" + review link 2 days after event
-- Seasonal greetings: auto-draft Diwali/New Year messages to past clients for repeat business
-
-**Why they'll pay:** Saves 1-2 hours daily. Makes them look professional.
+### 6. Favorites Page (`src/pages/Favorites.tsx`)
+- Add MobilePageHeader
+- Mobile: single column cards with vendor image thumbnails
+- Generate an empty state illustration (couple browsing vendors)
 
 ---
 
-### 5. Portfolio Website Builder (Mini-Site)
-**The problem:** 80% of Indian wedding vendors have no website. Their only online presence is Instagram or JustDial. When a client asks "Do you have a website?" they say no.
+## Phase 2: Marketing & Conversion Pages
 
-**The tool:**
-- Auto-generates a clean, SEO-optimized single-page website from their Karlo Shaadi profile
-- Custom subdomain: `rajesh-photography.karloshaadi.com`
-- Pulls portfolio images, services, pricing, reviews automatically
-- WhatsApp CTA button, Google Maps embed, Instagram feed
-- Shareable link for WhatsApp/Instagram bio
-- QR code for visiting cards
+### 7. Pricing Page (`src/pages/Pricing.tsx`)
+- Generate a premium hero image (couple enjoying wedding stress-free)
+- Cards: glassmorphism effect with gold border for premium plan
+- Mobile: stack cards vertically, add "Most Popular" ribbon
+- FAQ: use Accordion component for collapsibility
 
-**Why they'll pay:** Instant professional credibility. Competitors charge ₹15-30K for a basic vendor website.
+### 8. Deals Page (`src/pages/Deals.tsx`)
+- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
+- Hero section: immersive banner with deals tagline
+- Deal cards: image thumbnails with price strike-through styling
+- Mobile: horizontal scroll for seasonal offers
 
----
+### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
+- Generate a vendor success hero image (vendor team celebrating)
+- Stats section: animated counters with gold icon backgrounds
+- Mobile: compact single-column layout
+- Add MobilePageHeader
 
-### 6. AI Business Insights & Competitor Benchmarking
-**The problem:** Vendors have no idea if their pricing is competitive, which months they should push marketing, or how they compare to others in their city.
-
-**The tool:**
-- "Your pricing is 15% below average for photographers in Lucknow" — with data from platform
-- Seasonal demand forecast: "December has 3x more weddings — raise prices now"
-- Profile strength score: "Add 5 more portfolio images to rank higher"
-- Competitor comparison (anonymized): your response time vs category average, your rating vs average
-- Revenue forecasting: "Based on your pipeline, you'll earn ₹X this quarter"
-- Actionable tips: "Vendors who reply within 1 hour get 2.5x more bookings"
-
-**Why they'll pay:** Data-driven decisions. No other platform gives vendors this intelligence.
+### 10. About Page (`src/pages/About.tsx`)
+- Generate founder/team section image
+- Values grid: use generated symbolic images (heart for love, shield for trust)
+- Stats section: gradient background with larger typography
+- Mobile: single column with tight spacing
 
 ---
 
-## Implementation Approach
+## Phase 3: Tool & Utility Pages
 
-### Database additions needed:
-- `vendor_contracts` — stores generated contracts with status tracking
-- `payment_schedules` — installment milestones linked to bookings
-- `vendor_mini_sites` — subdomain config and customization settings
-- `message_templates` — vendor communication templates
-- Extend existing `vendor_inquiries` with pipeline stages and lead scoring
+### 11. Profile Page (`src/pages/Profile.tsx`)
+- Cleaner form layout with section dividers
+- Add avatar placeholder with initials
+- Mobile: full-width inputs with consistent padding
 
-### New components:
-- `VendorCRM.tsx` — Kanban pipeline with drag-drop
-- `ContractGenerator.tsx` — Template selector + PDF generator
-- `PaymentScheduleManager.tsx` — Installment tracker with Razorpay link generation
-- `ClientCommsHub.tsx` — Template library with WhatsApp integration
-- `VendorMiniSite.tsx` — Preview + publish flow
-- `BusinessIntelligence.tsx` — Charts comparing vendor vs category benchmarks
+### 12. FAQ Page (`src/pages/FAQ.tsx`)
+- Generate a support-themed hero image
+- Category icons with colored backgrounds
+- Collapsible accordion with smooth animations
 
-### Gating strategy:
-- **Free tier:** Basic CRM (5 leads), 1 contract/month, manual payment tracking
-- **Silver:** Full CRM, unlimited contracts, payment links, 3 templates
-- **Gold:** Everything + mini-site, AI insights, competitor benchmarking
-- **Diamond:** Everything + priority support, custom branding, advanced analytics
+### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
+- Generate an emotional hero image (community wedding celebration)
+- Impact counter with animated numbers
+- Application form with clean card layout
+
+### 14. Checklist Page (`src/pages/Checklist.tsx`)
+- Add progress visualization
+- Category-grouped tasks with icons
+
+### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
+- Gallery section polish
+- Contact card with generated map placeholder
 
 ---
 
-## Priority Order (by vendor willingness-to-pay)
+## Image Generation Plan
 
-1. **Payment Collection** — directly impacts cash flow (highest perceived value)
-2. **Smart CRM** — replaces manual chaos (daily use = stickiness)
-3. **Contract Generator** — legal protection (emotional value)
-4. **Client Comms** — time savings (convenience)
-5. **Mini-Site Builder** — credibility (aspirational)
-6. **Business Intelligence** — data insights (retention driver)
+Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
 
-Shall I proceed with implementation? I'd suggest starting with the top 3 (Payment Collection, Smart CRM, Contract Generator) as they have the strongest "I'd pay for this" signal.
+| # | Image | Usage |
+|---|-------|-------|
+| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
+| 2 | Wedding celebration collage/mosaic | Categories page hero |
+| 3 | Couple enjoying wedding carefree | Pricing page hero |
+| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
+| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
+| 6 | Early morning wedding ceremony | Deals - seasonal banner |
+| 7 | Vendor team group celebration | ForVendors hero |
+| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
+| 9 | Couple browsing on phone | Favorites empty state |
+| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
+| 11 | Support/help desk friendly | FAQ hero |
+| 12 | Founder portrait style (professional) | About page |
+
+---
+
+## Technical Approach
+
+### Consistent Patterns
+- All pages get `MobilePageHeader` on mobile
+- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
+- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
+- Cards: `rounded-2xl border border-border/50` with hover states
+- Generated images stored in `src/assets/` as JPGs
+- Hero sections: image with gradient overlay, not plain gradient backgrounds
+
+### Wiring Check
+- All navigation links verified between pages
+- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
+- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
+- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
+
+### Mobile-First
+- Every page uses `useIsMobile()` for responsive branching
+- Touch targets minimum 44px
+- Horizontal scrolls for lists that overflow on mobile
+- No desktop-only sections hidden on mobile (content parity)
+
+---
+
+## Implementation Order
+
+1. Generate all 12 images first (batch edge function calls)
+2. Auth page transformation (highest conversion impact)
+3. Dashboard page polish
+4. Search + Categories pages
+5. Deals + Pricing pages
+6. ForVendors + About pages
+7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
+8. Final wiring and navigation audit
+
+This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
 
