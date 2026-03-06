@@ -1,4 +1,4 @@
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { BentoGrid } from "@/components/BentoGrid";
 import { TensionsSection } from "@/components/TensionsSection";
