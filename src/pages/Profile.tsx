@@ -12,11 +12,13 @@ import { SEO } from "@/components/SEO";
 import { sanitizeInput } from "@/lib/validation";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { user, isVendor, isAdmin, loading: authLoading } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
