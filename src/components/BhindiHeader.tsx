@@ -109,9 +109,6 @@ export const BhindiHeader = () => {
   const { isNative } = useCapacitor();
   const isMobileDevice = useIsMobile();
 
-  // Hide header on mobile — BottomNavigation + MobilePageHeader handle mobile nav
-  if (isMobileDevice || isNative) return null;
-
   useEffect(() => {
     // Set initial width
     setWindowWidth(window.innerWidth);
