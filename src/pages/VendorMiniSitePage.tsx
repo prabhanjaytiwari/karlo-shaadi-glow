@@ -54,22 +54,17 @@ export default function VendorMiniSitePage() {
 
     setVendor(vendorData);
 
-    const promises: Promise<any>[] = [];
-
     if (sections.portfolio) {
-      promises.push(
-        supabase.from("vendor_portfolio").select("*").eq("vendor_id", site.vendor_id).order("display_order").then(r => { setPortfolio(r.data || []); })
-      );
+      const { data: portfolioData } = await supabase.from("vendor_portfolio").select("*").eq("vendor_id", site.vendor_id).order("display_order");
+      setPortfolio(portfolioData || []);
     }
     if (sections.services) {
-      promises.push(
-        supabase.from("vendor_services").select("*").eq("vendor_id", site.vendor_id).eq("is_active", true).then(r => { setServices(r.data || []); })
-      );
+      const { data: servicesData } = await supabase.from("vendor_services").select("*").eq("vendor_id", site.vendor_id).eq("is_active", true);
+      setServices(servicesData || []);
     }
     if (sections.reviews) {
-      promises.push(
-        supabase.from("reviews").select("*").eq("vendor_id", site.vendor_id).order("created_at", { ascending: false }).limit(6).then(r => { setReviews(r.data || []); })
-      );
+      const { data: reviewsData } = await supabase.from("reviews").select("*").eq("vendor_id", site.vendor_id).order("created_at", { ascending: false }).limit(6);
+      setReviews(reviewsData || []);
     }
 
     await Promise.all(promises);
