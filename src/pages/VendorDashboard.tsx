@@ -26,6 +26,15 @@ import { VendorInquiryManagement } from "@/components/vendor/VendorInquiryManage
 import { VerifiedBadgeShowcase } from "@/components/vendor/VerifiedBadgeShowcase";
 import { VendorToolkit } from "@/components/vendor/VendorToolkit";
 
+const mapSubscriptionPlan = (sub: any): "free" | "silver" | "gold" | "diamond" => {
+  if (!sub || sub.status !== 'active') return 'free';
+  const plan = sub.plan?.toLowerCase() || 'free';
+  if (plan === 'diamond' || plan === 'sponsored') return 'diamond';
+  if (plan === 'gold' || plan === 'featured') return 'gold';
+  if (plan === 'silver') return 'silver';
+  return 'free';
+};
+
 export default function VendorDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
