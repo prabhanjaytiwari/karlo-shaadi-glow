@@ -147,8 +147,8 @@ export const BhindiHeader = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Hide header on mobile (bottom navigation + MobileHomeScreen used instead)
-  if (isMobile) {
+  // Hide header on mobile — BottomNavigation + MobilePageHeader handle mobile nav
+  if (isMobile || isMobileDevice || isNative) {
     return null;
   }
 
