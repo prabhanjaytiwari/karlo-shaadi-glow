@@ -775,7 +775,7 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="tools">
-              {vendor && <VendorToolkit vendorId={vendor.id} vendorName={vendor.business_name} />}
+              {vendor && <VendorToolkit vendorId={vendor.id} vendorName={vendor.business_name} vendorCategory={vendor.category} />}
             </TabsContent>
 
             <TabsContent value="badge">
