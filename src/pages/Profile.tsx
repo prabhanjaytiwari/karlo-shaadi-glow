@@ -34,34 +34,38 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    if (authLoading) return;
+    
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    // Vendor users (who aren't also admins) should edit profile from vendor dashboard
+    if (isVendor && !isAdmin) {
+      toast({ title: "Redirecting...", description: "Please update your profile from the Vendor Dashboard" });
+      navigate("/vendor/dashboard?tab=profile");
+      return;
+    }
+
+    const loadProfile = async () => {
+      try {
+        const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+        if (error) throw error;
+        if (data) {
+          setProfile({
+            full_name: data.full_name || "", phone: data.phone || "", city: data.city || "",
+            wedding_date: data.wedding_date || "", budget_range: data.budget_range || "",
+            partner_name: data.partner_name || "", venue_city: data.venue_city || "",
+            guest_count: data.guest_count || undefined, preferred_season: data.preferred_season || "",
+          });
+        }
+      } catch (error) { console.error("Error loading profile:", error); }
+      finally { setLoading(false); }
+    };
+
     loadProfile();
-  }, []);
-
-  const loadProfile = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { navigate("/auth"); return; }
-
-      const { data: vendorData } = await supabase.from("vendors").select("id").eq("user_id", user.id).maybeSingle();
-      if (vendorData) {
-        toast({ title: "Redirecting...", description: "Please update your profile from the Vendor Dashboard" });
-        navigate("/vendor/dashboard?tab=profile");
-        return;
-      }
-
-      const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-      if (error) throw error;
-      if (data) {
-        setProfile({
-          full_name: data.full_name || "", phone: data.phone || "", city: data.city || "",
-          wedding_date: data.wedding_date || "", budget_range: data.budget_range || "",
-          partner_name: data.partner_name || "", venue_city: data.venue_city || "",
-          guest_count: data.guest_count || undefined, preferred_season: data.preferred_season || "",
-        });
-      }
-    } catch (error) { console.error("Error loading profile:", error); }
-    finally { setLoading(false); }
-  };
+  }, [user, authLoading, isVendor, isAdmin, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

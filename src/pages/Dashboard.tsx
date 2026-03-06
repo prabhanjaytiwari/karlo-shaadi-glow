@@ -14,6 +14,7 @@ import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const quickActions = [
   { icon: Search, label: "Search", route: "/search", gradient: "from-accent/20 to-primary/10" },
@@ -32,37 +33,50 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const [user, setUser] = useState<any>(null);
+  const { user, isAdmin, isVendor, loading: authLoading, signOut } = useAuthContext();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkUser();
-  }, []);
-
-  const checkUser = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { navigate("/auth"); return; }
-      const { data: vendorData } = await supabase.from("vendors").select("id").eq("user_id", user.id).maybeSingle();
-      if (vendorData) { navigate("/vendor/dashboard"); return; }
-      setUser(user);
-      const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-      setProfile(profileData);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
+    if (authLoading) return;
+    
+    if (!user) {
+      navigate("/auth");
+      return;
     }
-  };
+
+    // Admin users can view dashboard — don't redirect them
+    // Vendor users should go to vendor dashboard
+    if (isVendor && !isAdmin) {
+      navigate("/vendor/dashboard");
+      return;
+    }
+
+    const loadProfile = async () => {
+      try {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        setProfile(profileData);
+      } catch (error) {
+        console.error("Error loading profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [user, authLoading, isAdmin, isVendor, navigate]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     toast({ title: "Logged out", description: "You've been successfully logged out." });
     navigate("/");
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary" />
@@ -146,7 +160,7 @@ const Dashboard = () => {
             </motion.div>
           )}
 
-          {/* Quick Actions - Horizontal scroll on mobile */}
+          {/* Quick Actions */}
           {isMobile ? (
             <motion.div 
               className="overflow-x-auto scrollbar-hide -mx-4 px-4"

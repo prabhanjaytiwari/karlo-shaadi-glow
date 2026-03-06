@@ -529,7 +529,6 @@ const Index = () => {
         </div>
       </section>
 
-      <BhindiFooter />
     </div>;
 };
 export default Index;

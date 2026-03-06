@@ -104,9 +104,12 @@ export const BhindiHeader = () => {
   const [isVendor, setIsVendor] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  // Initialize with undefined to prevent hydration mismatch
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
   const { isNative } = useCapacitor();
+  const isMobileDevice = useIsMobile();
+
+  // Hide header on mobile — BottomNavigation + MobilePageHeader handle mobile nav
+  if (isMobileDevice || isNative) return null;
 
   useEffect(() => {
     // Set initial width
