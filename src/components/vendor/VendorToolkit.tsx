@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileText, Instagram, Receipt, CalendarHeart, Users, IndianRupee, Kanban, FileSignature } from "lucide-react";
+import { FileText, Instagram, Receipt, CalendarHeart, Users, IndianRupee, Kanban, FileSignature, MessageSquare, Globe, BarChart3 } from "lucide-react";
 import { QuoteGenerator } from "./QuoteGenerator";
 import { CaptionGenerator } from "./CaptionGenerator";
 import { InvoiceGenerator } from "./InvoiceGenerator";
@@ -9,14 +9,21 @@ import { FollowUpTracker } from "./FollowUpTracker";
 import { PaymentScheduleManager } from "./PaymentScheduleManager";
 import { VendorCRM } from "./VendorCRM";
 import { ContractGenerator } from "./ContractGenerator";
+import { ClientCommsHub } from "./ClientCommsHub";
+import { VendorMiniSite } from "./VendorMiniSite";
+import { BusinessIntelligence } from "./BusinessIntelligence";
+import { ToolGate } from "./ToolGate";
+
+type VendorPlan = "free" | "silver" | "gold" | "diamond";
 
 interface VendorToolkitProps {
   vendorId: string;
   vendorName: string;
   vendorCategory?: string;
+  subscriptionPlan?: VendorPlan;
 }
 
-export function VendorToolkit({ vendorId, vendorName, vendorCategory }: VendorToolkitProps) {
+export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscriptionPlan = "free" }: VendorToolkitProps) {
   const [activeTool, setActiveTool] = useState("crm");
 
   return (
@@ -42,9 +49,21 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory }: VendorTo
             <FileSignature className="h-4 w-4 mr-1" />
             Contracts
           </TabsTrigger>
+          <TabsTrigger value="comms" className="shrink-0 text-xs">
+            <MessageSquare className="h-4 w-4 mr-1" />
+            Comms
+          </TabsTrigger>
           <TabsTrigger value="followup" className="shrink-0 text-xs">
             <Users className="h-4 w-4 mr-1" />
             Follow-Ups
+          </TabsTrigger>
+          <TabsTrigger value="minisite" className="shrink-0 text-xs">
+            <Globe className="h-4 w-4 mr-1" />
+            Mini-Site
+          </TabsTrigger>
+          <TabsTrigger value="intelligence" className="shrink-0 text-xs">
+            <BarChart3 className="h-4 w-4 mr-1" />
+            Insights
           </TabsTrigger>
           <TabsTrigger value="quotes" className="shrink-0 text-xs">
             <FileText className="h-4 w-4 mr-1" />
@@ -68,13 +87,30 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory }: VendorTo
           <VendorCRM vendorId={vendorId} vendorName={vendorName} />
         </TabsContent>
         <TabsContent value="payments">
-          <PaymentScheduleManager vendorId={vendorId} vendorName={vendorName} />
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Payment Tracker" featureDescription="Create payment schedules, send Razorpay links, and auto-remind clients. Upgrade to Silver to unlock.">
+            <PaymentScheduleManager vendorId={vendorId} vendorName={vendorName} />
+          </ToolGate>
         </TabsContent>
         <TabsContent value="contracts">
-          <ContractGenerator vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Contract Generator" featureDescription="Generate professional legal contracts for your clients. Upgrade to Silver to unlock.">
+            <ContractGenerator vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
+          </ToolGate>
+        </TabsContent>
+        <TabsContent value="comms">
+          <ClientCommsHub vendorId={vendorId} vendorName={vendorName} />
         </TabsContent>
         <TabsContent value="followup">
           <FollowUpTracker vendorId={vendorId} />
+        </TabsContent>
+        <TabsContent value="minisite">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Portfolio Mini-Site" featureDescription="Get your own professional website with QR code for visiting cards. Upgrade to Gold to unlock.">
+            <VendorMiniSite vendorId={vendorId} vendorName={vendorName} />
+          </ToolGate>
+        </TabsContent>
+        <TabsContent value="intelligence">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Business Intelligence" featureDescription="See pricing benchmarks, conversion funnels, and actionable tips. Upgrade to Gold to unlock.">
+            <BusinessIntelligence vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
+          </ToolGate>
         </TabsContent>
         <TabsContent value="quotes">
           <QuoteGenerator vendorName={vendorName} />
