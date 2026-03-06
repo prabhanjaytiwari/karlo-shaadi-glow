@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
 import logo from "@/assets/logo-new.png";
@@ -104,9 +105,9 @@ export const BhindiHeader = () => {
   const [isVendor, setIsVendor] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  // Initialize with undefined to prevent hydration mismatch
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
   const { isNative } = useCapacitor();
+  const isMobileDevice = useIsMobile();
 
   useEffect(() => {
     // Set initial width
@@ -146,8 +147,8 @@ export const BhindiHeader = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Hide header on mobile (bottom navigation + MobileHomeScreen used instead)
-  if (isMobile) {
+  // Hide header on mobile — BottomNavigation + MobilePageHeader handle mobile nav
+  if (isMobile || isMobileDevice || isNative) {
     return null;
   }
 

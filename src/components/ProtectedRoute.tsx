@@ -78,15 +78,12 @@ export function ProtectedRoute({
 
     checkAccess();
 
-    // Listen for auth state changes
+    // Listen for auth state changes — only handle sign out to prevent redirect loops
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (event) => {
         if (event === 'SIGNED_OUT') {
           setIsAuthorized(false);
           navigate(redirectTo);
-        } else if (event === 'SIGNED_IN' && !isAuthorized) {
-          // Re-check access when user signs in
-          checkAccess();
         }
       }
     );
