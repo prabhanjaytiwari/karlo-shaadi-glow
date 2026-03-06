@@ -89,6 +89,7 @@ import ShaadiWrapped from "./pages/ShaadiWrapped";
 import CountdownPublic from "./pages/CountdownPublic";
 import WhyKarloShaadi from "./pages/WhyKarloShaadi";
 import EarnWithUs from "./pages/EarnWithUs";
+import VendorMiniSitePage from "./pages/VendorMiniSitePage";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
