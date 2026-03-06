@@ -67,7 +67,7 @@ export default function VendorMiniSitePage() {
       setReviews(reviewsData || []);
     }
 
-    await Promise.all(promises);
+    
     setLoading(false);
   };
 
