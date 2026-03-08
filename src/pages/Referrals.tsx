@@ -7,6 +7,7 @@ import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Referrals = () => {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
