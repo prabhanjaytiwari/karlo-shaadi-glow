@@ -198,7 +198,7 @@ export default function VendorGuide() {
         title="Vendor Onboarding Guide | Karlo Shaadi"
         description="Complete step-by-step guide for vendors to join Karlo Shaadi, set up their profile, and start receiving bookings."
       />
-      <BhindiHeader />
+      
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">

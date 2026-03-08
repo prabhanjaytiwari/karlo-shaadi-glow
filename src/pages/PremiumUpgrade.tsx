@@ -216,7 +216,7 @@ export default function PremiumUpgrade() {
 
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       <main className="pt-32 pb-16 px-4">
         <div className="max-w-6xl mx-auto">

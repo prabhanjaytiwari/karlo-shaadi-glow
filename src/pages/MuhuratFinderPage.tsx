@@ -11,7 +11,7 @@ const MuhuratFinderPage = () => {
         description="Find the most auspicious wedding dates in 2025. Complete Hindu Panchang calendar with Nakshatra, Tithi, and muhurat timings. Share dates on WhatsApp, add to calendar."
         keywords="shubh muhurat 2025, wedding muhurat dates, auspicious wedding dates, vivah muhurat, hindu wedding dates, panchang 2025"
       />
-      <BhindiHeader />
+      
       <main className="flex-1 pt-16 md:pt-20">
         <MuhuratFinder />
       </main>

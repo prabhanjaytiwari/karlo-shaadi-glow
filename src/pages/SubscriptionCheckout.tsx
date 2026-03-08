@@ -157,7 +157,7 @@ export default function SubscriptionCheckout() {
   if (!currentPlan) {
     return (
       <div className="min-h-screen flex flex-col">
-        <BhindiHeader />
+        
         <main className="flex-1 flex items-center justify-center">
           <Card className="max-w-md">
             <CardHeader>

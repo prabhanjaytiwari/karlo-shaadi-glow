@@ -126,7 +126,7 @@ const CityVendors = () => {
         keywords={`wedding vendors ${formatCityName(city || "")}, ${category ? CATEGORY_NAMES[category] + " " + formatCityName(city || "") : "wedding services"}, marriage vendors`}
       />
       <LocalBusinessJsonLd city={formatCityName(city || "")} category={category && CATEGORY_NAMES[category] ? CATEGORY_NAMES[category] : undefined} />
-      <BhindiHeader />
+      
 
       {/* Hero Section */}
       <section className="pt-24 pb-12 bg-gradient-to-b from-rose-50/60 to-white">

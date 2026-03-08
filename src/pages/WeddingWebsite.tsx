@@ -515,7 +515,6 @@ const WeddingWebsite = () => {
 
   return (
     <PremiumBackground variant="wedding" pattern className="min-h-screen">
-      <BhindiHeader />
       <SEO
         title="Create Your Wedding Website - Free with Karlo Shaadi"
         description="Design a beautiful, personalized wedding website in minutes. Share your love story, event details, and RSVP with guests. Free wedding website builder with premium templates."

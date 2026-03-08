@@ -103,7 +103,7 @@ const stories = [
 export default function SuccessStories() {
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
