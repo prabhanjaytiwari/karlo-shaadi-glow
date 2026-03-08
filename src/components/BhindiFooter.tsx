@@ -256,9 +256,9 @@ export const BhindiFooter = () => {
                 <Phone className="h-4 w-4" />
                 <span>+91 70114 60321</span>
               </a>
-              <a href="mailto:hello@karloshaadi.com" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
+              <a href="mailto:hi@karloshaadi.com" className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors">
                 <Mail className="h-4 w-4" />
-                <span>hello@karloshaadi.com</span>
+                <span>hi@karloshaadi.com</span>
               </a>
               <div className="flex items-start gap-2 text-muted-foreground">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
