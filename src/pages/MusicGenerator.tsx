@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PremiumBackground, PoweredByBadge, PremiumLoader } from "@/components/ui/premium-background";
