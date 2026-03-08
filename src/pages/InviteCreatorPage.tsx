@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { SEO } from "@/components/SEO";
 import InviteCreator from "@/components/InviteCreator";
 
