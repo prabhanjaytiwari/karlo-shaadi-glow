@@ -121,28 +121,32 @@ export default function PremiumDashboard() {
     }
   ];
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <MobilePageHeader title="Premium Dashboard" />
       
-      
-      <main className="flex-1 pt-20 md:pt-24 pb-12 px-4">
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 pt-20 md:pt-24 pb-12 px-4"}>
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8 animate-fade-in">
-            <div className="flex items-center justify-between mb-4">
+            <div className={isMobile ? "mb-4" : "flex items-center justify-between mb-4"}>
               <div>
                 <Badge variant="premium" className="mb-2">
                   <Crown className="h-3 w-3 mr-1" />
                   AI Premium Active
                 </Badge>
-                <h1 className="text-4xl font-bold">Premium Dashboard</h1>
+                <h1 className={isMobile ? "text-2xl font-bold" : "text-4xl font-bold"}>Premium Dashboard</h1>
                 <p className="text-muted-foreground mt-2">
                   Your AI-powered wedding planning command center
                 </p>
               </div>
-              <Button variant="outline" onClick={() => navigate('/dashboard')}>
-                Back to Dashboard
-              </Button>
+              {!isMobile && (
+                <Button variant="outline" onClick={() => navigate('/dashboard')}>
+                  Back to Dashboard
+                </Button>
+              )}
             </div>
           </div>
 

@@ -129,7 +129,8 @@ const BookingConfirmation = () => {
 
   return (
     <>
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
+      <MobilePageHeader title="Booking Confirmed" />
+      <main className={isMobile ? "px-4 py-4 pb-24" : "container mx-auto px-4 py-8 max-w-4xl"}>
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />

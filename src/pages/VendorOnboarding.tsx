@@ -230,12 +230,16 @@ export default function VendorOnboarding() {
     }
   };
 
+  const isMobile = useIsMobile();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+      <MobilePageHeader title="Become a Vendor" />
+      <div className={isMobile ? "px-4 py-4 pb-24" : "py-12 px-4"}>
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <Badge className="bg-accent text-accent-foreground mb-4">For Vendors</Badge>
-          <h1 className="text-4xl font-bold mb-2">Become a Vendor</h1>
+          <h1 className={isMobile ? "text-2xl font-bold mb-2" : "text-4xl font-bold mb-2"}>Become a Vendor</h1>
           <p className="text-muted-foreground">Join Karlo Shaadi and grow your wedding business</p>
           <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto mt-4 rounded-full" />
         </div>

@@ -96,9 +96,9 @@ export default function PaymentSuccess() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <MobilePageHeader title="Payment Successful" />
       
-      
-      <main className="flex-1 container mx-auto px-4 py-12">
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 py-12"}>
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 animate-fade-in">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/20 mb-6">

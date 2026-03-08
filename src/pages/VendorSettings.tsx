@@ -97,10 +97,10 @@ export default function VendorSettings() {
       />
       
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+        <MobilePageHeader title="Vendor Settings" />
         
-        
-        <main className="pt-24 pb-16">
-          <div className="container mx-auto px-6 max-w-4xl">
+        <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
+          <div className="container mx-auto px-4 md:px-6 max-w-4xl">
             <Button
               variant="ghost"
               onClick={() => navigate("/vendor/dashboard")}

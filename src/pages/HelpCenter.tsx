@@ -180,18 +180,22 @@ export default function HelpCenter() {
       <MobilePageHeader title="Help Center" />
       
       {/* Hero Section with Search */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+      <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/10 via-background to-accent/10" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10"}>
         <div className="container mx-auto max-w-4xl text-center">
-          <Badge variant="secondary" className="mb-4">
-            <Headphones className="w-3 h-3 mr-1" />
-            24/7 Support
-          </Badge>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          {!isMobile && (
+            <Badge variant="secondary" className="mb-4">
+              <Headphones className="w-3 h-3 mr-1" />
+              24/7 Support
+            </Badge>
+          )}
+          <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
             How can we <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">help you?</span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Find answers to your questions or get in touch with our support team
-          </p>
+          {!isMobile && (
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Find answers to your questions or get in touch with our support team
+            </p>
+          )}
           
           {/* Search Bar */}
           <div className="relative max-w-xl mx-auto">

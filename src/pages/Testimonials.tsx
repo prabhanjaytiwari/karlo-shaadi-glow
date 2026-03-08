@@ -93,18 +93,22 @@ export default function Testimonials() {
       <MobilePageHeader title="Testimonials" />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>
         <div className="container mx-auto max-w-6xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
-            <Heart className="w-4 h-4 text-accent" />
-            <span className="text-accent font-semibold text-sm">Real Stories, Real Weddings</span>
-          </div>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          {!isMobile && (
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
+              <Heart className="w-4 h-4 text-accent" />
+              <span className="text-accent font-semibold text-sm">Real Stories, Real Weddings</span>
+            </div>
+          )}
+          <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
             What Couples Say About <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Their Dream Weddings</span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Don't just take our word for it. Hear from thousands of couples who found their perfect vendors through Karlo Shaadi.
-          </p>
+          {!isMobile && (
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Don't just take our word for it. Hear from thousands of couples who found their perfect vendors through Karlo Shaadi.
+            </p>
+          )}
         </div>
       </section>
 
