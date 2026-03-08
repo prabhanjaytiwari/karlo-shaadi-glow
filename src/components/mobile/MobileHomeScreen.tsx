@@ -7,7 +7,8 @@ import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
   Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
   BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart,
-  Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award
+  Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award,
+  Zap, Gift, TrendingUp, Building2
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
