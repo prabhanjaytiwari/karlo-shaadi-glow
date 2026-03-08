@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -129,7 +129,7 @@ export default function VendorLeaderboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
-      <BhindiHeader />
+      
       
       <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-8">
         <div className="max-w-4xl mx-auto">

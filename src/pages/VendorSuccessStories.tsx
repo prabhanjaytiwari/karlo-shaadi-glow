@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -108,7 +106,6 @@ const VendorSuccessStories = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-accent/5 to-background">
@@ -225,7 +222,7 @@ const VendorSuccessStories = () => {
                 <Card 
                   key={vendor.id} 
                   className="border-2 border-border/50 hover:border-primary/30 hover:shadow-lg transition-all cursor-pointer group"
-                  onClick={() => navigate(`/vendor/${vendor.id}`)}
+                  onClick={() => navigate(`/vendors/${vendor.id}`)}
                 >
                   <CardContent className="pt-6 text-center space-y-4">
                     <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center mx-auto overflow-hidden">

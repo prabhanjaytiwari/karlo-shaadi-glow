@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -157,7 +157,7 @@ export default function SubscriptionCheckout() {
   if (!currentPlan) {
     return (
       <div className="min-h-screen flex flex-col">
-        <BhindiHeader />
+        
         <main className="flex-1 flex items-center justify-center">
           <Card className="max-w-md">
             <CardHeader>
@@ -175,8 +175,8 @@ export default function SubscriptionCheckout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
-      <BhindiHeader />
-      
+
+
       <main className="flex-1 py-12 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 animate-fade-in">

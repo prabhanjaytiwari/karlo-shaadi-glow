@@ -216,7 +216,7 @@ const BookingConfirmation = () => {
             View My Bookings
           </Button>
           <Button 
-            onClick={() => navigate(`/vendor/${booking.vendor.business_name}`)}
+            onClick={() => navigate(`/vendors/${booking.vendor.business_name}`)}
             variant="outline"
             className="w-full"
           >

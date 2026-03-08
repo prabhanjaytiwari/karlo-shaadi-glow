@@ -31,7 +31,7 @@ import {
   PartyPopper,
   ExternalLink,
 } from "lucide-react";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { WhatsAppStatusShare } from "@/components/WhatsAppStatusShare";
 
@@ -201,7 +201,7 @@ export default function WeddingPlanResult() {
         url={`/plan/${plan.planId}`}
         image={ogImageUrl}
       />
-      <BhindiHeader />
+      
 
       <PremiumBackground variant="wedding" pattern animated className="min-h-screen pt-20">
         {/* Hero Section */}

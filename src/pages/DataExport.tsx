@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -169,7 +169,7 @@ export default function DataExport() {
       />
       
       <div className="min-h-screen bg-background">
-        <BhindiHeader />
+        
         
         {/* Hero Section */}
         <section className="pt-32 pb-16 px-4 sm:px-6">

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -187,8 +185,6 @@ export default function AIMatchResults() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BhindiHeader />
-      
       <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -373,7 +369,7 @@ export default function AIMatchResults() {
                         <div className="flex items-center gap-3">
                           <Button
                             size="sm"
-                            onClick={() => navigate(`/vendor/${vendor.id}`)}
+                            onClick={() => navigate(`/vendors/${vendor.id}`)}
                           >
                             View Profile
                           </Button>

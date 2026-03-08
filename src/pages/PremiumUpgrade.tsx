@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -216,7 +216,7 @@ export default function PremiumUpgrade() {
 
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       <main className="pt-32 pb-16 px-4">
         <div className="max-w-6xl mx-auto">

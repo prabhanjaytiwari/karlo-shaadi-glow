@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +36,7 @@ export default function JoinAsManager() {
 
   return (
     <div className="min-h-screen bg-background">
-      <BhindiHeader />
+      
       
       <main className="container mx-auto px-4 py-20">
         {/* Hero Section */}
