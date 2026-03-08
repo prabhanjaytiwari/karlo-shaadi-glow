@@ -13,6 +13,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { initiatePayment, createRazorpayCheckout, verifyPayment } from "@/lib/paymentUtils";
 import { z } from "zod";
 import { motion } from "framer-motion";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, "Name is required").max(100),
