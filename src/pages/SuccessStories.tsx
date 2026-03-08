@@ -306,7 +306,7 @@ export default function SuccessStories() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

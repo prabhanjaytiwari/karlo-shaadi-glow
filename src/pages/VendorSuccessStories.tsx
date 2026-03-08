@@ -325,7 +325,7 @@ const VendorSuccessStories = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

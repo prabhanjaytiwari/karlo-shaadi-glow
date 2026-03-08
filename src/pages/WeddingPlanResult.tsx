@@ -596,7 +596,7 @@ export default function WeddingPlanResult() {
         </section>
       </PremiumBackground>
 
-      <BhindiFooter />
+      
     </>
   );
 }

@@ -325,7 +325,7 @@ export default function WhyKarloShaadi() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

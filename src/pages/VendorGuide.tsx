@@ -432,7 +432,7 @@ export default function VendorGuide() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

@@ -255,7 +255,7 @@ export default function ShaadiSeva() {
         </section>
       </main>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 }

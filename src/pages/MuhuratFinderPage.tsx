@@ -15,7 +15,7 @@ const MuhuratFinderPage = () => {
       <main className="flex-1 pt-16 md:pt-20">
         <MuhuratFinder />
       </main>
-      <BhindiFooter />
+      
     </div>
   );
 };
