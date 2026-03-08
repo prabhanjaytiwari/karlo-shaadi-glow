@@ -66,7 +66,6 @@ const StoryDetail = () => {
           <Skeleton className="h-96 w-full" />
           <Skeleton className="h-64 w-full" />
         </div>
-        <BhindiFooter />
       </div>
     );
   }
