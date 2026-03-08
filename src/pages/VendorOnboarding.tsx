@@ -12,6 +12,8 @@ import { Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, Upload,
 import { Badge } from "@/components/ui/badge";
 import { sanitizeInput } from "@/lib/validation";
 import { Progress } from "@/components/ui/progress";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { Database } from "@/integrations/supabase/types";
 
