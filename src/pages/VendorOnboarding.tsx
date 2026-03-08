@@ -630,6 +630,7 @@ export default function VendorOnboarding() {
           </div>
         </div>
       </div>
+      </div>
     </div>
   );
 }
