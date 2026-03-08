@@ -221,9 +221,7 @@ const EarnWithUs = () => {
               >
                 <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-5 text-center space-y-3">
-                    <div className={`mx-auto w-12 h-12 rounded-xl bg-gradient-to-br ${prize.color} flex items-center justify-center shadow-lg`}>
-                      <prize.icon className="h-6 w-6 text-white" />
-                    </div>
+                    <img src={prize.image} alt={prize.label} className="mx-auto w-16 h-16 object-contain" />
                     <p className="font-semibold text-sm text-foreground">{prize.label}</p>
                   </CardContent>
                 </Card>
