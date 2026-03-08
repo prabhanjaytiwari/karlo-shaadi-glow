@@ -25,6 +25,7 @@ interface Payment {
 }
 
 export default function VendorBilling() {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
