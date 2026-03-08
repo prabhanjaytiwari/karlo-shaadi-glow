@@ -1,4 +1,4 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { SEO } from "@/components/SEO";
 import InviteCreator from "@/components/InviteCreator";
