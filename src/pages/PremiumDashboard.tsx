@@ -10,6 +10,8 @@ import {
   TrendingUp, Users, MessageCircle, FileCheck 
 } from "lucide-react";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function PremiumDashboard() {
   const navigate = useNavigate();
