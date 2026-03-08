@@ -324,7 +324,7 @@ const StoryDetail = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

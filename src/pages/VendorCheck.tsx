@@ -454,7 +454,7 @@ export default function VendorCheck() {
         </div>
       </div>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

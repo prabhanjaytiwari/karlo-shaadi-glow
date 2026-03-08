@@ -1615,7 +1615,7 @@ const WeddingWebsite = () => {
         </DialogContent>
       </Dialog>
 
-      <BhindiFooter />
+      
     </PremiumBackground>
   );
 };

@@ -167,7 +167,7 @@ export default function JoinAsManager() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

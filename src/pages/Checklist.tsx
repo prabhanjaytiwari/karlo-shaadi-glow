@@ -654,7 +654,7 @@ export default function Checklist() {
         </section>
       )}
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 }

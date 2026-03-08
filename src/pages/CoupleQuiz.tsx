@@ -431,7 +431,7 @@ export default function CoupleQuiz() {
         </AnimatePresence>
       </div>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

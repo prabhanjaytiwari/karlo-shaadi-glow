@@ -176,7 +176,7 @@ export default function CountdownPublic() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

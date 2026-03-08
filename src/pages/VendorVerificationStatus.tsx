@@ -323,7 +323,7 @@ export default function VendorVerificationStatus() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

@@ -174,7 +174,7 @@ export default function Affiliate() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

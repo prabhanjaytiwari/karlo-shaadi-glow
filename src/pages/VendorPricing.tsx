@@ -409,7 +409,7 @@ export default function VendorPricing() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

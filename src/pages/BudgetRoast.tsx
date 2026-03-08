@@ -206,7 +206,7 @@ export default function BudgetRoast() {
         )}
       </div>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

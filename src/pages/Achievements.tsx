@@ -57,7 +57,7 @@ const Achievements = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

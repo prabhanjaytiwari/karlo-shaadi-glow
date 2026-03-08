@@ -324,7 +324,7 @@ export default function PremiumUpgrade() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

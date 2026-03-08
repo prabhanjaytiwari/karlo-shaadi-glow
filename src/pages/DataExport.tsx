@@ -298,7 +298,7 @@ export default function DataExport() {
           </div>
         </section>
 
-        <BhindiFooter />
+        
       </div>
     </>
   );

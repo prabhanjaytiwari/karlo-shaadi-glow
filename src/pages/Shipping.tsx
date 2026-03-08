@@ -127,7 +127,7 @@ const Shipping = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

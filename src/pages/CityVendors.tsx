@@ -297,7 +297,7 @@ const CityVendors = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

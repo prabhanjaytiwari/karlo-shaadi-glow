@@ -313,7 +313,7 @@ const ForVendors = () => {
         </section>
       </main>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 };

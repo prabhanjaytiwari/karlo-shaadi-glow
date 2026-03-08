@@ -980,7 +980,7 @@ export default function BlogPost() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

@@ -216,7 +216,7 @@ const Stories = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

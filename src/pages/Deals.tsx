@@ -230,7 +230,7 @@ export default function Deals() {
         </div>
       </section>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 }

@@ -420,7 +420,7 @@ export default function AIMatchResults() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

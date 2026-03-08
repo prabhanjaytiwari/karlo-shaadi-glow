@@ -372,7 +372,7 @@ const EarnWithUs = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

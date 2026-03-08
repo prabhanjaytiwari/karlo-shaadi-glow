@@ -1733,7 +1733,7 @@ To be part of our dreams coming true!`,
         </section>
       </main>
 
-      <BhindiFooter />
+      
     </PremiumBackground>
   );
 }

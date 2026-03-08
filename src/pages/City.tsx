@@ -389,7 +389,7 @@ const City = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

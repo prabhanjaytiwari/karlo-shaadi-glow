@@ -215,7 +215,7 @@ const WeddingDirectory = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

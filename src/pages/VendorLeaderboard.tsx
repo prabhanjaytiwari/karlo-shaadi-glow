@@ -292,7 +292,7 @@ export default function VendorLeaderboard() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

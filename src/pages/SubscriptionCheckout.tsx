@@ -282,7 +282,7 @@ export default function SubscriptionCheckout() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }
