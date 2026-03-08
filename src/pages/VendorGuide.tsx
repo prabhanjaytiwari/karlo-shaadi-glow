@@ -1,4 +1,4 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
