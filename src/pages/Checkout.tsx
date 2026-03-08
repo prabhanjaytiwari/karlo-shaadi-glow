@@ -8,6 +8,8 @@ import { Loader2, Shield, Calendar, DollarSign, CheckCircle2 } from "lucide-reac
 import { format } from "date-fns";
 import { trackPaymentInitiated, trackPaymentCompleted, trackPaymentFailed } from "@/lib/analytics";
 import { TrustBadges } from "@/components/TrustBadges";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 declare global {
   interface Window {
