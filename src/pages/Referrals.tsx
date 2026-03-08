@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { ReferralDashboard } from "@/components/ReferralDashboard";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Referrals = () => {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -41,20 +44,22 @@ const Referrals = () => {
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
       <SEO
         title="Refer & Earn | Karlo Shaadi"
-        description="Refer friends to Karlo Shaadi and earn ₹500 for each successful booking. Share your unique link and grow your credits!"
+        description="Refer friends to Karlo Shaadi and earn ₹500 for each successful booking."
       />
-      
+      <MobilePageHeader title="Refer & Earn" />
 
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <div className="text-center mb-8 animate-fade-up">
-            <h1 className="text-4xl font-bold mb-2 text-foreground">
-              Refer & Earn
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              Share the love and earn ₹500 for every friend who books!
-            </p>
-          </div>
+      <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
+        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
+          {!isMobile && (
+            <div className="text-center mb-8 animate-fade-up">
+              <h1 className="text-4xl font-bold mb-2 text-foreground">
+                Refer & Earn
+              </h1>
+              <p className="text-muted-foreground text-lg">
+                Share the love and earn ₹500 for every friend who books!
+              </p>
+            </div>
+          )}
 
           {user && <ReferralDashboard userId={user.id} />}
         </div>

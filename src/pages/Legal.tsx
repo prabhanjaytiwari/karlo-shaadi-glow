@@ -9,14 +9,16 @@ const Legal = () => {
     <div className="min-h-screen bg-background">
       <MobilePageHeader title="Legal" />
       
-      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="text-center mb-12 animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Legal Information</h1>
-            <p className="text-xl text-muted-foreground">
-              Terms, policies, and guidelines for using Karlo Shaadi
-            </p>
-          </div>
+      <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          {!isMobile && (
+            <div className="text-center mb-12 animate-fade-up">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Legal Information</h1>
+              <p className="text-xl text-muted-foreground">
+                Terms, policies, and guidelines for using Karlo Shaadi
+              </p>
+            </div>
+          )}
 
           <Tabs defaultValue="terms" className="animate-fade-up">
             <TabsList className="grid w-full grid-cols-3 mb-8">

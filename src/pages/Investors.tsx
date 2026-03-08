@@ -71,14 +71,18 @@ export default function Investors() {
     <div className="min-h-screen bg-background">
       <MobilePageHeader title="Investors" />
       
-      <main className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-            Invest in the Future of Weddings
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join us in revolutionizing India's $50B wedding industry with technology and trust.
-          </p>
+      <main className={isMobile ? "px-4 py-4 pb-24" : "container mx-auto px-4 py-20"}>
+        <div className={isMobile ? "" : "text-center mb-16 animate-fade-in"}>
+          {!isMobile && (
+            <>
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                Invest in the Future of Weddings
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Join us in revolutionizing India's $50B wedding industry with technology and trust.
+              </p>
+            </>
+          )}
         </div>
 
         <div className="grid md:grid-cols-4 gap-6 mb-16">

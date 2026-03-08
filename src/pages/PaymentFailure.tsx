@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { XCircle, ArrowLeft, RefreshCw, HelpCircle } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BookingDetails {
   id: string;
@@ -13,6 +15,7 @@ interface BookingDetails {
 }
 
 export default function PaymentFailure() {
+  const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const bookingId = searchParams.get("bookingId");
@@ -49,15 +52,15 @@ export default function PaymentFailure() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <MobilePageHeader title="Payment Failed" />
       
-      
-      <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-12">
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-12"}>
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8 animate-fade-in">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/20 mb-6">
               <XCircle className="h-10 w-10 text-red-600" />
             </div>
-            <h1 className="text-4xl font-bold mb-3">Payment Failed</h1>
+            <h1 className={isMobile ? "text-2xl font-bold mb-3" : "text-4xl font-bold mb-3"}>Payment Failed</h1>
             <p className="text-xl text-muted-foreground">
               We couldn't process your payment
             </p>

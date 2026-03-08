@@ -123,21 +123,25 @@ const categories = [
 export default function Blog() {
   const isMobile = useIsMobile();
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isMobile ? 'pb-24' : ''}`}>
       <MobilePageHeader title="Blog" />
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>
         <div className="container mx-auto max-w-6xl text-center">
-          <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
-            <TrendingUp className="w-3 h-3 mr-1" />
-            Wedding Planning Tips & Guides
-          </Badge>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          {!isMobile && (
+            <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
+              <TrendingUp className="w-3 h-3 mr-1" />
+              Wedding Planning Tips & Guides
+            </Badge>
+          )}
+          <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
             Karlo Shaadi <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Blog</span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Expert advice, real stories, and practical tips to plan your perfect Indian wedding. From budgeting to vendor selection, we've got you covered.
-          </p>
+          {!isMobile && (
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Expert advice, real stories, and practical tips to plan your perfect Indian wedding.
+            </p>
+          )}
         </div>
       </section>
 

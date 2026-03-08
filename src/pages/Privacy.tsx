@@ -13,14 +13,16 @@ const Privacy = () => {
       />
       <MobilePageHeader title="Privacy Policy" />
       
-      <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="text-center mb-12 animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
-            <p className="text-xl text-muted-foreground">
-              How we collect, use, and protect your information
-            </p>
-          </div>
+      <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          {!isMobile && (
+            <div className="text-center mb-12 animate-fade-up">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
+              <p className="text-xl text-muted-foreground">
+                How we collect, use, and protect your information
+              </p>
+            </div>
+          )}
 
           <Card className="animate-fade-up">
             <CardHeader>

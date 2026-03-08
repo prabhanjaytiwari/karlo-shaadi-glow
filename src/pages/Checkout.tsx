@@ -8,6 +8,8 @@ import { Loader2, Shield, Calendar, DollarSign, CheckCircle2 } from "lucide-reac
 import { format } from "date-fns";
 import { trackPaymentInitiated, trackPaymentCompleted, trackPaymentFailed } from "@/lib/analytics";
 import { TrustBadges } from "@/components/TrustBadges";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 declare global {
   interface Window {
@@ -218,15 +220,19 @@ export default function Checkout() {
   const advanceAmount = (booking.total_amount * booking.advance_percentage) / 100;
   const balanceAmount = booking.total_amount - advanceAmount;
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      
-      <main className="flex-1 container mx-auto px-4 py-12">
+      <MobilePageHeader title="Payment Checkout" />
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 py-12"}>
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-2">Payment Checkout</h1>
-            <p className="text-muted-foreground">Complete your booking payment</p>
-          </div>
+          {!isMobile && (
+            <div className="mb-8">
+              <h1 className="text-4xl font-bold mb-2">Payment Checkout</h1>
+              <p className="text-muted-foreground">Complete your booking payment</p>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Booking Details */}

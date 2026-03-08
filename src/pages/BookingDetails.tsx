@@ -25,6 +25,8 @@ import { format } from "date-fns";
 import { MessagingDialog } from "@/components/MessagingDialog";
 import { BookingDocumentUpload } from "@/components/BookingDocumentUpload";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BookingDetailsData {
   id: string;
@@ -224,10 +226,12 @@ export default function BookingDetails() {
   const remainingAmount = booking.total_amount - advanceAmount;
   const isCouple = booking.vendor.user_id !== user?.id;
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      
-      <main className="flex-1 container mx-auto px-4 py-12">
+      <MobilePageHeader title="Booking Details" />
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 py-12"}>
         {/* Header */}
         <div className="mb-8">
           <Button
