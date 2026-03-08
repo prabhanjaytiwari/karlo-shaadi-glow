@@ -1,20 +1,21 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Shipping = () => {
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background">
       <SEO 
         title="Shipping & Delivery Policy"
         description="Information about shipping and delivery for physical products and documents on Karlo Shaadi"
       />
-      <BhindiHeader />
+      <MobilePageHeader title="Shipping & Delivery" />
       
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="text-center mb-12 animate-fade-up">
+      <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          {!isMobile && <div className="text-center mb-12 animate-fade-up">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Shipping & Delivery</h1>
             <p className="text-xl text-muted-foreground">
               Delivery information for physical items and documents
