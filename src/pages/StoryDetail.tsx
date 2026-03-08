@@ -81,7 +81,6 @@ const StoryDetail = () => {
             </Link>
           </div>
         </div>
-        <BhindiFooter />
       </div>
     );
   }
