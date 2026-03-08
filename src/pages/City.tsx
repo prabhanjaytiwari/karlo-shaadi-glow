@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
