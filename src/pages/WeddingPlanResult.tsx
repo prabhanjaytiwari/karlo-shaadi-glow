@@ -32,7 +32,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { WhatsAppStatusShare } from "@/components/WhatsAppStatusShare";
 
 interface PlanData {
