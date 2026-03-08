@@ -7,6 +7,8 @@ import { ShareButton } from "@/components/ShareButton";
 import { CheckCircle, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BookingDetails {
   id: string;
