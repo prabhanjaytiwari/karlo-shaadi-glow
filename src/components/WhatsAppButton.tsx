@@ -46,6 +46,8 @@ export const WhatsAppButton = () => {
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(getMessage())}`;
 
+  if (["/auth", "/vendor-auth", "/forgot-password", "/reset-password"].includes(location.pathname)) return null;
+
   return (
     <a
       href={whatsappUrl}

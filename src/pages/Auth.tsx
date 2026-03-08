@@ -340,9 +340,9 @@ const Auth = () => {
       
       {/* Mobile: hero banner on top + form below */}
       {isMobile ? (
-        <div className="flex flex-col pt-14 pb-24">
+        <div className="flex flex-col pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]">
           {/* Compact Hero Banner */}
-          <div className="relative h-32 overflow-hidden">
+          <div className="relative h-32 overflow-hidden border-b border-border/40">
             <img src={heroAuthImage} alt="Wedding ceremony" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-background" />
             <div className="absolute bottom-3 left-4 right-4">
@@ -351,7 +351,7 @@ const Auth = () => {
           </div>
           
           <motion.div 
-            className="px-4 py-4 -mt-3 relative z-10"
+            className="w-full max-w-md mx-auto px-3 py-4 -mt-2 relative z-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
