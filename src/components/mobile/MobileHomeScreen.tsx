@@ -468,6 +468,93 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
+        {/* ── DEALS & OFFERS ── */}
+        <section className="px-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Deals & Offers</h2>
+            <button onClick={() => navigate('/deals')} className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform">
+              View All <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
+              {[
+                { title: 'Early Bird Discount', desc: 'Book 6+ months early & save 15%', icon: Zap, color: 'from-amber-500 to-orange-500' },
+                { title: 'Monsoon Special', desc: 'Flat 20% off monsoon weddings', icon: Gift, color: 'from-emerald-500 to-teal-500' },
+                { title: 'Bundle & Save', desc: 'Book 3+ vendors for extra 10% off', icon: Tag, color: 'from-primary to-accent' },
+              ].map((deal, i) => (
+                <button
+                  key={i}
+                  onClick={() => navigate('/deals')}
+                  className="flex-shrink-0 w-52 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left"
+                >
+                  <div className={`bg-gradient-to-br ${deal.color} p-4 text-white`}>
+                    <deal.icon className="h-6 w-6 mb-2 opacity-90" />
+                    <p className="text-sm font-bold leading-tight">{deal.title}</p>
+                    <p className="text-[10px] opacity-80 mt-1 leading-snug">{deal.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── WEDDING DIRECTORY (City Grid) ── */}
+        <section className="px-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-foreground">Wedding Directory</h2>
+            <button onClick={() => navigate('/wedding-directory')} className="flex items-center gap-0.5 text-primary text-xs font-medium active:scale-95 transition-transform">
+              All Cities <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { name: 'Delhi', emoji: '🏛️' },
+              { name: 'Mumbai', emoji: '🌊' },
+              { name: 'Bangalore', emoji: '🌿' },
+              { name: 'Jaipur', emoji: '🏰' },
+              { name: 'Lucknow', emoji: '🕌' },
+              { name: 'Kolkata', emoji: '🌸' },
+            ].map((city) => (
+              <button
+                key={city.name}
+                onClick={() => navigate(`/vendors-in/${city.name.toLowerCase()}`)}
+                className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform"
+              >
+                <span className="text-xl mb-1">{city.emoji}</span>
+                <span className="text-xs font-semibold text-foreground">{city.name}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* ── TRENDING ON KARLO SHAADI ── */}
+        <section className="px-4">
+          <h2 className="text-base font-semibold text-foreground mb-3">Trending on Karlo Shaadi</h2>
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
+              {[
+                { title: 'Shaadi Wrapped', desc: 'Your wedding recap', route: '/shaadi-wrapped', icon: Sparkles },
+                { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn-with-us', icon: TrendingUp },
+                { title: 'Why Karlo Shaadi?', desc: 'See why we\'re #1', route: '/why-karlo-shaadi', icon: Award },
+                { title: 'Vendor Leaderboard', desc: 'Top rated vendors', route: '/vendor-leaderboard', icon: Building2 },
+              ].map((item) => (
+                <button
+                  key={item.route}
+                  onClick={() => navigate(item.route)}
+                  className="flex-shrink-0 w-40 p-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform text-left"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2">
+                    <item.icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-[11px] font-semibold text-foreground leading-tight">{item.title}</p>
+                  <p className="text-[9px] text-muted-foreground mt-0.5">{item.desc}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Divider */}
         <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
