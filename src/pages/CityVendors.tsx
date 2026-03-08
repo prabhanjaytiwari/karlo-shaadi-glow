@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { VendorCard } from "@/components/VendorCard";
 import { SEO } from "@/components/SEO";
