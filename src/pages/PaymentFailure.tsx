@@ -15,6 +15,7 @@ interface BookingDetails {
 }
 
 export default function PaymentFailure() {
+  const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const bookingId = searchParams.get("bookingId");
