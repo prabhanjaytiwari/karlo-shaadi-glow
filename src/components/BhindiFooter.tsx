@@ -49,7 +49,7 @@ const footerLinks = {
     { label: "Help Center", to: "/help" },
     { label: "FAQ", to: "/faq" },
     { label: "Contact Us", to: "/support" },
-    { label: "Report an Issue", to: "/support" },
+    { label: "Report an Issue", to: "/support?type=report" },
   ],
   legal: [
     { label: "Terms of Service", to: "/legal" },
