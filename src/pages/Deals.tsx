@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tag, Percent, Clock, Gift, Star, ArrowRight, Calendar, IndianRupee, Heart, Zap } from "lucide-react";
@@ -230,7 +230,7 @@ export default function Deals() {
         </div>
       </section>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 }

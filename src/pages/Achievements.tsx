@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { SEO } from "@/components/SEO";
 import { Trophy } from "lucide-react";
@@ -57,7 +57,7 @@ const Achievements = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -174,7 +174,7 @@ export default function Affiliate() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

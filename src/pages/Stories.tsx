@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { GlassCard } from "@/components/GlassCard";
 import { Heart, MapPin, Users, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -216,7 +216,7 @@ const Stories = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

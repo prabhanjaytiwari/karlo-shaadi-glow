@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
 
@@ -127,7 +127,7 @@ const Shipping = () => {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

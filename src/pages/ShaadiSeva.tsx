@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
 import { ShaadiSevaWidget } from "@/components/ShaadiSevaWidget";
 import { Button } from "@/components/ui/button";
@@ -255,7 +255,7 @@ export default function ShaadiSeva() {
         </section>
       </main>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 }

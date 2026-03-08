@@ -4,7 +4,7 @@ import { Heart, Share2, ChevronRight, Sparkles, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -431,7 +431,7 @@ export default function CoupleQuiz() {
         </AnimatePresence>
       </div>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

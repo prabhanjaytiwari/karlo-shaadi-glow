@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { SEO } from "@/components/SEO";
 import MuhuratFinder from "@/components/MuhuratFinder";
 
@@ -15,7 +15,7 @@ const MuhuratFinderPage = () => {
       <main className="flex-1 pt-16 md:pt-20">
         <MuhuratFinder />
       </main>
-      <BhindiFooter />
+      
     </div>
   );
 };

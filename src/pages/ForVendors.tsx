@@ -1,4 +1,4 @@
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { CheckCircle2, TrendingUp, Users, Shield, Star, Zap, IndianRupee, Camera, Utensils, MapPin, Palette, Sparkles, ArrowRight, BadgeCheck, BarChart3, MessageSquare, Phone } from "lucide-react";
@@ -313,7 +313,7 @@ const ForVendors = () => {
         </section>
       </main>
 
-      {!isMobile && <BhindiFooter />}
+      
     </div>
   );
 };

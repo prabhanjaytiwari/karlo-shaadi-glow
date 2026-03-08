@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { GlassCard } from "@/components/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -323,7 +323,7 @@ export default function VendorVerificationStatus() {
         </div>
       </main>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

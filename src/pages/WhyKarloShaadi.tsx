@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -325,7 +325,7 @@ export default function WhyKarloShaadi() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

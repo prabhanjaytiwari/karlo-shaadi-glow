@@ -1,5 +1,5 @@
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -432,7 +432,7 @@ export default function VendorGuide() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

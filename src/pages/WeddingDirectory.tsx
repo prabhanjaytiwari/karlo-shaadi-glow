@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { SEO } from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -215,7 +215,7 @@ const WeddingDirectory = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

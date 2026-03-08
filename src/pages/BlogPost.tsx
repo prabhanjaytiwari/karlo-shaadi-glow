@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowLeft, Share2, Bookmark } from "lucide-react";
@@ -980,7 +980,7 @@ export default function BlogPost() {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 }

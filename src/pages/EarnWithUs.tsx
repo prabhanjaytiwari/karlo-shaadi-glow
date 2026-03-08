@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -372,7 +372,7 @@ const EarnWithUs = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };

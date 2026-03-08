@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BhindiHeader } from "@/components/BhindiHeader";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { VendorCard } from "@/components/VendorCard";
 import { SEO } from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
@@ -297,7 +297,7 @@ const CityVendors = () => {
         </div>
       </section>
 
-      <BhindiFooter />
+      
     </div>
   );
 };
