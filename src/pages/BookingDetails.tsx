@@ -25,6 +25,8 @@ import { format } from "date-fns";
 import { MessagingDialog } from "@/components/MessagingDialog";
 import { BookingDocumentUpload } from "@/components/BookingDocumentUpload";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BookingDetailsData {
   id: string;
