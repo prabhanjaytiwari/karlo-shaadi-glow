@@ -15,12 +15,14 @@ const Shipping = () => {
       
       <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          {!isMobile && <div className="text-center mb-12 animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Shipping & Delivery</h1>
-            <p className="text-xl text-muted-foreground">
-              Delivery information for physical items and documents
-            </p>
-          </div>
+          {!isMobile && (
+            <div className="text-center mb-12 animate-fade-up">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Shipping & Delivery</h1>
+              <p className="text-xl text-muted-foreground">
+                Delivery information for physical items and documents
+              </p>
+            </div>
+          )}
 
           <Card className="animate-fade-up">
             <CardHeader>
