@@ -185,8 +185,6 @@ export default function AIMatchResults() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <BhindiHeader />
-      
       <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
