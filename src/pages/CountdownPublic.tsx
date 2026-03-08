@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Heart, Share2, Calendar, Gift, Download, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
-import { BhindiFooter } from "@/components/BhindiFooter";
+
 import { supabase } from "@/integrations/supabase/client";
 import { useParams, Link } from "react-router-dom";
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, format } from "date-fns";
