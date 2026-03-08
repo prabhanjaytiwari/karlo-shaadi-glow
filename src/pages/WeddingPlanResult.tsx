@@ -31,7 +31,7 @@ import {
   PartyPopper,
   ExternalLink,
 } from "lucide-react";
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { WhatsAppStatusShare } from "@/components/WhatsAppStatusShare";
 
