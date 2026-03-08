@@ -1,4 +1,4 @@
-import { BhindiHeader } from "@/components/BhindiHeader";
+
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
