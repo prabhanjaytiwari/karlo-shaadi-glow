@@ -7,6 +7,8 @@ import { CheckCircle2, ArrowRight, Calendar, Download } from "lucide-react";
 import { format } from "date-fns";
 import { downloadReceipt } from "@/lib/receiptGenerator";
 import { toast } from "sonner";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BookingDetails {
   id: string;
