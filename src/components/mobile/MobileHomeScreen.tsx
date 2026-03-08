@@ -389,7 +389,7 @@ export function MobileHomeScreen() {
                 return (
                   <button
                     key={vendor.id}
-                    onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendor/${vendor.id}`)}
+                    onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendors/${vendor.id}`)}
                     className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/40 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
                   >
                     <div className="w-full h-28 overflow-hidden">

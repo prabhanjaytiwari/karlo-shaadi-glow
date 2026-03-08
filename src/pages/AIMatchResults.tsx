@@ -369,7 +369,7 @@ export default function AIMatchResults() {
                         <div className="flex items-center gap-3">
                           <Button
                             size="sm"
-                            onClick={() => navigate(`/vendor/${vendor.id}`)}
+                            onClick={() => navigate(`/vendors/${vendor.id}`)}
                           >
                             View Profile
                           </Button>
