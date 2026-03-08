@@ -9,6 +9,8 @@ import { ArrowLeft, Download, CreditCard, FileText, CheckCircle, Clock, XCircle 
 import { SEO } from "@/components/SEO";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useToast } from "@/hooks/use-toast";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Payment {
   id: string;
