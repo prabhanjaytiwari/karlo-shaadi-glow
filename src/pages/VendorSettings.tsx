@@ -12,6 +12,8 @@ import { NotificationPreferences } from "@/components/settings/NotificationPrefe
 import { DeleteAccount } from "@/components/settings/DeleteAccount";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function VendorSettings() {
   const navigate = useNavigate();
