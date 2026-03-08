@@ -16,6 +16,7 @@ import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function VendorSettings() {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
