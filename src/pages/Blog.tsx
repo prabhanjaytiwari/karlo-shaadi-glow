@@ -123,7 +123,7 @@ const categories = [
 export default function Blog() {
   const isMobile = useIsMobile();
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isMobile ? 'pb-24' : ''}`}>
       <MobilePageHeader title="Blog" />
       {/* Hero Section */}
       <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>

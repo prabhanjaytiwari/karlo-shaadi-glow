@@ -172,7 +172,7 @@ export default function HelpCenter() {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isMobile ? 'pb-24' : ''}`}>
       <SEO 
         title="Help Center | Karlo Shaadi"
         description="Get help with your Karlo Shaadi account, bookings, payments, and more. Find answers to common questions or contact our support team."

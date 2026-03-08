@@ -89,7 +89,7 @@ const stats = [
 export default function Testimonials() {
   const isMobile = useIsMobile();
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isMobile ? 'pb-24' : ''}`}>
       <MobilePageHeader title="Testimonials" />
       
       {/* Hero Section */}
