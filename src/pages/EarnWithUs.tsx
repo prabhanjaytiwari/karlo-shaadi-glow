@@ -16,6 +16,15 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
+import prizeMaldives from "@/assets/prize-maldives.png";
+import prizeDubai from "@/assets/prize-dubai.png";
+import prizeSafari from "@/assets/prize-safari.png";
+import prizeIphone from "@/assets/prize-iphone.png";
+import prizeMacbook from "@/assets/prize-macbook.png";
+import prizeCash1L from "@/assets/prize-cash-1l.png";
+import prizeCash50K from "@/assets/prize-cash-50k.png";
+import prizeMore from "@/assets/prize-more.png";
+
 const leadSchema = z.object({
   referrerName: z.string().trim().min(2, "Name is required").max(100),
   referrerPhone: z.string().trim().regex(/^[6-9]\d{9}$/, "Enter valid 10-digit phone number"),
@@ -27,14 +36,14 @@ const leadSchema = z.object({
 });
 
 const prizes = [
-  { icon: Plane, label: "Trip to Maldives", color: "from-cyan-500 to-blue-600" },
-  { icon: Plane, label: "Trip to Dubai", color: "from-amber-500 to-orange-600" },
-  { icon: Car, label: "Tata Safari", color: "from-emerald-500 to-green-700" },
-  { icon: Smartphone, label: "iPhone 17 Pro Max", color: "from-violet-500 to-purple-700" },
-  { icon: Laptop, label: "MacBook M4", color: "from-slate-500 to-zinc-700" },
-  { icon: Banknote, label: "₹1 Lakh Cash", color: "from-yellow-500 to-amber-600" },
-  { icon: Banknote, label: "₹50,000 Cash", color: "from-rose-500 to-red-600" },
-  { icon: Gift, label: "...and much more!", color: "from-pink-500 to-fuchsia-600" },
+  { image: prizeMaldives, label: "Trip to Maldives" },
+  { image: prizeDubai, label: "Trip to Dubai" },
+  { image: prizeSafari, label: "Tata Safari" },
+  { image: prizeIphone, label: "iPhone 17 Pro Max" },
+  { image: prizeMacbook, label: "MacBook M4" },
+  { image: prizeCash1L, label: "₹1 Lakh Cash" },
+  { image: prizeCash50K, label: "₹50,000 Cash" },
+  { image: prizeMore, label: "...and much more!" },
 ];
 
 const steps = [
