@@ -169,7 +169,6 @@ export default function SubscriptionCheckout() {
             </CardContent>
           </Card>
         </main>
-        <BhindiFooter />
       </div>
     );
   }
