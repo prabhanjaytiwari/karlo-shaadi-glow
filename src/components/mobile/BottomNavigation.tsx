@@ -5,7 +5,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { QuickActionFAB } from './QuickActionFAB';
+
 
 interface NavItem {
   icon: typeof Home;
@@ -128,9 +128,6 @@ export function BottomNavigation() {
   };
 
   return (
-    <>
-      {/* FAB for quick actions (logged-in only) */}
-      {user && <QuickActionFAB />}
 
       <nav
         className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-border"
@@ -184,6 +181,5 @@ export function BottomNavigation() {
           })}
         </div>
       </nav>
-    </>
   );
 }
