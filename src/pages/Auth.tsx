@@ -134,16 +134,25 @@ const Auth = () => {
       });
       if (error) throw error;
       if (authData.user) {
+        const needsEmailConfirmation = authData.user.identities?.length === 0 || 
+          (!authData.session && authData.user.email_confirmed_at === null);
+
         if (referralCode) {
-          await supabase.from("profiles").update({ referred_by: referralCode }).eq("id", authData.user.id);
+          supabase.from("profiles").update({ referred_by: referralCode }).eq("id", authData.user.id).then(() => {});
         }
-        await trackEvent({ event_type: "user_signup", metadata: { role: "couple", referred_by: referralCode || undefined } });
+        trackEvent({ event_type: "user_signup", metadata: { role: "couple", referred_by: referralCode || undefined } }).catch(() => {});
         supabase.functions.invoke('onboarding-email', {
           body: { user_id: authData.user.id, email: data.email, name: data.fullName, user_type: 'couple' }
         }).catch(err => console.error('Welcome email failed:', err));
+
         const bonusMessage = referralCode ? " You got ₹500 referral bonus!" : "";
-        toast({ title: "Account created!", description: `Welcome to Karlo Shaadi.${bonusMessage} Let's plan your perfect wedding!` });
-        navigate("/dashboard");
+
+        if (needsEmailConfirmation || !authData.session) {
+          toast({ title: "Account created! ✉️", description: `Please check your email to verify your account.${bonusMessage}` });
+        } else {
+          toast({ title: "Account created!", description: `Welcome to Karlo Shaadi.${bonusMessage} Let's plan your perfect wedding!` });
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       toast({ title: "Signup failed", description: error.message || "Please try again.", variant: "destructive" });
