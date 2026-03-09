@@ -152,7 +152,7 @@ export function MobileHomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const placeholderVendors = [
-    { id: 'p1', business_name: 'Royal Palace Venue', category: 'venue', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: vendorImage1 },
+    { id: 'p1', business_name: 'Royal Palace Venue', category: 'venues', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: vendorImage1 },
     { id: 'p2', business_name: 'Candid Captures', category: 'photography', city: 'Delhi', average_rating: 4.8, total_reviews: 95, image: vendorImage2 },
     { id: 'p3', business_name: 'Dream Decor Studio', category: 'decoration', city: 'Jaipur', average_rating: 4.7, total_reviews: 67, image: vendorImage3 },
     { id: 'p4', business_name: 'Haldi Moments', category: 'photography', city: 'Bangalore', average_rating: 4.9, total_reviews: 112, image: vendorImage4 },
