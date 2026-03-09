@@ -184,10 +184,13 @@ export default function SubscriptionCheckout() {
 
       <main className="flex-1 py-12 px-4">
         <div className="max-w-2xl mx-auto">
+          {/* Countdown */}
+          {offerActive && <CountdownBanner className="mb-6" />}
+
           <div className="text-center mb-8 animate-fade-in">
             <Badge variant="premium" className="mb-4">
               <Crown className="h-3 w-3 mr-1" />
-              Premium Subscription
+              {offerActive ? "🔥 50% OFF Launch Offer" : "Premium Subscription"}
             </Badge>
             <h1 className="text-4xl font-bold mb-2">Complete Your Subscription</h1>
             <p className="text-muted-foreground">
