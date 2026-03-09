@@ -227,12 +227,16 @@ const VendorAuth = () => {
       if (error) throw error;
 
       if (data.user) {
-        await trackEvent({
+        // Check if email confirmation is needed
+        const needsEmailConfirmation = data.user.identities?.length === 0 || 
+          (!data.session && data.user.email_confirmed_at === null);
+
+        // Fire and forget - don't block signup
+        trackEvent({
           event_type: "vendor_signup",
           metadata: { method: "password" },
-        });
+        }).catch(() => {});
 
-        // Send welcome email (fire and forget - don't block signup)
         supabase.functions.invoke('onboarding-email', {
           body: {
             user_id: data.user.id,
@@ -242,13 +246,19 @@ const VendorAuth = () => {
           }
         }).catch(err => console.error('Welcome email failed:', err));
 
-        toast({
-          title: "Account created!",
-          description: "Redirecting to vendor onboarding...",
-        });
-
-        // Redirect to onboarding
-        navigate("/vendor/onboarding");
+        if (needsEmailConfirmation || !data.session) {
+          toast({
+            title: "Account created! ✉️",
+            description: "Please check your email to verify your account before logging in.",
+          });
+          // Don't navigate - user needs to confirm email first
+        } else {
+          toast({
+            title: "Account created!",
+            description: "Redirecting to vendor onboarding...",
+          });
+          navigate("/vendor/onboarding");
+        }
       }
     } catch (error: any) {
       toast({
