@@ -481,14 +481,6 @@ export default function Search() {
             </div>
           </motion.div>
 
-          {/* Smart Matching */}
-          <div className="mb-8">
-            <SmartVendorMatch
-              category={selectedCategory !== "all" ? selectedCategory : undefined}
-              budget={undefined}
-              city={selectedCity !== "all" ? selectedCity : undefined}
-            />
-          </div>
 
           {/* Results with Sidebar */}
           <div className="flex gap-6">
