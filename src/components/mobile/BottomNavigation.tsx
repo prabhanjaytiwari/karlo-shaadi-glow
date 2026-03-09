@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, Calendar, MessageSquare, User, LogIn, LayoutGrid, Wrench, BarChart3, FileQuestion } from 'lucide-react';
+import { Home, Search, Calendar, MessageSquare, User, LogIn, Tag, Wrench, FileQuestion } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 
 interface NavItem {
@@ -19,39 +20,15 @@ export function BottomNavigation() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { isNative } = useCapacitor();
+  const { user, isVendor } = useAuthContext();
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [pendingBookings, setPendingBookings] = useState(0);
-  const [user, setUser] = useState<any>(null);
-  const [isVendor, setIsVendor] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
 
   useEffect(() => {
     if (user) {
       fetchBadgeCounts();
-      checkVendorRole();
     }
   }, [user]);
-
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-  };
-
-  const checkVendorRole = async () => {
-    if (!user) return;
-    const { data: roles } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id);
-    setIsVendor(roles?.some(r => r.role === 'vendor') || false);
-  };
 
   const fetchBadgeCounts = async () => {
     if (!user) return;
@@ -77,7 +54,6 @@ export function BottomNavigation() {
   const vendorNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/vendor/dashboard' },
     { icon: FileQuestion, label: 'Inquiries', path: '/vendor/dashboard?tab=inquiries' },
-    // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/vendor/dashboard?tab=bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/vendor/dashboard?tab=messages', badge: unreadMessages },
     { icon: User, label: 'Profile', path: '/vendor/dashboard?tab=profile' },
@@ -87,7 +63,6 @@ export function BottomNavigation() {
   const coupleNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Vendors', path: '/search' },
-    // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
     { icon: User, label: 'Profile', path: '/dashboard' },
@@ -97,8 +72,7 @@ export function BottomNavigation() {
   const guestNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Vendors', path: '/search' },
-    // Center gap for FAB
-    { icon: Calendar, label: 'Bookings', path: '/bookings' },
+    { icon: Tag, label: 'Deals', path: '/deals' },
     { icon: Wrench, label: 'Tools', path: '/tools' },
     { icon: LogIn, label: 'Login', path: '/auth' },
   ];
@@ -136,15 +110,11 @@ export function BottomNavigation() {
         }}
       >
         <div className="flex items-center justify-around h-16 px-2">
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const active = isActive(item.path);
-
-            // Insert spacer in the center for FAB (between item 2 and 3)
-            const showSpacer = index === 2 && user;
 
             return (
               <div key={item.path} className="contents">
-                {showSpacer && <div className="w-14 flex-shrink-0" />}
                 <button
                   onClick={() => handleNavClick(item.path)}
                   className={cn(
