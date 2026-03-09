@@ -181,6 +181,5 @@ export function BottomNavigation() {
           })}
         </div>
       </nav>
-    </>
   );
 }
