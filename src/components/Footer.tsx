@@ -53,6 +53,18 @@ export const Footer = () => {
             </ul>
           </div>
 
+          {/* Explore Column */}
+          <div>
+            <h3 className="font-display font-semibold text-lg mb-4">Explore</h3>
+            <ul className="space-y-2">
+              <li><Link to="/earn" className="text-sm text-muted-foreground hover:text-primary transition-colors">Earn With Us</Link></li>
+              <li><Link to="/sponsor-shaadi" className="text-sm text-muted-foreground hover:text-primary transition-colors">Sponsor Your Shaadi</Link></li>
+              <li><Link to="/coming-soon" className="text-sm text-muted-foreground hover:text-primary transition-colors">Coming Soon</Link></li>
+              <li><Link to="/shaadi-seva" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shaadi Seva</Link></li>
+              <li><Link to="/referrals" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refer & Earn</Link></li>
+            </ul>
+          </div>
+
           {/* Help Column */}
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Help & Support</h3>

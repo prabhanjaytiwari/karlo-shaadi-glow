@@ -4,9 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Star, ThumbsUp, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const SESSION_KEY = 'karlo-session-count';
 const RATED_KEY = 'karlo-rated-app';
-const TRIGGER_SESSIONS = 4;
 
 export function RateAppPrompt() {
   const [open, setOpen] = useState(false);
@@ -14,14 +12,8 @@ export function RateAppPrompt() {
 
   useEffect(() => {
     if (localStorage.getItem(RATED_KEY)) return;
-
-    const count = parseInt(localStorage.getItem(SESSION_KEY) || '0', 10) + 1;
-    localStorage.setItem(SESSION_KEY, String(count));
-
-    if (count >= TRIGGER_SESSIONS) {
-      const t = setTimeout(() => setOpen(true), 8000);
-      return () => clearTimeout(t);
-    }
+    const t = setTimeout(() => setOpen(true), 120000);
+    return () => clearTimeout(t);
   }, []);
 
   const dismiss = (rated = false) => {
