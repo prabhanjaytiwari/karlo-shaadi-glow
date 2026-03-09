@@ -74,8 +74,7 @@ export function BottomNavigation() {
   const guestNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Vendors', path: '/search' },
-    // Center gap for FAB
-    { icon: Calendar, label: 'Bookings', path: '/bookings' },
+    { icon: Tag, label: 'Deals', path: '/deals' },
     { icon: Wrench, label: 'Tools', path: '/tools' },
     { icon: LogIn, label: 'Login', path: '/auth' },
   ];
