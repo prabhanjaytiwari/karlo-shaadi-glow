@@ -123,7 +123,7 @@ export default function SubscriptionCheckout() {
             navigate("/premium-dashboard");
           } catch (error: any) {
             console.error("Verification error:", error);
-            trackPaymentFailed(currentPlan.price, error.message);
+            trackPaymentFailed(finalPrice, error.message);
             toast.error(error.message || "Payment verification failed");
             navigate("/payment-failure");
           }
