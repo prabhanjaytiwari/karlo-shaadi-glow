@@ -5,7 +5,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { QuickActionFAB } from './QuickActionFAB';
+
 
 interface NavItem {
   icon: typeof Home;
