@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, Star, Sparkles, Crown } from "lucide-react";
+import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Zap } from "lucide-react";
+import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
 
 declare global {
   interface Window {
