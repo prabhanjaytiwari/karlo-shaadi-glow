@@ -85,7 +85,7 @@ export default function SubscriptionCheckout() {
         "create-payment",
         {
           body: {
-            amount: currentPlan.price,
+            amount: finalPrice,
             subscriptionPlan: plan
           }
         }
