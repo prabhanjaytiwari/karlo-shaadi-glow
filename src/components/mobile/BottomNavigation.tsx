@@ -64,7 +64,6 @@ export function BottomNavigation() {
   const coupleNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Vendors', path: '/search' },
-    // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
     { icon: User, label: 'Profile', path: '/dashboard' },
