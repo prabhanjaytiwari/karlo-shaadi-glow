@@ -77,7 +77,7 @@ export default function SubscriptionCheckout() {
     if (!currentPlan || !session) return;
 
     setProcessing(true);
-    trackPaymentInitiated(currentPlan.price, "subscription");
+    trackPaymentInitiated(finalPrice, "subscription");
     
     try {
       // Create Razorpay order
