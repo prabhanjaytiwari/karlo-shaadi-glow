@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, Star, Sparkles, Crown } from "lucide-react";
+import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Zap } from "lucide-react";
+import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
 
 declare global {
   interface Window {
@@ -73,9 +74,13 @@ export function VendorSubscriptionCheckout({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  const offerActive = isOfferActive();
 
   // Get plan details safely
   const plan = planId && PLAN_DETAILS[planId] ? PLAN_DETAILS[planId] : null;
+  const discountedPrice = offerActive && plan ? getDiscountedPrice(plan.price) : null;
+  const finalPrice = discountedPrice || (plan?.price ?? 0);
+  const savings = discountedPrice && plan ? plan.price - discountedPrice : 0;
 
   useEffect(() => {
     // Load Razorpay script
@@ -100,7 +105,7 @@ export function VendorSubscriptionCheckout({
         "create-payment",
         {
           body: {
-            amount: plan.price,
+            amount: finalPrice,
             subscriptionPlan: planId,
             vendorId: vendorId,
           },
@@ -239,16 +244,31 @@ export function VendorSubscriptionCheckout({
         </DialogHeader>
 
         <div className="space-y-6 py-4">
+          {/* Countdown */}
+          {offerActive && <CountdownBanner compact className="mb-2" />}
+
           {/* Plan Summary */}
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-center">
               <span className="font-medium">{plan.name} Plan</span>
-              <Badge className={plan.bgColor + " " + plan.color}>Monthly</Badge>
+              <Badge className={plan.bgColor + " " + plan.color}>
+                {offerActive ? "50% OFF" : "Monthly"}
+              </Badge>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
-              <span className="text-muted-foreground">per month</span>
+              {discountedPrice ? (
+                <div>
+                  <span className="text-lg line-through text-muted-foreground mr-2">₹{plan.price.toLocaleString()}</span>
+                  <span className="text-3xl font-black text-primary">₹{discountedPrice.toLocaleString()}</span>
+                </div>
+              ) : (
+                <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
+              )}
+              <span className="text-muted-foreground">{discountedPrice ? "first month" : "per month"}</span>
             </div>
+            {savings > 0 && (
+              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()}! Then ₹{plan.price.toLocaleString()}/month</p>
+            )}
           </div>
 
           {/* Benefits */}
@@ -319,9 +339,20 @@ export function VendorSubscriptionCheckout({
                 Processing...
               </>
             ) : (
-              <>Pay ₹{plan.price.toLocaleString()} & Activate</>
+              <>
+                {offerActive && <Zap className="mr-1 h-4 w-4" />}
+                Pay ₹{finalPrice.toLocaleString()} & Activate
+              </>
             )}
           </Button>
+
+          {/* Risk reversal */}
+          <div className="flex items-center justify-center gap-1.5 mt-2">
+            <Shield className="h-3 w-3 text-green-500" />
+            <p className="text-[10px] text-green-600 font-semibold">
+              100% money-back if no 3 leads in 30 days
+            </p>
+          </div>
 
           <p className="text-xs text-center text-muted-foreground">
             Secure payment powered by Razorpay. Cancel anytime.

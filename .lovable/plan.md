@@ -1,59 +1,179 @@
 
 
-## 50% First-Month Discount + Sales Psychology Overhaul
+# Complete Platform UI/UX Transformation
 
-### What Changes
+## Scope
 
-Add a **persistent 48-hour countdown timer** and **50% first-month discount** across all pricing pages, plus layer in proven sales psychology triggers throughout.
+The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
 
-### Sales Psychology Tactics to Implement
+This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
 
-1. **Anchoring** — Show original price crossed out, discounted price next to it (₹~~9,999~~ → ₹4,999)
-2. **Scarcity + Urgency** — 48-hour countdown timer, "Only X spots left at this price"
-3. **Loss Aversion** — "You're losing ₹X in potential bookings every day without Gold"
-4. **Social Proof** — "847 vendors upgraded this month"
-5. **Price Reframing** — "That's just ₹83/day" (for Silver at ₹2,499)
-6. **Risk Reversal** — "100% money-back guarantee if you don't get 3 leads in 30 days"
-7. **Decoy Effect** — Make Gold visually dominant so Diamond feels like a steal
-8. **Bandwagon** — "Most popular in your city" badge
+---
 
-### Countdown Timer Component
+## Design Language to Replicate
 
-New reusable `CountdownBanner` component:
-- 48-hour countdown stored in `localStorage` (starts on first visit)
-- Persists across page reloads
-- Shows HH:MM:SS in bold, pulsing digits
-- Red/urgent styling when < 6 hours remain
-- Banner text: "🔥 Launch Offer: 50% OFF First Month — Ends in XX:XX:XX"
+From `MobileHomeScreen.tsx`, the established patterns are:
+- Near full-bleed hero banners with gradient overlays on real images
+- Compact trust stat grids
+- Horizontal scroll cards with generated images
+- Gold accent ring borders on icons
+- `space-y-5` tight section spacing
+- Gradient-background interactive cards
+- Sheet-based slide-out menus
+- Mobile-first compact typography (H1: text-2xl, body: text-sm)
 
-### Price Updates (First Month Only)
+---
 
-| Plan | Original | Discounted | Per Day |
-|------|----------|------------|---------|
-| Silver | ₹4,999 | ₹2,499 | ₹83/day |
-| Gold | ₹9,999 | ₹4,999 | ₹166/day |
-| Diamond | ₹19,999 | ₹9,999 | ₹333/day |
-| AI Premium (Couples) | ₹999 | ₹499 | ₹16/day |
+## Phase 1: Core User Journey Pages (Priority)
 
-### Files to Create/Edit
+### 1. Auth Page (`src/pages/Auth.tsx`)
+- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
+- Split layout on desktop: image left, form right
+- Mobile: image banner on top (h-40), form below
+- Gold accent divider and brand tagline above form
+- Rounded-2xl card with subtle ring-1 ring-accent/20
 
-| File | Change |
-|------|--------|
-| `src/components/CountdownBanner.tsx` | **New** — Reusable 48hr countdown with localStorage persistence |
-| `src/pages/VendorPricing.tsx` | Add discount pricing, countdown, anchoring, social proof, loss aversion, risk reversal, per-day reframing |
-| `src/pages/Pricing.tsx` | Add discount on AI Premium, countdown banner, urgency triggers |
-| `src/components/vendor/VendorSubscriptionCheckout.tsx` | Show discounted first-month price in checkout dialog |
-| `src/pages/SubscriptionCheckout.tsx` | Show discounted first-month price for AI Premium |
+### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
+- Replace flat gradient bg with clean white background
+- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
+- Wedding countdown: immersive banner card with generated celebration image
+- Tighter spacing throughout (space-y-4 on mobile)
+- Profile completion: compact progress bar instead of badge list
 
-### Key UX Elements
+### 3. Search Page (`src/pages/Search.tsx`)
+- Mobile: sticky search bar with category chips as horizontal scroll
+- Generated category header images when a category is selected
+- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
+- Compact card layout with image left, info right on mobile
 
-- Sticky countdown banner at top of pricing pages (not global — only on pricing/checkout pages)
-- Crossed-out original prices with red discount badges
-- "Savings" callout: "You save ₹5,000" in green
-- Per-day cost reframing below each price
-- "100% money-back in 30 days" shield badge
-- "847 vendors upgraded this month" counter
-- "Most popular in Mumbai" dynamic city badge
-- Pulsing "Limited Time" badge on cards
-- Mobile: countdown banner is compact, sticky at top
+### 4. Categories Page (`src/pages/Categories.tsx`)
+- Generate a hero banner image (wedding collage mosaic)
+- Category grid: use existing category images with overlay text
+- Mobile: 2-column grid with tighter gap-3
+- Add MobilePageHeader for mobile consistency
+
+### 5. Bookings Page (`src/pages/Bookings.tsx`)  
+- Already mobile-optimized but needs visual polish
+- Add subtle card backgrounds with vendor category-colored left borders
+- Empty state: generate a "no bookings" illustration
+
+### 6. Favorites Page (`src/pages/Favorites.tsx`)
+- Add MobilePageHeader
+- Mobile: single column cards with vendor image thumbnails
+- Generate an empty state illustration (couple browsing vendors)
+
+---
+
+## Phase 2: Marketing & Conversion Pages
+
+### 7. Pricing Page (`src/pages/Pricing.tsx`)
+- Generate a premium hero image (couple enjoying wedding stress-free)
+- Cards: glassmorphism effect with gold border for premium plan
+- Mobile: stack cards vertically, add "Most Popular" ribbon
+- FAQ: use Accordion component for collapsibility
+
+### 8. Deals Page (`src/pages/Deals.tsx`)
+- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
+- Hero section: immersive banner with deals tagline
+- Deal cards: image thumbnails with price strike-through styling
+- Mobile: horizontal scroll for seasonal offers
+
+### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
+- Generate a vendor success hero image (vendor team celebrating)
+- Stats section: animated counters with gold icon backgrounds
+- Mobile: compact single-column layout
+- Add MobilePageHeader
+
+### 10. About Page (`src/pages/About.tsx`)
+- Generate founder/team section image
+- Values grid: use generated symbolic images (heart for love, shield for trust)
+- Stats section: gradient background with larger typography
+- Mobile: single column with tight spacing
+
+---
+
+## Phase 3: Tool & Utility Pages
+
+### 11. Profile Page (`src/pages/Profile.tsx`)
+- Cleaner form layout with section dividers
+- Add avatar placeholder with initials
+- Mobile: full-width inputs with consistent padding
+
+### 12. FAQ Page (`src/pages/FAQ.tsx`)
+- Generate a support-themed hero image
+- Category icons with colored backgrounds
+- Collapsible accordion with smooth animations
+
+### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
+- Generate an emotional hero image (community wedding celebration)
+- Impact counter with animated numbers
+- Application form with clean card layout
+
+### 14. Checklist Page (`src/pages/Checklist.tsx`)
+- Add progress visualization
+- Category-grouped tasks with icons
+
+### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
+- Gallery section polish
+- Contact card with generated map placeholder
+
+---
+
+## Image Generation Plan
+
+Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
+
+| # | Image | Usage |
+|---|-------|-------|
+| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
+| 2 | Wedding celebration collage/mosaic | Categories page hero |
+| 3 | Couple enjoying wedding carefree | Pricing page hero |
+| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
+| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
+| 6 | Early morning wedding ceremony | Deals - seasonal banner |
+| 7 | Vendor team group celebration | ForVendors hero |
+| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
+| 9 | Couple browsing on phone | Favorites empty state |
+| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
+| 11 | Support/help desk friendly | FAQ hero |
+| 12 | Founder portrait style (professional) | About page |
+
+---
+
+## Technical Approach
+
+### Consistent Patterns
+- All pages get `MobilePageHeader` on mobile
+- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
+- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
+- Cards: `rounded-2xl border border-border/50` with hover states
+- Generated images stored in `src/assets/` as JPGs
+- Hero sections: image with gradient overlay, not plain gradient backgrounds
+
+### Wiring Check
+- All navigation links verified between pages
+- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
+- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
+- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
+
+### Mobile-First
+- Every page uses `useIsMobile()` for responsive branching
+- Touch targets minimum 44px
+- Horizontal scrolls for lists that overflow on mobile
+- No desktop-only sections hidden on mobile (content parity)
+
+---
+
+## Implementation Order
+
+1. Generate all 12 images first (batch edge function calls)
+2. Auth page transformation (highest conversion impact)
+3. Dashboard page polish
+4. Search + Categories pages
+5. Deals + Pricing pages
+6. ForVendors + About pages
+7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
+8. Final wiring and navigation audit
+
+This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
 

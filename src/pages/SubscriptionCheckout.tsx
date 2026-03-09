@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { Crown, Shield, Check, Sparkles } from "lucide-react";
+import { Crown, Shield, Check, Sparkles, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { 
   trackPaymentInitiated, 
@@ -15,6 +14,7 @@ import {
   trackPaymentFailed, 
   trackSubscriptionStarted 
 } from "@/lib/analytics";
+import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
 
 declare global {
   interface Window {
@@ -50,6 +50,8 @@ export default function SubscriptionCheckout() {
     }
   };
 
+  const offerActive = isOfferActive();
+
   const planDetails = {
     ai_premium: {
       name: "AI Premium",
@@ -67,12 +69,15 @@ export default function SubscriptionCheckout() {
   };
 
   const currentPlan = plan === "ai_premium" ? planDetails.ai_premium : null;
+  const discountedPrice = offerActive && currentPlan ? getDiscountedPrice(currentPlan.price) : null;
+  const finalPrice = discountedPrice || (currentPlan?.price ?? 0);
+  const savings = discountedPrice && currentPlan ? currentPlan.price - discountedPrice : 0;
 
   const handlePayment = async () => {
     if (!currentPlan || !session) return;
 
     setProcessing(true);
-    trackPaymentInitiated(currentPlan.price, "subscription");
+    trackPaymentInitiated(finalPrice, "subscription");
     
     try {
       // Create Razorpay order
@@ -80,7 +85,7 @@ export default function SubscriptionCheckout() {
         "create-payment",
         {
           body: {
-            amount: currentPlan.price,
+            amount: finalPrice,
             subscriptionPlan: plan
           }
         }
@@ -112,13 +117,13 @@ export default function SubscriptionCheckout() {
 
             if (verifyError) throw verifyError;
 
-            trackPaymentCompleted(currentPlan.price, response.razorpay_payment_id, "subscription");
-            trackSubscriptionStarted(plan, currentPlan.price);
+            trackPaymentCompleted(finalPrice, response.razorpay_payment_id, "subscription");
+            trackSubscriptionStarted(plan, finalPrice);
             toast.success("Subscription activated successfully!");
             navigate("/premium-dashboard");
           } catch (error: any) {
             console.error("Verification error:", error);
-            trackPaymentFailed(currentPlan.price, error.message);
+            trackPaymentFailed(finalPrice, error.message);
             toast.error(error.message || "Payment verification failed");
             navigate("/payment-failure");
           }
@@ -179,10 +184,13 @@ export default function SubscriptionCheckout() {
 
       <main className="flex-1 py-12 px-4">
         <div className="max-w-2xl mx-auto">
+          {/* Countdown */}
+          {offerActive && <CountdownBanner className="mb-6" />}
+
           <div className="text-center mb-8 animate-fade-in">
             <Badge variant="premium" className="mb-4">
               <Crown className="h-3 w-3 mr-1" />
-              Premium Subscription
+              {offerActive ? "🔥 50% OFF Launch Offer" : "Premium Subscription"}
             </Badge>
             <h1 className="text-4xl font-bold mb-2">Complete Your Subscription</h1>
             <p className="text-muted-foreground">
@@ -225,19 +233,37 @@ export default function SubscriptionCheckout() {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subscription</span>
-                    <span className="font-medium">₹{currentPlan.price}</span>
+                    <div className="text-right">
+                      {discountedPrice ? (
+                        <div>
+                          <span className="line-through text-muted-foreground mr-2">₹{currentPlan.price}</span>
+                          <Badge variant="destructive" className="text-[10px]">50% OFF</Badge>
+                        </div>
+                      ) : (
+                        <span className="font-medium">₹{currentPlan.price}</span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Billing Cycle</span>
                     <span className="font-medium">Monthly</span>
                   </div>
+                  {savings > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600 font-semibold">Your Savings</span>
+                      <span className="text-green-600 font-bold">- ₹{savings}</span>
+                    </div>
+                  )}
                   <div className="pt-3 border-t">
                     <div className="flex justify-between">
                       <span className="font-semibold">Total Today</span>
-                      <span className="text-2xl font-bold text-primary">₹{currentPlan.price}</span>
+                      <span className="text-2xl font-bold text-primary">₹{finalPrice}</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Recurring monthly until cancelled
+                      {discountedPrice
+                        ? `First month ₹${discountedPrice}, then ₹${currentPlan.price}/month. Cancel anytime.`
+                        : "Recurring monthly until cancelled"
+                      }
                     </p>
                   </div>
                 </div>
@@ -255,8 +281,8 @@ export default function SubscriptionCheckout() {
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-4 w-4 mr-2" />
-                      Proceed to Payment
+                      {offerActive ? <Zap className="h-4 w-4 mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
+                      {offerActive ? `Pay ₹${finalPrice} — 50% OFF` : "Proceed to Payment"}
                     </>
                   )}
                 </Button>

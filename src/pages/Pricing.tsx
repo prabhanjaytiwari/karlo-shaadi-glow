@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, HelpCircle } from "lucide-react";
+import { Check, Sparkles, Bot, PhoneCall, Gift, Crown, Shield, Zap, Users, AlertTriangle } from "lucide-react";
 import { FAQPageJsonLd } from "@/components/JsonLd";
 import { Link, useNavigate } from "react-router-dom";
 import { SEO } from "@/components/SEO";
@@ -9,59 +9,8 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";
 import heroImg from "@/assets/hero-pricing-carefree.jpg";
-
-const plans = [
-  {
-    name: "Free",
-    icon: Sparkles,
-    price: "₹0",
-    period: "Forever Free",
-    description: "Everything you need to plan your perfect wedding",
-    color: "from-blue-500 to-cyan-500",
-    features: [
-      { text: "Unlimited vendor search & browsing", included: true },
-      { text: "Unlimited favorites", included: true },
-      { text: "Priority messaging with vendors", included: true },
-      { text: "Unlimited bookings", included: true },
-      { text: "Advanced search filters", included: true },
-      { text: "Vendor comparison tool", included: true },
-      { text: "Budget planning tools", included: true },
-      { text: "Guest list management", included: true },
-      { text: "Digital wedding checklist", included: true },
-      { text: "Priority support", included: true },
-      { text: "Early access to new vendors", included: true },
-      { text: "Booking calendar integration", included: true },
-    ],
-    cta: "Get Started Free",
-    popular: false,
-    highlight: true
-  },
-  {
-    name: "AI Premium",
-    icon: Crown,
-    price: "₹999",
-    period: "per month",
-    description: "AI-powered wedding planning with personal support",
-    color: "from-primary to-accent",
-    features: [
-      { text: "Everything in Free, plus:", included: true, bold: true },
-      { text: "AI Wedding Planner 24/7 🤖", included: true, bold: true },
-      { text: "Personal wedding consultant", included: true },
-      { text: "2 video consultation calls/month", included: true },
-      { text: "Dedicated account manager", included: true },
-      { text: "Exclusive vendor discounts (5%)", included: true },
-      { text: "Contract review assistance", included: true },
-      { text: "Priority booking slots", included: true },
-      { text: "24/7 concierge support", included: true },
-      { text: "AI budget optimization", included: true },
-      { text: "AI timeline generation", included: true },
-      { text: "Personalized vendor recommendations", included: true },
-    ],
-    cta: "Start AI Planning",
-    popular: true
-  }
-];
 
 const faqs = [
   { q: "Is the Free plan really free forever?", a: "Yes! The Free plan includes all essential features - unlimited vendor search, bookings, messaging, budget tools, and more. No credit card required, no hidden fees, ever." },
@@ -69,14 +18,21 @@ const faqs = [
   { q: "Can I cancel AI Premium anytime?", a: "Absolutely! No long-term contracts. Cancel anytime and keep using the Free plan. You'll retain access to AI Premium features until the end of your billing cycle." },
   { q: "How does the AI Wedding Planner work?", a: "Our AI is trained on thousands of Indian weddings across cultures, traditions, and budgets. It provides personalized recommendations based on your preferences, budget, location, and wedding date." },
   { q: "Do vendors charge extra fees on your platform?", a: "No! We don't add any commission to vendor prices. The price you see is what you pay. AI Premium members even get 5% exclusive discounts from participating vendors." },
-  { q: "Can I upgrade or downgrade my plan?", a: "Yes! Upgrade to AI Premium anytime to unlock AI features and personal support. Downgrade to Free anytime - you'll keep all your data, bookings, and favorites." }
+  { q: "Can I upgrade or downgrade my plan?", a: "Yes! Upgrade to AI Premium anytime to unlock AI features and personal support. Downgrade to Free anytime - you'll keep all your data, bookings, and favorites." },
+  { q: "What's the money-back guarantee?", a: "If AI Premium doesn't help you save time and money on your wedding planning within 30 days, we'll refund your subscription. No questions asked." },
 ];
+
+const AI_PREMIUM_PRICE = 999;
 
 export default function Pricing() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isVendor, setIsVendor] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const offerActive = isOfferActive();
+  const discountedPrice = offerActive ? getDiscountedPrice(AI_PREMIUM_PRICE) : null;
+  const perDay = discountedPrice ? getPerDayPrice(discountedPrice) : getPerDayPrice(AI_PREMIUM_PRICE);
+  const savings = discountedPrice ? AI_PREMIUM_PRICE - discountedPrice : 0;
 
   useEffect(() => { checkAuth(); }, []);
 
@@ -95,9 +51,61 @@ export default function Pricing() {
     else navigate("/subscription-checkout?plan=ai_premium");
   };
 
+  const plans = [
+    {
+      name: "Free",
+      icon: Sparkles,
+      price: "₹0",
+      period: "Forever Free",
+      description: "Everything you need to plan your perfect wedding",
+      color: "from-blue-500 to-cyan-500",
+      features: [
+        { text: "Unlimited vendor search & browsing", included: true },
+        { text: "Unlimited favorites", included: true },
+        { text: "Priority messaging with vendors", included: true },
+        { text: "Unlimited bookings", included: true },
+        { text: "Advanced search filters", included: true },
+        { text: "Vendor comparison tool", included: true },
+        { text: "Budget planning tools", included: true },
+        { text: "Guest list management", included: true },
+        { text: "Digital wedding checklist", included: true },
+        { text: "Priority support", included: true },
+        { text: "Early access to new vendors", included: true },
+        { text: "Booking calendar integration", included: true },
+      ],
+      cta: "Get Started Free",
+      popular: false,
+      highlight: true,
+    },
+    {
+      name: "AI Premium",
+      icon: Crown,
+      price: `₹${AI_PREMIUM_PRICE}`,
+      period: "per month",
+      description: "AI-powered wedding planning with personal support",
+      color: "from-primary to-accent",
+      features: [
+        { text: "Everything in Free, plus:", included: true, bold: true },
+        { text: "AI Wedding Planner 24/7 🤖", included: true, bold: true },
+        { text: "Personal wedding consultant", included: true },
+        { text: "2 video consultation calls/month", included: true },
+        { text: "Dedicated account manager", included: true },
+        { text: "Exclusive vendor discounts (5%)", included: true },
+        { text: "Contract review assistance", included: true },
+        { text: "Priority booking slots", included: true },
+        { text: "24/7 concierge support", included: true },
+        { text: "AI budget optimization", included: true },
+        { text: "AI timeline generation", included: true },
+        { text: "Personalized vendor recommendations", included: true },
+      ],
+      cta: "Start AI Planning",
+      popular: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Pricing - 100% Free Wedding Planning" description="Karlo Shaadi is 100% FREE forever! Get AI Premium for ₹999/month for AI wedding planner, personal consultant, and exclusive discounts." />
+      <SEO title="Pricing - 50% OFF AI Premium Launch Offer" description="Karlo Shaadi is 100% FREE forever! Get AI Premium at 50% OFF — just ₹499/month for your first month. AI wedding planner, personal consultant, and exclusive discounts." />
       <FAQPageJsonLd faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       <MobilePageHeader title="Pricing" />
 
@@ -113,8 +121,29 @@ export default function Pricing() {
         </div>
       </div>
 
+      {/* Countdown Banner */}
+      {offerActive && (
+        <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-8"}>
+          <CountdownBanner />
+        </div>
+      )}
+
+      {/* Social Proof Bar */}
+      <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-6"}>
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs py-3 px-4 rounded-xl bg-muted/50 border border-border/50">
+          <div className="flex items-center gap-1.5">
+            <Users className="h-3.5 w-3.5 text-primary" />
+            <span className="font-bold">2,341 couples joined this week</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Shield className="h-3.5 w-3.5 text-green-500" />
+            <span className="font-bold text-green-600">30-day money-back guarantee</span>
+          </div>
+        </div>
+      </div>
+
       {/* Pricing Cards */}
-      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-12 px-4"}>
+      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-8 px-4"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <div className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'lg:grid-cols-2 gap-6'}`}>
             {plans.map((plan, idx) => (
@@ -127,25 +156,73 @@ export default function Pricing() {
                 } transition-all hover:shadow-lg`}
               >
                 {plan.popular && (
-                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">Best Value</Badge>
+                  <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+                    {offerActive ? "🔥 50% OFF" : "Best Value"}
+                  </Badge>
                 )}
                 {plan.highlight && (
                   <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground">Most Popular</Badge>
                 )}
+
                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${plan.color} flex items-center justify-center mb-4`}>
                   <plan.icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="font-bold text-xl mb-1">{plan.name}</h3>
-                <div className="flex items-baseline gap-2 mb-1">
-                  <span className="font-bold text-3xl">{plan.price}</span>
-                  <span className="text-muted-foreground text-sm">{plan.period}</span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-5">{plan.description}</p>
+
+                {/* Price with anchoring for AI Premium */}
+                {plan.popular && offerActive && discountedPrice ? (
+                  <div className="mb-1">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-lg line-through text-muted-foreground">₹{AI_PREMIUM_PRICE}</span>
+                      <Badge variant="destructive" className="text-xs">50% OFF</Badge>
+                    </div>
+                    <div className="flex items-baseline gap-2 mt-0.5">
+                      <span className="font-black text-3xl text-primary">₹{discountedPrice}</span>
+                      <span className="text-muted-foreground text-sm">first month</span>
+                    </div>
+                    <p className="text-xs text-green-600 font-bold mt-0.5">
+                      💰 You save ₹{savings}! That's just ₹{perDay}/day
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                      Then ₹{AI_PREMIUM_PRICE}/month. Cancel anytime.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="font-bold text-3xl">{plan.price}</span>
+                    <span className="text-muted-foreground text-sm">{plan.period}</span>
+                  </div>
+                )}
+
+                <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
+
+                {/* Loss aversion for premium */}
+                {plan.popular && (
+                  <div className="flex items-start gap-2 mb-4 p-2.5 rounded-lg bg-destructive/5 border border-destructive/10">
+                    <AlertTriangle className="h-3.5 w-3.5 text-destructive shrink-0 mt-0.5" />
+                    <p className="text-[11px] text-destructive font-medium">
+                      Without AI Premium, couples spend 40+ hours on planning that takes AI just minutes
+                    </p>
+                  </div>
+                )}
 
                 {plan.name === 'Free' ? (
                   <Link to="/auth"><Button className="w-full mb-5 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90" size="lg">{plan.cta}</Button></Link>
                 ) : (
-                  <Button className="w-full mb-5 rounded-xl" size="lg" onClick={handlePremiumClick}>{plan.cta}</Button>
+                  <Button className="w-full mb-5 rounded-xl" size="lg" onClick={handlePremiumClick}>
+                    {offerActive && <Zap className="h-4 w-4 mr-1" />}
+                    {offerActive ? "Claim 50% OFF Now" : plan.cta}
+                  </Button>
+                )}
+
+                {/* Risk reversal */}
+                {plan.popular && (
+                  <div className="flex items-center justify-center gap-1.5 mb-4">
+                    <Shield className="h-3 w-3 text-green-500" />
+                    <p className="text-[10px] text-green-600 font-semibold">
+                      30-day money-back guarantee. No questions asked.
+                    </p>
+                  </div>
                 )}
 
                 <ul className="space-y-2.5">
@@ -184,6 +261,13 @@ export default function Pricing() {
         </div>
       </section>
 
+      {/* Mid-page countdown */}
+      {offerActive && (
+        <div className={isMobile ? "px-4 py-2" : "container mx-auto max-w-md py-4"}>
+          <CountdownBanner compact />
+        </div>
+      )}
+
       {/* Vendor CTA */}
       {!isVendor && (
         <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
@@ -191,7 +275,7 @@ export default function Pricing() {
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Are You a Wedding Vendor?</h2>
             <p className="text-muted-foreground mb-6 text-sm max-w-lg mx-auto">
-              Join Karlo Shaadi and grow your business! Featured listings start at ₹4,999/month.
+              Join Karlo Shaadi and grow your business! {offerActive ? "50% OFF all plans — limited time!" : "Featured listings start at ₹4,999/month."}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/vendor-pricing"><Button size="lg" className="rounded-full px-8">View Vendor Pricing</Button></Link>
@@ -215,7 +299,7 @@ export default function Pricing() {
         </section>
       )}
 
-      {/* FAQ - Accordion */}
+      {/* FAQ */}
       <section className={isMobile ? "px-4 py-6" : "py-12 px-4 bg-muted/20"}>
         <div className={isMobile ? "" : "container mx-auto max-w-3xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Frequently Asked Questions</h2>
@@ -239,10 +323,17 @@ export default function Pricing() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent" />
         <div className="relative container mx-auto max-w-4xl text-center">
           <h2 className={`font-bold text-white ${isMobile ? 'text-2xl' : 'text-4xl'} mb-4`}>Ready to Plan Your Dream Wedding?</h2>
-          <p className="text-white/80 mb-6 text-sm max-w-md mx-auto">Join 50,000+ happy couples who found their perfect vendors - 100% FREE!</p>
+          <p className="text-white/80 mb-2 text-sm max-w-md mx-auto">Join 50,000+ happy couples who found their perfect vendors - 100% FREE!</p>
+          {offerActive && (
+            <p className="text-white font-bold mb-4 animate-pulse text-sm">
+              ⏰ 50% OFF AI Premium ends soon — grab it now!
+            </p>
+          )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to="/auth"><Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8">Start Planning Free</Button></Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8" onClick={handlePremiumClick}>Try AI Premium</Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8" onClick={handlePremiumClick}>
+              {offerActive ? "🔥 Claim 50% OFF" : "Try AI Premium"}
+            </Button>
           </div>
         </div>
       </section>
