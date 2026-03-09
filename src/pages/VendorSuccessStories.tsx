@@ -8,6 +8,7 @@ import {
   Star, TrendingUp, Users, Calendar, Award, 
   ArrowRight, Sparkles, Quote, IndianRupee 
 } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 interface TopVendor {
   id: string;
