@@ -90,6 +90,8 @@ import CountdownPublic from "./pages/CountdownPublic";
 import WhyKarloShaadi from "./pages/WhyKarloShaadi";
 import EarnWithUs from "./pages/EarnWithUs";
 import VendorMiniSitePage from "./pages/VendorMiniSitePage";
+import SponsorShaadi from "./pages/SponsorShaadi";
+import ComingSoon from "./pages/ComingSoon";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
