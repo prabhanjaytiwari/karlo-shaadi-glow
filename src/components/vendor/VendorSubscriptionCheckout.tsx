@@ -105,7 +105,7 @@ export function VendorSubscriptionCheckout({
         "create-payment",
         {
           body: {
-            amount: plan.price,
+            amount: finalPrice,
             subscriptionPlan: planId,
             vendorId: vendorId,
           },
