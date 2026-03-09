@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Gift, Settings, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
@@ -14,19 +12,20 @@ import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
 import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
+import weddingCouple from "@/assets/wedding-couple-romantic.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 const quickActions = [
-  { icon: Search, label: "Search", route: "/search", gradient: "from-accent/20 to-primary/10" },
-  { icon: Calendar, label: "Bookings", route: "/bookings", gradient: "from-accent/20 to-amber-200/50" },
-  { icon: Heart, label: "Favorites", route: "/favorites", gradient: "from-rose-200/50 to-pink-200/50" },
-  { icon: MessageSquare, label: "Messages", route: "/messages", gradient: "from-accent/20 to-blue-200/50" },
-  { icon: Palette, label: "Moodboards", route: "/moodboards", gradient: "from-accent/20 to-purple-200/50" },
-  { icon: Trophy, label: "Achievements", route: "/achievements", gradient: "from-accent/30 to-yellow-200/50" },
-  { icon: ListChecks, label: "Checklist", route: "/checklist", gradient: "from-emerald-200/50 to-teal-200/50" },
-  { icon: PiggyBank, label: "Budget", route: "/budget", gradient: "from-accent/30 to-amber-200/50" },
-  { icon: Gift, label: "Refer", route: "/referrals", gradient: "from-accent/20 to-emerald-200/50" },
-  { icon: Users, label: "Guests", route: "/guest-list", gradient: "from-accent/20 to-rose-200/50" },
+  { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
+  { icon: Calendar, label: "Bookings", route: "/bookings", emoji: "📅" },
+  { icon: Heart, label: "Favorites", route: "/favorites", emoji: "❤️" },
+  { icon: MessageSquare, label: "Messages", route: "/messages", emoji: "💬" },
+  { icon: Palette, label: "Moodboards", route: "/moodboards", emoji: "🎨" },
+  { icon: Trophy, label: "Achievements", route: "/achievements", emoji: "🏆" },
+  { icon: ListChecks, label: "Checklist", route: "/checklist", emoji: "✅" },
+  { icon: PiggyBank, label: "Budget", route: "/budget", emoji: "💰" },
+  { icon: Gift, label: "Refer", route: "/referrals", emoji: "🎁" },
+  { icon: Users, label: "Guests", route: "/guest-list", emoji: "👥" },
 ];
 
 const Dashboard = () => {
@@ -39,26 +38,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (authLoading) return;
-    
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
-    // Admin users can view dashboard — don't redirect them
-    // Vendor users should go to vendor dashboard
-    if (isVendor && !isAdmin) {
-      navigate("/vendor/dashboard");
-      return;
-    }
+    if (!user) { navigate("/auth"); return; }
+    if (isVendor && !isAdmin) { navigate("/vendor/dashboard"); return; }
 
     const loadProfile = async () => {
       try {
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
+        const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
         setProfile(profileData);
       } catch (error) {
         console.error("Error loading profile:", error);
@@ -66,7 +51,6 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-
     loadProfile();
   }, [user, authLoading, isAdmin, isVendor, navigate]);
 
@@ -92,33 +76,33 @@ const Dashboard = () => {
   const profilePercent = Math.round((profileCompletion / 3) * 100);
 
   return (
-    <div className="min-h-screen bg-background">
-      <MobilePageHeader 
-        title="Dashboard" 
-        showBack={false} 
+    <div className="min-h-screen bg-[#0a0a0a]">
+      <MobilePageHeader
+        title="Dashboard"
+        showBack={false}
         rightActions={
           isMobile ? (
             <button onClick={() => navigate("/settings")} className="p-2 rounded-full active:scale-95 transition-transform">
-              <Settings className="h-5 w-5 text-foreground" />
+              <Settings className="h-5 w-5 text-white/70" />
             </button>
           ) : undefined
         }
       />
 
-      <main className={isMobile ? "px-4 py-4 space-y-5" : "pt-24 pb-16"}>
+      <main className={isMobile ? "px-4 py-4 pb-28 space-y-5" : "pt-24 pb-16"}>
         <div className={isMobile ? "" : "container mx-auto px-6 space-y-8"}>
-          
+
           {/* Desktop Header */}
           {!isMobile && (
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-foreground">Welcome back, {profile?.full_name || "there"}!</h1>
-                <p className="text-muted-foreground mt-1">Let's make your wedding planning journey amazing</p>
+                <h1 className="text-3xl font-bold text-white">Welcome back, {profile?.full_name || "there"}!</h1>
+                <p className="text-white/50 mt-1">Let's make your wedding planning journey amazing</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => navigate("/profile")} className="rounded-full"><User className="h-4 w-4 mr-2" />Profile</Button>
-                <Button variant="outline" onClick={() => navigate("/settings")} className="rounded-full"><Settings className="h-4 w-4 mr-2" />Settings</Button>
-                <Button variant="outline" onClick={handleLogout} className="rounded-full"><LogOut className="h-4 w-4 mr-2" />Logout</Button>
+                <Button variant="outline" onClick={() => navigate("/profile")} className="rounded-full border-white/20 text-white/70 hover:text-white hover:bg-white/10"><User className="h-4 w-4 mr-2" />Profile</Button>
+                <Button variant="outline" onClick={() => navigate("/settings")} className="rounded-full border-white/20 text-white/70 hover:text-white hover:bg-white/10"><Settings className="h-4 w-4 mr-2" />Settings</Button>
+                <Button variant="outline" onClick={handleLogout} className="rounded-full border-white/20 text-white/70 hover:text-white hover:bg-white/10"><LogOut className="h-4 w-4 mr-2" />Logout</Button>
               </div>
             </div>
           )}
@@ -126,43 +110,49 @@ const Dashboard = () => {
           {/* Mobile Greeting */}
           {isMobile && (
             <div>
-              <h1 className="text-xl font-semibold text-foreground">Hey, {profile?.full_name?.split(' ')[0] || "there"} 👋</h1>
-              <p className="text-sm text-muted-foreground">Your wedding planner</p>
+              <h1 className="text-xl font-semibold text-white">Hey, {profile?.full_name?.split(' ')[0] || "there"} 👋</h1>
+              <p className="text-sm text-white/40">Your wedding planner</p>
             </div>
           )}
 
-          {/* Wedding Countdown Banner */}
-          {profile?.wedding_date && (
-            <motion.div 
-              className="relative overflow-hidden rounded-2xl"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <img src={heroPlanning} alt="Wedding planning" className="w-full h-32 md:h-40 object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" />
-              <div className="absolute inset-0 flex items-center px-5 md:px-8">
-                <div className="flex items-center gap-4 w-full">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0">
-                    <Calendar className="h-7 w-7 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-white/80 text-xs font-medium uppercase tracking-wide">Your wedding</p>
-                    <p className="text-white text-2xl md:text-3xl font-bold">
-                      {daysUntilWedding !== null ? `${daysUntilWedding} days to go` : "Set your date"}
-                    </p>
-                    <p className="text-white/70 text-sm">
-                      {new Date(profile.wedding_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
+          {/* Immersive Wedding Countdown - Apple Invites Style */}
+          <motion.div
+            className="relative overflow-hidden rounded-3xl"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <img
+              src={profile?.wedding_date ? heroPlanning : weddingCouple}
+              alt="Wedding"
+              className="w-full h-56 md:h-72 object-cover"
+              style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.85)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+              {profile?.wedding_date ? (
+                <>
+                  <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Your Wedding</p>
+                  <p className="text-white text-4xl md:text-5xl font-bold tracking-tight">
+                    {daysUntilWedding !== null ? `${daysUntilWedding} Days` : "Set Date"}
+                  </p>
+                  <p className="text-white/50 text-sm mt-1">
+                    {new Date(profile.wedding_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Welcome to</p>
+                  <p className="text-white text-3xl md:text-4xl font-bold tracking-tight">Karlo Shaadi</p>
+                  <p className="text-white/50 text-sm mt-1">Your dream wedding, simplified</p>
+                </>
+              )}
+            </div>
+          </motion.div>
 
-          {/* Quick Actions */}
+          {/* Quick Actions - Frosted Glass Cards */}
           {isMobile ? (
-            <motion.div 
+            <motion.div
               className="overflow-x-auto scrollbar-hide -mx-4 px-4"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -178,59 +168,72 @@ const Dashboard = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 + i * 0.04 }}
                   >
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.gradient} flex items-center justify-center ring-1 ring-accent/20`}>
-                      <action.icon className="h-6 w-6 text-accent" />
+                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                      <span className="text-xl">{action.emoji}</span>
                     </div>
-                    <span className="text-[11px] font-medium text-foreground">{action.label}</span>
+                    <span className="text-[11px] font-medium text-white/60">{action.label}</span>
                   </motion.button>
                 ))}
               </div>
             </motion.div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3">
-              {quickActions.map((action) => (
-                <Card key={action.route} className="rounded-2xl border border-border/50 hover:border-accent/30 hover:shadow-md transition-all cursor-pointer" onClick={() => navigate(action.route)}>
-                  <CardHeader className="p-4 items-center text-center">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center mb-1.5`}>
-                      <action.icon className="h-5 w-5 text-accent" />
-                    </div>
-                    <CardTitle className="text-xs font-medium">{action.label}</CardTitle>
-                  </CardHeader>
-                </Card>
+              {quickActions.map((action, i) => (
+                <motion.div
+                  key={action.route}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 + i * 0.03 }}
+                  onClick={() => navigate(action.route)}
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+                >
+                  <span className="text-2xl">{action.emoji}</span>
+                  <span className="text-xs font-medium text-white/60">{action.label}</span>
+                </motion.div>
               ))}
             </div>
           )}
 
-          {/* Profile Completion Progress */}
+          {/* Profile Completion - Glass Card */}
           {profilePercent < 100 && (
-            <Card className="rounded-2xl border border-border/50" onClick={() => navigate("/profile")}>
-              <CardContent className="p-4 cursor-pointer">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-foreground">Complete Your Profile</p>
-                  <span className="text-xs text-muted-foreground">{profilePercent}%</span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-accent to-primary rounded-full transition-all" style={{ width: `${profilePercent}%` }} />
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {!profile?.wedding_date && "Add wedding date • "}{!profile?.budget_range && "Set budget • "}{!profile?.city && "Add city"}
-                </p>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              onClick={() => navigate("/profile")}
+              className="p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 cursor-pointer hover:bg-white/10 transition-all"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-white/80">Complete Your Profile</p>
+                <span className="text-xs text-white/40">{profilePercent}%</span>
+              </div>
+              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all" style={{ width: `${profilePercent}%` }} />
+              </div>
+              <p className="text-xs text-white/30 mt-2">
+                {!profile?.wedding_date && "Add wedding date • "}{!profile?.budget_range && "Set budget • "}{!profile?.city && "Add city"}
+              </p>
+            </motion.div>
           )}
 
-          {/* Main Content Grid */}
+          {/* Main Content - Dark Glass Containers */}
           <div className="grid lg:grid-cols-2 gap-5">
-            {user && <WeddingPlanningProgress userId={user.id} weddingDate={profile?.wedding_date} />}
+            <div className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-5 [&_*]:!border-white/10 [&_.text-foreground]:text-white [&_.text-muted-foreground]:text-white/50 [&_h3]:text-white [&_h2]:text-white [&_p]:text-white/60">
+              {user && <WeddingPlanningProgress userId={user.id} weddingDate={profile?.wedding_date} />}
+            </div>
             <div className="space-y-5">
-              {user && <ReferralWidget userId={user.id} />}
-              {user && <AchievementBadges userId={user.id} compact />}
+              <div className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-5 [&_*]:!border-white/10 [&_.text-foreground]:text-white [&_.text-muted-foreground]:text-white/50 [&_h3]:text-white [&_h2]:text-white [&_p]:text-white/60">
+                {user && <ReferralWidget userId={user.id} />}
+              </div>
+              <div className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-5 [&_*]:!border-white/10 [&_.text-foreground]:text-white [&_.text-muted-foreground]:text-white/50 [&_h3]:text-white [&_h2]:text-white [&_p]:text-white/60">
+                {user && <AchievementBadges userId={user.id} compact />}
+              </div>
             </div>
           </div>
 
           {/* Music Section */}
           {user && (
-            <div>
+            <div className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-5 [&_*]:!border-white/10 [&_.text-foreground]:text-white [&_.text-muted-foreground]:text-white/50 [&_h3]:text-white [&_h2]:text-white [&_p]:text-white/60">
               <DashboardMusicSection userId={user.id} />
             </div>
           )}
