@@ -233,19 +233,37 @@ export default function SubscriptionCheckout() {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subscription</span>
-                    <span className="font-medium">₹{currentPlan.price}</span>
+                    <div className="text-right">
+                      {discountedPrice ? (
+                        <div>
+                          <span className="line-through text-muted-foreground mr-2">₹{currentPlan.price}</span>
+                          <Badge variant="destructive" className="text-[10px]">50% OFF</Badge>
+                        </div>
+                      ) : (
+                        <span className="font-medium">₹{currentPlan.price}</span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Billing Cycle</span>
                     <span className="font-medium">Monthly</span>
                   </div>
+                  {savings > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-green-600 font-semibold">Your Savings</span>
+                      <span className="text-green-600 font-bold">- ₹{savings}</span>
+                    </div>
+                  )}
                   <div className="pt-3 border-t">
                     <div className="flex justify-between">
                       <span className="font-semibold">Total Today</span>
-                      <span className="text-2xl font-bold text-primary">₹{currentPlan.price}</span>
+                      <span className="text-2xl font-bold text-primary">₹{finalPrice}</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Recurring monthly until cancelled
+                      {discountedPrice
+                        ? `First month ₹${discountedPrice}, then ₹${currentPlan.price}/month. Cancel anytime.`
+                        : "Recurring monthly until cancelled"
+                      }
                     </p>
                   </div>
                 </div>
