@@ -374,12 +374,6 @@ export default function Search() {
 
         {/* ── CONTENT ── */}
         <div className="px-4 pt-4 pb-28 space-y-4">
-          {/* AI Match Card */}
-          <SmartVendorMatch
-            category={selectedCategory !== "all" ? selectedCategory : undefined}
-            budget={undefined}
-            city={selectedCity !== "all" ? selectedCity : undefined}
-          />
 
           {/* Results */}
           {loading ? (
