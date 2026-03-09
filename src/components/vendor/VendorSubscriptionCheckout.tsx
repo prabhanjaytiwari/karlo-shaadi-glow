@@ -244,16 +244,31 @@ export function VendorSubscriptionCheckout({
         </DialogHeader>
 
         <div className="space-y-6 py-4">
+          {/* Countdown */}
+          {offerActive && <CountdownBanner compact className="mb-2" />}
+
           {/* Plan Summary */}
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-center">
               <span className="font-medium">{plan.name} Plan</span>
-              <Badge className={plan.bgColor + " " + plan.color}>Monthly</Badge>
+              <Badge className={plan.bgColor + " " + plan.color}>
+                {offerActive ? "50% OFF" : "Monthly"}
+              </Badge>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
-              <span className="text-muted-foreground">per month</span>
+              {discountedPrice ? (
+                <div>
+                  <span className="text-lg line-through text-muted-foreground mr-2">₹{plan.price.toLocaleString()}</span>
+                  <span className="text-3xl font-black text-primary">₹{discountedPrice.toLocaleString()}</span>
+                </div>
+              ) : (
+                <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
+              )}
+              <span className="text-muted-foreground">{discountedPrice ? "first month" : "per month"}</span>
             </div>
+            {savings > 0 && (
+              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()}! Then ₹{plan.price.toLocaleString()}/month</p>
+            )}
           </div>
 
           {/* Benefits */}
