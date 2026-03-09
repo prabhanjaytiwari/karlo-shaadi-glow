@@ -68,6 +68,7 @@ export default function BudgetRoast() {
 
   return (
     <div className="min-h-screen bg-background pt-20">
+      <MobilePageHeader title="Budget Roast" />
       <SEO title="Budget Roast — AI Wedding Budget Reality Check | Karlo Shaadi" description="Get a brutally honest, hilarious AI reality check on your wedding budget. The truth hurts, but it's free!" />
 
       <div className="container mx-auto px-4 py-8 max-w-2xl">

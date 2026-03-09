@@ -229,6 +229,7 @@ export default function CoupleQuiz() {
 
   return (
     <div className="min-h-screen bg-background pt-20">
+      <MobilePageHeader title="Couple Quiz" />
       <SEO title="Wedding Compatibility Quiz | Karlo Shaadi" description="Take the fun couples quiz and find your wedding compatibility score! Share with friends and family." />
       <canvas ref={canvasRef} className="hidden" />
 

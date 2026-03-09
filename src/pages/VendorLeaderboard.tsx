@@ -129,6 +129,7 @@ export default function VendorLeaderboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+      <MobilePageHeader title="Vendor Leaderboard" />
       
       
       <main className="flex-1 container mx-auto px-4 pt-20 md:pt-24 pb-8">

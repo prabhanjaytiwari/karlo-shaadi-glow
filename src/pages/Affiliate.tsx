@@ -36,7 +36,7 @@ export default function Affiliate() {
 
   return (
     <div className="min-h-screen bg-background">
-      
+      <MobilePageHeader title="Affiliate Program" />
       
       <main className="container mx-auto px-4 py-20">
         {/* Hero Section */}

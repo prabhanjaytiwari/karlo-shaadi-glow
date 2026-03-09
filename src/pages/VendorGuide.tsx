@@ -195,6 +195,7 @@ const faqs = [
 export default function VendorGuide() {
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Vendor Guide" />
       <SEO 
         title="Vendor Onboarding Guide | Karlo Shaadi"
         description="Complete step-by-step guide for vendors to join Karlo Shaadi, set up their profile, and start receiving bookings."

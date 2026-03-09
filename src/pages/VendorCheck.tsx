@@ -216,6 +216,7 @@ export default function VendorCheck() {
 
   return (
     <div className="min-h-screen bg-background pt-20">
+      <MobilePageHeader title="Vendor Check" />
       <SEO title="Ghost Vendor Detector — Check If Your Vendor Is Legit | Karlo Shaadi" description="Enter any vendor's name or phone number to check if they're verified and trustworthy. Free vendor background check." />
       <canvas ref={canvasRef} className="hidden" width={1080} height={1080} />
 
