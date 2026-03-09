@@ -536,18 +536,17 @@ export function WeddingPlanWizard() {
     { label: "Final Touches", emoji: "✨" },
   ];
 
-  const [genStep, setGenStep] = useState(0);
-
   // Simulate progress steps while generating
-  useState(() => {
+  useEffect(() => {
     if (isGenerating) {
+      setGenStep(0);
       const intervals = [2000, 4500, 8000, 13000, 18000];
       const timers = intervals.map((ms, i) =>
         setTimeout(() => setGenStep(i + 1), ms)
       );
       return () => timers.forEach(clearTimeout);
     }
-  });
+  }, [isGenerating]);
 
   if (isGenerating) {
     const activeGenStep = Math.min(genStep, generatingSteps.length - 1);
