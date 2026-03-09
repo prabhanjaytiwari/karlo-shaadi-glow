@@ -14,7 +14,7 @@ import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
 import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
-import { SmartVendorMatch } from "@/components/SmartVendorMatch";
+
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
