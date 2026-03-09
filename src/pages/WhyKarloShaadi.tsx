@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
