@@ -111,15 +111,11 @@ export function BottomNavigation() {
         }}
       >
         <div className="flex items-center justify-around h-16 px-2">
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const active = isActive(item.path);
-
-            // Insert spacer in the center for FAB (between item 2 and 3)
-            const showSpacer = index === 2 && user;
 
             return (
               <div key={item.path} className="contents">
-                {showSpacer && <div className="w-14 flex-shrink-0" />}
                 <button
                   onClick={() => handleNavClick(item.path)}
                   className={cn(
