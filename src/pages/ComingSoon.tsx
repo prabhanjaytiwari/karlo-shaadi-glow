@@ -239,8 +239,7 @@ const ComingSoon = () => {
                     <Button
                       onClick={() => handleWaitlist("merch")}
                       disabled={loading === "merch"}
-                      variant="accent"
-                      className="rounded-full shrink-0"
+                      className="rounded-full shrink-0 bg-accent text-accent-foreground hover:bg-accent/90"
                     >
                       <Bell className="h-4 w-4 mr-1" />
                       {loading === "merch" ? "..." : "Notify Me"}
