@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, Calendar, MessageSquare, User, LogIn, LayoutGrid, Wrench, BarChart3, FileQuestion } from 'lucide-react';
+import { Home, Search, Calendar, MessageSquare, User, LogIn, Tag, Wrench, FileQuestion } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 
 interface NavItem {
@@ -19,39 +20,15 @@ export function BottomNavigation() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { isNative } = useCapacitor();
+  const { user, isVendor } = useAuthContext();
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [pendingBookings, setPendingBookings] = useState(0);
-  const [user, setUser] = useState<any>(null);
-  const [isVendor, setIsVendor] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
 
   useEffect(() => {
     if (user) {
       fetchBadgeCounts();
-      checkVendorRole();
     }
   }, [user]);
-
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-  };
-
-  const checkVendorRole = async () => {
-    if (!user) return;
-    const { data: roles } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id);
-    setIsVendor(roles?.some(r => r.role === 'vendor') || false);
-  };
 
   const fetchBadgeCounts = async () => {
     if (!user) return;
