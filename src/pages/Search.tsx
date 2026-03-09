@@ -14,7 +14,7 @@ import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
 import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
-import { SmartVendorMatch } from "@/components/SmartVendorMatch";
+
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
@@ -374,12 +374,6 @@ export default function Search() {
 
         {/* ── CONTENT ── */}
         <div className="px-4 pt-4 pb-28 space-y-4">
-          {/* AI Match Card */}
-          <SmartVendorMatch
-            category={selectedCategory !== "all" ? selectedCategory : undefined}
-            budget={undefined}
-            city={selectedCity !== "all" ? selectedCity : undefined}
-          />
 
           {/* Results */}
           {loading ? (
@@ -487,14 +481,6 @@ export default function Search() {
             </div>
           </motion.div>
 
-          {/* Smart Matching */}
-          <div className="mb-8">
-            <SmartVendorMatch
-              category={selectedCategory !== "all" ? selectedCategory : undefined}
-              budget={undefined}
-              city={selectedCity !== "all" ? selectedCity : undefined}
-            />
-          </div>
 
           {/* Results with Sidebar */}
           <div className="flex gap-6">
