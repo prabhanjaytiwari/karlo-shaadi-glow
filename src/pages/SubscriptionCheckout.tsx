@@ -117,8 +117,8 @@ export default function SubscriptionCheckout() {
 
             if (verifyError) throw verifyError;
 
-            trackPaymentCompleted(currentPlan.price, response.razorpay_payment_id, "subscription");
-            trackSubscriptionStarted(plan, currentPlan.price);
+            trackPaymentCompleted(finalPrice, response.razorpay_payment_id, "subscription");
+            trackSubscriptionStarted(plan, finalPrice);
             toast.success("Subscription activated successfully!");
             navigate("/premium-dashboard");
           } catch (error: any) {
