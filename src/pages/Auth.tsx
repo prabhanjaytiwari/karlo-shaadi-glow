@@ -319,11 +319,50 @@ const Auth = () => {
             </Tabs>
           )}
 
-          <div className="mt-6 pt-4 border-t border-border/50 text-center">
-            <p className="text-sm text-muted-foreground">
-              Are you a vendor?{" "}
-              <Link to="/vendor-auth" className="text-accent hover:underline font-medium">Join as a vendor</Link>
-            </p>
+          <div className="mt-6 pt-4 border-t border-border/50">
+            <div className="bg-gradient-to-br from-accent/5 via-primary/5 to-accent/10 rounded-2xl p-4 border border-accent/15">
+              <p className="text-sm font-semibold text-foreground mb-1.5 text-center">Are you a wedding vendor? 💼</p>
+              <p className="text-xs text-muted-foreground text-center mb-3">Join 100% free — zero commission on bookings</p>
+
+              <div className="grid grid-cols-2 gap-2 mb-3 text-[11px] text-muted-foreground">
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>AI Contract & Invoice Generator</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>Smart CRM & Lead Pipeline</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>Portfolio Mini-Site with QR</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>Business Intelligence Suite</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>Payment & Milestone Tracker</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-accent mt-0.5 shrink-0">✓</span>
+                  <span>Verified Badge & Top Placement</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="text-[10px] text-muted-foreground">
+                  <span className="font-medium text-foreground">Plans from ₹0</span> · Silver ₹4,999 · Gold ₹9,999
+                </div>
+              </div>
+
+              <Link to="/vendor-auth" className="block">
+                <Button variant="outline" className="w-full rounded-xl border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground text-sm h-9 font-medium transition-all">
+                  Register as Vendor →
+                </Button>
+              </Link>
+            </div>
           </div>
         </CardContent>
       </Card>
