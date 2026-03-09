@@ -50,6 +50,8 @@ export default function SubscriptionCheckout() {
     }
   };
 
+  const offerActive = isOfferActive();
+
   const planDetails = {
     ai_premium: {
       name: "AI Premium",
@@ -67,6 +69,9 @@ export default function SubscriptionCheckout() {
   };
 
   const currentPlan = plan === "ai_premium" ? planDetails.ai_premium : null;
+  const discountedPrice = offerActive && currentPlan ? getDiscountedPrice(currentPlan.price) : null;
+  const finalPrice = discountedPrice || (currentPlan?.price ?? 0);
+  const savings = discountedPrice && currentPlan ? currentPlan.price - discountedPrice : 0;
 
   const handlePayment = async () => {
     if (!currentPlan || !session) return;
