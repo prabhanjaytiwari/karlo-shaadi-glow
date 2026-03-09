@@ -8,6 +8,7 @@ import { CinematicImage } from "@/components/CinematicImage";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { motion } from "framer-motion";
 import heroVendorsImg from "@/assets/hero-vendors-success.jpg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import weddingFriends from "@/assets/wedding-friends.jpg";
@@ -37,14 +38,14 @@ const ForVendors = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO 
+    <div className="min-h-screen bg-[#0a0a0a]">
+      <SEO
         title="Register as Wedding Vendor"
         description="Join India's fastest-growing wedding vendor platform. Zero commission, verified badge, AI-powered couple matching. Free registration for photographers, caterers, venues, decorators, and all wedding service providers across 20+ cities."
         keywords="wedding vendor registration, list wedding business, wedding photographer platform, wedding vendor marketplace India, zero commission wedding platform, register catering business, wedding venue listing, makeup artist registration"
       />
       <FAQPageJsonLd faqs={vendorFaqs} />
-      
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -67,150 +68,203 @@ const ForVendors = () => {
       />
 
       <MobilePageHeader title="For Vendors" />
-      
-      <main className={isMobile ? "pb-20" : "pt-20 pb-0"}>
-        {/* Hero Section with Cinematic Image */}
+
+      <main className={isMobile ? "pb-24" : "pt-20 pb-0"}>
+        {/* Hero - Immersive Apple Invites Style */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <CinematicImage src={heroVendorsImg} alt="Wedding vendors celebrating" className="w-full h-full" cinematic />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
-          </div>
-          
-          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
-            <div className="max-w-xl space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/15 border border-accent/30">
-                <BadgeCheck className="h-4 w-4 text-accent" />
-                <span className="text-accent text-xs font-semibold">Zero Commission Platform</span>
-              </div>
-              
-              <h1 className="font-display font-semibold text-2xl md:text-5xl leading-tight">
-                Grow Your Wedding Business <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">10x Faster</span>
-              </h1>
-              
-              <p className="text-muted-foreground text-sm sm:text-lg leading-relaxed">
-                Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples.
-                <strong className="text-foreground"> Zero commission. Free registration.</strong>
-              </p>
+          <div className="relative h-[70vh] min-h-[480px] max-h-[600px]">
+            <img
+              src={heroVendorsImg}
+              alt="Wedding vendors celebrating"
+              className="w-full h-full object-cover"
+              style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.7)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/40 to-transparent" />
 
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
-                  Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <a href="tel:+917011460321">
-                  <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent w-full sm:w-auto">
-                    <Phone className="mr-2 h-4 w-4" /> Talk to Us
-                  </Button>
-                </a>
-              </div>
-
-              <div className="flex flex-wrap gap-6 pt-2">
-                {[
-                  { value: "5,000+", label: "Vendors" },
-                  { value: "0%", label: "Commission" },
-                  { value: "20+", label: "Cities" },
-                  { value: "4.8★", label: "Rating" },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
-                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+              <div className="max-w-3xl mx-auto">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 mb-4">
+                    <BadgeCheck className="h-4 w-4 text-accent" />
+                    <span className="text-white/80 text-xs font-semibold">Zero Commission Platform</span>
                   </div>
-                ))}
+
+                  <h1 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-4">
+                    Grow Your Wedding Business
+                  </h1>
+
+                  <p className="text-white/50 text-sm sm:text-base leading-relaxed max-w-lg mb-6">
+                    Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples. <span className="text-white/70 font-medium">Zero commission. Free registration.</span>
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button
+                      size="lg"
+                      onClick={() => navigate("/vendor-auth")}
+                      className="rounded-full px-8 bg-white text-black hover:bg-white/90 font-semibold"
+                    >
+                      Register Free Now
+                    </Button>
+                    <a href="tel:+917011460321">
+                      <Button size="lg" variant="ghost" className="rounded-full px-8 text-white/70 hover:text-white hover:bg-white/10 border border-white/20 w-full sm:w-auto">
+                        <Phone className="mr-2 h-4 w-4" /> Talk to Us
+                      </Button>
+                    </a>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Why Vendors Choose Us */}
-        <section className="py-10 md:py-20">
+        {/* Stats Strip */}
+        <section className="py-8 border-b border-white/10">
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center mb-8">
-              <h2 className="font-display font-semibold text-xl md:text-3xl mb-2">
-                Why <span className="text-primary">5,000+ Vendors</span> Choose Us
-              </h2>
-              <p className="text-muted-foreground text-sm">Unlike WedMeGood or Shaadidukaan, we don't eat into your profits</p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 max-w-5xl mx-auto">
+            <div className="flex justify-center gap-8 md:gap-16">
               {[
-                { icon: IndianRupee, title: "Zero Commission", desc: "Keep 100% of your booking revenue. We never take a cut — competitors charge 15-20%.", highlight: true },
-                { icon: Zap, title: "Couple Matching", desc: "Smart matching connects you with couples whose budget, location, and style fit your services." },
-                { icon: BadgeCheck, title: "Verified Badge", desc: "Earn a trust badge after verification. Verified vendors get 3x more inquiries." },
-                { icon: BarChart3, title: "Business Dashboard", desc: "Track inquiries, bookings, payments, reviews, and revenue analytics in one place." },
-                { icon: MessageSquare, title: "Direct Inquiries", desc: "Couples contact you directly via WhatsApp or the platform. No middleman." },
-                { icon: Star, title: "Reviews & Ratings", desc: "Build your reputation with verified reviews from real couples who booked you." },
-              ].map((item, i) => (
-                <div key={i} className={`relative p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.highlight ? 'border-primary/40 bg-primary/5' : 'border-border/50 bg-card'}`}>
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 ${item.highlight ? 'bg-primary/15' : 'bg-accent/10'}`}>
-                    <item.icon className={`h-5 w-5 ${item.highlight ? 'text-primary' : 'text-accent'}`} />
-                  </div>
-                  <h3 className="font-display font-semibold text-base mb-1.5">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.desc}</p>
-                </div>
+                { value: "5,000+", label: "Vendors" },
+                { value: "0%", label: "Commission" },
+                { value: "20+", label: "Cities" },
+                { value: "4.8★", label: "Rating" },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + i * 0.1 }}
+                >
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</div>
+                  <div className="text-xs text-white/40 mt-1">{stat.label}</div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Categories We Accept */}
-        <section className="py-10 md:py-20 bg-muted/30">
+        {/* Why Vendors Choose Us - Dark Glass Cards */}
+        <section className="py-12 md:py-20">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="text-center mb-10">
+              <h2 className="font-display font-bold text-xl md:text-3xl text-white mb-2">
+                Why Vendors Choose Us
+              </h2>
+              <p className="text-white/40 text-sm">Unlike others, we don't eat into your profits</p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
+              {[
+                { icon: IndianRupee, title: "Zero Commission", desc: "Keep 100% of your booking revenue. Competitors charge 15-20%.", highlight: true },
+                { icon: Zap, title: "Couple Matching", desc: "Smart matching connects you with couples whose budget and style fit." },
+                { icon: BadgeCheck, title: "Verified Badge", desc: "Earn a trust badge. Verified vendors get 3x more inquiries." },
+                { icon: BarChart3, title: "Business Dashboard", desc: "Track inquiries, bookings, payments, reviews in one place." },
+                { icon: MessageSquare, title: "Direct Inquiries", desc: "Couples contact you directly. No middleman involved." },
+                { icon: Star, title: "Reviews & Ratings", desc: "Build reputation with verified reviews from real couples." },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className={`p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
+                    item.highlight
+                      ? 'bg-white/10 border-white/20 backdrop-blur-md'
+                      : 'bg-white/5 border-white/10 backdrop-blur-sm'
+                  }`}
+                >
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-3 ${
+                    item.highlight ? 'bg-accent/20' : 'bg-white/10'
+                  }`}>
+                    <item.icon className={`h-5 w-5 ${item.highlight ? 'text-accent' : 'text-white/60'}`} />
+                  </div>
+                  <h3 className="font-semibold text-base text-white mb-1.5">{item.title}</h3>
+                  <p className="text-white/40 text-sm">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Categories - Horizontal Scroll Cards (Apple Invites style) */}
+        <section className="py-12 md:py-20 border-t border-white/10">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="text-center mb-8">
-              <h2 className="font-display font-semibold text-xl md:text-3xl mb-2">All Wedding Categories Welcome</h2>
-              <p className="text-muted-foreground text-sm">Join the fastest-growing category on India's #1 wedding platform</p>
+              <h2 className="font-display font-bold text-xl md:text-3xl text-white mb-2">All Categories Welcome</h2>
+              <p className="text-white/40 text-sm">Join the fastest-growing wedding platform in India</p>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto">
-              {vendorCategories.map((cat) => (
-                <div key={cat.name} className="text-center p-4 rounded-2xl border border-border/50 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mx-auto mb-3">
-                    <cat.icon className="h-6 w-6 text-primary" />
+              {vendorCategories.map((cat, i) => (
+                <motion.div
+                  key={cat.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="text-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mx-auto mb-3">
+                    <cat.icon className="h-6 w-6 text-white/60" />
                   </div>
-                  <h3 className="font-semibold text-sm mb-1">{cat.name}</h3>
-                  <p className="text-xs text-muted-foreground">{cat.count}</p>
-                </div>
+                  <h3 className="font-semibold text-sm text-white/80 mb-1">{cat.name}</h3>
+                  <p className="text-xs text-white/30">{cat.count}</p>
+                </motion.div>
               ))}
             </div>
-            <p className="text-center text-xs text-muted-foreground mt-5">
+            <p className="text-center text-xs text-white/25 mt-5">
               Also: Mehendi, Invitations, Choreography, Entertainment, Transport, Jewelry, Pandit, Bridal Wear, and more
             </p>
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="py-10 md:py-20">
+        {/* How It Works - With Image */}
+        <section className="py-12 md:py-20 border-t border-white/10">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border border-border/50">
-                  <CinematicImage src={weddingFriends} alt="Wedding vendor team celebrating" className="w-full h-full" cinematic />
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
+                  <img src={weddingFriends} alt="Wedding vendor team" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08) brightness(0.9)' }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
               </div>
 
               <div className="space-y-5">
-                <h2 className="font-display font-semibold text-xl md:text-3xl">
-                  Start Getting Bookings in <span className="text-accent">4 Simple Steps</span>
+                <h2 className="font-display font-bold text-xl md:text-3xl text-white">
+                  Start Getting Bookings in <span className="text-accent">4 Steps</span>
                 </h2>
 
                 <div className="space-y-4">
                   {[
-                    { num: "01", title: "Register Free", desc: "Create your account in 2 minutes. No fees, no credit card required." },
-                    { num: "02", title: "Build Your Profile", desc: "Add your portfolio, pricing, services, and availability calendar." },
-                    { num: "03", title: "Get Verified", desc: "Complete verification for the trusted badge — appear higher in search results." },
+                    { num: "01", title: "Register Free", desc: "Create your account in 2 minutes. No fees, no credit card." },
+                    { num: "02", title: "Build Your Profile", desc: "Add portfolio, pricing, services, and availability." },
+                    { num: "03", title: "Get Verified", desc: "Complete verification for the trusted badge." },
                     { num: "04", title: "Receive Bookings", desc: "Couples find you via smart matching and send direct inquiries." },
                   ].map((step, i) => (
-                    <div key={i} className="flex gap-4 items-start group">
-                      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                        <span className="text-accent font-bold text-sm">{step.num}</span>
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex gap-4 items-start group"
+                    >
+                      <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 group-hover:border-accent/30 transition-all">
+                        <span className="text-white/50 font-bold text-sm group-hover:text-accent transition-colors">{step.num}</span>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-base mb-0.5">{step.title}</h3>
-                        <p className="text-muted-foreground text-sm">{step.desc}</p>
+                        <h3 className="font-semibold text-base text-white mb-0.5">{step.title}</h3>
+                        <p className="text-white/40 text-sm">{step.desc}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
 
-                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
+                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8 bg-white text-black hover:bg-white/90 font-semibold">
                   Create Free Profile <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
@@ -218,37 +272,44 @@ const ForVendors = () => {
           </div>
         </section>
 
-        {/* Vendor Testimonials */}
-        <section className="py-10 md:py-20 bg-muted/30">
+        {/* Vendor Testimonials - Cinematic Cards */}
+        <section className="py-12 md:py-20 border-t border-white/10">
           <div className="container mx-auto px-4 sm:px-6">
-            <h2 className="font-display font-semibold text-xl md:text-3xl text-center mb-8">
-              Vendors Love <span className="text-primary">Karlo Shaadi</span>
+            <h2 className="font-display font-bold text-xl md:text-3xl text-center text-white mb-8">
+              Vendors Love Karlo Shaadi
             </h2>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
               {[
                 { name: "Rajesh Photography", city: "Delhi", quote: "We got 40+ inquiries in our first month. The zero commission model means we keep every rupee we earn.", rating: 5 },
                 { name: "Ananya Mehendi Arts", city: "Lucknow", quote: "The smart matching sends us couples who actually fit our budget range. No more time wasted on mismatched leads.", rating: 5 },
                 { name: "Royal Caterers", city: "Jaipur", quote: "Unlike other platforms, Karlo Shaadi doesn't take a cut from our bookings. Our revenue increased by 35% after joining.", rating: 5 },
               ].map((testimonial, i) => (
-                <div key={i} className="p-5 rounded-2xl border border-border/50 bg-card">
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm"
+                >
                   <div className="flex gap-1 mb-3">
                     {Array.from({ length: testimonial.rating }).map((_, j) => (
                       <Star key={j} className="h-4 w-4 text-accent fill-accent" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4 italic">"{testimonial.quote}"</p>
+                  <p className="text-white/50 text-sm mb-4 italic">"{testimonial.quote}"</p>
                   <div>
-                    <p className="font-semibold text-sm">{testimonial.name}</p>
-                    <p className="text-xs text-muted-foreground">{testimonial.city}</p>
+                    <p className="font-semibold text-sm text-white/80">{testimonial.name}</p>
+                    <p className="text-xs text-white/30">{testimonial.city}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             <div className="text-center mt-6">
               <Link to="/vendor-success-stories">
-                <Button variant="outline" className="rounded-full border-primary/30">
+                <Button variant="ghost" className="rounded-full text-white/50 hover:text-white hover:bg-white/10 border border-white/15">
                   Read More Success Stories <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -256,11 +317,11 @@ const ForVendors = () => {
           </div>
         </section>
 
-        {/* FAQ Section - Now using Accordion */}
-        <section className="py-10 md:py-20">
+        {/* FAQ */}
+        <section className="py-12 md:py-20 border-t border-white/10">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-3xl mx-auto">
-              <h2 className="font-display font-semibold text-xl md:text-3xl text-center mb-8">
+              <h2 className="font-display font-bold text-xl md:text-3xl text-center text-white mb-8">
                 Frequently Asked Questions
               </h2>
 
@@ -269,12 +330,12 @@ const ForVendors = () => {
                   <AccordionItem
                     key={i}
                     value={`faq-${i}`}
-                    className="border border-border/50 rounded-2xl px-5 bg-card hover:border-primary/30 transition-colors"
+                    className="border border-white/10 rounded-2xl px-5 bg-white/5 hover:border-white/20 transition-colors data-[state=open]:bg-white/8"
                   >
-                    <AccordionTrigger className="text-left text-sm sm:text-base font-semibold hover:no-underline py-4">
+                    <AccordionTrigger className="text-left text-sm sm:text-base font-semibold hover:no-underline py-4 text-white/80">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground text-sm pb-4 leading-relaxed">
+                    <AccordionContent className="text-white/40 text-sm pb-4 leading-relaxed">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -284,36 +345,40 @@ const ForVendors = () => {
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Final CTA - Immersive */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0">
-            <CinematicImage src={sectionVendors} alt="Wedding vendors" className="w-full h-full" cinematic />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/70" />
-          </div>
-          <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">
-            <div className="max-w-3xl mx-auto text-center space-y-5">
-              <h2 className="font-display font-semibold text-xl md:text-3xl">
-                Ready to Get More <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Wedding Bookings?</span>
-              </h2>
-              <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-                Join 5,000+ vendors who grew their wedding business with zero commission and smart matching.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8">
-                  Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Link to="/vendor-pricing">
-                  <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 w-full sm:w-auto">
-                    View Plans & Pricing
+          <div className="relative h-[50vh] min-h-[360px]">
+            <img
+              src={sectionVendors}
+              alt="Wedding vendors"
+              className="w-full h-full object-cover"
+              style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.6)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/50 to-transparent" />
+
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center space-y-5 px-6">
+                <h2 className="font-display font-bold text-2xl md:text-4xl text-white">
+                  Ready to Get More Bookings?
+                </h2>
+                <p className="text-white/40 text-sm max-w-xl mx-auto">
+                  Join 5,000+ vendors who grew their wedding business with zero commission.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8 bg-white text-black hover:bg-white/90 font-semibold">
+                    Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </Link>
+                  <Link to="/vendor-pricing">
+                    <Button size="lg" variant="ghost" className="rounded-full px-8 text-white/60 hover:text-white hover:bg-white/10 border border-white/20 w-full sm:w-auto">
+                      View Plans & Pricing
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </main>
-
-      
     </div>
   );
 };
