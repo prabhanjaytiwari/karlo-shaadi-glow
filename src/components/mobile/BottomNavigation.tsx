@@ -54,7 +54,6 @@ export function BottomNavigation() {
   const vendorNavItems: NavItem[] = [
     { icon: Home, label: 'Home', path: '/vendor/dashboard' },
     { icon: FileQuestion, label: 'Inquiries', path: '/vendor/dashboard?tab=inquiries' },
-    // Center gap for FAB
     { icon: Calendar, label: 'Bookings', path: '/vendor/dashboard?tab=bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/vendor/dashboard?tab=messages', badge: unreadMessages },
     { icon: User, label: 'Profile', path: '/vendor/dashboard?tab=profile' },
