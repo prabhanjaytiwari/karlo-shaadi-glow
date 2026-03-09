@@ -134,6 +134,7 @@ export function WeddingPlanWizard() {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [genStep, setGenStep] = useState(0);
   const [data, setData] = useState<WizardData>({
     side: null,
     yourName: "",
