@@ -339,9 +339,20 @@ export function VendorSubscriptionCheckout({
                 Processing...
               </>
             ) : (
-              <>Pay ₹{plan.price.toLocaleString()} & Activate</>
+              <>
+                {offerActive && <Zap className="mr-1 h-4 w-4" />}
+                Pay ₹{finalPrice.toLocaleString()} & Activate
+              </>
             )}
           </Button>
+
+          {/* Risk reversal */}
+          <div className="flex items-center justify-center gap-1.5 mt-2">
+            <Shield className="h-3 w-3 text-green-500" />
+            <p className="text-[10px] text-green-600 font-semibold">
+              100% money-back if no 3 leads in 30 days
+            </p>
+          </div>
 
           <p className="text-xs text-center text-muted-foreground">
             Secure payment powered by Razorpay. Cancel anytime.
