@@ -103,6 +103,7 @@ const ResetPassword = () => {
 
   if (checkingSession) {
     return (
+      <MobilePageHeader title="Reset Password" />
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto text-accent" />

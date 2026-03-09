@@ -860,6 +860,7 @@ To be part of our dreams coming true!`,
 
   return (
     <PremiumBackground variant="festive" pattern animated className="min-h-screen">
+      <MobilePageHeader title="Music Generator" />
       
       
       <main className="container mx-auto px-4 py-8 pt-24 relative">

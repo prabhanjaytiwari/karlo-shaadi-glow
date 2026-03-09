@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Crown, TrendingUp, Gem, Star, Shield, Users, AlertTriangle, Zap } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";

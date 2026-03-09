@@ -62,6 +62,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+      <MobilePageHeader title="Forgot Password" />
       <div className="w-full max-w-md">
         <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
           <CardHeader className="text-center">
