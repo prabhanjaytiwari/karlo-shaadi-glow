@@ -527,29 +527,173 @@ export function WeddingPlanWizard() {
     }
   };
 
+  const generatingSteps = [
+    { label: "Analyzing Preferences", emoji: "🔍" },
+    { label: "Budgeting", emoji: "💰" },
+    { label: "Finding Vendors", emoji: "🏛️" },
+    { label: "Building Timeline", emoji: "📅" },
+    { label: "Final Touches", emoji: "✨" },
+  ];
+
+  const [genStep, setGenStep] = useState(0);
+
+  // Simulate progress steps while generating
+  useState(() => {
+    if (isGenerating) {
+      const intervals = [2000, 4500, 8000, 13000, 18000];
+      const timers = intervals.map((ms, i) =>
+        setTimeout(() => setGenStep(i + 1), ms)
+      );
+      return () => timers.forEach(clearTimeout);
+    }
+  });
+
   if (isGenerating) {
+    const activeGenStep = Math.min(genStep, generatingSteps.length - 1);
+
     return (
-      <PremiumBackground variant="wedding" pattern animated className="min-h-screen flex items-center justify-center">
-        <PremiumCard variant="gold" glow hover={false} className="max-w-md mx-4 p-8">
-          <div className="text-center space-y-6">
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="mx-auto w-20 h-20 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
-              <Sparkles className="h-10 w-10 text-accent" />
-            </motion.div>
-            <div>
-              <h2 className="text-xl font-bold mb-2 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Creating your perfect wedding plan...</h2>
-              <p className="text-sm text-muted-foreground">Our AI is crafting a detailed plan for {data.yourName} & {data.partnerName}</p>
-              <p className="text-xs text-muted-foreground mt-2">
-                {data.ceremonies.length} ceremonies • {data.brideSideGuests + data.groomSideGuests} guests • {data.city}
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-2 bg-accent/10 px-4 py-2 rounded-full">
-              <Loader2 className="h-5 w-5 animate-spin text-accent" />
-              <span className="text-sm text-accent font-medium">This may take 15-30 seconds</span>
-            </div>
-            <PoweredByBadge />
+      <div
+        className="min-h-screen flex items-center justify-center px-4"
+        style={{
+          background: 'linear-gradient(165deg, hsl(0 0% 97%) 0%, hsl(330 20% 95%) 40%, hsl(280 15% 94%) 70%, hsl(0 0% 96%) 100%)',
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="w-full max-w-md"
+        >
+          {/* Header */}
+          <div className="text-center mb-10">
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-2xl md:text-3xl font-bold text-foreground tracking-tight"
+            >
+              Almost there! ✨
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-sm text-muted-foreground mt-2"
+            >
+              Crafting the perfect plan for {data.yourName} & {data.partnerName}
+            </motion.p>
           </div>
-        </PremiumCard>
-      </PremiumBackground>
+
+          {/* Card with current step info */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-lg shadow-black/5 border border-white/60 mb-8"
+          >
+            <div className="flex items-center gap-3 mb-1">
+              <span className="text-2xl">{generatingSteps[activeGenStep].emoji}</span>
+              <div>
+                <p className="font-semibold text-foreground text-sm">{generatingSteps[activeGenStep].label}</p>
+                <p className="text-xs text-muted-foreground">
+                  {data.ceremonies.length} ceremonies • {data.brideSideGuests + data.groomSideGuests} guests • {data.city}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Step Progress Bar — inspired by reference */}
+          <div className="relative mb-8">
+            {/* Background track */}
+            <div className="flex items-center">
+              {generatingSteps.map((s, i) => {
+                const isCompleted = genStep > i;
+                const isActive = genStep === i;
+                const isLast = i === generatingSteps.length - 1;
+
+                return (
+                  <div key={i} className="flex items-center flex-1 last:flex-none">
+                    {/* Circle */}
+                    <motion.div
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.1 * i, type: "spring", stiffness: 300 }}
+                      className={cn(
+                        "relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-500 shrink-0",
+                        isCompleted
+                          ? "bg-gradient-to-br from-emerald-400 to-emerald-500 text-white shadow-md shadow-emerald-200"
+                          : isActive
+                            ? "bg-gradient-to-br from-emerald-300 to-emerald-400 text-white shadow-md shadow-emerald-200 ring-4 ring-emerald-100"
+                            : "bg-gray-100 text-gray-400"
+                      )}
+                    >
+                      {isCompleted ? (
+                        <motion.svg
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.3 }}
+                          className="w-5 h-5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <motion.polyline points="20 6 9 17 4 12" />
+                        </motion.svg>
+                      ) : (
+                        <span>{i + 1}</span>
+                      )}
+                    </motion.div>
+
+                    {/* Connector line */}
+                    {!isLast && (
+                      <div className="flex-1 h-1.5 mx-1 rounded-full bg-gray-100 overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500"
+                          initial={{ width: "0%" }}
+                          animate={{ width: isCompleted ? "100%" : isActive ? "50%" : "0%" }}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Labels */}
+            <div className="flex mt-2.5">
+              {generatingSteps.map((s, i) => {
+                const isCompleted = genStep > i;
+                const isActive = genStep === i;
+                return (
+                  <div key={i} className="flex-1 last:flex-none last:w-10 text-center">
+                    <p className={cn(
+                      "text-[10px] font-medium leading-tight transition-colors duration-300",
+                      isCompleted ? "text-emerald-600" : isActive ? "text-emerald-500 font-semibold" : "text-gray-400"
+                    )}>
+                      {s.label}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tip pill */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-sm border border-white/40 px-5 py-3 rounded-2xl"
+          >
+            <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
+            <span className="text-xs text-muted-foreground">This may take 15-30 seconds</span>
+          </motion.div>
+        </motion.div>
+      </div>
     );
   }
 
