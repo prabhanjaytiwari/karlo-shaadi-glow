@@ -170,6 +170,7 @@ export default function VendorPricing() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <MobilePageHeader title="Vendor Pricing" />
       <SEO 
         title="Vendor Pricing - 50% OFF Launch Offer"
         description="50% OFF first month! Choose Silver, Gold, or Diamond plans. Grow your wedding business with premium listings. 100% money-back guarantee."
