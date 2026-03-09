@@ -92,6 +92,7 @@ import EarnWithUs from "./pages/EarnWithUs";
 import VendorMiniSitePage from "./pages/VendorMiniSitePage";
 import SponsorShaadi from "./pages/SponsorShaadi";
 import ComingSoon from "./pages/ComingSoon";
+import ToolsLanding from "./pages/ToolsLanding";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
