@@ -53,7 +53,7 @@ import menuSevaImg from '@/assets/menu-seva.jpg';
 // ─── DATA ─────────────────────────────────────────────
 
 const vendorCategories = [
-  { image: categoryVenue, label: 'Venue', category: 'venue' },
+  { image: categoryVenue, label: 'Venue', category: 'venues' },
   { image: categoryPhotography, label: 'Photography', category: 'photography' },
   { image: categoryDecoration, label: 'Decoration', category: 'decoration' },
   { image: categoryMakeup, label: 'Makeup', category: 'makeup' },
