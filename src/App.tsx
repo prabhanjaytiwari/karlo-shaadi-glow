@@ -92,6 +92,7 @@ import EarnWithUs from "./pages/EarnWithUs";
 import VendorMiniSitePage from "./pages/VendorMiniSitePage";
 import SponsorShaadi from "./pages/SponsorShaadi";
 import ComingSoon from "./pages/ComingSoon";
+import ToolsLanding from "./pages/ToolsLanding";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
@@ -229,6 +230,7 @@ const AnimatedRoutes = () => {
           <Route path="/earn" element={<EarnWithUs />} />
           <Route path="/sponsor-shaadi" element={<SponsorShaadi />} />
           <Route path="/coming-soon" element={<ComingSoon />} />
+          <Route path="/tools" element={<ToolsLanding />} />
           <Route path="/vendor-site/:slug" element={<VendorMiniSitePage />} />
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
