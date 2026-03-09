@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -88,6 +89,7 @@ const WeddingDirectory = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/30 via-white to-amber-50/20">
+      <MobilePageHeader title="Wedding Directory" />
       <SEO
         title="Wedding Vendors Directory – Every City, Every Category | Karlo Shaadi"
         description="Find verified wedding vendors across 20+ Indian cities. Photographers, venues, caterers, decorators, DJs, makeup artists & more. Compare prices, read reviews, book free."

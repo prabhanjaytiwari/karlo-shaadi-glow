@@ -26,7 +26,14 @@ export function MobilePageHeader({ title, showBack = true, rightActions, classNa
     >
       {showBack && (
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            // Check if there's router history to go back to
+            if (window.history.state?.idx > 0) {
+              navigate(-1);
+            } else {
+              navigate('/');
+            }
+          }}
           className="flex items-center justify-center w-8 h-8 -ml-1 rounded-full active:scale-95 transition-transform"
           aria-label="Go back"
         >

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Eye, EyeOff, CheckCircle, Lock } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -102,17 +103,22 @@ const ResetPassword = () => {
 
   if (checkingSession) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto text-accent" />
-          <p className="mt-2 text-muted-foreground">Verifying reset link...</p>
+      <>
+        <MobilePageHeader title="Reset Password" />
+        <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto text-accent" />
+            <p className="mt-2 text-muted-foreground">Verifying reset link...</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   if (!isValidSession && !checkingSession) {
     return (
+      <>
+      <MobilePageHeader title="Reset Password" />
       <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
         <div className="w-full max-w-md">
           <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
@@ -139,10 +145,13 @@ const ResetPassword = () => {
           </Card>
         </div>
       </div>
+      </>
     );
   }
 
   return (
+    <>
+    <MobilePageHeader title="Reset Password" />
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
         <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
@@ -263,6 +272,7 @@ const ResetPassword = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 

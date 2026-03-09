@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Shield, ShieldAlert, ShieldCheck, Star, Clock, Share2, AlertTriangle, Phone, Instagram, CheckCircle, XCircle, ExternalLink, Download } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
@@ -215,6 +216,7 @@ export default function VendorCheck() {
 
   return (
     <div className="min-h-screen bg-background pt-20">
+      <MobilePageHeader title="Vendor Check" />
       <SEO title="Ghost Vendor Detector — Check If Your Vendor Is Legit | Karlo Shaadi" description="Enter any vendor's name or phone number to check if they're verified and trustworthy. Free vendor background check." />
       <canvas ref={canvasRef} className="hidden" width={1080} height={1080} />
 

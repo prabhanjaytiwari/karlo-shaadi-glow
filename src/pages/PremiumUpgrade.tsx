@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Check, Crown, Zap, Shield, Loader2 } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 declare global {
   interface Window {
@@ -216,7 +217,7 @@ export default function PremiumUpgrade() {
 
   return (
     <div className="min-h-screen bg-background">
-      
+      <MobilePageHeader title="Premium Upgrade" />
       
       <main className="pt-32 pb-16 px-4">
         <div className="max-w-6xl mx-auto">

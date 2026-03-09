@@ -2,10 +2,12 @@ import { SEO } from "@/components/SEO";
 import { SpeechWriter } from "@/components/SpeechWriter";
 import { Badge } from "@/components/ui/badge";
 import { Mic, Heart, Sparkles } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 const SpeechWriterPage = () => {
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Speech Writer" />
       <SEO
         title="AI Wedding Speech Writer - Free Personalized Speeches | Karlo Shaadi"
         description="Create the perfect wedding speech in seconds. Free AI-powered speech writer for best man, maid of honor, parents & friends. English, Hindi & Hinglish."

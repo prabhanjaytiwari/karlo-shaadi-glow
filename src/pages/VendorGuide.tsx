@@ -1,6 +1,7 @@
 
 
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -194,6 +195,7 @@ const faqs = [
 export default function VendorGuide() {
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Vendor Guide" />
       <SEO 
         title="Vendor Onboarding Guide | Karlo Shaadi"
         description="Complete step-by-step guide for vendors to join Karlo Shaadi, set up their profile, and start receiving bookings."

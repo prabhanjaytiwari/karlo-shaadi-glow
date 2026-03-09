@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Check, Sparkles, Crown, TrendingUp, Gem, Star, Shield, Users, AlertTriangle, Zap } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";
@@ -169,6 +170,7 @@ export default function VendorPricing() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <MobilePageHeader title="Vendor Pricing" />
       <SEO 
         title="Vendor Pricing - 50% OFF Launch Offer"
         description="50% OFF first month! Choose Silver, Gold, or Diamond plans. Grow your wedding business with premium listings. 100% money-back guarantee."

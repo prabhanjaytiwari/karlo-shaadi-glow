@@ -1,11 +1,11 @@
-
-
 import { SEO } from "@/components/SEO";
 import InviteCreator from "@/components/InviteCreator";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 const InviteCreatorPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <MobilePageHeader title="Invite Creator" />
       <SEO
         title="AI Wedding Invite Creator - Free Digital Invitation Maker"
         description="Create beautiful AI-generated wedding invitations in seconds. Choose from traditional, royal, modern styles. Free to use, easy to share on WhatsApp. No signup required."

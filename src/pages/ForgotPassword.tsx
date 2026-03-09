@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Mail, CheckCircle } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -61,6 +62,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+      <MobilePageHeader title="Forgot Password" />
       <div className="w-full max-w-md">
         <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
           <CardHeader className="text-center">

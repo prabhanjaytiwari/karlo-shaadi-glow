@@ -8,6 +8,7 @@ import {
   Star, TrendingUp, Users, Calendar, Award, 
   ArrowRight, Sparkles, Quote, IndianRupee 
 } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 interface TopVendor {
   id: string;
@@ -106,6 +107,7 @@ const VendorSuccessStories = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Vendor Success Stories" />
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-accent/5 to-background">

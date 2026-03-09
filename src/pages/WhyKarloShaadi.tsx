@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -84,6 +84,7 @@ const stats = [
 export default function WhyKarloShaadi() {
   return (
     <div className="min-h-screen bg-background">
+      <MobilePageHeader title="Why Karlo Shaadi" />
       <SEO
         title="Why Karlo Shaadi — For Couples, Families & Vendors"
         description="Karlo Shaadi is built for everyone involved in a wedding — the couple, siblings, best friends, parents, and vendors. Discover why thousands trust us."

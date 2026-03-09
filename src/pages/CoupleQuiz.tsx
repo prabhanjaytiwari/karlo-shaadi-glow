@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Share2, ChevronRight, Sparkles, RotateCcw } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SEO } from "@/components/SEO";
@@ -228,6 +229,7 @@ export default function CoupleQuiz() {
 
   return (
     <div className="min-h-screen bg-background pt-20">
+      <MobilePageHeader title="Couple Quiz" />
       <SEO title="Wedding Compatibility Quiz | Karlo Shaadi" description="Take the fun couples quiz and find your wedding compatibility score! Share with friends and family." />
       <canvas ref={canvasRef} className="hidden" />
 

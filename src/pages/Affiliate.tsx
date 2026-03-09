@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { DollarSign, Users, TrendingUp, Gift } from "lucide-react";
+import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 
 export default function Affiliate() {
   const { toast } = useToast();
@@ -35,7 +36,7 @@ export default function Affiliate() {
 
   return (
     <div className="min-h-screen bg-background">
-      
+      <MobilePageHeader title="Affiliate Program" />
       
       <main className="container mx-auto px-4 py-20">
         {/* Hero Section */}
