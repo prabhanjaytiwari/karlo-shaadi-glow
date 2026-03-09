@@ -272,6 +272,7 @@ const ResetPassword = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 
