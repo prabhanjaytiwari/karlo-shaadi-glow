@@ -74,9 +74,13 @@ export function VendorSubscriptionCheckout({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  const offerActive = isOfferActive();
 
   // Get plan details safely
   const plan = planId && PLAN_DETAILS[planId] ? PLAN_DETAILS[planId] : null;
+  const discountedPrice = offerActive && plan ? getDiscountedPrice(plan.price) : null;
+  const finalPrice = discountedPrice || (plan?.price ?? 0);
+  const savings = discountedPrice && plan ? plan.price - discountedPrice : 0;
 
   useEffect(() => {
     // Load Razorpay script
