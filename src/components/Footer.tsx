@@ -8,7 +8,7 @@ export const Footer = () => {
     <footer className="glass border-t border-border/50 mt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
           {/* About Column */}
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">About</h3>
@@ -50,6 +50,18 @@ export const Footer = () => {
               <li><Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link to="/cancellation-refunds" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cancellation & Refunds</Link></li>
               <li><Link to="/shipping" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shipping</Link></li>
+            </ul>
+          </div>
+
+          {/* Explore Column */}
+          <div>
+            <h3 className="font-display font-semibold text-lg mb-4">Explore</h3>
+            <ul className="space-y-2">
+              <li><Link to="/earn" className="text-sm text-muted-foreground hover:text-primary transition-colors">Earn With Us</Link></li>
+              <li><Link to="/sponsor-shaadi" className="text-sm text-muted-foreground hover:text-primary transition-colors">Sponsor Your Shaadi</Link></li>
+              <li><Link to="/coming-soon" className="text-sm text-muted-foreground hover:text-primary transition-colors">Coming Soon</Link></li>
+              <li><Link to="/shaadi-seva" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shaadi Seva</Link></li>
+              <li><Link to="/referrals" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refer & Earn</Link></li>
             </ul>
           </div>
 
