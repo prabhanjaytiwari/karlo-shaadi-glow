@@ -83,7 +83,7 @@ import WeddingDirectory from "./pages/WeddingDirectory";
 import EmbedWidget from "./pages/EmbedWidget";
 import WebStories from "./pages/WebStories";
 import CoupleQuiz from "./pages/CoupleQuiz";
-import BudgetRoast from "./pages/BudgetRoast";
+import HashtagGenerator from "./pages/HashtagGenerator";
 import VendorCheck from "./pages/VendorCheck";
 import ShaadiWrapped from "./pages/ShaadiWrapped";
 import CountdownPublic from "./pages/CountdownPublic";
