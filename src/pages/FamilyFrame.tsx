@@ -177,12 +177,12 @@ function GeneratingLoader() {
   ];
   const [msgIndex, setMsgIndex] = useState(0);
 
-  useState(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setMsgIndex((prev) => (prev + 1) % messages.length);
     }, 3000);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   return (
     <motion.div
