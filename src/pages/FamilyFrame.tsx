@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Upload, ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
