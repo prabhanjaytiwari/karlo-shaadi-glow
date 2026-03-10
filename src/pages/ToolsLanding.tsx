@@ -42,12 +42,6 @@ const tools = [
     emoji: "🎤",
   },
   {
-    title: "Hashtag Generator",
-    description: "Creative wedding hashtags for Instagram",
-    path: "/hashtag-generator",
-    emoji: "#️⃣",
-  },
-  {
     title: "Couple Quiz",
     description: "Fun compatibility quiz for couples",
     path: "/couple-quiz",

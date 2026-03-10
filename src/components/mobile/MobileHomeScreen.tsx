@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
-  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling, Hash,
+  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
   BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart,
   Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award,
   Zap, Gift, TrendingUp, Building2
@@ -40,7 +40,7 @@ import toolMuhurat from '@/assets/tool-muhurat-finder.jpg';
 import toolInvite from '@/assets/tool-invite-creator.jpg';
 import toolPlanner from '@/assets/tool-wedding-planner.jpg';
 import toolCoupleQuiz from '@/assets/tool-couple-quiz.jpg';
-import toolBudgetRoast from '@/assets/tool-budget-roast.jpg';
+
 import toolSpeechWriter from '@/assets/tool-speech-writer.jpg';
 import toolMusicGen from '@/assets/tool-music-generator.jpg';
 import toolVendorScore from '@/assets/tool-vendor-score.jpg';
@@ -73,7 +73,7 @@ const planningTools = [
 
 const funTools = [
   { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, image: toolCoupleQuiz },
-  { title: 'Hashtag Generator', tagline: 'Creative wedding hashtags', route: '/hashtag-generator', icon: Hash, image: toolBudgetRoast },
+  
   { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, image: toolSpeechWriter },
   { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, image: toolMusicGen },
   { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, image: toolVendorScore },
