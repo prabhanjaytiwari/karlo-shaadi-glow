@@ -215,7 +215,7 @@ const Index = () => {
           <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-3xl mx-auto">
             {[
               { label: "Couple Quiz", to: "/couple-quiz" },
-              { label: "Budget Roast", to: "/budget-roast" },
+              { label: "Hashtag Generator", to: "/hashtag-generator" },
               { label: "Vendor Checker", to: "/vendor-check" },
               { label: "Speech Writer", to: "/speech-writer" },
               { label: "Music Generator", to: "/music-generator" },

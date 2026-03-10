@@ -42,10 +42,10 @@ const tools = [
     emoji: "🎤",
   },
   {
-    title: "Budget Roast",
-    description: "Get your budget hilariously roasted",
-    path: "/budget-roast",
-    emoji: "🔥",
+    title: "Hashtag Generator",
+    description: "Creative wedding hashtags for Instagram",
+    path: "/hashtag-generator",
+    emoji: "#️⃣",
   },
   {
     title: "Couple Quiz",
