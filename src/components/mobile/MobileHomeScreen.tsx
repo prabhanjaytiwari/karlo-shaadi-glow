@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
-  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling, Hash,
+  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
   BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart,
   Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award,
   Zap, Gift, TrendingUp, Building2
