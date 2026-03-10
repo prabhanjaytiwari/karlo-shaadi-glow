@@ -83,7 +83,7 @@ import WeddingDirectory from "./pages/WeddingDirectory";
 import EmbedWidget from "./pages/EmbedWidget";
 import WebStories from "./pages/WebStories";
 import CoupleQuiz from "./pages/CoupleQuiz";
-import BudgetRoast from "./pages/BudgetRoast";
+import HashtagGenerator from "./pages/HashtagGenerator";
 import VendorCheck from "./pages/VendorCheck";
 import ShaadiWrapped from "./pages/ShaadiWrapped";
 import CountdownPublic from "./pages/CountdownPublic";
@@ -222,7 +222,7 @@ const AnimatedRoutes = () => {
           <Route path="/web-stories" element={<WebStories />} />
           <Route path="/web-stories/:id" element={<WebStories />} />
           <Route path="/couple-quiz" element={<CoupleQuiz />} />
-          <Route path="/budget-roast" element={<BudgetRoast />} />
+          <Route path="/hashtag-generator" element={<HashtagGenerator />} />
           <Route path="/vendor-check" element={<VendorCheck />} />
           <Route path="/shaadi-wrapped" element={<ProtectedRoute><ShaadiWrapped /></ProtectedRoute>} />
           <Route path="/countdown/:slug" element={<CountdownPublic />} />

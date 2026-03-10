@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
-  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
+  Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling, Hash,
   BadgeCheck, Bell, Utensils, Camera, Palette, Gem, PartyPopper, HandHeart,
   Menu, Search, X, Tag, IndianRupee, LayoutGrid, Headphones, Award,
   Zap, Gift, TrendingUp, Building2
@@ -73,7 +73,7 @@ const planningTools = [
 
 const funTools = [
   { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, image: toolCoupleQuiz },
-  { title: 'Budget Roast', tagline: 'Get roasted hilariously', route: '/budget-roast', icon: FlameKindling, image: toolBudgetRoast },
+  { title: 'Hashtag Generator', tagline: 'Creative wedding hashtags', route: '/hashtag-generator', icon: Hash, image: toolBudgetRoast },
   { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, image: toolSpeechWriter },
   { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, image: toolMusicGen },
   { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, image: toolVendorScore },
