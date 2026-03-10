@@ -42,6 +42,12 @@ const tools = [
     emoji: "🎤",
   },
   {
+    title: "Family Frame",
+    description: "Add a loved one to your wedding photo",
+    path: "/family-frame",
+    emoji: "🖼️",
+  },
+  {
     title: "Couple Quiz",
     description: "Fun compatibility quiz for couples",
     path: "/couple-quiz",
