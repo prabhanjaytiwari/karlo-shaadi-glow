@@ -222,7 +222,7 @@ const AnimatedRoutes = () => {
           <Route path="/web-stories" element={<WebStories />} />
           <Route path="/web-stories/:id" element={<WebStories />} />
           <Route path="/couple-quiz" element={<CoupleQuiz />} />
-          <Route path="/hashtag-generator" element={<HashtagGenerator />} />
+          
           <Route path="/vendor-check" element={<VendorCheck />} />
           <Route path="/shaadi-wrapped" element={<ProtectedRoute><ShaadiWrapped /></ProtectedRoute>} />
           <Route path="/countdown/:slug" element={<CountdownPublic />} />
