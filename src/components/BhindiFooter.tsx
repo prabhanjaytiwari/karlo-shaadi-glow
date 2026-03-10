@@ -25,7 +25,7 @@ const footerLinks = {
     { label: "Guest List", to: "/guest-list" },
     { label: "Music Generator", to: "/music-generator" },
     { label: "Couple Quiz", to: "/couple-quiz" },
-    
+    { label: "Family Frame", to: "/family-frame" },
   ],
   vendors: [
     { label: "Register as Vendor", to: "/for-vendors" },
