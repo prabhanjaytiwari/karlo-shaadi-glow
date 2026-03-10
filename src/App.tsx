@@ -258,12 +258,7 @@ const App = () => (
             </MobileLayout>
             <BhindiFooter />
             <WhatsAppButton />
-            <PWAInstallPrompt />
-            <ExitIntentPopup />
-            <ScrollDepthCTA />
             <OfflineScreen />
-            <WhatsNewModal />
-            <RateAppPrompt />
             </AppProviders>
             </AuthProvider>
           </BrowserRouter>
