@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Save, Download, User } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { sanitizeInput } from "@/lib/validation";
+import { profileUpdateSchema, sanitizeInput } from "@/lib/validation";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuthContext } from "@/contexts/AuthContext";
