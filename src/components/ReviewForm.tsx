@@ -7,7 +7,7 @@ import { Star, Upload, X, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Label } from "@/components/ui/label";
-import { sanitizeInput } from "@/lib/validation";
+import { reviewFormSchema, sanitizeInput } from "@/lib/validation";
 import { SuccessAnimation } from "@/components/SuccessAnimation";
 
 interface ReviewFormProps {
