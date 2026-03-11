@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Loader2, AlertCircle, CheckCircle, WifiOff } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { sanitizeInput } from "@/lib/validation";
+import { bookingFormSchema, sanitizeInput } from "@/lib/validation";
 import { SuccessAnimation } from "@/components/SuccessAnimation";
 
 interface BookingDialogProps {
