@@ -137,9 +137,7 @@ const Auth = () => {
         const needsEmailConfirmation = authData.user.identities?.length === 0 || 
           (!authData.session && authData.user.email_confirmed_at === null);
 
-        if (referralCode) {
-          supabase.from("profiles").update({ referred_by: referralCode }).eq("id", authData.user.id).then(() => {});
-        }
+        // referred_by is now handled automatically by the handle_new_user trigger
         trackEvent({ event_type: "user_signup", metadata: { role: "couple", referred_by: referralCode || undefined } }).catch(() => {});
         supabase.functions.invoke('onboarding-email', {
           body: { user_id: authData.user.id, email: data.email, name: data.fullName, user_type: 'couple' }
