@@ -144,19 +144,15 @@ export default function VendorOnboarding() {
   };
 
   const validateStep1 = () => {
-    const trimmedBusinessName = formData.businessName.trim();
-    if (!trimmedBusinessName || trimmedBusinessName.length < 3 || trimmedBusinessName.length > 100) {
+    const result = vendorOnboardingStep1Schema.safeParse({
+      businessName: formData.businessName,
+      category: formData.category,
+      cityId: formData.cityId,
+    });
+    if (!result.success) {
       toast({
         title: "Validation error",
-        description: "Business name must be between 3-100 characters",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (!formData.category || !formData.cityId) {
-      toast({
-        title: "Validation error",
-        description: "Category and city are required",
+        description: result.error.errors[0]?.message || "Invalid input",
         variant: "destructive",
       });
       return false;
@@ -165,11 +161,13 @@ export default function VendorOnboarding() {
   };
 
   const validateStep2 = () => {
-    const trimmedDescription = formData.description.trim();
-    if (!trimmedDescription || trimmedDescription.length < 20 || trimmedDescription.length > 500) {
+    const result = vendorOnboardingStep2Schema.safeParse({
+      description: formData.description,
+    });
+    if (!result.success) {
       toast({
         title: "Validation error",
-        description: "Description must be between 20-500 characters",
+        description: result.error.errors[0]?.message || "Invalid input",
         variant: "destructive",
       });
       return false;
