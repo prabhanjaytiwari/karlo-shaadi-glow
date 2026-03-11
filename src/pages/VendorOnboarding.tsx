@@ -11,6 +11,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, Upload, Loader2, Globe, Map, IndianRupee, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { sanitizeInput } from "@/lib/validation";
+import { z } from "zod";
+
+const vendorOnboardingStep1Schema = z.object({
+  businessName: z.string().trim().min(3, "Business name must be at least 3 characters").max(100, "Business name must be less than 100 characters"),
+  category: z.string().min(1, "Category is required"),
+  cityId: z.string().min(1, "City is required"),
+});
+
+const vendorOnboardingStep2Schema = z.object({
+  description: z.string().trim().min(20, "Description must be at least 20 characters").max(500, "Description must be less than 500 characters"),
+});
 import { Progress } from "@/components/ui/progress";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -133,19 +144,15 @@ export default function VendorOnboarding() {
   };
 
   const validateStep1 = () => {
-    const trimmedBusinessName = formData.businessName.trim();
-    if (!trimmedBusinessName || trimmedBusinessName.length < 3 || trimmedBusinessName.length > 100) {
+    const result = vendorOnboardingStep1Schema.safeParse({
+      businessName: formData.businessName,
+      category: formData.category,
+      cityId: formData.cityId,
+    });
+    if (!result.success) {
       toast({
         title: "Validation error",
-        description: "Business name must be between 3-100 characters",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (!formData.category || !formData.cityId) {
-      toast({
-        title: "Validation error",
-        description: "Category and city are required",
+        description: result.error.errors[0]?.message || "Invalid input",
         variant: "destructive",
       });
       return false;
@@ -154,11 +161,13 @@ export default function VendorOnboarding() {
   };
 
   const validateStep2 = () => {
-    const trimmedDescription = formData.description.trim();
-    if (!trimmedDescription || trimmedDescription.length < 20 || trimmedDescription.length > 500) {
+    const result = vendorOnboardingStep2Schema.safeParse({
+      description: formData.description,
+    });
+    if (!result.success) {
       toast({
         title: "Validation error",
-        description: "Description must be between 20-500 characters",
+        description: result.error.errors[0]?.message || "Invalid input",
         variant: "destructive",
       });
       return false;

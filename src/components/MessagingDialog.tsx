@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Send, Loader2, WifiOff } from "lucide-react";
-import { sanitizeInput } from "@/lib/validation";
+import { messageFormSchema, sanitizeInput } from "@/lib/validation";
 
 interface MessagingDialogProps {
   vendorId: string;
@@ -74,20 +74,11 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
 
     const trimmedMessage = message.trim();
     
-    // Validation
-    if (trimmedMessage.length < 1) {
+    const parseResult = messageFormSchema.safeParse({ message: trimmedMessage });
+    if (!parseResult.success) {
       toast({
         title: "Validation error",
-        description: "Message cannot be empty",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (trimmedMessage.length > 2000) {
-      toast({
-        title: "Validation error",
-        description: "Message must be less than 2000 characters",
+        description: parseResult.error.errors[0]?.message || "Invalid message",
         variant: "destructive",
       });
       return;

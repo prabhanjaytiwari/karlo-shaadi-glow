@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Save, Download, User } from "lucide-react";
 import { SEO } from "@/components/SEO";
-import { sanitizeInput } from "@/lib/validation";
+import { profileUpdateSchema, sanitizeInput } from "@/lib/validation";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -75,20 +75,17 @@ const Profile = () => {
       const trimmedPhone = profile.phone?.trim() || "";
       const trimmedCity = profile.city?.trim() || "";
 
-      if (!trimmedName || trimmedName.length < 2 || trimmedName.length > 100) {
-        toast({ title: "Validation error", description: "Name must be between 2-100 characters", variant: "destructive" });
-        setSaving(false); return;
-      }
-      if (trimmedPhone && !/^[6-9]\d{9}$/.test(trimmedPhone)) {
-        toast({ title: "Validation error", description: "Please enter a valid Indian phone number", variant: "destructive" });
-        setSaving(false); return;
-      }
-      if (trimmedCity && trimmedCity.length > 100) {
-        toast({ title: "Validation error", description: "City name must be less than 100 characters", variant: "destructive" });
-        setSaving(false); return;
-      }
-      if (profile.guest_count && (profile.guest_count < 1 || profile.guest_count > 10000)) {
-        toast({ title: "Validation error", description: "Guest count must be between 1-10,000", variant: "destructive" });
+      const parseResult = profileUpdateSchema.safeParse({
+        fullName: trimmedName,
+        phone: trimmedPhone || undefined,
+        city: trimmedCity || undefined,
+        weddingDate: profile.wedding_date ? new Date(profile.wedding_date) : undefined,
+        budgetRange: profile.budget_range || undefined,
+        guestCount: profile.guest_count || undefined,
+      });
+
+      if (!parseResult.success) {
+        toast({ title: "Validation error", description: parseResult.error.errors[0]?.message || "Invalid input", variant: "destructive" });
         setSaving(false); return;
       }
 
