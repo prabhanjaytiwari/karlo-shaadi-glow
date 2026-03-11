@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Send, Loader2, WifiOff } from "lucide-react";
-import { sanitizeInput } from "@/lib/validation";
+import { messageFormSchema, sanitizeInput } from "@/lib/validation";
 
 interface MessagingDialogProps {
   vendorId: string;
