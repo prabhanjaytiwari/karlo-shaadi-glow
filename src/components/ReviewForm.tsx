@@ -73,20 +73,16 @@ export function ReviewForm({ bookingId, vendorId, onSuccess }: ReviewFormProps) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (rating === 0 || rating < 1 || rating > 5) {
-      toast({
-        title: "Rating required",
-        description: "Please select a rating between 1-5 stars",
-        variant: "destructive",
-      });
-      return;
-    }
-
     const trimmedComment = comment.trim();
-    if (trimmedComment && (trimmedComment.length < 20 || trimmedComment.length > 1000)) {
+    const parseResult = reviewFormSchema.safeParse({
+      rating,
+      comment: trimmedComment || undefined,
+    });
+
+    if (!parseResult.success) {
       toast({
         title: "Validation error",
-        description: "Review must be between 20-1000 characters if provided",
+        description: parseResult.error.errors[0]?.message || "Invalid input",
         variant: "destructive",
       });
       return;

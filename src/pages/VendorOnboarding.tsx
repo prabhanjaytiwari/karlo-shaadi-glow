@@ -11,6 +11,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, Upload, Loader2, Globe, Map, IndianRupee, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { sanitizeInput } from "@/lib/validation";
+import { z } from "zod";
+
+const vendorOnboardingStep1Schema = z.object({
+  businessName: z.string().trim().min(3, "Business name must be at least 3 characters").max(100, "Business name must be less than 100 characters"),
+  category: z.string().min(1, "Category is required"),
+  cityId: z.string().min(1, "City is required"),
+});
+
+const vendorOnboardingStep2Schema = z.object({
+  description: z.string().trim().min(20, "Description must be at least 20 characters").max(500, "Description must be less than 500 characters"),
+});
 import { Progress } from "@/components/ui/progress";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";

@@ -154,30 +154,25 @@ export function BookingDialog({ vendorId, serviceId, initialDate, children }: Bo
       return;
     }
 
-    // Validation
-    if (!weddingDate) {
-      toast({
-        title: "Validation error",
-        description: "Wedding date is required",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const selectedDate = new Date(weddingDate);
-    
-    if (selectedDate < today) {
-      toast({
-        title: "Validation error",
-        description: "Wedding date must be in the future",
-        variant: "destructive",
-      });
-      return;
-    }
-
+    // Zod validation
     const amountNum = parseFloat(amount);
+    const trimmedRequirements = requirements.trim();
+
+    const parseResult = bookingFormSchema.safeParse({
+      weddingDate: weddingDate ? new Date(weddingDate) : undefined,
+      guestCount: undefined,
+      specialRequirements: trimmedRequirements || undefined,
+    });
+
+    if (!parseResult.success) {
+      toast({
+        title: "Validation error",
+        description: parseResult.error.errors[0]?.message || "Invalid input",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!amount || isNaN(amountNum) || amountNum <= 0) {
       toast({
         title: "Validation error",
@@ -191,16 +186,6 @@ export function BookingDialog({ vendorId, serviceId, initialDate, children }: Bo
       toast({
         title: "Validation error",
         description: "Budget amount seems too high",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const trimmedRequirements = requirements.trim();
-    if (trimmedRequirements && trimmedRequirements.length > 500) {
-      toast({
-        title: "Validation error",
-        description: "Special requirements must be less than 500 characters",
         variant: "destructive",
       });
       return;
