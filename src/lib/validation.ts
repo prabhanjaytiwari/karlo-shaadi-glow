@@ -56,6 +56,8 @@ export const reviewFormSchema = z.object({
     .trim()
     .min(20, { message: "Review must be at least 20 characters" })
     .max(1000, { message: "Review must be less than 1000 characters" })
+    .optional()
+    .or(z.literal(""))
 });
 
 // Message Form Validation
