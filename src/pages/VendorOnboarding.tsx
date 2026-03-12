@@ -296,7 +296,7 @@ export default function VendorOnboarding() {
   // ── Success Screen ──
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-secondary via-background to-accent/10 flex items-center justify-center p-6">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
