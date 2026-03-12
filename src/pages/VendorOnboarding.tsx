@@ -343,7 +343,7 @@ export default function VendorOnboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+    <div className="min-h-screen bg-gradient-to-br from-secondary via-background to-accent/10">
       <MobilePageHeader title="Become a Vendor" />
       <div className={isMobile ? "px-4 pt-4 pb-36" : "py-10 px-4"}>
         <div className="max-w-2xl mx-auto">
