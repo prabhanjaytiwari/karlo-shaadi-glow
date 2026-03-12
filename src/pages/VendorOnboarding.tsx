@@ -318,9 +318,9 @@ export default function VendorOnboarding() {
             Your vendor profile has been created successfully. Our team will verify your profile within <strong>24–48 hours</strong>.
           </motion.p>
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }} className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1"><Shield className="w-4 h-4 text-emerald-500" /> Free forever</span>
-            <span className="flex items-center gap-1"><Zap className="w-4 h-4 text-amber-500" /> Zero commission</span>
-            <span className="flex items-center gap-1"><Star className="w-4 h-4 text-blue-500" /> Priority leads</span>
+            <span className="flex items-center gap-1"><Shield className="w-4 h-4 text-primary" /> Free forever</span>
+            <span className="flex items-center gap-1"><Zap className="w-4 h-4 text-accent" /> Zero commission</span>
+            <span className="flex items-center gap-1"><Star className="w-4 h-4 text-primary" /> Priority leads</span>
           </motion.div>
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
             <Button onClick={() => navigate("/vendor/dashboard")} className="mt-8" size="lg">
