@@ -309,7 +309,7 @@ export default function VendorOnboarding() {
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-6"
           >
-            <PartyPopper className="w-12 h-12 text-white" />
+            <PartyPopper className="w-12 h-12 text-primary-foreground" />
           </motion.div>
           <motion.h1 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="text-3xl font-bold text-foreground mb-3">
             Welcome Aboard! 🎉
