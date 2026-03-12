@@ -692,10 +692,10 @@ export default function VendorOnboarding() {
                     </div>
 
                     {/* Trust Signals */}
-                    <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 flex flex-wrap gap-4 text-xs">
-                      <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-emerald-600" /> <strong>100% Free</strong> — No charges ever</span>
-                      <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-amber-500" /> <strong>Zero Commission</strong> — Keep all earnings</span>
-                      <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-blue-500" /> <strong>Verified in 24–48 hrs</strong></span>
+                    <div className="bg-accent/5 border border-accent/20 rounded-xl p-4 flex flex-wrap gap-4 text-xs">
+                      <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-primary" /> <strong>100% Free</strong> — No charges ever</span>
+                      <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> <strong>Zero Commission</strong> — Keep all earnings</span>
+                      <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-primary" /> <strong>Verified in 24–48 hrs</strong></span>
                     </div>
                   </div>
                 )}
