@@ -6,6 +6,10 @@ import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel"
 import { LiveActivityFeed } from "@/components/LiveActivityFeed";
 import { HeroSearchWidget } from "@/components/HeroSearchWidget";
 import { TrustStatsBanner } from "@/components/TrustStatsBanner";
+import { CategoryStrip } from "@/components/CategoryStrip";
+import { PopularCities } from "@/components/PopularCities";
+import { RealWeddingsMosaic } from "@/components/RealWeddingsMosaic";
+import { SectionDivider } from "@/components/SectionDivider";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CinematicImage } from "@/components/CinematicImage";
