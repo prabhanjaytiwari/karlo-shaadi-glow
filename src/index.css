@@ -692,13 +692,29 @@
       font-size: 16px; /* Prevents iOS zoom on focus */
     }
     
-    /* Active press states for mobile cards */
-    .active-press {
-      transition: transform 0.1s var(--ease-smooth);
+    /* iOS 26 Haptic press feedback — all cards and buttons */
+    .active-press,
+    .glass-ios,
+    .glass-ios-thick,
+    .glass-ios-thin {
+      transition: transform 0.15s var(--ease-spring);
     }
     
-    .active-press:active {
-      transform: scale(0.97);
+    .active-press:active,
+    .glass-ios:active,
+    .glass-ios-thick:active,
+    .glass-ios-thin:active {
+      transform: scale(0.96);
+    }
+    
+    /* Glass-backed scroll containers */
+    .scroll-glass {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .scroll-glass > * {
+      scroll-snap-align: start;
     }
   }
   
