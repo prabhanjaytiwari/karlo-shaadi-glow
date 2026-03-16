@@ -425,8 +425,18 @@ const Index = () => {
       {/* BentoGrid */}
       <BentoGrid />
 
+      <SectionDivider variant="dots" />
+
+      {/* Popular Cities */}
+      <PopularCities />
+
       {/* Reviews Section */}
       <ReviewsSection />
+
+      <SectionDivider variant="mandala" />
+
+      {/* Real Weddings Mosaic — replaces old text-heavy success stories */}
+      <RealWeddingsMosaic />
 
       {/* Section 4: Success Stories */}
       <section ref={section3.ref} className="py-16 md:py-24 relative" style={{
