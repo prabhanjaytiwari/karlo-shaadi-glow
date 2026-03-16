@@ -1,82 +1,179 @@
 
 
-# iOS 26 Glassmorphic Transformation — Immersive Mobile Experience
+# Complete Platform UI/UX Transformation
 
-## Vision
-Transform the entire mobile experience into an iOS 26-inspired liquid glass aesthetic: translucent layered surfaces, deep blur depths, soft luminous borders, fluid animations, and storytelling-driven navigation. Every surface should feel like frosted glass floating over a warm, living background.
+## Scope
 
-## Key Design Changes
+The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
 
-### 1. Global Glass Design System (`src/index.css`)
-- New CSS variables for glass: `--glass-bg`, `--glass-border`, `--glass-shadow`, `--glass-blur`
-- **Liquid Glass Cards**: `background: rgba(255,255,255,0.45)`, `backdrop-filter: blur(40px) saturate(1.8)`, soft inner glow borders using `box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.7)`
-- **Living background**: Subtle animated gradient mesh background on `body` for mobile (soft pink/gold/lavender shifting orbs behind all content)
-- **Glass tiers**: `.glass-ios` (standard 40px blur), `.glass-ios-thick` (60px blur, more opaque), `.glass-ios-thin` (20px blur, more transparent)
-- New animation: `@keyframes meshShift` for background orbs that slowly drift
-- Haptic-style press feedback: `active:scale-[0.96]` with spring-like `cubic-bezier(0.34, 1.56, 0.64, 1)` bounce-back
+This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
 
-### 2. Bottom Navigation (`src/components/mobile/BottomNavigation.tsx`)
-- Frosted glass bar: `bg-white/40 backdrop-blur-[40px] saturate-[1.8]` with top luminous border
-- Active tab gets a soft glass pill background with primary tint
-- Remove the solid top border, replace with `border-t border-white/30`
-- Active indicator: glowing dot under icon instead of top bar
-- Smooth icon transitions with slight vertical bounce on tap
+---
 
-### 3. Mobile Page Header (`src/components/mobile/MobilePageHeader.tsx`)
-- Glass header: `bg-white/50 backdrop-blur-[40px]` with bottom luminous edge
-- Large title style (iOS-inspired): title starts large and shrinks on scroll (CSS only via sticky positioning)
-- Back button gets a glass circle background
+## Design Language to Replicate
 
-### 4. Mobile Home Screen (`src/components/mobile/MobileHomeScreen.tsx`) — Full Rewrite
-Transform into an immersive storytelling experience:
+From `MobileHomeScreen.tsx`, the established patterns are:
+- Near full-bleed hero banners with gradient overlays on real images
+- Compact trust stat grids
+- Horizontal scroll cards with generated images
+- Gold accent ring borders on icons
+- `space-y-5` tight section spacing
+- Gradient-background interactive cards
+- Sheet-based slide-out menus
+- Mobile-first compact typography (H1: text-2xl, body: text-sm)
 
-**Header**: Glass sticky bar with translucent logo, glass search pill, glass notification dot
+---
 
-**Hero**: Full-bleed parallax-style image with glass overlay card floating at bottom containing the tagline and CTA. CTA button gets a glass-pill style with shimmer.
+## Phase 1: Core User Journey Pages (Priority)
 
-**Category Strip**: Glass-backed circular thumbnails with soft shadow. Horizontal scroll with momentum snap.
+### 1. Auth Page (`src/pages/Auth.tsx`)
+- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
+- Split layout on desktop: image left, form right
+- Mobile: image banner on top (h-40), form below
+- Gold accent divider and brand tagline above form
+- Rounded-2xl card with subtle ring-1 ring-accent/20
 
-**"Your Wedding Story" Section** (NEW): Storytelling section with 3 vertical cards showing the wedding journey — "Dream → Plan → Celebrate" — each card is a glass panel over a wedding image with a one-line story caption. Tapping navigates to relevant tool.
+### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
+- Replace flat gradient bg with clean white background
+- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
+- Wedding countdown: immersive banner card with generated celebration image
+- Tighter spacing throughout (space-y-4 on mobile)
+- Profile completion: compact progress bar instead of badge list
 
-**Vendor Cards**: Glass cards with rounded-2xl, image at top, glass-backed info overlay at bottom. Rating badge floats as a glass pill.
+### 3. Search Page (`src/pages/Search.tsx`)
+- Mobile: sticky search bar with category chips as horizontal scroll
+- Generated category header images when a category is selected
+- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
+- Compact card layout with image left, info right on mobile
 
-**Planning Tools**: 2x2 grid of glass cards with icon + title. Soft inner glow on active/tap.
+### 4. Categories Page (`src/pages/Categories.tsx`)
+- Generate a hero banner image (wedding collage mosaic)
+- Category grid: use existing category images with overlay text
+- Mobile: 2-column grid with tighter gap-3
+- Add MobilePageHeader for mobile consistency
 
-**Trust Stats**: Glass pill row instead of bordered grid cards. Each stat is a glass capsule.
+### 5. Bookings Page (`src/pages/Bookings.tsx`)  
+- Already mobile-optimized but needs visual polish
+- Add subtle card backgrounds with vendor category-colored left borders
+- Empty state: generate a "no bookings" illustration
 
-**Deals Section**: Glass gradient cards with translucent colored overlays instead of solid gradients.
+### 6. Favorites Page (`src/pages/Favorites.tsx`)
+- Add MobilePageHeader
+- Mobile: single column cards with vendor image thumbnails
+- Generate an empty state illustration (couple browsing vendors)
 
-**How It Works**: Horizontal glass timeline with connecting line and numbered glass circles.
+---
 
-**Reviews**: Glass quote cards with subtle frosted background. Quote mark decorative element.
+## Phase 2: Marketing & Conversion Pages
 
-**Final CTA**: Full-width glass panel with mesh gradient background, floating over the living bg.
+### 7. Pricing Page (`src/pages/Pricing.tsx`)
+- Generate a premium hero image (couple enjoying wedding stress-free)
+- Cards: glassmorphism effect with gold border for premium plan
+- Mobile: stack cards vertically, add "Most Popular" ribbon
+- FAQ: use Accordion component for collapsibility
 
-### 5. Slide-out Menu (inside MobileHomeScreen)
-- Glass panel: `bg-white/60 backdrop-blur-[60px]`
-- Menu items become glass list rows with hover/active glass highlight
-- Feature cards get glass overlay treatment
-- Smooth spring animation on open/close
+### 8. Deals Page (`src/pages/Deals.tsx`)
+- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
+- Hero section: immersive banner with deals tagline
+- Deal cards: image thumbnails with price strike-through styling
+- Mobile: horizontal scroll for seasonal offers
 
-### 6. Global Touch & Feel Improvements (`src/index.css`)
-- All mobile buttons: `active:scale-[0.96]` with spring easing
-- All cards: subtle `hover:shadow-lg` replaced with glass glow effect
-- Inputs: glass-backed with `bg-white/50 backdrop-blur-xl` on focus
-- Page transitions: fade + slight slide-up (200ms)
-- Scroll snap on horizontal carousels for momentum feel
+### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
+- Generate a vendor success hero image (vendor team celebrating)
+- Stats section: animated counters with gold icon backgrounds
+- Mobile: compact single-column layout
+- Add MobilePageHeader
 
-## Files to Edit
-1. `src/index.css` — Add glass design system, mesh background, animations
-2. `src/components/mobile/BottomNavigation.tsx` — Glass tab bar
-3. `src/components/mobile/MobilePageHeader.tsx` — Glass header with large title
-4. `src/components/mobile/MobileHomeScreen.tsx` — Full glassmorphic storytelling rewrite
-5. `src/components/ui/sheet.tsx` — Glass slide-out panel
-6. `src/components/GlassCard.tsx` — Updated with iOS glass tiers
+### 10. About Page (`src/pages/About.tsx`)
+- Generate founder/team section image
+- Values grid: use generated symbolic images (heart for love, shield for trust)
+- Stats section: gradient background with larger typography
+- Mobile: single column with tight spacing
 
-## Technical Notes
-- No new dependencies needed
-- All glass effects use CSS `backdrop-filter` (supported on all modern mobile browsers)
-- Performance: `will-change: transform` on animated elements, `contain: layout` on glass surfaces
-- Background mesh uses CSS gradients only (no canvas/JS)
-- Reduced motion: all animations respect `prefers-reduced-motion`
+---
+
+## Phase 3: Tool & Utility Pages
+
+### 11. Profile Page (`src/pages/Profile.tsx`)
+- Cleaner form layout with section dividers
+- Add avatar placeholder with initials
+- Mobile: full-width inputs with consistent padding
+
+### 12. FAQ Page (`src/pages/FAQ.tsx`)
+- Generate a support-themed hero image
+- Category icons with colored backgrounds
+- Collapsible accordion with smooth animations
+
+### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
+- Generate an emotional hero image (community wedding celebration)
+- Impact counter with animated numbers
+- Application form with clean card layout
+
+### 14. Checklist Page (`src/pages/Checklist.tsx`)
+- Add progress visualization
+- Category-grouped tasks with icons
+
+### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
+- Gallery section polish
+- Contact card with generated map placeholder
+
+---
+
+## Image Generation Plan
+
+Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
+
+| # | Image | Usage |
+|---|-------|-------|
+| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
+| 2 | Wedding celebration collage/mosaic | Categories page hero |
+| 3 | Couple enjoying wedding carefree | Pricing page hero |
+| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
+| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
+| 6 | Early morning wedding ceremony | Deals - seasonal banner |
+| 7 | Vendor team group celebration | ForVendors hero |
+| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
+| 9 | Couple browsing on phone | Favorites empty state |
+| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
+| 11 | Support/help desk friendly | FAQ hero |
+| 12 | Founder portrait style (professional) | About page |
+
+---
+
+## Technical Approach
+
+### Consistent Patterns
+- All pages get `MobilePageHeader` on mobile
+- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
+- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
+- Cards: `rounded-2xl border border-border/50` with hover states
+- Generated images stored in `src/assets/` as JPGs
+- Hero sections: image with gradient overlay, not plain gradient backgrounds
+
+### Wiring Check
+- All navigation links verified between pages
+- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
+- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
+- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
+
+### Mobile-First
+- Every page uses `useIsMobile()` for responsive branching
+- Touch targets minimum 44px
+- Horizontal scrolls for lists that overflow on mobile
+- No desktop-only sections hidden on mobile (content parity)
+
+---
+
+## Implementation Order
+
+1. Generate all 12 images first (batch edge function calls)
+2. Auth page transformation (highest conversion impact)
+3. Dashboard page polish
+4. Search + Categories pages
+5. Deals + Pricing pages
+6. ForVendors + About pages
+7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
+8. Final wiring and navigation audit
+
+This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
 
