@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Eye, EyeOff, Building2, TrendingUp, Users, Award, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Building2, TrendingUp, Users, Award, Loader2, ArrowRight } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 
 const VendorAuth = () => {
@@ -24,13 +23,6 @@ const VendorAuth = () => {
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
-  // Signup state
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [businessName, setBusinessName] = useState("");
-  const [ownerName, setOwnerName] = useState("");
-  const [phone, setPhone] = useState("");
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -145,7 +137,7 @@ const VendorAuth = () => {
         if (vendorProfile) {
           navigate("/vendor/dashboard");
         } else {
-          // New vendor - redirect to onboarding
+          // New vendor - redirect to onboarding (will skip Step 0 since authenticated)
           navigate("/vendor/onboarding");
         }
       }
@@ -160,117 +152,6 @@ const VendorAuth = () => {
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    const trimmedOwnerName = ownerName.trim();
-    const trimmedBusinessName = businessName.trim();
-    const trimmedEmail = signupEmail.trim();
-
-    if (!trimmedOwnerName || trimmedOwnerName.length < 2 || trimmedOwnerName.length > 100) {
-      toast({
-        title: "Validation error",
-        description: "Owner name must be between 2-100 characters",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (!trimmedBusinessName || trimmedBusinessName.length < 3 || trimmedBusinessName.length > 100) {
-      toast({
-        title: "Validation error",
-        description: "Business name must be between 3-100 characters",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (!trimmedEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      toast({
-        title: "Validation error",
-        description: "Please enter a valid email address",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    if (signupPassword.length < 6) {
-      toast({
-        title: "Validation error",
-        description: "Password must be at least 6 characters",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const redirectUrl = `${window.location.origin}/vendor/onboarding`;
-
-      const { data, error } = await supabase.auth.signUp({
-        email: sanitizeInput(trimmedEmail),
-        password: signupPassword,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: sanitizeInput(trimmedOwnerName),
-            business_name: sanitizeInput(trimmedBusinessName),
-            phone: phone ? sanitizeInput(phone.trim()) : null,
-          },
-        },
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        // Check if email confirmation is needed
-        const needsEmailConfirmation = data.user.identities?.length === 0 || 
-          (!data.session && data.user.email_confirmed_at === null);
-
-        // Fire and forget - don't block signup
-        trackEvent({
-          event_type: "vendor_signup",
-          metadata: { method: "password" },
-        }).catch(() => {});
-
-        supabase.functions.invoke('onboarding-email', {
-          body: {
-            user_id: data.user.id,
-            email: trimmedEmail,
-            name: trimmedOwnerName,
-            user_type: 'vendor'
-          }
-        }).catch(err => console.error('Welcome email failed:', err));
-
-        if (needsEmailConfirmation || !data.session) {
-          toast({
-            title: "Account created! ✉️",
-            description: "Please check your email to verify your account before logging in.",
-          });
-          // Don't navigate - user needs to confirm email first
-        } else {
-          toast({
-            title: "Account created!",
-            description: "Redirecting to vendor onboarding...",
-          });
-          navigate("/vendor/onboarding");
-        }
-      }
-    } catch (error: any) {
-      toast({
-        title: "Signup failed",
-        description: error.message || "Unable to create account. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-5xl">
@@ -278,8 +159,8 @@ const VendorAuth = () => {
           {/* Left Side - Benefits */}
           <div className="hidden md:block space-y-6 animate-fade-up">
             <div className="space-y-2">
-              <h1 className="font-display font-bold text-4xl">Grow Your Wedding Business</h1>
-              <p className="text-xl text-muted-foreground">Join 10,000+ vendors earning ₹5-20 lakhs annually</p>
+              <h1 className="font-display font-bold text-4xl">Welcome Back, Vendor!</h1>
+              <p className="text-xl text-muted-foreground">Login to manage your wedding business</p>
             </div>
 
             <div className="space-y-4">
@@ -331,32 +212,31 @@ const VendorAuth = () => {
             </div>
           </div>
 
-          {/* Right Side - Auth Form */}
+          {/* Right Side - Login Form */}
           <Card className="animate-fade-up">
             <CardHeader>
-              <CardTitle>Vendor Registration</CardTitle>
-              <CardDescription>Start growing your wedding business today</CardDescription>
+              <CardTitle>Vendor Login</CardTitle>
+              <CardDescription>Access your vendor dashboard</CardDescription>
             </CardHeader>
             <CardContent>
+              {/* New vendor CTA */}
+              <div className="mb-5 p-4 rounded-xl bg-accent/5 border border-accent/20">
+                <p className="text-sm font-semibold text-foreground mb-1">New to Karlo Shaadi?</p>
+                <p className="text-xs text-muted-foreground mb-3">Create your vendor profile in minutes and start getting bookings.</p>
+                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90" size="sm">
+                  <Link to="/vendor/onboarding">
+                    Start Your Journey <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+
               {/* Google Sign In Button */}
               <Button variant="outline" className="w-full mb-4 gap-2" onClick={handleGoogleSignIn} disabled={isLoading}>
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
+                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                  <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                 </svg>
                 Continue with Google
               </Button>
@@ -366,7 +246,7 @@ const VendorAuth = () => {
                   <span className="w-full border-t border-accent/20" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">or continue with email</span>
+                  <span className="bg-card px-2 text-muted-foreground">or login with email</span>
                 </div>
               </div>
 
@@ -438,169 +318,62 @@ const VendorAuth = () => {
                   )}
                 </div>
               ) : (
-              <Tabs defaultValue="signup" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
-                  <TabsTrigger value="login">Login</TabsTrigger>
-                </TabsList>
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="login-email">Email</Label>
+                    <Input
+                      id="login-email"
+                      type="email"
+                      placeholder="business@example.com"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      required
+                      disabled={isLoading}
+                    />
+                  </div>
 
-                {/* Signup Tab */}
-                <TabsContent value="signup">
-                  <form onSubmit={handleSignup} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="owner-name">Your Name</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="login-password">Password</Label>
+                    <div className="relative">
                       <Input
-                        id="owner-name"
-                        type="text"
-                        placeholder="Owner/Manager name"
-                        value={ownerName}
-                        onChange={(e) => setOwnerName(e.target.value)}
+                        id="login-password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
                         required
                         disabled={isLoading}
                       />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
                     </div>
+                  </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="business-name">Business Name</Label>
-                      <Input
-                        id="business-name"
-                        type="text"
-                        placeholder="Your business name"
-                        value={businessName}
-                        onChange={(e) => setBusinessName(e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                    </div>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-accent hover:underline block"
+                  >
+                    Forgot password?
+                  </Link>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-phone">Phone Number</Label>
-                      <Input
-                        id="signup-phone"
-                        type="tel"
-                        placeholder="+91 98765 43210"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        disabled={isLoading}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-email">Business Email</Label>
-                      <Input
-                        id="signup-email"
-                        type="email"
-                        placeholder="business@example.com"
-                        value={signupEmail}
-                        onChange={(e) => setSignupEmail(e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-password">Password</Label>
-                      <div className="relative">
-                        <Input
-                          id="signup-password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          value={signupPassword}
-                          onChange={(e) => setSignupPassword(e.target.value)}
-                          required
-                          minLength={6}
-                          disabled={isLoading}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                      </div>
-                      <p className="text-xs text-muted-foreground">Minimum 6 characters</p>
-                    </div>
-
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Creating account...
-                        </>
-                      ) : (
-                        "Create Vendor Account"
-                      )}
-                    </Button>
-
-                    <p className="text-xs text-center text-muted-foreground">
-                      By signing up, you agree to our Terms and Privacy Policy
-                    </p>
-                  </form>
-                </TabsContent>
-
-                {/* Login Tab */}
-                <TabsContent value="login">
-                  <form onSubmit={handleLogin} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="login-email">Email</Label>
-                      <Input
-                        id="login-email"
-                        type="email"
-                        placeholder="business@example.com"
-                        value={loginEmail}
-                        onChange={(e) => setLoginEmail(e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="login-password">Password</Label>
-                      <div className="relative">
-                        <Input
-                          id="login-password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          value={loginPassword}
-                          onChange={(e) => setLoginPassword(e.target.value)}
-                          required
-                          disabled={isLoading}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                      </div>
-                    </div>
-
-                    <Link
-                      to="/forgot-password"
-                      className="text-sm text-accent hover:underline block"
-                    >
-                      Forgot password?
-                    </Link>
-
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Logging in...
-                        </>
-                      ) : (
-                        "Login to Dashboard"
-                      )}
-                    </Button>
-                  </form>
-                </TabsContent>
-              </Tabs>
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Logging in...
+                      </>
+                    ) : (
+                      "Login to Dashboard"
+                    )}
+                  </Button>
+                </form>
               )}
 
               {/* Couple Link */}

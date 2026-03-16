@@ -167,8 +167,8 @@ const AnimatedRoutes = () => {
           <Route path="/vendors/:id" element={<VendorProfile />} />
           <Route path="/vendors/:city/:category" element={<CityVendors />} />
           <Route path="/vendors-in/:city" element={<CityVendors />} />
-          <Route path="/vendor/onboarding" element={<ProtectedRoute redirectTo="/vendor-auth"><VendorOnboarding /></ProtectedRoute>} />
-          <Route path="/vendor-onboarding" element={<ProtectedRoute redirectTo="/vendor-auth"><VendorOnboarding /></ProtectedRoute>} />
+          <Route path="/vendor/onboarding" element={<VendorOnboarding />} />
+          <Route path="/vendor-onboarding" element={<VendorOnboarding />} />
           <Route path="/vendor/dashboard" element={<ProtectedRoute requireRole="vendor"><VendorDashboard /></ProtectedRoute>} />
           <Route path="/vendor-pricing" element={<VendorPricing />} />
           <Route path="/vendor/verification" element={<ProtectedRoute requireRole="vendor"><VendorVerificationStatus /></ProtectedRoute>} />
