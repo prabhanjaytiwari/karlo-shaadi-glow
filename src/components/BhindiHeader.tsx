@@ -42,6 +42,14 @@ import {
   Calculator,
   Image
 } from "lucide-react";
+import categoryPhotography from "@/assets/category-photography.jpg";
+import categoryCatering from "@/assets/category-catering.jpg";
+import categoryMusic from "@/assets/category-music.jpg";
+import categoryDecoration from "@/assets/category-decoration.jpg";
+import categoryVenue from "@/assets/category-venue.jpg";
+import categoryCake from "@/assets/category-cake.jpg";
+import categoryMehendi from "@/assets/category-mehendi.jpg";
+import categoryChoreography from "@/assets/category-choreography.jpg";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import { useCapacitor } from "@/hooks/useCapacitor";
