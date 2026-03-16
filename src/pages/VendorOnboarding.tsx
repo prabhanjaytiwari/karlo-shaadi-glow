@@ -8,19 +8,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook, 
-  Upload, Loader2, Globe, Map, IndianRupee, MessageCircle, 
-  Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2, 
-  Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft, 
-  Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight
+import {
+  Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook,
+  Upload, Loader2, Globe, Map, IndianRupee, MessageCircle,
+  Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
+  Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft,
+  Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight,
+  CheckCircle, X
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
+import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
+import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+
+// Hero images
+import heroStep1 from "@/assets/onboarding-step-1.jpg";
+import heroStep2 from "@/assets/onboarding-step-2.jpg";
+import heroStep3 from "@/assets/onboarding-step-3.jpg";
+import heroStep4 from "@/assets/onboarding-step-4.jpg";
+import heroStep5 from "@/assets/onboarding-step-5.jpg";
+import heroStep6 from "@/assets/onboarding-step-6.jpg";
 
 // ── Validation Schemas ──
 const step2Schema = z.object({
@@ -40,65 +50,125 @@ interface CategoryCard {
   label: string;
   tagline: string;
   icon: React.ReactNode;
-  color: string;
 }
 
 const CATEGORIES: CategoryCard[] = [
-  { value: "photography", label: "Photography", tagline: "Capture the magic forever", icon: <Camera className="w-6 h-6" />, color: "from-rose-500/20 to-pink-500/20" },
-  { value: "venues", label: "Venues", tagline: "The perfect backdrop", icon: <Building2 className="w-6 h-6" />, color: "from-amber-500/20 to-orange-500/20" },
-  { value: "catering", label: "Catering", tagline: "Flavours they'll remember", icon: <Utensils className="w-6 h-6" />, color: "from-emerald-500/20 to-green-500/20" },
-  { value: "decoration", label: "Decoration", tagline: "Transform any space", icon: <Flower2 className="w-6 h-6" />, color: "from-violet-500/20 to-purple-500/20" },
-  { value: "makeup", label: "Makeup", tagline: "Bridal beauty experts", icon: <Sparkles className="w-6 h-6" />, color: "from-pink-500/20 to-rose-500/20" },
-  { value: "mehendi", label: "Mehendi", tagline: "Intricate artistry", icon: <Palette className="w-6 h-6" />, color: "from-orange-500/20 to-amber-500/20" },
-  { value: "music", label: "Music & DJ", tagline: "Set the vibe right", icon: <Music className="w-6 h-6" />, color: "from-blue-500/20 to-indigo-500/20" },
-  { value: "cakes", label: "Cakes & Desserts", tagline: "Sweet celebrations", icon: <Heart className="w-6 h-6" />, color: "from-red-500/20 to-rose-500/20" },
-  { value: "planning", label: "Wedding Planning", tagline: "Stress-free weddings", icon: <BookOpen className="w-6 h-6" />, color: "from-teal-500/20 to-cyan-500/20" },
-  { value: "invitations", label: "Invitations", tagline: "First impressions count", icon: <Pen className="w-6 h-6" />, color: "from-fuchsia-500/20 to-pink-500/20" },
-  { value: "choreography", label: "Choreography", tagline: "Dance to remember", icon: <Zap className="w-6 h-6" />, color: "from-yellow-500/20 to-amber-500/20" },
-  { value: "transport", label: "Transport", tagline: "Arrive in style", icon: <Car className="w-6 h-6" />, color: "from-slate-500/20 to-gray-500/20" },
-  { value: "jewelry", label: "Jewelry", tagline: "Adorn the occasion", icon: <Gem className="w-6 h-6" />, color: "from-yellow-500/20 to-orange-500/20" },
-  { value: "pandit", label: "Pandit", tagline: "Sacred ceremonies", icon: <Crown className="w-6 h-6" />, color: "from-orange-500/20 to-red-500/20" },
-  { value: "entertainment", label: "Entertainment", tagline: "Unforgettable moments", icon: <Star className="w-6 h-6" />, color: "from-indigo-500/20 to-blue-500/20" },
-  { value: "anchor", label: "Anchor / Emcee", tagline: "Host the celebration", icon: <Mic2 className="w-6 h-6" />, color: "from-cyan-500/20 to-teal-500/20" },
-  { value: "content-creator", label: "Content Creator", tagline: "Stories that trend", icon: <Video className="w-6 h-6" />, color: "from-pink-500/20 to-purple-500/20" },
-  { value: "social-media-managers", label: "Social Media Manager", tagline: "Viral shaadi content", icon: <Instagram className="w-6 h-6" />, color: "from-gradient-500/20 to-rose-500/20" },
-  { value: "influencer", label: "Influencer", tagline: "Amplify your reach", icon: <Sparkles className="w-6 h-6" />, color: "from-purple-500/20 to-fuchsia-500/20" },
+  { value: "photography", label: "Photography", tagline: "Capture the magic forever", icon: <Camera className="w-6 h-6" /> },
+  { value: "venues", label: "Venues", tagline: "The perfect backdrop", icon: <Building2 className="w-6 h-6" /> },
+  { value: "catering", label: "Catering", tagline: "Flavours they'll remember", icon: <Utensils className="w-6 h-6" /> },
+  { value: "decoration", label: "Decoration", tagline: "Transform any space", icon: <Flower2 className="w-6 h-6" /> },
+  { value: "makeup", label: "Makeup", tagline: "Bridal beauty experts", icon: <Sparkles className="w-6 h-6" /> },
+  { value: "mehendi", label: "Mehendi", tagline: "Intricate artistry", icon: <Palette className="w-6 h-6" /> },
+  { value: "music", label: "Music & DJ", tagline: "Set the vibe right", icon: <Music className="w-6 h-6" /> },
+  { value: "cakes", label: "Cakes & Desserts", tagline: "Sweet celebrations", icon: <Heart className="w-6 h-6" /> },
+  { value: "planning", label: "Wedding Planning", tagline: "Stress-free weddings", icon: <BookOpen className="w-6 h-6" /> },
+  { value: "invitations", label: "Invitations", tagline: "First impressions count", icon: <Pen className="w-6 h-6" /> },
+  { value: "choreography", label: "Choreography", tagline: "Dance to remember", icon: <Zap className="w-6 h-6" /> },
+  { value: "transport", label: "Transport", tagline: "Arrive in style", icon: <Car className="w-6 h-6" /> },
+  { value: "jewelry", label: "Jewelry", tagline: "Adorn the occasion", icon: <Gem className="w-6 h-6" /> },
+  { value: "pandit", label: "Pandit", tagline: "Sacred ceremonies", icon: <Crown className="w-6 h-6" /> },
+  { value: "entertainment", label: "Entertainment", tagline: "Unforgettable moments", icon: <Star className="w-6 h-6" /> },
+  { value: "anchor", label: "Anchor / Emcee", tagline: "Host the celebration", icon: <Mic2 className="w-6 h-6" /> },
+  { value: "content-creator", label: "Content Creator", tagline: "Stories that trend", icon: <Video className="w-6 h-6" /> },
+  { value: "social-media-managers", label: "Social Media Manager", tagline: "Viral shaadi content", icon: <Instagram className="w-6 h-6" /> },
+  { value: "influencer", label: "Influencer", tagline: "Amplify your reach", icon: <Sparkles className="w-6 h-6" /> },
 ];
 
 // ── Step Config ──
 const STEPS = [
-  { num: 1, label: "Category", icon: <Palette className="w-4 h-4" /> },
-  { num: 2, label: "Business", icon: <Building2 className="w-4 h-4" /> },
-  { num: 3, label: "Story", icon: <Pen className="w-4 h-4" /> },
-  { num: 4, label: "Contact", icon: <Phone className="w-4 h-4" /> },
-  { num: 5, label: "Review", icon: <Check className="w-4 h-4" /> },
+  { num: 1, label: "Category", hindiLabel: "Apka Kaam", icon: <Palette className="w-4 h-4" /> },
+  { num: 2, label: "Business", hindiLabel: "Business", icon: <Building2 className="w-4 h-4" /> },
+  { num: 3, label: "Story", hindiLabel: "Kahani", icon: <Pen className="w-4 h-4" /> },
+  { num: 4, label: "Contact", hindiLabel: "Sampark", icon: <Phone className="w-4 h-4" /> },
+  { num: 5, label: "Review", hindiLabel: "Review", icon: <Check className="w-4 h-4" /> },
+  { num: 6, label: "Plan", hindiLabel: "Plan", icon: <Crown className="w-4 h-4" /> },
+];
+
+const STEP_HEROES = [heroStep1, heroStep2, heroStep3, heroStep4, heroStep5, heroStep6];
+
+const STEP_STORYTELLING = [
+  { hindi: "Apka Kaam, Apki Pehchaan", english: "Your Work, Your Identity", subtitle: "Select the service that defines you" },
+  { hindi: "Apna Business Batao", english: "Tell Us About Your Business", subtitle: "The essentials about your wedding business" },
+  { hindi: "Apni Kahani Sunao", english: "Tell Your Story", subtitle: "Help couples fall in love with your work" },
+  { hindi: "Jude Rahiye", english: "Stay Connected", subtitle: "How couples and our team will reach you" },
+  { hindi: "Sab Sahi Hai?", english: "Everything Look Good?", subtitle: "Review your profile before we publish it" },
+  { hindi: "Apna Plan Chuniye", english: "Choose Your Plan", subtitle: "Grow faster with premium tools" },
 ];
 
 const PRICE_SUGGESTIONS: Record<string, string> = {
-  photography: "25,000",
-  venues: "2,00,000",
-  catering: "800/plate",
-  decoration: "50,000",
-  makeup: "15,000",
-  mehendi: "5,000",
-  music: "20,000",
-  cakes: "5,000",
-  planning: "1,00,000",
-  invitations: "50/card",
-  choreography: "15,000",
-  transport: "10,000",
-  jewelry: "50,000",
-  pandit: "11,000",
-  entertainment: "25,000",
-  anchor: "20,000",
-  "content-creator": "15,000",
-  "social-media-managers": "20,000",
-  influencer: "25,000",
+  photography: "25,000", venues: "2,00,000", catering: "800/plate", decoration: "50,000",
+  makeup: "15,000", mehendi: "5,000", music: "20,000", cakes: "5,000",
+  planning: "1,00,000", invitations: "50/card", choreography: "15,000", transport: "10,000",
+  jewelry: "50,000", pandit: "11,000", entertainment: "25,000", anchor: "20,000",
+  "content-creator": "15,000", "social-media-managers": "20,000", influencer: "25,000",
 };
 
 const STORAGE_KEY = "ks_vendor_onboarding_draft";
-
 const GENDER_CATEGORIES = ["makeup", "photography", "mehendi"];
+
+// Gradient backgrounds per step
+const STEP_GRADIENTS = [
+  "from-rose-950/90 via-amber-950/70 to-rose-950/90",
+  "from-amber-950/90 via-orange-950/70 to-amber-950/90",
+  "from-emerald-950/90 via-teal-950/70 to-emerald-950/90",
+  "from-blue-950/90 via-indigo-950/70 to-blue-950/90",
+  "from-violet-950/90 via-purple-950/70 to-violet-950/90",
+  "from-amber-950/90 via-yellow-950/70 to-amber-950/90",
+];
+
+// Subscription plans
+const SUBSCRIPTION_PLANS = [
+  {
+    id: "silver",
+    name: "Silver",
+    price: 4999,
+    icon: Star,
+    popular: false,
+    features: [
+      "Top 10 search placement",
+      "Silver badge on profile",
+      "12% transaction fee (save 3%)",
+      "Priority lead notifications",
+      "Basic analytics dashboard",
+    ],
+    missing: ["Business Intelligence suite", "Portfolio Mini-Site", "Homepage featured spot"],
+  },
+  {
+    id: "gold",
+    name: "Gold",
+    price: 9999,
+    icon: Sparkles,
+    popular: true,
+    features: [
+      "Top 5 search placement",
+      "Gold Verified badge",
+      "8% transaction fee (save 7%)",
+      "Business Intelligence suite",
+      "Portfolio Mini-Site builder",
+      "Priority WhatsApp support",
+      "Contract & Invoice tools",
+    ],
+    missing: ["Homepage featured spot"],
+  },
+  {
+    id: "diamond",
+    name: "Diamond",
+    price: 19999,
+    icon: Crown,
+    popular: false,
+    features: [
+      "Homepage featured placement",
+      "Diamond Premium badge",
+      "Zero transaction fees!",
+      "Full Business Intelligence",
+      "Portfolio Mini-Site builder",
+      "Dedicated account manager",
+      "Priority lead matching",
+      "All premium tools unlocked",
+    ],
+    missing: [],
+  },
+];
 
 export default function VendorOnboarding() {
   const navigate = useNavigate();
@@ -111,44 +181,30 @@ export default function VendorOnboarding() {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [sameAsPhone, setSameAsPhone] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [createdVendorId, setCreatedVendorId] = useState<string | null>(null);
+  const [showSubscriptionCheckout, setShowSubscriptionCheckout] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
 
   const [formData, setFormData] = useState({
-    category: "",
-    businessName: "",
-    cityId: "",
-    yearsExperience: "",
-    startingPrice: "",
-    genderPreference: "",
-    description: "",
-    teamSize: "",
-    phoneNumber: "",
-    whatsappNumber: "",
-    instagramHandle: "",
-    facebookPage: "",
-    googleMapsLink: "",
-    websiteUrl: "",
-    address: "",
+    category: "", businessName: "", cityId: "", yearsExperience: "", startingPrice: "",
+    genderPreference: "", description: "", teamSize: "", phoneNumber: "", whatsappNumber: "",
+    instagramHandle: "", facebookPage: "", googleMapsLink: "", websiteUrl: "", address: "",
   });
 
-  const totalSteps = 5;
+  const totalSteps = 6;
+  const offerActive = isOfferActive();
 
   // ── Load saved draft ──
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        setFormData(prev => ({ ...prev, ...parsed }));
-      }
+      if (saved) setFormData(prev => ({ ...prev, ...JSON.parse(saved) }));
     } catch {}
   }, []);
 
   // ── Auto-save to localStorage ──
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-    } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(formData)); } catch {}
   }, [formData]);
 
   useEffect(() => {
@@ -175,9 +231,7 @@ export default function VendorOnboarding() {
   const updateField = useCallback((field: string, value: string) => {
     setFormData(prev => {
       const updated = { ...prev, [field]: value };
-      if (field === "phoneNumber" && sameAsPhone) {
-        updated.whatsappNumber = value;
-      }
+      if (field === "phoneNumber" && sameAsPhone) updated.whatsappNumber = value;
       return updated;
     });
   }, [sameAsPhone]);
@@ -241,16 +295,18 @@ export default function VendorOnboarding() {
   };
 
   const prevStep = () => {
+    if (step === 6) return; // Can't go back from subscription step
     setDirection(-1);
     setStep(s => Math.max(s - 1, 1));
   };
 
   const jumpToStep = (target: number) => {
+    if (step === 6) return; // Can't jump back from subscription
     setDirection(target > step ? 1 : -1);
     setStep(target);
   };
 
-  // ── Submit ──
+  // ── Submit (Step 5) ──
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -260,7 +316,7 @@ export default function VendorOnboarding() {
       let logoUrl = null;
       if (logoFile) logoUrl = await uploadLogo(user.id);
 
-      const { error: vendorError } = await supabase.from("vendors").insert([{
+      const { data: vendorData, error: vendorError } = await supabase.from("vendors").insert([{
         user_id: user.id,
         business_name: sanitizeInput(formData.businessName.trim()),
         category: formData.category as VendorCategory,
@@ -279,13 +335,18 @@ export default function VendorOnboarding() {
         gender_preference: formData.genderPreference || null,
         logo_url: logoUrl,
         verification_status: 'pending',
-      }]);
+      }]).select("id").single();
 
       if (vendorError) throw vendorError;
 
       localStorage.removeItem(STORAGE_KEY);
-      setShowSuccess(true);
-      setTimeout(() => navigate("/vendor/dashboard"), 3000);
+      setCreatedVendorId(vendorData.id);
+      
+      toast({ title: "Profile Created! 🎉", description: "Now choose a plan to grow faster." });
+      
+      // Auto-advance to subscription step
+      setDirection(1);
+      setStep(6);
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
@@ -293,107 +354,137 @@ export default function VendorOnboarding() {
     }
   };
 
-  // ── Success Screen ──
-  if (showSuccess) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-secondary via-background to-accent/10 flex items-center justify-center p-6">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", duration: 0.6 }}
-          className="text-center max-w-md"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-6"
-          >
-            <PartyPopper className="w-12 h-12 text-primary-foreground" />
-          </motion.div>
-          <motion.h1 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="text-3xl font-bold text-foreground mb-3">
-            Welcome Aboard! 🎉
-          </motion.h1>
-          <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }} className="text-muted-foreground mb-6">
-            Your vendor profile has been created successfully. Our team will verify your profile within <strong>24–48 hours</strong>.
-          </motion.p>
-          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }} className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1"><Shield className="w-4 h-4 text-primary" /> Free forever</span>
-            <span className="flex items-center gap-1"><Zap className="w-4 h-4 text-accent" /> Zero commission</span>
-            <span className="flex items-center gap-1"><Star className="w-4 h-4 text-primary" /> Priority leads</span>
-          </motion.div>
-          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
-            <Button onClick={() => navigate("/vendor/dashboard")} className="mt-8" size="lg">
-              Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </motion.div>
-        </motion.div>
-      </div>
-    );
-  }
+  const handleSelectPlan = (planId: string) => {
+    setSelectedPlan(planId);
+    setShowSubscriptionCheckout(true);
+  };
+
+  const handleSkipPlan = () => {
+    navigate("/vendor/dashboard");
+  };
+
+  const handleSubscriptionSuccess = () => {
+    setShowSubscriptionCheckout(false);
+    toast({ title: "Subscription Activated! 🚀", description: "Welcome to the premium experience." });
+    navigate("/vendor/dashboard");
+  };
 
   const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
   const selectedCity = cities.find(c => c.id === formData.cityId);
+  const currentStory = STEP_STORYTELLING[step - 1];
+  const currentHero = STEP_HEROES[step - 1];
 
   // ── Slide animation ──
   const slideVariants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 80 : -80, opacity: 0 }),
+    enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0 }),
+    exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary via-background to-accent/10">
-      <MobilePageHeader title="Become a Vendor" />
-      <div className={isMobile ? "px-4 pt-4 pb-36" : "py-10 px-4"}>
-        <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-foreground relative overflow-hidden">
+      {/* Floating decorative orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div
+          animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-20 right-10 w-32 h-32 rounded-full"
+          style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.15), transparent)" }}
+        />
+        <motion.div
+          animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute bottom-40 left-5 w-24 h-24 rounded-full"
+          style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.12), transparent)" }}
+        />
+        <motion.div
+          animate={{ y: [0, -15, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+          className="absolute top-1/2 left-1/3 w-16 h-16 rounded-full"
+          style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.1), transparent)" }}
+        />
+      </div>
 
-          {/* ── Header ── */}
-          <div className="text-center mb-6">
-            <p className="text-xs font-semibold tracking-widest uppercase text-accent mb-2">For Wedding Professionals</p>
-            <h1 className={`font-bold mb-1 ${isMobile ? "text-2xl" : "text-3xl"}`}>
-              Register Your Business
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Join 10,000+ vendors already growing with Karlo Shaadi
-            </p>
-          </div>
+      <div className={`relative z-10 ${isMobile ? "pb-32" : "py-6"}`}>
+        <div className="max-w-3xl mx-auto px-4">
 
-          {/* ── Stepper ── */}
-          <div className="flex items-center justify-between mb-8 px-1">
+          {/* ── Hero Banner ── */}
+          <motion.div
+            key={`hero-${step}`}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="relative rounded-2xl overflow-hidden mb-6 h-44 md:h-56"
+          >
+            <img
+              src={currentHero}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ filter: "contrast(1.05) saturate(1.1)" }}
+            />
+            <div className={`absolute inset-0 bg-gradient-to-t ${STEP_GRADIENTS[step - 1]}`} />
+            <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
+              <motion.p
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-accent font-bold text-xs tracking-[0.2em] uppercase mb-1"
+              >
+                Step {step} of {totalSteps}
+              </motion.p>
+              <motion.h1
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-white font-bold text-2xl md:text-3xl leading-tight"
+                style={{ fontFamily: "'Georgia', serif" }}
+              >
+                {currentStory.hindi}
+              </motion.h1>
+              <motion.p
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-white/70 text-sm mt-1"
+              >
+                {currentStory.english} — {currentStory.subtitle}
+              </motion.p>
+            </div>
+          </motion.div>
+
+          {/* ── Glass Progress Stepper ── */}
+          <div className="flex items-center justify-center gap-1.5 mb-6 flex-wrap">
             {STEPS.map((s, i) => {
               const isActive = step === s.num;
               const isDone = step > s.num;
               return (
-                <div key={s.num} className="flex items-center">
+                <div key={s.num} className="flex items-center gap-1.5">
                   <button
-                    onClick={() => isDone && jumpToStep(s.num)}
-                    disabled={!isDone}
-                    className={`flex flex-col items-center gap-1 transition-all ${isDone ? "cursor-pointer" : "cursor-default"}`}
+                    onClick={() => isDone && s.num < 6 && jumpToStep(s.num)}
+                    disabled={!isDone || step === 6}
+                    className="flex items-center gap-1.5 transition-all"
                   >
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                    <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 backdrop-blur-sm border ${
                       isActive
-                        ? "bg-primary text-primary-foreground ring-4 ring-primary/20 scale-110"
+                        ? "bg-accent/20 text-accent border-accent/40 ring-2 ring-accent/20"
                         : isDone
-                          ? "bg-emerald-500 text-white"
-                          : "bg-muted text-muted-foreground"
+                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 cursor-pointer"
+                          : "bg-white/5 text-white/40 border-white/10"
                     }`}>
-                      {isDone ? <Check className="w-4 h-4" /> : s.icon}
+                      {isDone ? <Check className="w-3 h-3" /> : s.icon}
+                      {!isMobile && <span>{s.label}</span>}
                     </div>
-                    <span className={`text-[10px] font-medium ${isActive ? "text-primary" : isDone ? "text-emerald-600" : "text-muted-foreground"}`}>
-                      {s.label}
-                    </span>
                   </button>
                   {i < STEPS.length - 1 && (
-                    <div className={`h-0.5 mx-1 transition-all duration-300 ${isMobile ? "w-6" : "w-12"} ${step > s.num ? "bg-emerald-400" : "bg-muted"}`} />
+                    <div className={`h-px w-4 transition-all duration-300 ${step > s.num ? "bg-emerald-400/50" : "bg-white/10"}`} />
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* ── Step Content ── */}
-          <div className="bg-card/90 backdrop-blur-sm border-2 border-border rounded-2xl shadow-lg overflow-hidden">
+          {/* ── Step Content Glass Container ── */}
+          <div className="bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl shadow-2xl overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={step}
@@ -402,43 +493,46 @@ export default function VendorOnboarding() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.25, ease: "easeInOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="p-5 md:p-8"
               >
                 {/* ═══ STEP 1: Category Selection ═══ */}
                 {step === 1 && (
                   <div>
-                    <h2 className="text-lg font-bold mb-1">What do you do best?</h2>
-                    <p className="text-sm text-muted-foreground mb-5">Select the service you offer at weddings</p>
-                    <div className={`grid gap-3 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
+                    <p className="text-white/50 text-xs mb-5 flex items-center gap-2">
+                      <Users className="w-3.5 h-3.5" />
+                      Join 10,000+ vendors already growing with Karlo Shaadi
+                    </p>
+                    <div className={`grid gap-2.5 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
                       {CATEGORIES.map((cat) => {
                         const selected = formData.category === cat.value;
                         return (
                           <motion.button
                             key={cat.value}
                             type="button"
-                            whileTap={{ scale: 0.97 }}
+                            whileTap={{ scale: 0.96 }}
+                            whileHover={{ scale: 1.02 }}
                             onClick={() => updateField("category", cat.value)}
-                            className={`relative p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200 backdrop-blur-sm ${
                               selected
-                                ? "border-primary bg-primary/5 ring-2 ring-primary/20"
-                                : "border-border hover:border-primary/30 bg-card"
+                                ? "border-accent/50 bg-accent/10 ring-2 ring-accent/20"
+                                : "border-white/10 hover:border-white/20 bg-white/[0.04]"
                             }`}
                           >
                             {selected && (
                               <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary flex items-center justify-center"
+                                className="absolute top-2 right-2 w-5 h-5 rounded-full bg-accent flex items-center justify-center"
                               >
-                                <Check className="w-3 h-3 text-primary-foreground" />
+                                <Check className="w-3 h-3 text-accent-foreground" />
                               </motion.div>
                             )}
-                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${cat.color} flex items-center justify-center mb-2`}>
+                            <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center mb-2 text-white/80">
                               {cat.icon}
                             </div>
-                            <p className="text-sm font-semibold leading-tight">{cat.label}</p>
-                            <p className="text-[10px] text-muted-foreground mt-0.5 leading-tight">{cat.tagline}</p>
+                            <p className="text-sm font-semibold text-white/90 leading-tight">{cat.label}</p>
+                            <p className="text-[10px] text-white/40 mt-0.5 leading-tight">{cat.tagline}</p>
                           </motion.button>
                         );
                       })}
@@ -449,24 +543,19 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 2: Business Identity ═══ */}
                 {step === 2 && (
                   <div className="space-y-5">
-                    <div>
-                      <h2 className="text-lg font-bold mb-1">Your Business Identity</h2>
-                      <p className="text-sm text-muted-foreground">The essentials about your {selectedCategory?.label || "wedding"} business</p>
-                    </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="businessName">Business Name *</Label>
+                      <Label htmlFor="businessName" className="text-white/70">Business Name *</Label>
                       <div className="relative">
-                        <Building2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="businessName" placeholder="e.g., Royal Click Studio" className="pl-10" value={formData.businessName} onChange={(e) => updateField("businessName", e.target.value)} />
+                        <Building2 className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input id="businessName" placeholder="e.g., Royal Click Studio" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40" value={formData.businessName} onChange={(e) => updateField("businessName", e.target.value)} />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>City *</Label>
+                        <Label className="text-white/70">City *</Label>
                         <Select value={formData.cityId} onValueChange={(v) => updateField("cityId", v)}>
-                          <SelectTrigger><SelectValue placeholder="Select city" /></SelectTrigger>
+                          <SelectTrigger className="bg-white/[0.06] border-white/10 text-white"><SelectValue placeholder="Select city" /></SelectTrigger>
                           <SelectContent>
                             {cities.map((city) => (
                               <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
@@ -475,28 +564,28 @@ export default function VendorOnboarding() {
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="experience">Years of Experience</Label>
+                        <Label htmlFor="experience" className="text-white/70">Years of Experience</Label>
                         <div className="relative">
-                          <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input id="experience" type="number" placeholder="e.g., 5" className="pl-10" value={formData.yearsExperience} onChange={(e) => updateField("yearsExperience", e.target.value)} />
+                          <Calendar className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input id="experience" type="number" placeholder="e.g., 5" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.yearsExperience} onChange={(e) => updateField("yearsExperience", e.target.value)} />
                         </div>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="startingPrice">Starting Price (₹)</Label>
+                      <Label htmlFor="startingPrice" className="text-white/70">Starting Price (₹)</Label>
                       <div className="relative">
-                        <IndianRupee className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="startingPrice" placeholder={PRICE_SUGGESTIONS[formData.category] || "25,000"} className="pl-10" value={formData.startingPrice} onChange={(e) => updateField("startingPrice", e.target.value)} />
+                        <IndianRupee className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input id="startingPrice" placeholder={PRICE_SUGGESTIONS[formData.category] || "25,000"} className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.startingPrice} onChange={(e) => updateField("startingPrice", e.target.value)} />
                       </div>
-                      <p className="text-xs text-muted-foreground">Helps couples filter by budget · You can change this later</p>
+                      <p className="text-xs text-white/30">Helps couples filter by budget · You can change this later</p>
                     </div>
 
                     {GENDER_CATEGORIES.includes(formData.category) && (
                       <div className="space-y-2">
-                        <Label>Service Provider Gender</Label>
+                        <Label className="text-white/70">Service Provider Gender</Label>
                         <Select value={formData.genderPreference} onValueChange={(v) => updateField("genderPreference", v)}>
-                          <SelectTrigger><SelectValue placeholder="Select preference" /></SelectTrigger>
+                          <SelectTrigger className="bg-white/[0.06] border-white/10 text-white"><SelectValue placeholder="Select preference" /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="female">Female Only</SelectItem>
                             <SelectItem value="male">Male Only</SelectItem>
@@ -511,15 +600,10 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 3: Tell Your Story ═══ */}
                 {step === 3 && (
                   <div className="space-y-5">
-                    <div>
-                      <h2 className="text-lg font-bold mb-1">Tell Your Story</h2>
-                      <p className="text-sm text-muted-foreground">Help couples fall in love with your work</p>
-                    </div>
-
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <Label htmlFor="description">Business Description *</Label>
-                        <Button type="button" variant="ghost" size="sm" onClick={generateDescription} className="text-xs text-primary h-7">
+                        <Label htmlFor="description" className="text-white/70">Business Description *</Label>
+                        <Button type="button" variant="ghost" size="sm" onClick={generateDescription} className="text-xs text-accent h-7 hover:bg-accent/10">
                           <Sparkles className="w-3 h-3 mr-1" /> Write for me
                         </Button>
                       </div>
@@ -529,19 +613,19 @@ export default function VendorOnboarding() {
                         rows={6}
                         value={formData.description}
                         onChange={(e) => updateField("description", e.target.value)}
-                        className="resize-none"
+                        className="resize-none bg-white/[0.06] border-white/10 text-white placeholder:text-white/30"
                       />
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>{formData.description.length < 20 ? `${20 - formData.description.length} more characters needed` : "Looks great ✓"}</span>
+                      <div className="flex justify-between text-xs text-white/30">
+                        <span>{formData.description.length < 20 ? `${20 - formData.description.length} more characters needed` : <span className="text-emerald-400">Looks great ✓</span>}</span>
                         <span>{formData.description.length}/500</span>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="teamSize">Team Size</Label>
+                      <Label htmlFor="teamSize" className="text-white/70">Team Size</Label>
                       <div className="relative">
-                        <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="teamSize" type="number" placeholder="e.g., 10" className="pl-10" value={formData.teamSize} onChange={(e) => updateField("teamSize", e.target.value)} />
+                        <Users className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input id="teamSize" type="number" placeholder="e.g., 10" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.teamSize} onChange={(e) => updateField("teamSize", e.target.value)} />
                       </div>
                     </div>
                   </div>
@@ -550,16 +634,11 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 4: Contact & Social ═══ */}
                 {step === 4 && (
                   <div className="space-y-5">
-                    <div>
-                      <h2 className="text-lg font-bold mb-1">Contact & Social</h2>
-                      <p className="text-sm text-muted-foreground">How couples and our team will reach you</p>
-                    </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone" className="text-white/70">Phone Number</Label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="phone" type="tel" placeholder="+91 98765 43210" className="pl-10" value={formData.phoneNumber} onChange={(e) => updateField("phoneNumber", e.target.value)} />
+                        <Phone className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input id="phone" type="tel" placeholder="+91 98765 43210" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.phoneNumber} onChange={(e) => updateField("phoneNumber", e.target.value)} />
                       </div>
                     </div>
 
@@ -572,69 +651,70 @@ export default function VendorOnboarding() {
                           setSameAsPhone(val);
                           if (val) updateField("whatsappNumber", formData.phoneNumber);
                         }}
+                        className="border-white/20 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                       />
-                      <Label htmlFor="sameAsPhone" className="text-xs text-muted-foreground cursor-pointer">Same number for WhatsApp</Label>
+                      <Label htmlFor="sameAsPhone" className="text-xs text-white/40 cursor-pointer">Same number for WhatsApp</Label>
                     </div>
 
                     {!sameAsPhone && (
                       <div className="space-y-2">
-                        <Label htmlFor="whatsapp">WhatsApp Number</Label>
+                        <Label htmlFor="whatsapp" className="text-white/70">WhatsApp Number</Label>
                         <div className="relative">
-                          <MessageCircle className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input id="whatsapp" type="tel" placeholder="+91 98765 43210" className="pl-10" value={formData.whatsappNumber} onChange={(e) => updateField("whatsappNumber", e.target.value)} />
+                          <MessageCircle className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input id="whatsapp" type="tel" placeholder="+91 98765 43210" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.whatsappNumber} onChange={(e) => updateField("whatsappNumber", e.target.value)} />
                         </div>
                       </div>
                     )}
 
                     <div className="space-y-2">
-                      <Label htmlFor="address">Business Address</Label>
+                      <Label htmlFor="address" className="text-white/70">Business Address</Label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="address" placeholder="Full business address" className="pl-10" value={formData.address} onChange={(e) => updateField("address", e.target.value)} />
+                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input id="address" placeholder="Full business address" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.address} onChange={(e) => updateField("address", e.target.value)} />
                       </div>
                     </div>
 
-                    <div className="border-t border-border pt-4 space-y-4">
-                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Social & Web (Optional)</p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="border-t border-white/10 pt-4 space-y-4">
+                      <p className="text-xs font-semibold text-white/40 uppercase tracking-wide">Social & Web (Optional)</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div className="relative">
-                          <Instagram className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Instagram profile URL" className="pl-10" value={formData.instagramHandle} onChange={(e) => updateField("instagramHandle", e.target.value)} />
+                          <Instagram className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input placeholder="Instagram profile URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.instagramHandle} onChange={(e) => updateField("instagramHandle", e.target.value)} />
                         </div>
                         <div className="relative">
-                          <Facebook className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Facebook page URL" className="pl-10" value={formData.facebookPage} onChange={(e) => updateField("facebookPage", e.target.value)} />
+                          <Facebook className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input placeholder="Facebook page URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.facebookPage} onChange={(e) => updateField("facebookPage", e.target.value)} />
                         </div>
                         <div className="relative">
-                          <Map className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Google Maps link" className="pl-10" value={formData.googleMapsLink} onChange={(e) => updateField("googleMapsLink", e.target.value)} />
+                          <Map className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input placeholder="Google Maps link" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.googleMapsLink} onChange={(e) => updateField("googleMapsLink", e.target.value)} />
                         </div>
                         <div className="relative">
-                          <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                          <Input placeholder="Website URL" className="pl-10" value={formData.websiteUrl} onChange={(e) => updateField("websiteUrl", e.target.value)} />
+                          <Globe className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                          <Input placeholder="Website URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.websiteUrl} onChange={(e) => updateField("websiteUrl", e.target.value)} />
                         </div>
                       </div>
                     </div>
 
                     {/* Logo Upload */}
                     <div className="space-y-2">
-                      <Label>Business Logo</Label>
-                      <div className="border-2 border-dashed border-border rounded-xl p-5 text-center hover:border-primary/40 transition-colors">
+                      <Label className="text-white/70">Business Logo</Label>
+                      <div className="border-2 border-dashed border-white/10 rounded-xl p-5 text-center hover:border-accent/30 transition-colors">
                         {logoPreview ? (
                           <div className="flex items-center gap-4">
                             <img src={logoPreview} alt="Logo preview" className="w-16 h-16 object-contain rounded-lg" />
                             <div className="text-left flex-1">
-                              <p className="text-sm font-medium">{logoFile?.name}</p>
-                              <Button type="button" variant="ghost" size="sm" className="text-xs text-destructive h-7 mt-1" onClick={() => { setLogoFile(null); setLogoPreview(null); }}>
+                              <p className="text-sm font-medium text-white/80">{logoFile?.name}</p>
+                              <Button type="button" variant="ghost" size="sm" className="text-xs text-red-400 h-7 mt-1 hover:bg-red-500/10" onClick={() => { setLogoFile(null); setLogoPreview(null); }}>
                                 Remove
                               </Button>
                             </div>
                           </div>
                         ) : (
                           <label className="cursor-pointer">
-                            <Upload className="h-7 w-7 mx-auto text-muted-foreground mb-2" />
-                            <p className="text-sm text-muted-foreground">Click to upload logo</p>
-                            <p className="text-[10px] text-muted-foreground mt-1">PNG or JPG, up to 2MB</p>
+                            <Upload className="h-7 w-7 mx-auto text-white/30 mb-2" />
+                            <p className="text-sm text-white/50">Click to upload logo</p>
+                            <p className="text-[10px] text-white/30 mt-1">PNG or JPG, up to 2MB</p>
                             <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
                           </label>
                         )}
@@ -645,57 +725,153 @@ export default function VendorOnboarding() {
 
                 {/* ═══ STEP 5: Review & Submit ═══ */}
                 {step === 5 && (
-                  <div className="space-y-5">
-                    <div>
-                      <h2 className="text-lg font-bold mb-1">Review & Submit</h2>
-                      <p className="text-sm text-muted-foreground">Everything looks good? Let's get you started!</p>
-                    </div>
-
+                  <div className="space-y-4">
                     {/* Summary Sections */}
-                    <div className="space-y-3">
-                      {/* Category */}
-                      <SummarySection title="Category" onEdit={() => jumpToStep(1)}>
-                        <div className="flex items-center gap-2">
-                          {selectedCategory?.icon}
-                          <span className="font-medium">{selectedCategory?.label || "—"}</span>
+                    <ReviewBlock title="Category" onEdit={() => jumpToStep(1)}>
+                      <div className="flex items-center gap-2 text-white/80">
+                        {selectedCategory?.icon}
+                        <span className="font-medium">{selectedCategory?.label || "—"}</span>
+                      </div>
+                    </ReviewBlock>
+
+                    <ReviewBlock title="Business" onEdit={() => jumpToStep(2)}>
+                      <ReviewRow label="Name" value={formData.businessName} />
+                      <ReviewRow label="City" value={selectedCity?.name} />
+                      <ReviewRow label="Experience" value={formData.yearsExperience ? `${formData.yearsExperience} years` : undefined} />
+                      <ReviewRow label="Starting Price" value={formData.startingPrice ? `₹${formData.startingPrice}` : undefined} />
+                    </ReviewBlock>
+
+                    <ReviewBlock title="Story" onEdit={() => jumpToStep(3)}>
+                      <p className="text-sm text-white/50 line-clamp-3">{formData.description || "No description added"}</p>
+                      <ReviewRow label="Team Size" value={formData.teamSize} />
+                    </ReviewBlock>
+
+                    <ReviewBlock title="Contact" onEdit={() => jumpToStep(4)}>
+                      <ReviewRow label="Phone" value={formData.phoneNumber} />
+                      <ReviewRow label="WhatsApp" value={formData.whatsappNumber} />
+                      <ReviewRow label="Address" value={formData.address} />
+                      {logoPreview && (
+                        <div className="flex items-center gap-2 mt-2">
+                          <img src={logoPreview} alt="Logo" className="w-8 h-8 rounded object-contain" />
+                          <span className="text-xs text-white/40">Logo uploaded</span>
                         </div>
-                      </SummarySection>
-
-                      {/* Business */}
-                      <SummarySection title="Business" onEdit={() => jumpToStep(2)}>
-                        <SummaryRow label="Name" value={formData.businessName} />
-                        <SummaryRow label="City" value={selectedCity?.name} />
-                        <SummaryRow label="Experience" value={formData.yearsExperience ? `${formData.yearsExperience} years` : undefined} />
-                        <SummaryRow label="Starting Price" value={formData.startingPrice ? `₹${formData.startingPrice}` : undefined} />
-                        {formData.genderPreference && <SummaryRow label="Gender" value={formData.genderPreference} />}
-                      </SummarySection>
-
-                      {/* Story */}
-                      <SummarySection title="Story" onEdit={() => jumpToStep(3)}>
-                        <p className="text-sm text-muted-foreground line-clamp-3">{formData.description || "No description added"}</p>
-                        {formData.teamSize && <SummaryRow label="Team Size" value={formData.teamSize} />}
-                      </SummarySection>
-
-                      {/* Contact */}
-                      <SummarySection title="Contact" onEdit={() => jumpToStep(4)}>
-                        <SummaryRow label="Phone" value={formData.phoneNumber} />
-                        <SummaryRow label="WhatsApp" value={formData.whatsappNumber} />
-                        <SummaryRow label="Address" value={formData.address} />
-                        {formData.instagramHandle && <SummaryRow label="Instagram" value={formData.instagramHandle} />}
-                        {logoPreview && (
-                          <div className="flex items-center gap-2 mt-2">
-                            <img src={logoPreview} alt="Logo" className="w-10 h-10 rounded object-contain" />
-                            <span className="text-xs text-muted-foreground">Logo uploaded</span>
-                          </div>
-                        )}
-                      </SummarySection>
-                    </div>
+                      )}
+                    </ReviewBlock>
 
                     {/* Trust Signals */}
-                    <div className="bg-accent/5 border border-accent/20 rounded-xl p-4 flex flex-wrap gap-4 text-xs">
-                      <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-primary" /> <strong>100% Free</strong> — No charges ever</span>
-                      <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> <strong>Zero Commission</strong> — Keep all earnings</span>
-                      <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-primary" /> <strong>Verified in 24–48 hrs</strong></span>
+                    <div className="bg-accent/[0.08] border border-accent/20 rounded-xl p-4 flex flex-wrap gap-4 text-xs text-white/70">
+                      <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent" /> <strong className="text-white/90">100% Free</strong></span>
+                      <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> <strong className="text-white/90">Zero Commission</strong></span>
+                      <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-accent" /> <strong className="text-white/90">Verified in 24–48 hrs</strong></span>
+                    </div>
+                  </div>
+                )}
+
+                {/* ═══ STEP 6: Subscription Upsell ═══ */}
+                {step === 6 && (
+                  <div className="space-y-6">
+                    {/* Success message */}
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex items-center gap-3"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+                        <CheckCircle className="w-5 h-5 text-emerald-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-emerald-300">Profile Created Successfully!</p>
+                        <p className="text-xs text-emerald-400/60">Verification in 24-48 hours</p>
+                      </div>
+                    </motion.div>
+
+                    {offerActive && <CountdownBanner compact className="rounded-xl" />}
+
+                    {/* Plan cards */}
+                    <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
+                      {SUBSCRIPTION_PLANS.map((plan, idx) => {
+                        const PlanIcon = plan.icon;
+                        const discounted = offerActive ? getDiscountedPrice(plan.price) : null;
+                        const perDay = Math.round((discounted || plan.price) / 30);
+                        return (
+                          <motion.div
+                            key={plan.id}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className={`relative rounded-xl border p-5 backdrop-blur-sm transition-all hover:scale-[1.02] cursor-pointer ${
+                              plan.popular
+                                ? "border-accent/40 bg-accent/[0.08] ring-1 ring-accent/20"
+                                : "border-white/10 bg-white/[0.04]"
+                            }`}
+                            onClick={() => handleSelectPlan(plan.id)}
+                          >
+                            {plan.popular && (
+                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-accent text-accent-foreground text-[10px] font-bold rounded-full uppercase tracking-wider">
+                                Most Popular
+                              </div>
+                            )}
+                            <div className="flex items-center gap-2 mb-3">
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${plan.popular ? "bg-accent/20" : "bg-white/10"}`}>
+                                <PlanIcon className={`w-4 h-4 ${plan.popular ? "text-accent" : "text-white/60"}`} />
+                              </div>
+                              <h3 className="font-bold text-white">{plan.name}</h3>
+                            </div>
+
+                            <div className="mb-4">
+                              {discounted ? (
+                                <div className="flex items-baseline gap-2">
+                                  <span className="text-lg line-through text-white/30">₹{plan.price.toLocaleString()}</span>
+                                  <span className="text-2xl font-black text-accent">₹{discounted.toLocaleString()}</span>
+                                </div>
+                              ) : (
+                                <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
+                              )}
+                              <p className="text-[10px] text-white/30 mt-0.5">₹{perDay}/day · Cancel anytime</p>
+                            </div>
+
+                            <ul className="space-y-1.5 mb-4">
+                              {plan.features.map((f, i) => (
+                                <li key={i} className="flex items-start gap-2 text-xs text-white/60">
+                                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                                  {f}
+                                </li>
+                              ))}
+                              {plan.missing.map((f, i) => (
+                                <li key={`m-${i}`} className="flex items-start gap-2 text-xs text-white/20">
+                                  <X className="w-3.5 h-3.5 text-white/15 shrink-0 mt-0.5" />
+                                  {f}
+                                </li>
+                              ))}
+                            </ul>
+
+                            <Button
+                              className={`w-full ${plan.popular ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-white/10 text-white hover:bg-white/20"}`}
+                              size="sm"
+                              onClick={(e) => { e.stopPropagation(); handleSelectPlan(plan.id); }}
+                            >
+                              Choose {plan.name}
+                            </Button>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Trust signals */}
+                    <div className="flex items-center justify-center gap-4 text-[10px] text-white/30">
+                      <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> 100% money-back guarantee</span>
+                      <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Cancel anytime</span>
+                    </div>
+
+                    {/* Skip button */}
+                    <div className="text-center">
+                      <Button
+                        variant="ghost"
+                        onClick={handleSkipPlan}
+                        className="text-white/40 hover:text-white/60 hover:bg-white/5 text-sm"
+                      >
+                        Skip — Continue with Free Plan <ArrowRight className="w-4 h-4 ml-1" />
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -703,40 +879,53 @@ export default function VendorOnboarding() {
             </AnimatePresence>
           </div>
 
-          {/* ── Sticky Bottom Navigation ── */}
-          <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border p-4 z-50" : ""}`}>
-            {step > 1 && (
-              <Button type="button" variant="outline" onClick={prevStep} className="flex-1">
-                <ChevronLeft className="w-4 h-4 mr-1" /> Back
-              </Button>
-            )}
-            {step < totalSteps ? (
-              <Button type="button" onClick={nextStep} className={step === 1 ? "w-full" : "flex-1"}>
-                Continue <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            ) : (
-              <Button type="button" onClick={handleSubmit} className="flex-1" disabled={loading}>
-                {loading ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Creating Profile...</>
-                ) : (
-                  <>Complete Registration <PartyPopper className="w-4 h-4 ml-2" /></>
-                )}
-              </Button>
-            )}
-          </div>
+          {/* ── Sticky Bottom Navigation (Steps 1-5 only) ── */}
+          {step < 6 && (
+            <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-foreground/95 backdrop-blur-md border-t border-white/10 p-4 z-50" : ""}`}>
+              {step > 1 && (
+                <Button type="button" variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white/70 hover:bg-white/5 hover:text-white">
+                  <ChevronLeft className="w-4 h-4 mr-1" /> Back
+                </Button>
+              )}
+              {step < 5 ? (
+                <Button type="button" onClick={nextStep} className={`bg-accent text-accent-foreground hover:bg-accent/90 ${step === 1 ? "w-full" : "flex-1"}`}>
+                  Continue <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              ) : (
+                <Button type="button" onClick={handleSubmit} className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
+                  {loading ? (
+                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Creating Profile...</>
+                  ) : (
+                    <>Complete Registration <PartyPopper className="w-4 h-4 ml-2" /></>
+                  )}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Subscription Checkout Dialog */}
+      {createdVendorId && (
+        <VendorSubscriptionCheckout
+          open={showSubscriptionCheckout}
+          onOpenChange={setShowSubscriptionCheckout}
+          vendorId={createdVendorId}
+          planId={selectedPlan}
+          onSuccess={handleSubscriptionSuccess}
+        />
+      )}
     </div>
   );
 }
 
-// ── Summary Components ──
-function SummarySection({ title, onEdit, children }: { title: string; onEdit: () => void; children: React.ReactNode }) {
+// ── Review Components ──
+function ReviewBlock({ title, onEdit, children }: { title: string; onEdit: () => void; children: React.ReactNode }) {
   return (
-    <div className="bg-muted/40 rounded-xl p-4">
+    <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold">{title}</h3>
-        <Button type="button" variant="ghost" size="sm" onClick={onEdit} className="text-xs text-primary h-7">
+        <h3 className="text-sm font-semibold text-white/80">{title}</h3>
+        <Button type="button" variant="ghost" size="sm" onClick={onEdit} className="text-xs text-accent h-7 hover:bg-accent/10">
           <Pen className="w-3 h-3 mr-1" /> Edit
         </Button>
       </div>
@@ -745,12 +934,12 @@ function SummarySection({ title, onEdit, children }: { title: string; onEdit: ()
   );
 }
 
-function SummaryRow({ label, value }: { label: string; value?: string }) {
+function ReviewRow({ label, value }: { label: string; value?: string }) {
   if (!value) return null;
   return (
     <div className="flex justify-between text-sm py-0.5">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-medium text-right max-w-[60%] truncate">{value}</span>
+      <span className="text-white/40">{label}</span>
+      <span className="font-medium text-white/70 text-right max-w-[60%] truncate">{value}</span>
     </div>
   );
 }
