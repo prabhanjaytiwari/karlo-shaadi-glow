@@ -202,6 +202,18 @@ export const VendorCard = ({
             </div>
           )}
 
+          {/* Price badge overlay */}
+          {vendor.starting_price && (
+            <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-10">
+              <div className="px-2.5 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 shadow-sm">
+                <span className="text-xs sm:text-sm font-bold text-primary">
+                  ₹{(vendor.starting_price / 1000).toFixed(0)}K
+                </span>
+                <span className="text-[10px] text-muted-foreground ml-0.5">onwards</span>
+              </div>
+            </div>
+          )}
+
           {/* Tier badge */}
           {(isSponsored || isFeatured) && (
             <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
@@ -214,8 +226,12 @@ export const VendorCard = ({
             </div>
           )}
 
-          {/* Hover overlay - Desktop only */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block" />
+          {/* Hover overlay with Book Now CTA */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:flex items-end justify-center pb-4">
+            <span className="px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-medium shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+              Book Now →
+            </span>
+          </div>
         </div>
 
         {/* Content section - Compact */}

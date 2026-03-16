@@ -42,6 +42,14 @@ import {
   Calculator,
   Image
 } from "lucide-react";
+import categoryPhotography from "@/assets/category-photography.jpg";
+import categoryCatering from "@/assets/category-catering.jpg";
+import categoryMusic from "@/assets/category-music.jpg";
+import categoryDecoration from "@/assets/category-decoration.jpg";
+import categoryVenue from "@/assets/category-venue.jpg";
+import categoryCake from "@/assets/category-cake.jpg";
+import categoryMehendi from "@/assets/category-mehendi.jpg";
+import categoryChoreography from "@/assets/category-choreography.jpg";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import { useCapacitor } from "@/hooks/useCapacitor";
@@ -50,50 +58,66 @@ const categories = [
   {
     title: "Photography",
     href: "/category/photography",
-    description: "Professional wedding photographers to capture your special moments",
+    description: "Professional wedding photographers",
     icon: Camera,
+    image: categoryPhotography,
+    count: "1,200+",
   },
   {
     title: "Catering",
     href: "/category/catering",
-    description: "Delicious food and beverage services for your guests",
+    description: "Delicious food & beverage services",
     icon: Utensils,
+    image: categoryCatering,
+    count: "800+",
   },
   {
     title: "Music",
     href: "/category/music",
-    description: "DJs, bands, and entertainment to keep the party alive",
+    description: "DJs, bands & entertainment",
     icon: Music,
+    image: categoryMusic,
+    count: "450+",
   },
   {
     title: "Decoration",
     href: "/category/decoration",
-    description: "Beautiful décor to transform your venue",
+    description: "Beautiful décor for your venue",
     icon: Palette,
+    image: categoryDecoration,
+    count: "920+",
   },
   {
     title: "Venues",
     href: "/category/venues",
-    description: "Perfect locations for your wedding ceremony and reception",
+    description: "Perfect ceremony locations",
     icon: MapPin,
+    image: categoryVenue,
+    count: "600+",
   },
   {
     title: "Cakes",
     href: "/category/cakes",
-    description: "Custom wedding cakes and sweet treats",
+    description: "Custom wedding cakes",
     icon: Cake,
+    image: categoryCake,
+    count: "350+",
   },
   {
     title: "Mehendi",
     href: "/category/mehendi",
-    description: "Expert mehendi artists for bridal and guest designs",
+    description: "Expert mehendi artists",
     icon: Sparkles,
+    image: categoryMehendi,
+    count: "480+",
   },
   {
-    title: "Planning",
-    href: "/category/planning",
-    description: "Full-service wedding planners to coordinate everything",
+    title: "Choreography",
+    href: "/category/choreography",
+    description: "Dance choreographers & trainers",
     icon: Heart,
+    image: categoryChoreography,
+    count: "220+",
   },
 ];
 
@@ -244,16 +268,29 @@ export const BhindiHeader = () => {
                   <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative">
-                      <ul className="grid w-[600px] gap-1 p-4 md:grid-cols-2">
+                      <ul className="grid w-[620px] gap-1.5 p-4 md:grid-cols-2">
                         {categories.map((category) => (
-                          <ListItem
-                            key={category.title}
-                            title={category.title}
-                            href={category.href}
-                            icon={category.icon}
-                          >
-                            {category.description}
-                          </ListItem>
+                          <li key={category.title}>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to={category.href}
+                                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-accent/5 transition-colors group/cat"
+                              >
+                                <img
+                                  src={category.image}
+                                  alt={category.title}
+                                  className="w-10 h-10 rounded-lg object-cover ring-1 ring-border/50 group-hover/cat:ring-accent/40 transition-all"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium">{category.title}</span>
+                                    <span className="text-[10px] text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-full">{category.count}</span>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground truncate">{category.description}</p>
+                                </div>
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
                         ))}
                       </ul>
                     </div>
