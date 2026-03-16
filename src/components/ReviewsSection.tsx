@@ -1,54 +1,72 @@
 import { useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { Quote, Star } from "lucide-react";
+import { Quote, Star, MapPin } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { Badge } from "@/components/ui/badge";
+import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
+import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
+import weddingBride from "@/assets/wedding-bride.jpg";
+import weddingHaldi from "@/assets/wedding-haldi.jpg";
+import weddingFriends from "@/assets/wedding-friends.jpg";
+import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
 
 const testimonials = [
   {
     name: "Priya & Raj",
     handle: "@priyaraj_wedding",
-    text: "Karlo Shaadi made our dream wedding a reality! The verified vendors were professional and the milestone payment system gave us complete peace of mind. No stress, just beautiful memories.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=priya",
+    text: "Karlo Shaadi made our dream wedding a reality! The verified vendors were professional and the milestone payment system gave us complete peace of mind.",
+    avatar: weddingCouple1,
     rating: 5,
+    city: "Udaipur",
+    vendorType: "Photography",
   },
   {
     name: "Ananya Sharma",
     handle: "@ananya_bride",
-    text: "Best decision ever! Found our photographer, decorator, and caterer all in one place. The fraud protection was a huge relief. Planning a wedding has never been this easy!",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=ananya",
+    text: "Best decision ever! Found our photographer, decorator, and caterer all in one place. The fraud protection was a huge relief.",
+    avatar: weddingBride,
     rating: 5,
+    city: "Delhi",
+    vendorType: "Decoration",
   },
   {
     name: "Vikram Mehta",
     handle: "@vikram_events",
-    text: "As a vendor, joining Karlo Shaadi was game-changing. Direct access to couples, transparent pricing, and secure payments. The platform truly understands both sides of the wedding business.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=vikram",
+    text: "As a vendor, joining Karlo Shaadi was game-changing. Direct access to couples, transparent pricing, and secure payments.",
+    avatar: weddingFriends,
     rating: 5,
+    city: "Mumbai",
+    vendorType: "Vendor",
   },
   {
     name: "Meera & Arjun",
     handle: "@meeraarjun2024",
-    text: "We planned our destination wedding entirely through Karlo Shaadi. The vendor coordination, payment tracking, and customer support made everything seamless. Highly recommend!",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=meera",
+    text: "We planned our destination wedding entirely through Karlo Shaadi. The vendor coordination and payment tracking made everything seamless.",
+    avatar: weddingCouple2,
     rating: 5,
+    city: "Goa",
+    vendorType: "Planning",
   },
   {
     name: "Ravi Kumar",
     handle: "@raviphotography",
-    text: "The verification process showed me this platform is serious about quality. I've booked more weddings in 3 months than the entire last year. Great for growing my business!",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=ravi",
+    text: "The verification process showed me this platform is serious about quality. I've booked more weddings in 3 months than the entire last year.",
+    avatar: weddingHaldi,
     rating: 5,
+    city: "Jaipur",
+    vendorType: "Photography",
   },
   {
     name: "Kavya Reddy",
     handle: "@kavyaweddings",
-    text: "From initial booking to final payment, everything was transparent. The milestone system protected us at every step. Our vendors were amazing and everything was on time!",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=kavya",
+    text: "From initial booking to final payment, everything was transparent. The milestone system protected us at every step.",
+    avatar: weddingBridesmaids,
     rating: 5,
+    city: "Hyderabad",
+    vendorType: "Catering",
   }
 ];
-
 export const ReviewsSection = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
