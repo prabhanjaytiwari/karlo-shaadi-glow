@@ -1,98 +1,179 @@
 
 
-# Vendor Onboarding: Immersive Indian Wedding Experience
+# Complete Platform UI/UX Transformation
 
-## What We're Building
+## Scope
 
-A complete rewrite of `VendorOnboarding.tsx` into a **6-step cinematic onboarding wizard** with glassmorphism, AI-generated hero illustrations per step, storytelling flow, and a final subscription upsell step with a "Skip — Stay Free" option.
+The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
 
-## Step Flow
+This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
 
-```text
-┌─────────────────────────────────────────────────┐
-│ Step 1: "Apka Kaam, Apki Pehchaan"             │
-│ (Your Work, Your Identity)                       │
-│ → Visual category grid with glass cards          │
-│ → AI-generated hero: wedding mandap scene        │
-├─────────────────────────────────────────────────┤
-│ Step 2: "Apna Business Batao"                   │
-│ (Tell Us About Your Business)                    │
-│ → Name, city, experience, pricing               │
-│ → AI hero: bustling Indian wedding market        │
-├─────────────────────────────────────────────────┤
-│ Step 3: "Apni Kahani Sunao"                     │
-│ (Tell Your Story)                                │
-│ → Description + AI write-for-me + team size     │
-│ → AI hero: artisan crafting decorations          │
-├─────────────────────────────────────────────────┤
-│ Step 4: "Jude Rahiye"                           │
-│ (Stay Connected)                                 │
-│ → Phone, WhatsApp sync, socials, logo upload    │
-│ → AI hero: vendor connecting with couple         │
-├─────────────────────────────────────────────────┤
-│ Step 5: "Sab Sahi Hai?"                         │
-│ (Everything Look Good?)                          │
-│ → Review summary with edit shortcuts            │
-│ → Submits vendor profile on "Complete"          │
-├─────────────────────────────────────────────────┤
-│ Step 6: "Apna Plan Chuniye"                     │
-│ (Choose Your Plan)                               │
-│ → 3 subscription cards (Silver/Gold/Diamond)    │
-│ → "Skip — Continue with Free" button            │
-│ → Razorpay checkout if paid plan selected       │
-│ → AI hero: vendor receiving trophy/crown        │
-└─────────────────────────────────────────────────┘
-```
+---
 
-## Visual Design
+## Design Language to Replicate
 
-- **Glassmorphism containers**: `bg-white/10 backdrop-blur-xl border border-white/20` for all step cards
-- **Glossy gradient backgrounds**: Each step gets a unique soft gradient (rose→amber, amber→emerald, etc.)
-- **AI Hero Images**: Generated via Nano Banana Pro edge function, cached in `home-banners` storage bucket. One cinematic Indian wedding illustration per step, displayed as a full-width banner above the step content.
-- **Floating decorative elements**: Subtle animated mandala SVG patterns and floating gold particles using framer-motion
-- **Progress stepper**: Horizontal glass pill stepper with step names in Hindi/English, golden line connectors
-- **Storytelling headings**: Each step has a Hindi tagline + English subtitle for emotional connection
+From `MobileHomeScreen.tsx`, the established patterns are:
+- Near full-bleed hero banners with gradient overlays on real images
+- Compact trust stat grids
+- Horizontal scroll cards with generated images
+- Gold accent ring borders on icons
+- `space-y-5` tight section spacing
+- Gradient-background interactive cards
+- Sheet-based slide-out menus
+- Mobile-first compact typography (H1: text-2xl, body: text-sm)
 
-## Step 6: Subscription Upsell (New)
+---
 
-After profile creation (Step 5 submits the vendor), Step 6 shows:
-- Three glassmorphic plan cards (Silver ₹4,999, Gold ₹9,999, Diamond ₹19,999) with 50% first-month discount
-- Feature comparison with check/cross icons
-- "Most Popular" badge on Gold
-- **"Skip — Continue with Free Plan →"** button at the bottom (navigates to dashboard)
-- Selecting a paid plan opens `VendorSubscriptionCheckout` dialog with Razorpay
-- Trust signals: "100% money-back guarantee", "Cancel anytime"
+## Phase 1: Core User Journey Pages (Priority)
 
-## AI Image Generation
+### 1. Auth Page (`src/pages/Auth.tsx`)
+- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
+- Split layout on desktop: image left, form right
+- Mobile: image banner on top (h-40), form below
+- Gold accent divider and brand tagline above form
+- Rounded-2xl card with subtle ring-1 ring-accent/20
 
-A new edge function `generate-onboarding-images` will:
-1. Use Nano Banana Pro (`google/gemini-3-pro-image-preview`) to generate 6 cinematic Indian wedding illustrations
-2. Upload to `home-banners` bucket with keys like `onboarding-step-1.png`
-3. Cache check — skip generation if images already exist
-4. Called once on first load, images served from storage thereafter
+### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
+- Replace flat gradient bg with clean white background
+- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
+- Wedding countdown: immersive banner card with generated celebration image
+- Tighter spacing throughout (space-y-4 on mobile)
+- Profile completion: compact progress bar instead of badge list
 
-Prompts will be specific to Indian weddings:
-- Step 1: "Cinematic illustration of a grand Indian wedding mandap with marigold garlands and warm golden lighting"
-- Step 2: "Illustration of a busy Indian wedding marketplace with colorful stalls and happy vendors"
-- Step 3: "Artisan hands creating beautiful Indian wedding decorations with flowers and fabric"
-- Step 4: "Indian wedding vendor warmly greeting a couple in traditional attire"
-- Step 5: "Beautiful Indian wedding checklist with golden check marks and rose petals"
-- Step 6: "Indian wedding vendor receiving a golden crown and trophy, celebration"
+### 3. Search Page (`src/pages/Search.tsx`)
+- Mobile: sticky search bar with category chips as horizontal scroll
+- Generated category header images when a category is selected
+- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
+- Compact card layout with image left, info right on mobile
 
-## Technical Changes
+### 4. Categories Page (`src/pages/Categories.tsx`)
+- Generate a hero banner image (wedding collage mosaic)
+- Category grid: use existing category images with overlay text
+- Mobile: 2-column grid with tighter gap-3
+- Add MobilePageHeader for mobile consistency
 
-### Files Modified
-- **`src/pages/VendorOnboarding.tsx`** — Complete rewrite with 6 steps, glassmorphism, AI images, subscription step
-- **`supabase/functions/generate-onboarding-images/index.ts`** — New edge function for AI image generation and caching
+### 5. Bookings Page (`src/pages/Bookings.tsx`)  
+- Already mobile-optimized but needs visual polish
+- Add subtle card backgrounds with vendor category-colored left borders
+- Empty state: generate a "no bookings" illustration
 
-### Wiring
-- Step 5 `handleSubmit` creates vendor profile (existing logic preserved)
-- On success, auto-advances to Step 6 (subscription)
-- Step 6 "Skip" → navigates to `/vendor/dashboard`
-- Step 6 paid plan → opens `VendorSubscriptionCheckout` dialog → on success navigates to dashboard
-- Form data still persisted in localStorage
-- All existing validation schemas preserved
+### 6. Favorites Page (`src/pages/Favorites.tsx`)
+- Add MobilePageHeader
+- Mobile: single column cards with vendor image thumbnails
+- Generate an empty state illustration (couple browsing vendors)
 
-### No Database Changes
-Same vendor table insert schema. Subscription handled by existing `VendorSubscriptionCheckout` + `vendor_subscriptions` table.
+---
+
+## Phase 2: Marketing & Conversion Pages
+
+### 7. Pricing Page (`src/pages/Pricing.tsx`)
+- Generate a premium hero image (couple enjoying wedding stress-free)
+- Cards: glassmorphism effect with gold border for premium plan
+- Mobile: stack cards vertically, add "Most Popular" ribbon
+- FAQ: use Accordion component for collapsibility
+
+### 8. Deals Page (`src/pages/Deals.tsx`)
+- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
+- Hero section: immersive banner with deals tagline
+- Deal cards: image thumbnails with price strike-through styling
+- Mobile: horizontal scroll for seasonal offers
+
+### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
+- Generate a vendor success hero image (vendor team celebrating)
+- Stats section: animated counters with gold icon backgrounds
+- Mobile: compact single-column layout
+- Add MobilePageHeader
+
+### 10. About Page (`src/pages/About.tsx`)
+- Generate founder/team section image
+- Values grid: use generated symbolic images (heart for love, shield for trust)
+- Stats section: gradient background with larger typography
+- Mobile: single column with tight spacing
+
+---
+
+## Phase 3: Tool & Utility Pages
+
+### 11. Profile Page (`src/pages/Profile.tsx`)
+- Cleaner form layout with section dividers
+- Add avatar placeholder with initials
+- Mobile: full-width inputs with consistent padding
+
+### 12. FAQ Page (`src/pages/FAQ.tsx`)
+- Generate a support-themed hero image
+- Category icons with colored backgrounds
+- Collapsible accordion with smooth animations
+
+### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
+- Generate an emotional hero image (community wedding celebration)
+- Impact counter with animated numbers
+- Application form with clean card layout
+
+### 14. Checklist Page (`src/pages/Checklist.tsx`)
+- Add progress visualization
+- Category-grouped tasks with icons
+
+### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
+- Gallery section polish
+- Contact card with generated map placeholder
+
+---
+
+## Image Generation Plan
+
+Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
+
+| # | Image | Usage |
+|---|-------|-------|
+| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
+| 2 | Wedding celebration collage/mosaic | Categories page hero |
+| 3 | Couple enjoying wedding carefree | Pricing page hero |
+| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
+| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
+| 6 | Early morning wedding ceremony | Deals - seasonal banner |
+| 7 | Vendor team group celebration | ForVendors hero |
+| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
+| 9 | Couple browsing on phone | Favorites empty state |
+| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
+| 11 | Support/help desk friendly | FAQ hero |
+| 12 | Founder portrait style (professional) | About page |
+
+---
+
+## Technical Approach
+
+### Consistent Patterns
+- All pages get `MobilePageHeader` on mobile
+- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
+- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
+- Cards: `rounded-2xl border border-border/50` with hover states
+- Generated images stored in `src/assets/` as JPGs
+- Hero sections: image with gradient overlay, not plain gradient backgrounds
+
+### Wiring Check
+- All navigation links verified between pages
+- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
+- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
+- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
+
+### Mobile-First
+- Every page uses `useIsMobile()` for responsive branching
+- Touch targets minimum 44px
+- Horizontal scrolls for lists that overflow on mobile
+- No desktop-only sections hidden on mobile (content parity)
+
+---
+
+## Implementation Order
+
+1. Generate all 12 images first (batch edge function calls)
+2. Auth page transformation (highest conversion impact)
+3. Dashboard page polish
+4. Search + Categories pages
+5. Deals + Pricing pages
+6. ForVendors + About pages
+7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
+8. Final wiring and navigation audit
+
+This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
 
