@@ -6,10 +6,6 @@ import { SponsoredVendorsCarousel } from "@/components/SponsoredVendorsCarousel"
 import { LiveActivityFeed } from "@/components/LiveActivityFeed";
 import { HeroSearchWidget } from "@/components/HeroSearchWidget";
 import { TrustStatsBanner } from "@/components/TrustStatsBanner";
-import { CategoryStrip } from "@/components/CategoryStrip";
-import { PopularCities } from "@/components/PopularCities";
-import { RealWeddingsMosaic } from "@/components/RealWeddingsMosaic";
-import { SectionDivider } from "@/components/SectionDivider";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CinematicImage } from "@/components/CinematicImage";
@@ -143,13 +139,8 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-24 md:h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
-      {/* Category Strip — WedMeGood signature pattern */}
-      <CategoryStrip />
-
       {/* Trust Stats Banner */}
       <TrustStatsBanner />
-
-      <SectionDivider variant="mandala" />
 
       {/* Tensions Section */}
       <TensionsSection />
@@ -429,18 +420,8 @@ const Index = () => {
       {/* BentoGrid */}
       <BentoGrid />
 
-      <SectionDivider variant="dots" />
-
-      {/* Popular Cities */}
-      <PopularCities />
-
       {/* Reviews Section */}
       <ReviewsSection />
-
-      <SectionDivider variant="mandala" />
-
-      {/* Real Weddings Mosaic — replaces old text-heavy success stories */}
-      <RealWeddingsMosaic />
 
       {/* Section 4: Success Stories */}
       <section ref={section3.ref} className="py-16 md:py-24 relative" style={{

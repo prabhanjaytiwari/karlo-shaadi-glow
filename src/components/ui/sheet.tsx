@@ -6,8 +6,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const Sheet = SheetPrimitive.Root;
+
 const SheetTrigger = SheetPrimitive.Trigger;
+
 const SheetClose = SheetPrimitive.Close;
+
 const SheetPortal = SheetPrimitive.Portal;
 
 const SheetOverlay = React.forwardRef<
@@ -16,17 +19,12 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50",
+      "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "transition-all duration-300",
       className,
     )}
-    style={{
-      background: 'rgba(0,0,0,0.25)',
-      backdropFilter: 'blur(8px) saturate(1.2)',
-      WebkitBackdropFilter: 'blur(8px) saturate(1.2)',
-    }}
     {...props}
     ref={ref}
   />
@@ -36,6 +34,8 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 const sheetVariants = cva(
   cn(
     "fixed z-50 gap-4 shadow-2xl transition-all",
+    "bg-background/95 backdrop-blur-2xl",
+    "border-l border-border/20",
     "data-[state=open]:animate-in data-[state=closed]:animate-out",
     "data-[state=closed]:duration-300 data-[state=open]:duration-500",
   ),
@@ -67,40 +67,36 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
       <SheetPrimitive.Content 
         ref={ref} 
         className={cn(sheetVariants({ side }), "p-0", className)} 
-        style={{
-          background: 'hsl(0 0% 100% / 0.60)',
-          backdropFilter: 'blur(60px) saturate(1.8)',
-          WebkitBackdropFilter: 'blur(60px) saturate(1.8)',
-          borderColor: 'hsl(0 0% 100% / 0.5)',
-          boxShadow: 'inset 0 0.5px 0 0 rgba(255,255,255,0.7), 0 24px 48px rgba(0,0,0,0.15)',
-        }}
         {...props}
       >
-        {/* Luminous accent line */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+        {/* Premium Glass Header */}
+        <div className="relative">
+          {/* Gradient accent line */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+          
+          {/* Close button with premium styling */}
+          <SheetPrimitive.Close className={cn(
+            "absolute right-4 top-4 z-10",
+            "h-8 w-8 rounded-full",
+            "bg-muted/50 backdrop-blur-sm",
+            "flex items-center justify-center",
+            "text-muted-foreground hover:text-foreground",
+            "hover:bg-muted transition-all duration-300",
+            "hover:scale-110 active:scale-95",
+            "ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+          )}>
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </SheetPrimitive.Close>
+        </div>
         
-        {/* Glass close button */}
-        <SheetPrimitive.Close className={cn(
-          "absolute right-4 top-4 z-10",
-          "h-8 w-8 rounded-full glass-ios-thin",
-          "flex items-center justify-center",
-          "text-muted-foreground hover:text-foreground",
-          "active:scale-90 transition-all duration-200",
-          "ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-        )}
-        style={{ transitionTimingFunction: 'var(--ease-spring)' }}
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
-        
-        {/* Content */}
+        {/* Content wrapper with padding */}
         <div className="h-full overflow-y-auto overscroll-contain px-6 pt-6 pb-8">
           {children}
         </div>
         
-        {/* Bottom fade */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white/80 to-transparent" />
+        {/* Bottom fade gradient for scroll indication */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
       </SheetPrimitive.Content>
     </SheetPortal>
   ),
@@ -123,7 +119,11 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Title 
     ref={ref} 
-    className={cn("text-xl font-display font-semibold text-foreground", className)} 
+    className={cn(
+      "text-xl font-display font-semibold text-foreground",
+      "bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text",
+      className
+    )} 
     {...props} 
   />
 ));

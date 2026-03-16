@@ -194,22 +194,8 @@ export const BhindiFooter = () => {
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_90%_55%/0.05)_0%,transparent_50%)]" />
       
-      {/* As Featured In Strip */}
-      <div className="relative border-b border-border/30">
-        <div className="container mx-auto px-6 py-8">
-          <p className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-5">As Featured In</p>
-          <div className="flex items-center justify-center gap-8 md:gap-12 opacity-40 grayscale">
-            {["YourStory", "Inc42", "Hindustan Times", "The Economic Times", "Mint"].map((pub) => (
-              <span key={pub} className="text-sm md:text-base font-semibold text-muted-foreground whitespace-nowrap">
-                {pub}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* CTA Section */}
-      <div className="relative container mx-auto px-6 py-12">
+      <div className="relative container mx-auto px-6 py-16">
         <div className="group relative rounded-2xl overflow-hidden">
           {/* CTA Background */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/10 to-primary/5" />
@@ -217,7 +203,7 @@ export const BhindiFooter = () => {
           {/* Border */}
           <div className="absolute inset-0 rounded-2xl border-2 border-accent/30" />
           
-          <div className="relative px-8 sm:px-12 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
               <h2 className="font-semibold text-foreground text-lg md:text-xl max-w-2xl">
                 {!user 
