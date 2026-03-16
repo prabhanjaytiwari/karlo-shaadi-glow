@@ -151,6 +151,23 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+  /* iOS 26 Living Mesh Background — mobile only */
+  @media (max-width: 767px) {
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, hsl(340 60% 90% / 0.5) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 30%, hsl(38 80% 88% / 0.4) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 50% 80%, hsl(280 40% 92% / 0.35) 0%, transparent 50%),
+        linear-gradient(180deg, hsl(350 30% 98%) 0%, hsl(0 0% 100%) 50%, hsl(40 40% 99%) 100%);
+      animation: meshShift 20s ease-in-out infinite alternate;
+      will-change: background-position;
+    }
+  }
+  
   /* Premium Typography Hierarchy */
   h1 {
     @apply font-display font-semibold;
