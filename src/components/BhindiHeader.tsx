@@ -268,16 +268,29 @@ export const BhindiHeader = () => {
                   <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="relative">
-                      <ul className="grid w-[600px] gap-1 p-4 md:grid-cols-2">
+                      <ul className="grid w-[620px] gap-1.5 p-4 md:grid-cols-2">
                         {categories.map((category) => (
-                          <ListItem
-                            key={category.title}
-                            title={category.title}
-                            href={category.href}
-                            icon={category.icon}
-                          >
-                            {category.description}
-                          </ListItem>
+                          <li key={category.title}>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to={category.href}
+                                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-accent/5 transition-colors group/cat"
+                              >
+                                <img
+                                  src={category.image}
+                                  alt={category.title}
+                                  className="w-10 h-10 rounded-lg object-cover ring-1 ring-border/50 group-hover/cat:ring-accent/40 transition-all"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium">{category.title}</span>
+                                    <span className="text-[10px] text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded-full">{category.count}</span>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground truncate">{category.description}</p>
+                                </div>
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
                         ))}
                       </ul>
                     </div>
