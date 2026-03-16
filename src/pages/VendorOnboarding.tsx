@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,7 @@ import {
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
   Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft,
   Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight,
-  CheckCircle, X
+  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { z } from "zod";
@@ -23,6 +23,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 // Hero images
 import heroStep1 from "@/assets/onboarding-step-1.jpg";
@@ -31,6 +32,9 @@ import heroStep3 from "@/assets/onboarding-step-3.jpg";
 import heroStep4 from "@/assets/onboarding-step-4.jpg";
 import heroStep5 from "@/assets/onboarding-step-5.jpg";
 import heroStep6 from "@/assets/onboarding-step-6.jpg";
+
+// Hero for Step 0 (auth) — reuse the main shaadi hero
+import heroAuth from "@/assets/hero-auth-mandap.jpg";
 
 // ── Validation Schemas ──
 const step2Schema = z.object({
@@ -74,7 +78,7 @@ const CATEGORIES: CategoryCard[] = [
   { value: "influencer", label: "Influencer", tagline: "Amplify your reach", icon: <Sparkles className="w-6 h-6" /> },
 ];
 
-// ── Step Config ──
+// ── Step Config (Steps 1-6 displayed to user; Step 0 = auth, hidden from stepper) ──
 const STEPS = [
   { num: 1, label: "Category", hindiLabel: "Apka Kaam", icon: <Palette className="w-4 h-4" /> },
   { num: 2, label: "Business", hindiLabel: "Business", icon: <Building2 className="w-4 h-4" /> },
@@ -106,7 +110,7 @@ const PRICE_SUGGESTIONS: Record<string, string> = {
 const STORAGE_KEY = "ks_vendor_onboarding_draft";
 const GENDER_CATEGORIES = ["makeup", "photography", "mehendi"];
 
-// Gradient backgrounds per step
+// Gradient backgrounds per step (index 0 = step 1)
 const STEP_GRADIENTS = [
   "from-rose-950/90 via-amber-950/70 to-rose-950/90",
   "from-amber-950/90 via-orange-950/70 to-amber-950/90",
@@ -173,9 +177,10 @@ const SUBSCRIPTION_PLANS = [
 export default function VendorOnboarding() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { trackEvent } = useAnalytics();
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0); // Start at 0 (auth step)
   const [direction, setDirection] = useState(1);
   const [cities, setCities] = useState<any[]>([]);
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -184,6 +189,15 @@ export default function VendorOnboarding() {
   const [createdVendorId, setCreatedVendorId] = useState<string | null>(null);
   const [showSubscriptionCheckout, setShowSubscriptionCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // Auth step state
+  const [authLoading, setAuthLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   const [formData, setFormData] = useState({
     category: "", businessName: "", cityId: "", yearsExperience: "", startingPrice: "",
@@ -191,8 +205,39 @@ export default function VendorOnboarding() {
     instagramHandle: "", facebookPage: "", googleMapsLink: "", websiteUrl: "", address: "",
   });
 
-  const totalSteps = 6;
+  const totalSteps = 6; // Steps 1-6 displayed to user
   const offerActive = isOfferActive();
+
+  // ── Check auth on mount — skip Step 0 if already logged in ──
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        // Already authenticated — check if they have a vendor profile
+        const { data: vendorData } = await supabase
+          .from("vendors").select("id").eq("user_id", session.user.id).maybeSingle();
+        if (vendorData) {
+          toast({ title: "Already Registered", description: "Redirecting to your dashboard." });
+          navigate("/vendor/dashboard");
+          return;
+        }
+        // No vendor profile — skip to Step 1
+        setStep(1);
+      }
+      // else stay on Step 0 (auth)
+      setAuthChecked(true);
+    };
+    checkAuth();
+
+    // Listen for auth changes (e.g., returning from email confirmation)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user && step === 0) {
+        setStep(1);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // ── Load saved draft ──
   useEffect(() => {
@@ -208,20 +253,8 @@ export default function VendorOnboarding() {
   }, [formData]);
 
   useEffect(() => {
-    checkExistingVendor();
     loadCities();
   }, []);
-
-  const checkExistingVendor = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    const { data: vendorData } = await supabase
-      .from("vendors").select("id").eq("user_id", user.id).maybeSingle();
-    if (vendorData) {
-      toast({ title: "Already Registered", description: "Redirecting to your dashboard." });
-      navigate("/vendor/dashboard");
-    }
-  };
 
   const loadCities = async () => {
     const { data } = await supabase.from("cities").select("*").eq("is_active", true);
@@ -235,6 +268,87 @@ export default function VendorOnboarding() {
       return updated;
     });
   }, [sameAsPhone]);
+
+  // ── Auth Handlers ──
+  const handleGoogleSignIn = async () => {
+    setAuthLoading(true);
+    try {
+      const { lovable } = await import("@/integrations/lovable/index");
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result?.error) throw result.error;
+      trackEvent({ event_type: "vendor_signup", metadata: { method: "google" } }).catch(() => {});
+    } catch (error: any) {
+      toast({ title: "Google sign-in failed", description: error.message || "Please try again.", variant: "destructive" });
+      setAuthLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthLoading(true);
+
+    const trimmedName = signupName.trim();
+    const trimmedEmail = signupEmail.trim();
+
+    if (!trimmedName || trimmedName.length < 2) {
+      toast({ title: "Name required", description: "Please enter your name (at least 2 characters)", variant: "destructive" });
+      setAuthLoading(false);
+      return;
+    }
+
+    if (!trimmedEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      toast({ title: "Invalid email", description: "Please enter a valid email address", variant: "destructive" });
+      setAuthLoading(false);
+      return;
+    }
+
+    if (signupPassword.length < 6) {
+      toast({ title: "Weak password", description: "Password must be at least 6 characters", variant: "destructive" });
+      setAuthLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: sanitizeInput(trimmedEmail),
+        password: signupPassword,
+        options: {
+          emailRedirectTo: `${window.location.origin}/vendor/onboarding`,
+          data: {
+            full_name: sanitizeInput(trimmedName),
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        trackEvent({ event_type: "vendor_signup", metadata: { method: "password" } }).catch(() => {});
+
+        supabase.functions.invoke('onboarding-email', {
+          body: { user_id: data.user.id, email: trimmedEmail, name: trimmedName, user_type: 'vendor' }
+        }).catch(err => console.error('Welcome email failed:', err));
+
+        const needsEmailConfirmation = data.user.identities?.length === 0 ||
+          (!data.session && data.user.email_confirmed_at === null);
+
+        if (needsEmailConfirmation || !data.session) {
+          setEmailSent(true);
+          toast({ title: "Check your email ✉️", description: "Click the link to verify your account, then you'll continue here." });
+        } else {
+          // Auto-confirmed — skip to step 1
+          setStep(1);
+          toast({ title: "Account created! 🎉", description: "Let's set up your vendor profile." });
+        }
+      }
+    } catch (error: any) {
+      toast({ title: "Signup failed", description: error.message || "Unable to create account.", variant: "destructive" });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
 
   // ── Logo ──
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -291,17 +405,17 @@ export default function VendorOnboarding() {
       }
     }
     setDirection(1);
-    setStep(s => Math.min(s + 1, totalSteps));
+    setStep(s => Math.min(s + 1, 6));
   };
 
   const prevStep = () => {
-    if (step === 6) return; // Can't go back from subscription step
+    if (step === 6 || step <= 1) return;
     setDirection(-1);
     setStep(s => Math.max(s - 1, 1));
   };
 
   const jumpToStep = (target: number) => {
-    if (step === 6) return; // Can't jump back from subscription
+    if (step === 6 || target < 1) return;
     setDirection(target > step ? 1 : -1);
     setStep(target);
   };
@@ -344,7 +458,6 @@ export default function VendorOnboarding() {
       
       toast({ title: "Profile Created! 🎉", description: "Now choose a plan to grow faster." });
       
-      // Auto-advance to subscription step
       setDirection(1);
       setStep(6);
     } catch (error: any) {
@@ -371,8 +484,10 @@ export default function VendorOnboarding() {
 
   const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
   const selectedCity = cities.find(c => c.id === formData.cityId);
-  const currentStory = STEP_STORYTELLING[step - 1];
-  const currentHero = STEP_HEROES[step - 1];
+
+  // For steps 1-6, map to storytelling/hero arrays (index 0-5)
+  const currentStory = step >= 1 ? STEP_STORYTELLING[step - 1] : null;
+  const currentHero = step >= 1 ? STEP_HEROES[step - 1] : heroAuth;
 
   // ── Slide animation ──
   const slideVariants = {
@@ -381,6 +496,233 @@ export default function VendorOnboarding() {
     exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
   };
 
+  // Don't render until auth check completes
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-foreground flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-accent" />
+      </div>
+    );
+  }
+
+  // ═══ STEP 0: Create Account ═══
+  if (step === 0) {
+    return (
+      <div className="min-h-screen bg-foreground relative overflow-hidden">
+        {/* Floating decorative orbs */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+          <motion.div
+            animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-20 right-10 w-32 h-32 rounded-full"
+            style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.15), transparent)" }}
+          />
+          <motion.div
+            animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-40 left-5 w-24 h-24 rounded-full"
+            style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.12), transparent)" }}
+          />
+        </div>
+
+        <div className="relative z-10 min-h-screen flex flex-col">
+          {/* Hero Banner */}
+          <div className="relative h-48 md:h-64 overflow-hidden">
+            <img src={heroAuth} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "contrast(1.05) saturate(1.1)" }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
+            <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
+              <motion.p
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-accent font-bold text-xs tracking-[0.2em] uppercase mb-1"
+              >
+                Vendor Registration
+              </motion.p>
+              <motion.h1
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-white font-bold text-2xl md:text-3xl leading-tight"
+                style={{ fontFamily: "'Georgia', serif" }}
+              >
+                Apni Shaadi Business Shuru Karo
+              </motion.h1>
+              <motion.p
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-white/70 text-sm mt-1"
+              >
+                Start Your Wedding Business Journey — Create your account in 30 seconds
+              </motion.p>
+            </div>
+          </div>
+
+          {/* Auth Form */}
+          <div className="flex-1 max-w-md mx-auto w-full px-4 py-6">
+            <div className="bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl shadow-2xl p-6">
+              
+              {emailSent ? (
+                <motion.div
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="text-center py-8"
+                >
+                  <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4">
+                    <Mail className="w-8 h-8 text-accent" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white mb-2">Check Your Email ✉️</h2>
+                  <p className="text-white/50 text-sm mb-6">
+                    We sent a verification link to <strong className="text-white/80">{signupEmail}</strong>. 
+                    Click it to continue your onboarding.
+                  </p>
+                  <p className="text-white/30 text-xs mb-4">
+                    After verifying, you'll be automatically redirected here to complete your profile setup.
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-accent hover:bg-accent/10"
+                    onClick={() => { setEmailSent(false); setSignupEmail(""); setSignupPassword(""); setSignupName(""); }}
+                  >
+                    Use a different email
+                  </Button>
+                </motion.div>
+              ) : (
+                <>
+                  {/* Google OAuth */}
+                  <Button
+                    variant="outline"
+                    className="w-full mb-4 gap-2 border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08] hover:text-white"
+                    onClick={handleGoogleSignIn}
+                    disabled={authLoading}
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                      <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    Continue with Google
+                  </Button>
+
+                  <div className="relative mb-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t border-white/10" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-foreground px-3 text-white/30">or create with email</span>
+                    </div>
+                  </div>
+
+                  {/* Signup Form */}
+                  <form onSubmit={handleSignup} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-name" className="text-white/70">Your Name</Label>
+                      <div className="relative">
+                        <UserPlus className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input
+                          id="signup-name"
+                          type="text"
+                          placeholder="Your full name"
+                          value={signupName}
+                          onChange={(e) => setSignupName(e.target.value)}
+                          required
+                          disabled={authLoading}
+                          className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-email" className="text-white/70">Email Address</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          placeholder="business@example.com"
+                          value={signupEmail}
+                          onChange={(e) => setSignupEmail(e.target.value)}
+                          required
+                          disabled={authLoading}
+                          className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-password" className="text-white/70">Password</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-white/30" />
+                        <Input
+                          id="signup-password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Min. 6 characters"
+                          value={signupPassword}
+                          onChange={(e) => setSignupPassword(e.target.value)}
+                          required
+                          minLength={6}
+                          disabled={authLoading}
+                          className="pl-10 pr-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-full px-3 text-white/30 hover:text-white/60 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold"
+                      disabled={authLoading}
+                    >
+                      {authLoading ? (
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating Account...</>
+                      ) : (
+                        <>Create Account & Start <ArrowRight className="w-4 h-4 ml-2" /></>
+                      )}
+                    </Button>
+
+                    <p className="text-[10px] text-center text-white/25">
+                      By signing up, you agree to our Terms and Privacy Policy
+                    </p>
+                  </form>
+                </>
+              )}
+
+              {/* Login link */}
+              <div className="mt-6 pt-4 border-t border-white/10 text-center">
+                <p className="text-sm text-white/40">
+                  Already have an account?{" "}
+                  <Link to="/vendor-auth" className="text-accent hover:text-accent/80 font-semibold">
+                    Login here
+                  </Link>
+                </p>
+              </div>
+            </div>
+
+            {/* Couple link */}
+            <div className="text-center mt-4">
+              <p className="text-xs text-white/25">
+                Looking for vendors?{" "}
+                <Link to="/auth" className="text-accent/60 hover:text-accent">Sign up as couple</Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ═══ STEPS 1-6: Onboarding Wizard ═══
   return (
     <div className="min-h-screen bg-foreground relative overflow-hidden">
       {/* Floating decorative orbs */}
@@ -439,7 +781,7 @@ export default function VendorOnboarding() {
                 className="text-white font-bold text-2xl md:text-3xl leading-tight"
                 style={{ fontFamily: "'Georgia', serif" }}
               >
-                {currentStory.hindi}
+                {currentStory?.hindi}
               </motion.h1>
               <motion.p
                 initial={{ y: 10, opacity: 0 }}
@@ -447,7 +789,7 @@ export default function VendorOnboarding() {
                 transition={{ delay: 0.4 }}
                 className="text-white/70 text-sm mt-1"
               >
-                {currentStory.english} — {currentStory.subtitle}
+                {currentStory?.english} — {currentStory?.subtitle}
               </motion.p>
             </div>
           </motion.div>
@@ -726,7 +1068,6 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 5: Review & Submit ═══ */}
                 {step === 5 && (
                   <div className="space-y-4">
-                    {/* Summary Sections */}
                     <ReviewBlock title="Category" onEdit={() => jumpToStep(1)}>
                       <div className="flex items-center gap-2 text-white/80">
                         {selectedCategory?.icon}
@@ -758,7 +1099,6 @@ export default function VendorOnboarding() {
                       )}
                     </ReviewBlock>
 
-                    {/* Trust Signals */}
                     <div className="bg-accent/[0.08] border border-accent/20 rounded-xl p-4 flex flex-wrap gap-4 text-xs text-white/70">
                       <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent" /> <strong className="text-white/90">100% Free</strong></span>
                       <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> <strong className="text-white/90">Zero Commission</strong></span>
@@ -770,7 +1110,6 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 6: Subscription Upsell ═══ */}
                 {step === 6 && (
                   <div className="space-y-6">
-                    {/* Success message */}
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -787,7 +1126,6 @@ export default function VendorOnboarding() {
 
                     {offerActive && <CountdownBanner compact className="rounded-xl" />}
 
-                    {/* Plan cards */}
                     <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
                       {SUBSCRIPTION_PLANS.map((plan, idx) => {
                         const PlanIcon = plan.icon;
@@ -857,13 +1195,11 @@ export default function VendorOnboarding() {
                       })}
                     </div>
 
-                    {/* Trust signals */}
                     <div className="flex items-center justify-center gap-4 text-[10px] text-white/30">
                       <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> 100% money-back guarantee</span>
                       <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Cancel anytime</span>
                     </div>
 
-                    {/* Skip button */}
                     <div className="text-center">
                       <Button
                         variant="ghost"
@@ -880,7 +1216,7 @@ export default function VendorOnboarding() {
           </div>
 
           {/* ── Sticky Bottom Navigation (Steps 1-5 only) ── */}
-          {step < 6 && (
+          {step >= 1 && step < 6 && (
             <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-foreground/95 backdrop-blur-md border-t border-white/10 p-4 z-50" : ""}`}>
               {step > 1 && (
                 <Button type="button" variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white/70 hover:bg-white/5 hover:text-white">
