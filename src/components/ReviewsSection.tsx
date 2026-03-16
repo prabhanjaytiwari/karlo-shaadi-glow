@@ -154,19 +154,27 @@ export const ReviewsSection = () => {
                     "{testimonial.text}"
                   </p>
                   
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     {/* Avatar with Ring */}
                     <div className="relative">
                       <div className="absolute -inset-1 bg-gradient-to-r from-accent to-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                       <img
                         src={testimonial.avatar}
                         alt={testimonial.name}
-                        className="relative w-12 h-12 rounded-full ring-2 ring-accent/30 group-hover:ring-accent/50 transition-all duration-300"
+                        className="relative w-12 h-12 rounded-full ring-2 ring-accent/30 group-hover:ring-accent/50 transition-all duration-300 object-cover"
                       />
                     </div>
-                    <div>
-                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.handle}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300 text-sm">{testimonial.name}</p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="flex items-center gap-0.5 text-xs text-muted-foreground">
+                          <MapPin className="h-3 w-3" />
+                          {testimonial.city}
+                        </span>
+                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">
+                          {testimonial.vendorType}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                 </div>
