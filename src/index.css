@@ -1011,3 +1011,39 @@
   filter: contrast(1.02) saturate(1.05);
   image-rendering: -webkit-optimize-contrast;
 }
+
+/* iOS 26 Mesh Background Animation */
+@keyframes meshShift {
+  0% {
+    background-position: 0% 0%, 100% 0%, 50% 100%;
+  }
+  33% {
+    background-position: 30% 10%, 70% 20%, 40% 80%;
+  }
+  66% {
+    background-position: 10% 30%, 90% 10%, 60% 70%;
+  }
+  100% {
+    background-position: 20% 0%, 80% 30%, 50% 90%;
+  }
+}
+
+/* Glass shimmer sweep for CTAs */
+@keyframes glassShimmer {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+.glass-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.25), transparent);
+  animation: glassShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
