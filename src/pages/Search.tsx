@@ -373,7 +373,7 @@ export default function Search() {
         </header>
 
         {/* ── CONTENT ── */}
-        <div className="px-4 pt-4 pb-28 space-y-4">
+        <div className="px-4 pt-4 pb-24 space-y-4">
 
           {/* Results */}
           {loading ? (
