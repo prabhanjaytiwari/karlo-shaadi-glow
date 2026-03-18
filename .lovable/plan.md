@@ -1,179 +1,77 @@
 
 
-# Complete Platform UI/UX Transformation
+# Complete Platform Audit & Fix Plan
 
-## Scope
+## Issues Found (Full Codebase Audit)
 
-The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
+### A. Broken Routes & Links
 
-This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 1 | **Vendor Leaderboard route mismatch** — MobileHomeScreen links to `/vendor-leaderboard` but App.tsx route is `/leaderboard` | `MobileHomeScreen.tsx` line 543 | Change to `/leaderboard` |
+| 2 | **Footer "Register as Vendor"** links to `/for-vendors` (extra hop) instead of `/vendor/onboarding` | `BhindiFooter.tsx` line 31 | Change to `/vendor/onboarding` |
+| 3 | **Footer "Vendor Login"** links to `/vendor-auth` — correct for login, keep as-is | — | No change needed |
+| 4 | **Settings page missing `pb-24`** on mobile — content hidden behind bottom nav | `Settings.tsx` line 40 | Add `pb-24` to mobile main |
 
----
+### B. Auth & Post-Auth Flow Issues
 
-## Design Language to Replicate
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 5 | **Couple signup with email verification** — after clicking email link, user lands on `/dashboard` via `emailRedirectTo` but if `ProtectedRoute` check hasn't resolved `user_roles` yet, they may briefly flash loading | `Auth.tsx` | Already handled — session check on mount redirects properly |
+| 6 | **Magic link for couples** redirects to `/dashboard` directly — works but skips role check | `Auth.tsx` line 97 | Change `emailRedirectTo` to `${window.location.origin}/auth` so session check handles routing |
 
-From `MobileHomeScreen.tsx`, the established patterns are:
-- Near full-bleed hero banners with gradient overlays on real images
-- Compact trust stat grids
-- Horizontal scroll cards with generated images
-- Gold accent ring borders on icons
-- `space-y-5` tight section spacing
-- Gradient-background interactive cards
-- Sheet-based slide-out menus
-- Mobile-first compact typography (H1: text-2xl, body: text-sm)
+### C. Data & Display Issues  
 
----
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 7 | **MobileHomeScreen placeholder vendors** use hard-coded `city` string field instead of `cities` relation — inconsistent with real vendor data structure, but the display line 404 already handles both: `vendor.cities?.name || vendor.city || 'India'` | — | Working correctly, no fix needed |
+| 8 | **Vendor images in Search desktop grid** — already fixed with `logo_url` / `vendor_portfolio` fallback chain in previous iteration | — | Confirmed working |
 
-## Phase 1: Core User Journey Pages (Priority)
+### D. UX Polish & Missing Pieces
 
-### 1. Auth Page (`src/pages/Auth.tsx`)
-- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
-- Split layout on desktop: image left, form right
-- Mobile: image banner on top (h-40), form below
-- Gold accent divider and brand tagline above form
-- Rounded-2xl card with subtle ring-1 ring-accent/20
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 9 | **Settings page mobile layout** — no `pb-24`, content cut off by bottom nav | `Settings.tsx` | Add mobile bottom padding |
+| 10 | **Favorites page** — uses `supabase.auth.getUser()` directly instead of `useAuthContext`, causing redundant auth calls | `Favorites.tsx` | Cosmetic — works, low priority |
+| 11 | **Messages page** — same pattern as Favorites | `Messages.tsx` | Cosmetic — works, low priority |
 
-### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
-- Replace flat gradient bg with clean white background
-- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
-- Wedding countdown: immersive banner card with generated celebration image
-- Tighter spacing throughout (space-y-4 on mobile)
-- Profile completion: compact progress bar instead of badge list
+### E. Header/Footer Consistency
 
-### 3. Search Page (`src/pages/Search.tsx`)
-- Mobile: sticky search bar with category chips as horizontal scroll
-- Generated category header images when a category is selected
-- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
-- Compact card layout with image left, info right on mobile
+| # | Issue | Status |
+|---|-------|--------|
+| 12 | **Desktop header** hides on mobile ✓ | Correct |
+| 13 | **Footer** hides on mobile ✓ | Correct |
+| 14 | **BottomNavigation** shows correct role-based tabs ✓ | Correct (Profile → `/profile` fixed in prior iteration) |
+| 15 | **MobilePageHeader** height `h-14` ✓ | Correct |
 
-### 4. Categories Page (`src/pages/Categories.tsx`)
-- Generate a hero banner image (wedding collage mosaic)
-- Category grid: use existing category images with overlay text
-- Mobile: 2-column grid with tighter gap-3
-- Add MobilePageHeader for mobile consistency
+### F. Route Coverage Verification
 
-### 5. Bookings Page (`src/pages/Bookings.tsx`)  
-- Already mobile-optimized but needs visual polish
-- Add subtle card backgrounds with vendor category-colored left borders
-- Empty state: generate a "no bookings" illustration
+Verified all routes in `App.tsx` (~85 routes) against their linked locations in headers, footers, menus, and CTAs. The following are the only remaining mismatches:
 
-### 6. Favorites Page (`src/pages/Favorites.tsx`)
-- Add MobilePageHeader
-- Mobile: single column cards with vendor image thumbnails
-- Generate an empty state illustration (couple browsing vendors)
+1. `/vendor-leaderboard` (MobileHomeScreen) → should be `/leaderboard`
+2. Footer "Register as Vendor" → should be `/vendor/onboarding`
+3. Couple magic link `emailRedirectTo` → should route through `/auth` for proper session-based redirect
 
 ---
 
-## Phase 2: Marketing & Conversion Pages
+## Implementation Plan
 
-### 7. Pricing Page (`src/pages/Pricing.tsx`)
-- Generate a premium hero image (couple enjoying wedding stress-free)
-- Cards: glassmorphism effect with gold border for premium plan
-- Mobile: stack cards vertically, add "Most Popular" ribbon
-- FAQ: use Accordion component for collapsibility
+### Fix 1: MobileHomeScreen — broken leaderboard route
+**File**: `src/components/mobile/MobileHomeScreen.tsx` line 543
+- Change `route: '/vendor-leaderboard'` → `route: '/leaderboard'`
 
-### 8. Deals Page (`src/pages/Deals.tsx`)
-- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
-- Hero section: immersive banner with deals tagline
-- Deal cards: image thumbnails with price strike-through styling
-- Mobile: horizontal scroll for seasonal offers
+### Fix 2: Footer — vendor registration link
+**File**: `src/components/BhindiFooter.tsx` line 31  
+- Change `{ label: "Register as Vendor", to: "/for-vendors" }` → `{ label: "Register as Vendor", to: "/vendor/onboarding" }`
 
-### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
-- Generate a vendor success hero image (vendor team celebrating)
-- Stats section: animated counters with gold icon backgrounds
-- Mobile: compact single-column layout
-- Add MobilePageHeader
+### Fix 3: Auth magic link redirect
+**File**: `src/pages/Auth.tsx` line 97
+- Change `emailRedirectTo: \`${window.location.origin}/dashboard\`` → `emailRedirectTo: \`${window.location.origin}/auth\``
+- This ensures the session check on mount handles role-based routing correctly
 
-### 10. About Page (`src/pages/About.tsx`)
-- Generate founder/team section image
-- Values grid: use generated symbolic images (heart for love, shield for trust)
-- Stats section: gradient background with larger typography
-- Mobile: single column with tight spacing
+### Fix 4: Settings page mobile padding
+**File**: `src/pages/Settings.tsx` line 40
+- Change `"px-4 py-4"` → `"px-4 py-4 pb-24"` for mobile layout
 
----
-
-## Phase 3: Tool & Utility Pages
-
-### 11. Profile Page (`src/pages/Profile.tsx`)
-- Cleaner form layout with section dividers
-- Add avatar placeholder with initials
-- Mobile: full-width inputs with consistent padding
-
-### 12. FAQ Page (`src/pages/FAQ.tsx`)
-- Generate a support-themed hero image
-- Category icons with colored backgrounds
-- Collapsible accordion with smooth animations
-
-### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
-- Generate an emotional hero image (community wedding celebration)
-- Impact counter with animated numbers
-- Application form with clean card layout
-
-### 14. Checklist Page (`src/pages/Checklist.tsx`)
-- Add progress visualization
-- Category-grouped tasks with icons
-
-### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
-- Gallery section polish
-- Contact card with generated map placeholder
-
----
-
-## Image Generation Plan
-
-Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
-
-| # | Image | Usage |
-|---|-------|-------|
-| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
-| 2 | Wedding celebration collage/mosaic | Categories page hero |
-| 3 | Couple enjoying wedding carefree | Pricing page hero |
-| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
-| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
-| 6 | Early morning wedding ceremony | Deals - seasonal banner |
-| 7 | Vendor team group celebration | ForVendors hero |
-| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
-| 9 | Couple browsing on phone | Favorites empty state |
-| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
-| 11 | Support/help desk friendly | FAQ hero |
-| 12 | Founder portrait style (professional) | About page |
-
----
-
-## Technical Approach
-
-### Consistent Patterns
-- All pages get `MobilePageHeader` on mobile
-- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
-- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
-- Cards: `rounded-2xl border border-border/50` with hover states
-- Generated images stored in `src/assets/` as JPGs
-- Hero sections: image with gradient overlay, not plain gradient backgrounds
-
-### Wiring Check
-- All navigation links verified between pages
-- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
-- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
-- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
-
-### Mobile-First
-- Every page uses `useIsMobile()` for responsive branching
-- Touch targets minimum 44px
-- Horizontal scrolls for lists that overflow on mobile
-- No desktop-only sections hidden on mobile (content parity)
-
----
-
-## Implementation Order
-
-1. Generate all 12 images first (batch edge function calls)
-2. Auth page transformation (highest conversion impact)
-3. Dashboard page polish
-4. Search + Categories pages
-5. Deals + Pricing pages
-6. ForVendors + About pages
-7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
-8. Final wiring and navigation audit
-
-This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
+These are the **only remaining issues** after the previous two rounds of fixes. The auth flows, vendor onboarding, image display, navigation, and CTA wiring are all verified working.
 
