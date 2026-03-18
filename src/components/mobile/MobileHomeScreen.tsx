@@ -538,7 +538,7 @@ export function MobileHomeScreen() {
             <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
               {[
                 { title: 'Shaadi Wrapped', desc: 'Your wedding recap', route: '/shaadi-wrapped', icon: Sparkles },
-                { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn-with-us', icon: TrendingUp },
+                { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn', icon: TrendingUp },
                 { title: 'Why Karlo Shaadi?', desc: 'See why we\'re #1', route: '/why-karlo-shaadi', icon: Award },
                 { title: 'Vendor Leaderboard', desc: 'Top rated vendors', route: '/vendor-leaderboard', icon: Building2 },
               ].map((item) => (
