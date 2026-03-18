@@ -19,10 +19,33 @@ const VendorAuth = () => {
   const [magicLinkEmail, setMagicLinkEmail] = useState("");
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [authMethod, setAuthMethod] = useState<'password' | 'magic'>('password');
+  const [checkingSession, setCheckingSession] = useState(true);
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+
+  // Check if already signed in on mount
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: vendorProfile } = await supabase
+          .from("vendors")
+          .select("id")
+          .eq("user_id", session.user.id)
+          .maybeSingle();
+        if (vendorProfile) {
+          navigate("/vendor/dashboard", { replace: true });
+        } else {
+          navigate("/vendor/onboarding", { replace: true });
+        }
+        return;
+      }
+      setCheckingSession(false);
+    };
+    checkSession();
+  }, [navigate]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
