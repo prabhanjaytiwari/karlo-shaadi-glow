@@ -558,12 +558,21 @@ export default function Search() {
                                   </div>
                                 )}
 
-                                <div className={cn(
-                                  "w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center mb-4 shadow-sm",
-                                  gradientClass
-                                )}>
-                                  <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
-                                </div>
+                                {(() => {
+                                  const imgUrl = vendor.logo_url || vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
+                                  return imgUrl ? (
+                                    <div className="w-14 h-14 rounded-2xl overflow-hidden mb-4 shadow-sm">
+                                      <img src={imgUrl} alt={vendor.business_name} className="w-full h-full object-cover" />
+                                    </div>
+                                  ) : (
+                                    <div className={cn(
+                                      "w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center mb-4 shadow-sm",
+                                      gradientClass
+                                    )}>
+                                      <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
+                                    </div>
+                                  );
+                                })()}
 
                                 <h3 className="text-base font-semibold text-foreground mb-1 truncate flex items-center gap-1.5">
                                   {vendor.business_name}
