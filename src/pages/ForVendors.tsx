@@ -365,7 +365,7 @@ const ForVendors = () => {
                   Join 5,000+ vendors who grew their wedding business with zero commission.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8 font-semibold">
+                  <Button size="lg" onClick={() => navigate("/vendor/onboarding")} className="rounded-full px-8 font-semibold">
                     Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Link to="/vendor-pricing">
