@@ -113,7 +113,9 @@ function useVendors() {
     queryFn: async () => {
       const { data } = await supabase
         .from('vendors')
-        .select('id, business_name, category, city, average_rating, total_reviews, logo_url, portfolio_images')
+        .select('id, business_name, category, average_rating, total_reviews, logo_url, cities (name), vendor_portfolio (image_url, display_order)')
+        .eq('is_active', true)
+        .eq('verified', true)
         .order('average_rating', { ascending: false })
         .limit(8);
       return data || [];
