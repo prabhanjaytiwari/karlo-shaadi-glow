@@ -290,7 +290,7 @@ export function MobileHomeScreen() {
       </Sheet>
 
       {/* ── CONTENT ── */}
-      <div className="space-y-5 pb-20">
+      <div className="space-y-5 pb-24">
 
         {/* ── HERO BANNER (full-bleed) ── */}
         <section className="mx-3 mt-3">
