@@ -264,7 +264,7 @@ const ForVendors = () => {
                   ))}
                 </div>
 
-                <Button size="lg" onClick={() => navigate("/vendor-auth")} className="rounded-full px-8 font-semibold">
+                <Button size="lg" onClick={() => navigate("/vendor/onboarding")} className="rounded-full px-8 font-semibold">
                   Create Free Profile <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
