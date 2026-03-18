@@ -401,7 +401,7 @@ export function MobileHomeScreen() {
                     </div>
                     <div className="p-2.5">
                       <p className="text-xs font-semibold text-foreground truncate">{vendor.business_name}</p>
-                      <p className="text-[10px] text-muted-foreground capitalize">{vendor.category} · {vendor.city}</p>
+                      <p className="text-[10px] text-muted-foreground capitalize">{vendor.category} · {vendor.cities?.name || vendor.city || 'India'}</p>
                       <div className="flex items-center gap-1 mt-1">
                         <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
                         <span className="text-[10px] font-semibold text-foreground">{vendor.average_rating || '4.8'}</span>
