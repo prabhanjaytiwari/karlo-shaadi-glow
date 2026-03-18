@@ -453,6 +453,12 @@ export default function VendorOnboarding() {
 
       if (vendorError) throw vendorError;
 
+      // Assign vendor role so ProtectedRoute grants access to /vendor/dashboard
+      await supabase.from("user_roles").upsert(
+        { user_id: user.id, role: "vendor" as any },
+        { onConflict: "user_id,role" }
+      );
+
       localStorage.removeItem(STORAGE_KEY);
       setCreatedVendorId(vendorData.id);
       
