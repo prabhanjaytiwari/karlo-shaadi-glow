@@ -195,7 +195,7 @@ export const BhindiFooter = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_90%_55%/0.05)_0%,transparent_50%)]" />
       
       {/* CTA Section */}
-      <div className="relative container mx-auto px-6 py-16">
+      <div className="relative container mx-auto px-4 md:px-6 py-16">
         <div className="group relative rounded-2xl overflow-hidden">
           {/* CTA Background */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/10 to-primary/5" />
@@ -203,7 +203,7 @@ export const BhindiFooter = () => {
           {/* Border */}
           <div className="absolute inset-0 rounded-2xl border-2 border-accent/30" />
           
-          <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative px-6 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
               <h2 className="font-semibold text-foreground text-lg md:text-xl max-w-2xl">
                 {!user 
