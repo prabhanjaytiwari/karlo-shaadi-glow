@@ -540,7 +540,7 @@ export function MobileHomeScreen() {
                 { title: 'Shaadi Wrapped', desc: 'Your wedding recap', route: '/shaadi-wrapped', icon: Sparkles },
                 { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn', icon: TrendingUp },
                 { title: 'Why Karlo Shaadi?', desc: 'See why we\'re #1', route: '/why-karlo-shaadi', icon: Award },
-                { title: 'Vendor Leaderboard', desc: 'Top rated vendors', route: '/vendor-leaderboard', icon: Building2 },
+                { title: 'Vendor Leaderboard', desc: 'Top rated vendors', route: '/leaderboard', icon: Building2 },
               ].map((item) => (
                 <button
                   key={item.route}

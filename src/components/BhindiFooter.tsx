@@ -28,7 +28,7 @@ const footerLinks = {
     { label: "Family Frame", to: "/family-frame" },
   ],
   vendors: [
-    { label: "Register as Vendor", to: "/for-vendors" },
+    { label: "Register as Vendor", to: "/vendor/onboarding" },
     { label: "Vendor Login", to: "/vendor-auth" },
     { label: "Vendor Guide", to: "/vendor-guide" },
     { label: "Vendor Pricing", to: "/vendor-pricing" },
