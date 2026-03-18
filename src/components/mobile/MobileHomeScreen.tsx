@@ -311,7 +311,7 @@ export function MobileHomeScreen() {
               </p>
               <button
                 onClick={() => navigate('/plan-wizard')}
-                className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
+                className="bg-primary text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
               >
                 Start Planning Free <ArrowRight className="inline h-3.5 w-3.5 ml-1" />
               </button>

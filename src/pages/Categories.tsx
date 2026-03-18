@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Star, Shield } from "lucide-react";
+import { Loader2, Star, Shield, Bell } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import heroMosaicImg from "@/assets/hero-categories-mosaic.jpg";
-import { AnimatedSection } from "@/components/AnimatedSection";
 import photographyImg from "@/assets/category-photography.jpg";
 import venueImg from "@/assets/category-venue.jpg";
 import mehendiImg from "@/assets/category-mehendi.jpg";
@@ -24,9 +26,12 @@ import entertainmentImg from "@/assets/category-entertainment.jpg";
 const Categories = () => {
   const { category } = useParams();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
   const [vendors, setVendors] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [waitlistEmail, setWaitlistEmail] = useState("");
+  const [submittingWaitlist, setSubmittingWaitlist] = useState(false);
 
   const categoryImages: Record<string, string> = {
     photography: photographyImg, venue: venueImg, venues: venueImg,
@@ -54,6 +59,26 @@ const Categories = () => {
     finally { setLoading(false); }
   };
 
+  const handleWaitlistSubmit = async () => {
+    if (!waitlistEmail.trim()) return;
+    setSubmittingWaitlist(true);
+    try {
+      const { error } = await supabase.from("contact_inquiries").insert({
+        name: "Category Waitlist",
+        email: waitlistEmail.trim(),
+        message: `Interested in vendors for category: ${category}`,
+        status: "new",
+      });
+      if (error) throw error;
+      toast({ title: "Done! Aapko notify karenge. 🎉", description: "Jab vendors available honge, hum aapko email karenge." });
+      setWaitlistEmail("");
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setSubmittingWaitlist(false);
+    }
+  };
+
   const currentCategory = category ? categories.find(c => c.slug === category) : null;
 
   return (
@@ -67,14 +92,11 @@ const Categories = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5 md:left-12">
             <p className="text-white/80 text-xs font-medium tracking-widest uppercase mb-1">Browse All</p>
-            <h1 className={`text-white font-bold ${isMobile ? 'text-2xl' : 'text-4xl'}`}>
-              Explore Categories
-            </h1>
+            <h1 className={`text-white font-bold ${isMobile ? 'text-2xl' : 'text-4xl'}`}>Explore Categories</h1>
           </div>
         </div>
       )}
 
-      {/* Category Header when category is selected */}
       {currentCategory && !isMobile && (
         <div className="pt-20 pb-8 px-4 md:px-6">
           <div className="container mx-auto px-4 md:px-6 max-w-6xl">
@@ -85,7 +107,6 @@ const Categories = () => {
         </div>
       )}
 
-      {/* Content */}
       <section className={isMobile ? "px-4 py-5" : "py-10"}>
         <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 max-w-6xl"}>
           {loading ? (
@@ -93,42 +114,67 @@ const Categories = () => {
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           ) : currentCategory ? (
-            /* Vendor List */
-            <div>
-              <p className="text-sm text-muted-foreground mb-4">
-                {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
-              </p>
-              <div className="space-y-3">
-                {vendors.map((vendor) => (
-                  <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
-                    <div className="rounded-2xl border border-border/50 bg-background p-4 hover:border-accent/30 hover:shadow-md transition-all">
-                      <div className="flex gap-4">
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center shrink-0 ring-1 ring-accent/20">
-                          <span className="text-2xl font-bold text-accent">{vendor.business_name?.charAt(0) || "V"}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-foreground truncate">{vendor.business_name}</h3>
-                            {vendor.verified && <Shield className="h-4 w-4 text-accent shrink-0" />}
+            vendors.length === 0 ? (
+              /* FIX 7: Empty state with waitlist */
+              <div className="text-center py-16 max-w-md mx-auto">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
+                  <Bell className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  Vendors aa rahe hain!
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Hum {currentCategory.name} category mein vendors onboard kar rahe hain. Notify ho jaao jab pehle vendors available hon.
+                </p>
+                <div className="flex gap-2 max-w-sm mx-auto">
+                  <Input
+                    type="email"
+                    placeholder="Apna email daalein"
+                    value={waitlistEmail}
+                    onChange={(e) => setWaitlistEmail(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button onClick={handleWaitlistSubmit} disabled={submittingWaitlist || !waitlistEmail.trim()}>
+                    {submittingWaitlist ? <Loader2 className="h-4 w-4 animate-spin" /> : "Notify Me"}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {vendors.length} verified vendor{vendors.length !== 1 ? "s" : ""}
+                </p>
+                <div className="space-y-3">
+                  {vendors.map((vendor) => (
+                    <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
+                      <div className="rounded-2xl border border-border/50 bg-background p-4 hover:border-accent/30 hover:shadow-md transition-all">
+                        <div className="flex gap-4">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center shrink-0 ring-1 ring-accent/20">
+                            <span className="text-2xl font-bold text-accent">{vendor.business_name?.charAt(0) || "V"}</span>
                           </div>
-                          <p className="text-sm text-muted-foreground mb-2">{vendor.cities?.name || "India"}</p>
-                          <div className="flex items-center gap-3 text-sm">
-                            <span className="flex items-center gap-1">
-                              <Star className="h-3.5 w-3.5 text-accent fill-accent" />
-                              <span className="font-medium">{vendor.average_rating || 0}</span>
-                              <span className="text-muted-foreground">({vendor.total_reviews || 0})</span>
-                            </span>
-                            <span className="text-muted-foreground">{vendor.years_experience}+ yrs</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-semibold text-foreground truncate">{vendor.business_name}</h3>
+                              {vendor.verified && <Shield className="h-4 w-4 text-accent shrink-0" />}
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-2">{vendor.cities?.name || "India"}</p>
+                            <div className="flex items-center gap-3 text-sm">
+                              <span className="flex items-center gap-1">
+                                <Star className="h-3.5 w-3.5 text-accent fill-accent" />
+                                <span className="font-medium">{vendor.average_rating || 0}</span>
+                                <span className="text-muted-foreground">({vendor.total_reviews || 0})</span>
+                              </span>
+                              <span className="text-muted-foreground">{vendor.years_experience}+ yrs</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )
           ) : (
-            /* Categories Grid */
             <div className={`grid ${isMobile ? 'grid-cols-2 gap-3' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'}`}>
               {categories.map((cat) => (
                 <Link key={cat.id} to={`/category/${cat.slug}`}>
@@ -156,8 +202,6 @@ const Categories = () => {
           )}
         </div>
       </section>
-
-      
     </div>
   );
 };

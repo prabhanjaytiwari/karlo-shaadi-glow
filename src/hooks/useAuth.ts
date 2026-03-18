@@ -10,9 +10,11 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
   const [userRoles, setUserRoles] = useState<UserRole[]>([]);
 
   const fetchUserRoles = useCallback(async (userId: string) => {
+    setRolesLoading(true);
     try {
       const { data, error } = await supabase
         .from("user_roles")
@@ -24,6 +26,8 @@ export function useAuth() {
     } catch (error) {
       console.error("Error fetching user roles:", error);
       setUserRoles([]);
+    } finally {
+      setRolesLoading(false);
     }
   }, []);
 
@@ -33,6 +37,7 @@ export function useAuth() {
       fetchUserRoles(user.id);
     } else {
       setUserRoles([]);
+      setRolesLoading(false);
     }
   }, [user, fetchUserRoles]);
 
@@ -73,6 +78,7 @@ export function useAuth() {
     user,
     session,
     loading,
+    rolesLoading,
     isAuthenticated: !!session,
     userRoles,
     hasRole,

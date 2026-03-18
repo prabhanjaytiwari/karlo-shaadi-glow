@@ -54,19 +54,10 @@ const VendorAuth = () => {
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: `${window.location.origin}/vendor-auth`,
       });
-
       if (result?.error) throw result.error;
-
-      await trackEvent({
-        event_type: "vendor_login",
-        metadata: { method: "google" },
-      });
+      await trackEvent({ event_type: "vendor_login", metadata: { method: "google" } });
     } catch (error: any) {
-      toast({
-        title: "Google sign-in failed",
-        description: error.message || "Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Google sign-in failed", description: error.message || "Please try again.", variant: "destructive" });
       setIsLoading(false);
     }
   };
@@ -74,44 +65,23 @@ const VendorAuth = () => {
   const handleMagicLinkLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     const trimmedEmail = magicLinkEmail.trim();
     if (!trimmedEmail) {
-      toast({
-        title: "Email required",
-        description: "Please enter your email address.",
-        variant: "destructive",
-      });
+      toast({ title: "Email required", description: "Please enter your email address.", variant: "destructive" });
       setIsLoading(false);
       return;
     }
-
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: sanitizeInput(trimmedEmail),
-        options: {
-          emailRedirectTo: `${window.location.origin}/vendor/onboarding`,
-        },
+        options: { emailRedirectTo: `${window.location.origin}/vendor/onboarding` },
       });
-
       if (error) throw error;
-
-      await trackEvent({
-        event_type: "vendor_login",
-        metadata: { method: "magic_link" },
-      });
-
+      await trackEvent({ event_type: "vendor_login", metadata: { method: "magic_link" } });
       setMagicLinkSent(true);
-      toast({
-        title: "Magic link sent!",
-        description: "Check your email for a login link.",
-      });
+      toast({ title: "Magic link sent!", description: "Check your email for a login link." });
     } catch (error: any) {
-      toast({
-        title: "Failed to send magic link",
-        description: error.message || "Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Failed to send magic link", description: error.message || "Please try again.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -120,56 +90,29 @@ const VendorAuth = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     if (!loginEmail.trim() || !loginPassword) {
-      toast({
-        title: "Validation error",
-        description: "Email and password are required",
-        variant: "destructive",
-      });
+      toast({ title: "Validation error", description: "Email and password are required", variant: "destructive" });
       setIsLoading(false);
       return;
     }
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: sanitizeInput(loginEmail.trim()),
         password: loginPassword,
       });
-
       if (error) throw error;
-
       if (data.user) {
-        await trackEvent({
-          event_type: "vendor_login",
-          metadata: { method: "password" },
-        });
-
-        toast({
-          title: "Welcome back!",
-          description: "Redirecting to your dashboard...",
-        });
-
-        // Check if user already has a vendor profile
-        const { data: vendorProfile } = await supabase
-          .from("vendors")
-          .select("id")
-          .eq("user_id", data.user.id)
-          .maybeSingle();
-
+        await trackEvent({ event_type: "vendor_login", metadata: { method: "password" } });
+        toast({ title: "Welcome back!", description: "Redirecting to your dashboard..." });
+        const { data: vendorProfile } = await supabase.from("vendors").select("id").eq("user_id", data.user.id).maybeSingle();
         if (vendorProfile) {
           navigate("/vendor/dashboard");
         } else {
-          // New vendor - redirect to onboarding (will skip Step 0 since authenticated)
           navigate("/vendor/onboarding");
         }
       }
     } catch (error: any) {
-      toast({
-        title: "Login failed",
-        description: error.message || "Please check your credentials and try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Login failed", description: error.message || "Please check your credentials and try again.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -201,9 +144,7 @@ const VendorAuth = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Verified Platform</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Get verified badge and build trust with 50,000+ couples
-                  </p>
+                  <p className="text-sm text-muted-foreground">Get verified badge and build trust with 50,000+ couples</p>
                 </div>
               </div>
 
@@ -223,9 +164,7 @@ const VendorAuth = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Secure Payments</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Milestone-based payments with zero commission on bookings
-                  </p>
+                  <p className="text-sm text-muted-foreground">Milestone-based payments with zero commission on bookings</p>
                 </div>
               </div>
 
@@ -235,9 +174,7 @@ const VendorAuth = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">Premium Features</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Portfolio showcase, reviews management, and analytics dashboard
-                  </p>
+                  <p className="text-sm text-muted-foreground">Portfolio showcase, reviews management, and analytics dashboard</p>
                 </div>
               </div>
             </div>
@@ -247,16 +184,18 @@ const VendorAuth = () => {
           <Card className="animate-fade-up">
             <CardHeader>
               <CardTitle>Vendor Login</CardTitle>
-              <CardDescription>Access your vendor dashboard</CardDescription>
+              <CardDescription>
+                Already registered? Login below. First time? Click register below.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {/* New vendor CTA */}
               <div className="mb-5 p-4 rounded-xl bg-gradient-to-br from-accent/10 to-primary/5 border border-accent/20">
-                <p className="text-sm font-semibold text-foreground mb-1">🚀 New to Karlo Shaadi?</p>
-                <p className="text-xs text-muted-foreground mb-3">Create your vendor profile in minutes — start getting bookings today.</p>
-                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" size="sm">
+                <p className="text-sm font-semibold text-foreground mb-1">🚀 Naye vendor hain?</p>
+                <p className="text-xs text-muted-foreground mb-3">Apna vendor profile banayein minutes mein — aaj hi bookings paana shuru karein.</p>
+                <Button asChild className="w-full font-semibold" size="sm">
                   <Link to="/vendor/onboarding">
-                    Register as Vendor <ArrowRight className="w-4 h-4 ml-2" />
+                    Register karein <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>
               </div>
@@ -283,20 +222,10 @@ const VendorAuth = () => {
 
               {/* Auth Method Toggle */}
               <div className="flex justify-center gap-2 mb-4">
-                <Button
-                  type="button"
-                  variant={authMethod === 'password' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => { setAuthMethod('password'); setMagicLinkSent(false); }}
-                >
+                <Button type="button" variant={authMethod === 'password' ? 'default' : 'outline'} size="sm" onClick={() => { setAuthMethod('password'); setMagicLinkSent(false); }}>
                   Password
                 </Button>
-                <Button
-                  type="button"
-                  variant={authMethod === 'magic' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => { setAuthMethod('magic'); setMagicLinkSent(false); }}
-                >
+                <Button type="button" variant={authMethod === 'magic' ? 'default' : 'outline'} size="sm" onClick={() => { setAuthMethod('magic'); setMagicLinkSent(false); }}>
                   Magic Link
                 </Button>
               </div>
@@ -307,44 +236,19 @@ const VendorAuth = () => {
                     <div className="text-center p-6 bg-accent/5 rounded-lg">
                       <div className="text-4xl mb-2">✉️</div>
                       <h3 className="font-semibold text-lg mb-1">Check your email</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        We sent a magic link to <strong>{magicLinkEmail}</strong>
-                      </p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => { setMagicLinkSent(false); setMagicLinkEmail(""); }}
-                      >
-                        Use different email
-                      </Button>
+                      <p className="text-sm text-muted-foreground mb-4">We sent a magic link to <strong>{magicLinkEmail}</strong></p>
+                      <Button variant="outline" size="sm" onClick={() => { setMagicLinkSent(false); setMagicLinkEmail(""); }}>Use different email</Button>
                     </div>
                   ) : (
                     <form onSubmit={handleMagicLinkLogin} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="magic-email">Business Email</Label>
-                        <Input
-                          id="magic-email"
-                          type="email"
-                          placeholder="business@example.com"
-                          value={magicLinkEmail}
-                          onChange={(e) => setMagicLinkEmail(e.target.value)}
-                          disabled={isLoading}
-                          required
-                        />
+                        <Input id="magic-email" type="email" placeholder="business@example.com" value={magicLinkEmail} onChange={(e) => setMagicLinkEmail(e.target.value)} disabled={isLoading} required />
                       </div>
                       <Button type="submit" className="w-full" disabled={isLoading}>
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Sending...
-                          </>
-                        ) : (
-                          "Send Magic Link"
-                        )}
+                        {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending...</>) : "Send Magic Link"}
                       </Button>
-                      <p className="text-xs text-center text-muted-foreground">
-                        We'll send you a link to login without a password
-                      </p>
+                      <p className="text-xs text-center text-muted-foreground">We'll send you a link to login without a password</p>
                     </form>
                   )}
                 </div>
@@ -352,57 +256,20 @@ const VendorAuth = () => {
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="login-email">Email</Label>
-                    <Input
-                      id="login-email"
-                      type="email"
-                      placeholder="business@example.com"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      required
-                      disabled={isLoading}
-                    />
+                    <Input id="login-email" type="email" placeholder="business@example.com" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required disabled={isLoading} />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="login-password">Password</Label>
                     <div className="relative">
-                      <Input
-                        id="login-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        value={loginPassword}
-                        onChange={(e) => setLoginPassword(e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-0 top-0 h-full px-3"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
+                      <Input id="login-password" type={showPassword ? "text" : "password"} placeholder="••••••••" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required disabled={isLoading} />
+                      <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0 h-full px-3" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
-
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm text-accent hover:underline block"
-                  >
-                    Forgot password?
-                  </Link>
-
+                  <Link to="/forgot-password" className="text-sm text-accent hover:underline block">Forgot password?</Link>
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Logging in...
-                      </>
-                    ) : (
-                      "Login to Dashboard"
-                    )}
+                    {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />Logging in...</>) : "Login to Dashboard"}
                   </Button>
                 </form>
               )}
@@ -411,9 +278,7 @@ const VendorAuth = () => {
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
                   Looking for vendors?{" "}
-                  <Link to="/auth" className="text-accent hover:underline font-medium">
-                    Sign up as couple
-                  </Link>
+                  <Link to="/auth" className="text-accent hover:underline font-medium">Sign up as couple</Link>
                 </p>
               </div>
             </CardContent>
@@ -422,9 +287,7 @@ const VendorAuth = () => {
 
         {/* Back to home */}
         <div className="text-center mt-6">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-            ← Back to home
-          </Link>
+          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to home</Link>
         </div>
       </div>
     </div>
