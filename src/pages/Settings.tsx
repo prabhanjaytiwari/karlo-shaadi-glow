@@ -37,7 +37,7 @@ export default function Settings() {
         
         <MobilePageHeader title="Settings" />
         
-        <main className={isMobile ? "px-4 py-4" : "pt-24 pb-16"}>
+        <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
           <div className={isMobile ? "" : "container mx-auto px-6 max-w-4xl"}>
             {!isMobile && (
               <>

@@ -94,7 +94,7 @@ const Auth = () => {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: sanitizeInput(trimmedEmail),
-        options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
       });
       if (error) throw error;
       await trackEvent({ event_type: "user_login", metadata: { method: "magic_link" } });
