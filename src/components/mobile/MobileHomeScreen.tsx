@@ -239,7 +239,7 @@ export function MobileHomeScreen() {
                   Login / Sign Up
                 </button>
                 <button
-                  onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
+                  onClick={() => { navigate('/vendor/onboarding'); setMenuOpen(false); }}
                   className="w-full py-3 rounded-xl border border-border/50 text-sm font-medium text-foreground active:scale-[0.97] transition-transform"
                 >
                   Register as Vendor
