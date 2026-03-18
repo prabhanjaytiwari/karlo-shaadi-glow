@@ -2105,6 +2105,7 @@ export type Database = {
           amount: number | null
           cancelled_at: string | null
           created_at: string
+          discount_amount: number | null
           expires_at: string | null
           id: string
           plan: Database["public"]["Enums"]["vendor_subscription_plan"]
@@ -2119,6 +2120,7 @@ export type Database = {
           amount?: number | null
           cancelled_at?: string | null
           created_at?: string
+          discount_amount?: number | null
           expires_at?: string | null
           id?: string
           plan?: Database["public"]["Enums"]["vendor_subscription_plan"]
@@ -2133,6 +2135,7 @@ export type Database = {
           amount?: number | null
           cancelled_at?: string | null
           created_at?: string
+          discount_amount?: number | null
           expires_at?: string | null
           id?: string
           plan?: Database["public"]["Enums"]["vendor_subscription_plan"]

@@ -1,0 +1,1 @@
+ALTER TABLE public.vendor_subscriptions ADD COLUMN IF NOT EXISTS discount_amount numeric DEFAULT 0;
