@@ -239,7 +239,7 @@ export function MobileHomeScreen() {
                   Login / Sign Up
                 </button>
                 <button
-                  onClick={() => { navigate('/for-vendors'); setMenuOpen(false); }}
+                  onClick={() => { navigate('/vendor/onboarding'); setMenuOpen(false); }}
                   className="w-full py-3 rounded-xl border border-border/50 text-sm font-medium text-foreground active:scale-[0.97] transition-transform"
                 >
                   Register as Vendor
@@ -401,7 +401,7 @@ export function MobileHomeScreen() {
                     </div>
                     <div className="p-2.5">
                       <p className="text-xs font-semibold text-foreground truncate">{vendor.business_name}</p>
-                      <p className="text-[10px] text-muted-foreground capitalize">{vendor.category} · {vendor.city}</p>
+                      <p className="text-[10px] text-muted-foreground capitalize">{vendor.category} · {vendor.cities?.name || vendor.city || 'India'}</p>
                       <div className="flex items-center gap-1 mt-1">
                         <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
                         <span className="text-[10px] font-semibold text-foreground">{vendor.average_rating || '4.8'}</span>
@@ -538,7 +538,7 @@ export function MobileHomeScreen() {
             <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
               {[
                 { title: 'Shaadi Wrapped', desc: 'Your wedding recap', route: '/shaadi-wrapped', icon: Sparkles },
-                { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn-with-us', icon: TrendingUp },
+                { title: 'Earn With Us', desc: 'Refer & earn ₹500', route: '/earn', icon: TrendingUp },
                 { title: 'Why Karlo Shaadi?', desc: 'See why we\'re #1', route: '/why-karlo-shaadi', icon: Award },
                 { title: 'Vendor Leaderboard', desc: 'Top rated vendors', route: '/vendor-leaderboard', icon: Building2 },
               ].map((item) => (
@@ -642,7 +642,7 @@ export function MobileHomeScreen() {
               <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>
               <p className="text-white/70 text-[10px] mt-0.5 mb-2.5">Join 50+ verified vendors on Karlo Shaadi</p>
               <button
-                onClick={() => navigate('/for-vendors')}
+                onClick={() => navigate('/vendor/onboarding')}
                 className="bg-accent text-accent-foreground text-xs font-semibold px-4 py-2 rounded-full active:scale-95 transition-transform"
               >
                 Register as Vendor
@@ -667,7 +667,7 @@ export function MobileHomeScreen() {
             </button>
             {!user && (
               <button
-                onClick={() => navigate('/for-vendors')}
+                onClick={() => navigate('/vendor/onboarding')}
                 className="block mx-auto mt-2 text-xs font-medium text-muted-foreground underline underline-offset-2 active:scale-95 transition-transform"
               >
                 Are You a Vendor? Register Here →

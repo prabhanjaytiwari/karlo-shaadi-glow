@@ -44,6 +44,19 @@ const Auth = () => {
     }
   }, [searchParams]);
 
+  // Redirect already-authenticated users
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
+      if (roles?.some(r => r.role === "admin")) navigate("/admin/dashboard", { replace: true });
+      else if (roles?.some(r => r.role === "vendor")) navigate("/vendor/dashboard", { replace: true });
+      else navigate("/dashboard", { replace: true });
+    };
+    checkSession();
+  }, [navigate]);
+
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: { email: "", password: "" },
@@ -59,7 +72,7 @@ const Auth = () => {
     try {
       const { lovable } = await import("@/integrations/lovable/index");
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/auth`,
       });
       if (result?.error) throw result.error;
       await trackEvent({ event_type: "user_login", metadata: { method: "google" } });
@@ -364,7 +377,7 @@ const Auth = () => {
                 </div>
               </div>
 
-              <Link to="/vendor-auth" className="block">
+              <Link to="/vendor/onboarding" className="block">
                 <Button variant="outline" className="w-full rounded-xl border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground text-sm h-9 font-medium transition-all">
                   Register as Vendor →
                 </Button>

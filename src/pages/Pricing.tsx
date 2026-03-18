@@ -279,7 +279,7 @@ export default function Pricing() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/vendor-pricing"><Button size="lg" className="rounded-full px-8">View Vendor Pricing</Button></Link>
-              <Link to="/vendor-auth"><Button size="lg" variant="outline" className="rounded-full px-8">Join as Vendor - Free</Button></Link>
+              <Link to="/vendor/onboarding"><Button size="lg" variant="outline" className="rounded-full px-8">Join as Vendor - Free</Button></Link>
             </div>
           </div>
         </section>
