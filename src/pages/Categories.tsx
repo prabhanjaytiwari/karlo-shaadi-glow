@@ -62,7 +62,7 @@ const Categories = () => {
 
       {/* Hero Banner */}
       {!currentCategory && (
-        <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-16'}`}>
+        <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-20'}`}>
           <img src={heroMosaicImg} alt="Wedding categories" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5 md:left-12">
