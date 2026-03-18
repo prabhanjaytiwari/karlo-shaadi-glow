@@ -69,7 +69,7 @@ const ForVendors = () => {
 
       <MobilePageHeader title="For Vendors" />
 
-      <main className={isMobile ? "pb-24" : "pt-20 pb-0"}>
+      <main className={isMobile ? "pb-24" : "pt-20"}>
         {/* Hero - Immersive (text on image stays white) */}
         <section className="relative overflow-hidden">
           <div className="relative h-[70vh] min-h-[480px] max-h-[600px]">
