@@ -76,7 +76,7 @@ const Categories = () => {
 
       {/* Category Header when category is selected */}
       {currentCategory && !isMobile && (
-        <div className="pt-24 pb-8 px-4">
+        <div className="pt-20 pb-8 px-4 md:px-6">
           <div className="container mx-auto px-4 md:px-6 max-w-6xl">
             <p className="text-xs font-medium text-accent uppercase tracking-widest mb-2">Category</p>
             <h1 className="text-3xl font-bold text-foreground mb-2">{currentCategory.name}</h1>

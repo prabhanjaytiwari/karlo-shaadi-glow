@@ -127,8 +127,8 @@ const Profile = () => {
       <div className="min-h-screen bg-background">
         <MobilePageHeader title="Edit Profile" />
       
-        <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
-          <div className={isMobile ? "" : "container mx-auto px-6 max-w-2xl"}>
+        <main className={isMobile ? "px-4 py-4 pb-24" : "pt-20 pb-16"}>
+          <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 max-w-2xl"}>
             {/* Avatar */}
             <div className="flex flex-col items-center mb-6">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-border/50 flex items-center justify-center mb-2">

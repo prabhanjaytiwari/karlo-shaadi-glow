@@ -228,9 +228,9 @@ export const BhindiFooter = () => {
       </div>
 
       {/* Main Footer */}
-      <div className="relative container mx-auto px-6 py-16">
+      <div className="relative container mx-auto px-4 md:px-6 py-16">
         {/* Divider with gradient */}
-        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+        <div className="absolute top-0 left-4 right-4 md:left-6 md:right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 lg:gap-6 mb-16">
           {/* Brand Section */}

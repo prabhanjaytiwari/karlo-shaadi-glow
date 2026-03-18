@@ -123,7 +123,7 @@ const ForVendors = () => {
 
         {/* Stats Strip */}
         <section className="py-8 border-b border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex justify-center gap-8 md:gap-16">
               {[
                 { value: "5,000+", label: "Vendors" },

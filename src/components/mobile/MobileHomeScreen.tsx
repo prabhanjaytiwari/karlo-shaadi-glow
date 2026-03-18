@@ -331,7 +331,7 @@ export function MobileHomeScreen() {
         )}
 
         {/* ── TRUST STATS (attached, no gap) ── */}
-        <section className="px-4 -mt-1">
+        <section className="px-4">
           <div className="grid grid-cols-4 gap-2">
             {[
               { icon: Users, value: '500+', label: 'Couples', color: 'text-primary' },
