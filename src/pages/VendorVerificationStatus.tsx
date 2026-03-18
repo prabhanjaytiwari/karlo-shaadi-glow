@@ -47,7 +47,7 @@ export default function VendorVerificationStatus() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        navigate("/vendor-auth");
+        navigate("/vendor/onboarding");
         return;
       }
 

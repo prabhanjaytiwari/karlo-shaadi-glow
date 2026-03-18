@@ -72,7 +72,7 @@ const Auth = () => {
     try {
       const { lovable } = await import("@/integrations/lovable/index");
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/auth`,
       });
       if (result?.error) throw result.error;
       await trackEvent({ event_type: "user_login", metadata: { method: "google" } });

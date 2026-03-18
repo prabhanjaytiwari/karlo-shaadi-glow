@@ -65,7 +65,7 @@ export function BottomNavigation() {
     { icon: Search, label: 'Vendors', path: '/search' },
     { icon: Calendar, label: 'Bookings', path: '/bookings', badge: pendingBookings },
     { icon: MessageSquare, label: 'Messages', path: '/messages', badge: unreadMessages },
-    { icon: User, label: 'Profile', path: '/dashboard' },
+    { icon: User, label: 'Profile', path: '/profile' },
   ];
 
   // Guest nav items

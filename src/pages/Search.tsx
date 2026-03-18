@@ -639,12 +639,21 @@ export default function Search() {
                               "flex gap-5 p-5 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-px",
                               isSponsored ? "border-primary/30 bg-gradient-to-r from-primary/5 to-transparent" : "border-border/40 bg-card hover:border-border"
                             )}>
-                              <div className={cn(
-                                "w-16 h-16 shrink-0 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-sm",
-                                gradientClass
-                              )}>
-                                <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
-                              </div>
+                              {(() => {
+                                const imgUrl = vendor.logo_url || vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
+                                return imgUrl ? (
+                                  <div className="w-16 h-16 shrink-0 rounded-2xl overflow-hidden shadow-sm">
+                                    <img src={imgUrl} alt={vendor.business_name} className="w-full h-full object-cover" />
+                                  </div>
+                                ) : (
+                                  <div className={cn(
+                                    "w-16 h-16 shrink-0 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-sm",
+                                    gradientClass
+                                  )}>
+                                    <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
+                                  </div>
+                                );
+                              })()}
 
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">

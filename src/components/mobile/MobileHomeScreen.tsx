@@ -667,7 +667,7 @@ export function MobileHomeScreen() {
             </button>
             {!user && (
               <button
-                onClick={() => navigate('/for-vendors')}
+                onClick={() => navigate('/vendor/onboarding')}
                 className="block mx-auto mt-2 text-xs font-medium text-muted-foreground underline underline-offset-2 active:scale-95 transition-transform"
               >
                 Are You a Vendor? Register Here →

@@ -157,7 +157,7 @@ export default function VendorPricing() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       toast.error("Please sign in first to upgrade your plan");
-      navigate('/vendor-auth', { state: { from: '/vendor-pricing', upgradeTo: planId } });
+      navigate('/vendor/onboarding', { state: { from: '/vendor-pricing', upgradeTo: planId } });
       return;
     }
     if (!isVendor) {
