@@ -143,7 +143,7 @@ export default function Pricing() {
       </div>
 
       {/* Pricing Cards */}
-      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-8 px-4"}>
+      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-16 md:py-24 px-4 md:px-6"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <div className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'lg:grid-cols-2 gap-6'}`}>
             {plans.map((plan, idx) => (
