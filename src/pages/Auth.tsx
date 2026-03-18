@@ -44,6 +44,19 @@ const Auth = () => {
     }
   }, [searchParams]);
 
+  // Redirect already-authenticated users
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", session.user.id);
+      if (roles?.some(r => r.role === "admin")) navigate("/admin/dashboard", { replace: true });
+      else if (roles?.some(r => r.role === "vendor")) navigate("/vendor/dashboard", { replace: true });
+      else navigate("/dashboard", { replace: true });
+    };
+    checkSession();
+  }, [navigate]);
+
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: { email: "", password: "" },
