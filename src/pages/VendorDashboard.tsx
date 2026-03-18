@@ -314,6 +314,9 @@ export default function VendorDashboard() {
     navigate("/");
   };
 
+  const isMobile = useIsMobile();
+  const subBadge = getSubscriptionBadge();
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -321,9 +324,6 @@ export default function VendorDashboard() {
       </div>
     );
   }
-
-  const isMobile = useIsMobile();
-  const subBadge = getSubscriptionBadge();
 
   return (
     <div className="min-h-screen flex flex-col">
