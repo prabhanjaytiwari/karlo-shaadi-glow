@@ -270,7 +270,7 @@ export default function Pricing() {
 
       {/* Vendor CTA */}
       {!isVendor && (
-        <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
+        <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
           <div className="container mx-auto max-w-4xl text-center">
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Are You a Wedding Vendor?</h2>
