@@ -147,8 +147,8 @@ const ForVendors = () => {
         </section>
 
         {/* Why Vendors Choose Us */}
-        <section className="py-12 md:py-20">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-10">
               <h2 className="font-display font-bold text-xl md:text-3xl text-foreground mb-2">
                 Why Vendors Choose Us
