@@ -204,10 +204,10 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       
       
-      <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 pt-20 md:pt-24 pb-12 px-4">
+      <main className="flex-1 bg-gradient-to-br from-background via-background/95 to-primary/5 pt-20 md:pt-24 pb-12 px-4 min-w-0">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
