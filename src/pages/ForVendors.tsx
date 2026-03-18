@@ -104,7 +104,7 @@ const ForVendors = () => {
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button
                       size="lg"
-                      onClick={() => navigate("/vendor-auth")}
+                      onClick={() => navigate("/vendor/onboarding")}
                       className="rounded-full px-8 font-semibold"
                     >
                       Register Free Now
