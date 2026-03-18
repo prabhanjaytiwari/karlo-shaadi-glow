@@ -87,7 +87,7 @@ const Categories = () => {
 
       {/* Content */}
       <section className={isMobile ? "px-4 py-5" : "py-10"}>
-        <div className={isMobile ? "" : "container mx-auto px-4 max-w-6xl"}>
+        <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 max-w-6xl"}>
           {loading ? (
             <div className="flex justify-center py-20">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
