@@ -642,7 +642,7 @@ export function MobileHomeScreen() {
               <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>
               <p className="text-white/70 text-[10px] mt-0.5 mb-2.5">Join 50+ verified vendors on Karlo Shaadi</p>
               <button
-                onClick={() => navigate('/for-vendors')}
+                onClick={() => navigate('/vendor/onboarding')}
                 className="bg-accent text-accent-foreground text-xs font-semibold px-4 py-2 rounded-full active:scale-95 transition-transform"
               >
                 Register as Vendor
