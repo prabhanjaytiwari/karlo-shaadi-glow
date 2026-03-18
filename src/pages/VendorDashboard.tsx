@@ -326,7 +326,7 @@ export default function VendorDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       
       <MobilePageHeader title={vendor?.business_name || 'Dashboard'} showBack={false} />
       

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 interface ProtectedRouteProps {
@@ -18,83 +18,29 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isChecking, setIsChecking] = useState(true);
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const { user, loading, hasRole, isAdmin, isVendor } = useAuthContext();
 
   useEffect(() => {
-    let isMounted = true;
+    if (loading) return;
 
-    const checkAccess = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
+    if (requireAuth && !user) {
+      navigate(redirectTo, { state: { from: location.pathname } });
+      return;
+    }
 
-        if (!isMounted) return;
-
-        if (requireAuth && !session) {
-          navigate(redirectTo, { state: { from: location.pathname } });
-          return;
-        }
-
-        if (requireRole && session) {
-          const { data: roles, error } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", session.user.id);
-
-          if (error) throw error;
-
-          if (!isMounted) return;
-
-          const hasRequiredRole = roles?.some(r => r.role === requireRole);
-          
-          if (!hasRequiredRole) {
-            // Redirect based on their actual role
-            const userRole = roles?.[0]?.role;
-            if (userRole === 'admin') {
-              navigate("/admin/dashboard");
-            } else if (userRole === 'vendor') {
-              navigate("/vendor/dashboard");
-            } else {
-              navigate("/dashboard");
-            }
-            return;
-          }
-        }
-
-        if (isMounted) {
-          setIsAuthorized(true);
-        }
-      } catch (error) {
-        console.error("Error checking access:", error);
-        if (isMounted) {
-          navigate(redirectTo);
-        }
-      } finally {
-        if (isMounted) {
-          setIsChecking(false);
-        }
+    if (requireRole && user && !hasRole(requireRole)) {
+      // Redirect based on their actual role
+      if (isAdmin) {
+        navigate("/admin/dashboard");
+      } else if (isVendor) {
+        navigate("/vendor/dashboard");
+      } else {
+        navigate("/dashboard");
       }
-    };
+    }
+  }, [loading, user, requireAuth, requireRole, redirectTo, navigate, location.pathname, hasRole, isAdmin, isVendor]);
 
-    checkAccess();
-
-    // Listen for auth state changes — only handle sign out to prevent redirect loops
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event) => {
-        if (event === 'SIGNED_OUT') {
-          setIsAuthorized(false);
-          navigate(redirectTo);
-        }
-      }
-    );
-
-    return () => {
-      isMounted = false;
-      subscription.unsubscribe();
-    };
-  }, [requireAuth, requireRole, redirectTo, navigate, location.pathname]);
-
-  if (isChecking) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <LoadingSpinner />
@@ -102,5 +48,8 @@ export function ProtectedRoute({
     );
   }
 
-  return isAuthorized ? <>{children}</> : null;
+  if (requireAuth && !user) return null;
+  if (requireRole && !hasRole(requireRole)) return null;
+
+  return <>{children}</>;
 }

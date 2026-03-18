@@ -251,12 +251,12 @@ const VendorAuth = () => {
             </CardHeader>
             <CardContent>
               {/* New vendor CTA */}
-              <div className="mb-5 p-4 rounded-xl bg-accent/5 border border-accent/20">
-                <p className="text-sm font-semibold text-foreground mb-1">New to Karlo Shaadi?</p>
-                <p className="text-xs text-muted-foreground mb-3">Create your vendor profile in minutes and start getting bookings.</p>
-                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90" size="sm">
+              <div className="mb-5 p-4 rounded-xl bg-gradient-to-br from-accent/10 to-primary/5 border border-accent/20">
+                <p className="text-sm font-semibold text-foreground mb-1">🚀 New to Karlo Shaadi?</p>
+                <p className="text-xs text-muted-foreground mb-3">Create your vendor profile in minutes — start getting bookings today.</p>
+                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" size="sm">
                   <Link to="/vendor/onboarding">
-                    Start Your Journey <ArrowRight className="w-4 h-4 ml-2" />
+                    Register as Vendor <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>
               </div>
