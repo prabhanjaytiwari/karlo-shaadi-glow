@@ -110,7 +110,7 @@ export default function Pricing() {
       <MobilePageHeader title="Pricing" />
 
       {/* Hero with Image */}
-      <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-72 mt-16'}`}>
+      <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-72 mt-20'}`}>
         <img src={heroImg} alt="Happy couple" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         <div className={`absolute bottom-5 ${isMobile ? 'left-4 right-4' : 'left-12 right-12'}`}>
