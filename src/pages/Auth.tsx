@@ -377,7 +377,7 @@ const Auth = () => {
                 </div>
               </div>
 
-              <Link to="/vendor-auth" className="block">
+              <Link to="/vendor/onboarding" className="block">
                 <Button variant="outline" className="w-full rounded-xl border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground text-sm h-9 font-medium transition-all">
                   Register as Vendor →
                 </Button>
