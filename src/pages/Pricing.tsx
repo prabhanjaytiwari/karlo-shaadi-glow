@@ -240,7 +240,7 @@ export default function Pricing() {
       </section>
 
       {/* AI Features */}
-      <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
+      <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Meet Your AI Wedding Planner</h2>
           <div className="grid md:grid-cols-3 gap-4">
