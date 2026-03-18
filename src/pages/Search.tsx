@@ -105,7 +105,7 @@ export default function Search() {
 
       let query = supabase
         .from("vendors")
-        .select(`*, cities (name, state), vendor_services (*)`)
+        .select(`*, cities (name, state), vendor_services (*), vendor_portfolio (image_url, display_order)`)
         .eq("is_active", true)
         .eq("verified", true);
 
@@ -183,15 +183,24 @@ export default function Search() {
             )}
 
             <div className="flex gap-3.5">
-              {/* Avatar with gradient */}
-              <div className={cn(
-                "w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-sm",
-                gradientClass
-              )}>
-                <span className="text-white text-lg font-bold drop-shadow-sm">
-                  {vendor.business_name.charAt(0)}
-                </span>
-              </div>
+              {/* Avatar with image or gradient fallback */}
+              {(() => {
+                const imgUrl = vendor.logo_url || vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
+                return imgUrl ? (
+                  <div className="w-14 h-14 shrink-0 rounded-2xl overflow-hidden shadow-sm">
+                    <img src={imgUrl} alt={vendor.business_name} className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className={cn(
+                    "w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-sm",
+                    gradientClass
+                  )}>
+                    <span className="text-white text-lg font-bold drop-shadow-sm">
+                      {vendor.business_name.charAt(0)}
+                    </span>
+                  </div>
+                );
+              })()}
 
               {/* Info */}
               <div className="flex-1 min-w-0">

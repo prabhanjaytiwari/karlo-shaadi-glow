@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -19,17 +19,40 @@ const VendorAuth = () => {
   const [magicLinkEmail, setMagicLinkEmail] = useState("");
   const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [authMethod, setAuthMethod] = useState<'password' | 'magic'>('password');
+  const [checkingSession, setCheckingSession] = useState(true);
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+
+  // Check if already signed in on mount
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: vendorProfile } = await supabase
+          .from("vendors")
+          .select("id")
+          .eq("user_id", session.user.id)
+          .maybeSingle();
+        if (vendorProfile) {
+          navigate("/vendor/dashboard", { replace: true });
+        } else {
+          navigate("/vendor/onboarding", { replace: true });
+        }
+        return;
+      }
+      setCheckingSession(false);
+    };
+    checkSession();
+  }, [navigate]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
       const { lovable } = await import("@/integrations/lovable/index");
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/vendor-auth`,
       });
 
       if (result?.error) throw result.error;
@@ -151,6 +174,14 @@ const VendorAuth = () => {
       setIsLoading(false);
     }
   };
+
+  if (checkingSession) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10 flex items-center justify-center p-6 pt-24">

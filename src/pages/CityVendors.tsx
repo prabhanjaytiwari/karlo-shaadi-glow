@@ -230,7 +230,7 @@ const CityVendors = () => {
                 <VendorCard
                   key={vendor.id}
                   vendor={vendor}
-                  imageUrl={vendor.vendor_portfolio?.[0]?.image_url}
+                  imageUrl={vendor.logo_url || vendor.vendor_portfolio?.[0]?.image_url}
                 />
               ))}
             </div>

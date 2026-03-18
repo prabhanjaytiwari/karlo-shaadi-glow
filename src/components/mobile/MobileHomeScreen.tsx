@@ -113,7 +113,9 @@ function useVendors() {
     queryFn: async () => {
       const { data } = await supabase
         .from('vendors')
-        .select('id, business_name, category, city, average_rating, total_reviews, logo_url, portfolio_images')
+        .select('id, business_name, category, average_rating, total_reviews, logo_url, cities (name), vendor_portfolio (image_url, display_order)')
+        .eq('is_active', true)
+        .eq('verified', true)
         .order('average_rating', { ascending: false })
         .limit(8);
       return data || [];
@@ -386,7 +388,8 @@ export function MobileHomeScreen() {
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
             <div className="flex gap-3 pb-1" style={{ width: 'max-content' }}>
               {displayVendors.map((vendor: any) => {
-                const image = vendor.image || vendor.logo_url || vendor.portfolio_images?.[0] || vendorImage1;
+                const portfolioImg = vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
+                const image = vendor.image || vendor.logo_url || portfolioImg || vendorImage1;
                 return (
                   <button
                     key={vendor.id}

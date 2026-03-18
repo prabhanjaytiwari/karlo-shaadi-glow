@@ -275,7 +275,7 @@ export default function VendorOnboarding() {
     try {
       const { lovable } = await import("@/integrations/lovable/index");
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/vendor/onboarding`,
       });
       if (result?.error) throw result.error;
       trackEvent({ event_type: "vendor_signup", metadata: { method: "google" } }).catch(() => {});
