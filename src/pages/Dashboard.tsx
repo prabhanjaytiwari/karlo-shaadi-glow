@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Gift, Settings, Users } from "lucide-react";
+import { Calendar, Heart, Search, MessageSquare, LogOut, User, Palette, Trophy, ListChecks, PiggyBank, Gift, Settings, Users, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { WeddingPlanningProgress } from "@/components/WeddingPlanningProgress";
 import { AchievementBadges } from "@/components/AchievementBadges";
@@ -15,7 +15,16 @@ import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
 import weddingCouple from "@/assets/wedding-couple-romantic.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
 
-const quickActions = [
+const mobileQuickActions = [
+  { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
+  { icon: Calendar, label: "Bookings", route: "/bookings", emoji: "📅" },
+  { icon: Heart, label: "Favorites", route: "/favorites", emoji: "❤️" },
+  { icon: MessageSquare, label: "Messages", route: "/messages", emoji: "💬" },
+  { icon: PiggyBank, label: "Budget", route: "/budget", emoji: "💰" },
+  { icon: ListChecks, label: "Checklist", route: "/checklist", emoji: "✅" },
+];
+
+const allQuickActions = [
   { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
   { icon: Calendar, label: "Bookings", route: "/bookings", emoji: "📅" },
   { icon: Heart, label: "Favorites", route: "/favorites", emoji: "❤️" },
@@ -150,35 +159,39 @@ const Dashboard = () => {
             </div>
           </motion.div>
 
-          {/* Quick Actions */}
+          {/* FIX 6: Mobile Quick Actions — 2x3 grid + More button */}
           {isMobile ? (
             <motion.div
-              className="overflow-x-auto scrollbar-hide -mx-4 px-4"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
-              <div className="flex gap-3" style={{ width: 'max-content' }}>
-                {quickActions.map((action, i) => (
+              <div className="grid grid-cols-3 gap-3">
+                {mobileQuickActions.map((action, i) => (
                   <motion.button
                     key={action.route}
                     onClick={() => navigate(action.route)}
-                    className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-card border border-border active:scale-95 transition-transform"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 + i * 0.04 }}
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-muted border border-border flex items-center justify-center">
-                      <span className="text-xl">{action.emoji}</span>
-                    </div>
+                    <span className="text-xl">{action.emoji}</span>
                     <span className="text-[11px] font-medium text-muted-foreground">{action.label}</span>
                   </motion.button>
                 ))}
               </div>
+              <button
+                onClick={() => navigate("/tools")}
+                className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted/50 border border-border text-sm font-medium text-muted-foreground active:scale-[0.98] transition-transform"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+                More Tools
+              </button>
             </motion.div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3">
-              {quickActions.map((action, i) => (
+              {allQuickActions.map((action, i) => (
                 <motion.div
                   key={action.route}
                   initial={{ opacity: 0, y: 12 }}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -41,6 +41,9 @@ export default function Messages() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const typingChannelRef = useRef<any>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   const selectedVendorName = selectedVendor 
     ? conversations.find(c => c.vendorId === selectedVendor)?.vendorName 
@@ -50,17 +53,46 @@ export default function Messages() {
     checkUser();
   }, []);
 
+  // FIX 3c: Properly capture and call cleanup on unmount
   useEffect(() => {
     if (currentUser) {
       loadConversations();
-      setupRealtimeSubscription();
+      const cleanup = setupRealtimeSubscription();
+      cleanupRef.current = cleanup || null;
     }
+    return () => {
+      cleanupRef.current?.();
+      cleanupRef.current = null;
+    };
   }, [currentUser]);
 
   useEffect(() => {
     if (selectedVendor && currentUser) {
       loadMessages(selectedVendor);
     }
+  }, [selectedVendor, currentUser]);
+
+  // FIX 3b: Create typing channel once when selectedVendor changes
+  useEffect(() => {
+    if (!selectedVendor || !currentUser) return;
+
+    // Clean up old typing channel
+    if (typingChannelRef.current) {
+      supabase.removeChannel(typingChannelRef.current);
+    }
+
+    const channel = supabase.channel(`typing:${selectedVendor}`, {
+      config: { presence: { key: currentUser.id } },
+    });
+    channel.subscribe();
+    typingChannelRef.current = channel;
+
+    return () => {
+      if (typingChannelRef.current) {
+        supabase.removeChannel(typingChannelRef.current);
+        typingChannelRef.current = null;
+      }
+    };
   }, [selectedVendor, currentUser]);
 
   const checkUser = async () => {
@@ -106,33 +138,18 @@ export default function Messages() {
 
       const userIds = conversationsArray.map(c => c.vendorId);
       if (userIds.length > 0) {
-        const { data: vendorData } = await supabase
-          .from("vendors")
-          .select("user_id, business_name")
-          .in("user_id", userIds);
-
-        const { data: profileData } = await supabase
-          .from("profiles")
-          .select("id, full_name")
-          .in("id", userIds);
+        const { data: vendorData } = await supabase.from("vendors").select("user_id, business_name").in("user_id", userIds);
+        const { data: profileData } = await supabase.from("profiles").select("id, full_name").in("id", userIds);
 
         const updatedConversations = conversationsArray.map(conv => {
           const vendor = vendorData?.find(v => v.user_id === conv.vendorId);
           const profile = profileData?.find(p => p.id === conv.vendorId);
-          return {
-            ...conv,
-            vendorName: vendor?.business_name || profile?.full_name || "User"
-          };
+          return { ...conv, vendorName: vendor?.business_name || profile?.full_name || "User" };
         });
-
         setConversations(updatedConversations);
       }
     } catch (error: any) {
-      toast({
-        title: "Error loading conversations",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error loading conversations", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -149,17 +166,19 @@ export default function Messages() {
       if (error) throw error;
       setMessages(data || []);
 
+      // Mark messages as read
       await supabase
         .from("messages")
         .update({ read: true })
         .eq("recipient_id", currentUser.id)
         .eq("sender_id", vendorId);
+
+      // FIX 3d: Update local unread count to 0
+      setConversations(prev => prev.map(c =>
+        c.vendorId === vendorId ? { ...c, unreadCount: 0 } : c
+      ));
     } catch (error: any) {
-      toast({
-        title: "Error loading messages",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error loading messages", description: error.message, variant: "destructive" });
     }
   };
 
@@ -176,15 +195,10 @@ export default function Messages() {
         });
 
       if (error) throw error;
-
       setNewMessage("");
       loadMessages(selectedVendor);
     } catch (error: any) {
-      toast({
-        title: "Error sending message",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error sending message", description: error.message, variant: "destructive" });
     }
   };
 
@@ -197,7 +211,7 @@ export default function Messages() {
     if (!currentUser) return;
 
     const messageChannel = supabase
-      .channel("messages")
+      .channel("messages-realtime")
       .on(
         "postgres_changes",
         {
@@ -207,46 +221,57 @@ export default function Messages() {
           filter: `recipient_id=eq.${currentUser.id}`,
         },
         (payload) => {
-          if (selectedVendor === payload.new.sender_id) {
-            setMessages((prev) => [...prev, payload.new as Message]);
+          const newMsg = payload.new as Message;
+          // FIX 3a: Update the selected conversation messages inline
+          if (selectedVendor === newMsg.sender_id) {
+            setMessages((prev) => [...prev, newMsg]);
           }
-          loadConversations();
+          // Update conversation list inline instead of full reload
+          setConversations(prev => {
+            const existing = prev.find(c => c.vendorId === newMsg.sender_id);
+            if (existing) {
+              return prev.map(c =>
+                c.vendorId === newMsg.sender_id
+                  ? {
+                      ...c,
+                      lastMessage: newMsg.message,
+                      lastMessageTime: newMsg.created_at,
+                      unreadCount: selectedVendor === newMsg.sender_id ? c.unreadCount : c.unreadCount + 1,
+                    }
+                  : c
+              );
+            } else {
+              // New conversation
+              return [
+                {
+                  vendorId: newMsg.sender_id,
+                  vendorName: "Loading...",
+                  lastMessage: newMsg.message,
+                  lastMessageTime: newMsg.created_at,
+                  unreadCount: 1,
+                },
+                ...prev,
+              ];
+            }
+          });
         }
       )
       .subscribe();
 
-    const presenceChannel = supabase.channel(`typing:${selectedVendor || 'all'}`, {
-      config: { presence: { key: currentUser.id } },
-    });
-
-    presenceChannel
-      .on('presence', { event: 'sync' }, () => {
-        const state = presenceChannel.presenceState();
-        const typing = new Set<string>();
-        Object.keys(state).forEach((key) => {
-          const presenceData = state[key]?.[0] as any;
-          if (key !== currentUser.id && presenceData?.typing) {
-            typing.add(key);
-          }
-        });
-        setTypingUsers(typing);
-      })
-      .subscribe();
-
     return () => {
       supabase.removeChannel(messageChannel);
-      supabase.removeChannel(presenceChannel);
     };
   };
 
+  // FIX 3b: Reuse typing channel from ref
   const handleTyping = () => {
-    if (!selectedVendor || !currentUser) return;
+    if (!selectedVendor || !currentUser || !typingChannelRef.current) return;
 
-    const channel = supabase.channel(`typing:${selectedVendor}`);
-    channel.track({ typing: true, user_id: currentUser.id });
+    typingChannelRef.current.track({ typing: true, user_id: currentUser.id });
 
-    setTimeout(() => {
-      channel.track({ typing: false, user_id: currentUser.id });
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      typingChannelRef.current?.track({ typing: false, user_id: currentUser.id });
     }, 3000);
   };
 
@@ -264,46 +289,33 @@ export default function Messages() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      
       {!selectedVendor && <MobilePageHeader title="Messages" showBack={false} />}
       
       <main className={isMobile ? "flex-1" : "flex-1 container mx-auto px-4 pt-18 md:pt-24 pb-4 md:pb-8"}>
         <div className={isMobile ? "h-full" : "max-w-6xl mx-auto"}>
-          {!isMobile && (
-            <h1 className="text-4xl font-bold mb-8">Messages</h1>
-          )}
+          {!isMobile && <h1 className="text-4xl font-bold mb-8">Messages</h1>}
 
           <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[600px]'}`}>
             <div className="grid md:grid-cols-3 h-full">
-              {/* Conversations List */}
               {showConversationList && (
                 <div className={`border-r flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
                   <div className="p-3 md:p-4 border-b">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="Search conversations..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10"
-                      />
+                      <Input placeholder="Search conversations..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" />
                     </div>
                   </div>
                   <ScrollArea className="flex-1">
                     {filteredConversations.length === 0 ? (
                       <div className="p-8 text-center">
                         <MessageSquare className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                        <p className="text-muted-foreground">
-                          {searchQuery ? "No conversations found" : "No conversations yet"}
-                        </p>
+                        <p className="text-muted-foreground">{searchQuery ? "No conversations found" : "No conversations yet"}</p>
                       </div>
                     ) : (
                       filteredConversations.map((conv) => (
                         <button
                           key={conv.vendorId}
-                          className={`w-full p-3 md:p-4 text-left hover:bg-muted transition-colors border-b ${
-                            selectedVendor === conv.vendorId ? "bg-muted" : ""
-                          }`}
+                          className={`w-full p-3 md:p-4 text-left hover:bg-muted transition-colors border-b ${selectedVendor === conv.vendorId ? "bg-muted" : ""}`}
                           onClick={() => setSelectedVendor(conv.vendorId)}
                         >
                           <div className="flex items-center gap-3">
@@ -314,21 +326,13 @@ export default function Messages() {
                               <div className="flex justify-between items-start gap-2">
                                 <p className="font-semibold truncate text-sm md:text-base">{conv.vendorName}</p>
                                 {conv.unreadCount > 0 && (
-                                  <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5 shrink-0">
-                                    {conv.unreadCount}
-                                  </span>
+                                  <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5 shrink-0">{conv.unreadCount}</span>
                                 )}
                               </div>
-                              <p className="text-xs md:text-sm text-muted-foreground truncate">
-                                {conv.lastMessage}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {format(new Date(conv.lastMessageTime), "MMM d, p")}
-                              </p>
+                              <p className="text-xs md:text-sm text-muted-foreground truncate">{conv.lastMessage}</p>
+                              <p className="text-xs text-muted-foreground mt-1">{format(new Date(conv.lastMessageTime), "MMM d, p")}</p>
                             </div>
-                            {isMobile && (
-                              <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                            )}
+                            {isMobile && <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />}
                           </div>
                         </button>
                       ))
@@ -337,20 +341,13 @@ export default function Messages() {
                 </div>
               )}
 
-              {/* Messages Area */}
               {showMessageArea && (
                 <div className={`flex flex-col ${isMobile ? 'col-span-full' : 'md:col-span-2'}`}>
                   {selectedVendor ? (
                     <>
-                      {/* Mobile Header with Back Button */}
                       {isMobile && (
                         <div className="flex items-center gap-3 p-3 border-b bg-card">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={handleMobileBack}
-                            className="shrink-0"
-                          >
+                          <Button variant="ghost" size="icon" onClick={handleMobileBack} className="shrink-0">
                             <ArrowLeft className="h-5 w-5" />
                           </Button>
                           <Avatar className="h-8 w-8">
@@ -365,23 +362,10 @@ export default function Messages() {
                       <ScrollArea className="flex-1 p-3 md:p-4">
                         <div className="space-y-3 md:space-y-4">
                           {messages.map((msg) => (
-                            <div
-                              key={msg.id}
-                              className={`flex ${
-                                msg.sender_id === currentUser.id ? "justify-end" : "justify-start"
-                              }`}
-                            >
-                              <div
-                                className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-3 ${
-                                  msg.sender_id === currentUser.id
-                                    ? "bg-primary text-primary-foreground rounded-br-sm"
-                                    : "bg-muted rounded-bl-sm"
-                                }`}
-                              >
+                            <div key={msg.id} className={`flex ${msg.sender_id === currentUser.id ? "justify-end" : "justify-start"}`}>
+                              <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-3 ${msg.sender_id === currentUser.id ? "bg-primary text-primary-foreground rounded-br-sm" : "bg-muted rounded-bl-sm"}`}>
                                 <p className="text-sm md:text-base">{msg.message}</p>
-                                <p className="text-xs mt-1 opacity-70">
-                                  {format(new Date(msg.created_at), "p")}
-                                </p>
+                                <p className="text-xs mt-1 opacity-70">{format(new Date(msg.created_at), "p")}</p>
                               </div>
                             </div>
                           ))}
@@ -422,8 +406,6 @@ export default function Messages() {
           </Card>
         </div>
       </main>
-
-      
     </div>
   );
 }

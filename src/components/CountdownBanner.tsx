@@ -2,26 +2,23 @@ import { useState, useEffect } from "react";
 import { Clock, Flame, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "ks_offer_start";
-const DURATION_MS = 48 * 60 * 60 * 1000; // 48 hours
+// FIX 8: Real end-of-month countdown (no localStorage reset trick)
+function getEndOfMonth(): Date {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+}
 
 function getTimeLeft(): number {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) {
-    localStorage.setItem(STORAGE_KEY, Date.now().toString());
-    return DURATION_MS;
-  }
-  const start = parseInt(stored, 10);
-  const elapsed = Date.now() - start;
-  return Math.max(0, DURATION_MS - elapsed);
+  return Math.max(0, getEndOfMonth().getTime() - Date.now());
 }
 
 function formatTime(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  return { hours, minutes, seconds };
+  return { days, hours, minutes, seconds };
 }
 
 interface CountdownBannerProps {
@@ -41,8 +38,8 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
 
   if (timeLeft <= 0) return null;
 
-  const { hours, minutes, seconds } = formatTime(timeLeft);
-  const isUrgent = timeLeft < 6 * 60 * 60 * 1000; // < 6 hours
+  const { days, hours, minutes, seconds } = formatTime(timeLeft);
+  const isUrgent = timeLeft < 24 * 60 * 60 * 1000; // < 1 day left
   const pad = (n: number) => n.toString().padStart(2, "0");
 
   if (compact) {
@@ -55,9 +52,9 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
         className
       )}>
         <Flame className="h-3.5 w-3.5" />
-        <span>50% OFF ends in</span>
+        <span>Launch Offer ends in</span>
         <span className="font-mono font-black tracking-wider">
-          {pad(hours)}:{pad(minutes)}:{pad(seconds)}
+          {days > 0 ? `${days}d ` : ""}{pad(hours)}:{pad(minutes)}:{pad(seconds)}
         </span>
       </div>
     );
@@ -71,15 +68,11 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
         : "bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 border-2 border-accent/40",
       className
     )}>
-      {/* Animated shimmer */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_3s_infinite] pointer-events-none" />
 
       <div className="relative flex flex-col md:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className={cn(
-            "p-2 rounded-xl",
-            isUrgent ? "bg-destructive/20" : "bg-accent/20"
-          )}>
+          <div className={cn("p-2 rounded-xl", isUrgent ? "bg-destructive/20" : "bg-accent/20")}>
             {isUrgent ? <Zap className="h-5 w-5 text-destructive animate-pulse" /> : <Flame className="h-5 w-5 text-accent-foreground" />}
           </div>
           <div>
@@ -87,7 +80,7 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
               🔥 LAUNCH OFFER: <span className={isUrgent ? "text-destructive" : "text-primary"}>50% OFF</span> First Month!
             </p>
             <p className="text-xs text-muted-foreground">
-              {isUrgent ? "⚠️ Almost gone! Don't miss this price." : "Limited time. Offer valid for new subscribers only."}
+              {isUrgent ? "⚠️ Offer ends today! Don't miss this price." : "Valid till end of this month. New subscribers only."}
             </p>
           </div>
         </div>
@@ -96,6 +89,7 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
           <Clock className={cn("h-4 w-4", isUrgent ? "text-destructive" : "text-muted-foreground")} />
           <div className="flex gap-1">
             {[
+              ...(days > 0 ? [{ value: pad(days), label: "DAYS" }] : []),
               { value: pad(hours), label: "HRS" },
               { value: pad(minutes), label: "MIN" },
               { value: pad(seconds), label: "SEC" },
@@ -106,12 +100,7 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
                   "flex flex-col items-center rounded-lg px-2.5 py-1 min-w-[44px]",
                   isUrgent ? "bg-destructive/20" : "bg-primary/10"
                 )}>
-                  <span className={cn(
-                    "font-mono font-black text-xl leading-tight",
-                    isUrgent ? "text-destructive" : "text-foreground"
-                  )}>
-                    {unit.value}
-                  </span>
+                  <span className={cn("font-mono font-black text-xl leading-tight", isUrgent ? "text-destructive" : "text-foreground")}>{unit.value}</span>
                   <span className="text-[9px] font-semibold text-muted-foreground tracking-wider">{unit.label}</span>
                 </div>
               </div>
@@ -123,7 +112,7 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
   );
 }
 
-// Helper: get whether offer is still active
+// Helper: get whether offer is still active (always active until end of month)
 export function isOfferActive(): boolean {
   return getTimeLeft() > 0;
 }

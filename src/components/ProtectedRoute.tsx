@@ -18,10 +18,12 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, loading, hasRole, isAdmin, isVendor } = useAuthContext();
+  const { user, loading, rolesLoading, hasRole, isAdmin, isVendor } = useAuthContext();
+
+  const isFullyLoaded = !loading && !rolesLoading;
 
   useEffect(() => {
-    if (loading) return;
+    if (!isFullyLoaded) return;
 
     if (requireAuth && !user) {
       navigate(redirectTo, { state: { from: location.pathname } });
@@ -29,7 +31,6 @@ export function ProtectedRoute({
     }
 
     if (requireRole && user && !hasRole(requireRole)) {
-      // Redirect based on their actual role
       if (isAdmin) {
         navigate("/admin/dashboard");
       } else if (isVendor) {
@@ -38,9 +39,9 @@ export function ProtectedRoute({
         navigate("/dashboard");
       }
     }
-  }, [loading, user, requireAuth, requireRole, redirectTo, navigate, location.pathname, hasRole, isAdmin, isVendor]);
+  }, [isFullyLoaded, user, requireAuth, requireRole, redirectTo, navigate, location.pathname, hasRole, isAdmin, isVendor]);
 
-  if (loading) {
+  if (!isFullyLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <LoadingSpinner />

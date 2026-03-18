@@ -311,7 +311,7 @@ export function MobileHomeScreen() {
               </p>
               <button
                 onClick={() => navigate('/plan-wizard')}
-                className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
+                className="bg-primary text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full shadow-lg active:scale-95 transition-transform"
               >
                 Start Planning Free <ArrowRight className="inline h-3.5 w-3.5 ml-1" />
               </button>
@@ -337,7 +337,7 @@ export function MobileHomeScreen() {
           <div className="grid grid-cols-4 gap-2">
             {[
               { icon: Users, value: '500+', label: 'Couples', color: 'text-primary' },
-              { icon: Award, value: '50+', label: 'Vendors', color: 'text-accent' },
+              { icon: Award, value: '5,000+', label: 'Vendors', color: 'text-accent' },
               { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
               { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
             ].map((stat) => (

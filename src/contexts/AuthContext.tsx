@@ -10,6 +10,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  rolesLoading: boolean;
   isAuthenticated: boolean;
   userRoles: UserRole[];
   hasRole: (role: 'admin' | 'vendor' | 'couple') => boolean;
