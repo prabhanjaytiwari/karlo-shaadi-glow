@@ -105,7 +105,7 @@ export default function Search() {
 
       let query = supabase
         .from("vendors")
-        .select(`*, cities (name, state), vendor_services (*)`)
+        .select(`*, cities (name, state), vendor_services (*), vendor_portfolio (image_url, display_order)`)
         .eq("is_active", true)
         .eq("verified", true);
 
