@@ -223,8 +223,8 @@ const ForVendors = () => {
         </section>
 
         {/* How It Works */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
                 <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
