@@ -318,8 +318,8 @@ const ForVendors = () => {
         </section>
 
         {/* FAQ */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mx-auto">
               <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
                 Frequently Asked Questions
