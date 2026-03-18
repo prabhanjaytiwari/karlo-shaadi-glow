@@ -70,7 +70,7 @@ export default function Bookings() {
     <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="My Bookings" />
       
-      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 py-8 pt-24"}>
+      <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 container mx-auto px-4 md:px-6 py-8 pt-20"}>
         <div className={isMobile ? "" : "max-w-6xl mx-auto"}>
           {!isMobile && (
             <div className="mb-6">

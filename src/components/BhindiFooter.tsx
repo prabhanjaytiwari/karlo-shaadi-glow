@@ -195,7 +195,7 @@ export const BhindiFooter = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_90%_55%/0.05)_0%,transparent_50%)]" />
       
       {/* CTA Section */}
-      <div className="relative container mx-auto px-6 py-16">
+      <div className="relative container mx-auto px-4 md:px-6 py-16">
         <div className="group relative rounded-2xl overflow-hidden">
           {/* CTA Background */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/10 to-primary/5" />
@@ -203,7 +203,7 @@ export const BhindiFooter = () => {
           {/* Border */}
           <div className="absolute inset-0 rounded-2xl border-2 border-accent/30" />
           
-          <div className="relative px-8 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="relative px-6 sm:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2">
               <h2 className="font-semibold text-foreground text-lg md:text-xl max-w-2xl">
                 {!user 
@@ -228,9 +228,9 @@ export const BhindiFooter = () => {
       </div>
 
       {/* Main Footer */}
-      <div className="relative container mx-auto px-6 py-16">
+      <div className="relative container mx-auto px-4 md:px-6 py-16">
         {/* Divider with gradient */}
-        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+        <div className="absolute top-0 left-4 right-4 md:left-6 md:right-6 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8 lg:gap-6 mb-16">
           {/* Brand Section */}

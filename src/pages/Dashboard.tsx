@@ -89,8 +89,8 @@ const Dashboard = () => {
         }
       />
 
-      <main className={isMobile ? "px-4 py-4 pb-28 space-y-5" : "pt-24 pb-16"}>
-        <div className={isMobile ? "" : "container mx-auto px-6 space-y-8"}>
+      <main className={isMobile ? "px-4 py-4 pb-24 space-y-5" : "pt-20 pb-16"}>
+        <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 space-y-8"}>
 
           {/* Desktop Header */}
           {!isMobile && (

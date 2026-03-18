@@ -69,7 +69,7 @@ const ForVendors = () => {
 
       <MobilePageHeader title="For Vendors" />
 
-      <main className={isMobile ? "pb-24" : "pt-20 pb-0"}>
+      <main className={isMobile ? "pb-24" : "pt-20"}>
         {/* Hero - Immersive (text on image stays white) */}
         <section className="relative overflow-hidden">
           <div className="relative h-[70vh] min-h-[480px] max-h-[600px]">
@@ -123,7 +123,7 @@ const ForVendors = () => {
 
         {/* Stats Strip */}
         <section className="py-8 border-b border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex justify-center gap-8 md:gap-16">
               {[
                 { value: "5,000+", label: "Vendors" },
@@ -147,8 +147,8 @@ const ForVendors = () => {
         </section>
 
         {/* Why Vendors Choose Us */}
-        <section className="py-12 md:py-20">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-10">
               <h2 className="font-display font-bold text-xl md:text-3xl text-foreground mb-2">
                 Why Vendors Choose Us
@@ -191,8 +191,8 @@ const ForVendors = () => {
         </section>
 
         {/* Categories */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-8">
               <h2 className="font-display font-bold text-xl md:text-3xl text-foreground mb-2">All Categories Welcome</h2>
               <p className="text-muted-foreground text-sm">Join the fastest-growing wedding platform in India</p>
@@ -223,8 +223,8 @@ const ForVendors = () => {
         </section>
 
         {/* How It Works */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
                 <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
@@ -273,8 +273,8 @@ const ForVendors = () => {
         </section>
 
         {/* Vendor Testimonials */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
               Vendors Love Karlo Shaadi
             </h2>
@@ -318,8 +318,8 @@ const ForVendors = () => {
         </section>
 
         {/* FAQ */}
-        <section className="py-12 md:py-20 border-t border-border">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-16 md:py-24 border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl mx-auto">
               <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
                 Frequently Asked Questions

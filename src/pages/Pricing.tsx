@@ -110,7 +110,7 @@ export default function Pricing() {
       <MobilePageHeader title="Pricing" />
 
       {/* Hero with Image */}
-      <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-72 mt-16'}`}>
+      <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-72 mt-20'}`}>
         <img src={heroImg} alt="Happy couple" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         <div className={`absolute bottom-5 ${isMobile ? 'left-4 right-4' : 'left-12 right-12'}`}>
@@ -143,7 +143,7 @@ export default function Pricing() {
       </div>
 
       {/* Pricing Cards */}
-      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-8 px-4"}>
+      <section className={isMobile ? "px-4 py-6 space-y-4" : "py-16 md:py-24 px-4 md:px-6"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <div className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'lg:grid-cols-2 gap-6'}`}>
             {plans.map((plan, idx) => (
@@ -240,7 +240,7 @@ export default function Pricing() {
       </section>
 
       {/* AI Features */}
-      <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
+      <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Meet Your AI Wedding Planner</h2>
           <div className="grid md:grid-cols-3 gap-4">
@@ -270,7 +270,7 @@ export default function Pricing() {
 
       {/* Vendor CTA */}
       {!isVendor && (
-        <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
+        <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
           <div className="container mx-auto max-w-4xl text-center">
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Are You a Wedding Vendor?</h2>
@@ -286,7 +286,7 @@ export default function Pricing() {
       )}
 
       {isVendor && (
-        <section className={isMobile ? "px-4 py-6" : "py-12 px-4"}>
+        <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
           <div className="container mx-auto max-w-4xl text-center">
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Manage Your Vendor Subscription</h2>
@@ -300,7 +300,7 @@ export default function Pricing() {
       )}
 
       {/* FAQ */}
-      <section className={isMobile ? "px-4 py-6" : "py-12 px-4 bg-muted/20"}>
+      <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6 bg-muted/20"}>
         <div className={isMobile ? "" : "container mx-auto max-w-3xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Frequently Asked Questions</h2>
           <Accordion type="single" collapsible className="space-y-2">
@@ -319,7 +319,7 @@ export default function Pricing() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative overflow-hidden py-12 px-4">
+      <section className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6">
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent" />
         <div className="relative container mx-auto max-w-4xl text-center">
           <h2 className={`font-bold text-white ${isMobile ? 'text-2xl' : 'text-4xl'} mb-4`}>Ready to Plan Your Dream Wedding?</h2>

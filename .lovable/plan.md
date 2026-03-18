@@ -1,64 +1,179 @@
 
 
-# App-Wide Polish: Alignment, Spacing, and Typography Consistency
+# Complete Platform UI/UX Transformation
 
-## Problems Identified
+## Scope
 
-After reviewing 15+ pages and key components, here are the inconsistencies:
+The platform has 80+ pages. The mobile home screen now looks premium and polished, but the rest of the site -- Auth, Dashboard, Search, Categories, Deals, Pricing, About, ForVendors, Bookings, Favorites, Profile, FAQ, ShaadiSeva, and more -- still uses the old aesthetic (generic gradients, inconsistent spacing, flat cards, no imagery).
 
-1. **Desktop top padding**: Pages use `pt-20`, `pt-24`, or nothing — should be consistent `pt-20` (matches header height)
-2. **Mobile bottom padding**: Varies between `pb-20`, `pb-24`, `pb-28` — should be `pb-24` (bottom nav clearance)
-3. **Container padding**: Mix of `px-4`, `px-6`, `px-4 sm:px-6` — standardize to `px-4 md:px-6`
-4. **Section vertical spacing**: Ranges from `space-y-5` to `space-y-8` — standardize mobile `space-y-5`, desktop `space-y-8`
-5. **Card border radius**: Mix of `rounded-xl` and `rounded-2xl` — standardize to `rounded-2xl`
-6. **MobilePageHeader**: `h-12` is tight; content below sometimes has no breathing room
-7. **Mobile home screen**: `space-y-5` between sections is fine but some sections use `-mt-1`/`-mt-2` breaking rhythm
-8. **Desktop section spacing**: Ranges from `py-16 md:py-24` to `py-16 md:py-20` — standardize to `py-16 md:py-24`
-9. **Footer CTA section**: `px-6` differs from pages using `px-4 sm:px-6`
-10. **Search page, Categories page, ForVendors page**: Desktop containers use inconsistent `max-w-*` values
+This plan transforms the **15 highest-traffic pages** to match the home screen's design language: tight spacing, generated imagery, interactive cards, and a cohesive premium wedding feel.
 
-## Standardized Design Tokens
+---
 
-```text
-Mobile:
-  - Page padding:     px-4 py-4 pb-24
-  - Section spacing:  space-y-5
-  - Header height:    h-14 (increase from h-12)
-  - Card radius:      rounded-2xl
-  - Card border:      border-border/50
+## Design Language to Replicate
 
-Desktop:
-  - Page top:         pt-20
-  - Container:        container mx-auto px-4 md:px-6
-  - Section spacing:  py-16 md:py-24
-  - Content max-w:    max-w-6xl mx-auto (lists), max-w-2xl (forms)
-```
+From `MobileHomeScreen.tsx`, the established patterns are:
+- Near full-bleed hero banners with gradient overlays on real images
+- Compact trust stat grids
+- Horizontal scroll cards with generated images
+- Gold accent ring borders on icons
+- `space-y-5` tight section spacing
+- Gradient-background interactive cards
+- Sheet-based slide-out menus
+- Mobile-first compact typography (H1: text-2xl, body: text-sm)
 
-## Files to Modify
+---
 
-### Core Layout Components
-1. **`src/components/mobile/MobilePageHeader.tsx`** — Increase height from `h-12` to `h-14` for better touch targets and visual breathing
-2. **`src/components/BhindiFooter.tsx`** — Standardize container padding to `px-4 md:px-6`
+## Phase 1: Core User Journey Pages (Priority)
 
-### Mobile Home Screen
-3. **`src/components/mobile/MobileHomeScreen.tsx`** — Remove negative margin hacks (`-mt-1`, `-mt-2`), standardize section spacing to `space-y-6`, ensure consistent `px-4` padding
+### 1. Auth Page (`src/pages/Auth.tsx`)
+- Add a cinematic half-screen hero image (generated: couple at mandap entrance, warm tones)
+- Split layout on desktop: image left, form right
+- Mobile: image banner on top (h-40), form below
+- Gold accent divider and brand tagline above form
+- Rounded-2xl card with subtle ring-1 ring-accent/20
 
-### Key Pages (alignment + spacing fixes)
-4. **`src/pages/Dashboard.tsx`** — Standardize mobile padding to `px-4 py-4 pb-24`, desktop to `pt-20`
-5. **`src/pages/Bookings.tsx`** — Fix desktop `pt-24` → `pt-20`, ensure consistent card spacing
-6. **`src/pages/Profile.tsx`** — Fix desktop `pt-24` → `pt-20`, standardize form card spacing
-7. **`src/pages/Categories.tsx`** — Fix desktop `mt-16` → consistent `pt-20`
-8. **`src/pages/Auth.tsx`** — Ensure centered card alignment, consistent padding
-9. **`src/pages/Search.tsx`** — Standardize container and grid spacing
-10. **`src/pages/ForVendors.tsx`** — Fix `pt-20 pb-0` → consistent section spacing
-11. **`src/pages/Pricing.tsx`** — Standardize section padding and card alignment
-12. **`src/pages/Index.tsx`** — Standardize desktop section spacing to `py-16 md:py-24`, consistent container padding
+### 2. Dashboard Page (`src/pages/Dashboard.tsx`)
+- Replace flat gradient bg with clean white background
+- Quick actions: horizontal scroll strip with generated icon images (h-16 cards)
+- Wedding countdown: immersive banner card with generated celebration image
+- Tighter spacing throughout (space-y-4 on mobile)
+- Profile completion: compact progress bar instead of badge list
 
-### Global CSS
-13. **`src/index.css`** — Add utility class `.page-container` for consistent page wrapper styling, ensuring all pages use the same base alignment
+### 3. Search Page (`src/pages/Search.tsx`)
+- Mobile: sticky search bar with category chips as horizontal scroll
+- Generated category header images when a category is selected
+- Vendor cards: add portfolio thumbnail (first image or gradient placeholder)
+- Compact card layout with image left, info right on mobile
 
-## Approach
-- Systematic file-by-file pass applying the standardized tokens
-- No visual redesign — purely alignment, margins, and spacing normalization
-- All changes preserve existing responsive breakpoints and mobile-first approach
+### 4. Categories Page (`src/pages/Categories.tsx`)
+- Generate a hero banner image (wedding collage mosaic)
+- Category grid: use existing category images with overlay text
+- Mobile: 2-column grid with tighter gap-3
+- Add MobilePageHeader for mobile consistency
+
+### 5. Bookings Page (`src/pages/Bookings.tsx`)  
+- Already mobile-optimized but needs visual polish
+- Add subtle card backgrounds with vendor category-colored left borders
+- Empty state: generate a "no bookings" illustration
+
+### 6. Favorites Page (`src/pages/Favorites.tsx`)
+- Add MobilePageHeader
+- Mobile: single column cards with vendor image thumbnails
+- Generate an empty state illustration (couple browsing vendors)
+
+---
+
+## Phase 2: Marketing & Conversion Pages
+
+### 7. Pricing Page (`src/pages/Pricing.tsx`)
+- Generate a premium hero image (couple enjoying wedding stress-free)
+- Cards: glassmorphism effect with gold border for premium plan
+- Mobile: stack cards vertically, add "Most Popular" ribbon
+- FAQ: use Accordion component for collapsibility
+
+### 8. Deals Page (`src/pages/Deals.tsx`)
+- Generate 3 seasonal deal banner images (monsoon wedding, winter wedding, early bird)
+- Hero section: immersive banner with deals tagline
+- Deal cards: image thumbnails with price strike-through styling
+- Mobile: horizontal scroll for seasonal offers
+
+### 9. ForVendors Page (`src/pages/ForVendors.tsx`)
+- Generate a vendor success hero image (vendor team celebrating)
+- Stats section: animated counters with gold icon backgrounds
+- Mobile: compact single-column layout
+- Add MobilePageHeader
+
+### 10. About Page (`src/pages/About.tsx`)
+- Generate founder/team section image
+- Values grid: use generated symbolic images (heart for love, shield for trust)
+- Stats section: gradient background with larger typography
+- Mobile: single column with tight spacing
+
+---
+
+## Phase 3: Tool & Utility Pages
+
+### 11. Profile Page (`src/pages/Profile.tsx`)
+- Cleaner form layout with section dividers
+- Add avatar placeholder with initials
+- Mobile: full-width inputs with consistent padding
+
+### 12. FAQ Page (`src/pages/FAQ.tsx`)
+- Generate a support-themed hero image
+- Category icons with colored backgrounds
+- Collapsible accordion with smooth animations
+
+### 13. ShaadiSeva Page (`src/pages/ShaadiSeva.tsx`)
+- Generate an emotional hero image (community wedding celebration)
+- Impact counter with animated numbers
+- Application form with clean card layout
+
+### 14. Checklist Page (`src/pages/Checklist.tsx`)
+- Add progress visualization
+- Category-grouped tasks with icons
+
+### 15. VendorProfile Page (`src/pages/VendorProfile.tsx`)
+- Gallery section polish
+- Contact card with generated map placeholder
+
+---
+
+## Image Generation Plan
+
+Generate **12 images** using Nano Banana Pro (`google/gemini-3-pro-image-preview`):
+
+| # | Image | Usage |
+|---|-------|-------|
+| 1 | Couple at mandap entrance, cinematic warm light | Auth page hero |
+| 2 | Wedding celebration collage/mosaic | Categories page hero |
+| 3 | Couple enjoying wedding carefree | Pricing page hero |
+| 4 | Monsoon wedding with umbrellas | Deals - seasonal banner |
+| 5 | Winter wedding with fairy lights | Deals - seasonal banner |
+| 6 | Early morning wedding ceremony | Deals - seasonal banner |
+| 7 | Vendor team group celebration | ForVendors hero |
+| 8 | Community mass wedding (Saamuhik Vivaah) | ShaadiSeva hero |
+| 9 | Couple browsing on phone | Favorites empty state |
+| 10 | Wedding planning desk flatlay | Dashboard countdown bg |
+| 11 | Support/help desk friendly | FAQ hero |
+| 12 | Founder portrait style (professional) | About page |
+
+---
+
+## Technical Approach
+
+### Consistent Patterns
+- All pages get `MobilePageHeader` on mobile
+- Background: `bg-background` (no more rose-50/amber-50 gradients everywhere)
+- Section spacing: `py-12 md:py-20` (compressed from py-16 md:py-24)
+- Cards: `rounded-2xl border border-border/50` with hover states
+- Generated images stored in `src/assets/` as JPGs
+- Hero sections: image with gradient overlay, not plain gradient backgrounds
+
+### Wiring Check
+- All navigation links verified between pages
+- Bottom navigation covers: Home, Search, Bookings, Favorites, Dashboard
+- Header menu links to: Categories, Deals, Pricing, Tools, Shaadi Seva
+- Auth redirects properly to Dashboard (couples) and Vendor Dashboard (vendors)
+
+### Mobile-First
+- Every page uses `useIsMobile()` for responsive branching
+- Touch targets minimum 44px
+- Horizontal scrolls for lists that overflow on mobile
+- No desktop-only sections hidden on mobile (content parity)
+
+---
+
+## Implementation Order
+
+1. Generate all 12 images first (batch edge function calls)
+2. Auth page transformation (highest conversion impact)
+3. Dashboard page polish
+4. Search + Categories pages
+5. Deals + Pricing pages
+6. ForVendors + About pages
+7. Remaining utility pages (Profile, FAQ, ShaadiSeva, Favorites, Bookings)
+8. Final wiring and navigation audit
+
+This will be implemented across multiple messages due to the volume of changes. Each message will tackle 2-3 pages with their associated generated images.
 

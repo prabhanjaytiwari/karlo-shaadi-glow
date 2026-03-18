@@ -62,7 +62,7 @@ const Categories = () => {
 
       {/* Hero Banner */}
       {!currentCategory && (
-        <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-16'}`}>
+        <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-20'}`}>
           <img src={heroMosaicImg} alt="Wedding categories" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5 md:left-12">
@@ -76,8 +76,8 @@ const Categories = () => {
 
       {/* Category Header when category is selected */}
       {currentCategory && !isMobile && (
-        <div className="pt-24 pb-8 px-4">
-          <div className="container mx-auto max-w-6xl">
+        <div className="pt-20 pb-8 px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6 max-w-6xl">
             <p className="text-xs font-medium text-accent uppercase tracking-widest mb-2">Category</p>
             <h1 className="text-3xl font-bold text-foreground mb-2">{currentCategory.name}</h1>
             <p className="text-muted-foreground">{currentCategory.description}</p>
@@ -87,7 +87,7 @@ const Categories = () => {
 
       {/* Content */}
       <section className={isMobile ? "px-4 py-5" : "py-10"}>
-        <div className={isMobile ? "" : "container mx-auto px-4 max-w-6xl"}>
+        <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 max-w-6xl"}>
           {loading ? (
             <div className="flex justify-center py-20">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
