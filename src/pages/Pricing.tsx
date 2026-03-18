@@ -300,7 +300,7 @@ export default function Pricing() {
       )}
 
       {/* FAQ */}
-      <section className={isMobile ? "px-4 py-6" : "py-12 px-4 bg-muted/20"}>
+      <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6 bg-muted/20"}>
         <div className={isMobile ? "" : "container mx-auto max-w-3xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Frequently Asked Questions</h2>
           <Accordion type="single" collapsible className="space-y-2">
