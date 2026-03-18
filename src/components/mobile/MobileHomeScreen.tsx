@@ -319,7 +319,7 @@ export function MobileHomeScreen() {
 
         {/* ── Wedding Countdown ── */}
         {countdown && (
-          <section className="px-4 -mt-2">
+          <section className="px-4">
             <div className="bg-gradient-to-r from-accent/10 via-accent/5 to-primary/10 rounded-xl px-4 py-3 border border-accent/20 flex items-center gap-3">
               <CalendarHeart className="h-5 w-5 text-accent flex-shrink-0" />
               <div>
