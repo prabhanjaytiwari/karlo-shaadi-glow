@@ -67,7 +67,7 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
   };
 
   const moveToStage = async (inquiryId: string, stage: string) => {
-    await supabase
+    const { error } = await supabase
       .from("vendor_inquiries")
       .update({ 
         pipeline_stage: stage, 
@@ -75,6 +75,11 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
         last_contacted_at: stage !== "new" ? new Date().toISOString() : undefined
       })
       .eq("id", inquiryId);
+    if (error) {
+      console.error("Error moving lead:", error);
+      toast({ title: "Failed to move lead", variant: "destructive" });
+      return;
+    }
     loadInquiries();
     toast({ title: `Moved to ${PIPELINE_STAGES.find(s => s.key === stage)?.label}` });
   };
