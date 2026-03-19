@@ -4,6 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 import photographyImg from "@/assets/category-photography.jpg";
 import venueImg from "@/assets/category-venue.jpg";
 import decorationImg from "@/assets/category-decoration.jpg";
@@ -124,6 +125,13 @@ export default function Blog() {
   const isMobile = useIsMobile();
   return (
     <div className={`min-h-screen bg-background ${isMobile ? 'pb-24' : ''}`}>
+      <SEO
+        title="Wedding Planning Blog | Tips, Guides & Ideas for Indian Weddings"
+        description="Expert wedding planning advice for Indian couples. Guides on wedding photography, venues, catering, mehendi, decoration, budgeting & more. Real tips from wedding pros across India."
+        keywords="indian wedding planning blog, wedding tips India, wedding planning guide, wedding photography tips, wedding decoration ideas, wedding budget India, bridal mehendi, wedding venue guide, destination wedding India"
+        url="/blog"
+        breadcrumbs={[{ name: "Wedding Planning Blog", url: "/blog" }]}
+      />
       <MobilePageHeader title="Blog" />
       {/* Hero Section */}
       <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>

@@ -9,6 +9,8 @@ import decorationImg from "@/assets/category-decoration.jpg";
 import cateringImg from "@/assets/category-catering.jpg";
 import mehendiImg from "@/assets/category-mehendi.jpg";
 import makeupImg from "@/assets/category-bridal-makeup.jpg";
+import { SEO } from "@/components/SEO";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 
 // Blog post data - in production this would come from a CMS or database
 const blogPosts: Record<string, {
@@ -889,8 +891,43 @@ export default function BlogPost() {
     );
   }
 
+  const categoryKeywords: Record<string, string> = {
+    "Planning Guide": "indian wedding planning guide, wedding planning timeline India, how to plan a wedding India, shaadi planning checklist",
+    "Photography": "wedding photographer India, wedding photography tips, wedding photographer questions, best wedding photographer",
+    "Decoration": "wedding decoration ideas India, budget wedding decor, wedding mandap decoration, Indian wedding decor",
+    "Catering": "wedding catering India, wedding menu planning, wedding food India, wedding caterer tips",
+    "Venues": "wedding venue India, how to choose wedding venue, wedding banquet hall, destination wedding venue",
+    "Traditions": "Indian wedding traditions, North Indian wedding, South Indian wedding, wedding rituals India",
+    "Mehendi": "bridal mehendi designs, mehendi artist wedding, henna designs bride, mehendi patterns",
+    "Destinations": "destination wedding India, destination wedding locations, best wedding destinations India",
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        keywords={categoryKeywords[post.category] || "indian wedding, wedding planning, shaadi, wedding vendors India"}
+        url={`/blog/${id}`}
+        type="article"
+        publishedTime={new Date(post.date).toISOString()}
+        author={post.author}
+        breadcrumbs={[
+          { name: "Blog", url: "/blog" },
+          { name: post.title, url: `/blog/${id}` },
+        ]}
+      />
+      <ArticleJsonLd
+        title={post.title}
+        description={post.excerpt}
+        url={`/blog/${id}`}
+        image={typeof post.image === "string" && post.image.startsWith("http") ? post.image : "/og-image.jpg"}
+        datePublished={new Date(post.date).toISOString()}
+        author={post.author}
+        keywords={[post.category, "Indian wedding", "wedding planning", "Karlo Shaadi"]}
+      />
+      <BreadcrumbJsonLd items={[{ name: "Blog", url: "/blog" }, { name: post.title, url: `/blog/${id}` }]} />
+
       {/* Hero */}
       <section className="pt-32 pb-8 px-4 sm:px-6">
         <div className="container mx-auto max-w-4xl">
