@@ -82,19 +82,27 @@ const handler = async (req: Request): Promise<Response> => {
       await supabaseClient.functions.invoke("send-email", {
         body: {
           to: vendorUser.user.email,
-          subject: verified ? "Your Vendor Profile is Verified!" : "Vendor Verification Status Update",
+          subject: verified ? "Your Vendor Profile is Verified! ✅" : "Vendor Verification Status Update",
           html: verified
             ? `
-              <h1>Congratulations!</h1>
-              <p>Your vendor profile for <strong>${data.business_name}</strong> has been verified by our admin team.</p>
-              <p>You will now appear as a verified vendor on Karlo Shaadi, which will help build trust with potential customers.</p>
-              <p>Best regards,<br>The Karlo Shaadi Team</p>
+              <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Congratulations! 🎉</h1>
+              <p style="color: #444; font-size: 15px; line-height: 1.7;">Your vendor profile for <strong>${data.business_name}</strong> has been verified by our team.</p>
+              <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #22c55e; text-align: center;">
+                <p style="margin: 0; font-size: 36px;">✅</p>
+                <p style="margin: 8px 0 0; color: #1a0a2e; font-weight: 600; font-size: 16px;">Verified Vendor</p>
+              </div>
+              <p style="color: #666; font-size: 14px;">You will now appear as a verified vendor on Karlo Shaadi, which helps build trust with couples.</p>
+              <div style="text-align: center; margin: 24px 0;">
+                <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Dashboard →</a>
+              </div>
             `
             : `
-              <h1>Verification Status Update</h1>
-              <p>Your vendor profile verification status for <strong>${data.business_name}</strong> has been updated.</p>
-              <p>Please contact support if you have any questions.</p>
-              <p>Best regards,<br>The Karlo Shaadi Team</p>
+              <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Verification Status Update</h1>
+              <p style="color: #444; font-size: 15px; line-height: 1.7;">Your vendor profile verification status for <strong>${data.business_name}</strong> has been updated.</p>
+              <p style="color: #666; font-size: 14px;">Please contact support if you have any questions.</p>
+              <div style="text-align: center; margin: 24px 0;">
+                <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Dashboard →</a>
+              </div>
             `,
           type: "vendor_verification",
         },

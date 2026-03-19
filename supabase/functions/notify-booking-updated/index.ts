@@ -23,14 +23,12 @@ serve(async (req: Request) => {
     const oldBooking = payload.old_record;
     const newBooking = payload.record;
     
-    // Only proceed if status changed
     if (oldBooking.status === newBooking.status) {
       return new Response(JSON.stringify({ success: true, skipped: true }), {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
 
-    // Fetch vendor and couple details
     const { data: vendor } = await supabase
       .from("vendors")
       .select("business_name, user_id")
@@ -59,42 +57,53 @@ serve(async (req: Request) => {
     let emailSubject = "";
     let emailHtml = "";
 
-    // Handle different status changes
+    const weddingDateFormatted = new Date(newBooking.wedding_date).toLocaleDateString();
+    const amountFormatted = `₹${Number(newBooking.total_amount).toLocaleString()}`;
+
     if (newBooking.status === "confirmed") {
       notificationTitle = "Booking Confirmed";
       notificationMessage = `${vendor.business_name} has confirmed your booking`;
       emailSubject = `Booking Confirmed - ${vendor.business_name}`;
       emailHtml = `
-        <h1>🎉 Booking Confirmed!</h1>
-        <p><strong>${vendor.business_name}</strong> has confirmed your booking.</p>
-        <p><strong>Wedding Date:</strong> ${new Date(newBooking.wedding_date).toLocaleDateString()}</p>
-        <p><strong>Total Amount:</strong> ₹${Number(newBooking.total_amount).toLocaleString()}</p>
-        <p><strong>Advance to Pay:</strong> ₹${Number(newBooking.total_amount * newBooking.advance_percentage / 100).toLocaleString()}</p>
-        <p>Please proceed with the advance payment to secure your booking.</p>
-        <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/bookings" style="display: inline-block; background: #10B981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">Make Payment</a>
+        <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Confirmed! 🎉</h1>
+        <p style="color: #444; font-size: 15px; line-height: 1.7;"><strong>${vendor.business_name}</strong> has confirmed your booking.</p>
+        <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #22c55e;">
+          <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Wedding Date:</strong> ${weddingDateFormatted}</p>
+          <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Total Amount:</strong> ${amountFormatted}</p>
+          <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Advance to Pay:</strong> ₹${Number(newBooking.total_amount * newBooking.advance_percentage / 100).toLocaleString()}</p>
+        </div>
+        <p style="color: #666; font-size: 14px;">Please proceed with the advance payment to secure your booking.</p>
+        <div style="text-align: center; margin: 24px 0;">
+          <a href="https://karloshaadi.com/bookings" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Make Payment →</a>
+        </div>
       `;
     } else if (newBooking.status === "cancelled") {
       notificationTitle = "Booking Cancelled";
       notificationMessage = `Your booking with ${vendor.business_name} has been cancelled`;
       emailSubject = `Booking Cancelled - ${vendor.business_name}`;
       emailHtml = `
-        <h1>Booking Cancelled</h1>
-        <p>Your booking with <strong>${vendor.business_name}</strong> has been cancelled.</p>
-        <p><strong>Wedding Date:</strong> ${new Date(newBooking.wedding_date).toLocaleDateString()}</p>
-        ${newBooking.cancellation_reason ? `<p><strong>Reason:</strong> ${newBooking.cancellation_reason}</p>` : ""}
-        <p>You can browse other vendors on our platform.</p>
-        <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/search" style="display: inline-block; background: #8B5CF6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">Find Vendors</a>
+        <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Cancelled</h1>
+        <p style="color: #444; font-size: 15px; line-height: 1.7;">Your booking with <strong>${vendor.business_name}</strong> has been cancelled.</p>
+        <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #ef4444;">
+          <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Wedding Date:</strong> ${weddingDateFormatted}</p>
+          ${newBooking.cancellation_reason ? `<p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Reason:</strong> ${newBooking.cancellation_reason}</p>` : ""}
+        </div>
+        <p style="color: #666; font-size: 14px;">You can browse other vendors on our platform.</p>
+        <div style="text-align: center; margin: 24px 0;">
+          <a href="https://karloshaadi.com/search" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Find Vendors →</a>
+        </div>
       `;
     } else if (newBooking.status === "completed") {
       notificationTitle = "Booking Completed";
       notificationMessage = `Your booking with ${vendor.business_name} is marked as completed`;
       emailSubject = `Booking Completed - ${vendor.business_name}`;
       emailHtml = `
-        <h1>🎊 Booking Completed!</h1>
-        <p>Your booking with <strong>${vendor.business_name}</strong> has been completed.</p>
-        <p>We hope you had an amazing wedding experience!</p>
-        <p>Please take a moment to leave a review and help other couples.</p>
-        <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/bookings" style="display: inline-block; background: #8B5CF6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">Leave a Review</a>
+        <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Completed! 🎊</h1>
+        <p style="color: #444; font-size: 15px; line-height: 1.7;">Your booking with <strong>${vendor.business_name}</strong> has been completed.</p>
+        <p style="color: #444; font-size: 15px; line-height: 1.7;">We hope you had an amazing wedding experience! Please take a moment to leave a review.</p>
+        <div style="text-align: center; margin: 24px 0;">
+          <a href="https://karloshaadi.com/bookings" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Leave a Review →</a>
+        </div>
       `;
     }
 
@@ -130,34 +139,34 @@ serve(async (req: Request) => {
       body: JSON.stringify({ to: coupleUser.email, subject: emailSubject, html: emailHtml, type: `booking_${newBooking.status}` }),
     }).catch(() => { /* best-effort */ });
 
-    // Send email to vendor for all status changes
+    // Send email to vendor for status changes
     if (vendorUser?.email) {
       let vendorSubject = "";
       let vendorHtml = "";
       if (newBooking.status === "cancelled") {
         vendorSubject = `Booking Cancelled by ${couple.full_name}`;
         vendorHtml = `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #b91c1c;">Booking Cancelled</h2>
-            <p>Hi ${vendor.business_name},</p>
-            <p><strong>${couple.full_name}</strong> has cancelled their booking with you.</p>
-            <div style="background: #fef2f2; padding: 16px; border-radius: 8px; margin: 16px 0;">
-              <p><strong>Wedding Date:</strong> ${new Date(newBooking.wedding_date).toLocaleDateString()}</p>
-              ${newBooking.cancellation_reason ? `<p><strong>Reason:</strong> ${newBooking.cancellation_reason}</p>` : ""}
-            </div>
-            <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">View Dashboard</a>
-            <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message from Karlo Shaadi.</p>
-          </div>`;
+          <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Cancelled</h1>
+          <p style="color: #444; font-size: 15px; line-height: 1.7;">Hi ${vendor.business_name},</p>
+          <p style="color: #444; font-size: 15px; line-height: 1.7;"><strong>${couple.full_name}</strong> has cancelled their booking with you.</p>
+          <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #ef4444;">
+            <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Wedding Date:</strong> ${weddingDateFormatted}</p>
+            ${newBooking.cancellation_reason ? `<p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Reason:</strong> ${newBooking.cancellation_reason}</p>` : ""}
+          </div>
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Dashboard →</a>
+          </div>
+        `;
       } else if (newBooking.status === "completed") {
         vendorSubject = `Booking Completed — ${couple.full_name}`;
         vendorHtml = `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #10B981;">🎊 Booking Completed!</h2>
-            <p>Hi ${vendor.business_name},</p>
-            <p>The booking for <strong>${couple.full_name}</strong> has been marked as completed. Great work!</p>
-            <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; background: #10B981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">View Dashboard</a>
-            <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message from Karlo Shaadi.</p>
-          </div>`;
+          <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Completed! 🎊</h1>
+          <p style="color: #444; font-size: 15px; line-height: 1.7;">Hi ${vendor.business_name},</p>
+          <p style="color: #444; font-size: 15px; line-height: 1.7;">The booking for <strong>${couple.full_name}</strong> has been marked as completed. Great work!</p>
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Dashboard →</a>
+          </div>
+        `;
       }
       if (vendorSubject) {
         fetch(`${supabaseUrl}/functions/v1/send-email`, {
