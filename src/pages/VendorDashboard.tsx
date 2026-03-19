@@ -147,6 +147,8 @@ export default function VendorDashboard() {
         ? bookings.reduce((sum, b) => sum + Number(b.total_amount || 0), 0) / bookings.length
         : 0;
 
+      // Read vendorData from state at call time
+      const currentVendor = vendor;
       setStats({
         totalBookings: bookings.length,
         pendingBookings: pending,
@@ -221,7 +223,7 @@ export default function VendorDashboard() {
       bookingsData.forEach(booking => {
         const date = new Date(booking.created_at);
         const monthKey = date.toLocaleString('default', { month: 'short' });
-        const amount = booking.status === 'completed' ? Number(booking.total_amount) : 0;
+        const amount = booking.status === 'completed' ? (Number(booking.total_amount) || 0) : 0;
         
         if (!monthlyMap.has(monthKey)) {
           monthlyMap.set(monthKey, { revenue: 0, bookings: 0, values: [] });

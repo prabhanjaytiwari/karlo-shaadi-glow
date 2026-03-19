@@ -124,6 +124,7 @@ export default function Checkout() {
       );
 
       if (orderError) throw orderError;
+      if (!orderData?.order) throw new Error("Failed to create payment order");
 
       if (!orderData?.order?.id || !orderData?.razorpayKeyId) {
         throw new Error("Invalid payment order response. Please try again.");

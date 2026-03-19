@@ -76,7 +76,8 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
       })
       .eq("id", inquiryId);
     if (error) {
-      toast({ title: "Failed to update stage", description: error.message, variant: "destructive" } as any);
+      console.error("Error moving lead:", error);
+      toast({ title: "Failed to move lead", variant: "destructive" });
       return;
     }
     loadInquiries();
@@ -91,7 +92,8 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
       .update({ notes_internal: noteText, updated_at: new Date().toISOString() })
       .eq("id", inquiryId);
     if (error) {
-      toast({ title: "Failed to save note", description: error.message, variant: "destructive" } as any);
+      console.error("Error saving note:", error);
+      toast({ title: "Failed to save note", variant: "destructive" });
       return;
     }
     toast({ title: "Note saved!" });
