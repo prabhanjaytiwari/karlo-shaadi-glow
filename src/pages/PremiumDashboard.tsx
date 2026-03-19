@@ -19,6 +19,7 @@ export default function PremiumDashboard() {
   const [subscription, setSubscription] = useState<any>(null);
   const [consultations, setConsultations] = useState<any[]>([]);
   const [discounts, setDiscounts] = useState<any[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     checkAccess();
@@ -120,8 +121,6 @@ export default function PremiumDashboard() {
       bgColor: "bg-yellow-500/10"
     }
   ];
-
-  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">

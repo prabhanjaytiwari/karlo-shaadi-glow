@@ -58,6 +58,7 @@ export default function BookingDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [booking, setBooking] = useState<BookingDetailsData | null>(null);
   const [payments, setPayments] = useState<any[]>([]);
   const [documents, setDocuments] = useState<any[]>([]);
@@ -225,8 +226,6 @@ export default function BookingDetails() {
   const advanceAmount = (booking.total_amount * booking.advance_percentage) / 100;
   const remainingAmount = booking.total_amount - advanceAmount;
   const isCouple = booking.vendor.user_id !== user?.id;
-
-  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
