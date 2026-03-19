@@ -331,7 +331,7 @@ export default function VendorOnboarding() {
 
         supabase.functions.invoke('onboarding-email', {
           body: { user_id: data.user.id, email: trimmedEmail, name: trimmedName, user_type: 'vendor' }
-        }).catch(err => console.error('Welcome email failed:', err));
+        }).catch(() => { /* best-effort */ });
 
         const needsEmailConfirmation = data.user.identities?.length === 0 ||
           (!data.session && data.user.email_confirmed_at === null);
@@ -372,7 +372,7 @@ export default function VendorOnboarding() {
     const fileExt = logoFile.name.split('.').pop();
     const fileName = `${userId}/${Date.now()}.${fileExt}`;
     const { error } = await supabase.storage.from('vendor-logos').upload(fileName, logoFile);
-    if (error) { console.error("Logo upload error:", error); return null; }
+    if (error) { return null; }
     const { data: { publicUrl } } = supabase.storage.from('vendor-logos').getPublicUrl(fileName);
     return publicUrl;
   };

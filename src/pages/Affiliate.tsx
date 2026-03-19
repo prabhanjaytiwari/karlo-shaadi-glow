@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,9 +19,19 @@ export default function Affiliate() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Affiliate application:", formData);
+    try {
+      await supabase.from("contact_inquiries").insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: `Affiliate application\n\nWebsite: ${formData.website}\nAudience: ${formData.audience}\nPromotion plan: ${formData.message}`,
+        type: "affiliate",
+      });
+    } catch {
+      // best-effort — still show success to user
+    }
     toast({
       title: "Application Submitted!",
       description: "We'll review your application and get back to you soon.",

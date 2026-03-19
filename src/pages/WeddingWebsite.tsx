@@ -223,7 +223,6 @@ const WeddingWebsite = () => {
       if (error) throw error;
       setMyWebsites(data || []);
     } catch (error) {
-      console.error("Error loading websites:", error);
       toast.error("Failed to load your websites");
     } finally {
       setLoadingWebsites(false);
@@ -242,7 +241,6 @@ const WeddingWebsite = () => {
       if (error) throw error;
       setRsvpList(data || []);
     } catch (error) {
-      console.error("Error loading RSVPs:", error);
       toast.error("Failed to load RSVPs");
     } finally {
       setLoadingRsvps(false);
@@ -317,7 +315,6 @@ const WeddingWebsite = () => {
           .insert(eventsToInsert);
 
         if (eventsError) {
-          console.error("Error saving events:", eventsError);
         }
       }
 
@@ -335,7 +332,6 @@ const WeddingWebsite = () => {
           .insert(imagesToInsert);
 
         if (galleryError) {
-          console.error("Error saving gallery:", galleryError);
         }
       }
 
@@ -346,7 +342,6 @@ const WeddingWebsite = () => {
       setStep(5); // Updated to step 5 since we added a new step
       toast.success("Your wedding website is ready! 🎉");
     } catch (error) {
-      console.error("Error creating website:", error);
       toast.error("Failed to create website. Please try again.");
     } finally {
       setIsGenerating(false);
@@ -364,7 +359,6 @@ const WeddingWebsite = () => {
       toast.success("Website deleted successfully");
       loadMyWebsites();
     } catch (error) {
-      console.error("Error deleting website:", error);
       toast.error("Failed to delete website");
     }
   };
@@ -380,7 +374,6 @@ const WeddingWebsite = () => {
       toast.success(website.is_published ? "Website unpublished" : "Website published!");
       loadMyWebsites();
     } catch (error) {
-      console.error("Error toggling publish:", error);
       toast.error("Failed to update website");
     }
   };
@@ -416,7 +409,6 @@ const WeddingWebsite = () => {
       setShowRsvpSuccess(true);
       toast.success("RSVP submitted successfully! 🎉");
     } catch (error) {
-      console.error("Error submitting RSVP:", error);
       toast.error("Failed to submit RSVP. Please try again.");
     } finally {
       setSubmittingRsvp(false);
@@ -465,7 +457,6 @@ const WeddingWebsite = () => {
 
       toast.success("QR Code downloaded! 📱");
     } catch (error) {
-      console.error("Error generating QR code:", error);
       toast.error("Failed to generate QR code");
     } finally {
       setDownloadingQr(false);
@@ -493,7 +484,6 @@ const WeddingWebsite = () => {
       setQrDataUrl(dataUrl);
       setShowQrDialog(true);
     } catch (error) {
-      console.error("Error generating QR code:", error);
       toast.error("Failed to generate QR code");
     }
   };

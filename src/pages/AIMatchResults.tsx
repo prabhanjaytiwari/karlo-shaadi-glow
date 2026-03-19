@@ -128,7 +128,6 @@ export default function AIMatchResults() {
 
       setVendors(matchedVendors);
     } catch (error: any) {
-      console.error("Error loading match results:", error);
       toast({
         title: "Error",
         description: "Failed to load vendor matches. Please try again.",

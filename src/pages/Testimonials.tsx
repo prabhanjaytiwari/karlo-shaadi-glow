@@ -196,12 +196,6 @@ export default function Testimonials() {
             ))}
           </div>
 
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <button className="px-8 py-3 rounded-full border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-colors">
-              Load More Stories
-            </button>
-          </div>
         </div>
       </section>
 

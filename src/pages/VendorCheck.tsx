@@ -92,7 +92,6 @@ export default function VendorCheck() {
         });
       }
     } catch (e) {
-      console.error(e);
       toast.error("Search failed. Please try again.");
     } finally {
       setIsSearching(false);

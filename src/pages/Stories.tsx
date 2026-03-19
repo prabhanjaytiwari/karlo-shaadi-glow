@@ -45,9 +45,7 @@ const Stories = () => {
 
       if (error) throw error;
       setStories(data || []);
-    } catch (error) {
-      console.error("Error fetching stories:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

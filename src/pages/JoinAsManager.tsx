@@ -22,7 +22,6 @@ export default function JoinAsManager() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Manager application:", formData);
     toast({
       title: "Application Submitted!",
       description: "Our HR team will review and contact you soon.",

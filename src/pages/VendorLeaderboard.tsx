@@ -118,9 +118,7 @@ export default function VendorLeaderboard() {
       const { data, error } = await query;
       if (error) throw error;
       setVendors(data || []);
-    } catch (error) {
-      console.error("Error loading leaderboard:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

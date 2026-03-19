@@ -76,7 +76,6 @@ const BookingConfirmation = () => {
       });
 
     } catch (error) {
-      console.error("Error loading booking:", error);
       toast.error("Failed to load booking details");
     } finally {
       setLoading(false);

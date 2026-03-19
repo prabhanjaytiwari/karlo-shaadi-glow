@@ -57,7 +57,7 @@ export default function Deals() {
     try {
       const { data } = await supabase.from("vendor_discounts").select(`*, vendor:vendors(business_name, category, city:cities(name))`).eq("is_active", true).gte("valid_until", new Date().toISOString()).order("discount_percentage", { ascending: false }).limit(10);
       if (data) setVendorDiscounts(data as unknown as VendorDiscount[]);
-    } catch (error) { console.error("Error loading discounts:", error); }
+    } catch { /* ignored */ }
     finally { setLoading(false); }
   };
 

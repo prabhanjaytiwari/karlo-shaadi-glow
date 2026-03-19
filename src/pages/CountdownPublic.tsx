@@ -49,9 +49,7 @@ export default function CountdownPublic() {
           .single();
         if (data) setWeddingData(data);
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

@@ -193,9 +193,7 @@ export default function Checklist() {
         // Initialize with default checklist
         await initializeChecklist(userId);
       }
-    } catch (error) {
-      console.error("Error loading checklist:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };
@@ -214,7 +212,6 @@ export default function Checklist() {
       .select();
 
     if (error) {
-      console.error("Error initializing checklist:", error);
       return;
     }
 

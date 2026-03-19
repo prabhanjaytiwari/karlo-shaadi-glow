@@ -60,7 +60,7 @@ const Profile = () => {
             guest_count: data.guest_count || undefined, preferred_season: data.preferred_season || "",
           });
         }
-      } catch (error) { console.error("Error loading profile:", error); }
+      } catch { /* ignored */ }
       finally { setLoading(false); }
     };
 

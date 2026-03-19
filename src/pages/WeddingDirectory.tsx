@@ -80,9 +80,7 @@ const WeddingDirectory = () => {
             .slice(0, 12)
         );
       }
-    } catch (err) {
-      console.error(err);
-    }
+    } catch { /* ignored */ }
   };
 
   const citySlug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");

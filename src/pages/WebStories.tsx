@@ -58,9 +58,7 @@ const WebStories = () => {
           photos: s.story_photos || [],
         })));
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

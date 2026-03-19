@@ -119,7 +119,6 @@ export default function VendorDashboard() {
       loadSubscription(vendorData.id);
       loadRevenueData(vendorData.id, vendorData.user_id);
     } catch (error) {
-      console.error("Error:", error);
       navigate("/vendor/onboarding");
     } finally {
       setLoading(false);

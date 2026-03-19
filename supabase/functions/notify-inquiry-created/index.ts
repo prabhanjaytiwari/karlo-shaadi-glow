@@ -73,12 +73,12 @@ serve(async (req: Request) => {
         },
         body: JSON.stringify({
           to: vendorEmail,
-          subject: `New Quote Request from ${inquiry.name} - Bhindi`,
+          subject: `New Quote Request from ${inquiry.name} - Karlo Shaadi`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #b91c1c;">🎉 New Quote Request!</h2>
               <p>Hi ${vendor.business_name},</p>
-              <p>Great news! You have received a new quote request on Bhindi.</p>
+              <p>Great news! You have received a new quote request on Karlo Shaadi.</p>
               
               <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3 style="margin-top: 0;">Inquiry Details:</h3>
@@ -93,12 +93,12 @@ serve(async (req: Request) => {
               
               <p><strong>Tip:</strong> Responding quickly increases your chances of booking! Average response time matters.</p>
               
-              <a href="https://bhindi.app/vendor/dashboard" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
+              <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
                 View & Respond
               </a>
-              
+
               <p style="color: #666; font-size: 12px; margin-top: 30px;">
-                This is an automated message from Bhindi. Please do not reply to this email.
+                This is an automated message from Karlo Shaadi. Please do not reply to this email.
               </p>
             </div>
           `,
@@ -117,7 +117,7 @@ serve(async (req: Request) => {
           },
           body: JSON.stringify({
             to: vendor.whatsapp_number,
-            message: `🎉 New Quote Request on Bhindi!\n\n${inquiry.name} is interested in your services${inquiry.wedding_date ? ` for ${inquiry.wedding_date}` : ''}.\n\nLogin to respond: bhindi.app/vendor`,
+            message: `🎉 New Quote Request on Karlo Shaadi!\n\n${inquiry.name} is interested in your services${inquiry.wedding_date ? ` for ${inquiry.wedding_date}` : ''}.\n\nLogin to respond: karloshaadi.com/vendor/dashboard`,
             type: "inquiry_notification"
           }),
         });

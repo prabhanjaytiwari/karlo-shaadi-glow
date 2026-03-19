@@ -91,9 +91,7 @@ const City = () => {
         { id: 1, couple: "Priya & Raj", theme: "Royal Nawabi", image: heroImage },
         { id: 2, couple: "Ananya & Vikram", theme: "Modern", image: heroImage },
       ]);
-    } catch (error) {
-      console.error("Error loading data:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

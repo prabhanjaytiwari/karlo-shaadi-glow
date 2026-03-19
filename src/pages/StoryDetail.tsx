@@ -40,9 +40,7 @@ const StoryDetail = () => {
 
       if (error) throw error;
       setStory(storyData);
-    } catch (error) {
-      console.error("Error fetching story:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

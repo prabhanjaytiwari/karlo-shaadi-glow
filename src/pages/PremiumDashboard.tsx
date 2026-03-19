@@ -51,7 +51,6 @@ export default function PremiumDashboard() {
       loadConsultations(session.user.id);
       loadDiscounts();
     } catch (error) {
-      console.error("Error:", error);
       navigate("/pricing");
     } finally {
       setLoading(false);

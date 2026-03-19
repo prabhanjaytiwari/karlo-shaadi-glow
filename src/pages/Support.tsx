@@ -65,7 +65,6 @@ const Support = () => {
       
       form.reset();
     } catch (error) {
-      console.error('Error sending support request:', error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",

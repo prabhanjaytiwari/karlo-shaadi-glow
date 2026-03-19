@@ -25,7 +25,6 @@ const Referrals = () => {
       }
       setUser(user);
     } catch (error) {
-      console.error("Error:", error);
       navigate("/auth");
     } finally {
       setLoading(false);
