@@ -129,8 +129,8 @@ export const BhindiHeader = () => {
     };
   }, []);
 
-  const isDesktop = windowWidth !== undefined && windowWidth >= 768;
-  const isMobile = windowWidth !== undefined && windowWidth < 768;
+  const isDesktop = windowWidth >= 768;
+  const isMobile = windowWidth < 768;
 
   useEffect(() => {
     checkAuth();

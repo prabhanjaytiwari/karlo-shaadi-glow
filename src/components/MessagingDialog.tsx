@@ -51,7 +51,7 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
         .eq("id", vendorId)
         .single();
 
-      if (!vendor) return;
+      if (!vendor) { setLoading(false); return; }
       setVendorUserId(vendor.user_id);
 
       const { data, error } = await supabase

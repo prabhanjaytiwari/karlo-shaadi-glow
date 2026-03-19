@@ -86,10 +86,15 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
 
   const saveNote = async (inquiryId: string) => {
     if (!noteText.trim()) return;
-    await supabase
+    const { error } = await supabase
       .from("vendor_inquiries")
       .update({ notes_internal: noteText, updated_at: new Date().toISOString() })
       .eq("id", inquiryId);
+    if (error) {
+      console.error("Error saving note:", error);
+      toast({ title: "Failed to save note", variant: "destructive" });
+      return;
+    }
     toast({ title: "Note saved!" });
     setNoteText("");
     loadInquiries();

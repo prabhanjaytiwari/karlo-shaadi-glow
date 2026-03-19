@@ -261,7 +261,7 @@ export default function MusicGenerator() {
         }));
         setSavedSongs(tracks);
       }
-    } catch { /* ignored */ }
+    } catch (error) { console.error("Error loading saved songs:", error); }
   };
 
   const saveSong = async (track: GeneratedTrack) => {
