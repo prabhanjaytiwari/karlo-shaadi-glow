@@ -55,7 +55,6 @@ const VendorProfileSetup = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const isMobile = useIsMobile();
 
   const updateField = (field: keyof FormData, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -131,6 +130,8 @@ const VendorProfileSetup = () => {
       </div>
     );
   }
+
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen bg-background">

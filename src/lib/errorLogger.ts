@@ -260,11 +260,13 @@ export const measurePerformance = async <T>(
   }
 };
 
-// Flush on page unload — errors already queued to track-event above;
-// remaining buffered errors are dropped on page close to avoid calling
-// a non-existent /api/log-errors endpoint.
+// Flush on page unload
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', () => {
-    errorBuffer = [];
+    if (errorBuffer.length > 0) {
+      // Use sendBeacon for reliability on page unload
+      const data = JSON.stringify(errorBuffer);
+      navigator.sendBeacon?.('/api/log-errors', data);
+    }
   });
 }

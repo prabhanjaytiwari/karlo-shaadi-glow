@@ -69,6 +69,9 @@ verify_jwt = false
 [functions.shaadi-seva-outreach]
 verify_jwt = false
 
+[functions.budget-roast]
+verify_jwt = false
+
 [functions.vendor-ai-tools]
 verify_jwt = false
 

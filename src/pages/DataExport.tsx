@@ -31,10 +31,10 @@ export default function DataExport() {
       if (!user) throw new Error("Not authenticated");
 
       let data;
-      const filename = `karlo-shaadi-${dataType}-${new Date().toISOString().split('T')[0]}`;
+      let filename = `karlo-shaadi-${dataType}-${new Date().toISOString().split('T')[0]}`;
 
       switch (dataType) {
-        case 'profile': {
+        case 'profile':
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
@@ -42,9 +42,8 @@ export default function DataExport() {
             .single();
           data = profile;
           break;
-        }
 
-        case 'bookings': {
+        case 'bookings':
           const { data: bookings } = await supabase
             .from('bookings')
             .select(`
@@ -54,9 +53,8 @@ export default function DataExport() {
             .eq('couple_id', user.id);
           data = bookings;
           break;
-        }
 
-        case 'favorites': {
+        case 'favorites':
           const { data: favorites } = await supabase
             .from('favorites')
             .select(`
@@ -66,9 +64,8 @@ export default function DataExport() {
             .eq('user_id', user.id);
           data = favorites;
           break;
-        }
 
-        case 'messages': {
+        case 'messages':
           const { data: messages } = await supabase
             .from('messages')
             .select('*')
@@ -76,16 +73,15 @@ export default function DataExport() {
             .order('created_at', { ascending: false });
           data = messages;
           break;
-        }
 
-        case 'all': {
+        case 'all':
           const [profileData, bookingsData, favoritesData, messagesData] = await Promise.all([
             supabase.from('profiles').select('*').eq('id', user.id).single(),
             supabase.from('bookings').select('*, vendors (business_name, category)').eq('couple_id', user.id),
             supabase.from('favorites').select('*, vendors (business_name, category)').eq('user_id', user.id),
             supabase.from('messages').select('*').or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
           ]);
-
+          
           data = {
             profile: profileData.data,
             bookings: bookingsData.data,
@@ -94,7 +90,6 @@ export default function DataExport() {
             exportedAt: new Date().toISOString()
           };
           break;
-        }
 
         default:
           throw new Error("Invalid data type");

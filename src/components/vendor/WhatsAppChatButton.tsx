@@ -19,7 +19,7 @@ export const WhatsAppChatButton = ({
 
   // Clean the phone number - remove spaces, dashes, and ensure it starts with country code
   const cleanNumber = whatsappNumber
-    .replace(/[\s\-()]/g, '')
+    .replace(/[\s\-\(\)]/g, '')
     .replace(/^\+/, '');
   
   // Default message
