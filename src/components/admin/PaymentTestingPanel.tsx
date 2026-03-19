@@ -29,7 +29,7 @@ export function PaymentTestingPanel() {
     try {
       const testAmount = parseFloat(amount);
       
-      let body: any = {
+      const body: Record<string, unknown> = {
         amount: testAmount
       };
 

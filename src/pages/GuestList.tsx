@@ -94,6 +94,7 @@ const FOOD_PREFERENCES = [
 export default function GuestList() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -320,8 +321,6 @@ export default function GuestList() {
       </div>
     );
   }
-
-  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

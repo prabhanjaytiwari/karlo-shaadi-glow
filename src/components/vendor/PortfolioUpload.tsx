@@ -96,7 +96,7 @@ export function PortfolioUpload({ vendorId, open, onOpenChange, onSuccess }: Por
       } else if (uploadType === "video" && data.video_url) {
         // For YouTube videos, use the thumbnail
         const youtubeMatch = data.video_url.match(
-          /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+          /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
         );
         if (youtubeMatch) {
           imageUrl = `https://img.youtube.com/vi/${youtubeMatch[1]}/maxresdefault.jpg`;
