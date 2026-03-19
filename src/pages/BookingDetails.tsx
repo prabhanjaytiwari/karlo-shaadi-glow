@@ -27,6 +27,17 @@ import { BookingDocumentUpload } from "@/components/BookingDocumentUpload";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface BookingDetailsData {
   id: string;
@@ -63,6 +74,7 @@ export default function BookingDetails() {
   const [payments, setPayments] = useState<any[]>([]);
   const [documents, setDocuments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cancelling, setCancelling] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -142,6 +154,24 @@ export default function BookingDetails() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCancelBooking = async () => {
+    if (!booking || cancelling) return;
+    setCancelling(true);
+    try {
+      const { error } = await supabase
+        .from("bookings")
+        .update({ status: "cancelled", cancelled_at: new Date().toISOString() })
+        .eq("id", booking.id);
+      if (error) throw error;
+      toast({ title: "Booking cancelled", description: "Your booking has been cancelled." });
+      setBooking({ ...booking, status: "cancelled", cancelled_at: new Date().toISOString() });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setCancelling(false);
     }
   };
 
@@ -244,10 +274,10 @@ export default function BookingDetails() {
 
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{booking.vendor.business_name}</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{booking.vendor.business_name}</h1>
               <p className="text-muted-foreground">Booking ID: {booking.id.slice(0, 8)}</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {getStatusBadge(booking.status)}
               <MessagingDialog
                 vendorId={booking.vendor.id}
@@ -258,6 +288,29 @@ export default function BookingDetails() {
                   Message
                 </Button>
               </MessagingDialog>
+              {isCouple && booking.status === "pending" && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" disabled={cancelling}>
+                      {cancelling ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Cancelling...</> : <><XCircle className="h-4 w-4 mr-2" />Cancel Booking</>}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Cancel this booking?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will cancel your booking with <strong>{booking.vendor.business_name}</strong>. This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Keep Booking</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleCancelBooking} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        Yes, Cancel
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </div>
           </div>
         </div>

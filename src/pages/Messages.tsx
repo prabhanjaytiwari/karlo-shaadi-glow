@@ -295,7 +295,7 @@ export default function Messages() {
         <div className={isMobile ? "h-full" : "max-w-6xl mx-auto"}>
           {!isMobile && <h1 className="text-4xl font-bold mb-8">Messages</h1>}
 
-          <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[600px]'}`}>
+          <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[calc(100vh-12rem)] min-h-[400px] max-h-[800px]'}`}>
             <div className="grid md:grid-cols-3 h-full">
               {showConversationList && (
                 <div className={`border-r flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>

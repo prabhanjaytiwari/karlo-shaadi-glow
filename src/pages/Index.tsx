@@ -410,7 +410,7 @@ const Index = () => {
             <ShaadiSevaCounter />
             <Link to="/shaadi-seva">
               <Button variant="outline" className="rounded-full mt-6 px-6 border-primary/30 hover:border-primary">
-                Learn More About Shaadi Seva
+                See How Shaadi Seva Works
               </Button>
             </Link>
           </div>

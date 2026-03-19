@@ -283,11 +283,11 @@ const VendorSuccessStories = () => {
               <p className="text-muted-foreground">
                 Be one of our first featured vendors!
               </p>
-              <Button 
+              <Button
                 className="mt-4"
                 onClick={() => navigate("/vendor/auth")}
               >
-                Join Now
+                Register Your Business Free
               </Button>
             </div>
           )}

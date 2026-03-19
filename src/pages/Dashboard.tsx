@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
 import weddingCouple from "@/assets/wedding-couple-romantic.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const mobileQuickActions = [
   { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
@@ -71,8 +72,27 @@ const Dashboard = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary" />
+      <div className="min-h-screen bg-background">
+        <div className="h-14 border-b bg-background/95" />
+        <div className="container mx-auto px-4 py-6 max-w-4xl space-y-6">
+          {/* Hero skeleton */}
+          <Skeleton className="w-full h-40 rounded-2xl" />
+          {/* Quick actions grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-20 rounded-xl" />
+            ))}
+          </div>
+          {/* Stats row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-24 rounded-xl" />
+            ))}
+          </div>
+          {/* Content blocks */}
+          <Skeleton className="h-48 rounded-2xl" />
+          <Skeleton className="h-32 rounded-2xl" />
+        </div>
       </div>
     );
   }
@@ -142,7 +162,7 @@ const Dashboard = () => {
               {profile?.wedding_date ? (
                 <>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Your Wedding</p>
-                  <p className="text-white text-4xl md:text-5xl font-bold tracking-tight">
+                  <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
                     {daysUntilWedding !== null ? `${daysUntilWedding} Days` : "Set Date"}
                   </p>
                   <p className="text-white/50 text-sm mt-1">
@@ -152,7 +172,7 @@ const Dashboard = () => {
               ) : (
                 <>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Welcome to</p>
-                  <p className="text-white text-3xl md:text-4xl font-bold tracking-tight">Karlo Shaadi</p>
+                  <p className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Karlo Shaadi</p>
                   <p className="text-white/50 text-sm mt-1">Your dream wedding, simplified</p>
                 </>
               )}

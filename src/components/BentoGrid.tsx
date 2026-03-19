@@ -38,14 +38,14 @@ export const BentoGrid = () => {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
-            <span className="text-accent font-medium text-sm">Why Choose Us</span>
+            <span className="text-accent font-medium text-sm">Built for Indian Weddings</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-semibold mb-3">
             Why <span className="text-accent">Karlo Shaadi</span>?
           </h2>
           <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-3" />
           <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-            Everything you need for a stress-free wedding
+            Verified vendors · secure payments · shaadi done right
           </p>
         </div>
 

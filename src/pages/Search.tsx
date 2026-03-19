@@ -14,6 +14,7 @@ import { rankVendors, getVendorBadge, type Vendor } from "@/lib/vendorRanking";
 import { TrustSignals } from "@/components/TrustSignals";
 import { VendorComparisonToggle } from "@/components/VendorComparisonToggle";
 import { EmptyState } from "@/components/EmptyState";
+import { VendorCardSkeleton } from "@/components/skeletons/VendorCardSkeleton";
 
 import { AdvancedFilters, defaultFilters, type FiltersState } from "@/components/AdvancedFilters";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -386,11 +387,10 @@ export default function Search() {
 
           {/* Results */}
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 gap-3">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-              </div>
-              <p className="text-xs text-muted-foreground">Finding perfect vendors...</p>
+            <div className="space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <VendorCardSkeleton key={i} />
+              ))}
             </div>
           ) : vendors.length === 0 ? (
             <EmptyState
@@ -502,8 +502,10 @@ export default function Search() {
 
             <div className="flex-1 min-w-0">
               {loading ? (
-                <div className="flex justify-center items-center py-20">
-                  <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <VendorCardSkeleton key={i} />
+                  ))}
                 </div>
               ) : vendors.length === 0 ? (
                 <EmptyState

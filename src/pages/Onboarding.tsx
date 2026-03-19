@@ -18,8 +18,8 @@ const slides = [
   {
     emoji: '✨',
     orbs: ['📋', '💰', '📅', '👗', '🎵', '📝', '🗓️', '🤖'],
-    title: 'Plan Effortlessly',
-    subtitle: 'AI-powered tools for budget, guest list, muhurat & more.',
+    title: 'Plan Your Shaadi',
+    subtitle: 'Budget, guest list, muhurat finder, and more — all free.',
     bg: 'linear-gradient(165deg, hsl(340 35% 95%) 0%, hsl(20 40% 94%) 40%, hsl(38 50% 92%) 70%, hsl(340 30% 94%) 100%)',
   },
   {
