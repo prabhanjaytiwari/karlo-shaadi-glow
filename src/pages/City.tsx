@@ -9,6 +9,8 @@ import { useParams, Link } from "react-router-dom";
 import { MapPin, Calendar, TrendingUp, Award, Star, Filter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import heroImage from "@/assets/hero-wedding.jpg";
+import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 
 const City = () => {
   const { slug } = useParams();
@@ -17,7 +19,7 @@ const City = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("rating");
-  
+
   const cityData: Record<string, any> = {
     lucknow: {
       name: "Lucknow",
@@ -26,6 +28,8 @@ const City = () => {
       bestMonths: "October to March",
       avgCost: "₹8-15 lakhs",
       topVenues: ["La Palais Banquet", "Vivanta Gomti Nagar", "Clarks Awadh"],
+      seoDescription: "Find the best wedding vendors in Lucknow. 500+ verified photographers, venues, caterers, decorators & mehendi artists. Zero commission. Book your dream Nawabi wedding on Karlo Shaadi.",
+      keywords: "wedding vendors Lucknow, wedding photographer Lucknow, wedding venue Lucknow, caterer Lucknow, mehendi artist Lucknow, bridal makeup Lucknow, wedding planner Lucknow, shaadi Lucknow",
     },
     delhi: {
       name: "Delhi",
@@ -34,6 +38,8 @@ const City = () => {
       bestMonths: "November to February",
       avgCost: "₹12-25 lakhs",
       topVenues: ["The Lalit", "ITC Maurya", "Taj Palace"],
+      seoDescription: "Find the best wedding vendors in Delhi. 1000+ verified photographers, venues, caterers, decorators & bridal makeup artists. Zero commission. Book your dream Delhi wedding on Karlo Shaadi.",
+      keywords: "wedding vendors Delhi, wedding photographer Delhi, wedding venue Delhi, caterer Delhi, mehendi artist Delhi, bridal makeup Delhi, wedding planner Delhi NCR, shaadi Delhi",
     },
     mumbai: {
       name: "Mumbai",
@@ -42,10 +48,192 @@ const City = () => {
       bestMonths: "November to February",
       avgCost: "₹15-30 lakhs",
       topVenues: ["Taj Mahal Palace", "The St. Regis", "Grand Hyatt"],
-    }
+      seoDescription: "Find the best wedding vendors in Mumbai. 800+ verified photographers, venues, caterers, decorators & bridal makeup artists. Zero commission. Book your dream Mumbai wedding on Karlo Shaadi.",
+      keywords: "wedding vendors Mumbai, wedding photographer Mumbai, wedding venue Mumbai, caterer Mumbai, bridal makeup Mumbai, wedding planner Mumbai, shaadi Mumbai, Bollywood wedding",
+    },
+    jaipur: {
+      name: "Jaipur",
+      tagline: "Royal Rajputana Romance",
+      description: "Get married in the Pink City's palaces and forts with royal heritage venues, traditional Rajasthani vendors, and magical desert settings.",
+      bestMonths: "October to February",
+      avgCost: "₹10-20 lakhs",
+      topVenues: ["Jai Mahal Palace", "Samode Palace", "City Palace"],
+      seoDescription: "Find the best wedding vendors in Jaipur. Verified palace wedding venues, photographers, caterers & decorators for royal Rajputana weddings. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Jaipur, palace wedding Jaipur, wedding photographer Jaipur, wedding venue Jaipur, Rajasthani wedding, royal wedding Jaipur, destination wedding Jaipur",
+    },
+    bangalore: {
+      name: "Bangalore",
+      tagline: "Tech City's Perfect Romance",
+      description: "Plan a modern wedding in India's Silicon Valley with chic venues, innovative vendors, and perfect weather year-round.",
+      bestMonths: "October to February",
+      avgCost: "₹10-20 lakhs",
+      topVenues: ["Taj West End", "ITC Windsor", "The Leela Palace"],
+      seoDescription: "Find the best wedding vendors in Bangalore. Verified photographers, venues, caterers & bridal makeup artists for modern Bangalore weddings. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Bangalore, wedding photographer Bangalore, wedding venue Bangalore, caterer Bangalore, bridal makeup Bangalore, wedding planner Bengaluru",
+    },
+    hyderabad: {
+      name: "Hyderabad",
+      tagline: "Nizami Grandeur & Timeless Elegance",
+      description: "Celebrate with Nawabi splendor in the City of Pearls with iconic venues, traditional Hyderabadi cuisine, and opulent decor.",
+      bestMonths: "November to February",
+      avgCost: "₹10-18 lakhs",
+      topVenues: ["Taj Falaknuma Palace", "ITC Kakatiya", "Novotel Hyderabad"],
+      seoDescription: "Find the best wedding vendors in Hyderabad. Verified photographers, palace venues, Hyderabadi caterers & bridal artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Hyderabad, wedding photographer Hyderabad, wedding venue Hyderabad, Nizami wedding, caterer Hyderabad, bridal makeup Hyderabad",
+    },
+    kolkata: {
+      name: "Kolkata",
+      tagline: "Cultured Elegance by the Hooghly",
+      description: "Celebrate Bengali wedding traditions with heritage venues, delicious cuisine, and the artistic soul of the City of Joy.",
+      bestMonths: "October to March",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["ITC Royal Bengal", "Taj Bengal", "The Park Hotel"],
+      seoDescription: "Find the best wedding vendors in Kolkata. Verified photographers, heritage venues, Bengali wedding caterers & decorators. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Kolkata, wedding photographer Kolkata, wedding venue Kolkata, Bengali wedding, caterer Kolkata, bridal makeup Kolkata",
+    },
+    chennai: {
+      name: "Chennai",
+      tagline: "Dravidian Traditions, Modern Celebrations",
+      description: "Honor Tamil wedding traditions with stunning venues, traditional cuisine, and warm South Indian hospitality.",
+      bestMonths: "November to February",
+      avgCost: "₹8-18 lakhs",
+      topVenues: ["ITC Grand Chola", "Taj Coromandel", "The Leela Palace"],
+      seoDescription: "Find the best wedding vendors in Chennai. Verified photographers, Kalyanamandapam venues, traditional caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Chennai, wedding photographer Chennai, Kalyanamandapam Chennai, Tamil wedding vendors, caterer Chennai, bridal makeup Chennai",
+    },
+    pune: {
+      name: "Pune",
+      tagline: "Cultural Capital of Maharashtra",
+      description: "Combine Marathi traditions with modern flair in the Oxford of the East with beautiful outdoor venues and creative vendors.",
+      bestMonths: "October to February",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["Westin Koregaon Park", "JW Marriott Pune", "Hyatt Regency Pune"],
+      seoDescription: "Find the best wedding vendors in Pune. Verified photographers, venues, Maharashtrian caterers & bridal artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Pune, wedding photographer Pune, wedding venue Pune, Marathi wedding, caterer Pune, bridal makeup Pune",
+    },
+    ahmedabad: {
+      name: "Ahmedabad",
+      tagline: "Vibrant Gujarati Celebrations",
+      description: "Experience the vibrant energy of Gujarati weddings with stunning venues, dhol beats, and warm community celebrations.",
+      bestMonths: "November to February",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["The Hyatt Ahmedabad", "Marriott Ahmedabad", "Novotel GIFT City"],
+      seoDescription: "Find the best wedding vendors in Ahmedabad. Verified photographers, Gujarati wedding venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Ahmedabad, wedding photographer Ahmedabad, Gujarati wedding vendors, wedding venue Ahmedabad, caterer Ahmedabad",
+    },
+    udaipur: {
+      name: "Udaipur",
+      tagline: "The City of Lakes — India's Finest Destination Wedding",
+      description: "Live your fairytale at Udaipur's stunning lake palaces with world-class hospitality and breathtaking Aravalli views.",
+      bestMonths: "October to March",
+      avgCost: "₹20-50 lakhs",
+      topVenues: ["Taj Lake Palace", "Oberoi Udaivilas", "Fateh Garh"],
+      seoDescription: "Find the best destination wedding vendors in Udaipur. Lake palace venues, photographers, decorators & caterers for royal Udaipur weddings. Zero commission on Karlo Shaadi.",
+      keywords: "destination wedding Udaipur, lake palace wedding Udaipur, wedding photographer Udaipur, wedding venue Udaipur, royal wedding Udaipur",
+    },
+    chandigarh: {
+      name: "Chandigarh",
+      tagline: "The City Beautiful's Perfect Celebrations",
+      description: "Plan your wedding in India's cleanest city with modern venues, Punjabi hospitality, and vibrant celebrations.",
+      bestMonths: "October to February",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["Lalit Chandigarh", "Taj Chandigarh", "JW Marriott Chandigarh"],
+      seoDescription: "Find the best wedding vendors in Chandigarh. Verified photographers, venues, Punjabi caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Chandigarh, wedding photographer Chandigarh, Punjabi wedding Chandigarh, wedding venue Chandigarh, bridal makeup Chandigarh",
+    },
+    varanasi: {
+      name: "Varanasi",
+      tagline: "Sacred Ghats, Timeless Traditions",
+      description: "Celebrate your union in the spiritual capital of India with sacred ghats, traditional ceremonies, and divine blessings.",
+      bestMonths: "October to March",
+      avgCost: "₹6-12 lakhs",
+      topVenues: ["Taj Gateway Ganges", "Ramada Plaza", "BrijRama Palace"],
+      seoDescription: "Find the best wedding vendors in Varanasi. Verified photographers, ghat wedding venues, traditional caterers & pandit services. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Varanasi, wedding photographer Varanasi, ghat wedding Varanasi, traditional wedding Varanasi, pandit Varanasi",
+    },
+    agra: {
+      name: "Agra",
+      tagline: "Love Stories Near the Taj Mahal",
+      description: "Exchange vows near the world's greatest monument to love with stunning heritage venues and unforgettable photo opportunities.",
+      bestMonths: "October to March",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["Taj Hotel & Convention Centre", "ITC Mughal", "Radisson Agra"],
+      seoDescription: "Find the best wedding vendors in Agra. Verified photographers for Taj Mahal pre-wedding shoots, venues, caterers & decorators. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Agra, wedding photographer Agra, Taj Mahal wedding photography, destination wedding Agra, wedding venue Agra",
+    },
+    indore: {
+      name: "Indore",
+      tagline: "The Food Capital's Grand Celebrations",
+      description: "Celebrate in Madhya Pradesh's commercial capital with impressive banquet halls, renowned catering, and warm hospitality.",
+      bestMonths: "October to February",
+      avgCost: "₹7-12 lakhs",
+      topVenues: ["Sayaji Hotel", "Radisson Blu Indore", "WelcomHotel"],
+      seoDescription: "Find the best wedding vendors in Indore. Verified photographers, banquet venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Indore, wedding photographer Indore, wedding venue Indore, caterer Indore, bridal makeup Indore, shaadi Indore",
+    },
+    goa: {
+      name: "Goa",
+      tagline: "Sun, Sea & Happily Ever After",
+      description: "Say 'I do' on pristine Goa beaches with stunning sea views, vibrant parties, and unforgettable destination wedding experiences.",
+      bestMonths: "November to February",
+      avgCost: "₹15-30 lakhs",
+      topVenues: ["Taj Exotica", "W Goa", "Leela Goa"],
+      seoDescription: "Find the best destination wedding vendors in Goa. Beach wedding venues, photographers, caterers & DJs for your perfect Goa destination wedding. Zero commission on Karlo Shaadi.",
+      keywords: "beach wedding Goa, destination wedding Goa, wedding photographer Goa, wedding venue Goa, beach wedding packages Goa",
+    },
+    surat: {
+      name: "Surat",
+      tagline: "Diamond City's Sparkling Celebrations",
+      description: "Plan an opulent wedding in India's diamond city with magnificent venues, exquisite catering, and generous Gujarati hospitality.",
+      bestMonths: "October to February",
+      avgCost: "₹8-15 lakhs",
+      topVenues: ["Courtyard Marriott Surat", "Lords Inn Surat", "Ramada Surat"],
+      seoDescription: "Find the best wedding vendors in Surat. Verified photographers, banquet venues, Gujarati caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Surat, wedding photographer Surat, wedding venue Surat, Gujarati wedding Surat, caterer Surat",
+    },
+    bhopal: {
+      name: "Bhopal",
+      tagline: "City of Lakes & Loving Unions",
+      description: "Get married in the City of Lakes with beautiful lakeside venues, traditional Madhya Pradesh hospitality, and vibrant celebrations.",
+      bestMonths: "October to February",
+      avgCost: "₹6-12 lakhs",
+      topVenues: ["Jehan Numa Palace", "Hotel Palash Residency", "Noor-Us-Sabah Palace"],
+      seoDescription: "Find the best wedding vendors in Bhopal. Verified photographers, palace venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Bhopal, wedding photographer Bhopal, wedding venue Bhopal, palace wedding Bhopal, caterer Bhopal",
+    },
+    patna: {
+      name: "Patna",
+      tagline: "Ancient Bihar, Modern Celebrations",
+      description: "Celebrate your union in the capital of Bihar with traditional ceremonies, warm community hospitality, and modern amenities.",
+      bestMonths: "October to February",
+      avgCost: "₹5-10 lakhs",
+      topVenues: ["Patna Hotel", "Hotel Maurya", "Chanakya Hotel"],
+      seoDescription: "Find the best wedding vendors in Patna. Verified photographers, banquet venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Patna, wedding photographer Patna, wedding venue Patna, caterer Patna, bridal makeup Patna, shaadi Patna",
+    },
+    nagpur: {
+      name: "Nagpur",
+      tagline: "Heart of India's Grand Celebrations",
+      description: "Plan your wedding in Orange City with excellent venues, Vidarbha-style hospitality, and vibrant community celebrations.",
+      bestMonths: "October to February",
+      avgCost: "₹6-12 lakhs",
+      topVenues: ["Le Meridien Nagpur", "Radisson Blu Nagpur", "Pride Hotel Nagpur"],
+      seoDescription: "Find the best wedding vendors in Nagpur. Verified photographers, banquet venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Nagpur, wedding photographer Nagpur, wedding venue Nagpur, caterer Nagpur, shaadi Nagpur",
+    },
+    kanpur: {
+      name: "Kanpur",
+      tagline: "Leather City's Proud Celebrations",
+      description: "Celebrate your wedding in UP's industrial heart with grand banquet halls, traditional Awadhi cuisine, and warm hospitality.",
+      bestMonths: "October to February",
+      avgCost: "₹6-12 lakhs",
+      topVenues: ["Landmark Hotel", "Hotel Geet", "Vijay Vilas Palace"],
+      seoDescription: "Find the best wedding vendors in Kanpur. Verified photographers, banquet venues, caterers & bridal makeup artists. Zero commission on Karlo Shaadi.",
+      keywords: "wedding vendors Kanpur, wedding photographer Kanpur, wedding venue Kanpur, caterer Kanpur, shaadi Kanpur, bridal makeup Kanpur",
+    },
   };
 
-  const city = cityData[slug || "lucknow"];
+  const city = cityData[slug || "lucknow"] || cityData["lucknow"];
 
   useEffect(() => {
     loadVendorsAndStories();
@@ -114,6 +302,16 @@ const City = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`Wedding Vendors in ${city.name} | Best Photographers, Venues & Caterers`}
+        description={city.seoDescription || `Find the best wedding vendors in ${city.name}. Verified photographers, venues, caterers, decorators & more. Zero commission. Book on Karlo Shaadi.`}
+        keywords={city.keywords || `wedding vendors ${city.name}, wedding photographer ${city.name}, wedding venue ${city.name}`}
+        url={`/city/${slug}`}
+        breadcrumbs={[{ name: `Wedding Vendors in ${city.name}`, url: `/city/${slug}` }]}
+      />
+      <LocalBusinessJsonLd city={city.name} />
+      <BreadcrumbJsonLd items={[{ name: `Wedding Vendors in ${city.name}`, url: `/city/${slug}` }]} />
+
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">

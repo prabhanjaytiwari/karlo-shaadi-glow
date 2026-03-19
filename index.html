@@ -3,60 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/app-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    
+
+    <!-- DNS Prefetch & Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://storage.googleapis.com">
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#db2777" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Karlo Shaadi" />
     <meta name="mobile-web-app-capable" content="yes" />
-    
+    <meta name="application-name" content="Karlo Shaadi" />
+
     <!-- Primary Meta Tags -->
-    <title>Karlo Shaadi – India&#39;s #1 Wedding Planning Platform | Zero Commission Vendors</title>
-    <meta name="title" content="Karlo Shaadi – Wedding Vendors, AI Planning & Free Tools | Zero Commission" />
-    <meta name="description" content="Plan your Indian wedding with 5,000+ verified vendors across 20+ cities. Zero commission, AI wedding planner, budget calculator, muhurat finder. Free registration for vendors. Delhi, Mumbai, Lucknow, Jaipur, Bangalore.">
+    <title>Karlo Shaadi – India's #1 Wedding Planning Platform | Zero Commission Vendors</title>
+    <meta name="title" content="Karlo Shaadi – Wedding Planning, Vendors & AI Tools | Zero Commission" />
+    <meta name="description" content="Plan your dream Indian wedding with 5,000+ verified vendors across 20+ cities. Zero commission, AI wedding planner, budget calculator, muhurat finder, invite creator. Free vendor registration. Delhi, Mumbai, Lucknow, Jaipur, Bangalore, Hyderabad, Udaipur." />
     <meta name="author" content="Karlo Shaadi" />
-    <meta name="keywords" content="Indian wedding planner, wedding vendors India, shaadi planning, wedding photographer near me, wedding venue booking, wedding caterer, mehendi artist, wedding decoration, makeup artist wedding, wedding DJ, zero commission wedding platform, register wedding business, list wedding vendor, Lucknow wedding, Delhi wedding, Mumbai wedding, Jaipur wedding, Bangalore wedding vendors">
+    <meta name="keywords" content="Indian wedding planner, wedding vendors India, shaadi planning, wedding photographer near me, wedding venue booking, wedding caterer, mehendi artist, wedding decoration, makeup artist wedding, bridal makeup artist, wedding DJ, sangeet, vivah, shadi planner, zero commission wedding platform, register wedding business, list wedding vendor, Lucknow wedding vendors, Delhi wedding vendors, Mumbai wedding vendors, Jaipur wedding vendors, Bangalore wedding vendors, Hyderabad wedding vendors, Udaipur destination wedding, wedding budget calculator, muhurat 2025 2026, AI wedding planner, free wedding planning tools, destination wedding India, palace wedding Rajasthan, best wedding photographers India, wedding venues India, wedding checklist India, wedding planning tips" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href="https://karloshaadi.com/" />
-    
+
+    <!-- Hreflang for regional targeting -->
+    <link rel="alternate" hreflang="en-in" href="https://karloshaadi.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://karloshaadi.com/" />
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.country" content="India" />
+    <meta name="geo.placename" content="India" />
+    <meta name="ICBM" content="20.5937, 78.9629" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://karloshaadi.com/" />
-    
-    
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/4LtYUNTIEqYqrYeRnWlZFTgDxxz2/social-images/social-1760125962747-Indian Wedding Phere.jpeg">
-    <meta property="og:image:width" content="1920" />
-    <meta property="og:image:height" content="1008" />
+    <meta property="og:title" content="Karlo Shaadi – India's #1 Wedding Planning Platform | Zero Commission" />
+    <meta property="og:description" content="Plan your dream Indian wedding with 5,000+ verified vendors across 20+ cities. Zero commission, AI wedding planner, budget calculator & muhurat finder. Delhi, Mumbai, Lucknow, Jaipur, Bangalore." />
+    <meta property="og:image" content="https://karloshaadi.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Karlo Shaadi - Indian Wedding Planning Platform" />
     <meta property="og:site_name" content="Karlo Shaadi" />
     <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@karloshaadi" />
+    <meta name="twitter:creator" content="@karloshaadi" />
     <meta name="twitter:url" content="https://karloshaadi.com/" />
-    
-    
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/4LtYUNTIEqYqrYeRnWlZFTgDxxz2/social-images/social-1760125962747-Indian Wedding Phere.jpeg">
-    
+    <meta name="twitter:title" content="Karlo Shaadi – India's #1 Wedding Planning Platform | Zero Commission" />
+    <meta name="twitter:description" content="Plan your dream Indian wedding with 5,000+ verified vendors. Zero commission, AI wedding planner, budget calculator & muhurat finder." />
+    <meta name="twitter:image" content="https://karloshaadi.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Karlo Shaadi - Indian Wedding Planning Platform" />
+
     <!-- Fonts - Professional Typography System -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Structured Data (JSON-LD) - Organization -->
+
+    <!-- WebSite Structured Data with SearchAction (enables Google Sitelinks Searchbox) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
+      "@type": "WebSite",
+      "name": "Karlo Shaadi",
+      "alternateName": ["KarloShaadi", "Karlo Shaadi Wedding Platform", "Karlo Shaadi India"],
+      "url": "https://karloshaadi.com",
+      "description": "India's #1 wedding planning platform. Zero-commission vendor marketplace with 5,000+ verified vendors across 20+ cities.",
+      "inLanguage": ["en-IN"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://karloshaadi.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Organization Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
       "name": "Karlo Shaadi",
       "alternateName": "KarloShaadi",
       "description": "India's #1 wedding planning platform. Zero-commission vendor marketplace with 5,000+ verified vendors across 20+ cities. AI-powered wedding planning, budget calculator, muhurat finder.",
       "url": "https://karloshaadi.com",
-      "logo": "https://karloshaadi.com/favicon.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://karloshaadi.com/favicon.png",
+        "width": 192,
+        "height": 192
+      },
       "image": "https://karloshaadi.com/og-image.jpg",
       "telephone": "+917011460321",
       "email": "hello@karloshaadi.com",
@@ -65,8 +111,18 @@
         "@type": "PostalAddress",
         "addressLocality": "Lucknow",
         "addressRegion": "Uttar Pradesh",
+        "postalCode": "226001",
         "addressCountry": "IN"
       },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+917011460321",
+          "contactType": "customer service",
+          "areaServed": "IN",
+          "availableLanguage": ["English", "Hindi"]
+        }
+      ],
       "areaServed": [
         {"@type": "City", "name": "Delhi"},
         {"@type": "City", "name": "Mumbai"},
@@ -81,17 +137,15 @@
         {"@type": "City", "name": "Chandigarh"},
         {"@type": "City", "name": "Udaipur"},
         {"@type": "City", "name": "Indore"},
+        {"@type": "City", "name": "Goa"},
         {"@type": "City", "name": "Surat"},
         {"@type": "City", "name": "Varanasi"},
-        {"@type": "City", "name": "Agra"}
+        {"@type": "City", "name": "Agra"},
+        {"@type": "City", "name": "Bhopal"},
+        {"@type": "City", "name": "Patna"},
+        {"@type": "City", "name": "Nagpur"},
+        {"@type": "City", "name": "Kanpur"}
       ],
-      "priceRange": "₹₹₹",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "1250",
-        "bestRating": "5"
-      },
       "slogan": "aap shaadi karo, tension hum sambhal lenge",
       "sameAs": [
         "https://www.instagram.com/karloshaadiofficial/",
@@ -104,32 +158,69 @@
         "@type": "OfferCatalog",
         "name": "Wedding Vendor Services",
         "itemListElement": [
-          {"@type": "OfferCatalog", "name": "Wedding Photography"},
-          {"@type": "OfferCatalog", "name": "Wedding Venues"},
+          {"@type": "OfferCatalog", "name": "Wedding Photography & Videography"},
+          {"@type": "OfferCatalog", "name": "Wedding Venues & Banquet Halls"},
           {"@type": "OfferCatalog", "name": "Wedding Catering"},
-          {"@type": "OfferCatalog", "name": "Wedding Decoration"},
-          {"@type": "OfferCatalog", "name": "Bridal Makeup"},
+          {"@type": "OfferCatalog", "name": "Wedding Decoration & Florals"},
+          {"@type": "OfferCatalog", "name": "Bridal Makeup Artists"},
           {"@type": "OfferCatalog", "name": "Mehendi Artists"},
-          {"@type": "OfferCatalog", "name": "Wedding Music & DJ"},
-          {"@type": "OfferCatalog", "name": "Wedding Invitations"}
+          {"@type": "OfferCatalog", "name": "Wedding Music, DJ & Entertainment"},
+          {"@type": "OfferCatalog", "name": "Wedding Invitations & Stationery"},
+          {"@type": "OfferCatalog", "name": "Wedding Choreography"},
+          {"@type": "OfferCatalog", "name": "Wedding Transport"},
+          {"@type": "OfferCatalog", "name": "Bridal Jewelry"},
+          {"@type": "OfferCatalog", "name": "Pandit & Wedding Rituals"}
         ]
       }
     }
     </script>
-    <!-- Structured Data - Software Application (for viral tools) -->
+
+    <!-- ProfessionalService Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Karlo Shaadi",
+      "description": "India's #1 wedding planning platform with zero-commission vendor marketplace.",
+      "url": "https://karloshaadi.com",
+      "priceRange": "Free",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "1250",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+
+    <!-- SoftwareApplication Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Karlo Shaadi Wedding Planner",
       "applicationCategory": "LifestyleApplication",
-      "operatingSystem": "Web",
+      "applicationSubCategory": "WeddingPlanning",
+      "operatingSystem": "Web, Android, iOS",
+      "url": "https://karloshaadi.com",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "INR"
       },
-      "featureList": "AI Wedding Plan, Budget Calculator, Muhurat Finder, Invite Creator, Couple Compatibility Quiz, Vendor Trust Checker, Wedding Website Builder",
+      "featureList": [
+        "AI Wedding Plan Generator",
+        "Wedding Budget Calculator",
+        "Muhurat Finder (Auspicious Dates 2025-2026)",
+        "Digital Invite Creator",
+        "Couple Compatibility Quiz",
+        "Vendor Trust Checker",
+        "Free Wedding Website Builder",
+        "AI Wedding Speech Writer",
+        "AI Music Generator",
+        "Vendor Comparison Tool"
+      ],
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.8",
@@ -137,16 +228,31 @@
       }
     }
     </script>
-    
-  
-  
-  
+
+    <!-- ItemList: Top Cities for rich snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Top Wedding Vendor Cities in India",
+      "description": "Browse wedding vendors in top Indian cities on Karlo Shaadi",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Wedding Vendors in Delhi", "url": "https://karloshaadi.com/city/delhi"},
+        {"@type": "ListItem", "position": 2, "name": "Wedding Vendors in Mumbai", "url": "https://karloshaadi.com/city/mumbai"},
+        {"@type": "ListItem", "position": 3, "name": "Wedding Vendors in Lucknow", "url": "https://karloshaadi.com/city/lucknow"},
+        {"@type": "ListItem", "position": 4, "name": "Wedding Vendors in Jaipur", "url": "https://karloshaadi.com/city/jaipur"},
+        {"@type": "ListItem", "position": 5, "name": "Wedding Vendors in Bangalore", "url": "https://karloshaadi.com/city/bangalore"},
+        {"@type": "ListItem", "position": 6, "name": "Wedding Vendors in Hyderabad", "url": "https://karloshaadi.com/city/hyderabad"},
+        {"@type": "ListItem", "position": 7, "name": "Destination Wedding in Udaipur", "url": "https://karloshaadi.com/city/udaipur"},
+        {"@type": "ListItem", "position": 8, "name": "Destination Wedding in Goa", "url": "https://karloshaadi.com/city/goa"},
+        {"@type": "ListItem", "position": 9, "name": "Wedding Vendors in Chandigarh", "url": "https://karloshaadi.com/city/chandigarh"},
+        {"@type": "ListItem", "position": 10, "name": "Wedding Vendors in Pune", "url": "https://karloshaadi.com/city/pune"}
+      ]
+    }
+    </script>
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <meta property="og:title" content="Karlo Shaadi – India&#39;s #1 Wedding Planning Platform | Zero Commission Vendors">
-  <meta name="twitter:title" content="Karlo Shaadi – India&#39;s #1 Wedding Planning Platform | Zero Commission Vendors">
-  <meta property="og:description" content="Plan your Indian wedding with 5,000+ verified vendors across 20+ cities. Zero commission, AI wedding planner, budget calculator, muhurat finder. Free registration for vendors. Delhi, Mumbai, Lucknow, Jaipur, Bangalore.">
-  <meta name="twitter:description" content="Plan your Indian wedding with 5,000+ verified vendors across 20+ cities. Zero commission, AI wedding planner, budget calculator, muhurat finder. Free registration for vendors. Delhi, Mumbai, Lucknow, Jaipur, Bangalore.">
-</head>
+  </head>
 
   <body>
     <div id="root"></div>

@@ -1,7 +1,7 @@
 {
   "name": "Karlo Shaadi",
   "short_name": "KarloShaadi",
-  "description": "India's Premier Wedding Planning Platform - Find vendors, plan your dream wedding",
+  "description": "India's #1 wedding planning platform. 5,000+ verified vendors across 20+ cities. Zero commission. AI wedding planner, budget calculator & muhurat finder — all free.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -27,7 +27,7 @@
       "type": "image/png"
     }
   ],
-  "categories": ["lifestyle", "social"],
+  "categories": ["lifestyle", "social", "business", "shopping"],
   "lang": "en",
   "prefer_related_applications": false,
   "related_applications": [

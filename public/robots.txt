@@ -17,6 +17,34 @@ Allow: /leaderboard
 Allow: /wedding-directory
 Allow: /web-stories
 Allow: /embed
+Allow: /blog
+Allow: /blog/*
+Allow: /city/*
+Allow: /vendors/*
+Allow: /vendors-in/*
+Allow: /category/*
+Allow: /categories
+Allow: /search
+Allow: /plan-wizard
+Allow: /budget-calculator
+Allow: /muhurat-finder
+Allow: /invite-creator
+Allow: /wedding-website
+Allow: /music-generator
+Allow: /speech-writer
+Allow: /stories
+Allow: /stories/*
+Allow: /success-stories
+Allow: /testimonials
+Allow: /shaadi-seva
+Allow: /about
+Allow: /pricing
+Allow: /faq
+Allow: /help
+Allow: /support
+Allow: /why-karlo-shaadi
+Allow: /earn-with-us
+Allow: /vendor-site/*
 
 # Protected/Auth Pages - Don't index
 Disallow: /dashboard

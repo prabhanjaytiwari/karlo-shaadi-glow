@@ -17,7 +17,7 @@ import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { FAQPageJsonLd } from "@/components/JsonLd";
+import { FAQPageJsonLd, WebSiteJsonLd } from "@/components/JsonLd";
 
 import { useEffect, useState } from "react";
 import { SEO } from "@/components/SEO";
@@ -64,7 +64,13 @@ const Index = () => {
   }
 
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
-      <SEO title="India's #1 Wedding Planning Platform" description="Plan your dream Indian wedding with Karlo Shaadi. Book verified vendors for photography, catering, venues, decoration, and more. Trusted by couples across India." keywords="indian wedding planning, wedding vendors, wedding photographer, wedding caterer, wedding venue, shaadi planning" />
+      <SEO
+        title="India's #1 Wedding Planning Platform"
+        description="Plan your dream Indian wedding with Karlo Shaadi. 5,000+ verified vendors for photography, venues, catering, decoration, mehendi & more across 20+ cities. Zero commission. AI planner, budget calculator & muhurat finder — all free."
+        keywords="indian wedding planning, wedding vendors India, wedding photographer near me, wedding caterer India, wedding venue India, shaadi planning, mehendi artist, bridal makeup, wedding DJ, wedding decoration, AI wedding planner, wedding budget calculator, muhurat finder 2025 2026, destination wedding India, zero commission wedding"
+        url="/"
+      />
+      <WebSiteJsonLd />
       <FAQPageJsonLd faqs={[
         { question: "Is Karlo Shaadi free?", answer: "Yes! Creating an account, browsing vendors, and booking is completely free. We don't charge any commission or hidden fees." },
         { question: "How do I find wedding vendors near me?", answer: "Use our search or browse by city — we have verified vendors across 20+ Indian cities including Delhi, Mumbai, Lucknow, Bangalore, and more." },

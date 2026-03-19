@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Star, Shield, Bell } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { SEO } from "@/components/SEO";
+import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/JsonLd";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -81,8 +83,56 @@ const Categories = () => {
 
   const currentCategory = category ? categories.find(c => c.slug === category) : null;
 
+  const categoryKeywords: Record<string, string> = {
+    photography: "wedding photographer India, wedding photography near me, candid wedding photographer, wedding photographer price",
+    venue: "wedding venue India, wedding hall booking, banquet hall wedding, palace wedding venue",
+    venues: "wedding venue India, wedding hall booking, banquet hall wedding, palace wedding venue",
+    catering: "wedding caterer India, wedding catering services, wedding food India, catering for 500 guests",
+    decoration: "wedding decoration India, wedding decor ideas, mandap decoration, wedding floral decoration",
+    makeup: "bridal makeup artist India, wedding makeup near me, bridal makeup price India",
+    mehendi: "mehendi artist wedding, bridal mehendi designs, henna artist India, mehendi ceremony",
+    music: "wedding DJ India, wedding band, dhol player, sangeet music",
+    cake: "wedding cake India, custom wedding cake, cake designer India",
+    choreography: "wedding choreography India, sangeet choreography, dance performance wedding",
+    transport: "wedding car rental India, wedding transportation, baraat bus",
+    jewelry: "bridal jewelry India, wedding jewellery rental, bridal set India",
+    pandit: "wedding pandit India, Hindu wedding priest, wedding muhurat",
+    entertainment: "wedding entertainment India, wedding performers, wedding anchor",
+    invitations: "wedding invitation design India, digital wedding invite, shaadi card",
+  };
+
+  const seoTitle = currentCategory
+    ? `${currentCategory.name} | Best Wedding ${currentCategory.name} in India`
+    : "Wedding Vendor Categories | Photography, Venues, Catering & More";
+  const seoDesc = currentCategory
+    ? `Find the best ${currentCategory.name?.toLowerCase()} for your wedding. Verified vendors with real reviews, portfolio, and secure booking on Karlo Shaadi.`
+    : "Browse all wedding vendor categories on Karlo Shaadi. Find photographers, venues, caterers, decorators, makeup artists, mehendi artists, DJs & more across 20+ cities in India.";
+  const seoKeywords = currentCategory
+    ? categoryKeywords[currentCategory.slug] || `${currentCategory.name} wedding India, best ${currentCategory.name?.toLowerCase()} wedding`
+    : "wedding vendors India, wedding photography, wedding venue, wedding catering, bridal makeup, mehendi artist, wedding DJ, wedding decoration";
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        keywords={seoKeywords}
+        url={currentCategory ? `/category/${currentCategory.slug}` : "/categories"}
+        breadcrumbs={currentCategory ? [
+          { name: "Categories", url: "/categories" },
+          { name: currentCategory.name, url: `/category/${currentCategory.slug}` },
+        ] : [{ name: "Wedding Vendor Categories", url: "/categories" }]}
+      />
+      {currentCategory && (
+        <ServiceJsonLd
+          serviceName={currentCategory.name}
+          serviceDescription={currentCategory.description || `Find verified ${currentCategory.name?.toLowerCase()} for your wedding on Karlo Shaadi`}
+        />
+      )}
+      <BreadcrumbJsonLd items={currentCategory ? [
+        { name: "Categories", url: "/categories" },
+        { name: currentCategory.name, url: `/category/${currentCategory.slug}` },
+      ] : [{ name: "Wedding Vendor Categories", url: "/categories" }]} />
       <MobilePageHeader title={currentCategory?.name || "Categories"} />
 
       {/* Hero Banner */}

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Camera, IndianRupee, MessageSquare, ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 
 const THEME_STYLES: Record<string, { bg: string; accent: string; text: string; card: string }> = {
   "elegant-rose": { bg: "from-rose-50 to-pink-50", accent: "text-rose-700", text: "text-rose-900", card: "border-rose-200 bg-white/90" },
@@ -91,9 +92,14 @@ export default function VendorMiniSitePage() {
   return (
     <>
       <SEO
-        title={`${vendor?.business_name} — Wedding ${vendor?.category}`}
-        description={vendor?.description?.slice(0, 160) || `${vendor?.business_name} — Professional wedding services`}
+        title={`${vendor?.business_name} — Wedding ${vendor?.category} ${vendor?.city ? `in ${vendor.city}` : 'in India'}`}
+        description={vendor?.description?.slice(0, 160) || `${vendor?.business_name} — Verified wedding ${vendor?.category?.toLowerCase() || 'vendor'}${vendor?.city ? ` in ${vendor.city}` : ''}. View portfolio, services, pricing and book on Karlo Shaadi.`}
+        keywords={`${vendor?.business_name}, ${vendor?.category} ${vendor?.city || 'India'}, wedding ${vendor?.category?.toLowerCase()} near me, ${vendor?.city || ''} wedding vendor`}
+        url={`/vendor-site/${slug}`}
+        breadcrumbs={[{ name: vendor?.business_name || "Vendor", url: `/vendor-site/${slug}` }]}
       />
+      <LocalBusinessJsonLd city={vendor?.city || "India"} category={vendor?.category} />
+      <BreadcrumbJsonLd items={[{ name: vendor?.business_name || "Vendor", url: `/vendor-site/${slug}` }]} />
 
       <div className={`min-h-screen bg-gradient-to-b ${themeStyle.bg}`}>
         <header className="relative overflow-hidden">
