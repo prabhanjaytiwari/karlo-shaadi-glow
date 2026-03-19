@@ -21,6 +21,14 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": "off",
+      // Supabase & error handlers commonly use `any` — disable for now
+      "@typescript-eslint/no-explicit-any": "off",
+      // UI component interfaces that extend others legitimately have no extra members
+      "@typescript-eslint/no-empty-object-type": "off",
+      // Allow require() in config files
+      "@typescript-eslint/no-require-imports": "off",
+      // Exhaustive deps are warnings only — stale closures caught at runtime via QA
+      "react-hooks/exhaustive-deps": "warn",
     },
   },
 );

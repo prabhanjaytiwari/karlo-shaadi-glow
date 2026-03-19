@@ -42,6 +42,7 @@ export default function Checkout() {
   const [booking, setBooking] = useState<BookingDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (bookingId) {
@@ -219,8 +220,6 @@ export default function Checkout() {
 
   const advanceAmount = (booking.total_amount * booking.advance_percentage) / 100;
   const balanceAmount = booking.total_amount - advanceAmount;
-
-  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

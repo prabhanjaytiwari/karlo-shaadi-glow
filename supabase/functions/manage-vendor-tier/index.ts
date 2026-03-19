@@ -75,15 +75,15 @@ serve(async (req) => {
       .single();
 
     let updateData: any = {};
-    let razorpayAction = null;
+    const razorpayAction = null;
 
     switch (action) {
-      case 'activate':
+      case 'activate': {
         // Activate subscription after payment
         if (!currentSubscription) {
           throw new Error("No subscription found to activate");
         }
-        
+
         updateData = {
           status: 'active',
           started_at: new Date().toISOString(),
@@ -103,6 +103,7 @@ serve(async (req) => {
 
         console.log(`Activated ${activeTier} tier for vendor ${vendorId}`);
         break;
+      }
 
       case 'upgrade':
         if (!newTier || newTier === 'free') {

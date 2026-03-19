@@ -16,7 +16,7 @@ export function VideoEmbed({ videoUrl, title, thumbnail }: VideoEmbedProps) {
   const getEmbedUrl = (url: string): { embedUrl: string; platform: string } | null => {
     // YouTube
     const youtubeMatch = url.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
     );
     if (youtubeMatch) {
       return {
@@ -48,7 +48,7 @@ export function VideoEmbed({ videoUrl, title, thumbnail }: VideoEmbedProps) {
     if (thumbnail) return thumbnail;
     
     const youtubeMatch = videoUrl.match(
-      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
     );
     if (youtubeMatch) {
       return `https://img.youtube.com/vi/${youtubeMatch[1]}/maxresdefault.jpg`;

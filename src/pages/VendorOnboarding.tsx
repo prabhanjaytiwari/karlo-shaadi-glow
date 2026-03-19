@@ -244,12 +244,14 @@ export default function VendorOnboarding() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setFormData(prev => ({ ...prev, ...JSON.parse(saved) }));
-    } catch {}
+    } catch (_e) {
+      // Ignore invalid stored data
+    }
   }, []);
 
   // ── Auto-save to localStorage ──
   useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(formData)); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(formData)); } catch (_e) { /* ignore storage errors */ }
   }, [formData]);
 
   useEffect(() => {
