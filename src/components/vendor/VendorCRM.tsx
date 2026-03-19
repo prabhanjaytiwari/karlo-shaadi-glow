@@ -67,24 +67,33 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
   };
 
   const moveToStage = async (inquiryId: string, stage: string) => {
-    await supabase
+    const { error } = await supabase
       .from("vendor_inquiries")
-      .update({ 
-        pipeline_stage: stage, 
+      .update({
+        pipeline_stage: stage,
         updated_at: new Date().toISOString(),
         last_contacted_at: stage !== "new" ? new Date().toISOString() : undefined
       })
       .eq("id", inquiryId);
+    if (error) {
+      toast({ title: "Failed to update stage", description: error.message, variant: "destructive" } as any);
+      return;
+    }
     loadInquiries();
-    toast({ title: `Moved to ${PIPELINE_STAGES.find(s => s.key === stage)?.label}` });
+    const stageLabel = PIPELINE_STAGES.find(s => s.key === stage)?.label || stage;
+    toast({ title: `Moved to ${stageLabel}` });
   };
 
   const saveNote = async (inquiryId: string) => {
     if (!noteText.trim()) return;
-    await supabase
+    const { error } = await supabase
       .from("vendor_inquiries")
       .update({ notes_internal: noteText, updated_at: new Date().toISOString() })
       .eq("id", inquiryId);
+    if (error) {
+      toast({ title: "Failed to save note", description: error.message, variant: "destructive" } as any);
+      return;
+    }
     toast({ title: "Note saved!" });
     setNoteText("");
     loadInquiries();

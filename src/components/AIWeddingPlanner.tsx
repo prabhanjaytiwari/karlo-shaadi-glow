@@ -104,6 +104,10 @@ export function AIWeddingPlanner() {
         throw error;
       }
 
+      if (!data?.response) {
+        throw new Error("No response received from AI. Please try again.");
+      }
+
       const assistantMessage: Message = {
         role: 'assistant',
         content: data.response,

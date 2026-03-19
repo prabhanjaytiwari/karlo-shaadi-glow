@@ -79,7 +79,9 @@ const Moodboards = () => {
       }));
 
       setMoodboards(boardsWithCount);
-    } catch { /* ignored */ } finally {
+    } catch (err) {
+      console.error("Failed to load moodboards:", err);
+    } finally {
       setLoading(false);
     }
   };

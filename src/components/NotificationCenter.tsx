@@ -32,7 +32,8 @@ export function NotificationCenter() {
 
   useEffect(() => {
     loadNotifications();
-    setupRealtimeSubscription();
+    const cleanup = setupRealtimeSubscription();
+    return cleanup;
   }, []);
 
   const loadNotifications = async () => {

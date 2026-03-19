@@ -131,7 +131,8 @@ const BudgetTracker = () => {
     const spending: Record<string, number> = {};
     data?.forEach((booking: any) => {
       const category = booking.vendors?.category || 'other';
-      spending[category] = (spending[category] || 0) + Number(booking.total_amount);
+      const amount = Number(booking.total_amount) || 0;
+      spending[category] = (spending[category] || 0) + amount;
     });
     setBookingSpending(spending);
   };

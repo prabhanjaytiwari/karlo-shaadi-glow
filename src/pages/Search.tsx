@@ -195,7 +195,7 @@ export default function Search() {
                     gradientClass
                   )}>
                     <span className="text-white text-lg font-bold drop-shadow-sm">
-                      {vendor.business_name.charAt(0)}
+                      {vendor.business_name?.charAt(0) || "V"}
                     </span>
                   </div>
                 );
@@ -569,7 +569,7 @@ export default function Search() {
                                       "w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center mb-4 shadow-sm",
                                       gradientClass
                                     )}>
-                                      <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
+                                      <span className="text-white text-xl font-bold">{vendor.business_name?.charAt(0) || "V"}</span>
                                     </div>
                                   );
                                 })()}
@@ -650,7 +650,7 @@ export default function Search() {
                                     "w-16 h-16 shrink-0 rounded-2xl bg-gradient-to-br flex items-center justify-center shadow-sm",
                                     gradientClass
                                   )}>
-                                    <span className="text-white text-xl font-bold">{vendor.business_name.charAt(0)}</span>
+                                    <span className="text-white text-xl font-bold">{vendor.business_name?.charAt(0) || "V"}</span>
                                   </div>
                                 );
                               })()}

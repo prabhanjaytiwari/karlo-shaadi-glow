@@ -95,9 +95,12 @@ const Dashboard = () => {
     );
   }
 
-  const daysUntilWedding = profile?.wedding_date
-    ? Math.max(0, Math.ceil((new Date(profile.wedding_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
-    : null;
+  const daysUntilWedding = (() => {
+    if (!profile?.wedding_date) return null;
+    const d = new Date(profile.wedding_date);
+    if (isNaN(d.getTime())) return null;
+    return Math.max(0, Math.ceil((d.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+  })();
 
   const profileCompletion = [profile?.wedding_date, profile?.budget_range, profile?.city].filter(Boolean).length;
   const profilePercent = Math.round((profileCompletion / 3) * 100);
@@ -164,7 +167,7 @@ const Dashboard = () => {
                     {daysUntilWedding !== null ? `${daysUntilWedding} Days` : "Set Date"}
                   </p>
                   <p className="text-white/50 text-sm mt-1">
-                    {new Date(profile.wedding_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {(() => { const d = new Date(profile.wedding_date); return isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }); })()}
                   </p>
                 </>
               ) : (
