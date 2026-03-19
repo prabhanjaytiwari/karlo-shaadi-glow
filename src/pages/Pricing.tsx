@@ -73,7 +73,7 @@ export default function Pricing() {
         { text: "Early access to new vendors", included: true },
         { text: "Booking calendar integration", included: true },
       ],
-      cta: "Get Started Free",
+      cta: "Plan Your Wedding Free",
       popular: false,
       highlight: true,
     },

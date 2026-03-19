@@ -219,7 +219,7 @@ export default function Testimonials() {
               Explore Vendors
             </a>
             <a href="/auth" className="inline-flex items-center justify-center px-8 py-3 bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 rounded-full font-semibold hover:bg-white/20 transition-colors">
-              Get Started Free
+              Find Your Vendor
             </a>
           </div>
         </div>

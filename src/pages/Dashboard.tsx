@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
 import weddingCouple from "@/assets/wedding-couple-romantic.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const mobileQuickActions = [
   { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
@@ -71,8 +72,27 @@ const Dashboard = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary" />
+      <div className="min-h-screen bg-background">
+        <div className="h-14 border-b bg-background/95" />
+        <div className="container mx-auto px-4 py-6 max-w-4xl space-y-6">
+          {/* Hero skeleton */}
+          <Skeleton className="w-full h-40 rounded-2xl" />
+          {/* Quick actions grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-20 rounded-xl" />
+            ))}
+          </div>
+          {/* Stats row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-24 rounded-xl" />
+            ))}
+          </div>
+          {/* Content blocks */}
+          <Skeleton className="h-48 rounded-2xl" />
+          <Skeleton className="h-32 rounded-2xl" />
+        </div>
       </div>
     );
   }

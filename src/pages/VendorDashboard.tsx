@@ -17,6 +17,7 @@ import { ReviewResponse } from "@/components/vendor/ReviewResponse";
 import { VendorAnalytics } from "@/components/vendor/VendorAnalytics";
 import { VendorProfileEdit } from "@/components/vendor/VendorProfileEdit";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { Skeleton } from "@/components/ui/skeleton";
 import { BulkPortfolioUpload } from "@/components/vendor/BulkPortfolioUpload";
 import { VendorMessagingInbox } from "@/components/vendor/VendorMessagingInbox";
 import { RevenueCharts } from "@/components/vendor/RevenueCharts";
@@ -321,8 +322,35 @@ export default function VendorDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="xl" text="Loading your dashboard..." />
+      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+        <div className="h-14 border-b bg-white/80" />
+        <div className="max-w-7xl mx-auto px-4 pt-8 space-y-6">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <Skeleton className="h-7 w-48" />
+              <Skeleton className="h-4 w-32" />
+            </div>
+            <Skeleton className="h-9 w-28 rounded-full" />
+          </div>
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl p-4 space-y-2 border border-border/30">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="h-3 w-24" />
+              </div>
+            ))}
+          </div>
+          {/* Chart area */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <Skeleton className="h-56 rounded-2xl" />
+            <Skeleton className="h-56 rounded-2xl" />
+          </div>
+          {/* Table area */}
+          <Skeleton className="h-64 rounded-2xl" />
+        </div>
       </div>
     );
   }
