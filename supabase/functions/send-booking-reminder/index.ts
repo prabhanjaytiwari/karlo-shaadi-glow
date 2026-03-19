@@ -2,7 +2,10 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
-const senderEmail = Deno.env.get("SENDER_EMAIL") || "Karlo Shaadi <onboarding@resend.dev>";
+const rawSenderEmail = Deno.env.get("SENDER_EMAIL") || "";
+const freeEmailDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "live.com"];
+const isFreeEmail = freeEmailDomains.some((d) => rawSenderEmail.includes(d));
+const senderEmail = rawSenderEmail && !isFreeEmail ? rawSenderEmail : "Karlo Shaadi <onboarding@resend.dev>";
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 

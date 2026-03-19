@@ -2,7 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const senderEmail = Deno.env.get("SENDER_EMAIL") || "Karlo Shaadi <onboarding@resend.dev>";
+
+// Only use SENDER_EMAIL if it's a custom domain (not free providers like gmail/yahoo)
+// Free email domains cannot be used as Resend senders — they require domain verification
+const rawSenderEmail = Deno.env.get("SENDER_EMAIL") || "";
+const freeEmailDomains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "live.com"];
+const isFreeEmail = freeEmailDomains.some((d) => rawSenderEmail.includes(d));
+const senderEmail = rawSenderEmail && !isFreeEmail
+  ? rawSenderEmail
+  : "Karlo Shaadi <onboarding@resend.dev>";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
