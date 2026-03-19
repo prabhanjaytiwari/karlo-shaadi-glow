@@ -32,7 +32,7 @@ export function BulkPortfolioUpload({ vendorId, onSuccess }: BulkPortfolioUpload
       'image/*': ['.png', '.jpg', '.jpeg', '.webp']
     },
     multiple: true,
-    maxSize: 5242880, // 5MB
+    maxSize: 10485760, // 10MB
     onDrop: (acceptedFiles) => {
       const newImages = acceptedFiles.map(file => ({
         file,
