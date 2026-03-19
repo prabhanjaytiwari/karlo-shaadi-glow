@@ -329,8 +329,11 @@ export default function Compare() {
               </div>
 
               {/* Comparison Table */}
-              <div className="overflow-x-auto">
-                <div className="min-w-[800px]">
+              <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1 md:hidden">
+                <span>←</span> Scroll horizontally to compare <span>→</span>
+              </p>
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <div className="min-w-[600px] md:min-w-[800px]">
                   {/* Vendor Headers */}
                   <div className="grid gap-4" style={{ gridTemplateColumns: `200px repeat(${vendors.length}, 1fr)` }}>
                     <div className="p-4" />

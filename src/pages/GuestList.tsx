@@ -502,7 +502,7 @@ export default function GuestList() {
 
           {/* Guest Table */}
           <Card className="rounded-2xl border border-border/50">
-            <ScrollArea className="h-[500px]">
+            <ScrollArea className="h-[calc(100vh-420px)] min-h-[300px]">
               <Table>
                 <TableHeader>
                   <TableRow>

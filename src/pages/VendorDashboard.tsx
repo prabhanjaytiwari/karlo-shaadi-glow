@@ -116,7 +116,7 @@ export default function VendorDashboard() {
       loadBookings(vendorData.id);
       loadReviews(vendorData.id);
       loadSubscription(vendorData.id);
-      loadRevenueData(vendorData.id);
+      loadRevenueData(vendorData.id, vendorData.user_id);
     } catch (error) {
       console.error("Error:", error);
       navigate("/vendor/onboarding");
@@ -201,7 +201,7 @@ export default function VendorDashboard() {
     if (data) setSubscription(data);
   };
 
-  const loadRevenueData = async (vendorId: string) => {
+  const loadRevenueData = async (vendorId: string, vendorUserId?: string) => {
     // Load real booking data for revenue charts
     const { data: bookingsData } = await supabase
       .from("bookings")
@@ -238,10 +238,12 @@ export default function VendorDashboard() {
       })).slice(-6); // Last 6 months
 
       // Load messages count for conversion rate
-      const { count: inquiriesCount } = await supabase
-        .from("messages")
-        .select("*", { count: "exact", head: true })
-        .eq("recipient_id", vendor?.user_id);
+      const { count: inquiriesCount } = vendorUserId
+        ? await supabase
+            .from("messages")
+            .select("*", { count: "exact", head: true })
+            .eq("recipient_id", vendorUserId)
+        : { count: 0 };
 
       const conversionRate = inquiriesCount && inquiriesCount > 0 
         ? Math.round((stats.totalBookings / inquiriesCount) * 100)
