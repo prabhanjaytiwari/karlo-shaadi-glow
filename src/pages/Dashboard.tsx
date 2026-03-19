@@ -162,7 +162,7 @@ const Dashboard = () => {
               {profile?.wedding_date ? (
                 <>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Your Wedding</p>
-                  <p className="text-white text-4xl md:text-5xl font-bold tracking-tight">
+                  <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
                     {daysUntilWedding !== null ? `${daysUntilWedding} Days` : "Set Date"}
                   </p>
                   <p className="text-white/50 text-sm mt-1">
@@ -172,7 +172,7 @@ const Dashboard = () => {
               ) : (
                 <>
                   <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-1">Welcome to</p>
-                  <p className="text-white text-3xl md:text-4xl font-bold tracking-tight">Karlo Shaadi</p>
+                  <p className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Karlo Shaadi</p>
                   <p className="text-white/50 text-sm mt-1">Your dream wedding, simplified</p>
                 </>
               )}

@@ -563,7 +563,7 @@ export function MobileHomeScreen() {
 
         {/* ── HOW IT WORKS (compact horizontal strip) ── */}
         <section className="px-4">
-          <h2 className="text-base font-semibold text-foreground mb-3">How It Works</h2>
+          <h2 className="text-base font-semibold text-foreground mb-3">Book a Vendor in 3 Steps</h2>
           <div className="flex gap-2">
             {howItWorksSteps.map((step, i) => (
               <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card border border-border/40">

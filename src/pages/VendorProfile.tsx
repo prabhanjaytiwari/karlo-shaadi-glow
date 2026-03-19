@@ -339,7 +339,7 @@ const VendorProfile = () => {
                   <Badge variant="secondary" className="capitalize">{vendor.category}</Badge>
                 </div>
 
-                <h1 className="text-3xl lg:text-4xl font-bold mb-1">{vendor.business_name}</h1>
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-1">{vendor.business_name}</h1>
 
                 <div className="flex flex-wrap items-center gap-4 text-sm mt-3">
                   <div className="flex items-center gap-2">
