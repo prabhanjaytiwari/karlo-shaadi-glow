@@ -23,7 +23,7 @@ export function MobileLayout({ children, hideBottomNav = false }: MobileLayoutPr
         paddingBottom: showBottomNav ? 'calc(4rem + env(safe-area-inset-bottom, 0px))' : undefined,
       }}
     >
-      <main className={isNative && platform === 'ios' ? 'pt-safe' : ''}>
+      <main>
         {children}
       </main>
 

@@ -195,7 +195,7 @@ export default function Search() {
                     gradientClass
                   )}>
                     <span className="text-white text-lg font-bold drop-shadow-sm">
-                      {vendor.business_name.charAt(0)}
+                      {(vendor.business_name || 'V').charAt(0)}
                     </span>
                   </div>
                 );

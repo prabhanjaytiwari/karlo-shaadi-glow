@@ -304,13 +304,13 @@ export default function GuestList() {
   });
 
   // Stats
-  const totalGuests = guests.reduce((sum, g) => sum + 1 + g.plus_ones, 0);
+  const totalGuests = guests.reduce((sum, g) => sum + 1 + (g.plus_ones || 0), 0);
   const confirmedGuests = guests
     .filter(g => g.rsvp_status === "confirmed")
-    .reduce((sum, g) => sum + 1 + g.plus_ones, 0);
+    .reduce((sum, g) => sum + 1 + (g.plus_ones || 0), 0);
   const pendingGuests = guests
     .filter(g => g.rsvp_status === "pending")
-    .reduce((sum, g) => sum + 1 + g.plus_ones, 0);
+    .reduce((sum, g) => sum + 1 + (g.plus_ones || 0), 0);
   const vegCount = guests.filter(g => g.food_preference === "veg" && g.rsvp_status === "confirmed").length;
   const nonVegCount = guests.filter(g => g.food_preference === "non_veg" && g.rsvp_status === "confirmed").length;
 

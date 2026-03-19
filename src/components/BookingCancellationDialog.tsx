@@ -43,6 +43,9 @@ export function BookingCancellationDialog({
   const calculateRefund = () => {
     const now = new Date();
     const wedding = new Date(weddingDate);
+    if (isNaN(wedding.getTime())) {
+      return { percentage: 0, amount: 0 };
+    }
     const daysUntilWedding = Math.floor((wedding.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
     if (daysUntilWedding >= 30) {

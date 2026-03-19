@@ -7,7 +7,7 @@ export const contactFormSchema = z.object({
     .trim()
     .min(2, { message: "Name must be at least 2 characters" })
     .max(100, { message: "Name must be less than 100 characters" })
-    .regex(/^[a-zA-Z\s]+$/, { message: "Name can only contain letters and spaces" }),
+    .regex(/^[a-zA-Z\s'\-.]+$/, { message: "Name can only contain letters, spaces, hyphens, apostrophes, and dots" }),
   email: z
     .string()
     .trim()
@@ -180,7 +180,7 @@ export const signupFormSchema = z.object({
     .trim()
     .min(2, { message: "Name must be at least 2 characters" })
     .max(100, { message: "Name must be less than 100 characters" })
-    .regex(/^[a-zA-Z\s]+$/, { message: "Name can only contain letters and spaces" }),
+    .regex(/^[a-zA-Z\s'\-.]+$/, { message: "Name can only contain letters, spaces, hyphens, apostrophes, and dots" }),
   email: z
     .string()
     .trim()

@@ -94,7 +94,7 @@ export const VendorCard = ({
                 isSponsored ? "bg-primary/10" : "bg-muted/30"
               )}>
                 <span className="text-2xl font-bold text-muted-foreground/50">
-                  {vendor.business_name.charAt(0)}
+                  {(vendor.business_name || 'V').charAt(0)}
                 </span>
               </div>
             )}
@@ -197,7 +197,7 @@ export const VendorCard = ({
                 "text-4xl sm:text-5xl font-bold",
                 isSponsored ? "text-primary/60" : "text-accent/60"
               )}>
-                {vendor.business_name.charAt(0)}
+                {(vendor.business_name || 'V').charAt(0)}
               </span>
             </div>
           )}

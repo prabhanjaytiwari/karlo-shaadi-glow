@@ -105,7 +105,7 @@ export const BhindiHeader = () => {
   const [isVendor, setIsVendor] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
+  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== 'undefined' ? window.innerWidth : 1024);
   const { isNative } = useCapacitor();
   const isMobileDevice = useIsMobile();
 
@@ -129,8 +129,8 @@ export const BhindiHeader = () => {
     };
   }, []);
 
-  const isDesktop = windowWidth !== undefined && windowWidth >= 768;
-  const isMobile = windowWidth !== undefined && windowWidth < 768;
+  const isDesktop = windowWidth >= 768;
+  const isMobile = windowWidth < 768;
 
   useEffect(() => {
     checkAuth();

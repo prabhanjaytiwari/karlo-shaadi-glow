@@ -185,7 +185,7 @@ export function ContractGenerator({ vendorId, vendorName, vendorCategory }: Cont
     doc.line(pageWidth - margin - 60, y + 15, pageWidth - margin, y + 15);
     doc.text("Client Signature", pageWidth - margin - 60, y + 22);
 
-    doc.save(`Contract_${contract.client_name.replace(/\s/g, "_")}.pdf`);
+    doc.save(`Contract_${(contract.client_name || 'Unknown').replace(/\s/g, "_")}.pdf`);
     toast({ title: "PDF downloaded!" });
   };
 

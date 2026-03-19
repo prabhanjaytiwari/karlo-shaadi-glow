@@ -126,10 +126,15 @@ export default function VendorDashboard() {
   };
 
   const loadStats = async (vendorId: string) => {
-    const { data: bookings } = await supabase
+    const { data: bookings, error } = await supabase
       .from("bookings")
       .select("*")
       .eq("vendor_id", vendorId);
+
+    if (error) {
+      console.error("Error loading stats:", error);
+      return;
+    }
 
     if (bookings) {
       const pending = bookings.filter(b => b.status === "pending").length;
@@ -137,11 +142,13 @@ export default function VendorDashboard() {
       const completed = bookings.filter(b => b.status === "completed").length;
       const revenue = bookings
         .filter(b => b.status === "completed")
-        .reduce((sum, b) => sum + Number(b.total_amount), 0);
+        .reduce((sum, b) => sum + (Number(b.total_amount) || 0), 0);
       const avgValue = bookings.length > 0 
-        ? bookings.reduce((sum, b) => sum + Number(b.total_amount), 0) / bookings.length 
+        ? bookings.reduce((sum, b) => sum + (Number(b.total_amount) || 0), 0) / bookings.length 
         : 0;
 
+      // Read vendorData from state at call time
+      const currentVendor = vendor;
       setStats({
         totalBookings: bookings.length,
         pendingBookings: pending,
@@ -149,8 +156,8 @@ export default function VendorDashboard() {
         completedBookings: completed,
         revenue,
         avgBookingValue: avgValue,
-        responseRate: 95, // Could calculate from messages in future
-        avgRating: vendor?.average_rating || 0,
+        responseRate: 95,
+        avgRating: currentVendor?.average_rating || 0,
       });
     }
   };
@@ -216,7 +223,7 @@ export default function VendorDashboard() {
       bookingsData.forEach(booking => {
         const date = new Date(booking.created_at);
         const monthKey = date.toLocaleString('default', { month: 'short' });
-        const amount = booking.status === 'completed' ? Number(booking.total_amount) : 0;
+        const amount = booking.status === 'completed' ? (Number(booking.total_amount) || 0) : 0;
         
         if (!monthlyMap.has(monthKey)) {
           monthlyMap.set(monthKey, { revenue: 0, bookings: 0, values: [] });
