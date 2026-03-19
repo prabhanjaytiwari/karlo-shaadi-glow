@@ -275,11 +275,13 @@ export default function VendorOnboarding() {
   const handleGoogleSignIn = async () => {
     setAuthLoading(true);
     try {
-      const { lovable } = await import("@/integrations/lovable/index");
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/vendor/onboarding`,
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/vendor/onboarding`,
+        },
       });
-      if (result?.error) throw result.error;
+      if (error) throw error;
       trackEvent({ event_type: "vendor_signup", metadata: { method: "google" } }).catch(() => {});
     } catch (error: any) {
       toast({ title: "Google sign-in failed", description: error.message || "Please try again.", variant: "destructive" });
