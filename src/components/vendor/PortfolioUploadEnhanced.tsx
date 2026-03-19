@@ -86,7 +86,7 @@ export function PortfolioUploadEnhanced({ vendorId, open, onOpenChange, onSucces
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
     },
-    maxSize: 5242880, // 5MB
+    maxSize: 10485760, // 10MB
     multiple: true,
   });
 
