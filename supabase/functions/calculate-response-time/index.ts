@@ -20,6 +20,24 @@ serve(async (req: Request) => {
   }
 
   try {
+    const authHeader = req.headers.get("Authorization") || "";
+    const token = authHeader.replace("Bearer ", "");
+
+    // Allow service role calls (internal server-to-server)
+    const isServiceRole = token === supabaseServiceKey;
+
+    if (!isServiceRole) {
+      // Verify user JWT
+      const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
+      const { data: { user }, error: authError } = await userClient.auth.getUser(token);
+      if (authError || !user) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { vendor_id, inquiry_id }: UpdateResponseTimeRequest = await req.json();
 

@@ -103,7 +103,6 @@ const BudgetTracker = () => {
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error loading budget:', error);
       return;
     }
 
@@ -126,7 +125,6 @@ const BudgetTracker = () => {
       .in('status', ['confirmed', 'in_progress', 'completed']);
 
     if (error) {
-      console.error('Error loading bookings:', error);
       return;
     }
 
@@ -165,7 +163,6 @@ const BudgetTracker = () => {
 
       if (error) {
         toast.error('Failed to save budget');
-        console.error(error);
       } else {
         toast.success('Budget created successfully');
         await loadBudgetData(session.user.id);

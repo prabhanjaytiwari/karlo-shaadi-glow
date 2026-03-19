@@ -79,9 +79,7 @@ const Moodboards = () => {
       }));
 
       setMoodboards(boardsWithCount);
-    } catch (error) {
-      console.error("Error fetching moodboards:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

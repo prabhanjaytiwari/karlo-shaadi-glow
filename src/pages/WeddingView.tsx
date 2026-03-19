@@ -169,7 +169,6 @@ const WeddingView = () => {
         setEvents(eventsData || []);
       }
     } catch (error) {
-      console.error("Error loading wedding website:", error);
       setNotFound(true);
     } finally {
       setLoading(false);
@@ -203,7 +202,6 @@ const WeddingView = () => {
       setRsvpSubmitted(true);
       toast.success("RSVP submitted successfully!");
     } catch (error) {
-      console.error("Error submitting RSVP:", error);
       toast.error("Failed to submit RSVP. Please try again.");
     } finally {
       setSubmitting(false);

@@ -129,9 +129,7 @@ export default function CoupleQuiz() {
           personality_description: pers.desc,
           share_id: sid,
         });
-      } catch (e) {
-        console.error("Failed to save quiz result", e);
-      }
+      } catch { /* ignored */ }
       setSaving(false);
     }
   };

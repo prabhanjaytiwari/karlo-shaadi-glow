@@ -105,9 +105,7 @@ export default function Compare() {
       if (data) {
         setVendors(data as unknown as VendorData[]);
       }
-    } catch (error) {
-      console.error("Error loading vendors:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

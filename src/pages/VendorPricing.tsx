@@ -30,9 +30,7 @@ export default function VendorPricing() {
         .eq("user_id", user.id)
         .single();
       setIsVendor(!!vendor);
-    } catch (error) {
-      console.error("Error checking vendor status:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

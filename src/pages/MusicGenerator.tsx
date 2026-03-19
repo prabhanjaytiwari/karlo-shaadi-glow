@@ -261,9 +261,7 @@ export default function MusicGenerator() {
         }));
         setSavedSongs(tracks);
       }
-    } catch (error) {
-      console.error('Error loading saved songs:', error);
-    }
+    } catch { /* ignored */ }
   };
 
   const saveSong = async (track: GeneratedTrack) => {
@@ -295,7 +293,6 @@ export default function MusicGenerator() {
       toast.success("Song saved to your library!");
       loadSavedSongs();
     } catch (error) {
-      console.error('Error saving song:', error);
       toast.error("Failed to save song");
     } finally {
       setSavingTrackId(null);
@@ -317,7 +314,6 @@ export default function MusicGenerator() {
       setSavedSongs(prev => prev.filter(s => s.id !== songId));
       toast.success("Song removed from library");
     } catch (error) {
-      console.error('Error deleting song:', error);
       toast.error("Failed to delete song");
     }
   };
@@ -400,7 +396,6 @@ export default function MusicGenerator() {
       setShowLyricsPreview(true);
       toast.success("Lyrics generated! You can now edit them before creating your song.");
     } catch (error) {
-      console.error('Error generating lyrics preview:', error);
       toast.error("Failed to generate lyrics preview");
     } finally {
       setIsGeneratingLyrics(false);
@@ -462,7 +457,6 @@ export default function MusicGenerator() {
         throw new Error('No lyrics received');
       }
     } catch (error) {
-      console.error('Error regenerating lyrics with AI:', error);
       toast.error(error instanceof Error ? error.message : "Failed to regenerate lyrics");
     } finally {
       setIsRegeneratingWithAI(false);
@@ -760,16 +754,13 @@ To be part of our dreams coming true!`,
                   names: { bride: brideName, groom: groomName, family: familyName },
                   suno_track_id: track.id,
                 });
-            } catch (saveError) {
-              console.error('Error auto-saving song:', saveError);
-            }
+            } catch { /* ignored */ }
           }
           loadSavedSongs();
           toast.success("Songs automatically saved to your library!");
         }
       }
     } catch (error) {
-      console.error('Error generating music:', error);
       toast.error("Failed to generate music. Please try again.");
     } finally {
       setIsGenerating(false);
@@ -797,7 +788,6 @@ To be part of our dreams coming true!`,
           
           // Add error handler for audio loading
           audioRef.current.onerror = (e) => {
-            console.error('Audio load error:', e);
             toast.error("Failed to load audio. The URL may be invalid.");
             setIsPlaying(false);
             setIsLoadingAudio(false);
@@ -812,7 +802,6 @@ To be part of our dreams coming true!`,
         setIsPlaying(true);
         setIsLoadingAudio(false);
       } catch (error) {
-        console.error('Error playing audio:', error);
         toast.error("Failed to play audio. Please try again.");
         setIsPlaying(false);
         setIsLoadingAudio(false);

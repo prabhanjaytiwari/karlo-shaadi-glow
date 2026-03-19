@@ -48,9 +48,7 @@ export default function Notifications() {
         .limit(50);
 
       if (data) setNotifications(data);
-    } catch (err) {
-      console.error('Error loading notifications:', err);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

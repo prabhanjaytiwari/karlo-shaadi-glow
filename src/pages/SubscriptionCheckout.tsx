@@ -42,8 +42,7 @@ export default function SubscriptionCheckout() {
         return;
       }
       setSession(session);
-    } catch (error) {
-      console.error("Auth check error:", error);
+    } catch {
       navigate("/auth");
     } finally {
       setLoading(false);
@@ -97,7 +96,7 @@ export default function SubscriptionCheckout() {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "Bhindi Weddings",
+        name: "Karlo Shaadi",
         description: `${currentPlan.name} Subscription`,
         order_id: orderData.orderId,
         handler: async (response: any) => {
@@ -122,7 +121,6 @@ export default function SubscriptionCheckout() {
             toast.success("Subscription activated successfully!");
             navigate("/premium-dashboard");
           } catch (error: any) {
-            console.error("Verification error:", error);
             trackPaymentFailed(finalPrice, error.message);
             toast.error(error.message || "Payment verification failed");
             navigate("/payment-failure");
@@ -145,7 +143,6 @@ export default function SubscriptionCheckout() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error: any) {
-      console.error("Payment error:", error);
       toast.error(error.message || "Payment failed");
       setProcessing(false);
     }

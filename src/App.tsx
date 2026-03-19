@@ -194,7 +194,7 @@ const AnimatedRoutes = () => {
           <Route path="/premium-upgrade" element={<ProtectedRoute><PremiumUpgrade /></ProtectedRoute>} />
           <Route path="/premium-dashboard" element={<ProtectedRoute><PremiumDashboard /></ProtectedRoute>} />
           <Route path="/subscription-checkout" element={<ProtectedRoute><SubscriptionCheckout /></ProtectedRoute>} />
-          <Route path="/data-export" element={<DataExport />} />
+          <Route path="/data-export" element={<ProtectedRoute><DataExport /></ProtectedRoute>} />
           <Route path="/moodboards" element={<ProtectedRoute><Moodboards /></ProtectedRoute>} />
           <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
           <Route path="/deals" element={<Deals />} />

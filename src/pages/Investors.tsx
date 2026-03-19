@@ -55,7 +55,6 @@ export default function Investors() {
       
       form.reset();
     } catch (error: any) {
-      console.error('Error submitting investor inquiry:', error);
       toast({
         title: "Error",
         description: "Failed to submit. Please try again.",

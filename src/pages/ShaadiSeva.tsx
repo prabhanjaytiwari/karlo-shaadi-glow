@@ -50,7 +50,6 @@ export default function ShaadiSeva() {
       setSubmitted(true);
       toast.success("Application submitted successfully! We'll reach out soon.");
     } catch (error) {
-      console.error("Error submitting application:", error);
       toast.error("Failed to submit. Please try again.");
     } finally {
       setSubmitting(false);

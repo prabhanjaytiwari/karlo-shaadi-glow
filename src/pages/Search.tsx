@@ -138,9 +138,7 @@ export default function Search() {
           },
         });
       }
-    } catch (error) {
-      console.error("Error loading data:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

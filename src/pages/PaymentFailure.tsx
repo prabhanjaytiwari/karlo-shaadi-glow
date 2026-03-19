@@ -39,9 +39,7 @@ export default function PaymentFailure() {
         .single();
 
       if (data) setBooking(data);
-    } catch (error) {
-      console.error("Error loading booking:", error);
-    }
+    } catch { /* ignored */ }
   };
 
   const handleRetry = () => {

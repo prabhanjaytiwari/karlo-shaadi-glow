@@ -157,7 +157,6 @@ export default function PremiumUpgrade() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error: any) {
-      console.error('Payment error:', error);
       toast({
         title: "Payment failed",
         description: error.message || "Please try again later.",
@@ -202,7 +201,6 @@ export default function PremiumUpgrade() {
 
       navigate('/dashboard');
     } catch (error: any) {
-      console.error('Verification error:', error);
       toast({
         title: "Verification failed",
         description: error.message,

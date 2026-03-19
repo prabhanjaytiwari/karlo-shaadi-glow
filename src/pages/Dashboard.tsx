@@ -55,9 +55,7 @@ const Dashboard = () => {
       try {
         const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
         setProfile(profileData);
-      } catch (error) {
-        console.error("Error loading profile:", error);
-      } finally {
+      } catch { /* ignored */ } finally {
         setLoading(false);
       }
     };

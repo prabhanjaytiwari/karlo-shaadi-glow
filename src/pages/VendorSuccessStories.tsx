@@ -63,9 +63,7 @@ const VendorSuccessStories = () => {
         }));
         setTopVendors(formattedVendors);
       }
-    } catch (error) {
-      console.error("Error fetching vendors:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

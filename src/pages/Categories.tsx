@@ -55,7 +55,7 @@ const Categories = () => {
         const { data: vendorsData } = await supabase.from("vendors").select(`*, cities (name, state), vendor_services (*)`).eq("is_active", true).eq("verified", true).eq("category", category as any).order("average_rating", { ascending: false });
         if (vendorsData) setVendors(vendorsData);
       }
-    } catch (error) { console.error("Error loading data:", error); }
+    } catch { /* ignored */ }
     finally { setLoading(false); }
   };
 

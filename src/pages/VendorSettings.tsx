@@ -55,9 +55,7 @@ export default function VendorSettings() {
         .single();
 
       setSubscription(subData);
-    } catch (error) {
-      console.error("Error loading vendor data:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };

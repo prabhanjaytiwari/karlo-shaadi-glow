@@ -69,7 +69,6 @@ export default function AdminDashboard() {
 
       await loadDashboardData();
     } catch (error) {
-      console.error("Error:", error);
       navigate("/");
     } finally {
       setLoading(false);

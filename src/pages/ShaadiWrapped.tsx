@@ -69,7 +69,6 @@ export default function ShaadiWrapped() {
         memberSince: new Date(profileRes.data?.created_at || Date.now()).getFullYear().toString(),
       });
     } catch (e) {
-      console.error(e);
       setData({
         vendorsBrowsed: 47, citiesBrowsed: 3, topCategory: "Photography",
         topCategoryCount: 23, favoritesCount: 12, budgetRange: "10-15 Lakhs",

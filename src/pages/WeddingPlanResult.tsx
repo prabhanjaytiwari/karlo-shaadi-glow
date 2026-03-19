@@ -88,7 +88,6 @@ export default function WeddingPlanResult() {
         setPlan(data.plan_output as unknown as PlanData);
         await supabase.rpc("increment_plan_views", { p_plan_id: planId });
       } catch (error) {
-        console.error("Error fetching plan:", error);
         toast.error("Plan not found");
         navigate("/");
       } finally {
@@ -369,10 +368,7 @@ export default function WeddingPlanResult() {
                         <Button size="sm" className="flex-1 gap-1 text-xs h-8" onClick={() => navigate((v as any).searchLink || `/search?category=${encodeURIComponent(v.category)}&city=${encodeURIComponent(plan.city)}`)}>
                           <Search className="h-3 w-3" /> Find Vendors
                         </Button>
-                        <Button size="sm" variant="outline" className="gap-1 text-xs h-8" onClick={() => {
-                          const msg = `Hi, I'm looking for a ${v.category} vendor in ${plan.city} for my wedding on ${plan.weddingDate}. Budget: ${formatCurrency(v.estimatedCost)}. Please share options.`;
-                          window.open(`https://wa.me/919999999999?text=${encodeURIComponent(msg)}`, "_blank");
-                        }}>
+                        <Button size="sm" variant="outline" className="gap-1 text-xs h-8" onClick={() => navigate(`/search?category=${encodeURIComponent(v.category)}&city=${encodeURIComponent(plan.city)}`)}>
                           <MessageCircle className="h-3 w-3" /> Enquire
                         </Button>
                       </div>

@@ -59,8 +59,8 @@ export default function PaymentSuccess() {
         
         setCustomerProfile(profile);
       }
-    } catch (error) {
-      console.error("Error loading booking:", error);
+    } catch {
+      // silently ignore — UI already shows empty state
     }
   };
 
@@ -81,15 +81,14 @@ export default function PaymentSuccess() {
         customerEmail: user?.email || "",
         weddingDate: format(new Date(booking.wedding_date), "PPP"),
         totalAmount: booking.total_amount,
-        paidAmount: booking.total_amount * 0.3, // Advance payment
+        paidAmount: (booking as any).advance_amount ?? booking.total_amount * 0.3,
         paymentDate: format(new Date(), "PPP"),
         transactionId: paymentId || "N/A",
       };
 
       downloadReceipt(receiptData);
       toast.success("Receipt downloaded successfully!");
-    } catch (error) {
-      console.error("Error generating receipt:", error);
+    } catch {
       toast.error("Failed to generate receipt");
     }
   };

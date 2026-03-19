@@ -47,7 +47,7 @@ const CityVendors = () => {
       }
       const { data: cities } = await supabase.from("cities").select("*").eq("is_active", true).order("name");
       setAllCities(cities || []);
-    } catch (error) { console.error("Error loading data:", error); }
+    } catch { /* ignored */ }
     finally { setLoading(false); }
   };
 

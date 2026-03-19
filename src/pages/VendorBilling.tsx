@@ -75,9 +75,7 @@ export default function VendorBilling() {
         .single();
 
       setSubscription(subData);
-    } catch (error) {
-      console.error("Error loading billing data:", error);
-    } finally {
+    } catch { /* ignored */ } finally {
       setLoading(false);
     }
   };
