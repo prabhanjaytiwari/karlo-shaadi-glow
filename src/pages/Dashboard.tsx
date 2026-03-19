@@ -167,7 +167,7 @@ const Dashboard = () => {
                     {daysUntilWedding !== null ? `${daysUntilWedding} Days` : "Set Date"}
                   </p>
                   <p className="text-white/50 text-sm mt-1">
-                    {new Date(profile.wedding_date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {(() => { const d = new Date(profile.wedding_date); return isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }); })()}
                   </p>
                 </>
               ) : (

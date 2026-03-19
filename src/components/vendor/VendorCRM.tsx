@@ -69,8 +69,8 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
   const moveToStage = async (inquiryId: string, stage: string) => {
     const { error } = await supabase
       .from("vendor_inquiries")
-      .update({ 
-        pipeline_stage: stage, 
+      .update({
+        pipeline_stage: stage,
         updated_at: new Date().toISOString(),
         last_contacted_at: stage !== "new" ? new Date().toISOString() : undefined
       })
@@ -81,7 +81,8 @@ export function VendorCRM({ vendorId, vendorName }: VendorCRMProps) {
       return;
     }
     loadInquiries();
-    toast({ title: `Moved to ${PIPELINE_STAGES.find(s => s.key === stage)?.label}` });
+    const stageLabel = PIPELINE_STAGES.find(s => s.key === stage)?.label || stage;
+    toast({ title: `Moved to ${stageLabel}` });
   };
 
   const saveNote = async (inquiryId: string) => {

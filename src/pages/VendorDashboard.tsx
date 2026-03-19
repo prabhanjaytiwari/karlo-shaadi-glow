@@ -111,7 +111,7 @@ export default function VendorDashboard() {
       }
 
       setVendor(vendorData);
-      loadStats(vendorData.id);
+      loadStats(vendorData.id, vendorData.average_rating);
       loadServices(vendorData.id);
       loadPortfolio(vendorData.id);
       loadBookings(vendorData.id);
@@ -125,14 +125,14 @@ export default function VendorDashboard() {
     }
   };
 
-  const loadStats = async (vendorId: string) => {
+  const loadStats = async (vendorId: string, avgRating?: number) => {
     const { data: bookings, error } = await supabase
       .from("bookings")
       .select("*")
       .eq("vendor_id", vendorId);
 
     if (error) {
-      console.error("Error loading stats:", error);
+      console.error("Failed to load vendor stats:", error);
       return;
     }
 
@@ -142,9 +142,9 @@ export default function VendorDashboard() {
       const completed = bookings.filter(b => b.status === "completed").length;
       const revenue = bookings
         .filter(b => b.status === "completed")
-        .reduce((sum, b) => sum + (Number(b.total_amount) || 0), 0);
-      const avgValue = bookings.length > 0 
-        ? bookings.reduce((sum, b) => sum + (Number(b.total_amount) || 0), 0) / bookings.length 
+        .reduce((sum, b) => sum + Number(b.total_amount || 0), 0);
+      const avgValue = bookings.length > 0
+        ? bookings.reduce((sum, b) => sum + Number(b.total_amount || 0), 0) / bookings.length
         : 0;
 
       // Read vendorData from state at call time
@@ -157,7 +157,7 @@ export default function VendorDashboard() {
         revenue,
         avgBookingValue: avgValue,
         responseRate: 95,
-        avgRating: currentVendor?.average_rating || 0,
+        avgRating: avgRating || 0,
       });
     }
   };

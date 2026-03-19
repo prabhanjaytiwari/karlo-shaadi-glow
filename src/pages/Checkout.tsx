@@ -126,6 +126,10 @@ export default function Checkout() {
       if (orderError) throw orderError;
       if (!orderData?.order) throw new Error("Failed to create payment order");
 
+      if (!orderData?.order?.id || !orderData?.razorpayKeyId) {
+        throw new Error("Invalid payment order response. Please try again.");
+      }
+
       // Initialize Razorpay
       const options = {
         key: orderData.razorpayKeyId,
@@ -158,6 +162,7 @@ export default function Checkout() {
             });
             navigate(`/payment-success?bookingId=${booking.id}`);
           } catch (error: any) {
+            setProcessing(false);
             trackPaymentFailed(advanceAmount, error.message);
             toast({
               title: "Payment verification failed",
@@ -190,7 +195,7 @@ export default function Checkout() {
         setProcessing(false);
         toast({
           title: "Payment Failed",
-          description: response?.error?.description || "Payment failed. Please try again.",
+          description: response?.error?.description || "Payment could not be processed. Please try again.",
           variant: "destructive",
         });
         navigate(`/payment-failure?bookingId=${booking.id}`);

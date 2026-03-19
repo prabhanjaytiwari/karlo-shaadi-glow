@@ -261,7 +261,9 @@ export default function MusicGenerator() {
         }));
         setSavedSongs(tracks);
       }
-    } catch (error) { console.error("Error loading saved songs:", error); }
+    } catch (err) {
+      console.error("Failed to load saved songs:", err);
+    }
   };
 
   const saveSong = async (track: GeneratedTrack) => {
@@ -435,7 +437,8 @@ export default function MusicGenerator() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        let errorData: any = {};
+        try { errorData = await response.json(); } catch { /* ignore parse error */ }
         if (response.status === 429) {
           toast.error("Rate limit reached. Please wait a moment and try again.");
           return;
@@ -447,7 +450,10 @@ export default function MusicGenerator() {
         throw new Error(errorData.error || 'Failed to regenerate lyrics');
       }
 
-      const data = await response.json();
+      let data: any = {};
+      try { data = await response.json(); } catch {
+        throw new Error('Invalid response from server. Please try again.');
+      }
       
       if (data.lyrics) {
         setPreviewLyrics(data.lyrics);
@@ -754,7 +760,9 @@ To be part of our dreams coming true!`,
                   names: { bride: brideName, groom: groomName, family: familyName },
                   suno_track_id: track.id,
                 });
-            } catch { /* ignored */ }
+            } catch (saveErr) {
+              console.error("Failed to auto-save track:", saveErr);
+            }
           }
           loadSavedSongs();
           toast.success("Songs automatically saved to your library!");
