@@ -24,30 +24,26 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     // Authentication: require either a valid user JWT or the service role key
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
+    if (authHeader?.startsWith("Bearer ")) {
+      const token = authHeader.replace("Bearer ", "");
+      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
 
-    const token = authHeader.replace("Bearer ", "");
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-    // Allow service role key for server-to-server calls (other edge functions)
-    if (token !== serviceRoleKey) {
-      // Validate as user JWT
-      const supabaseClient = createClient(
-        Deno.env.get("SUPABASE_URL")!,
-        Deno.env.get("SUPABASE_ANON_KEY")!,
-        { global: { headers: { Authorization: authHeader } } }
-      );
-      const { data, error } = await supabaseClient.auth.getClaims(token);
-      if (error || !data?.claims) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-          status: 401,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        });
+      // Allow service role key or anon key for server-to-server calls
+      if (token !== serviceRoleKey && token !== anonKey) {
+        // Validate as user JWT
+        const supabaseClient = createClient(
+          Deno.env.get("SUPABASE_URL")!,
+          Deno.env.get("SUPABASE_ANON_KEY")!,
+          { global: { headers: { Authorization: authHeader } } }
+        );
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+        if (error || !user) {
+          return new Response(JSON.stringify({ error: "Unauthorized" }), {
+            status: 401,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          });
+        }
       }
     }
 
