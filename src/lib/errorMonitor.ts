@@ -287,16 +287,14 @@ export function withErrorCapture<T extends (...args: unknown[]) => Promise<unkno
   }) as T;
 }
 
-// Flush errors on page unload
+// Flush errors on page unload — errors are sent to track-event above.
+// Clear the queue on unload; sendBeacon to /api/log-errors is removed
+// because that endpoint does not exist in this project.
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', () => {
-    if (errorQueue.length > 0) {
-      // Use sendBeacon for reliability
-      const data = JSON.stringify(errorQueue);
-      navigator.sendBeacon?.('/api/log-errors', data);
-    }
+    errorQueue = [];
   });
-  
+
   // Initialize monitoring
   initializeErrorMonitoring();
 }
