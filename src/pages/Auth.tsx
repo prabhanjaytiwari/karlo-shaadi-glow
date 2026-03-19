@@ -30,9 +30,6 @@ const Auth = () => {
   const { trackEvent } = useAnalytics();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [magicLinkEmail, setMagicLinkEmail] = useState("");
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
-  const [authMethod, setAuthMethod] = useState<'password' | 'magic'>('password');
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
@@ -78,31 +75,6 @@ const Auth = () => {
       await trackEvent({ event_type: "user_login", metadata: { method: "google" } });
     } catch (error: any) {
       toast({ title: "Google sign-in failed", description: error.message || "Please try again.", variant: "destructive" });
-      setIsLoading(false);
-    }
-  };
-
-  const handleMagicLinkLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const trimmedEmail = magicLinkEmail.trim();
-    if (!trimmedEmail) {
-      toast({ title: "Email required", description: "Please enter your email address.", variant: "destructive" });
-      setIsLoading(false);
-      return;
-    }
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: sanitizeInput(trimmedEmail),
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
-      });
-      if (error) throw error;
-      await trackEvent({ event_type: "user_login", metadata: { method: "magic_link" } });
-      setMagicLinkSent(true);
-      toast({ title: "Magic link sent!", description: "Check your email for a login link." });
-    } catch (error: any) {
-      toast({ title: "Failed to send magic link", description: error.message || "Please try again.", variant: "destructive" });
-    } finally {
       setIsLoading(false);
     }
   };
@@ -217,40 +189,7 @@ const Auth = () => {
             </div>
           </div>
 
-          {/* Auth Method Toggle */}
-          <div className="flex justify-center gap-2 mb-4">
-            <Button type="button" variant={authMethod === 'password' ? 'default' : 'outline'} size="sm" className="rounded-full" onClick={() => { setAuthMethod('password'); setMagicLinkSent(false); }}>
-              Password
-            </Button>
-            <Button type="button" variant={authMethod === 'magic' ? 'default' : 'outline'} size="sm" className="rounded-full" onClick={() => { setAuthMethod('magic'); setMagicLinkSent(false); }}>
-              Magic Link
-            </Button>
-          </div>
-
-          {authMethod === 'magic' ? (
-            <div className="space-y-4">
-              {magicLinkSent ? (
-                <div className="text-center p-6 bg-accent/5 rounded-2xl">
-                  <div className="text-4xl mb-2">✉️</div>
-                  <h3 className="font-semibold text-lg mb-1">Check your email</h3>
-                  <p className="text-sm text-muted-foreground mb-4">We sent a magic link to <strong>{magicLinkEmail}</strong></p>
-                  <Button variant="outline" size="sm" className="rounded-full" onClick={() => { setMagicLinkSent(false); setMagicLinkEmail(""); }}>Use different email</Button>
-                </div>
-              ) : (
-                <form onSubmit={handleMagicLinkLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="magic-email">Email</Label>
-                    <Input id="magic-email" type="email" placeholder="you@example.com" value={magicLinkEmail} onChange={(e) => setMagicLinkEmail(e.target.value)} disabled={isLoading} required className="rounded-xl" />
-                  </div>
-                  <Button type="submit" className="w-full rounded-xl" disabled={isLoading}>
-                    {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Sending...</> : "Send Magic Link"}
-                  </Button>
-                  <p className="text-xs text-center text-muted-foreground">We'll send you a link to login without a password</p>
-                </form>
-              )}
-            </div>
-          ) : (
-            <Tabs defaultValue="login" className="w-full">
+          <Tabs defaultValue="login" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-4 rounded-xl">
                 <TabsTrigger value="login" className="rounded-lg">Login</TabsTrigger>
                 <TabsTrigger value="signup" className="rounded-lg">Sign Up</TabsTrigger>
@@ -337,7 +276,6 @@ const Auth = () => {
                 </Form>
               </TabsContent>
             </Tabs>
-          )}
 
           <div className="mt-6 pt-4 border-t border-border/50">
             <div className="bg-gradient-to-br from-accent/5 via-primary/5 to-accent/10 rounded-2xl p-4 border border-accent/15">

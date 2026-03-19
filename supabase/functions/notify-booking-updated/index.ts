@@ -48,6 +48,7 @@ serve(async (req: Request) => {
     }
 
     const { data: { user: coupleUser } } = await supabase.auth.admin.getUserById(newBooking.couple_id);
+    const { data: { user: vendorUser } } = await supabase.auth.admin.getUserById(vendor.user_id);
 
     if (!coupleUser?.email) {
       throw new Error("Couple email not found");
@@ -122,20 +123,50 @@ serve(async (req: Request) => {
       }),
     }).catch(err => console.error("Push notification error:", err));
 
-    // Send email in background
+    // Send email to couple
     fetch(`${supabaseUrl}/functions/v1/send-email`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${supabaseServiceKey}`,
-      },
-      body: JSON.stringify({
-        to: coupleUser.email,
-        subject: emailSubject,
-        html: emailHtml,
-        type: `booking_${newBooking.status}`,
-      }),
-    }).catch(err => console.error("Email sending error:", err));
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${supabaseServiceKey}` },
+      body: JSON.stringify({ to: coupleUser.email, subject: emailSubject, html: emailHtml, type: `booking_${newBooking.status}` }),
+    }).catch(() => { /* best-effort */ });
+
+    // Send email to vendor for all status changes
+    if (vendorUser?.email) {
+      let vendorSubject = "";
+      let vendorHtml = "";
+      if (newBooking.status === "cancelled") {
+        vendorSubject = `Booking Cancelled by ${couple.full_name}`;
+        vendorHtml = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #b91c1c;">Booking Cancelled</h2>
+            <p>Hi ${vendor.business_name},</p>
+            <p><strong>${couple.full_name}</strong> has cancelled their booking with you.</p>
+            <div style="background: #fef2f2; padding: 16px; border-radius: 8px; margin: 16px 0;">
+              <p><strong>Wedding Date:</strong> ${new Date(newBooking.wedding_date).toLocaleDateString()}</p>
+              ${newBooking.cancellation_reason ? `<p><strong>Reason:</strong> ${newBooking.cancellation_reason}</p>` : ""}
+            </div>
+            <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">View Dashboard</a>
+            <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message from Karlo Shaadi.</p>
+          </div>`;
+      } else if (newBooking.status === "completed") {
+        vendorSubject = `Booking Completed — ${couple.full_name}`;
+        vendorHtml = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #10B981;">🎊 Booking Completed!</h2>
+            <p>Hi ${vendor.business_name},</p>
+            <p>The booking for <strong>${couple.full_name}</strong> has been marked as completed. Great work!</p>
+            <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; background: #10B981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">View Dashboard</a>
+            <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message from Karlo Shaadi.</p>
+          </div>`;
+      }
+      if (vendorSubject) {
+        fetch(`${supabaseUrl}/functions/v1/send-email`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${supabaseServiceKey}` },
+          body: JSON.stringify({ to: vendorUser.email, subject: vendorSubject, html: vendorHtml, type: `booking_${newBooking.status}_vendor` }),
+        }).catch(() => { /* best-effort */ });
+      }
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },

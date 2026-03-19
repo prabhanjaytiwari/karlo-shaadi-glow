@@ -75,7 +75,39 @@ serve(async (req: Request) => {
       }),
     });
 
-    console.log(`Message notification sent to ${recipientId} from ${senderName}`);
+    // Send email notification
+    const { data: recipientAuth } = await supabase.auth.admin.getUserById(recipientId);
+    const recipientEmail = recipientAuth?.user?.email;
+    if (recipientEmail) {
+      const preview = message.message.substring(0, 120) + (message.message.length > 120 ? '...' : '');
+      fetch(`${supabaseUrl}/functions/v1/send-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${supabaseServiceKey}`,
+        },
+        body: JSON.stringify({
+          to: recipientEmail,
+          subject: `New message from ${senderName} — Karlo Shaadi`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #b91c1c;">💬 New Message</h2>
+              <p>You have a new message from <strong>${senderName}</strong>:</p>
+              <div style="background: #fef2f2; border-left: 4px solid #b91c1c; padding: 16px; border-radius: 4px; margin: 16px 0;">
+                <p style="margin: 0; font-style: italic;">"${preview}"</p>
+              </div>
+              <a href="https://karloshaadi.com/messages" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
+                Reply Now
+              </a>
+              <p style="color: #666; font-size: 12px; margin-top: 30px;">
+                This is an automated message from Karlo Shaadi. Please do not reply to this email.
+              </p>
+            </div>
+          `,
+          type: "new_message",
+        }),
+      }).catch(() => { /* best-effort */ });
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json", ...corsHeaders },
