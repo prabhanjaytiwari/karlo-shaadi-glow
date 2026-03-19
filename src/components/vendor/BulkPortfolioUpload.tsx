@@ -163,7 +163,7 @@ export function BulkPortfolioUpload({ vendorId, onSuccess }: BulkPortfolioUpload
                   Drag & drop images here, or click to select
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  PNG, JPG, JPEG, WEBP up to 5MB each
+                  PNG, JPG, JPEG, WEBP up to 10MB each
                 </p>
               </>
             )}

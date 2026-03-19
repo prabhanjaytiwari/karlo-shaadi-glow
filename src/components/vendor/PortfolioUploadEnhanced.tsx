@@ -185,7 +185,7 @@ export function PortfolioUploadEnhanced({ vendorId, open, onOpenChange, onSucces
                       Drag & drop images here, or click to select
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Supports: JPG, PNG, WEBP (Max 5MB per file, up to 10 files)
+                      Supports: JPG, PNG, WEBP (Max 10MB per file, up to 10 files)
                     </p>
                   </div>
                 )}
