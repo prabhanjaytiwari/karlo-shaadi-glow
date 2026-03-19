@@ -22,7 +22,6 @@ serve(async (req: Request) => {
 
     const booking = payload.record;
     
-    // Fetch vendor and couple details
     const { data: vendor } = await supabase
       .from("vendors")
       .select("business_name, user_id")
@@ -39,10 +38,7 @@ serve(async (req: Request) => {
       throw new Error("Vendor or couple not found");
     }
 
-    // Get vendor's email
     const { data: { user: vendorUser } } = await supabase.auth.admin.getUserById(vendor.user_id);
-    
-    // Get couple's email
     const { data: { user: coupleUser } } = await supabase.auth.admin.getUserById(booking.couple_id);
 
     if (!vendorUser?.email || !coupleUser?.email) {
@@ -99,9 +95,11 @@ serve(async (req: Request) => {
       }),
     ];
 
-    // Send emails in background
+    const weddingDateFormatted = new Date(booking.wedding_date).toLocaleDateString();
+    const amountFormatted = `₹${Number(booking.total_amount).toLocaleString()}`;
+
+    // Send emails
     const emailPromises = [
-      // Email to vendor
       fetch(`${supabaseUrl}/functions/v1/send-email`, {
         method: "POST",
         headers: {
@@ -112,18 +110,21 @@ serve(async (req: Request) => {
           to: vendorUser.email,
           subject: `New Booking Request - ${couple.full_name}`,
           html: `
-            <h1>New Booking Request</h1>
-            <p>You have received a new booking request from <strong>${couple.full_name}</strong>.</p>
-            <p><strong>Wedding Date:</strong> ${new Date(booking.wedding_date).toLocaleDateString()}</p>
-            <p><strong>Amount:</strong> ₹${Number(booking.total_amount).toLocaleString()}</p>
-            ${booking.special_requirements ? `<p><strong>Special Requirements:</strong> ${booking.special_requirements}</p>` : ""}
-            <p>Please log in to your dashboard to accept or reject this booking.</p>
-            <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/vendor/dashboard" style="display: inline-block; background: #8B5CF6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">View Booking</a>
+            <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">New Booking Request 🎉</h1>
+            <p style="color: #444; font-size: 15px; line-height: 1.7;">You have received a new booking request from <strong>${couple.full_name}</strong>.</p>
+            <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #D4A574;">
+              <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Wedding Date:</strong> ${weddingDateFormatted}</p>
+              <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Amount:</strong> ${amountFormatted}</p>
+              ${booking.special_requirements ? `<p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Special Requirements:</strong> ${booking.special_requirements}</p>` : ""}
+            </div>
+            <p style="color: #666; font-size: 14px;">Please log in to your dashboard to accept or reject this booking.</p>
+            <div style="text-align: center; margin: 24px 0;">
+              <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Booking →</a>
+            </div>
           `,
           type: "booking_vendor",
         }),
       }),
-      // Email to couple
       fetch(`${supabaseUrl}/functions/v1/send-email`, {
         method: "POST",
         headers: {
@@ -134,20 +135,23 @@ serve(async (req: Request) => {
           to: coupleUser.email,
           subject: `Booking Request Sent - ${vendor.business_name}`,
           html: `
-            <h1>Booking Request Sent Successfully</h1>
-            <p>Your booking request has been sent to <strong>${vendor.business_name}</strong>.</p>
-            <p><strong>Wedding Date:</strong> ${new Date(booking.wedding_date).toLocaleDateString()}</p>
-            <p><strong>Amount:</strong> ₹${Number(booking.total_amount).toLocaleString()}</p>
-            <p><strong>Advance Payment:</strong> ₹${Number(booking.total_amount * booking.advance_percentage / 100).toLocaleString()} (${booking.advance_percentage}%)</p>
-            <p>The vendor will review your request and respond shortly. You'll receive a notification when they accept or reject your booking.</p>
-            <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/bookings" style="display: inline-block; background: #8B5CF6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">View Bookings</a>
+            <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">Booking Request Sent ✅</h1>
+            <p style="color: #444; font-size: 15px; line-height: 1.7;">Your booking request has been sent to <strong>${vendor.business_name}</strong>.</p>
+            <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #D4A574;">
+              <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Wedding Date:</strong> ${weddingDateFormatted}</p>
+              <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Total Amount:</strong> ${amountFormatted}</p>
+              <p style="margin: 4px 0; color: #555; font-size: 14px;"><strong>Advance Payment:</strong> ₹${Number(booking.total_amount * booking.advance_percentage / 100).toLocaleString()} (${booking.advance_percentage}%)</p>
+            </div>
+            <p style="color: #666; font-size: 14px;">The vendor will review your request and respond shortly.</p>
+            <div style="text-align: center; margin: 24px 0;">
+              <a href="https://karloshaadi.com/bookings" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">View Bookings →</a>
+            </div>
           `,
           type: "booking_couple",
         }),
       }),
     ];
 
-    // Don't await, let them run in background
     Promise.all([...pushPromises, ...emailPromises]).catch(err => console.error("Notification sending error:", err));
 
     return new Response(JSON.stringify({ success: true }), {

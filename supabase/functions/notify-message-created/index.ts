@@ -90,18 +90,13 @@ serve(async (req: Request) => {
           to: recipientEmail,
           subject: `New message from ${senderName} — Karlo Shaadi`,
           html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #b91c1c;">💬 New Message</h2>
-              <p>You have a new message from <strong>${senderName}</strong>:</p>
-              <div style="background: #fef2f2; border-left: 4px solid #b91c1c; padding: 16px; border-radius: 4px; margin: 16px 0;">
-                <p style="margin: 0; font-style: italic;">"${preview}"</p>
-              </div>
-              <a href="https://karloshaadi.com/messages" style="display: inline-block; background: #b91c1c; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
-                Reply Now
-              </a>
-              <p style="color: #666; font-size: 12px; margin-top: 30px;">
-                This is an automated message from Karlo Shaadi. Please do not reply to this email.
-              </p>
+            <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">New Message 💬</h1>
+            <p style="color: #444; font-size: 15px; line-height: 1.7;">You have a new message from <strong>${senderName}</strong>:</p>
+            <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-left: 4px solid #D4A574; padding: 16px 20px; border-radius: 0 12px 12px 0; margin: 20px 0;">
+              <p style="margin: 0; font-style: italic; color: #555; font-size: 14px; line-height: 1.6;">"${preview}"</p>
+            </div>
+            <div style="text-align: center; margin: 24px 0;">
+              <a href="https://karloshaadi.com/messages" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Reply Now →</a>
             </div>
           `,
           type: "new_message",

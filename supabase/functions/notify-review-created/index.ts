@@ -66,12 +66,16 @@ serve(async (req: Request) => {
         to: vendorUser.email,
         subject: `New ${review.rating}-Star Review - ${couple.full_name}`,
         html: `
-          <h1>New Review Received!</h1>
-          <p><strong>${couple.full_name}</strong> has left you a review.</p>
-          <p><strong>Rating:</strong> ${stars} (${review.rating}/5)</p>
-          ${review.comment ? `<p><strong>Comment:</strong><br/>"${review.comment}"</p>` : ""}
-          <p>You can respond to this review from your dashboard.</p>
-          <a href="${supabaseUrl.replace('.supabase.co', '.lovable.app')}/vendor/dashboard" style="display: inline-block; background: #8B5CF6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 16px;">Respond to Review</a>
+          <h1 style="margin: 0 0 8px; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #1a0a2e; font-weight: 700;">New Review Received! ⭐</h1>
+          <p style="color: #444; font-size: 15px; line-height: 1.7;"><strong>${couple.full_name}</strong> has left you a review.</p>
+          <div style="background: linear-gradient(135deg, #faf7f4 0%, #f5ede4 100%); border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid #D4A574; text-align: center;">
+            <p style="margin: 0 0 4px; font-size: 28px;">${stars}</p>
+            <p style="margin: 0; color: #1a0a2e; font-weight: 600; font-size: 16px;">${review.rating}/5 Stars</p>
+          </div>
+          ${review.comment ? `<div style="background: #fff8f0; border-radius: 8px; padding: 16px; margin: 16px 0; border: 1px solid rgba(212,165,116,0.2);"><p style="margin: 0; color: #555; font-style: italic; font-size: 14px;">"${review.comment}"</p></div>` : ""}
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="https://karloshaadi.com/vendor/dashboard" style="background: #D946EF; color: white; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Respond to Review →</a>
+          </div>
         `,
         type: "review",
       }),
