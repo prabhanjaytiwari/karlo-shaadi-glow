@@ -87,7 +87,7 @@ export default function VendorMiniSitePage() {
         event_type: "vendor_mini_site_viewed",
         vendor_id: site.vendor_id,
         metadata: { slug: siteSlug, referrer: document.referrer || null },
-      }).then(() => {}).catch(() => {});
+      }).then(null, () => {});
     }
 
     setLoading(false);
