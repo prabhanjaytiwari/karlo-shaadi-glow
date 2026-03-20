@@ -305,7 +305,9 @@ const City = () => {
       <SEO
         title={`Wedding Vendors in ${city.name} | Best Photographers, Venues & Caterers`}
         description={city.seoDescription || `Find the best wedding vendors in ${city.name}. Verified photographers, venues, caterers, decorators & more. Zero commission. Book on Karlo Shaadi.`}
-        keywords={city.keywords || `wedding vendors ${city.name}, wedding photographer ${city.name}, wedding venue ${city.name}`}
+        keywords={city.keywords
+          ? `${city.keywords}, ${city.name} में शादी, ${city.name} वेडिंग फोटोग्राफर, ${city.name} शादी वेंडर`
+          : `wedding vendors ${city.name}, wedding photographer ${city.name}, wedding venue ${city.name}, ${city.name} mein shaadi, ${city.name} wedding planner, best caterer ${city.name}, mehendi artist ${city.name}`}
         url={`/city/${slug}`}
         breadcrumbs={[{ name: `Wedding Vendors in ${city.name}`, url: `/city/${slug}` }]}
       />

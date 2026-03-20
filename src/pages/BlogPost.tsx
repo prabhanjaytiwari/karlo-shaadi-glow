@@ -15,6 +15,7 @@ import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 // Blog post data - in production this would come from a CMS or database
 const blogPosts: Record<string, {
   id: number;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -24,8 +25,9 @@ const blogPosts: Record<string, {
   category: string;
   image: string;
 }> = {
-  "1": {
+  "ultimate-indian-wedding-planning-timeline": {
     id: 1,
+    slug: "ultimate-indian-wedding-planning-timeline",
     title: "The Ultimate Indian Wedding Planning Timeline: 12 Months to Your Dream Day",
     excerpt: "Planning an Indian wedding can be overwhelming. Follow our comprehensive month-by-month guide to ensure nothing falls through the cracks.",
     content: `
@@ -178,8 +180,9 @@ You've done the work. Now relax and enjoy every moment of your special day!
     category: "Planning Guide",
     image: venueImg
   },
-  "2": {
+  "10-questions-ask-wedding-photographer": {
     id: 2,
+    slug: "10-questions-ask-wedding-photographer",
     title: "10 Questions to Ask Your Wedding Photographer Before Booking",
     excerpt: "Don't let poor communication ruin your wedding memories. Here are the essential questions every couple should ask.",
     content: `
@@ -256,8 +259,9 @@ Instagram shows highlights. Ask to see a complete wedding to understand their co
     category: "Photography",
     image: photographyImg
   },
-  "3": {
+  "budget-friendly-wedding-decor-ideas": {
     id: 3,
+    slug: "budget-friendly-wedding-decor-ideas",
     title: "Budget-Friendly Wedding Decor Ideas That Look Expensive",
     excerpt: "Create a stunning wedding atmosphere without breaking the bank. Expert decorators share their secrets.",
     content: `
@@ -341,8 +345,9 @@ Most decor items can be rented at a fraction of purchase cost.
     category: "Decoration",
     image: decorationImg
   },
-  "4": {
+  "north-indian-vs-south-indian-weddings": {
     id: 4,
+    slug: "north-indian-vs-south-indian-weddings",
     title: "North Indian vs South Indian Weddings: Understanding the Beautiful Differences",
     excerpt: "Explore the rich traditions, rituals, and customs that make Indian weddings so diverse and spectacular.",
     content: `
@@ -427,8 +432,9 @@ Despite differences, both traditions emphasize:
     category: "Traditions",
     image: mehendiImg
   },
-  "5": {
+  "how-to-choose-perfect-wedding-venue": {
     id: 5,
+    slug: "how-to-choose-perfect-wedding-venue",
     title: "How to Choose the Perfect Wedding Venue: Location, Capacity & More",
     excerpt: "Your venue sets the tone for your entire wedding. Here's a comprehensive guide to making the right choice.",
     content: `
@@ -508,8 +514,9 @@ For those wanting historical charm
     category: "Venues",
     image: venueImg
   },
-  "6": {
+  "wedding-catering-menu-planning-500-guests": {
     id: 6,
+    slug: "wedding-catering-menu-planning-500-guests",
     title: "Wedding Catering 101: Menu Planning for 500+ Guests",
     excerpt: "From appetizers to desserts, learn how to plan a delicious menu that satisfies every palate.",
     content: `
@@ -596,8 +603,9 @@ Always plan for:
     category: "Catering",
     image: cateringImg
   },
-  "7": {
+  "destination-weddings-india-top-locations": {
     id: 7,
+    slug: "destination-weddings-india-top-locations",
     title: "Destination Weddings in India: Top 10 Locations & Cost Breakdown",
     excerpt: "Dreaming of a destination wedding? Discover the most beautiful locations and what they actually cost.",
     content: `
@@ -687,8 +695,9 @@ Typical destination wedding costs:
     category: "Destinations",
     image: venueImg
   },
-  "8": {
+  "last-minute-wedding-planning-3-months": {
     id: 8,
+    slug: "last-minute-wedding-planning-3-months",
     title: "Last-Minute Wedding Planning: Everything You Need in 3 Months",
     excerpt: "Short on time? Here's how to plan an amazing wedding in just 90 days without losing your mind.",
     content: `
@@ -774,8 +783,9 @@ Whether it's a surprise engagement or sudden venue availability, 3-month wedding
     category: "Planning Guide",
     image: makeupImg
   },
-  "9": {
+  "bridal-mehendi-designs-traditional-contemporary": {
     id: 9,
+    slug: "bridal-mehendi-designs-traditional-contemporary",
     title: "Bridal Mehendi Designs: From Traditional to Contemporary",
     excerpt: "Explore the latest trends in bridal mehendi and find the perfect design for your special day.",
     content: `
@@ -870,9 +880,23 @@ Mehendi is more than decoration – it's tradition, art, and blessing combined.
   }
 };
 
+// Backward-compat: map numeric IDs to slugs for old /blog/1 style links
+const numericIdToSlug: Record<string, string> = {
+  "1": "ultimate-indian-wedding-planning-timeline",
+  "2": "10-questions-ask-wedding-photographer",
+  "3": "budget-friendly-wedding-decor-ideas",
+  "4": "north-indian-vs-south-indian-weddings",
+  "5": "how-to-choose-perfect-wedding-venue",
+  "6": "wedding-catering-menu-planning-500-guests",
+  "7": "destination-weddings-india-top-locations",
+  "8": "last-minute-wedding-planning-3-months",
+  "9": "bridal-mehendi-designs-traditional-contemporary",
+};
+
 export default function BlogPost() {
-  const { id } = useParams<{ id: string }>();
-  const post = id ? blogPosts[id] : null;
+  const { slug } = useParams<{ slug: string }>();
+  const resolvedSlug = slug ? (numericIdToSlug[slug] || slug) : null;
+  const post = resolvedSlug ? blogPosts[resolvedSlug] : null;
 
   if (!post) {
     return (

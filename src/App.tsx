@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,93 +7,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/mobile/PageTransition";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import VendorAuth from "./pages/VendorAuth";
-import Dashboard from "./pages/Dashboard";
-import Bookings from "./pages/Bookings";
-import Favorites from "./pages/Favorites";
-import Messages from "./pages/Messages";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import VendorSettings from "./pages/VendorSettings";
-import VendorBilling from "./pages/VendorBilling";
-import Categories from "./pages/Categories";
-import City from "./pages/City";
-import Stories from "./pages/Stories";
-import StoryDetail from "./pages/StoryDetail";
-import Search from "./pages/Search";
-import VendorProfile from "./pages/VendorProfile";
-import VendorOnboarding from "./pages/VendorOnboarding";
-import VendorDashboard from "./pages/VendorDashboard";
-import VendorPricing from "./pages/VendorPricing";
-import AdminDashboard from "./pages/AdminDashboard";
-import ForVendors from "./pages/ForVendors";
-import About from "./pages/About";
-import Legal from "./pages/Legal";
-import Privacy from "./pages/Privacy";
-import CancellationRefunds from "./pages/CancellationRefunds";
-import Shipping from "./pages/Shipping";
-import Support from "./pages/Support";
-import Investors from "./pages/Investors";
-import JoinAsManager from "./pages/JoinAsManager";
-import Affiliate from "./pages/Affiliate";
-import Checkout from "./pages/Checkout";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentFailure from "./pages/PaymentFailure";
-import BookingConfirmation from "./pages/BookingConfirmation";
-import BookingDetails from "./pages/BookingDetails";
-import FAQ from "./pages/FAQ";
-import HelpCenter from "./pages/HelpCenter";
-import VendorGuide from "./pages/VendorGuide";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Testimonials from "./pages/Testimonials";
-import SuccessStories from "./pages/SuccessStories";
-import Pricing from "./pages/Pricing";
-import PremiumUpgrade from "./pages/PremiumUpgrade";
-import PremiumDashboard from "./pages/PremiumDashboard";
-import SubscriptionCheckout from "./pages/SubscriptionCheckout";
-import NotFound from "./pages/NotFound";
-import DataExport from "./pages/DataExport";
-import Moodboards from "./pages/Moodboards";
-import Achievements from "./pages/Achievements";
-import Deals from "./pages/Deals";
-import Compare from "./pages/Compare";
-import Checklist from "./pages/Checklist";
-import BudgetTracker from "./pages/BudgetTracker";
-import AIMatchResults from "./pages/AIMatchResults";
-import Referrals from "./pages/Referrals";
-import VendorSuccessStories from "./pages/VendorSuccessStories";
-import WeddingPlanResult from "./pages/WeddingPlanResult";
-import BudgetCalculatorPage from "./pages/BudgetCalculatorPage";
-import MuhuratFinderPage from "./pages/MuhuratFinderPage";
-import InviteCreatorPage from "./pages/InviteCreatorPage";
-import WeddingWebsite from "./pages/WeddingWebsite";
-import WeddingView from "./pages/WeddingView";
-import MusicGenerator from "./pages/MusicGenerator";
-import CityVendors from "./pages/CityVendors";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import VendorLeaderboard from "./pages/VendorLeaderboard";
-import GuestList from "./pages/GuestList";
-import VendorProfileSetup from "./pages/VendorProfileSetup";
-import SpeechWriterPage from "./pages/SpeechWriterPage";
-import ShaadiSeva from "./pages/ShaadiSeva";
-import WeddingDirectory from "./pages/WeddingDirectory";
-import EmbedWidget from "./pages/EmbedWidget";
-import WebStories from "./pages/WebStories";
-import CoupleQuiz from "./pages/CoupleQuiz";
-import FamilyFrame from "./pages/FamilyFrame";
-import VendorCheck from "./pages/VendorCheck";
-import ShaadiWrapped from "./pages/ShaadiWrapped";
-import CountdownPublic from "./pages/CountdownPublic";
-import WhyKarloShaadi from "./pages/WhyKarloShaadi";
-import EarnWithUs from "./pages/EarnWithUs";
-import VendorMiniSitePage from "./pages/VendorMiniSitePage";
-import SponsorShaadi from "./pages/SponsorShaadi";
-import ComingSoon from "./pages/ComingSoon";
-import ToolsLanding from "./pages/ToolsLanding";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
@@ -106,14 +20,104 @@ import { BhindiHeader } from "@/components/BhindiHeader";
 import { BhindiFooter } from "@/components/BhindiFooter";
 import { MobileLayout } from "@/layouts/MobileLayout";
 import { AppProviders } from "@/components/AppProviders";
-import Onboarding from "./pages/Onboarding";
-import Notifications from "./pages/Notifications";
 import { OfflineScreen } from "@/components/OfflineScreen";
 import { WhatsNewModal } from "@/components/WhatsNewModal";
 import { RateAppPrompt } from "@/components/RateAppPrompt";
-
-import VendorVerificationStatus from "./pages/VendorVerificationStatus";
 import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
+
+// ─── Critical pages: eagerly loaded for fast first paint ───────────────────
+import Index from "./pages/Index";
+import Auth from "./pages/Auth";
+import VendorAuth from "./pages/VendorAuth";
+import Search from "./pages/Search";
+import VendorProfile from "./pages/VendorProfile";
+import City from "./pages/City";
+import Categories from "./pages/Categories";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import NotFound from "./pages/NotFound";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Onboarding from "./pages/Onboarding";
+
+// ─── Non-critical pages: lazy loaded to reduce initial bundle ──────────────
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Bookings = lazy(() => import("./pages/Bookings"));
+const Favorites = lazy(() => import("./pages/Favorites"));
+const Messages = lazy(() => import("./pages/Messages"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Settings = lazy(() => import("./pages/Settings"));
+const VendorSettings = lazy(() => import("./pages/VendorSettings"));
+const VendorBilling = lazy(() => import("./pages/VendorBilling"));
+const VendorOnboarding = lazy(() => import("./pages/VendorOnboarding"));
+const VendorDashboard = lazy(() => import("./pages/VendorDashboard"));
+const VendorPricing = lazy(() => import("./pages/VendorPricing"));
+const VendorProfileSetup = lazy(() => import("./pages/VendorProfileSetup"));
+const VendorVerificationStatus = lazy(() => import("./pages/VendorVerificationStatus"));
+const VendorLeaderboard = lazy(() => import("./pages/VendorLeaderboard"));
+const VendorSuccessStories = lazy(() => import("./pages/VendorSuccessStories"));
+const VendorCheck = lazy(() => import("./pages/VendorCheck"));
+const VendorMiniSitePage = lazy(() => import("./pages/VendorMiniSitePage"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const ForVendors = lazy(() => import("./pages/ForVendors"));
+const About = lazy(() => import("./pages/About"));
+const Legal = lazy(() => import("./pages/Legal"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const CancellationRefunds = lazy(() => import("./pages/CancellationRefunds"));
+const Shipping = lazy(() => import("./pages/Shipping"));
+const Support = lazy(() => import("./pages/Support"));
+const Investors = lazy(() => import("./pages/Investors"));
+const JoinAsManager = lazy(() => import("./pages/JoinAsManager"));
+const Affiliate = lazy(() => import("./pages/Affiliate"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentFailure = lazy(() => import("./pages/PaymentFailure"));
+const BookingConfirmation = lazy(() => import("./pages/BookingConfirmation"));
+const BookingDetails = lazy(() => import("./pages/BookingDetails"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const HelpCenter = lazy(() => import("./pages/HelpCenter"));
+const VendorGuide = lazy(() => import("./pages/VendorGuide"));
+const Testimonials = lazy(() => import("./pages/Testimonials"));
+const SuccessStories = lazy(() => import("./pages/SuccessStories"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const PremiumUpgrade = lazy(() => import("./pages/PremiumUpgrade"));
+const PremiumDashboard = lazy(() => import("./pages/PremiumDashboard"));
+const SubscriptionCheckout = lazy(() => import("./pages/SubscriptionCheckout"));
+const DataExport = lazy(() => import("./pages/DataExport"));
+const Moodboards = lazy(() => import("./pages/Moodboards"));
+const Achievements = lazy(() => import("./pages/Achievements"));
+const Deals = lazy(() => import("./pages/Deals"));
+const Compare = lazy(() => import("./pages/Compare"));
+const Checklist = lazy(() => import("./pages/Checklist"));
+const BudgetTracker = lazy(() => import("./pages/BudgetTracker"));
+const AIMatchResults = lazy(() => import("./pages/AIMatchResults"));
+const Referrals = lazy(() => import("./pages/Referrals"));
+const WeddingPlanResult = lazy(() => import("./pages/WeddingPlanResult"));
+const BudgetCalculatorPage = lazy(() => import("./pages/BudgetCalculatorPage"));
+const MuhuratFinderPage = lazy(() => import("./pages/MuhuratFinderPage"));
+const InviteCreatorPage = lazy(() => import("./pages/InviteCreatorPage"));
+const WeddingWebsite = lazy(() => import("./pages/WeddingWebsite"));
+const WeddingView = lazy(() => import("./pages/WeddingView"));
+const MusicGenerator = lazy(() => import("./pages/MusicGenerator"));
+const CityVendors = lazy(() => import("./pages/CityVendors"));
+const GuestList = lazy(() => import("./pages/GuestList"));
+const SpeechWriterPage = lazy(() => import("./pages/SpeechWriterPage"));
+const ShaadiSeva = lazy(() => import("./pages/ShaadiSeva"));
+const WeddingDirectory = lazy(() => import("./pages/WeddingDirectory"));
+const EmbedWidget = lazy(() => import("./pages/EmbedWidget"));
+const WebStories = lazy(() => import("./pages/WebStories"));
+const CoupleQuiz = lazy(() => import("./pages/CoupleQuiz"));
+const FamilyFrame = lazy(() => import("./pages/FamilyFrame"));
+const ShaadiWrapped = lazy(() => import("./pages/ShaadiWrapped"));
+const CountdownPublic = lazy(() => import("./pages/CountdownPublic"));
+const WhyKarloShaadi = lazy(() => import("./pages/WhyKarloShaadi"));
+const EarnWithUs = lazy(() => import("./pages/EarnWithUs"));
+const SponsorShaadi = lazy(() => import("./pages/SponsorShaadi"));
+const ComingSoon = lazy(() => import("./pages/ComingSoon"));
+const ToolsLanding = lazy(() => import("./pages/ToolsLanding"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const Stories = lazy(() => import("./pages/Stories"));
+const StoryDetail = lazy(() => import("./pages/StoryDetail"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -138,6 +142,7 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait" initial={false}>
       <PageTransition key={location.pathname}>
+        <Suspense fallback={<div className="min-h-screen bg-background" />}>
         <Routes location={location}>
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/" element={<Index />} />
@@ -187,7 +192,7 @@ const AnimatedRoutes = () => {
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/vendor-guide" element={<VendorGuide />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/success-stories" element={<SuccessStories />} />
           <Route path="/pricing" element={<Pricing />} />
@@ -236,6 +241,7 @@ const AnimatedRoutes = () => {
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </PageTransition>
     </AnimatePresence>
   );
