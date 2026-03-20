@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
+import { RoleSwitcher, getActiveView } from "./RoleSwitcher";
 import logo from "@/assets/logo-new.png";
 import {
   NavigationMenu,
@@ -40,7 +41,12 @@ import {
   User,
   Wrench,
   Calculator,
-  Image
+  Image,
+  FileText,
+  BarChart3,
+  Globe,
+  CreditCard,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
