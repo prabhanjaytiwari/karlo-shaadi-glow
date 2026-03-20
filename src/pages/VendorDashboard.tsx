@@ -532,7 +532,7 @@ export default function VendorDashboard() {
 
           {/* Profile Completion Progress */}
           {vendor && (
-            <div className="mb-8">
+            <div className="mb-6">
               <ProfileCompletionProgress 
                 vendor={vendor}
                 servicesCount={services.length}
