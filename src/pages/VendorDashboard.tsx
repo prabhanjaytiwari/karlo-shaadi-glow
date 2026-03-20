@@ -608,37 +608,35 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="bookings">
-              <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Your Bookings</h3>
-                    {bookings.length === 0 ? (
-                      <Card>
-                        <CardContent className="py-8">
-                          <p className="text-center text-muted-foreground">
-                            No bookings yet. Share your profile to get started!
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ) : (
-                      <div className="grid gap-4">
-                        {bookings.map((booking) => (
-                          <BookingManagementCard
-                            key={booking.id}
-                            booking={booking}
-                            onUpdate={() => {
-                              loadBookings(vendor.id);
-                              loadStats(vendor.id);
-                            }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 space-y-4">
+                  <h3 className="text-lg font-semibold">Your Bookings</h3>
+                  {bookings.length === 0 ? (
+                    <Card>
+                      <CardContent className="py-8">
+                        <p className="text-center text-muted-foreground">
+                          No bookings yet. Share your profile to get started!
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="grid gap-4">
+                      {bookings.map((booking) => (
+                        <BookingManagementCard
+                          key={booking.id}
+                          booking={booking}
+                          onUpdate={() => {
+                            loadBookings(vendor.id);
+                            loadStats(vendor.id, vendor.average_rating);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Availability Calendar</h3>
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Availability Calendar</h3>
                   <AvailabilityCalendar vendorId={vendor.id} />
                 </div>
               </div>
