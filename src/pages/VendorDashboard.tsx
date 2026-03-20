@@ -431,17 +431,17 @@ export default function VendorDashboard() {
 
           {/* Subscription Status Card */}
           {vendor && (
-            <Card className="mb-8 bg-white/90 backdrop-blur-sm border-2 border-accent/30 shadow-lg">
-              <CardHeader>
-                <div className="flex items-center justify-between">
+            <Card className="mb-6 bg-white/90 backdrop-blur-sm border border-accent/20 shadow-sm">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between flex-wrap gap-3">
                   <div>
-                    <CardTitle className="text-lg flex items-center gap-2">
+                    <CardTitle className="text-base flex items-center gap-2">
                       Current Plan: 
                       <span className={`px-3 py-1 rounded-full text-sm font-bold ${getSubscriptionBadge().color}`}>
                         {getSubscriptionBadge().label}
                       </span>
                     </CardTitle>
-                    <CardDescription className="mt-2">
+                    <CardDescription className="mt-1.5 text-sm">
                       {vendor.subscription_tier === 'free' && 
                         "Upgrade to Featured or Sponsored to get 3-10x more bookings"}
                       {vendor.subscription_tier === 'featured' && 
@@ -451,15 +451,15 @@ export default function VendorDashboard() {
                     </CardDescription>
                   </div>
                   {vendor.subscription_tier === 'free' && (
-                    <Button onClick={() => navigate('/vendor-pricing')} className="ml-4">
+                    <Button onClick={() => navigate('/vendor-pricing')} size="sm">
                       Upgrade Now
                     </Button>
                   )}
                 </div>
               </CardHeader>
               {subscription && subscription.status === 'active' && (
-                <CardContent>
-                  <div className="flex gap-6 text-sm">
+                <CardContent className="pt-2">
+                  <div className="flex flex-wrap gap-4 text-sm">
                     <div>
                       <span className="text-muted-foreground">Next Billing: </span>
                       <span className="font-semibold">
@@ -489,39 +489,39 @@ export default function VendorDashboard() {
           )}
 
           {/* Stats Grid */}
-          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-1 md:grid-cols-4 gap-6 mb-8'}`}>
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-2 md:grid-cols-4 gap-4 mb-6'}`}>
+            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
                 <CardTitle className="text-xs font-medium text-muted-foreground">Bookings</CardTitle>
               </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
                 <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.totalBookings}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
                 <CardTitle className="text-xs font-medium text-muted-foreground">Pending</CardTitle>
               </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
                 <div className={`font-bold text-primary ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.pendingBookings}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
                 <CardTitle className="text-xs font-medium text-muted-foreground">Revenue</CardTitle>
               </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
                 <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>₹{stats.revenue.toLocaleString()}</div>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'pb-3'}>
+            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
+              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
                 <CardTitle className="text-xs font-medium text-muted-foreground">Rating</CardTitle>
               </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : ''}>
+              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
                 <div className={`font-bold flex items-center ${isMobile ? 'text-2xl' : 'text-3xl'}`}>
                   {vendor?.average_rating || 0}
                   <Star className={`ml-1 fill-accent text-accent ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
@@ -532,7 +532,7 @@ export default function VendorDashboard() {
 
           {/* Profile Completion Progress */}
           {vendor && (
-            <div className="mb-8">
+            <div className="mb-6">
               <ProfileCompletionProgress 
                 vendor={vendor}
                 servicesCount={services.length}
@@ -608,37 +608,35 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="bookings">
-              <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Your Bookings</h3>
-                    {bookings.length === 0 ? (
-                      <Card>
-                        <CardContent className="py-8">
-                          <p className="text-center text-muted-foreground">
-                            No bookings yet. Share your profile to get started!
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ) : (
-                      <div className="grid gap-4">
-                        {bookings.map((booking) => (
-                          <BookingManagementCard
-                            key={booking.id}
-                            booking={booking}
-                            onUpdate={() => {
-                              loadBookings(vendor.id);
-                              loadStats(vendor.id);
-                            }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 space-y-4">
+                  <h3 className="text-lg font-semibold">Your Bookings</h3>
+                  {bookings.length === 0 ? (
+                    <Card>
+                      <CardContent className="py-8">
+                        <p className="text-center text-muted-foreground">
+                          No bookings yet. Share your profile to get started!
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="grid gap-4">
+                      {bookings.map((booking) => (
+                        <BookingManagementCard
+                          key={booking.id}
+                          booking={booking}
+                          onUpdate={() => {
+                            loadBookings(vendor.id);
+                            loadStats(vendor.id, vendor.average_rating);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Availability Calendar</h3>
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Availability Calendar</h3>
                   <AvailabilityCalendar vendorId={vendor.id} />
                 </div>
               </div>

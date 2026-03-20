@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
+import { RoleSwitcher, getActiveView } from "./RoleSwitcher";
 import logo from "@/assets/logo-new.png";
 import {
   NavigationMenu,
@@ -40,7 +41,12 @@ import {
   User,
   Wrench,
   Calculator,
-  Image
+  Image,
+  FileText,
+  BarChart3,
+  Globe,
+  CreditCard,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
@@ -255,30 +261,53 @@ export const BhindiHeader = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Tools Dropdown */}
+                {/* Tools Dropdown - Role-aware */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-sm font-medium">Tools</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
-                      <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
-                        Get a complete wedding plan in 2 minutes
-                      </ListItem>
-                      <ListItem title="Budget Calculator" href="/budget-calculator" icon={Calculator}>
-                        Instant category-wise budget breakdown
-                      </ListItem>
-                      <ListItem title="Muhurat Finder" href="/muhurat-finder" icon={Calendar}>
-                        2025-2026 auspicious wedding dates
-                      </ListItem>
-                      <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
-                        AI-generated wedding invitations
-                      </ListItem>
-                      <ListItem title="Couple Quiz" href="/couple-quiz" icon={Heart}>
-                        Wedding compatibility score
-                      </ListItem>
-                      <ListItem title="Vendor Checker" href="/vendor-check" icon={Search}>
-                        Check if your vendor is legit
-                      </ListItem>
-                    </ul>
+                    {isVendor && getActiveView() === "vendor" ? (
+                      <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
+                        <ListItem title="CRM & Leads" href="/vendor/dashboard?tab=inquiries" icon={Users}>
+                          Manage your leads and pipeline
+                        </ListItem>
+                        <ListItem title="Contracts" href="/vendor/dashboard?tab=tools" icon={FileText}>
+                          Generate digital contracts
+                        </ListItem>
+                        <ListItem title="Invoices" href="/vendor/dashboard?tab=tools" icon={CreditCard}>
+                          Create and track invoices
+                        </ListItem>
+                        <ListItem title="Analytics" href="/vendor/dashboard?tab=analytics" icon={BarChart3}>
+                          Business intelligence dashboard
+                        </ListItem>
+                        <ListItem title="Mini-Site" href="/vendor/dashboard?tab=tools" icon={Globe}>
+                          Your portfolio website
+                        </ListItem>
+                        <ListItem title="Revenue" href="/vendor/dashboard?tab=revenue" icon={Sparkles}>
+                          Revenue charts and insights
+                        </ListItem>
+                      </ul>
+                    ) : (
+                      <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
+                        <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
+                          Get a complete wedding plan in 2 minutes
+                        </ListItem>
+                        <ListItem title="Budget Calculator" href="/budget-calculator" icon={Calculator}>
+                          Instant category-wise budget breakdown
+                        </ListItem>
+                        <ListItem title="Muhurat Finder" href="/muhurat-finder" icon={Calendar}>
+                          2025-2026 auspicious wedding dates
+                        </ListItem>
+                        <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
+                          AI-generated wedding invitations
+                        </ListItem>
+                        <ListItem title="Couple Quiz" href="/couple-quiz" icon={Heart}>
+                          Wedding compatibility score
+                        </ListItem>
+                        <ListItem title="Vendor Checker" href="/vendor-check" icon={Search}>
+                          Check if your vendor is legit
+                        </ListItem>
+                      </ul>
+                    )}
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
@@ -331,9 +360,10 @@ export const BhindiHeader = () => {
 
             {user ? (
               <>
+                {isVendor && <RoleSwitcher isVendor={isVendor} />}
                 <NotificationCenter />
                 <Button variant="ghost" onClick={handleDashboardClick}>
-                  {isVendor ? "Vendor Dashboard" : "Dashboard"}
+                  {isVendor && getActiveView() === "vendor" ? "Vendor Dashboard" : "Dashboard"}
                 </Button>
                 {isAdmin && (
                   <Button variant="ghost" onClick={() => navigate("/admin/dashboard")}>

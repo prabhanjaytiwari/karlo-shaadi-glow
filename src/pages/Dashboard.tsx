@@ -49,13 +49,30 @@ const Dashboard = () => {
   useEffect(() => {
     if (authLoading) return;
     if (!user) { navigate("/auth"); return; }
-    if (isVendor && !isAdmin) { navigate("/vendor/dashboard"); return; }
+    if (isVendor && !isAdmin) {
+      // Allow vendors to view couple dashboard if they explicitly switched
+      const activeView = localStorage.getItem("ks-active-view");
+      if (activeView !== "couple") {
+        navigate("/vendor/dashboard"); return;
+      }
+    }
 
     const loadProfile = async () => {
       try {
         const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
         setProfile(profileData);
-      } catch { /* ignored */ } finally {
+        
+        // Fallback: if no role yet, check if they have a vendor profile
+        if (!isVendor && !isAdmin) {
+          const { data: vendorData } = await supabase.from("vendors").select("id").eq("user_id", user.id).maybeSingle();
+          if (vendorData) {
+            navigate("/vendor/dashboard");
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load profile:", err);
+      } finally {
         setLoading(false);
       }
     };
