@@ -932,25 +932,25 @@ export default function BlogPost() {
         title={post.title}
         description={post.excerpt}
         keywords={categoryKeywords[post.category] || "indian wedding, wedding planning, shaadi, wedding vendors India"}
-        url={`/blog/${id}`}
+        url={`/blog/${post.slug}`}
         type="article"
         publishedTime={new Date(post.date).toISOString()}
         author={post.author}
         breadcrumbs={[
           { name: "Blog", url: "/blog" },
-          { name: post.title, url: `/blog/${id}` },
+          { name: post.title, url: `/blog/${post.slug}` },
         ]}
       />
       <ArticleJsonLd
         title={post.title}
         description={post.excerpt}
-        url={`/blog/${id}`}
+        url={`/blog/${post.slug}`}
         image={typeof post.image === "string" && post.image.startsWith("http") ? post.image : "/og-image.jpg"}
         datePublished={new Date(post.date).toISOString()}
         author={post.author}
         keywords={[post.category, "Indian wedding", "wedding planning", "Karlo Shaadi"]}
       />
-      <BreadcrumbJsonLd items={[{ name: "Blog", url: "/blog" }, { name: post.title, url: `/blog/${id}` }]} />
+      <BreadcrumbJsonLd items={[{ name: "Blog", url: "/blog" }, { name: post.title, url: `/blog/${post.slug}` }]} />
 
       {/* Hero */}
       <section className="pt-32 pb-8 px-4 sm:px-6">
