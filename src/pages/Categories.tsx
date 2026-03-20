@@ -54,7 +54,7 @@ const Categories = () => {
       const { data: categoriesData } = await supabase.from("categories").select("*").eq("is_active", true).order("display_order");
       if (categoriesData) setCategories(categoriesData);
       if (category) {
-        const { data: vendorsData } = await supabase.from("vendors").select(`*, cities (name, state), vendor_services (*)`).eq("is_active", true).eq("verified", true).eq("category", category as any).order("average_rating", { ascending: false });
+        const { data: vendorsData } = await supabase.from("vendors").select(`*, cities (name, state), vendor_services (*)`).eq("is_active", true).eq("category", category as any).order("verified", { ascending: false }).order("average_rating", { ascending: false });
         if (vendorsData) setVendors(vendorsData);
       }
     } catch { /* ignored */ }
