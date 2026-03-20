@@ -360,9 +360,10 @@ export const BhindiHeader = () => {
 
             {user ? (
               <>
+                {isVendor && <RoleSwitcher isVendor={isVendor} />}
                 <NotificationCenter />
                 <Button variant="ghost" onClick={handleDashboardClick}>
-                  {isVendor ? "Vendor Dashboard" : "Dashboard"}
+                  {isVendor && getActiveView() === "vendor" ? "Vendor Dashboard" : "Dashboard"}
                 </Button>
                 {isAdmin && (
                   <Button variant="ghost" onClick={() => navigate("/admin/dashboard")}>
