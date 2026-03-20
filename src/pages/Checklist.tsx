@@ -149,10 +149,6 @@ export default function Checklist() {
 
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -163,6 +159,10 @@ export default function Checklist() {
     await loadUserProfile(user.id);
     await loadChecklist(user.id);
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const loadUserProfile = async (userId: string) => {
     const { data } = await supabase

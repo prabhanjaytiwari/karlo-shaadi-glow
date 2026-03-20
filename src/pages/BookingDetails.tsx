@@ -77,6 +77,15 @@ export default function BookingDetails() {
   const [cancelling, setCancelling] = useState(false);
   const [user, setUser] = useState<any>(null);
 
+  const checkAuth = async () => {
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    if (!authUser) {
+      navigate('/auth');
+      return;
+    }
+    setUser(authUser);
+  };
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -86,15 +95,6 @@ export default function BookingDetails() {
       loadBookingData();
     }
   }, [id, user]);
-
-  const checkAuth = async () => {
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-    if (!authUser) {
-      navigate('/auth');
-      return;
-    }
-    setUser(authUser);
-  };
 
   const loadBookingData = async () => {
     try {

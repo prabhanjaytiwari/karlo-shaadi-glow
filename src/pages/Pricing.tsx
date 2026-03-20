@@ -34,8 +34,6 @@ export default function Pricing() {
   const perDay = discountedPrice ? getPerDayPrice(discountedPrice) : getPerDayPrice(AI_PREMIUM_PRICE);
   const savings = discountedPrice ? AI_PREMIUM_PRICE - discountedPrice : 0;
 
-  useEffect(() => { checkAuth(); }, []);
-
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
@@ -44,6 +42,8 @@ export default function Pricing() {
       setIsVendor(roles?.some(r => r.role === "vendor") || false);
     }
   };
+
+  useEffect(() => { checkAuth(); }, []);
 
   const handlePremiumClick = async () => {
     const { data: { session } } = await supabase.auth.getSession();

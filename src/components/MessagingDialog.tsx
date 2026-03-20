@@ -26,12 +26,6 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
   const [user, setUser] = useState<any>(null);
   const [vendorUserId, setVendorUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (open) {
-      checkAuth();
-    }
-  }, [open]);
-
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
@@ -40,6 +34,12 @@ export function MessagingDialog({ vendorId, vendorName, children }: MessagingDia
       loadMessages(user.id);
     }
   };
+
+  useEffect(() => {
+    if (open) {
+      checkAuth();
+    }
+  }, [open]);
 
   const loadMessages = async (userId: string) => {
     setLoading(true);
