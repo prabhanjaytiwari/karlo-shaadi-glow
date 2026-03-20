@@ -1078,6 +1078,21 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 5: Review & Submit ═══ */}
                 {step === 5 && (
                   <div className="space-y-4">
+                    {/* Mini-site slug preview */}
+                    {formData.businessName && (
+                      <div className="bg-white/[0.06] border border-accent/20 rounded-xl p-4">
+                        <p className="text-xs text-white/50 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <Globe className="w-3.5 h-3.5 text-accent" /> Your Mini-Site URL
+                        </p>
+                        <p className="text-sm font-mono text-white/90 break-all">
+                          karloshaadi.com/vendor-site/
+                          <span className="text-accent font-semibold">
+                            {formData.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}
+                          </span>
+                        </p>
+                        <p className="text-[10px] text-white/30 mt-1.5">Share this link on WhatsApp, Instagram & Google. You can customise it later.</p>
+                      </div>
+                    )}
                     <ReviewBlock title="Category" onEdit={() => jumpToStep(1)}>
                       <div className="flex items-center gap-2 text-white/80">
                         {selectedCategory?.icon}

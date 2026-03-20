@@ -67,7 +67,7 @@ const Index = () => {
       <SEO
         title="India's #1 Wedding Planning Platform"
         description="Plan your dream Indian wedding with Karlo Shaadi. 5,000+ verified vendors for photography, venues, catering, decoration, mehendi & more across 20+ cities. Zero commission. AI planner, budget calculator & muhurat finder — all free."
-        keywords="indian wedding planning, wedding vendors India, wedding photographer near me, wedding caterer India, wedding venue India, shaadi planning, mehendi artist, bridal makeup, wedding DJ, wedding decoration, AI wedding planner, wedding budget calculator, muhurat finder 2025 2026, destination wedding India, zero commission wedding"
+        keywords="indian wedding planning, wedding vendors India, wedding photographer near me, wedding caterer India, wedding venue India, shaadi planning, mehendi artist, bridal makeup, wedding DJ, wedding decoration, AI wedding planner, wedding budget calculator, muhurat finder 2025 2026, destination wedding India, zero commission wedding, शादी प्लानर, शादी वेंडर, विवाह फोटोग्राफर, शादी का खर्च, बेस्ट वेडिंग प्लानर इंडिया, shaadi vendor dhundhe, wedding booking India, vivah photographer, mehendi wala near me, dulhan makeup artist"
         url="/"
       />
       <WebSiteJsonLd />

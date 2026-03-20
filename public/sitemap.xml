@@ -191,55 +191,55 @@
 
   <!-- ===================== BLOG POSTS ===================== -->
   <url>
-    <loc>https://karloshaadi.com/blog/1</loc>
+    <loc>https://karloshaadi.com/blog/ultimate-indian-wedding-planning-timeline</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/blog/10-questions-ask-wedding-photographer</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/blog/budget-friendly-wedding-decor-ideas</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/blog/north-indian-vs-south-indian-weddings</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://karloshaadi.com/blog/2</loc>
+    <loc>https://karloshaadi.com/blog/how-to-choose-perfect-wedding-venue</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/blog/wedding-catering-menu-planning-500-guests</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://karloshaadi.com/blog/3</loc>
+    <loc>https://karloshaadi.com/blog/destination-weddings-india-top-locations</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://karloshaadi.com/blog/4</loc>
+    <loc>https://karloshaadi.com/blog/last-minute-wedding-planning-3-months</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://karloshaadi.com/blog/5</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://karloshaadi.com/blog/6</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://karloshaadi.com/blog/7</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://karloshaadi.com/blog/8</loc>
-    <lastmod>2026-03-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://karloshaadi.com/blog/9</loc>
+    <loc>https://karloshaadi.com/blog/bridal-mehendi-designs-traditional-contemporary</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
@@ -283,10 +283,16 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://karloshaadi.com/earn-with-us</loc>
+    <loc>https://karloshaadi.com/earn</loc>
     <lastmod>2026-03-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://karloshaadi.com/tools</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://karloshaadi.com/sponsor-shaadi</loc>

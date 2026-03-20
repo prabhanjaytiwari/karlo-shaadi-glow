@@ -19,6 +19,8 @@ import { QuickInquiryDialog } from "@/components/QuickInquiryDialog";
 import { Badge } from "@/components/ui/badge";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
 import { 
   MapPin, Clock, Star, Shield, Award, CheckCircle2, Loader2, 
   MessageCircle, ChevronLeft, ChevronRight, Camera, Heart
@@ -119,11 +121,48 @@ const VendorProfile = () => {
   const nextImage = () => setCurrentImageIndex((i) => (i + 1) % images.length);
   const prevImage = () => setCurrentImageIndex((i) => (i - 1 + images.length) % images.length);
 
+  const cityName = vendor.cities?.name || "India";
+  const categoryLabel = vendor.category
+    ? vendor.category.charAt(0).toUpperCase() + vendor.category.slice(1)
+    : "Wedding Vendor";
+  const seoTitle = `${vendor.business_name} — ${categoryLabel} in ${cityName} | Karlo Shaadi`;
+  const seoDescription = vendor.description
+    ? `${vendor.description.slice(0, 140)}… Book ${vendor.business_name}, a verified ${categoryLabel.toLowerCase()} in ${cityName} on Karlo Shaadi.`
+    : `Book ${vendor.business_name}, a top-rated verified ${categoryLabel.toLowerCase()} in ${cityName}. ${vendor.total_reviews || 0}+ reviews, ${vendor.years_experience || 0}+ years experience. Zero commission booking on Karlo Shaadi.`;
+  const seoKeywords = [
+    `${vendor.business_name}`,
+    `${vendor.category} in ${cityName}`,
+    `${vendor.category} ${cityName}`,
+    `wedding ${vendor.category} ${cityName}`,
+    `best ${vendor.category} ${cityName}`,
+    `${vendor.category} near me`,
+    `${cityName} wedding vendors`,
+    `hire ${vendor.category} ${cityName}`,
+    `wedding ${vendor.category} India`,
+    `verified ${vendor.category}`,
+  ].join(", ");
+
+  const breadcrumbItems = [
+    { name: "Home", url: "https://karloshaadi.com/" },
+    { name: "Wedding Vendors", url: `https://karloshaadi.com/city/${cityName.toLowerCase()}` },
+    { name: categoryLabel, url: `https://karloshaadi.com/category/${vendor.category}` },
+    { name: vendor.business_name, url: `https://karloshaadi.com/vendors/${id}` },
+  ];
+
   // ─── MOBILE LAYOUT ─────────────────────────────────
   if (isMobile) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <MobilePageHeader 
+        <SEO
+          title={seoTitle}
+          description={seoDescription}
+          keywords={seoKeywords}
+          url={`/vendors/${id}`}
+          breadcrumbs={breadcrumbItems}
+        />
+        <LocalBusinessJsonLd city={cityName} category={vendor.category} />
+        <BreadcrumbJsonLd items={breadcrumbItems} />
+        <MobilePageHeader
           title={vendor.business_name} 
           rightActions={
             <div className="flex items-center gap-1">
@@ -293,6 +332,15 @@ const VendorProfile = () => {
   // ─── DESKTOP LAYOUT ─────────────────────────────────
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={seoTitle}
+        description={seoDescription}
+        keywords={seoKeywords}
+        url={`/vendors/${id}`}
+        breadcrumbs={breadcrumbItems}
+      />
+      <LocalBusinessJsonLd city={cityName} category={vendor.category} />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
       {/* Gallery Section */}
       <section className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
         <img 

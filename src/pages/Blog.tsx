@@ -16,6 +16,7 @@ import musicImg from "@/assets/category-music.jpg";
 
 const featuredArticle = {
   id: 1,
+  slug: "ultimate-indian-wedding-planning-timeline",
   title: "The Ultimate Indian Wedding Planning Timeline: 12 Months to Your Dream Day",
   excerpt: "Planning an Indian wedding can be overwhelming. Follow our comprehensive month-by-month guide to ensure nothing falls through the cracks.",
   author: "Priya Sharma",
@@ -29,6 +30,7 @@ const featuredArticle = {
 const articles = [
   {
     id: 2,
+    slug: "10-questions-ask-wedding-photographer",
     title: "10 Questions to Ask Your Wedding Photographer Before Booking",
     excerpt: "Don't let poor communication ruin your wedding memories. Here are the essential questions every couple should ask.",
     author: "Rahul Khanna",
@@ -39,6 +41,7 @@ const articles = [
   },
   {
     id: 3,
+    slug: "budget-friendly-wedding-decor-ideas",
     title: "Budget-Friendly Wedding Decor Ideas That Look Expensive",
     excerpt: "Create a stunning wedding atmosphere without breaking the bank. Expert decorators share their secrets.",
     author: "Anita Desai",
@@ -49,6 +52,7 @@ const articles = [
   },
   {
     id: 4,
+    slug: "north-indian-vs-south-indian-weddings",
     title: "North Indian vs South Indian Weddings: Understanding the Beautiful Differences",
     excerpt: "Explore the rich traditions, rituals, and customs that make Indian weddings so diverse and spectacular.",
     author: "Vikram Patel",
@@ -59,6 +63,7 @@ const articles = [
   },
   {
     id: 5,
+    slug: "how-to-choose-perfect-wedding-venue",
     title: "How to Choose the Perfect Wedding Venue: Location, Capacity & More",
     excerpt: "Your venue sets the tone for your entire wedding. Here's a comprehensive guide to making the right choice.",
     author: "Meera Singh",
@@ -69,6 +74,7 @@ const articles = [
   },
   {
     id: 6,
+    slug: "wedding-catering-menu-planning-500-guests",
     title: "Wedding Catering 101: Menu Planning for 500+ Guests",
     excerpt: "From appetizers to desserts, learn how to plan a delicious menu that satisfies every palate.",
     author: "Chef Ravi Kumar",
@@ -79,6 +85,7 @@ const articles = [
   },
   {
     id: 7,
+    slug: "destination-weddings-india-top-locations",
     title: "Destination Weddings in India: Top 10 Locations & Cost Breakdown",
     excerpt: "Dreaming of a destination wedding? Discover the most beautiful locations and what they actually cost.",
     author: "Kavita Reddy",
@@ -89,6 +96,7 @@ const articles = [
   },
   {
     id: 8,
+    slug: "last-minute-wedding-planning-3-months",
     title: "Last-Minute Wedding Planning: Everything You Need in 3 Months",
     excerpt: "Short on time? Here's how to plan an amazing wedding in just 90 days without losing your mind.",
     author: "Arjun Malhotra",
@@ -99,6 +107,7 @@ const articles = [
   },
   {
     id: 9,
+    slug: "bridal-mehendi-designs-traditional-contemporary",
     title: "Bridal Mehendi Designs: From Traditional to Contemporary",
     excerpt: "Explore the latest trends in bridal mehendi and find the perfect design for your special day.",
     author: "Shalini Iyer",
@@ -128,7 +137,7 @@ export default function Blog() {
       <SEO
         title="Wedding Planning Blog | Tips, Guides & Ideas for Indian Weddings"
         description="Expert wedding planning advice for Indian couples. Guides on wedding photography, venues, catering, mehendi, decoration, budgeting & more. Real tips from wedding pros across India."
-        keywords="indian wedding planning blog, wedding tips India, wedding planning guide, wedding photography tips, wedding decoration ideas, wedding budget India, bridal mehendi, wedding venue guide, destination wedding India"
+        keywords="indian wedding planning blog, wedding tips India, wedding planning guide, wedding photography tips, wedding decoration ideas, wedding budget India, bridal mehendi, wedding venue guide, destination wedding India, शादी टिप्स, विवाह गाइड, शादी की तैयारी, dulhan tips, shaadi ki taiyari guide, wedding tips Hindi"
         url="/blog"
         breadcrumbs={[{ name: "Wedding Planning Blog", url: "/blog" }]}
       />
@@ -217,7 +226,7 @@ export default function Blog() {
                   </div>
                 </div>
                 
-                <Link to={`/blog/${featuredArticle.id}`}>
+                <Link to={`/blog/${featuredArticle.slug}`}>
                   <Button className="w-fit group/btn">
                     Read Full Article
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
@@ -271,7 +280,7 @@ export default function Blog() {
                     </div>
                   </div>
                   
-                  <Link to={`/blog/${article.id}`}>
+                  <Link to={`/blog/${article.slug}`}>
                     <Button variant="ghost" className="w-full group/btn justify-between">
                       Read More
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
