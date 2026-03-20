@@ -188,13 +188,9 @@ export const BhindiHeader = () => {
     }
   };
 
-  // Navigate to appropriate profile based on role
+  // Navigate to profile — always goes to /profile for account settings
   const handleProfileClick = () => {
-    if (isVendor) {
-      navigate("/vendor/dashboard?tab=profile");
-    } else {
-      navigate("/profile");
-    }
+    navigate("/profile");
   };
 
   const handleMobileSearch = (e: React.FormEvent) => {
