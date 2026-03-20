@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, MapPin, Camera, IndianRupee, MessageSquare, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Star, MapPin, Camera, IndianRupee, MessageSquare, ArrowLeft, Phone, Send, CheckCircle2 } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
+import { useToast } from "@/hooks/use-toast";
 
 const THEME_STYLES: Record<string, { bg: string; accent: string; text: string; card: string }> = {
   "elegant-rose": { bg: "from-rose-50 to-pink-50", accent: "text-rose-700", text: "text-rose-900", card: "border-rose-200 bg-white/90" },
@@ -16,6 +20,7 @@ const THEME_STYLES: Record<string, { bg: string; accent: string; text: string; c
 
 export default function VendorMiniSitePage() {
   const { slug } = useParams<{ slug: string }>();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [vendor, setVendor] = useState<any>(null);
   const [miniSite, setMiniSite] = useState<any>(null);
@@ -23,6 +28,12 @@ export default function VendorMiniSitePage() {
   const [services, setServices] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
   const [notFound, setNotFound] = useState(false);
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [contactSending, setContactSending] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+  const viewTracked = useRef(false);
 
   useEffect(() => {
     if (slug) loadSite(slug);
@@ -68,8 +79,47 @@ export default function VendorMiniSitePage() {
       setReviews(reviewsData || []);
     }
 
-    
+
+    // Track page view for vendor analytics (once per session)
+    if (!viewTracked.current) {
+      viewTracked.current = true;
+      supabase.from("analytics_events").insert({
+        event_type: "vendor_mini_site_viewed",
+        vendor_id: site.vendor_id,
+        metadata: { slug: siteSlug, referrer: document.referrer || null },
+      }).then(() => {}).catch(() => {});
+    }
+
     setLoading(false);
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactName.trim() || !contactPhone.trim()) return;
+    setContactSending(true);
+    try {
+      await (supabase as any).from("vendor_inquiries").insert({
+        vendor_id: vendor?.id,
+        name: contactName.trim(),
+        phone: contactPhone.trim(),
+        message: contactMessage.trim() || null,
+        source: "mini_site",
+        slug,
+      });
+      setContactSent(true);
+      toast({ title: "Message sent!", description: "The vendor will get back to you soon." });
+    } catch {
+      // Fallback: open WhatsApp with the message
+      if (vendor?.whatsapp_number) {
+        const text = encodeURIComponent(`Hi! I found you on Karlo Shaadi.\n\nName: ${contactName}\nPhone: ${contactPhone}\n${contactMessage ? `\nMessage: ${contactMessage}` : ''}`);
+        window.open(`https://wa.me/91${vendor.whatsapp_number}?text=${text}`, "_blank");
+        setContactSent(true);
+      } else {
+        toast({ title: "Error", description: "Could not send message. Please try again.", variant: "destructive" });
+      }
+    } finally {
+      setContactSending(false);
+    }
   };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="xl" /></div>;
@@ -211,6 +261,62 @@ export default function VendorMiniSitePage() {
               </Button>
             </section>
           )}
+
+          {/* Contact Form */}
+          <section>
+            <h2 className={`text-2xl font-bold mb-4 flex items-center gap-2 ${themeStyle.text}`}>
+              <Phone className="h-6 w-6" /> Get in Touch
+            </h2>
+            <div className={`rounded-2xl p-6 ${themeStyle.card} border`}>
+              {contactSent ? (
+                <div className="text-center py-6">
+                  <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-3" />
+                  <p className="font-semibold text-lg">Message Received!</p>
+                  <p className="text-sm text-muted-foreground mt-1">{vendor?.business_name} will contact you shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="contact-name">Your Name *</Label>
+                      <Input
+                        id="contact-name"
+                        placeholder="e.g. Priya Sharma"
+                        value={contactName}
+                        onChange={e => setContactName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="contact-phone">Phone Number *</Label>
+                      <Input
+                        id="contact-phone"
+                        type="tel"
+                        placeholder="e.g. 9876543210"
+                        value={contactPhone}
+                        onChange={e => setContactPhone(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="contact-message">Message (optional)</Label>
+                    <Textarea
+                      id="contact-message"
+                      placeholder="Tell us about your wedding date, venue, requirements…"
+                      rows={3}
+                      value={contactMessage}
+                      onChange={e => setContactMessage(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" disabled={contactSending} className="w-full gap-2">
+                    <Send className="h-4 w-4" />
+                    {contactSending ? "Sending…" : "Send Enquiry"}
+                  </Button>
+                </form>
+              )}
+            </div>
+          </section>
         </main>
 
         <footer className="text-center py-8 text-xs text-muted-foreground border-t">

@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import { WifiOff, RefreshCw } from 'lucide-react';
+import { WifiOff, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function OfflineScreen() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [dismissed, setDismissed] = useState(false);
   const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
-    const goOffline = () => setIsOffline(true);
-    const goOnline = () => setIsOffline(false);
+    const goOffline = () => { setIsOffline(true); setDismissed(false); };
+    const goOnline = () => { setIsOffline(false); setDismissed(false); };
     window.addEventListener('offline', goOffline);
     window.addEventListener('online', goOnline);
     return () => {
@@ -31,27 +32,38 @@ export function OfflineScreen() {
 
   return (
     <AnimatePresence>
-      {isOffline && (
+      {isOffline && !dismissed && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[200] bg-background flex flex-col items-center justify-center px-8 text-center"
+          initial={{ y: -64, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -64, opacity: 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          className="fixed top-0 left-0 right-0 z-[200] bg-zinc-900 text-white px-4 py-2.5 flex items-center gap-3 shadow-lg"
         >
-          <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-6">
-            <WifiOff className="w-10 h-10 text-muted-foreground" />
+          <WifiOff className="w-4 h-4 shrink-0 text-amber-400" />
+          <p className="text-sm flex-1">
+            <span className="font-semibold">You're offline.</span>{' '}
+            <span className="text-white/70 hidden sm:inline">Browsing cached content — some features may be limited.</span>
+          </p>
+          <div className="flex items-center gap-2 shrink-0">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={retry}
+              disabled={retrying}
+              className="h-7 px-2.5 text-xs text-white hover:bg-white/10 hover:text-white gap-1"
+            >
+              <RefreshCw className={`w-3 h-3 ${retrying ? 'animate-spin' : ''}`} />
+              {retrying ? 'Checking…' : 'Retry'}
+            </Button>
+            <button
+              onClick={() => setDismissed(true)}
+              className="h-7 w-7 flex items-center justify-center rounded hover:bg-white/10 text-white/60 hover:text-white"
+              aria-label="Dismiss"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
           </div>
-          <h2 className="text-2xl font-bold mb-2">You're Offline</h2>
-          <p className="text-muted-foreground mb-1 text-sm max-w-xs">
-            Looks like the WiFi at the venue isn't cooperating 😅
-          </p>
-          <p className="text-muted-foreground/70 text-xs mb-8 max-w-xs">
-            Check your connection and try again. Your data is safe — we'll sync everything once you're back online.
-          </p>
-          <Button onClick={retry} disabled={retrying} size="lg" className="rounded-2xl gap-2 px-8">
-            <RefreshCw className={`w-4 h-4 ${retrying ? 'animate-spin' : ''}`} />
-            {retrying ? 'Checking…' : 'Try Again'}
-          </Button>
         </motion.div>
       )}
     </AnimatePresence>

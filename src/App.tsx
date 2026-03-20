@@ -23,6 +23,8 @@ import { AppProviders } from "@/components/AppProviders";
 import { OfflineScreen } from "@/components/OfflineScreen";
 import { WhatsNewModal } from "@/components/WhatsNewModal";
 import { RateAppPrompt } from "@/components/RateAppPrompt";
+import { SplashScreen } from "@/components/native/SplashScreen";
+import { PushNotificationPrompt } from "@/components/PushNotificationPrompt";
 import { STALE_TIMES, CACHE_TIMES } from "@/hooks/useOptimizedQuery";
 
 // ─── Critical pages: eagerly loaded for fast first paint ───────────────────
@@ -265,7 +267,9 @@ const App = () => (
             <BhindiFooter />
             <WhatsAppButton />
             <OfflineScreen />
+            <PushNotificationPrompt />
             </AppProviders>
+            <SplashScreen />
             </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
