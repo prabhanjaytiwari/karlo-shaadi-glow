@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       // Replace GA placeholder in index.html with the actual measurement ID
       {
         name: 'inject-ga-id',
-        transformIndexHtml(html) {
+        transformIndexHtml(html: string) {
           return html.replace('__GA_MEASUREMENT_ID__', gaId);
         },
       },

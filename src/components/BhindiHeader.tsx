@@ -132,26 +132,6 @@ export const BhindiHeader = () => {
   const isDesktop = windowWidth >= 768;
   const isMobile = windowWidth < 768;
 
-  useEffect(() => {
-    checkAuth();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        checkUserRoles(session.user.id);
-      } else {
-        setIsAdmin(false);
-        setIsVendor(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  // Hide header on mobile — BottomNavigation + MobilePageHeader handle mobile nav
-  if (isMobile || isMobileDevice || isNative) {
-    return null;
-  }
-
   const checkUserRoles = async (userId: string) => {
     const { data: roles } = await supabase
       .from("user_roles")
@@ -170,6 +150,21 @@ export const BhindiHeader = () => {
       checkUserRoles(user.id);
     }
   };
+
+  useEffect(() => {
+    checkAuth();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        checkUserRoles(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsVendor(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
