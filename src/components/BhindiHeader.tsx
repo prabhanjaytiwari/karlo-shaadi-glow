@@ -190,7 +190,7 @@ export const BhindiHeader = () => {
 
   // Navigate to appropriate profile based on role
   const handleProfileClick = () => {
-    if (isVendor) {
+    if (isVendor && getActiveView() === "vendor") {
       navigate("/vendor/dashboard?tab=profile");
     } else {
       navigate("/profile");
