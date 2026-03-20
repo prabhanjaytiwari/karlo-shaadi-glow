@@ -30,10 +30,6 @@ export default function SubscriptionCheckout() {
   const [processing, setProcessing] = useState(false);
   const [session, setSession] = useState<any>(null);
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   const checkAuth = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -48,6 +44,10 @@ export default function SubscriptionCheckout() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const offerActive = isOfferActive();
 

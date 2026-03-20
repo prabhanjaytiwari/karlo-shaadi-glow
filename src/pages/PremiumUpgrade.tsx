@@ -67,11 +67,6 @@ export default function PremiumUpgrade() {
   const [currentSubscription, setCurrentSubscription] = useState<any>(null);
   const selectedPlanId = searchParams.get('plan') || 'premium';
 
-  useEffect(() => {
-    checkAuth();
-    loadRazorpayScript();
-  }, []);
-
   const checkAuth = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
@@ -88,6 +83,12 @@ export default function PremiumUpgrade() {
       .single();
     
     setCurrentSubscription(sub);
+  };
+
+  useEffect(() => {
+    checkAuth();
+    loadRazorpayScript();
+  }, []);
   };
 
   const loadRazorpayScript = () => {

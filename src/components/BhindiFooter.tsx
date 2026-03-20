@@ -81,6 +81,23 @@ export const BhindiFooter = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const checkUserRole = async (userId: string) => {
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId);
+    
+    setIsVendor(roles?.some(r => r.role === "vendor") || false);
+  };
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    if (user) {
+      checkUserRole(user.id);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -97,23 +114,6 @@ export const BhindiFooter = () => {
 
   // Hide footer on mobile (app-style navigation used instead)
   if (isMobile) return null;
-
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-    if (user) {
-      checkUserRole(user.id);
-    }
-  };
-
-  const checkUserRole = async (userId: string) => {
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
-    
-    setIsVendor(roles?.some(r => r.role === "vendor") || false);
-  };
 
   const getCtaButton = () => {
     if (!user) {

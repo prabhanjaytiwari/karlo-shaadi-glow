@@ -15,10 +15,6 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
 
-  useEffect(() => {
-    checkAuth();
-  }, [vendorId]);
-
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setUser(user);
@@ -27,6 +23,10 @@ export function FavoritesButton({ vendorId }: FavoritesButtonProps) {
       checkFavoriteStatus(user.id);
     }
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [vendorId]);
 
   const checkFavoriteStatus = async (userId: string) => {
     const { data } = await supabase
