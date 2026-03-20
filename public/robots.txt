@@ -44,6 +44,9 @@ Allow: /help
 Allow: /support
 Allow: /why-karlo-shaadi
 Allow: /earn-with-us
+Allow: /earn
+Allow: /tools
+Allow: /why-karlo-shaadi
 Allow: /vendor-site/*
 
 # Protected/Auth Pages - Don't index
