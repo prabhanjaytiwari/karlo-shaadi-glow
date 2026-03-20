@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { PageTransition } from "@/components/mobile/PageTransition";
 import { WeddingPlanWizard } from "@/components/WeddingPlanWizard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -126,7 +126,6 @@ const queryClient = new QueryClient({
       staleTime: STALE_TIMES.USER,
       gcTime: CACHE_TIMES.MEDIUM,
       retry: (failureCount, error) => {
-        // Don't retry on 4xx errors
         if (error instanceof Error && error.message.includes('4')) {
           return false;
         }
@@ -137,13 +136,37 @@ const queryClient = new QueryClient({
   },
 });
 
+// Routes that hide the main nav header and footer
+const AUTH_ROUTES = ['/auth', '/vendor-auth', '/forgot-password', '/reset-password', '/onboarding'];
+
+// Full-page loading skeleton shown while lazy chunks load
+const PageLoadingSkeleton = () => (
+  <motion.div
+    className="min-h-screen bg-background flex items-center justify-center"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.2 }}
+  >
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative w-12 h-12">
+        <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin" />
+      </div>
+      <div className="space-y-2 text-center">
+        <div className="h-2 w-24 bg-muted rounded-full animate-pulse" />
+        <div className="h-2 w-16 bg-muted/60 rounded-full animate-pulse mx-auto" />
+      </div>
+    </div>
+  </motion.div>
+);
+
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait" initial={false}>
       <PageTransition key={location.pathname}>
-        <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <Suspense fallback={<PageLoadingSkeleton />}>
         <Routes location={location}>
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/" element={<Index />} />
@@ -248,6 +271,27 @@ const AnimatedRoutes = () => {
   );
 };
 
+// Inner app shell — has access to Router context for useLocation
+const AppShell = () => {
+  const location = useLocation();
+  const isAuthRoute = AUTH_ROUTES.some(r => location.pathname === r || location.pathname.startsWith(r));
+
+  return (
+    <AuthProvider>
+      <AppProviders>
+        {!isAuthRoute && <BhindiHeader />}
+        <MobileLayout>
+          <AnimatedRoutes />
+        </MobileLayout>
+        {!isAuthRoute && <BhindiFooter />}
+        {!isAuthRoute && <WhatsAppButton />}
+        <OfflineScreen />
+        <PushNotificationPrompt />
+      </AppProviders>
+    </AuthProvider>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
@@ -257,18 +301,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
-            <AuthProvider>
-            <AppProviders>
-            <BhindiHeader />
-            <MobileLayout>
-            <AnimatedRoutes />
-            </MobileLayout>
-            <BhindiFooter />
-            <WhatsAppButton />
-            <OfflineScreen />
-            <PushNotificationPrompt />
-            </AppProviders>
-            </AuthProvider>
+            <AppShell />
           </BrowserRouter>
         </TooltipProvider>
       </ErrorBoundary>

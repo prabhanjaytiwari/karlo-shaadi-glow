@@ -102,13 +102,29 @@ export default {
           from: { opacity: "0", transform: "translateY(20px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        fadeDown: {
+          from: { opacity: "0", transform: "translateY(-16px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
         fadeIn: {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        fadeLeft: {
+          from: { opacity: "0", transform: "translateX(20px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        fadeRight: {
+          from: { opacity: "0", transform: "translateX(-20px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
         scaleIn: {
           from: { opacity: "0", transform: "scale(0.95)" },
           to: { opacity: "1", transform: "scale(1)" },
+        },
+        scaleUp: {
+          from: { opacity: "0", transform: "scale(0.9) translateY(10px)" },
+          to: { opacity: "1", transform: "scale(1) translateY(0)" },
         },
         shimmer: {
           from: { backgroundPosition: "200% 0" },
@@ -122,16 +138,58 @@ export default {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        // Premium pop-in for modals and dialogs
+        popIn: {
+          "0%": { opacity: "0", transform: "scale(0.92) translateY(8px)" },
+          "60%": { opacity: "1", transform: "scale(1.01) translateY(0)" },
+          "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
+        },
+        // Slide up from bottom for mobile sheets
+        slideUp: {
+          from: { opacity: "0", transform: "translateY(100%)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        // Number count up
+        countUp: {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        // Pulse ring for notification badges
+        pingOnce: {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "75%": { transform: "scale(1.8)", opacity: "0" },
+          "100%": { transform: "scale(1.8)", opacity: "0" },
+        },
+        // Subtle float for hero elements
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        // Gradient shimmer for skeleton loading
+        gradientX: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-up": "fadeUp 500ms cubic-bezier(0.4, 0, 0.2, 1)",
-        "fade-in": "fadeIn 400ms cubic-bezier(0.4, 0, 0.2, 1)",
-        "scale-in": "scaleIn 400ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "fade-up": "fadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "fade-down": "fadeDown 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "fade-in": "fadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "fade-left": "fadeLeft 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "fade-right": "fadeRight 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "scale-in": "scaleIn 350ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "scale-up": "scaleUp 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
         shimmer: "shimmer 2s linear infinite",
-        "smooth-reveal": "smoothReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
-        "text-reveal": "textReveal 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "smooth-reveal": "smoothReveal 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "text-reveal": "textReveal 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "pop-in": "popIn 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "slide-up": "slideUp 350ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "count-up": "countUp 400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "ping-once": "pingOnce 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        float: "float 6s ease-in-out infinite",
+        "gradient-x": "gradientX 4s ease infinite",
       },
       transitionTimingFunction: {
         'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',

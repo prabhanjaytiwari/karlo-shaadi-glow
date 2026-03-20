@@ -3,9 +3,9 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
 import { NotificationCenter } from "./NotificationCenter";
 import { RoleSwitcher, getActiveView } from "./RoleSwitcher";
+import { useAuthContext } from "@/contexts/AuthContext";
 import logo from "@/assets/logo-new.png";
 import {
   NavigationMenu,
@@ -23,17 +23,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import { 
-  Camera, 
-  Utensils, 
-  Music, 
-  Palette, 
-  MapPin, 
-  Cake, 
-  Sparkles, 
-  Heart, 
-  LogOut, 
-  Menu, 
+import {
+  Camera,
+  Utensils,
+  Music,
+  Palette,
+  MapPin,
+  Cake,
+  Sparkles,
+  Heart,
+  LogOut,
+  Menu,
   Search,
   Phone,
   Calendar,
@@ -47,10 +47,12 @@ import {
   Globe,
   CreditCard,
   Users,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import { useCapacitor } from "@/hooks/useCapacitor";
+import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
   {
@@ -105,28 +107,20 @@ const categories = [
 
 export const BhindiHeader = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>(null);
+  // Use AuthContext for instant, consistent auth state
+  const { user, isAdmin, isVendor, signOut } = useAuthContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isVendor, setIsVendor] = useState(false);
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number>(() => typeof window !== "undefined" ? window.innerWidth : 1200);
   const { isNative } = useCapacitor();
-  const isMobileDevice = useIsMobile();
 
   useEffect(() => {
-    // Set initial width
     setWindowWidth(window.innerWidth);
-    
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    
+
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
@@ -138,60 +132,23 @@ export const BhindiHeader = () => {
   const isDesktop = windowWidth >= 768;
   const isMobile = windowWidth < 768;
 
-  const checkUserRoles = async (userId: string) => {
-    const { data: roles } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
-    
-    setIsAdmin(roles?.some(r => r.role === "admin") || false);
-    setIsVendor(roles?.some(r => r.role === "vendor") || false);
-  };
-
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-    
-    if (user) {
-      checkUserRoles(user.id);
-    }
-  };
-
-  useEffect(() => {
-    checkAuth();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        checkUserRoles(session.user.id);
-      } else {
-        setIsAdmin(false);
-        setIsVendor(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsAdmin(false);
-    setIsVendor(false);
+    await signOut();
     navigate("/");
+    setMobileMenuOpen(false);
   };
 
-  // Navigate to appropriate dashboard based on role
   const handleDashboardClick = () => {
-    if (isVendor) {
+    if (isAdmin) {
+      navigate("/admin/dashboard");
+    } else if (isVendor) {
       navigate("/vendor/dashboard");
     } else {
       navigate("/dashboard");
     }
   };
 
-  // Navigate to profile — always goes to /profile for account settings
-  const handleProfileClick = () => {
-    navigate("/profile");
-  };
+  const handleProfileClick = () => navigate("/profile");
 
   const handleMobileSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -202,45 +159,42 @@ export const BhindiHeader = () => {
     }
   };
 
-
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-background/95 backdrop-blur-xl border-b border-border shadow-sm' 
-          : 'bg-white/80 backdrop-blur-md border-b border-transparent'
+        scrolled
+          ? 'bg-background/98 backdrop-blur-xl border-b border-border shadow-sm'
+          : 'bg-white/90 backdrop-blur-md border-b border-transparent'
       }`}
     >
       {/* Premium Gradient Line on Scroll */}
-      <div 
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent transition-opacity duration-300 ${
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-300 ${
           scrolled ? 'opacity-100' : 'opacity-0'
-        }`} 
+        }`}
       />
-      
+
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
-        <div className="flex items-center justify-between h-14 sm:h-16 md:h-18">
-          {/* Logo - Compact on mobile */}
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group relative">
-            <div className="absolute -inset-2 bg-accent/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
-            <img 
-              src={logo} 
-              alt="Karlo Shaadi Logo" 
+            <div className="absolute -inset-2 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
+            <img
+              src={logo}
+              alt="Karlo Shaadi Logo"
               className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
               style={{ mixBlendMode: 'multiply' }}
             />
           </Link>
 
-          {/* Desktop Navigation - Absolutely prevent rendering on mobile */}
+          {/* Desktop Navigation */}
           {isDesktop && (
-            <nav className="flex items-center gap-4" style={{ display: isDesktop ? 'flex' : 'none' }}>
+            <nav className="flex items-center gap-3">
               <NavigationMenu>
                 <NavigationMenuList>
-                {/* Categories Dropdown */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="relative">
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm font-medium">Categories</NavigationMenuTrigger>
+                    <NavigationMenuContent>
                       <ul className="grid w-[600px] gap-1 p-4 md:grid-cols-2">
                         {categories.map((category) => (
                           <ListItem
@@ -253,139 +207,159 @@ export const BhindiHeader = () => {
                           </ListItem>
                         ))}
                       </ul>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
 
-                {/* Tools Dropdown - Role-aware */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm font-medium">Tools</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    {isVendor && getActiveView() === "vendor" ? (
-                      <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
-                        <ListItem title="CRM & Leads" href="/vendor/dashboard?tab=inquiries" icon={Users}>
-                          Manage your leads and pipeline
-                        </ListItem>
-                        <ListItem title="Contracts" href="/vendor/dashboard?tab=tools" icon={FileText}>
-                          Generate digital contracts
-                        </ListItem>
-                        <ListItem title="Invoices" href="/vendor/dashboard?tab=tools" icon={CreditCard}>
-                          Create and track invoices
-                        </ListItem>
-                        <ListItem title="Analytics" href="/vendor/dashboard?tab=analytics" icon={BarChart3}>
-                          Business intelligence dashboard
-                        </ListItem>
-                        <ListItem title="Mini-Site" href="/vendor/dashboard?tab=tools" icon={Globe}>
-                          Your portfolio website
-                        </ListItem>
-                        <ListItem title="Revenue" href="/vendor/dashboard?tab=revenue" icon={Sparkles}>
-                          Revenue charts and insights
-                        </ListItem>
-                      </ul>
-                    ) : (
-                      <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
-                        <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
-                          Get a complete wedding plan in 2 minutes
-                        </ListItem>
-                        <ListItem title="Budget Calculator" href="/budget-calculator" icon={Calculator}>
-                          Instant category-wise budget breakdown
-                        </ListItem>
-                        <ListItem title="Muhurat Finder" href="/muhurat-finder" icon={Calendar}>
-                          2025-2026 auspicious wedding dates
-                        </ListItem>
-                        <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
-                          AI-generated wedding invitations
-                        </ListItem>
-                        <ListItem title="Couple Quiz" href="/couple-quiz" icon={Heart}>
-                          Wedding compatibility score
-                        </ListItem>
-                        <ListItem title="Vendor Checker" href="/vendor-check" icon={Search}>
-                          Check if your vendor is legit
-                        </ListItem>
-                      </ul>
-                    )}
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm font-medium">Tools</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      {isVendor && getActiveView() === "vendor" ? (
+                        <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
+                          <ListItem title="CRM & Leads" href="/vendor/dashboard?tab=inquiries" icon={Users}>
+                            Manage your leads and pipeline
+                          </ListItem>
+                          <ListItem title="Contracts" href="/vendor/dashboard?tab=tools" icon={FileText}>
+                            Generate digital contracts
+                          </ListItem>
+                          <ListItem title="Invoices" href="/vendor/dashboard?tab=tools" icon={CreditCard}>
+                            Create and track invoices
+                          </ListItem>
+                          <ListItem title="Analytics" href="/vendor/dashboard?tab=analytics" icon={BarChart3}>
+                            Business intelligence dashboard
+                          </ListItem>
+                          <ListItem title="Mini-Site" href="/vendor/dashboard?tab=tools" icon={Globe}>
+                            Your portfolio website
+                          </ListItem>
+                          <ListItem title="Revenue" href="/vendor/dashboard?tab=revenue" icon={Sparkles}>
+                            Revenue charts and insights
+                          </ListItem>
+                        </ul>
+                      ) : (
+                        <ul className="grid w-[500px] gap-1 p-4 md:grid-cols-2">
+                          <ListItem title="AI Wedding Plan" href="/plan-wizard" icon={Sparkles}>
+                            Get a complete wedding plan in 2 minutes
+                          </ListItem>
+                          <ListItem title="Budget Calculator" href="/budget-calculator" icon={Calculator}>
+                            Instant category-wise budget breakdown
+                          </ListItem>
+                          <ListItem title="Muhurat Finder" href="/muhurat-finder" icon={Calendar}>
+                            2025-2026 auspicious wedding dates
+                          </ListItem>
+                          <ListItem title="Invite Creator" href="/invite-creator" icon={Image}>
+                            AI-generated wedding invitations
+                          </ListItem>
+                          <ListItem title="Couple Quiz" href="/couple-quiz" icon={Heart}>
+                            Wedding compatibility score
+                          </ListItem>
+                          <ListItem title="Vendor Checker" href="/vendor-check" icon={Search}>
+                            Check if your vendor is legit
+                          </ListItem>
+                        </ul>
+                      )}
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
 
-                {/* Regular Links */}
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link to="/pricing" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
-                      Pricing
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link to="/deals" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
-                      Deals
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link to="/shaadi-seva" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-primary font-medium")}>
-                      <Heart className="h-4 w-4 mr-1 fill-primary" />
-                      Shaadi Seva
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                {!user && !isVendor && (
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
-                      <Link to="/for-vendors" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
-                        For Vendors
+                      <Link to="/pricing" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                        Pricing
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
-                )}
-              </NavigationMenuList>
-            </NavigationMenu>
 
-            {/* Free Consultation CTA */}
-            <a href="tel:+917011460321" className="hidden xl:flex">
-              <Button variant="outline" size="sm" className="gap-2 border-accent/30 hover:border-accent/50 hover:bg-accent/5">
-                <Phone className="h-4 w-4 text-accent" />
-                <span className="text-sm font-medium">Free Consultation</span>
-              </Button>
-            </a>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                      <Link to="/deals" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-accent font-medium")}>
+                        Deals
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
 
-            {user ? (
-              <>
-                {isVendor && <RoleSwitcher isVendor={isVendor} />}
-                <NotificationCenter />
-                <Button variant="ghost" onClick={handleDashboardClick}>
-                  {isVendor && getActiveView() === "vendor" ? "Vendor Dashboard" : "Dashboard"}
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                      <Link to="/shaadi-seva" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300 text-primary font-medium")}>
+                        <Heart className="h-4 w-4 mr-1 fill-primary" />
+                        Shaadi Seva
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  {!user && !isVendor && (
+                    <NavigationMenuItem>
+                      <NavigationMenuLink asChild>
+                        <Link to="/for-vendors" className={cn(navigationMenuTriggerStyle(), "transition-all duration-300")}>
+                          For Vendors
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  )}
+                </NavigationMenuList>
+              </NavigationMenu>
+
+              <a href="tel:+917011460321" className="hidden xl:flex">
+                <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium">Free Consultation</span>
                 </Button>
-                {isAdmin && (
-                  <Button variant="ghost" onClick={() => navigate("/admin/dashboard")}>
-                    Admin
-                  </Button>
+              </a>
+
+              <AnimatePresence mode="wait">
+                {user ? (
+                  <motion.div
+                    key="logged-in"
+                    className="flex items-center gap-2"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {isVendor && !isAdmin && <RoleSwitcher isVendor={isVendor} />}
+                    <NotificationCenter />
+                    {isAdmin && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-1.5 border-amber-500/30 text-amber-700 hover:bg-amber-50"
+                        onClick={() => navigate("/admin/dashboard")}
+                      >
+                        <Shield className="h-3.5 w-3.5" />
+                        Admin
+                      </Button>
+                    )}
+                    <Button variant="ghost" size="sm" onClick={handleDashboardClick}>
+                      {isAdmin ? "Dashboard" : isVendor && getActiveView() === "vendor" ? "Vendor Dashboard" : "Dashboard"}
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={handleProfileClick}>Profile</Button>
+                    <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1.5">
+                      <LogOut className="h-3.5 w-3.5" />
+                      Logout
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="logged-out"
+                    className="flex items-center gap-2"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Button variant="outline" size="sm" onClick={() => navigate("/auth")}>Login</Button>
+                    <Button size="sm" onClick={() => navigate("/auth")}>Sign Up Free</Button>
+                  </motion.div>
                 )}
-                <Button variant="ghost" onClick={handleProfileClick}>Profile</Button>
-                <Button variant="outline" onClick={handleLogout}>Logout</Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outline" onClick={() => navigate("/auth")}>Login</Button>
-                <Button onClick={() => navigate("/auth")}>Sign Up</Button>
-              </>
-            )}
+              </AnimatePresence>
             </nav>
           )}
 
-          {/* Mobile Menu - Compact */}
+          {/* Mobile Menu */}
           {isMobile && (
-            <div className="flex items-center gap-1" style={{ display: isMobile ? 'flex' : 'none' }}>
+            <div className="flex items-center gap-1">
               {user && <NotificationCenter />}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="icon"
                     className="h-9 w-9"
                     type="button"
@@ -399,198 +373,178 @@ export const BhindiHeader = () => {
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-[320px] p-4">
-              <SheetHeader className="pb-2">
-                <SheetTitle className="text-left text-sm">Menu</SheetTitle>
-              </SheetHeader>
-              
-              <nav className="flex flex-col gap-3 mt-2">
-                {/* Compact Search Bar */}
-                <form onSubmit={handleMobileSearch} className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Search vendors..."
-                    value={mobileSearchQuery}
-                    onChange={(e) => setMobileSearchQuery(e.target.value)}
-                    className="pl-9 h-9 text-sm rounded-lg border-border/50 bg-muted/30"
-                  />
-                </form>
+                <SheetContent side="right" className="w-[85vw] max-w-[320px] p-4 overflow-y-auto">
+                  <SheetHeader className="pb-2">
+                    <SheetTitle className="text-left text-sm">Menu</SheetTitle>
+                  </SheetHeader>
 
-                {/* Compact Quick Actions for Logged In Users */}
-                {user && (
-                  <>
-                    <div className="grid grid-cols-4 gap-1.5">
+                  <nav className="flex flex-col gap-3 mt-2">
+                    {/* Search Bar */}
+                    <form onSubmit={handleMobileSearch} className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        placeholder="Search vendors..."
+                        value={mobileSearchQuery}
+                        onChange={(e) => setMobileSearchQuery(e.target.value)}
+                        className="pl-9 h-9 text-sm rounded-lg border-border/50 bg-muted/30"
+                      />
+                    </form>
+
+                    {/* Quick Actions for Logged In Users */}
+                    {user && (
+                      <>
+                        {/* Role indicator */}
+                        <div className="flex items-center gap-2 px-1">
+                          <div className={`w-2 h-2 rounded-full ${isAdmin ? 'bg-amber-500' : isVendor ? 'bg-blue-500' : 'bg-green-500'}`} />
+                          <span className="text-xs text-muted-foreground font-medium">
+                            {isAdmin ? 'Admin Account' : isVendor ? 'Vendor Account' : 'Couple Account'}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-1.5">
+                          {[
+                            { icon: Calendar, label: "Bookings", href: "/bookings" },
+                            { icon: Heart, label: "Favorites", href: "/favorites" },
+                            { icon: MessageSquare, label: "Messages", href: "/messages" },
+                            { icon: User, label: "Profile", href: "/profile" },
+                          ].map((item) => (
+                            <button
+                              key={item.href}
+                              className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-primary/10 transition-all active:scale-95"
+                              onClick={() => { navigate(item.href); setMobileMenuOpen(false); }}
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <item.icon className="h-4 w-4 text-primary" />
+                              </div>
+                              <span className="text-[10px] font-medium">{item.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                        <Separator className="bg-border/30" />
+                      </>
+                    )}
+
+                    {/* Categories Grid */}
+                    <div className="space-y-2">
+                      <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Categories</p>
+                      <div className="grid grid-cols-4 gap-1.5">
+                        {categories.map((category) => (
+                          <button
+                            key={category.href}
+                            className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/20 hover:bg-primary/10 transition-all active:scale-95"
+                            onClick={() => { navigate(category.href); setMobileMenuOpen(false); }}
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                              <category.icon className="h-4 w-4 text-primary" />
+                            </div>
+                            <span className="text-[9px] font-medium text-center leading-tight">{category.title}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Separator className="bg-border/30" />
+
+                    {/* Tools */}
+                    <div className="space-y-2">
+                      <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Wedding Tools</p>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {[
+                          { icon: Sparkles, label: "AI Plan", href: "/plan-wizard" },
+                          { icon: Calculator, label: "Budget", href: "/budget-calculator" },
+                          { icon: Calendar, label: "Muhurat", href: "/muhurat-finder" },
+                          { icon: Image, label: "Invites", href: "/invite-creator" },
+                          { icon: Heart, label: "Website", href: "/wedding-website" },
+                          { icon: Music, label: "Music", href: "/music-generator" },
+                        ].map((tool) => (
+                          <button
+                            key={tool.href}
+                            className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-accent/5 hover:bg-accent/15 transition-all active:scale-95"
+                            onClick={() => { navigate(tool.href); setMobileMenuOpen(false); }}
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                              <tool.icon className="h-4 w-4 text-accent" />
+                            </div>
+                            <span className="text-[9px] font-medium text-center leading-tight">{tool.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Separator className="bg-border/30" />
+
+                    {/* Other Links */}
+                    <div className="grid grid-cols-2 gap-1">
                       {[
-                        { icon: Calendar, label: "Bookings", href: "/bookings" },
-                        { icon: Heart, label: "Favorites", href: "/favorites" },
-                        { icon: MessageSquare, label: "Messages", href: "/messages" },
-                        { icon: User, label: "Profile", href: "/profile" },
-                      ].map((item) => (
+                        { label: "Stories", href: "/stories" },
+                        { label: "Deals", href: "/deals" },
+                        ...(user ? [{ label: "Budget Tracker", href: "/budget" }] : []),
+                        { label: "Help", href: "/help" },
+                        ...(!user && !isVendor ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
+                        { label: "About", href: "/about" },
+                        { label: "Why Karlo Shaadi", href: "/why-karlo-shaadi" },
+                      ].map((link) => (
                         <button
-                          key={item.href}
-                          className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-accent/10 transition-all active:scale-95"
-                          onClick={() => {
-                            navigate(item.href);
-                            setMobileMenuOpen(false);
-                          }}
+                          key={link.href}
+                          className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
+                          onClick={() => { navigate(link.href); setMobileMenuOpen(false); }}
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                            <item.icon className="h-4 w-4 text-primary" />
-                          </div>
-                          <span className="text-[10px] font-medium">{item.label}</span>
+                          {link.label}
                         </button>
                       ))}
                     </div>
+
                     <Separator className="bg-border/30" />
-                  </>
-                )}
 
-                {/* Compact Categories Grid */}
-                <div className="space-y-2">
-                  <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Categories</p>
-                  <div className="grid grid-cols-4 gap-1.5">
-                    {categories.map((category) => (
-                      <button
-                        key={category.href}
-                        className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/20 hover:bg-accent/10 transition-all active:scale-95"
-                        onClick={() => {
-                          navigate(category.href);
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                          <category.icon className="h-4 w-4 text-accent" />
+                    {/* Auth Buttons */}
+                    <div className="space-y-2 pb-4">
+                      {user ? (
+                        <>
+                          {isAdmin && (
+                            <Button
+                              variant="outline"
+                              className="w-full h-9 text-sm rounded-lg border-amber-500/30 text-amber-700 hover:bg-amber-50"
+                              onClick={() => { navigate("/admin/dashboard"); setMobileMenuOpen(false); }}
+                            >
+                              <Shield className="h-4 w-4 mr-2" />
+                              Admin Dashboard
+                            </Button>
+                          )}
+                          <Button
+                            className="w-full h-9 text-sm rounded-lg bg-primary hover:bg-primary/90"
+                            onClick={() => { handleDashboardClick(); setMobileMenuOpen(false); }}
+                          >
+                            {isVendor && !isAdmin ? "Vendor Dashboard" : "My Dashboard"}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            className="w-full h-9 text-sm text-muted-foreground rounded-lg"
+                            onClick={handleLogout}
+                          >
+                            <LogOut className="h-4 w-4 mr-2" />
+                            Logout
+                          </Button>
+                        </>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            className="flex-1 h-9 text-sm rounded-lg"
+                            onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}
+                          >
+                            Login
+                          </Button>
+                          <Button
+                            className="flex-1 h-9 text-sm rounded-lg"
+                            onClick={() => { navigate("/auth"); setMobileMenuOpen(false); }}
+                          >
+                            Sign Up
+                          </Button>
                         </div>
-                        <span className="text-[9px] font-medium text-center leading-tight">{category.title}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <Separator className="bg-border/30" />
-
-                {/* Tools Section */}
-                <div className="space-y-2">
-                  <p className="font-semibold text-[10px] uppercase tracking-wider text-muted-foreground">Tools</p>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {[
-                      { icon: Sparkles, label: "AI Plan", href: "/plan-wizard" },
-                      { icon: Calculator, label: "Budget", href: "/budget-calculator" },
-                      { icon: Calendar, label: "Muhurat", href: "/muhurat-finder" },
-                      { icon: Image, label: "Invites", href: "/invite-creator" },
-                      { icon: Heart, label: "Website", href: "/wedding-website" },
-                      { icon: Music, label: "Music", href: "/music-generator" },
-                    ].map((tool) => (
-                      <button
-                        key={tool.href}
-                        className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-accent/5 hover:bg-accent/15 transition-all active:scale-95"
-                        onClick={() => {
-                          navigate(tool.href);
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                          <tool.icon className="h-4 w-4 text-accent" />
-                        </div>
-                        <span className="text-[9px] font-medium text-center leading-tight">{tool.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <Separator className="bg-border/30" />
-
-                {/* Compact Other Links */}
-                <div className="grid grid-cols-2 gap-1">
-                  {[
-                    { label: "Stories", href: "/stories" },
-                    { label: "Deals", href: "/deals" },
-                    ...(user ? [{ label: "Budget Tracker", href: "/budget" }] : []),
-                    { label: "Help", href: "/help" },
-                    ...(!user && !isVendor ? [{ label: "For Vendors", href: "/for-vendors" }] : []),
-                    { label: "About", href: "/about" },
-                    { label: "Why Karlo Shaadi", href: "/why-karlo-shaadi" },
-                  ].map((link) => (
-                    <button
-                      key={link.href}
-                      className="text-left px-3 py-2 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
-                      onClick={() => {
-                        navigate(link.href);
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-
-                <Separator className="bg-border/30" />
-
-                {/* Compact Auth Buttons */}
-                <div className="space-y-2 pb-4">
-                  {user ? (
-                    <>
-                      <Button 
-                        variant="premium" 
-                        className="w-full h-9 text-sm rounded-lg" 
-                        onClick={() => { 
-                          handleDashboardClick(); 
-                          setMobileMenuOpen(false); 
-                        }}
-                      >
-                        {isVendor ? "Vendor Dashboard" : "Dashboard"}
-                      </Button>
-                      {isAdmin && (
-                        <Button 
-                          variant="default" 
-                          className="w-full h-9 text-sm rounded-lg" 
-                          onClick={() => { 
-                            navigate("/admin/dashboard"); 
-                            setMobileMenuOpen(false); 
-                          }}
-                        >
-                          Admin Panel
-                        </Button>
                       )}
-                      <Button 
-                        variant="ghost" 
-                        className="w-full h-9 text-sm text-muted-foreground rounded-lg" 
-                        onClick={() => { 
-                          handleLogout(); 
-                          setMobileMenuOpen(false); 
-                        }}
-                      >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Logout
-                      </Button>
-                    </>
-                  ) : (
-                    <div className="flex gap-2">
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 h-9 text-sm rounded-lg" 
-                        onClick={() => { 
-                          navigate("/auth"); 
-                          setMobileMenuOpen(false); 
-                        }}
-                      >
-                        Login
-                      </Button>
-                      <Button 
-                        className="flex-1 h-9 text-sm rounded-lg" 
-                        onClick={() => { 
-                          navigate("/auth"); 
-                          setMobileMenuOpen(false); 
-                        }}
-                      >
-                        Sign Up
-                      </Button>
                     </div>
-                  )}
-                </div>
-              </nav>
-            </SheetContent>
+                  </nav>
+                </SheetContent>
               </Sheet>
             </div>
           )}
@@ -620,23 +574,17 @@ const ListItem = ({
           to={href}
           className={cn(
             "group block select-none rounded-lg p-3 leading-none no-underline outline-none",
-            "transition-colors duration-200",
-            "hover:bg-muted/50",
+            "transition-colors duration-200 hover:bg-muted/50",
             className
           )}
         >
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center">
-              <Icon className="h-4 w-4 text-accent" />
+            <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <Icon className="h-4 w-4 text-primary" />
             </div>
-            
             <div className="space-y-1">
-              <div className="text-sm font-medium leading-none">
-                {title}
-              </div>
-              <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
-                {children}
-              </p>
+              <div className="text-sm font-medium leading-none">{title}</div>
+              <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">{children}</p>
             </div>
           </div>
         </Link>
