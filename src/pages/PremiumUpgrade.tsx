@@ -89,7 +89,6 @@ export default function PremiumUpgrade() {
     checkAuth();
     loadRazorpayScript();
   }, []);
-  };
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
