@@ -115,6 +115,7 @@ const WhyKarloShaadi = lazy(() => import("./pages/WhyKarloShaadi"));
 const EarnWithUs = lazy(() => import("./pages/EarnWithUs"));
 const SponsorShaadi = lazy(() => import("./pages/SponsorShaadi"));
 const ComingSoon = lazy(() => import("./pages/ComingSoon"));
+const FamilyDashboard = lazy(() => import("./pages/FamilyDashboard"));
 const ToolsLanding = lazy(() => import("./pages/ToolsLanding"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Stories = lazy(() => import("./pages/Stories"));
