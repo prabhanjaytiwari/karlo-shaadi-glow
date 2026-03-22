@@ -169,10 +169,10 @@ export default function Search() {
       >
         <Link to={`/vendors/${vendor.id}`} className="block group">
           <div className={cn(
-            "relative p-4 rounded-3xl border transition-all duration-300 active:scale-[0.97]",
+            "relative p-4 rounded-2xl transition-all duration-300 active:scale-[0.97]",
             isSponsored 
-              ? "bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20 shadow-md shadow-primary/5" 
-              : "bg-card/80 backdrop-blur-sm border-border/40 hover:border-border/80 hover:shadow-md"
+              ? "bg-card shadow-[var(--shadow-md)]" 
+              : "bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]"
           )}>
             {/* Sponsored ribbon */}
             {isSponsored && (
