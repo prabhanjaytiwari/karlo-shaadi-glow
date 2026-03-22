@@ -589,7 +589,7 @@ export function WeddingPlanWizard() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-lg shadow-black/5 border border-white/60 mb-8"
+            className="bg-card rounded-3xl p-6 shadow-[var(--shadow-md)] mb-8"
           >
             <div className="flex items-center gap-3 mb-1">
               <span className="text-2xl">{generatingSteps[activeGenStep].emoji}</span>
