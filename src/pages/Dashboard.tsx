@@ -284,7 +284,7 @@ const Dashboard = () => {
 
           {/* Music Section */}
           {user && (
-            <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
               <DashboardMusicSection userId={user.id} />
             </div>
           )}
