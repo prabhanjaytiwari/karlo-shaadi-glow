@@ -384,8 +384,8 @@ const Index = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
-              <Heart className="h-4 w-4 text-primary fill-primary" />
+             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted mb-4">
+              <Heart className="h-4 w-4 text-primary" />
               <span className="text-primary text-sm font-medium">Shaadi Seva</span>
             </div>
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
