@@ -363,7 +363,7 @@ const Index = () => {
                     <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
                       <span className="text-accent font-semibold text-lg">{step.number}</span>
                     </div>
-                    <div className="group-hover:translate-x-2 transition-transform duration-300">
+                     <div className="group-hover:translate-x-1 transition-transform duration-200">
                       <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
                       <p className="text-muted-foreground text-sm sm:text-base">{step.description}</p>
                     </div>
