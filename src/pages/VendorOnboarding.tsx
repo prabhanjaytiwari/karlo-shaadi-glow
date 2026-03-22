@@ -966,10 +966,20 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 1: Category Selection ═══ */}
                 {step === 1 && (
                   <div>
-                    <p className="text-white/50 text-xs mb-5 flex items-center gap-2">
-                      <Users className="w-3.5 h-3.5" />
-                      Join 10,000+ vendors already growing with Karlo Shaadi
-                    </p>
+                    <div className="flex items-center justify-between mb-5">
+                      <p className="text-white/50 text-xs flex items-center gap-2">
+                        <Users className="w-3.5 h-3.5" />
+                        Join 10,000+ vendors already growing with Karlo Shaadi
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSkipToQuickSetup}
+                        className="text-xs text-amber-400/70 hover:text-amber-400 hover:bg-amber-400/10 h-7 gap-1"
+                      >
+                        <SkipForward className="w-3 h-3" /> Quick Setup
+                      </Button>
+                    </div>
                     <div className={`grid gap-2.5 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
                       {CATEGORIES.map((cat) => {
                         const selected = formData.category === cat.value;
