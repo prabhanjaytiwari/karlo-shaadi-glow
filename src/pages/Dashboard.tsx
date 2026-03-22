@@ -236,7 +236,7 @@ const Dashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 + i * 0.03 }}
                   onClick={() => navigate(action.route)}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-card border border-border hover:bg-muted hover:shadow-sm transition-all cursor-pointer"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all cursor-pointer"
                 >
                   <span className="text-2xl">{action.emoji}</span>
                   <span className="text-xs font-medium text-muted-foreground">{action.label}</span>
