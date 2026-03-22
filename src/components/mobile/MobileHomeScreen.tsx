@@ -318,7 +318,7 @@ export function MobileHomeScreen() {
 
         {/* ── HERO BANNER (full-bleed) ── */}
         <section className="mx-3 mt-3">
-          <div className="relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-accent/20">
+          <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-md)]">
             <img src={heroImage} alt="Wedding celebration" className="w-full h-56 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
