@@ -191,7 +191,9 @@ export default function VendorOnboarding() {
   const [showSubscriptionCheckout, setShowSubscriptionCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [authChecked, setAuthChecked] = useState(false);
-
+  const [quickSetupMode, setQuickSetupMode] = useState(false);
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
   // Auth step state
   const [authLoading, setAuthLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
