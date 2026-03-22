@@ -190,7 +190,9 @@ const ForVendors = () => {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto">
-              {vendorCategories.map((cat, i) => (
+              {vendorCategoryDefs.map((cat, i) => {
+                const count = categoryCounts?.[cat.dbCategory] || 0;
+                return (
                 <motion.div
                   key={cat.name}
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -203,8 +205,8 @@ const ForVendors = () => {
                     <cat.icon className="h-6 w-6 text-muted-foreground" />
                   </div>
                   <h3 className="font-semibold text-sm text-foreground mb-1">{cat.name}</h3>
-                  <p className="text-xs text-muted-foreground">{cat.count}</p>
-                </motion.div>
+                  <p className="text-xs text-muted-foreground">{count > 0 ? `${count}+` : "Join now"}</p>
+                </motion.div>);
               ))}
             </div>
             <p className="text-center text-xs text-muted-foreground/60 mt-5">
