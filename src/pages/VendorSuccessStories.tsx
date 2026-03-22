@@ -163,7 +163,7 @@ const VendorSuccessStories = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, idx) => (
               <Card key={idx} className="shadow-[var(--shadow-sm)] hover:border-accent/30 transition-all">
                 <CardContent className="pt-6 space-y-4">
