@@ -464,7 +464,7 @@ const Index = () => {
 
       {/* Final CTA */}
       <section ref={section4.ref} className="py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
+        <div className="absolute inset-0 bg-muted/30" />
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className={`max-w-4xl mx-auto text-center ${section4.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-6">
