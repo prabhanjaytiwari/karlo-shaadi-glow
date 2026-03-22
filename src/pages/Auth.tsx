@@ -303,7 +303,7 @@ const Auth = () => {
                 ))}
               </div>
               <Link to="/vendor/onboarding">
-                <Button variant="outline" className="w-full rounded-xl border-primary/30 text-primary hover:bg-primary hover:text-white text-sm h-9 font-medium transition-all">
+                <Button variant="outline" className="w-full rounded-xl text-sm h-9 font-medium transition-all">
                   Register as Vendor →
                 </Button>
               </Link>
