@@ -315,7 +315,7 @@ export default function Messages() {
                       filteredConversations.map((conv) => (
                         <button
                           key={conv.vendorId}
-                          className={`w-full p-3 md:p-4 text-left hover:bg-muted transition-colors border-b ${selectedVendor === conv.vendorId ? "bg-muted" : ""}`}
+                          className={`w-full p-3 md:p-4 text-left hover:bg-muted/50 transition-colors border-b border-border/20 ${selectedVendor === conv.vendorId ? "bg-muted/50" : ""}`}
                           onClick={() => setSelectedVendor(conv.vendorId)}
                         >
                           <div className="flex items-center gap-3">
