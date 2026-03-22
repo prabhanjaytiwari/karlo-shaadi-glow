@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useRef, useEffect, ReactNode } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
   Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
@@ -141,6 +141,28 @@ function useWeddingCountdown() {
     },
     enabled: !!user,
   });
+}
+
+// Lazy section wrapper — renders children only when near viewport
+function LazySection({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { rootMargin: '200px' }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className}>
+      {visible ? children : <div className="h-32" />}
+    </div>
+  );
 }
 
 // ─── MAIN COMPONENT ───────────────────────────────────
@@ -377,6 +399,7 @@ export function MobileHomeScreen() {
           </div>
         </section>
 
+        <LazySection>
         {/* ── TOP RATED VENDORS (single section, wider cards) ── */}
         <section className="px-4">
           <div className="flex items-center justify-between mb-3">
@@ -414,7 +437,9 @@ export function MobileHomeScreen() {
             </div>
           </div>
         </section>
+        </LazySection>
 
+        <LazySection>
         {/* Divider */}
         <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
@@ -470,7 +495,9 @@ export function MobileHomeScreen() {
             </div>
           </div>
         </section>
+        </LazySection>
 
+        <LazySection>
         {/* ── DEALS & OFFERS ── */}
         <section className="px-4">
           <div className="flex items-center justify-between mb-3">
@@ -675,6 +702,7 @@ export function MobileHomeScreen() {
             )}
           </div>
         </section>
+        </LazySection>
 
       </div>
     </div>
