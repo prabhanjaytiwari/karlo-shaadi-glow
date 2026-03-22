@@ -502,6 +502,7 @@ export default function VendorOnboarding() {
     setDirection(1);
     setStep(2); // Jump to business name + city (minimal required fields)
   };
+  const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
   const selectedCity = cities.find(c => c.id === formData.cityId);
 
   // For steps 1-6, map to storytelling/hero arrays (index 0-5)
