@@ -486,16 +486,22 @@ export default function VendorOnboarding() {
   };
 
   const handleSkipPlan = () => {
-    navigate("/vendor/dashboard");
+    setSubscribedPlan("Free");
+    setShowCongrats(true);
   };
 
   const handleSubscriptionSuccess = () => {
     setShowSubscriptionCheckout(false);
-    toast({ title: "Subscription Activated! 🚀", description: "Welcome to the premium experience." });
-    navigate("/vendor/dashboard");
+    const plan = SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan);
+    setSubscribedPlan(plan?.name || "Premium");
+    setShowCongrats(true);
   };
 
-  const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
+  const handleSkipToQuickSetup = () => {
+    setQuickSetupMode(true);
+    setDirection(1);
+    setStep(2); // Jump to business name + city (minimal required fields)
+  };
   const selectedCity = cities.find(c => c.id === formData.cityId);
 
   // For steps 1-6, map to storytelling/hero arrays (index 0-5)
