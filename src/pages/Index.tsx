@@ -360,7 +360,7 @@ const Index = () => {
               }].map((step, i) => <div key={i} className="flex gap-6 items-start group" style={{
                 transitionDelay: `${i * 100}ms`
               }}>
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/10 border-2 border-accent/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:border-accent/50 transition-all duration-300">
+                    <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
                       <span className="text-accent font-semibold text-lg">{step.number}</span>
                     </div>
                     <div className="group-hover:translate-x-2 transition-transform duration-300">
