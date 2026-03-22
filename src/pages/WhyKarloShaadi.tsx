@@ -132,7 +132,7 @@ export default function WhyKarloShaadi() {
       </section>
 
       {/* Stats Bar */}
-      <section className="py-8 border-b border-border/50 bg-card">
+      <section className="py-8 border-b border-border/30 bg-card shadow-[var(--shadow-sm)]">
         <div className="container mx-auto px-4">
           <div className="flex justify-center gap-8 md:gap-16">
             {stats.map((stat, i) => (
