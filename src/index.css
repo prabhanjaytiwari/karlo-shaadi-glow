@@ -263,7 +263,6 @@
   .nav-dropdown {
     @apply rounded-xl;
     background: hsl(var(--popover));
-    backdrop-filter: blur(16px);
     box-shadow: var(--shadow-xl);
     border: 1px solid rgba(0,0,0,0.06);
   }
