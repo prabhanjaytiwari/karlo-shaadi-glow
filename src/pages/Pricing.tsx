@@ -232,12 +232,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* Mid-page countdown */}
-      {offerActive && (
-        <div className={isMobile ? "px-4 py-2" : "container mx-auto max-w-md py-4"}>
-          <CountdownBanner compact />
-        </div>
-      )}
+      {/* Mid-page section removed */}
 
       {/* Vendor CTA */}
       {!isVendor && (
