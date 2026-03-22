@@ -549,7 +549,7 @@ export function MobileHomeScreen() {
               <button
                 key={city.name}
                 onClick={() => navigate(`/vendors-in/${city.name.toLowerCase()}`)}
-                className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform"
+                className="flex flex-col items-center py-3 rounded-xl bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform"
               >
                 <span className="text-xl mb-1">{city.emoji}</span>
                 <span className="text-xs font-semibold text-foreground">{city.name}</span>
