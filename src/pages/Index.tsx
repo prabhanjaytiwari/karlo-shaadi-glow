@@ -322,7 +322,7 @@ const Index = () => {
       <LiveActivityFeed />
 
       {/* Section 3: How It Works */}
-      <section ref={section2.ref} className="py-16 md:py-24 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section2.ref} className="py-16 md:py-24 relative">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
