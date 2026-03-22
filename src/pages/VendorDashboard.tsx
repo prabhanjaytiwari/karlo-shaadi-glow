@@ -418,14 +418,14 @@ export default function VendorDashboard() {
 
           {/* Mobile: Plan badge + upgrade strip */}
           {isMobile && vendor && (
-            <div className="flex items-center justify-between mb-4 p-3 bg-white/90 rounded-xl border border-accent/20">
+            <div className="flex items-center justify-between mb-4 p-3 bg-card/90 rounded-xl border border-accent/20">
               <div className="flex items-center gap-2">
                 <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${subBadge.color}`}>
                   {subBadge.label}
                 </span>
                 <span className="text-xs text-muted-foreground">Plan</span>
               </div>
-              {vendor.subscription_tier === 'free' && (
+              {mapSubscriptionPlan(subscription) !== 'elite' && (
                 <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => navigate('/vendor-pricing')}>
                   Upgrade
                 </Button>

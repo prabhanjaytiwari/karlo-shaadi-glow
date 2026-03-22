@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useRef, useEffect, ReactNode } from 'react';
 import {
   Heart, Star, Shield, MapPin, Users, Calculator, CalendarHeart,
   Sparkles, ArrowRight, ChevronRight, Music, Mic, FlameKindling,
