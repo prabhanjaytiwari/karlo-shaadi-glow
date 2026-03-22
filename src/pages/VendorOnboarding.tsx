@@ -209,7 +209,7 @@ export default function VendorOnboarding() {
   });
 
   const totalSteps = 6; // Steps 1-6 displayed to user
-  const offerActive = isOfferActive();
+  const offerActive = false;
 
   // ── Check auth on mount — skip Step 0 if already logged in ──
   useEffect(() => {
