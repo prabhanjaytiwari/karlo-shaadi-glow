@@ -702,6 +702,7 @@ export function MobileHomeScreen() {
             )}
           </div>
         </section>
+        </LazySection>
 
       </div>
     </div>
