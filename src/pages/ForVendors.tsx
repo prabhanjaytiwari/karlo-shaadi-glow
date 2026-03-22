@@ -89,7 +89,7 @@ const ForVendors = () => {
                   </h1>
 
                   <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-lg mb-6">
-                    Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples. <span className="text-white/80 font-medium">Zero commission. Free registration.</span>
+                    Join India's fastest-growing zero-commission wedding platform. Get matched with ready-to-book couples. <span className="text-white/80 font-medium">Zero commission. Free registration.</span>
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3">
