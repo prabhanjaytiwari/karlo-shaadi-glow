@@ -207,7 +207,7 @@ const ForVendors = () => {
                   <h3 className="font-semibold text-sm text-foreground mb-1">{cat.name}</h3>
                   <p className="text-xs text-muted-foreground">{count > 0 ? `${count}+` : "Join now"}</p>
                 </motion.div>);
-              ))}
+              })}
             </div>
             <p className="text-center text-xs text-muted-foreground/60 mt-5">
               Also: Mehendi, Invitations, Choreography, Entertainment, Transport, Jewelry, Pandit, Bridal Wear, and more
