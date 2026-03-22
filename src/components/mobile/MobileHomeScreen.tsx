@@ -441,7 +441,7 @@ export function MobileHomeScreen() {
 
         <LazySection>
         {/* Divider */}
-        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="mx-4 h-px bg-border" />
 
         {/* ── FREE PLANNING TOOLS (compact 2x2) ── */}
         <section className="px-4">
