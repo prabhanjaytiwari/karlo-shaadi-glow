@@ -273,7 +273,7 @@ export default function WhyKarloShaadi() {
             {vendorBenefits.map((benefit, i) => (
               <motion.div
                 key={benefit.title}
-                className="p-6 rounded-2xl bg-card border border-border/50 hover:border-accent/30 hover:shadow-lg transition-all duration-300"
+                className="p-6 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300"
                 custom={i}
                 variants={fadeUp}
                 initial="hidden"

@@ -379,7 +379,7 @@ export default function Messages() {
                         </div>
                       )}
 
-                      <div className="p-3 md:p-4 border-t flex gap-2 bg-card">
+                      <div className="p-3 md:p-4 border-t border-border/30 flex gap-2 bg-card">
                         <Input
                           placeholder="Type a message..."
                           value={newMessage}

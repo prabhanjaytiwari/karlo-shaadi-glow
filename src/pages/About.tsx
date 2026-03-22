@@ -112,9 +112,9 @@ const About = () => {
           </section>
 
           {/* Stats */}
-          <section className="relative rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/15 via-pink-500/15 to-accent/15" />
-            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 p-8 md:p-12 text-center">
+          <section className="rounded-2xl overflow-hidden bg-muted/30">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 md:p-12 text-center">
+              {[
               {[
                 { value: "50,000+", label: "Happy Couples" },
                 { value: "10,000+", label: "Verified Vendors" },
