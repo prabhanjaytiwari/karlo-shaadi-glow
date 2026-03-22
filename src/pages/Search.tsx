@@ -553,7 +553,7 @@ export default function Search() {
                                 isSponsored ? "bg-card shadow-[var(--shadow-md)]" : "bg-card shadow-[var(--shadow-sm)]"
                               )}>
                                 {isSponsored && (
-                                  <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-primary to-accent text-[10px] font-bold text-primary-foreground">
+                                  <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                                     ⭐ FEATURED
                                   </div>
                                 )}
