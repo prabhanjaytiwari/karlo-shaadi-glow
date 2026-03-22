@@ -191,136 +191,65 @@ export default function VendorPricing() {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {plans.map((plan, index) => {
-              const discountedPrice = offerActive && plan.price > 0 ? getDiscountedPrice(plan.price) : null;
-              const perDay = discountedPrice ? getPerDayPrice(discountedPrice) : plan.price > 0 ? getPerDayPrice(plan.price) : null;
-              const savings = discountedPrice ? plan.price - discountedPrice : 0;
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+            {plans.map((plan) => (
+              <div 
+                key={plan.id}
+                className={`relative rounded-2xl p-6 transition-all duration-200 ${
+                  plan.highlight 
+                    ? 'bg-foreground text-background shadow-[var(--shadow-xl)] scale-[1.02]' 
+                    : 'bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]'
+                }`}
+              >
+                {/* Badge */}
+                {plan.badge && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      plan.highlight ? 'bg-accent text-accent-foreground' : 'bg-primary text-primary-foreground'
+                    }`}>
+                      {plan.badge}
+                    </span>
+                  </div>
+                )}
 
-              return (
-                <Card 
-                  key={plan.id}
-                  className={`relative overflow-hidden transition-all duration-300 ${
-                    plan.highlight ? 'scale-105 shadow-2xl border-amber-400 ring-2 ring-amber-400/20' : ''
-                  } ${plan.premium ? 'border-primary shadow-xl' : ''} animate-fade-up`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                <div className="mb-6 mt-2">
+                  <h3 className={`text-lg font-semibold mb-1 ${plan.highlight ? '' : ''}`}>{plan.name}</h3>
+                  <p className={`text-xs ${plan.highlight ? 'text-background/70' : 'text-muted-foreground'}`}>{plan.description}</p>
+                </div>
+                
+                <div className="mb-6">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold">{plan.priceDisplay}</span>
+                    {plan.period !== 'Forever' && (
+                      <span className={`text-sm ${plan.highlight ? 'text-background/60' : 'text-muted-foreground'}`}>/{plan.period}</span>
+                    )}
+                  </div>
+                </div>
+
+                <ul className="space-y-2.5 mb-6">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-xs">
+                      <Check className={`h-3.5 w-3.5 mt-0.5 flex-shrink-0 ${plan.highlight ? 'text-accent' : 'text-primary'}`} />
+                      <span className={plan.highlight ? 'text-background/80' : ''}>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className={`w-full rounded-xl ${plan.highlight ? 'bg-background text-foreground hover:bg-background/90' : ''}`}
+                  variant={plan.highlight ? 'default' : plan.premium ? 'default' : 'outline'}
+                  onClick={() => handleUpgrade(plan.id)}
                 >
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} opacity-50`} />
-                  
-                  {/* Badge */}
-                  {plan.badge && (
-                    <div className="absolute top-0 right-0 m-4">
-                      <Badge className={`${plan.badgeColor} text-white font-bold text-xs`}>
-                        {plan.badge}
-                      </Badge>
-                    </div>
-                  )}
+                  {plan.cta}
+                </Button>
 
-                  {/* Limited spots */}
-                  {plan.spotsLeft && offerActive && (
-                    <div className="absolute top-0 left-0 m-4">
-                      <Badge variant="destructive" className="text-[10px] animate-pulse">
-                        Only {plan.spotsLeft} spots left!
-                      </Badge>
-                    </div>
-                  )}
-
-                  <CardHeader className="relative pb-4">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className={`p-2 rounded-lg ${plan.highlight ? 'bg-amber-500/20' : plan.premium ? 'bg-primary/20' : 'bg-muted'}`}>
-                        <plan.icon className={`h-5 w-5 ${plan.tierColor}`} />
-                      </div>
-                      <CardTitle className={`text-xl ${plan.tierColor}`}>{plan.name}</CardTitle>
-                    </div>
-                    <CardDescription className="text-sm">{plan.description}</CardDescription>
-                    
-                    <div className="mt-4">
-                      {/* Price with anchoring */}
-                      {discountedPrice ? (
-                        <div>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-lg line-through text-muted-foreground">₹{plan.price.toLocaleString()}</span>
-                            <Badge variant="destructive" className="text-xs">50% OFF</Badge>
-                          </div>
-                          <div className="flex items-baseline gap-2 mt-1">
-                            <span className="text-3xl font-black text-primary">₹{discountedPrice.toLocaleString()}</span>
-                            <span className="text-muted-foreground text-sm">/ first month</span>
-                          </div>
-                          <p className="text-xs text-green-600 font-bold mt-1">
-                            💰 You save ₹{savings.toLocaleString()}!
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-3xl font-bold">{plan.priceDisplay}</span>
-                          {plan.period !== 'Forever' && (
-                            <span className="text-muted-foreground text-sm">/ {plan.period}</span>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Per-day reframing */}
-                      {perDay && (
-                        <p className="text-xs text-muted-foreground mt-1">
-                          That's just <span className="font-bold text-foreground">₹{perDay}/day</span> — less than a chai!
-                        </p>
-                      )}
-
-                      {plan.estimatedBookings && (
-                        <p className={`text-sm font-semibold mt-2 ${plan.tierColor}`}>
-                          ⚡ {plan.estimatedBookings}
-                        </p>
-                      )}
-                      {plan.roi && (
-                        <p className="text-xs text-muted-foreground">
-                          Average {plan.roi}
-                        </p>
-                      )}
-                    </div>
-                  </CardHeader>
-
-                  <CardContent className="relative">
-                    {/* Loss aversion */}
-                    {plan.lossAversion && (
-                      <div className="flex items-start gap-2 mb-4 p-2 rounded-lg bg-destructive/5 border border-destructive/10">
-                        <AlertTriangle className="h-3.5 w-3.5 text-destructive shrink-0 mt-0.5" />
-                        <p className="text-[11px] text-destructive font-medium">{plan.lossAversion}</p>
-                      </div>
-                    )}
-
-                    <ul className="space-y-2 mb-6">
-                      {plan.features.map((feature, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs">
-                          <Check className={`h-3.5 w-3.5 mt-0.5 flex-shrink-0 ${plan.tierColor}`} />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <Button
-                      className="w-full"
-                      variant={plan.highlight ? 'default' : plan.premium ? 'hero' : 'outline'}
-                      size="default"
-                      onClick={() => handleUpgrade(plan.id)}
-                    >
-                      {plan.id !== 'free' && offerActive && <Zap className="h-3.5 w-3.5 mr-1" />}
-                      {plan.cta}
-                    </Button>
-
-                    {/* Risk reversal */}
-                    {plan.price > 0 && (
-                      <div className="flex items-center justify-center gap-1.5 mt-3">
-                        <Shield className="h-3 w-3 text-green-500" />
-                        <p className="text-[10px] text-green-600 font-semibold">
-                          100% money-back if no 3 leads in 30 days
-                        </p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
+                {plan.price > 0 && (
+                  <p className={`text-center text-[10px] mt-3 ${plan.highlight ? 'text-background/50' : 'text-muted-foreground'}`}>
+                    30-day money-back guarantee
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
           {/* Second countdown (mid-page urgency) */}
