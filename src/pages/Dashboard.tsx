@@ -269,7 +269,7 @@ const Dashboard = () => {
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-5">
-            <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
               {user && <WeddingPlanningProgress userId={user.id} weddingDate={profile?.wedding_date} />}
             </div>
             <div className="space-y-5">
