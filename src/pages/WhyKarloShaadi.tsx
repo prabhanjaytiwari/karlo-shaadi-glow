@@ -52,7 +52,7 @@ const familyRoles = [
     image: bridesmaidsImg,
     icon: Sparkles,
     features: ["Music Generator", "Invite Creator", "Shaadi Wrapped"],
-    gradient: "from-violet-500/20 to-purple-500/20",
+    gradient: "",
   },
   {
     title: "The Parents & Family",
