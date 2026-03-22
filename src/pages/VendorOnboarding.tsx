@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
-import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+// CountdownBanner removed
 import { useAnalytics } from "@/hooks/useAnalytics";
 import congratsImage from "@/assets/congrats-vendor.jpg";
 
@@ -209,7 +209,7 @@ export default function VendorOnboarding() {
   });
 
   const totalSteps = 6; // Steps 1-6 displayed to user
-  const offerActive = isOfferActive();
+  const offerActive = false;
 
   // ── Check auth on mount — skip Step 0 if already logged in ──
   useEffect(() => {
@@ -1274,13 +1274,12 @@ export default function VendorOnboarding() {
                       </div>
                     </motion.div>
 
-                    {offerActive && <CountdownBanner compact className="rounded-xl" />}
+                    {/* Promo banner removed */}
 
                     <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
                       {SUBSCRIPTION_PLANS.map((plan, idx) => {
                         const PlanIcon = plan.icon;
-                        const discounted = offerActive ? getDiscountedPrice(plan.price) : null;
-                        const perDay = Math.round((discounted || plan.price) / 30);
+                        const perDay = Math.round(plan.price / 30);
                         return (
                           <motion.div
                             key={plan.id}
@@ -1307,14 +1306,7 @@ export default function VendorOnboarding() {
                             </div>
 
                             <div className="mb-4">
-                              {discounted ? (
-                                <div className="flex items-baseline gap-2">
-                                  <span className="text-lg line-through text-white/30">₹{plan.price.toLocaleString()}</span>
-                                  <span className="text-2xl font-black text-accent">₹{discounted.toLocaleString()}</span>
-                                </div>
-                              ) : (
-                                <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
-                              )}
+                              <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
                               <p className="text-[10px] text-white/30 mt-0.5">₹{perDay}/day · Cancel anytime</p>
                             </div>
 

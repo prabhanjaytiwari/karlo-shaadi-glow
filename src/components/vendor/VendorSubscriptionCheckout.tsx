@@ -2,16 +2,13 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Zap } from "lucide-react";
-import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+import { Input } from "@/components/ui/input";
+import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Tag } from "lucide-react";
+import { validatePromoCode, applyPromoDiscount, type PromoCode } from "@/lib/promoCodes";
 
 declare global {
   interface Window {
@@ -46,12 +43,13 @@ export function VendorSubscriptionCheckout({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
-  const offerActive = isOfferActive();
+  const [promoCode, setPromoCode] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
+  const [promoError, setPromoError] = useState("");
 
   const plan = planId && PLAN_DETAILS[planId] ? PLAN_DETAILS[planId] : null;
-  const discountedPrice = offerActive && plan ? getDiscountedPrice(plan.price) : null;
-  const finalPrice = discountedPrice || (plan?.price ?? 0);
-  const savings = discountedPrice && plan ? plan.price - discountedPrice : 0;
+  const finalPrice = appliedPromo && plan ? applyPromoDiscount(plan.price, appliedPromo) : (plan?.price ?? 0);
+  const savings = plan ? plan.price - finalPrice : 0;
 
   useEffect(() => {
     if (typeof window !== "undefined" && !window.Razorpay) {
@@ -64,6 +62,26 @@ export function VendorSubscriptionCheckout({
       setRazorpayLoaded(true);
     }
   }, []);
+
+  const handleApplyPromo = () => {
+    setPromoError("");
+    if (!promoCode.trim()) return;
+    const promo = validatePromoCode(promoCode, 'vendor');
+    if (promo) {
+      setAppliedPromo(promo);
+      setPromoError("");
+      toast({ title: "Promo code applied!", description: `${promo.discountPercent}% discount activated.` });
+    } else {
+      setAppliedPromo(null);
+      setPromoError("Invalid promo code");
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setAppliedPromo(null);
+    setPromoCode("");
+    setPromoError("");
+  };
 
   const handlePayment = async () => {
     if (!plan) return;
@@ -95,7 +113,6 @@ export function VendorSubscriptionCheckout({
             );
             if (verifyError) throw verifyError;
 
-            // FIX 5: Idempotency check — skip if payment already recorded
             const { data: existingSub } = await supabase
               .from("vendor_subscriptions")
               .select("id")
@@ -103,21 +120,18 @@ export function VendorSubscriptionCheckout({
               .maybeSingle();
 
             if (existingSub) {
-              // Already recorded, just succeed
               toast({ title: "Subscription Already Active!", description: `You're on the ${plan.name} plan.` });
               onSuccess();
               onOpenChange(false);
               return;
             }
 
-            // Update vendor subscription tier
             const { error: updateError } = await supabase
               .from("vendors")
               .update({ subscription_tier: plan.tierValue as any })
               .eq("id", vendorId);
             if (updateError) throw updateError;
 
-            // FIX 5: Store finalPrice (not plan.price) and discount_amount
             const expiresAt = new Date();
             expiresAt.setMonth(expiresAt.getMonth() + 1);
 
@@ -180,28 +194,59 @@ export function VendorSubscriptionCheckout({
           <DialogDescription>Complete your subscription to unlock premium features</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
-          {offerActive && <CountdownBanner compact className="mb-2" />}
-
+        <div className="space-y-5 py-4">
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-center">
               <span className="font-medium">{plan.name} Plan</span>
-              <Badge className={plan.bgColor + " " + plan.color}>{offerActive ? "50% OFF" : "Monthly"}</Badge>
+              <Badge className={plan.bgColor + " " + plan.color}>Monthly</Badge>
             </div>
             <div className="flex justify-between items-baseline">
-              {discountedPrice ? (
+              {savings > 0 ? (
                 <div>
                   <span className="text-lg line-through text-muted-foreground mr-2">₹{plan.price.toLocaleString()}</span>
-                  <span className="text-3xl font-black text-primary">₹{discountedPrice.toLocaleString()}</span>
+                  <span className="text-3xl font-black text-primary">₹{finalPrice.toLocaleString()}</span>
                 </div>
               ) : (
                 <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
               )}
-              <span className="text-muted-foreground">{discountedPrice ? "first month" : "per month"}</span>
+              <span className="text-muted-foreground">per month</span>
             </div>
             {savings > 0 && (
-              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()}! Then ₹{plan.price.toLocaleString()}/month</p>
+              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()} with promo code!</p>
             )}
+          </div>
+
+          {/* Promo Code Section */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium flex items-center gap-1.5">
+              <Tag className="h-3.5 w-3.5 text-muted-foreground" />
+              Promo Code
+            </label>
+            {appliedPromo ? (
+              <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 border border-green-200">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-sm font-semibold text-green-700">{appliedPromo.code}</span>
+                  <span className="text-xs text-green-600">— {appliedPromo.discountPercent}% off</span>
+                </div>
+                <Button variant="ghost" size="sm" onClick={handleRemovePromo} className="text-xs h-7 text-red-500 hover:text-red-700">
+                  Remove
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Enter promo code"
+                  value={promoCode}
+                  onChange={(e) => { setPromoCode(e.target.value.toUpperCase()); setPromoError(""); }}
+                  className="flex-1 uppercase"
+                />
+                <Button variant="outline" size="sm" onClick={handleApplyPromo} className="px-4">
+                  Apply
+                </Button>
+              </div>
+            )}
+            {promoError && <p className="text-xs text-destructive">{promoError}</p>}
           </div>
 
           <div className="space-y-2">
@@ -235,7 +280,7 @@ export function VendorSubscriptionCheckout({
             {loading ? (
               <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Processing...</>
             ) : (
-              <>{offerActive && <Zap className="mr-1 h-4 w-4" />}Pay ₹{finalPrice.toLocaleString()} & Activate</>
+              <>Pay ₹{finalPrice.toLocaleString()} & Activate</>
             )}
           </Button>
 

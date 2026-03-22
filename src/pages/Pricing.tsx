@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";
+import { getPerDayPrice } from "@/components/CountdownBanner";
 import heroImg from "@/assets/hero-pricing-carefree.jpg";
 
 const faqs = [
@@ -29,10 +29,7 @@ export default function Pricing() {
   const isMobile = useIsMobile();
   const [isVendor, setIsVendor] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const offerActive = isOfferActive();
-  const discountedPrice = offerActive ? getDiscountedPrice(AI_PREMIUM_PRICE) : null;
-  const perDay = discountedPrice ? getPerDayPrice(discountedPrice) : getPerDayPrice(AI_PREMIUM_PRICE);
-  const savings = discountedPrice ? AI_PREMIUM_PRICE - discountedPrice : 0;
+  const perDay = getPerDayPrice(AI_PREMIUM_PRICE);
 
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -105,7 +102,7 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Pricing - 50% OFF AI Premium Launch Offer" description="Karlo Shaadi is 100% FREE forever! Get AI Premium at 50% OFF — just ₹499/month for your first month. AI wedding planner, personal consultant, and exclusive discounts." />
+      <SEO title="Pricing — Free Wedding Planning & AI Premium" description="Karlo Shaadi is 100% FREE forever! Upgrade to AI Premium at ₹999/month for AI wedding planner, personal consultant, and exclusive discounts." />
       <FAQPageJsonLd faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       <MobilePageHeader title="Pricing" />
 
@@ -121,12 +118,7 @@ export default function Pricing() {
         </div>
       </div>
 
-      {/* Countdown Banner */}
-      {offerActive && (
-        <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-8"}>
-          <CountdownBanner />
-        </div>
-      )}
+      {/* Banner removed */}
 
       {/* Social Proof Bar */}
       <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-6"}>
@@ -157,7 +149,7 @@ export default function Pricing() {
               >
                 {plan.popular && (
                   <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
-                    {offerActive ? "🔥 50% OFF" : "Best Value"}
+                    Best Value
                   </Badge>
                 )}
                 {plan.highlight && (
@@ -169,30 +161,10 @@ export default function Pricing() {
                 </div>
                 <h3 className="font-bold text-xl mb-1">{plan.name}</h3>
 
-                {/* Price with anchoring for AI Premium */}
-                {plan.popular && offerActive && discountedPrice ? (
-                  <div className="mb-1">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg line-through text-muted-foreground">₹{AI_PREMIUM_PRICE}</span>
-                      <Badge variant="destructive" className="text-xs">50% OFF</Badge>
-                    </div>
-                    <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="font-black text-3xl text-primary">₹{discountedPrice}</span>
-                      <span className="text-muted-foreground text-sm">first month</span>
-                    </div>
-                    <p className="text-xs text-green-600 font-bold mt-0.5">
-                      💰 You save ₹{savings}! That's just ₹{perDay}/day
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
-                      Then ₹{AI_PREMIUM_PRICE}/month. Cancel anytime.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="font-bold text-3xl">{plan.price}</span>
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
-                  </div>
-                )}
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="font-bold text-3xl">{plan.price}</span>
+                  <span className="text-muted-foreground text-sm">{plan.period}</span>
+                </div>
 
                 <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
 
@@ -210,8 +182,7 @@ export default function Pricing() {
                   <Link to="/auth"><Button className="w-full mb-5 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90" size="lg">{plan.cta}</Button></Link>
                 ) : (
                   <Button className="w-full mb-5 rounded-xl" size="lg" onClick={handlePremiumClick}>
-                    {offerActive && <Zap className="h-4 w-4 mr-1" />}
-                    {offerActive ? "Claim 50% OFF Now" : plan.cta}
+                    {plan.cta}
                   </Button>
                 )}
 
@@ -261,12 +232,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* Mid-page countdown */}
-      {offerActive && (
-        <div className={isMobile ? "px-4 py-2" : "container mx-auto max-w-md py-4"}>
-          <CountdownBanner compact />
-        </div>
-      )}
+      {/* Mid-page section removed */}
 
       {/* Vendor CTA */}
       {!isVendor && (
@@ -275,7 +241,7 @@ export default function Pricing() {
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Are You a Wedding Vendor?</h2>
             <p className="text-muted-foreground mb-6 text-sm max-w-lg mx-auto">
-              Join Karlo Shaadi and grow your business! {offerActive ? "50% OFF all plans — limited time!" : "Featured listings start at ₹4,999/month."}
+              Join Karlo Shaadi and grow your business! Featured listings start at ₹999/month.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/vendor-pricing"><Button size="lg" className="rounded-full px-8">View Vendor Pricing</Button></Link>
@@ -324,15 +290,10 @@ export default function Pricing() {
         <div className="relative container mx-auto max-w-4xl text-center">
           <h2 className={`font-bold text-white ${isMobile ? 'text-2xl' : 'text-4xl'} mb-4`}>Ready to Plan Your Dream Wedding?</h2>
           <p className="text-white/80 mb-2 text-sm max-w-md mx-auto">Join 50,000+ happy couples who found their perfect vendors - 100% FREE!</p>
-          {offerActive && (
-            <p className="text-white font-bold mb-4 animate-pulse text-sm">
-              ⏰ 50% OFF AI Premium ends soon — grab it now!
-            </p>
-          )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to="/auth"><Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8">Start Planning Free</Button></Link>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8" onClick={handlePremiumClick}>
-              {offerActive ? "🔥 Claim 50% OFF" : "Try AI Premium"}
+              Try AI Premium
             </Button>
           </div>
         </div>
