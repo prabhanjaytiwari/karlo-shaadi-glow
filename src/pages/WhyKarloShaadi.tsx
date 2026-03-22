@@ -43,7 +43,7 @@ const familyRoles = [
     image: friendsImg,
     icon: Users,
     features: ["Couple Quiz", "Budget Roast", "Speech Writer"],
-    gradient: "from-amber-500/20 to-orange-500/20",
+    gradient: "",
   },
   {
     title: "The Siblings",
