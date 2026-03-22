@@ -123,16 +123,16 @@ export function VendorSubscriptionCheckout({
 
             const { error: subError } = await supabase
               .from("vendor_subscriptions")
-              .upsert({
+              .upsert([{
                 vendor_id: vendorId,
-                plan: plan.tierValue,
+                plan: plan.tierValue as any,
                 status: "active",
                 amount: finalPrice,
                 discount_amount: plan.price - finalPrice,
                 razorpay_payment_id: response.razorpay_payment_id,
                 started_at: new Date().toISOString(),
                 expires_at: expiresAt.toISOString(),
-              }, { onConflict: "vendor_id" });
+              }], { onConflict: "vendor_id" });
             if (subError) throw subError;
 
             toast({ title: "Subscription Activated!", description: `You're now on the ${plan.name} plan. Enjoy your premium features!` });
