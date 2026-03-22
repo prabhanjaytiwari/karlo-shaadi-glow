@@ -648,7 +648,7 @@ export function MobileHomeScreen() {
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
             <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
               {reviewQuotes.map((review, i) => (
-                <div key={i} className="flex-shrink-0 w-64 p-3 rounded-xl bg-card border border-border/40">
+                <div key={i} className="flex-shrink-0 w-64 p-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                   <div className="flex items-center gap-0.5 mb-1.5">
                     {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-3 w-3 text-amber-400 fill-amber-400" />)}
                   </div>
