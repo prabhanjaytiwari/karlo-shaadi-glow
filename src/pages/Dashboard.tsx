@@ -252,7 +252,7 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               onClick={() => navigate("/profile")}
-              className="p-4 rounded-2xl bg-card border border-border shadow-sm cursor-pointer hover:bg-muted transition-all"
+              className="p-4 rounded-2xl bg-card shadow-[var(--shadow-sm)] cursor-pointer hover:shadow-[var(--shadow-md)] transition-all"
             >
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-foreground">Complete Your Profile</p>
