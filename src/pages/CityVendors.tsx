@@ -82,18 +82,18 @@ const CityVendors = () => {
     : `Discover ${vendors.length}+ verified wedding vendors in ${formatCityName(city || "")}. Photographers, decorators, caterers & more. Book with confidence.`;
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+    <div className="min-h-screen flex flex-col bg-background">
       <SEO title={pageTitle} description={pageDescription} keywords={`wedding vendors ${formatCityName(city || "")}, ${category ? CATEGORY_NAMES[category] + " " + formatCityName(city || "") : "wedding services"}, marriage vendors`} />
       <LocalBusinessJsonLd city={formatCityName(city || "")} category={category && CATEGORY_NAMES[category] ? CATEGORY_NAMES[category] : undefined} />
 
-      <section className="pt-24 pb-12 bg-gradient-to-b from-rose-50/60 to-white">
+      <section className="pt-24 pb-12 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-accent/15 text-accent border border-accent/30 mb-4"><MapPin className="h-3 w-3 mr-1" />{formatCityName(city || "")}</Badge>
             <h1 className="font-display font-bold text-4xl md:text-5xl mb-4">
               {category && category !== "all" ? (<>Best <span className="text-primary">{CATEGORY_NAMES[category]}</span> in {formatCityName(city || "")}</>) : (<>Wedding Vendors in <span className="text-primary">{formatCityName(city || "")}</span></>)}
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-4" />
+            <div className="w-24 h-1 bg-primary/30 mx-auto rounded-full mb-4" />
             <p className="text-lg text-muted-foreground mb-8">Discover {vendors.length}+ verified vendors • Compare prices • Read real reviews</p>
             <div className="flex flex-wrap justify-center gap-2 mb-6">
               <Link to={`/vendors/${city?.toLowerCase()}`}><Badge variant={!category || category === "all" ? "default" : "outline"} className="cursor-pointer hover:bg-primary/10">All Categories</Badge></Link>

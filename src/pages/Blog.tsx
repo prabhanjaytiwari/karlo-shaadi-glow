@@ -143,7 +143,7 @@ export default function Blog() {
       />
       <MobilePageHeader title="Blog" />
       {/* Hero Section */}
-      <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>
+      <section className={isMobile ? "pt-4 pb-6 px-4 bg-muted/20" : "pt-32 pb-16 px-4 sm:px-6 bg-muted/20"}>
         <div className="container mx-auto max-w-6xl text-center">
           {!isMobile && (
             <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
@@ -163,7 +163,7 @@ export default function Blog() {
       </section>
 
       {/* Categories Filter */}
-      <section className="py-8 px-4 sm:px-6 border-b border-border/50 sticky top-20 bg-background/95 backdrop-blur-md z-40">
+      <section className="py-8 px-4 sm:px-6 border-b border-border/50 sticky top-20 bg-background/95  z-40">
         <div className="container mx-auto max-w-6xl">
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((category, idx) => (
@@ -183,7 +183,7 @@ export default function Blog() {
       {/* Featured Article */}
       <section className="py-16 px-4 sm:px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="relative rounded-3xl overflow-hidden bg-card border-2 border-border/50 hover:border-primary/30 transition-all group">
+          <div className="relative rounded-3xl overflow-hidden bg-card shadow-[var(--shadow-sm)] hover:border-primary/30 transition-all group">
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Image */}
               <div className="relative h-80 lg:h-auto overflow-hidden">
@@ -245,7 +245,7 @@ export default function Blog() {
             {articles.map((article) => (
               <article
                 key={article.id}
-                className="group bg-card border-2 border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all"
+                className="group bg-card shadow-[var(--shadow-sm)] rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-lg transition-all"
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -254,7 +254,7 @@ export default function Blog() {
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <Badge className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm">
+                  <Badge className="absolute top-4 left-4 bg-background/90 ">
                     {article.category}
                   </Badge>
                 </div>
@@ -313,7 +313,7 @@ export default function Blog() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-6 py-3 rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder:text-white/60 focus:outline-none focus:border-white/40"
+              className="flex-1 px-6 py-3 rounded-full border-2 border-white/20 bg-white/10  text-white placeholder:text-white/60 focus:outline-none focus:border-white/40"
             />
             <Button className="bg-white text-primary hover:bg-white/90 rounded-full px-8">
               Subscribe

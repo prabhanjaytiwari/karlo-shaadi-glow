@@ -251,7 +251,7 @@ export default function Compare() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30 pt-20">
+    <div className="min-h-screen bg-background pt-20">
       {/* Hero Section */}
       <section className="py-12 bg-gradient-to-br from-primary/5 via-rose-50/50 to-accent/5">
         <div className="container mx-auto px-4">
@@ -263,7 +263,7 @@ export default function Compare() {
             <h1 className="font-display font-bold text-3xl md:text-4xl mb-4">
               Compare <span className="text-accent">Vendors</span> Side by Side
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 mx-auto rounded-full mb-4" />
+            <div className="w-24 h-1 bg-primary/30 mx-auto rounded-full mb-4" />
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Select up to 4 vendors to compare their ratings, pricing, services, and more. 
               Make an informed decision for your wedding.
@@ -336,7 +336,7 @@ export default function Compare() {
                   <div className="grid gap-4" style={{ gridTemplateColumns: `200px repeat(${vendors.length}, 1fr)` }}>
                     <div className="p-4" />
                     {vendors.map((vendor) => (
-                      <Card key={vendor.id} className="p-4 bg-white border-2 border-accent/20 relative">
+                      <Card key={vendor.id} className="p-4 bg-white shadow-[var(--shadow-sm)] relative">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -346,7 +346,7 @@ export default function Compare() {
                           <X className="h-4 w-4" />
                         </Button>
                         <div className="text-center">
-                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center mx-auto mb-3">
+                          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
                             <span className="text-2xl font-bold text-accent">
                               {vendor.business_name.charAt(0)}
                             </span>
@@ -490,7 +490,7 @@ export default function Compare() {
                       onClick={() => addVendor(vendor.id)}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                           <span className="font-bold text-accent">
                             {vendor.business_name.charAt(0)}
                           </span>
