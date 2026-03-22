@@ -108,7 +108,7 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           </ToolGate>
         </TabsContent>
         <TabsContent value="intelligence">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Business Intelligence" featureDescription="See pricing benchmarks, conversion funnels, and actionable tips. Upgrade to Gold to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="pro" toolName="Business Intelligence" featureDescription="See pricing benchmarks, conversion funnels, and actionable tips. Upgrade to Pro to unlock.">
             <BusinessIntelligence vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
           </ToolGate>
         </TabsContent>
