@@ -117,9 +117,9 @@ const ForVendors = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex justify-center gap-8 md:gap-16">
               {[
-                { value: "5,000+", label: "Vendors" },
+                { value: `${totalVendors}+`, label: "Vendors" },
                 { value: "0%", label: "Commission" },
-                { value: "20+", label: "Cities" },
+                { value: `${totalCities}+`, label: "Cities" },
                 { value: "4.8★", label: "Rating" },
               ].map((stat, i) => (
                 <motion.div
