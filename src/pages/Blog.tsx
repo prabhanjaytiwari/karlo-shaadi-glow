@@ -163,7 +163,7 @@ export default function Blog() {
       </section>
 
       {/* Categories Filter */}
-      <section className="py-8 px-4 sm:px-6 border-b border-border/50 sticky top-20 bg-background/95  z-40">
+      <section className="py-8 px-4 sm:px-6 border-b border-border/30 sticky top-20 bg-background z-40">
         <div className="container mx-auto max-w-6xl">
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((category, idx) => (
