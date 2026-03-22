@@ -24,6 +24,7 @@ import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import congratsImage from "@/assets/congrats-vendor.jpg";
 
 // Hero images
 import heroStep1 from "@/assets/onboarding-step-1.jpg";
