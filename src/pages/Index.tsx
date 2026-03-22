@@ -265,8 +265,8 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
             {/* Content */}
             <div className={`space-y-3 sm:space-y-5 ${section1.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                <span className="text-primary text-sm font-medium">For Vendors</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted">
+                <span className="text-muted-foreground text-sm font-medium">For Vendors</span>
               </div>
               
               <h2 className="font-display font-semibold text-2xl md:text-3xl">
