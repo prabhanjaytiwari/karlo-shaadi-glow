@@ -167,53 +167,27 @@ export default function VendorPricing() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+    <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="Vendor Pricing" />
       <SEO 
-        title="Vendor Pricing - 50% OFF Launch Offer"
-        description="50% OFF first month! Choose Silver, Gold, or Diamond plans. Grow your wedding business with premium listings. 100% money-back guarantee."
+        title="Vendor Pricing Plans | Karlo Shaadi"
+        description="Affordable vendor plans starting from Free. Grow your wedding business with premium listings and verified leads."
       />
       
       <main className="flex-1 py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Countdown Banner */}
-          {offerActive && <CountdownBanner className="mb-8" />}
-
+        <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12 animate-fade-in">
-            <Badge variant="outline" className="mb-4 text-lg px-4 py-2">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Grow Your Business
-            </Badge>
-            <h1 className="text-5xl font-bold mb-4">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted mb-4">
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm font-medium text-muted-foreground">Grow Your Business</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3">
               Choose Your <span className="text-gradient">Success Plan</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-4">
-              Join 10,000+ verified vendors earning ₹5-20 lakhs annually through Karlo Shaadi
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Join verified vendors earning more through Karlo Shaadi. Start free, upgrade when ready.
             </p>
-            {offerActive && (
-              <p className="text-sm font-bold text-primary animate-pulse">
-                🎉 LAUNCH OFFER: 50% OFF your first month on all paid plans!
-              </p>
-            )}
-          </div>
-
-          {/* Social Proof Banner */}
-          <div className="bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 border-2 border-accent/30 rounded-2xl p-6 mb-12 text-center animate-fade-in">
-            <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-primary" />
-                <span className="font-bold">847 vendors upgraded this month</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-green-500" />
-                <span className="font-bold text-green-600">100% money-back guarantee</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Gem className="h-4 w-4 text-accent-foreground" />
-                <span className="font-bold">Most popular in your city</span>
-              </div>
-            </div>
           </div>
 
           {/* Pricing Cards */}
