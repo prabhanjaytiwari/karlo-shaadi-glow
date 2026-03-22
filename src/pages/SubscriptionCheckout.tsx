@@ -14,7 +14,9 @@ import {
   trackPaymentFailed, 
   trackSubscriptionStarted 
 } from "@/lib/analytics";
-import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+import { validatePromoCode, applyPromoDiscount, type PromoCode } from "@/lib/promoCodes";
+import { Input } from "@/components/ui/input";
+import { Tag } from "lucide-react";
 
 declare global {
   interface Window {
