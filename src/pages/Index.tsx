@@ -183,9 +183,9 @@ const Index = () => {
 
             {/* Invite Creator */}
             <Link to="/invite-creator" className="group">
-              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Heart className="h-7 w-7 text-primary" />
+              <div className="relative h-full p-6 sm:p-8 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-200 hover:-translate-y-0.5">
+                <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center mb-4">
+                  <Heart className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">Invite Creator</h3>
                 <p className="text-muted-foreground text-sm mb-4">
