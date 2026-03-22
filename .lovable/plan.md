@@ -1,137 +1,116 @@
 
 
-# Immersive Auth, Splash & Vendor Onboarding Redesign
+# Mobile Responsiveness Audit & Fix — All Pages
 
-## What This Covers
+## Current State
 
-1. **Separate splash screens** for couples (romantic/soft) vs vendors (professional/bold)
-2. **Couple auth page** redesigned with reference-image aesthetics — glassmorphism cards, smooth animations
-3. **Vendor onboarding** completely restyled with the same premium design language, skip-to-end option, pricing step with congratulations flow
-4. **Proper wiring** — redirects, subscription confirmation, congratulations screen
-5. **AI-generated hero images** via Nano Banana Pro for splash/auth backgrounds
+The app already has some mobile foundations:
+- `overflow-x: hidden` on html/body in `index.css` ✅
+- `MobileHomeScreen` renders on mobile for Index ✅
+- Most pages use `container mx-auto px-4` ✅
+- `useIsMobile()` hook used extensively ✅
 
----
+However, there are systematic issues across ~40+ pages that need fixing.
 
-## Files to Create/Modify
+## Issues Found & Fixes
 
-### 1. Splash Screen — Role-Aware (`src/components/native/SplashScreen.tsx`)
+### 1. OVERFLOW FIX — Root Layout Wrapper
+`MobileLayout.tsx` wraps all content but lacks `overflow-x-hidden`. Add it to prevent any child from causing horizontal scroll.
 
-Currently shows one generic splash. Change to detect the current route:
-- **Couple routes** (`/`, `/auth`, `/dashboard`): Soft romantic gradient (rose/lavender), heart icon, tagline "Your Dream Wedding, Simplified"
-- **Vendor routes** (`/vendor/*`, `/vendor-auth`): Bold dark gradient (deep purple → gold), briefcase/crown icon, tagline "Grow Your Wedding Business"
-- Use `useLocation()` to determine which splash to show
-- Both get smooth scale-in logo + fade-in text + loading dots animation
+**File:** `src/layouts/MobileLayout.tsx`
+- Add `overflow-x-hidden` to the root div
 
-### 2. Couple Onboarding (`src/pages/Onboarding.tsx`)
+### 2. CONTAINER FIX — Standardize Padding
+Many pages use `px-4 sm:px-6` but miss `lg:px-10`. Some pages use `md:px-6` inconsistently. Need to audit and standardize all container elements.
 
-Redesign the 4-slide carousel to match reference images:
-- Remove emoji orb clusters — replace with clean illustration cards (AI-generated wedding images stored in Supabase)
-- Glassmorphism slide container: `bg-white/20 backdrop-blur-xl border border-white/20 rounded-3xl`
-- Smooth spring animations on slide transitions
-- Clean dot indicators + large rounded CTA button
-- Keep Skip button
-
-### 3. Couple Auth Page (`src/pages/Auth.tsx`)
-
-Redesign to match reference aesthetics:
-- **Mobile**: Full-bleed hero image (AI-generated romantic mandap scene) with gradient overlay, glassmorphism auth card floating over it
-- **Desktop**: Split layout stays but left panel gets AI-generated cinematic image with glassmorphism stat overlay
-- Auth card: `bg-white/80 backdrop-blur-2xl border border-white/30 shadow-2xl rounded-3xl`
-- Inputs: frosted glass style with soft focus rings
-- Google button: clean with subtle shadow
-- Smooth entrance animations (staggered fade-in for form fields)
-- Vendor CTA section: clean card with gradient accent border
-
-### 4. Vendor Auth Page (`src/pages/VendorAuth.tsx`)
-
-Match the vendor onboarding dark theme:
-- Dark background with subtle gold accent orbs
-- Glassmorphism login card: `bg-white/[0.08] backdrop-blur-xl border border-white/[0.15] rounded-3xl`
-- Gold accent CTA buttons
-- "New vendor? Register here →" prominently linked to `/vendor/onboarding`
-
-### 5. Vendor Onboarding Complete Redesign (`src/pages/VendorOnboarding.tsx`)
-
-This is the largest change — 1306 lines, needs visual overhaul:
-
-**Step 0 (Auth)**:
-- Dark cinematic background with AI-generated vendor hero image
-- Glassmorphism signup card with gold accents
-- Smooth entrance animations
-
-**Steps 1-5 (Profile Creation)**:
-- **Skip button** added: "Skip to Quick Setup →" that jumps to Step 5 (Review) with only required fields (category + business name + city) pre-filled or prompted in a compact form
-- Step hero banners: keep existing images but add glassmorphism overlay with step info
-- Progress stepper: redesigned as a sleek pill-based horizontal stepper with glow on active step
-- Form containers: glassmorphism cards with smooth field-by-field fade-in
-- Category grid (Step 1): cards with subtle 3D tilt on hover (transform: perspective + rotateX)
-- Navigation: sticky bottom bar with glassmorphism effect
-
-**Step 6 (Pricing/Plan Selection)**:
-- Redesigned to match the uploaded pricing reference images
-- 3 plan cards with the "Pro" card elevated/inverted (dark bg with gold accent)
-- Clean feature comparison with checkmarks
-- "Skip — Continue Free" button clearly visible
-
-**Step 7 (NEW — Congratulations Screen)**:
-- After subscription payment OR free plan selection
-- Full-screen celebration: confetti animation, large checkmark, "Welcome to Karlo Shaadi! 🎉"
-- Show subscription tier badge if paid
-- Auto-redirect to `/vendor/dashboard` after 3 seconds OR manual "Go to Dashboard" button
-- AI-generated congratulations illustration
-
-### 6. AI Image Generation
-
-Generate 4 images via Nano Banana Pro edge function for:
-1. Couple auth hero — romantic mandap/wedding ceremony scene
-2. Vendor auth hero — professional wedding business scene
-3. Couple splash background — soft floral wedding aesthetic
-4. Congratulations illustration — celebration/success themed
-
-Store in `home-banners` Supabase bucket (existing infrastructure).
-
-### 7. Subscription Wiring Fix
-
-- `VendorSubscriptionCheckout` component's `onSuccess` callback currently navigates directly to dashboard
-- Change: `onSuccess` → set a `subscriptionComplete` state → show congratulations screen (Step 7) → then navigate
-- Ensure the congratulations screen shows the correct plan name and badge
-
----
-
-## Technical Details
-
-### Glassmorphism Pattern (Consistent)
-```css
-/* Light context (couple) */
-bg-white/70 backdrop-blur-2xl border border-white/30 shadow-2xl rounded-3xl
-
-/* Dark context (vendor) */
-bg-white/[0.08] backdrop-blur-xl border border-white/[0.15] shadow-2xl rounded-3xl
+**Pattern to enforce everywhere:**
+```
+container mx-auto px-4 sm:px-6 lg:px-10 max-w-[1200px]
 ```
 
-### Skip Feature Logic
-When vendor clicks "Skip to Quick Setup":
-- Jump to a condensed form showing only: Category dropdown + Business Name + City
-- On submit → create vendor profile with minimal data → show Step 6 (pricing)
-- All other fields default to null/empty (can be filled later from dashboard)
+**Pages with missing/inconsistent padding (~20 files):**
+- `ForVendors.tsx`, `WhyKarloShaadi.tsx`, `About.tsx`, `Testimonials.tsx`, `VendorSuccessStories.tsx`, `EarnWithUs.tsx`, `ComingSoon.tsx`, `DataExport.tsx`, `FamilyFrame.tsx`, `CoupleQuiz.tsx`, `StoryDetail.tsx`, `VendorGuide.tsx`, `Blog.tsx`, `BlogPost.tsx`, `Investors.tsx`, `JoinAsManager.tsx`, `Legal.tsx`, `Privacy.tsx`, `Shipping.tsx`, `CancellationRefunds.tsx`
 
-### Animation System
-- Page transitions: `framer-motion` with custom spring configs
-- Form fields: staggered `y: 20 → 0` with 50ms delay between fields
-- Cards: `whileHover={{ y: -4, shadow: '...' }}` for depth
-- Congratulations: confetti via CSS keyframes + scale-in checkmark
+### 3. GRID FIX — Responsive Grid Breakpoints
+Several grids jump from `grid-cols-1` straight to `grid-cols-3` or `grid-cols-4` without a tablet `md:grid-cols-2` step.
 
-### Files Modified
-1. `src/components/native/SplashScreen.tsx` — role-aware splash
-2. `src/pages/Onboarding.tsx` — couple onboarding redesign
-3. `src/pages/Auth.tsx` — couple auth glassmorphism redesign
-4. `src/pages/VendorAuth.tsx` — vendor auth dark theme
-5. `src/pages/VendorOnboarding.tsx` — complete visual overhaul + skip + congratulations
-6. Edge function call for AI image generation (existing `generate-home-banners`)
+**Key files to fix:**
+- `Index.tsx` line 151: `grid md:grid-cols-3` → `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
+- `Index.tsx` line 243: `grid grid-cols-3` → `grid grid-cols-1 sm:grid-cols-3` (stats row, fine at 3 on small)
+- `Search.tsx` line 503: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` ✅ (already fine)
+- `VendorGuide.tsx` line 237: `grid-cols-2 md:grid-cols-4` → `grid-cols-2 md:grid-cols-4` (OK, 2-col mobile)
+- `VendorGuide.tsx` line 356: `md:grid-cols-3` → `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
+- `WeddingPlanResult.tsx` line 239: `grid-cols-2 md:grid-cols-4` (OK)
+- `StoryDetail.tsx` line 185: `grid-cols-2 md:grid-cols-3` (OK)
+- `WhyKarloShaadi.tsx` vendor benefits grid — needs responsive fix
+- `BentoGrid.tsx` — audit grid breakpoints
+- `ForVendors.tsx` — category grid and feature grids
+- `Testimonials.tsx`, `SuccessStories.tsx` — card grids
+- `ToolsLanding.tsx` — `grid-cols-2 md:grid-cols-3` (OK)
+- `Dashboard.tsx` line 231: `grid-cols-2 md:grid-cols-5 lg:grid-cols-10` — desktop only, mobile has separate layout (OK)
+- `BhindiFooter.tsx` line 193: `grid-cols-2 md:grid-cols-3 lg:grid-cols-7` (OK)
+- `VendorProfile.tsx` line 430: `grid-cols-3` stats row — keep, small items
+- `Pricing.tsx`, `VendorPricing.tsx` — pricing card grids need `grid-cols-1 md:grid-cols-2 lg:grid-cols-4`
 
-### Redirect Wiring
-- Couple signup → email verify → `/auth` → role check → `/dashboard`
-- Vendor signup (onboarding) → email verify → `/vendor/onboarding` → continue steps
-- Vendor subscription success → congratulations screen → `/vendor/dashboard`
-- Free plan skip → congratulations screen (simpler) → `/vendor/dashboard`
+### 4. IMAGE FIX — No Fixed Heights on Mobile
+Most images use `object-cover` with `aspect-ratio` or percentage heights which is correct. Check for any fixed `h-[XXXpx]` on image containers.
+
+**Pattern:** Ensure all `<img>` tags have `w-full` and use aspect ratios instead of fixed pixel heights. The `CinematicImage` component already handles this well.
+
+### 5. NAVBAR FIX
+`BhindiHeader.tsx` already has a hamburger menu (Sheet component) on mobile and hides nav links. This is working correctly. Verify no links overflow.
+
+### 6. TEXT FIX — Scale Down Large Headings
+Several pages use `text-5xl` or `text-6xl` without proper mobile scaling:
+
+**Files needing text scale fixes:**
+- `WeddingWebsite.tsx`: `text-4xl md:text-5xl lg:text-6xl` → add `text-2xl sm:text-3xl` base
+- `DataExport.tsx`: `text-4xl sm:text-5xl` → `text-2xl sm:text-4xl md:text-5xl`
+- `Testimonials.tsx`: already has mobile conditional ✅
+- `ForVendors.tsx`: `text-3xl md:text-5xl lg:text-6xl` → `text-2xl sm:text-3xl md:text-5xl`
+- `VendorSuccessStories.tsx`: `text-4xl sm:text-5xl md:text-6xl` → `text-2xl sm:text-3xl md:text-5xl`
+- `PremiumUpgrade.tsx`: `text-4xl md:text-5xl` → `text-2xl md:text-4xl`
+- `BlogPost.tsx`: `text-3xl sm:text-4xl md:text-5xl` → `text-2xl sm:text-3xl md:text-4xl`
+- `EarnWithUs.tsx`: already `text-2xl sm:text-3xl md:text-5xl` ✅
+- `CoupleQuiz.tsx`: `text-3xl sm:text-4xl md:text-5xl` → `text-2xl sm:text-3xl md:text-4xl`
+- `FamilyFrame.tsx`: `text-3xl sm:text-4xl md:text-5xl` → OK
+- Multiple CTA sections with `text-3xl sm:text-4xl md:text-5xl` → standardize to `text-2xl sm:text-3xl md:text-4xl`
+
+### 7. CARD FIX — Horizontal Cards Stack on Mobile
+Key instances:
+- `About.tsx` line 67: `grid md:grid-cols-[280px_1fr]` — already stacks on mobile ✅
+- `WhyKarloShaadi.tsx` line 178: `flex-col md:flex-row` — already correct ✅
+- `Index.tsx` sections: `lg:grid-cols-2` — already stacks ✅
+- `StoryDetail.tsx` line 159: `lg:grid-cols-3` — stacks on mobile ✅
+- `Messages.tsx` line 299: `md:grid-cols-3` — has mobile conditional ✅
+
+Most horizontal layouts already use `flex-col md:flex-row` or `grid lg:grid-cols-2`. A few need attention.
+
+## Implementation Plan
+
+### Batch 1: Global Fixes (3 files)
+1. `src/layouts/MobileLayout.tsx` — Add `overflow-x-hidden`
+2. `src/index.css` — Add a `.page-section` utility for consistent container + padding
+3. `src/components/ui/card.tsx` — Ensure base card has `overflow-hidden`
+
+### Batch 2: High-Traffic Pages (8 files)
+4. `src/pages/Index.tsx` — Grid fixes, text scaling
+5. `src/pages/ForVendors.tsx` — Text scaling, grid fixes, container padding
+6. `src/pages/VendorPricing.tsx` — Pricing grid 1→2→4 col
+7. `src/pages/Pricing.tsx` — Same pricing grid fix
+8. `src/pages/Dashboard.tsx` — Container padding standardization
+9. `src/pages/Testimonials.tsx` — Grid and text fixes
+10. `src/pages/VendorSuccessStories.tsx` — Text scaling
+11. `src/pages/WhyKarloShaadi.tsx` — Vendor benefits grid fix
+
+### Batch 3: Content & Tool Pages (10 files)
+12-21: `DataExport`, `FamilyFrame`, `CoupleQuiz`, `BlogPost`, `PremiumUpgrade`, `VendorGuide`, `WeddingWebsite`, `About`, `Blog`, `StoryDetail`
+
+### Batch 4: Remaining Pages (10 files)
+22-31: `EarnWithUs`, `ComingSoon`, `Investors`, `JoinAsManager`, `Legal`, `Privacy`, `Shipping`, `CancellationRefunds`, `SuccessStories`, `Achievements`
+
+### Batch 5: Component Fixes (5 files)
+32-36: `BentoGrid`, `ReviewsSection`, `TensionsSection`, `LiveActivityFeed`, `SponsoredVendorsCarousel`
+
+**Total: ~36 files, design-only changes (no content/feature changes)**
 
