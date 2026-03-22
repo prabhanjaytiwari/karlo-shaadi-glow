@@ -184,7 +184,7 @@ export default function WhyKarloShaadi() {
               >
                 {/* Image */}
                 <div className="md:w-1/2">
-                  <div className={`relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br ${role.gradient}`}>
+                  <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-lg)]">
                     <img
                       src={role.image}
                       alt={role.title}
