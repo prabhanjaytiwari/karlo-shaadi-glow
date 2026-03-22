@@ -87,7 +87,7 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           <VendorCRM vendorId={vendorId} vendorName={vendorName} />
         </TabsContent>
         <TabsContent value="payments">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Payment Tracker" featureDescription="Create payment schedules, send Razorpay links, and auto-remind clients. Upgrade to Silver to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="starter" toolName="Payment Tracker" featureDescription="Create payment schedules, send Razorpay links, and auto-remind clients. Upgrade to Starter to unlock.">
             <PaymentScheduleManager vendorId={vendorId} vendorName={vendorName} />
           </ToolGate>
         </TabsContent>
