@@ -290,15 +290,10 @@ export default function Pricing() {
         <div className="relative container mx-auto max-w-4xl text-center">
           <h2 className={`font-bold text-white ${isMobile ? 'text-2xl' : 'text-4xl'} mb-4`}>Ready to Plan Your Dream Wedding?</h2>
           <p className="text-white/80 mb-2 text-sm max-w-md mx-auto">Join 50,000+ happy couples who found their perfect vendors - 100% FREE!</p>
-          {offerActive && (
-            <p className="text-white font-bold mb-4 animate-pulse text-sm">
-              ⏰ 50% OFF AI Premium ends soon — grab it now!
-            </p>
-          )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to="/auth"><Button size="lg" className="bg-white text-primary hover:bg-white/90 rounded-full px-8">Start Planning Free</Button></Link>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-full px-8" onClick={handlePremiumClick}>
-              {offerActive ? "🔥 Claim 50% OFF" : "Try AI Premium"}
+              Try AI Premium
             </Button>
           </div>
         </div>
