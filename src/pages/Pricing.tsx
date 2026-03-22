@@ -161,30 +161,10 @@ export default function Pricing() {
                 </div>
                 <h3 className="font-bold text-xl mb-1">{plan.name}</h3>
 
-                {/* Price with anchoring for AI Premium */}
-                {plan.popular && offerActive && discountedPrice ? (
-                  <div className="mb-1">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg line-through text-muted-foreground">₹{AI_PREMIUM_PRICE}</span>
-                      <Badge variant="destructive" className="text-xs">50% OFF</Badge>
-                    </div>
-                    <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="font-black text-3xl text-primary">₹{discountedPrice}</span>
-                      <span className="text-muted-foreground text-sm">first month</span>
-                    </div>
-                    <p className="text-xs text-green-600 font-bold mt-0.5">
-                      💰 You save ₹{savings}! That's just ₹{perDay}/day
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
-                      Then ₹{AI_PREMIUM_PRICE}/month. Cancel anytime.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="font-bold text-3xl">{plan.price}</span>
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
-                  </div>
-                )}
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="font-bold text-3xl">{plan.price}</span>
+                  <span className="text-muted-foreground text-sm">{plan.period}</span>
+                </div>
 
                 <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
 
