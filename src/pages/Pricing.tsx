@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";
+import { getPerDayPrice } from "@/components/CountdownBanner";
 import heroImg from "@/assets/hero-pricing-carefree.jpg";
 
 const faqs = [
