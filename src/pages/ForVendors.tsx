@@ -24,6 +24,17 @@ const vendorCategoryDefs = [
   { name: "DJs & Music", icon: Zap, dbCategory: "music" },
 ];
 
+const vendorFaqs = [
+  { question: "Is it free to register as a vendor on Karlo Shaadi?", answer: "Yes, registration is completely free. You can create your vendor profile, upload your portfolio, and start receiving inquiries at zero cost. We never charge commission on your bookings." },
+  { question: "How does Karlo Shaadi help me get more wedding bookings?", answer: "We use AI-powered matching to connect you with couples whose requirements match your services, budget range, and location. Couples can send you direct inquiries, view your portfolio, and book you — all through the platform." },
+  { question: "What is the Karlo Shaadi Verified Badge?", answer: "The Verified Badge is earned after completing our verification process — including identity verification, portfolio review, and reference checks. Verified vendors appear higher in search results and receive 3x more inquiries on average." },
+  { question: "Does Karlo Shaadi charge commission on bookings?", answer: "No. Unlike WedMeGood, Shaadidukaan, or other platforms that charge 15-20% commission, Karlo Shaadi charges zero commission. We monetize through optional premium subscription tiers that give you extra visibility and features." },
+  { question: "What categories of wedding vendors can register?", answer: "We accept all wedding service categories: Photography, Videography, Venues, Catering, Decoration, Makeup Artists, Mehendi Artists, Music & DJ, Entertainment, Invitations, Choreography, Transport, Jewelry, Pandit Services, and more." },
+  { question: "How do I manage my bookings and inquiries?", answer: "Your vendor dashboard gives you a complete overview of all inquiries, bookings, payments, and reviews. You can respond to inquiries, manage your calendar availability, update pricing, and track your business analytics — all in one place." },
+  { question: "What are the premium subscription plans?", answer: "We offer Starter (₹999/mo), Pro (₹2,999/mo), and Elite (₹6,999/mo) plans. Premium vendors get priority listing, featured placement, advanced analytics, bulk portfolio uploads, and dedicated account support. All plans are month-to-month with no long-term contracts." },
+  { question: "Which cities does Karlo Shaadi operate in?", answer: "We serve 20+ cities across India including Delhi, Mumbai, Lucknow, Bangalore, Hyderabad, Kolkata, Chennai, Pune, Jaipur, Ahmedabad, Chandigarh, Udaipur, and more. We're expanding rapidly to new cities every month." },
+];
+
 const ForVendors = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
