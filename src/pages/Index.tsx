@@ -207,7 +207,7 @@ const Index = () => {
               { label: "Speech Writer", to: "/speech-writer" },
               { label: "Music Generator", to: "/music-generator" },
             ].map((tool) => (
-              <Link key={tool.to} to={tool.to} className="px-4 py-2 rounded-full border border-accent/20 bg-white hover:border-primary/40 hover:bg-primary/5 text-xs font-medium text-muted-foreground hover:text-foreground transition-all">
+              <Link key={tool.to} to={tool.to} className="px-4 py-2 rounded-full bg-muted hover:bg-muted/80 text-xs font-medium text-muted-foreground hover:text-foreground transition-all">
                 {tool.label}
               </Link>
             ))}
