@@ -633,7 +633,7 @@ export function MobileHomeScreen() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/40">
+          <div className="flex items-center justify-between bg-card rounded-xl p-3 shadow-[var(--shadow-xs)]">
             <div className="flex items-center gap-2">
               <div className="flex">
                 {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />)}
