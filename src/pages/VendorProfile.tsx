@@ -183,10 +183,10 @@ const VendorProfile = () => {
           />
           {images.length > 1 && (
             <>
-              <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
+              <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/90 flex items-center justify-center">
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
+              <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/90 flex items-center justify-center">
                 <ChevronRight className="h-4 w-4" />
               </button>
               {/* Dots */}
