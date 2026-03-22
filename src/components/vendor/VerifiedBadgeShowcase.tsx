@@ -151,7 +151,7 @@ export const VerifiedBadgeShowcase = ({ vendor }: VerifiedBadgeShowcaseProps) =>
   return (
     <div className="space-y-6">
       {/* Badge Preview */}
-      <Card className="overflow-hidden border-2 border-accent/30">
+      <Card className="overflow-hidden shadow-[var(--shadow-sm)]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CheckCircle2 className="h-5 w-5 text-primary" />

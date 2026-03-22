@@ -702,7 +702,7 @@ export function WeddingPlanWizard() {
       {/* Progress bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="h-1 bg-muted">
-          <motion.div className="h-full bg-gradient-to-r from-accent to-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
+          <motion.div className="h-full bg-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
         </div>
         <div className="px-4 py-3 flex items-center justify-between">
           <button onClick={() => navigate("/")} className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
@@ -739,7 +739,7 @@ export function WeddingPlanWizard() {
             Back
           </Button>
           <span className="text-xs text-muted-foreground hidden sm:block">{stepLabels[step - 1]}</span>
-          <Button onClick={handleNext} disabled={!canProceed()} size="sm" className="gap-1.5 bg-gradient-to-r from-accent to-primary text-primary-foreground min-w-[120px]">
+          <Button onClick={handleNext} disabled={!canProceed()} size="sm" className="gap-1.5 bg-primary text-primary-foreground min-w-[120px]">
             {step === totalSteps ? (
               <>
                 <Sparkles className="h-4 w-4" />

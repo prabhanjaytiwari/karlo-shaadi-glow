@@ -63,7 +63,7 @@ export function PasswordChange() {
   };
 
   return (
-    <Card className="bg-white/90 border-2 border-accent/20">
+    <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Lock className="h-5 w-5 text-accent" />

@@ -103,14 +103,14 @@ export function SponsoredVendorsCarousel() {
                         </div>
                         
                         <div className="absolute top-3 left-3">
-                          <Badge className="bg-card/90 backdrop-blur-sm text-accent border-0 shadow-sm">
+                          <Badge className="bg-card/90 text-accent border-0 shadow-sm">
                             <Crown className="h-3 w-3 mr-1" />
                             Verified Premium
                           </Badge>
                         </div>
 
                         <div className="absolute top-3 right-3">
-                          <div className="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1.5">
+                          <div className="bg-white/95 px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1.5">
                             <Star className="h-4 w-4 fill-accent text-accent" />
                             <span className="font-bold text-sm text-card-foreground">{vendor.average_rating || 5.0}</span>
                           </div>

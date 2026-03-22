@@ -266,7 +266,7 @@ const StoryDetail = () => {
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-accent to-primary"
+                            className="h-full bg-primary"
                             style={{ width: `${item.percentage}%` }}
                           />
                         </div>

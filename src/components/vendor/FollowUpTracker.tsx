@@ -52,7 +52,7 @@ export function FollowUpTracker({ vendorId }: FollowUpTrackerProps) {
 
   if (loading) {
     return (
-      <Card className="border-2 border-accent/20">
+      <Card className="shadow-[var(--shadow-sm)]">
         <CardContent className="py-12 flex justify-center">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </CardContent>
@@ -61,7 +61,7 @@ export function FollowUpTracker({ vendorId }: FollowUpTrackerProps) {
   }
 
   return (
-    <Card className="border-2 border-accent/20">
+    <Card className="shadow-[var(--shadow-sm)]">
       <CardHeader>
         <CardTitle className="text-lg">Client Follow-Up Reminders</CardTitle>
       </CardHeader>

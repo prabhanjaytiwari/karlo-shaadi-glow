@@ -250,7 +250,7 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
       )}
 
       {/* Referral Link Card */}
-      <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-primary/5">
+      <Card className="shadow-[var(--shadow-sm)] bg-muted/20">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Gift className="h-5 w-5 text-accent" />

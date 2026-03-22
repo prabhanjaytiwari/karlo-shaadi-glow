@@ -5,10 +5,10 @@ export const ShaadiSevaWidget = () => {
 
   return (
     <div className="space-y-4">
-      <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 text-center">
+      <div className="p-6 rounded-2xl bg-muted/20 border border-primary/20 text-center">
         <a
           href="/shaadi-seva"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
         >
           <Heart className="h-4 w-4 fill-white" />
           This wedding supports Shaadi Seva

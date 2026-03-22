@@ -103,7 +103,7 @@ export function DashboardMusicSection({ userId }: DashboardMusicSectionProps) {
 
   if (loading) {
     return (
-      <Card className="bg-white/90 border-2 border-accent/20">
+      <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Music className="h-5 w-5 text-primary" />
@@ -118,7 +118,7 @@ export function DashboardMusicSection({ userId }: DashboardMusicSectionProps) {
   }
 
   return (
-    <Card className="bg-white/90 border-2 border-accent/20">
+    <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
       <audio ref={audioRef} />
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center gap-2">

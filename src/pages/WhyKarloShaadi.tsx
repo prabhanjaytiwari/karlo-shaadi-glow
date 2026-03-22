@@ -193,7 +193,7 @@ export default function WhyKarloShaadi() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                     <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                         <role.icon className="h-5 w-5 text-white" />
                       </div>
                       <span className="text-white font-semibold text-lg drop-shadow-lg">{role.title}</span>

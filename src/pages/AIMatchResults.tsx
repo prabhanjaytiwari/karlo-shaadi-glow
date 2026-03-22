@@ -174,7 +174,7 @@ export default function AIMatchResults() {
   const getTierBadge = (tier: string) => {
     switch (tier) {
       case 'sponsored':
-        return <Badge className="bg-gradient-to-r from-primary to-accent text-white">Diamond</Badge>;
+        return <Badge className="bg-primary text-white">Diamond</Badge>;
       case 'featured':
         return <Badge className="bg-accent/20 text-accent border-accent">Gold</Badge>;
       default:

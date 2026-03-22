@@ -181,7 +181,7 @@ export const WeddingPlanningProgress = ({ userId, weddingDate }: WeddingPlanning
   return (
     <Card className="border-2 border-primary/10 hover:border-primary/20 transition-all duration-300 overflow-hidden">
       {/* Header with Progress */}
-      <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5 pb-6">
+      <CardHeader className="bg-muted/20 pb-6">
         <div className="flex items-center justify-between mb-4">
           <CardTitle className="flex items-center gap-2">
             <Trophy className="h-5 w-5 text-primary" />

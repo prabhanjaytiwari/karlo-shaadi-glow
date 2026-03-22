@@ -880,7 +880,7 @@ To be part of our dreams coming true!`,
           
           <h1 className="text-3xl md:text-5xl font-semibold text-foreground mb-6 leading-tight">
             Create Your{" "}
-            <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
+            <span className="text-primary">
               Personalized
             </span>
             <br />

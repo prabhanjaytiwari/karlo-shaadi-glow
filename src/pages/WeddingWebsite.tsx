@@ -525,7 +525,7 @@ const WeddingWebsite = () => {
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Your Love Story
-              <span className="block bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
+              <span className="block text-primary">
                 Deserves a Beautiful Website
               </span>
             </h1>
@@ -1252,7 +1252,7 @@ const WeddingWebsite = () => {
                         <UserCheck className="w-5 h-5 text-accent" />
                         Guest RSVP Form Preview
                       </h3>
-                      <Card className="p-6 bg-gradient-to-br from-accent/5 to-primary/5 border-accent/20">
+                      <Card className="p-6 bg-muted/20 border-accent/20">
                         {showRsvpSuccess ? (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}

@@ -137,7 +137,7 @@ const VendorSuccessStories = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {successMetrics.map((metric, idx) => (
-              <Card key={idx} className="text-center shadow-[var(--shadow-sm)] bg-gradient-to-br from-accent/5 to-primary/5">
+              <Card key={idx} className="text-center shadow-[var(--shadow-sm)] bg-muted/20">
                 <CardContent className="pt-6">
                   <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mx-auto mb-4">
                     <metric.icon className="h-6 w-6 text-accent" />

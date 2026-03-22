@@ -30,7 +30,7 @@ export function SeasonalInsights() {
   return (
     <div className="space-y-6">
       {/* High Demand Months */}
-      <Card className="border-2 border-accent/20">
+      <Card className="shadow-[var(--shadow-sm)]">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-accent" />
@@ -55,7 +55,7 @@ export function SeasonalInsights() {
       </Card>
 
       {/* Upcoming Muhurat Dates */}
-      <Card className="border-2 border-accent/20">
+      <Card className="shadow-[var(--shadow-sm)]">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <CalendarHeart className="h-5 w-5 text-accent" />

@@ -129,7 +129,7 @@ Made with 💕 on Karlo Shaadi`;
                       Total Wedding Budget
                     </label>
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      <span className="text-3xl md:text-4xl font-bold bg-primary bg-clip-text text-transparent">
                         {formatIndianCurrency(budget)}
                       </span>
                       <Badge className={`${budgetTier.color} text-white`}>

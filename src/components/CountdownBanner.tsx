@@ -65,7 +65,7 @@ export function CountdownBanner({ className, compact = false }: CountdownBannerP
       "relative overflow-hidden rounded-2xl p-4 md:p-5",
       isUrgent
         ? "bg-gradient-to-r from-destructive/20 via-destructive/10 to-destructive/20 border-2 border-destructive/40"
-        : "bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 border-2 border-accent/40",
+        : "bg-gradient-to-r from-accent/20 via-primary/10 to-accent/20 shadow-[var(--shadow-md)]",
       className
     )}>
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_3s_infinite] pointer-events-none" />

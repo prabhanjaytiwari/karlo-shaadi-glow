@@ -416,7 +416,7 @@ export default function VendorGuide() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 sm:px-6 bg-gradient-to-r from-primary to-accent">
+      <section className="py-20 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-3xl text-center text-white">
           <Clock className="w-12 h-12 mx-auto mb-4 opacity-80" />
           <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
