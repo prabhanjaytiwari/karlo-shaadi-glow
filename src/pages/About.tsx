@@ -27,7 +27,7 @@ const About = () => {
             <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
               <div className="max-w-3xl mx-auto text-center space-y-4">
                 <h1 className="text-3xl md:text-5xl font-bold">
-                  About <span className="bg-gradient-to-r from-primary via-pink-500 to-accent bg-clip-text text-transparent">Karlo Shaadi</span>
+                  About <span className="text-primary">Karlo Shaadi</span>
                 </h1>
                 <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto">
                   India's most trusted wedding planning platform, connecting couples with verified vendors across the country
