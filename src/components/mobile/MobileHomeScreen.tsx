@@ -586,7 +586,7 @@ export function MobileHomeScreen() {
         </section>
 
         {/* Divider */}
-        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="mx-4 h-px bg-border" />
 
         {/* ── HOW IT WORKS (compact horizontal strip) ── */}
         <section className="px-4">
