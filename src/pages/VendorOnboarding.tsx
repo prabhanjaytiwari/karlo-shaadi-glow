@@ -123,30 +123,30 @@ const STEP_GRADIENTS = [
 // Subscription plans
 const SUBSCRIPTION_PLANS = [
   {
-    id: "silver",
-    name: "Silver",
-    price: 4999,
+    id: "starter",
+    name: "Starter",
+    price: 999,
     icon: Star,
     popular: false,
     features: [
       "Top 10 search placement",
-      "Silver badge on profile",
-      "12% transaction fee (save 3%)",
+      "Silver verified badge",
+      "7% transaction fee (save 3%)",
       "Priority lead notifications",
       "Basic analytics dashboard",
     ],
     missing: ["Business Intelligence suite", "Portfolio Mini-Site", "Homepage featured spot"],
   },
   {
-    id: "gold",
-    name: "Gold",
-    price: 9999,
+    id: "pro",
+    name: "Pro",
+    price: 2999,
     icon: Sparkles,
     popular: true,
     features: [
       "Top 5 search placement",
       "Gold Verified badge",
-      "8% transaction fee (save 7%)",
+      "3% transaction fee (save 7%)",
       "Business Intelligence suite",
       "Portfolio Mini-Site builder",
       "Priority WhatsApp support",
@@ -155,9 +155,9 @@ const SUBSCRIPTION_PLANS = [
     missing: ["Homepage featured spot"],
   },
   {
-    id: "diamond",
-    name: "Diamond",
-    price: 19999,
+    id: "elite",
+    name: "Elite",
+    price: 6999,
     icon: Crown,
     popular: false,
     features: [
