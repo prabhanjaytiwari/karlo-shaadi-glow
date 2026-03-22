@@ -393,7 +393,7 @@ export default function VendorDashboard() {
                 <Button 
                   variant="outline" 
                   onClick={() => {
-                    setSelectedUpgradePlan("gold");
+                    setSelectedUpgradePlan("pro");
                     setUpgradeDialogOpen(true);
                   }} 
                   size="sm" 
