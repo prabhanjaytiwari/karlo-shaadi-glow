@@ -235,7 +235,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="relative rounded-lg sm:rounded-xl overflow-hidden aspect-video shadow-lg border border-accent/20 group">
+            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video shadow-[var(--shadow-md)] group">
               <CinematicImage src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full" cinematic />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
