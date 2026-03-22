@@ -149,8 +149,8 @@ const Auth = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="bg-gradient-to-r from-accent/20 via-emerald-100/50 to-accent/20 border border-accent/30 rounded-2xl p-4 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+          <div className="bg-muted/40 rounded-2xl p-4 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
               <Gift className="h-5 w-5 text-accent" />
             </div>
             <div className="min-w-0">
