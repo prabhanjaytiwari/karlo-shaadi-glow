@@ -687,7 +687,7 @@ export function WeddingPlanWizard() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-sm border border-white/40 px-5 py-3 rounded-2xl"
+            className="flex items-center justify-center gap-2 bg-muted/50 border border-border/30 px-5 py-3 rounded-2xl"
           >
             <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
             <span className="text-xs text-muted-foreground">This may take 15-30 seconds</span>
