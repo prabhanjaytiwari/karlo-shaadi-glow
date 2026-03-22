@@ -78,7 +78,7 @@ export default function Settings() {
 
               <TabsContent value="account" className="space-y-6">
                 {/* Profile Link */}
-                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                <div className="bg-card shadow-[var(--shadow-sm)] rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Profile Information</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Update your wedding details and preferences
