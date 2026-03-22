@@ -234,7 +234,7 @@ export default function WhyKarloShaadi() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-lg)]">
                 <img
                   src={vendorSectionImg}
                   alt="Wedding vendors at work"
