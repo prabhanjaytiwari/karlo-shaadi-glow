@@ -51,28 +51,32 @@ export default function SubscriptionCheckout() {
     checkAuth();
   }, []);
 
-  const offerActive = isOfferActive();
+  const [promoCode, setPromoCode] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
+  const [promoError, setPromoError] = useState("");
 
-  const planDetails = {
-    ai_premium: {
-      name: "AI Premium",
-      price: 999,
-      icon: Crown,
-      features: [
-        "24/7 AI Wedding Planner",
-        "2 Video Consultations/month",
-        "5% Exclusive Vendor Discounts",
-        "Priority WhatsApp Support",
-        "Unlimited AI Planning Sessions",
-        "Custom Budget Optimization"
-      ]
+  const currentPlan = plan === "ai_premium" ? planDetails.ai_premium : null;
+  const finalPrice = appliedPromo && currentPlan ? applyPromoDiscount(currentPlan.price, appliedPromo) : (currentPlan?.price ?? 0);
+  const savings = currentPlan ? currentPlan.price - finalPrice : 0;
+
+  const handleApplyPromo = () => {
+    setPromoError("");
+    if (!promoCode.trim()) return;
+    const promo = validatePromoCode(promoCode, 'couple');
+    if (promo) {
+      setAppliedPromo(promo);
+      toast.success(`${promo.discountPercent}% discount applied!`);
+    } else {
+      setAppliedPromo(null);
+      setPromoError("Invalid promo code");
     }
   };
 
-  const currentPlan = plan === "ai_premium" ? planDetails.ai_premium : null;
-  const discountedPrice = offerActive && currentPlan ? getDiscountedPrice(currentPlan.price) : null;
-  const finalPrice = discountedPrice || (currentPlan?.price ?? 0);
-  const savings = discountedPrice && currentPlan ? currentPlan.price - discountedPrice : 0;
+  const handleRemovePromo = () => {
+    setAppliedPromo(null);
+    setPromoCode("");
+    setPromoError("");
+  };
 
   const handlePayment = async () => {
     if (!currentPlan || !session) return;
