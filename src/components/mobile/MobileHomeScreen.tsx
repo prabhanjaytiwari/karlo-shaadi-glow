@@ -593,7 +593,7 @@ export function MobileHomeScreen() {
           <h2 className="text-base font-semibold text-foreground mb-3">Book a Vendor in 3 Steps</h2>
           <div className="flex gap-2">
             {howItWorksSteps.map((step, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card border border-border/40">
+              <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2 border border-primary/20">
                   <span className="text-xs font-bold text-primary">{step.num}</span>
                 </div>
