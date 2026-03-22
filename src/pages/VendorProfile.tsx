@@ -304,6 +304,18 @@ const VendorProfile = () => {
           </p>
         </div>
 
+        {/* Video Reels - Mobile */}
+        {portfolio.filter(p => p.video_url).length > 0 && (
+          <div className="px-4 py-3">
+            <h2 className="text-base font-bold text-foreground mb-3">Video Reels</h2>
+            <div className="space-y-3">
+              {portfolio.filter(p => p.video_url).map(item => (
+                <VideoEmbed key={item.id} videoUrl={item.video_url} title={item.title} />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* FAQ */}
         <div className="px-4 py-3">
           <VendorFAQ vendorName={vendor.business_name} category={vendor.category} />
