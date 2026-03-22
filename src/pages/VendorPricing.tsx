@@ -182,7 +182,7 @@ export default function VendorPricing() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium text-muted-foreground">Grow Your Business</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
               Choose Your <span className="text-gradient">Success Plan</span>
             </h1>
             <p className="text-muted-foreground max-w-xl mx-auto">
