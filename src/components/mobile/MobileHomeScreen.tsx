@@ -572,7 +572,7 @@ export function MobileHomeScreen() {
                 <button
                   key={item.route}
                   onClick={() => navigate(item.route)}
-                  className="flex-shrink-0 w-40 p-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform text-left"
+                  className="flex-shrink-0 w-40 p-3 rounded-xl bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform text-left"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2">
                     <item.icon className="h-4 w-4 text-primary" />
