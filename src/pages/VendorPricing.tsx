@@ -8,7 +8,7 @@ import { SEO } from "@/components/SEO";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { CountdownBanner, isOfferActive, getDiscountedPrice, getPerDayPrice } from "@/components/CountdownBanner";
+// Discount removed
 
 export default function VendorPricing() {
   const navigate = useNavigate();
