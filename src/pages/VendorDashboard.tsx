@@ -731,17 +731,29 @@ export default function VendorDashboard() {
             </TabsContent>
 
             <TabsContent value="portfolio">
+              {/* Video Reels Section */}
               {vendor && (
-                <BulkPortfolioUpload
+                <VideoReelUpload
                   vendorId={vendor.id}
-                  onSuccess={() => {
-                    loadPortfolio(vendor.id);
-                    toast({
-                      title: "Portfolio updated",
-                      description: "Your images have been uploaded successfully.",
-                    });
-                  }}
+                  portfolio={portfolio}
+                  onSuccess={() => loadPortfolio(vendor.id)}
                 />
+              )}
+
+              {/* Bulk Image Upload */}
+              {vendor && (
+                <div className="mt-6">
+                  <BulkPortfolioUpload
+                    vendorId={vendor.id}
+                    onSuccess={() => {
+                      loadPortfolio(vendor.id);
+                      toast({
+                        title: "Portfolio updated",
+                        description: "Your images have been uploaded successfully.",
+                      });
+                    }}
+                  />
+                </div>
               )}
 
               <div className="mt-8 space-y-4">

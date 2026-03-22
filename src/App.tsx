@@ -244,6 +244,7 @@ const AnimatedRoutes = () => {
           <Route path="/music-generator" element={<MusicGenerator />} />
           <Route path="/leaderboard" element={<VendorLeaderboard />} />
           <Route path="/guest-list" element={<ProtectedRoute><GuestList /></ProtectedRoute>} />
+          <Route path="/family-dashboard" element={<ProtectedRoute><FamilyDashboard /></ProtectedRoute>} />
           <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
           <Route path="/speech-writer" element={<SpeechWriterPage />} />
           <Route path="/shaadi-seva" element={<ShaadiSeva />} />
