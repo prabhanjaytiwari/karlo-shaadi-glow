@@ -118,12 +118,7 @@ export default function Pricing() {
         </div>
       </div>
 
-      {/* Countdown Banner */}
-      {offerActive && (
-        <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-8"}>
-          <CountdownBanner />
-        </div>
-      )}
+      {/* Banner removed */}
 
       {/* Social Proof Bar */}
       <div className={isMobile ? "px-4 pt-4" : "container mx-auto max-w-5xl pt-6"}>
