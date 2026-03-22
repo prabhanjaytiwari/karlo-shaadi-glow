@@ -273,7 +273,7 @@ const Index = () => {
                 Grow Your Wedding<br />
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Business 10x Faster</span>
               </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full" />
+              
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 Join India's #1 wedding platform. Get verified, showcase your portfolio, and connect with ready-to-book clients.
