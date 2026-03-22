@@ -1,85 +1,143 @@
+# Karlo Shaadi — Complete Platform Audit & Competitive Differentiation Plan
+
+## Market Intelligence Summary
+
+### What Competitors Are Doing (and Failing At)
 
 
-# Fix Plan: Vendor Interface, Role Switching, UI/UX, and Welcome Emails
+| Platform        | Strength                                                           | Weakness                                                                                                                          |
+| --------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **WedMeGood**   | Large vendor base, content/blog, brand recall                      | ₹25K-₹50K/year vendor plans, fake lead complaints, data breach (1.34M accounts), 1.0/5 on PissedConsumer, vendors report zero ROI |
+| **WeddingWire** | International brand                                                | Fake lead generation exposed, high flat commissions, poor India localization                                                      |
+| **Phera.io**    | Beautiful Indian wedding websites, WhatsApp concierge, smart RSVPs | No vendor marketplace — couples only. No discovery/booking                                                                        |
+| **Wedd.ai**     | AI-first for wedding planners, guest management                    | Invite-only, no vendor marketplace, targets planners not couples                                                                  |
 
-## Issues Identified
 
-1. **After vendor signup via Google OAuth, redirected to couple dashboard** — The `Auth.tsx` Google sign-in redirects to `/auth` callback, and the session check there routes to `/dashboard` (couple) because the vendor role hasn't been assigned yet at that point.
+### What Vendors Hate (Opportunity for Karlo Shaadi)
 
-2. **Header shows couple-oriented navigation for vendors** — `BhindiHeader.tsx` shows same Tools dropdown (AI Plan, Budget Calculator, Muhurat Finder etc.) and quick actions (Bookings, Favorites, Messages for couples) regardless of role. No role-switching UI exists.
+1. **Expensive subscriptions** — WedMeGood charges ₹25K-₹50K/year, vendors report ZERO bookings
+2. **Fake/junk leads** — Biggest complaint across all platforms
+3. **High commissions** — 15-20% on bookings
+4. **No transparency** — Vendors can't see analytics or lead quality
+5. **No support** — Money taken, then ghosted
 
-3. **Vendor Dashboard UI/UX is unprofessional** — Bookings tab has overlapping layout (calendar + booking list + "Select a Date" card squeezed together), inconsistent spacing, cards without proper margins on the grid layout.
+### What Couples Want (Missing Everywhere)
 
-4. **No welcome email delivered** — The `onboarding-email` Edge Function uses Resend, but the sender domain `karloshaadi.com` likely isn't verified in Resend. The function itself is correctly coded and the RESEND_API_KEY secret exists.
-
----
-
-## Plan
-
-### 1. Fix Post-Signup Redirect for Vendors
-
-**File:** `src/pages/Auth.tsx`
-- The Google OAuth `redirectTo` points to `/auth`. When vendors sign up via the couple auth page's Google button, they land back on `/auth` and get routed to `/dashboard`.
-- This is actually correct behavior for couple auth — the real issue is vendors using the couple Google OAuth. The vendor onboarding already handles its own Google redirect to `/vendor/onboarding`.
-- **Fix:** In `Dashboard.tsx`, enhance the mount check: if user has no role yet but has a vendor profile, redirect to `/vendor/dashboard`. Currently it only checks `isVendor` from roles.
-
-### 2. Role-Aware Header Navigation (Fiverr/Upwork-style Role Switcher)
-
-**File:** `src/components/BhindiHeader.tsx`
-
-- Add a **role switcher** dropdown near the user controls when the user has both couple and vendor roles (or is a vendor):
-  - "Switch to Couple View" / "Switch to Vendor View" toggle
-  - Store active view mode in localStorage
-- **Vendor-specific navigation**: When in vendor mode, replace couple Tools dropdown with vendor tools:
-  - CRM, Contracts, Invoices, Analytics, Mini-Site instead of AI Plan, Budget Calculator, Muhurat Finder
-- Replace couple quick actions (Bookings/Favorites/Messages for couples) with vendor equivalents
-- Change "Dashboard" link to always point to correct dashboard based on active role
-
-### 3. Vendor Dashboard UI/UX Overhaul
-
-**File:** `src/pages/VendorDashboard.tsx`
-
-- **Bookings tab layout fix** (lines 610-644): The `grid lg:grid-cols-[2fr_1fr]` causes the calendar and booking list to overlap on medium screens. Fix:
-  - Use proper responsive breakpoints with gap spacing
-  - Remove the redundant "Select a Date" card that overlaps the calendar
-  - Add proper padding/margins to the stats grid and tab content
-- **Stats cards**: Improve spacing with consistent `gap-4` on mobile, `gap-6` on desktop
-- **Subscription status card**: Clean up the margins, reduce border width from `border-2` to `border`
-- **Profile completion progress**: Add proper `mb-6` spacing
-- **Tab content areas**: Ensure all tab panels have consistent padding
-
-### 4. Welcome Email Fix
-
-**File:** `supabase/functions/onboarding-email/index.ts`
-
-- The edge function uses Resend with `noreply@karloshaadi.com` as sender. For this to work, the domain must be verified in Resend.
-- **Check:** The `RESEND_API_KEY` exists. The likely issue is domain verification in Resend OR the function not being deployed.
-- **Action:** Redeploy the `onboarding-email` edge function to ensure latest code is live.
-- **Fallback:** If Resend domain isn't verified, update sender to use Resend's default `onboarding@resend.dev` temporarily OR set up Lovable email infrastructure as the proper solution.
+1. **Real prices upfront** — Not "contact for pricing"
+2. **Multi-event planning** — Haldi, Mehendi, Sangeet, Wedding, Reception as separate bookable events
+3. **Family collaboration** — Both sides manage guest lists, budgets
+4. **WhatsApp-native communication** — Not email or in-app only
+5. **Trusted verified vendors** — Not pay-to-rank listings
 
 ---
 
-## Technical Details
+## Pricing Restructure
 
-### Role Switcher Component
-```text
-┌─────────────────────────────────┐
-│  [Vendor Mode ▼]                │
-│  ┌───────────────────┐          │
-│  │ 👤 Couple View     │          │
-│  │ 🏪 Vendor View  ✓  │          │
-│  └───────────────────┘          │
-└─────────────────────────────────┘
-```
+### Current Pricing (Too Expensive for New Platform)
 
-### Files to Create/Edit
-- `src/components/BhindiHeader.tsx` — Role-aware nav + role switcher
-- `src/pages/VendorDashboard.tsx` — UI/UX fixes for bookings tab, stats, spacing
-- `src/pages/Dashboard.tsx` — Add vendor profile fallback check
-- `src/components/RoleSwitcher.tsx` — New component for Fiverr-style role toggle
-- Redeploy `onboarding-email` edge function
+- Free → Silver ₹4,999/mo → Gold ₹9,999/mo → Diamond ₹19,999/mo
 
-### Estimated Changes
-- ~5 files modified, 1 new component
-- Focus on spacing, layout grid fixes, and role-conditional rendering
+### New Pricing (as requested)
 
+
+| Tier        | Price     | Key Value                                                                      |
+| ----------- | --------- | ------------------------------------------------------------------------------ |
+| **Free**    | ₹0        | Basic listing, 5 photos, 10% commission                                        |
+| **Starter** | ₹999/mo   | Enhanced visibility, 15 photos, 7% commission, Silver badge                    |
+| **Pro**     | ₹2,999/mo | Top 5 placement, unlimited photos, 3% commission, Gold badge, analytics        |
+| **Elite**   | ₹6,999/mo | Homepage featured, 0% commission, Diamond badge, dedicated support, custom URL |
+
+
+### Changes Required
+
+1. `**src/pages/VendorPricing.tsx**` — Update all 4 plan objects with new names, prices, features, badges
+2. `**src/components/vendor/VendorSubscriptionCheckout.tsx**` — Update `PLAN_DETAILS` mapping with new prices and tier values
+3. `**src/components/vendor/ToolGate.tsx**` — Update `PLAN_LABELS` with new pricing
+4. `**src/pages/ForVendors.tsx**` — Update FAQ answer about pricing
+5. `**src/components/CountdownBanner.tsx**` — Adjust discount logic for new prices
+6. `**supabase/functions/create-vendor-subscription/index.ts**` — Update `SUBSCRIPTION_PLANS` amounts
+7. **Database**: The `vendor_subscription_plan` enum currently has `free`, `featured`, `sponsored`. Need migration to add `starter`, `pro`, `elite` values (or remap existing ones).
+
+---
+
+## Platform Audit — Critical Fixes & Differentiators
+
+### A. Trust & Credibility (Highest Priority)
+
+1. **Real-time lead quality scoring visible to vendors** — Show vendors exactly how many profile views → inquiries → bookings they got. No other platform does this transparently.
+2. **"Price Visible" mandate** — Every vendor must show at least a starting price. No more "Contact for pricing" — this is what couples hate most. Add a `starting_price` field enforcement on vendor profiles.
+3. **Video testimonials from real vendors** — Add a section on ForVendors page with embedded video testimonials (can start with 1-2 early vendors).
+
+### B. Unique Features Competitors Don't Have
+
+4. **WhatsApp-First Inquiry** — Currently you have a WhatsApp button, but make it THE primary CTA. When a couple clicks "Inquire", send a pre-filled WhatsApp message with vendor name, couple's requirements, and a tracking link. This is how India works.
+5. **"Karlo Shaadi Guarantee"** — If a vendor doesn't respond within 2 hours, auto-suggest 3 alternatives AND give the couple a ₹200 credit. No platform offers response-time guarantees.
+6. **Vendor Video Portfolio** — Allow 30-second reel uploads (not just photos). Wedding vendors already make reels for Instagram — let them upload here too. This is a massive gap.
+7. **Family Dashboard** — A shared space where bride's family and groom's family can collaborate on guest lists, budget splits, and vendor selections. Phera does websites but NOT collaborative planning.
+
+### C. UI/UX Issues Found in Audit
+
+8. **ForVendors page** — FAQ still says "Silver (₹4,999/year)" — inconsistent with monthly pricing shown elsewhere. Needs sync with new pricing.
+9. **MobileHomeScreen** — Heavy with 50+ imports and 680+ lines. Performance concern. Should lazy-load sections below the fold.
+10. **Vendor category counts are hardcoded** — ForVendors page shows "800+ Photographers", "600+ Caterers" etc. These should be real database counts or removed (violates your authentic trust stats policy).
+11. **Index page SEO** claims "5,000+ verified vendors" — needs to match real data.
+
+### D. Revenue & Growth Quick Wins
+
+12. **Vendor Onboarding Simplification** — Currently the flow is: Register → Complete Profile → Wait for verification. Make it: Register with Google → Auto-create basic profile → Start getting visibility immediately. Verification adds a badge, not a gate.
+13. **"Compare Vendors" feature prominence** — This exists but is buried. Make it a first-class feature on category pages with side-by-side comparison cards.
+14. **Seasonal Pricing Alerts** — Alert couples when a vendor's prices are lower than usual (off-season). Alert vendors to raise prices during peak season. Data-driven, unique.
+
+---
+
+## Implementation Plan (Prioritized)
+
+### Phase 1: Pricing Update (Immediate)
+
+- Update all pricing references across 6-7 files
+- Database migration for new plan enum values
+- Update edge functions with new amounts
+
+### Phase 2: Trust & Credibility (Week 1)
+
+- Enforce starting price on vendor profiles
+- Make WhatsApp the primary inquiry CTA
+- Fix hardcoded vendor counts → real DB counts
+- Fix ForVendors FAQ inconsistencies
+
+### Phase 3: Differentiators (Week 2-3)
+
+- Vendor video portfolio (30s reels)
+- Response time guarantee system
+- Family collaboration dashboard
+- Vendor-facing lead quality transparency dashboard
+
+### Phase 4: Performance & Polish (Ongoing)
+
+- Lazy-load MobileHomeScreen sections
+- Optimize vendor dashboard layout
+- Add vendor onboarding email flow (already coded, needs domain verification)
+
+---
+
+## Technical Summary
+
+### Files to Modify
+
+- `src/pages/VendorPricing.tsx` — New tier names, prices, features
+- `src/components/vendor/VendorSubscriptionCheckout.tsx` — New PLAN_DETAILS
+- `src/components/vendor/ToolGate.tsx` — Updated plan labels
+- `src/pages/ForVendors.tsx` — FAQ pricing fix
+- `src/components/CountdownBanner.tsx` — Discount adjustments
+- `supabase/functions/create-vendor-subscription/index.ts` — New amounts
+- `supabase/functions/create-payment/index.ts` — Validate new plan names
+- Database migration — Update enum or add new plan values
+
+### New Features (Future Phases)
+
+- Video portfolio upload component
+- Family collaboration dashboard
+- WhatsApp-first inquiry flow enhancement
+- Response time guarantee logic
+
+**Shall I start with Phase 1 (pricing update) first?**
