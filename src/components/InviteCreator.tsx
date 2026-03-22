@@ -397,7 +397,7 @@ Made with 💕 on Karlo Shaadi`;
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="border-2 border-accent/20 h-full">
+            <Card className="shadow-[var(--shadow-sm)] h-full">
               <CardContent className="p-6 h-full flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold">Preview</h3>

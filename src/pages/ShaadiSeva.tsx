@@ -80,7 +80,7 @@ export default function ShaadiSeva() {
               </div>
               <h1 className="font-display font-bold text-2xl sm:text-4xl md:text-5xl leading-tight">
                 Your Wedding Helps<br />
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <span className="text-primary">
                   Someone Else Get Married
                 </span>
               </h1>

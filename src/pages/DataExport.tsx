@@ -184,7 +184,7 @@ export default function DataExport() {
             </div>
             
             <h1 className="font-display font-bold text-4xl sm:text-5xl mb-6">
-              Export Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Wedding Data</span>
+              Export Your <span className="text-primary">Wedding Data</span>
             </h1>
             
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -217,7 +217,7 @@ export default function DataExport() {
                   key={type.id}
                   className={cn(
                     "p-6 border-2 hover:border-primary/30 transition-all cursor-pointer group",
-                    type.featured && "sm:col-span-2 bg-gradient-to-br from-primary/5 to-accent/5"
+                    type.featured && "sm:col-span-2 bg-muted/20"
                   )}
                 >
                   <div className="flex items-start gap-4">
@@ -269,7 +269,7 @@ export default function DataExport() {
         </section>
 
         {/* Info Section */}
-        <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+        <section className="py-16 px-4 sm:px-6 bg-muted/20">
           <div className="container mx-auto max-w-3xl">
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-center mb-8">
               About Your Data Export

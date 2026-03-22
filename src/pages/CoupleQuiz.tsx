@@ -266,7 +266,7 @@ export default function CoupleQuiz() {
                 </div>
                 <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-3">
                   Wedding<br />
-                  <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Compatibility Score</span>
+                  <span className="text-primary">Compatibility Score</span>
                 </h1>
                 <p className="text-muted-foreground max-w-md mx-auto">
                   10 fun questions to discover your couple personality type. No signup needed — share the result!

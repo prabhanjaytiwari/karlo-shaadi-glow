@@ -871,7 +871,7 @@ To be part of our dreams coming true!`,
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-accent/20 to-primary/20 text-accent px-6 py-3 rounded-full mb-6 border border-accent/30 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-accent/20 to-primary/20 text-accent px-6 py-3 rounded-full mb-6 border border-accent/30 "
           >
             <Music2 className="h-5 w-5 animate-pulse" />
             <span className="font-semibold">AI Wedding Song Creator</span>
@@ -893,15 +893,15 @@ To be part of our dreams coming true!`,
           </p>
           
           <div className="flex flex-wrap items-center justify-center gap-6 mt-8">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50  px-4 py-2 rounded-full border border-border/50">
               <Mic2 className="h-4 w-4 text-accent" />
               <span>Personalized Lyrics</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50  px-4 py-2 rounded-full border border-border/50">
               <Music4 className="h-4 w-4 text-accent" />
               <span>8 Music Styles</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50  px-4 py-2 rounded-full border border-border/50">
               <HeartHandshake className="h-4 w-4 text-accent" />
               <span>Names in Songs</span>
             </div>
@@ -1718,7 +1718,7 @@ To be part of our dreams coming true!`,
               { icon: Download, title: "Download & Share", desc: "Get MP3 files, share on WhatsApp instantly" }
             ].map((feature, i) => (
               <PremiumCard key={i} variant="default" hover className="text-center p-6">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                   <feature.icon className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="font-semibold mb-2">{feature.title}</h3>
