@@ -481,7 +481,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 hover:border-primary">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
                   Create Free Account
                 </Button>
               </Link>
