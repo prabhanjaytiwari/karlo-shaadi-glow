@@ -165,7 +165,7 @@ export default function WhyKarloShaadi() {
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-4">
               A Wedding is a <span className="text-primary">Family Affair</span>
             </h2>
-            <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-4" />
+            <div className="w-16 h-0.5 bg-primary/30 mx-auto rounded-full mb-4" />
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
               Every person brings something irreplaceable. We built tools for each of them.
             </p>
