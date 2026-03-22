@@ -332,7 +332,7 @@ export default function VendorDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+      <div className="min-h-screen bg-background">
         <div className="h-14 border-b bg-white/80" />
         <div className="max-w-7xl mx-auto px-4 pt-8 space-y-6">
           {/* Header */}
@@ -370,7 +370,7 @@ export default function VendorDashboard() {
       
       <MobilePageHeader title={vendor?.business_name || 'Dashboard'} showBack={false} />
       
-      <main className={`flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
+      <main className={`flex-1 bg-background ${isMobile ? 'px-4 py-4' : 'pt-24 pb-12 px-4'}`}>
         <div className={isMobile ? '' : 'max-w-7xl mx-auto'}>
           {/* Subscription Checkout Dialog */}
           {vendor && (
@@ -391,7 +391,7 @@ export default function VendorDashboard() {
               <div>
                 <Badge className="bg-accent text-accent-foreground mb-2">Vendor Portal</Badge>
                 <h1 className="text-4xl font-bold mb-2">{vendor?.business_name}</h1>
-                <div className="w-20 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full" />
+                <div className="w-20 h-1 bg-primary/30 rounded-full" />
               </div>
               <div className="flex gap-2">
                 <Button 
@@ -449,7 +449,7 @@ export default function VendorDashboard() {
               elite: '0% (save 10%!)',
             };
             return (
-              <Card className="mb-6 bg-card/90 backdrop-blur-sm border border-accent/20 shadow-sm">
+              <Card className="mb-6 bg-card/90  border border-accent/20 shadow-sm">
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between flex-wrap gap-3">
                     <div>
@@ -502,7 +502,7 @@ export default function VendorDashboard() {
               { label: 'Revenue', value: `₹${stats.revenue.toLocaleString()}`, color: '' },
               { label: 'Rating', value: vendor?.average_rating || 0, color: '', showStar: true },
             ].map((stat) => (
-              <Card key={stat.label} className="bg-card/90 backdrop-blur-sm border border-accent/15">
+              <Card key={stat.label} className="bg-card/90  border border-accent/15">
                 <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
                   <CardTitle className="text-xs font-medium text-muted-foreground">{stat.label}</CardTitle>
                 </CardHeader>

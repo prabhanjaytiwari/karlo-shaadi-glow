@@ -66,7 +66,7 @@ export const ScrollDepthCTA = () => {
         </button>
 
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-white/20  flex items-center justify-center flex-shrink-0">
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div className="flex-1 min-w-0">

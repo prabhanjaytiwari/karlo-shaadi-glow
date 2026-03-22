@@ -184,7 +184,7 @@ export default function AIMatchResults() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 py-12 px-4">
+      <main className="flex-1 bg-background py-12 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -267,7 +267,7 @@ export default function AIMatchResults() {
                 <Card 
                   key={vendor.id} 
                   className={`overflow-hidden transition-all hover:shadow-lg ${
-                    index === 0 ? 'border-2 border-primary/30 bg-primary/5' : ''
+                    index === 0 ? 'shadow-[var(--shadow-md)] bg-primary/5' : ''
                   }`}
                 >
                   <CardContent className="p-6">
@@ -282,7 +282,7 @@ export default function AIMatchResults() {
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
+                            <div className="h-full w-full flex items-center justify-center bg-primary/10">
                               <span className="text-3xl font-bold text-primary">
                                 {vendor.business_name.charAt(0)}
                               </span>

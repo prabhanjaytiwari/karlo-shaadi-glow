@@ -84,7 +84,7 @@ export default function CountdownPublic() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-white to-amber-50/30">
+    <div className="min-h-screen bg-background">
       <SEO title={`${coupleName}'s Wedding Countdown | Karlo Shaadi`} description={`${timeLeft.days} days until ${coupleName}'s wedding! Follow the countdown and celebrate with them.`} />
 
       {/* Hero Countdown */}
@@ -124,7 +124,7 @@ export default function CountdownPublic() {
                   transition={{ delay: i * 0.1, type: "spring" }}
                   className="flex flex-col items-center"
                 >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl bg-white border-2 border-primary/20 shadow-lg flex items-center justify-center">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl bg-white shadow-[var(--shadow-sm)] shadow-lg flex items-center justify-center">
                     <span className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary">
                       {String(unit.value).padStart(2, "0")}
                     </span>
@@ -157,14 +157,14 @@ export default function CountdownPublic() {
         <div className="container mx-auto px-4">
           <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
             <Link to="/categories" className="group">
-              <div className="p-6 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all hover:shadow-lg text-center">
+              <div className="p-6 rounded-2xl bg-white shadow-[var(--shadow-sm)] hover:border-primary/40 transition-all hover:shadow-lg text-center">
                 <Users className="h-8 w-8 text-primary mx-auto mb-3" />
                 <h3 className="font-semibold mb-1">Are You a Vendor?</h3>
                 <p className="text-muted-foreground text-sm">Get listed on India's #1 wedding platform</p>
               </div>
             </Link>
             <Link to="/plan-wizard" className="group">
-              <div className="p-6 rounded-2xl bg-white border-2 border-accent/20 hover:border-primary/40 transition-all hover:shadow-lg text-center">
+              <div className="p-6 rounded-2xl bg-white shadow-[var(--shadow-sm)] hover:border-primary/40 transition-all hover:shadow-lg text-center">
                 <Calendar className="h-8 w-8 text-accent mx-auto mb-3" />
                 <h3 className="font-semibold mb-1">Planning Your Wedding?</h3>
                 <p className="text-muted-foreground text-sm">Get a free AI wedding plan in 2 minutes</p>

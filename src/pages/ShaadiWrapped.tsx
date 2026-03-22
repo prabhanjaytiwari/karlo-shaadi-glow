@@ -272,7 +272,7 @@ export default function ShaadiWrapped() {
         <span className="font-display text-4xl sm:text-5xl font-bold italic">"{data?.weddingVibe}"</span>
       </motion.div>
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6 }}
-        className="mt-6 px-6 py-3 rounded-full bg-white/20 backdrop-blur-sm">
+        className="mt-6 px-6 py-3 rounded-full bg-white/20 ">
         <span className="font-medium">Dream Budget: ₹{data?.budgetRange}</span>
       </motion.div>
       <div className="mt-4 flex items-center gap-2">
@@ -349,7 +349,7 @@ export default function ShaadiWrapped() {
       {/* Download current slide button */}
       <button
         onClick={downloadSlide}
-        className="fixed top-6 right-6 z-50 p-2.5 rounded-full bg-white/15 backdrop-blur-sm text-white/70 hover:text-white hover:bg-white/25 transition-all"
+        className="fixed top-6 right-6 z-50 p-2.5 rounded-full bg-white/15  text-white/70 hover:text-white hover:bg-white/25 transition-all"
         title="Download this slide"
       >
         <Download className="h-5 w-5" />

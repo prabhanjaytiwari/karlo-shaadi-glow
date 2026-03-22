@@ -224,7 +224,7 @@ export default function PremiumUpgrade() {
               Upgrade Your Experience
             </Badge>
             <h1 className="font-display font-bold text-4xl md:text-5xl mb-4">
-              Choose Your <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Plan</span>
+              Choose Your <span className="text-primary">Plan</span>
             </h1>
             <p className="text-muted-foreground text-lg">
               One-time payment. Lifetime access. No subscriptions.

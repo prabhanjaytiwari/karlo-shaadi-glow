@@ -250,7 +250,7 @@ export default function Pricing() {
               { icon: Gift, title: "Exclusive Savings", description: "5% discount with premium vendors. Save more than the subscription cost on a single booking!" }
             ].map((f, i) => (
               <div key={i} className="rounded-2xl border border-border/50 p-5 hover:border-accent/30 transition-colors">
-                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-3">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
                   <f.icon className="h-5 w-5 text-primary" />
                 </div>
                 <h3 className="font-semibold text-base mb-1">{f.title}</h3>

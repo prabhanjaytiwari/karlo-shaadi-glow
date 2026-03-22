@@ -131,7 +131,7 @@ const Profile = () => {
           <div className={isMobile ? "" : "container mx-auto px-4 md:px-6 max-w-2xl"}>
             {/* Avatar */}
             <div className="flex flex-col items-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-border/50 flex items-center justify-center mb-2">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-2">
                 <span className="text-2xl font-bold text-primary">{initials}</span>
               </div>
               <p className="text-sm text-muted-foreground">{profile.full_name || "Your Name"}</p>

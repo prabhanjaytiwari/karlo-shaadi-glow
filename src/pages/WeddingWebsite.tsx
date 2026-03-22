@@ -548,9 +548,9 @@ const WeddingWebsite = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50"
+                  className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card/50  border border-border/50"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <feature.icon className="w-5 h-5 text-accent" />
                   </div>
                   <span className="text-sm font-medium">{feature.label}</span>
@@ -720,7 +720,7 @@ const WeddingWebsite = () => {
 
           {/* Main Builder Card - Only show in create mode */}
           {activeTab === "create" && (
-            <Card className="max-w-4xl mx-auto overflow-hidden border-2 border-border/50 shadow-2xl">
+            <Card className="max-w-4xl mx-auto overflow-hidden shadow-[var(--shadow-sm)] shadow-2xl">
               <AnimatePresence mode="wait">
                 {/* Step 1: Basic Details */}
                 {step === 1 && (
@@ -1082,7 +1082,7 @@ const WeddingWebsite = () => {
                             <p className="text-lg italic text-white/90 mb-6">"{formData.tagline}"</p>
                           )}
 
-                          <div className="inline-flex items-center gap-6 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
+                          <div className="inline-flex items-center gap-6 bg-white/10  rounded-full px-6 py-3 mb-8">
                             <div className="flex items-center gap-2">
                               <Calendar className="w-4 h-4" />
                               <span>{formData.weddingDate ? new Date(formData.weddingDate).toLocaleDateString('en-IN', { 

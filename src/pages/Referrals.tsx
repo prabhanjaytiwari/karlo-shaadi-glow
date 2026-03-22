@@ -40,7 +40,7 @@ const Referrals = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+    <div className="min-h-screen bg-background">
       <SEO
         title="Refer & Earn | Karlo Shaadi"
         description="Refer friends to Karlo Shaadi and earn ₹500 for each successful booking."
@@ -50,7 +50,7 @@ const Referrals = () => {
       <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           {!isMobile && (
-            <div className="text-center mb-8 animate-fade-up">
+            <div className="text-center mb-8 ">
               <h1 className="text-4xl font-bold mb-2 text-foreground">
                 Refer & Earn
               </h1>

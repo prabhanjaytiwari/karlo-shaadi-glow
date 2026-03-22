@@ -93,7 +93,7 @@ export default function Testimonials() {
       <MobilePageHeader title="Testimonials" />
       
       {/* Hero Section */}
-      <section className={isMobile ? "pt-4 pb-6 px-4 bg-gradient-to-br from-primary/5 to-accent/5" : "pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5"}>
+      <section className={isMobile ? "pt-4 pb-6 px-4 bg-muted/20" : "pt-32 pb-16 px-4 sm:px-6 bg-muted/20"}>
         <div className="container mx-auto max-w-6xl text-center">
           {!isMobile && (
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
@@ -102,7 +102,7 @@ export default function Testimonials() {
             </div>
           )}
           <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
-            What Couples Say About <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Their Dream Weddings</span>
+            What Couples Say About <span className="text-primary">Their Dream Weddings</span>
           </h1>
           {!isMobile && (
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -117,7 +117,7 @@ export default function Testimonials() {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, idx) => (
-              <div key={idx} className="text-center p-6 rounded-2xl bg-card border-2 border-border/50">
+              <div key={idx} className="text-center p-6 rounded-2xl bg-card shadow-[var(--shadow-sm)]">
                 <div className="font-display font-bold text-3xl sm:text-4xl text-primary mb-2">
                   {stat.number}
                 </div>
@@ -135,7 +135,7 @@ export default function Testimonials() {
             {testimonials.map((testimonial) => (
               <article
                 key={testimonial.id}
-                className="relative bg-card border-2 border-border/50 rounded-3xl p-8 hover:border-primary/30 hover:shadow-xl transition-all group"
+                className="relative bg-card shadow-[var(--shadow-sm)] rounded-3xl p-8 hover:border-primary/30 hover:shadow-xl transition-all group"
               >
                 {/* Quote Icon */}
                 <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -144,7 +144,7 @@ export default function Testimonials() {
 
                 {/* Header */}
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Heart className="w-8 h-8 text-primary" />
                   </div>
                   <div className="flex-1">
@@ -212,7 +212,7 @@ export default function Testimonials() {
             <a href="/categories" className="inline-flex items-center justify-center px-8 py-3 bg-white text-primary rounded-full font-semibold hover:bg-white/90 transition-colors">
               Explore Vendors
             </a>
-            <a href="/auth" className="inline-flex items-center justify-center px-8 py-3 bg-white/10 backdrop-blur-sm text-white border-2 border-white/20 rounded-full font-semibold hover:bg-white/20 transition-colors">
+            <a href="/auth" className="inline-flex items-center justify-center px-8 py-3 bg-white/10  text-white border-2 border-white/20 rounded-full font-semibold hover:bg-white/20 transition-colors">
               Find Your Vendor
             </a>
           </div>

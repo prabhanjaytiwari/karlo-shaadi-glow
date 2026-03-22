@@ -101,7 +101,7 @@ const StoryDetail = () => {
         </div>
 
         <div className="container mx-auto px-4 relative z-10 pb-12">
-          <div className="max-w-4xl animate-fade-up">
+          <div className="max-w-4xl ">
             {story.featured && (
               <Badge className="mb-2 bg-accent text-accent-foreground">
                 Featured Story

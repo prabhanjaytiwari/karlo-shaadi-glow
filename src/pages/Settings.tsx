@@ -51,7 +51,7 @@ export default function Settings() {
                 </Button>
 
                 <div className="mb-8">
-                  <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+                  <div className="w-12 h-0.5 bg-primary/30 rounded-full mb-4" />
                   <h1 className="text-3xl font-bold text-foreground">Settings</h1>
                   <p className="text-muted-foreground mt-2">
                     Manage your account preferences and security
@@ -78,7 +78,7 @@ export default function Settings() {
 
               <TabsContent value="account" className="space-y-6">
                 {/* Profile Link */}
-                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                <div className="bg-card shadow-[var(--shadow-sm)] rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Profile Information</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Update your wedding details and preferences
@@ -89,7 +89,7 @@ export default function Settings() {
                 </div>
 
                 {/* Logout */}
-                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                <div className="bg-card shadow-[var(--shadow-sm)] rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Sign Out</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Sign out of your account on this device

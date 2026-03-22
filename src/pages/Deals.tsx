@@ -219,7 +219,7 @@ export default function Deals() {
 
       {/* CTA */}
       <section className="relative overflow-hidden py-10 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
+        <div className="absolute inset-0 bg-muted/20" />
         <div className="relative container mx-auto max-w-3xl text-center">
           <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Ready to Save?</h2>
           <p className="text-muted-foreground text-sm mb-5 max-w-md mx-auto">Explore verified vendors and book with confidence. Discounts applied automatically.</p>

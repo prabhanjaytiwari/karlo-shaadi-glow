@@ -164,7 +164,7 @@ export function AIWeddingPlanner() {
         <ScrollArea ref={scrollRef} className="flex-1 p-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-12">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <Bot className="h-10 w-10 text-primary" />
               </div>
               <h3 className="text-xl font-bold mb-2">Welcome to AI Wedding Planner! ✨</h3>
@@ -201,7 +201,7 @@ export function AIWeddingPlanner() {
                   }`}
                 >
                   {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Bot className="h-5 w-5 text-primary" />
                     </div>
                   )}
@@ -232,7 +232,7 @@ export function AIWeddingPlanner() {
 
               {loading && (
                 <div className="flex gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                     <Bot className="h-5 w-5 text-primary" />
                   </div>
                   <div className="rounded-2xl px-4 py-3 bg-muted">

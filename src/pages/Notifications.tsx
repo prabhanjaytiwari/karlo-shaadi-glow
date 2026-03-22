@@ -75,7 +75,7 @@ export default function Notifications() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border">
+      <div className="sticky top-0 z-40 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="h-9 w-9">
