@@ -14,7 +14,7 @@ import { VendorMiniSite } from "./VendorMiniSite";
 import { BusinessIntelligence } from "./BusinessIntelligence";
 import { ToolGate } from "./ToolGate";
 
-type VendorPlan = "free" | "silver" | "gold" | "diamond";
+type VendorPlan = "free" | "starter" | "pro" | "elite";
 
 interface VendorToolkitProps {
   vendorId: string;
