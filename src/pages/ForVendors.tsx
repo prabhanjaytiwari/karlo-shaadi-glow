@@ -385,7 +385,7 @@ const ForVendors = () => {
                   Ready to Get More Bookings?
                 </h2>
                 <p className="text-white/50 text-sm max-w-xl mx-auto">
-                  Join 5,000+ vendors who grew their wedding business with zero commission.
+                  Join vendors across {totalCities}+ cities who are growing their wedding business with zero commission.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button size="lg" onClick={() => navigate("/vendor/onboarding")} className="rounded-full px-8 font-semibold">

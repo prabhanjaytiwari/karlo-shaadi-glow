@@ -517,7 +517,7 @@ const Index = () => {
               Are You a <span className="text-accent">Wedding Vendor?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Register free on India's zero-commission wedding platform. 5,000+ vendors already growing their business with us.
+              Register free on India's zero-commission wedding platform. Grow your business with verified leads and zero commission.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/for-vendors">

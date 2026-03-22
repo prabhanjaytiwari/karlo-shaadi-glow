@@ -487,13 +487,16 @@ const VendorProfile = () => {
                   <VendorAvailabilityWidget vendorId={id!} onDateSelect={setSelectedBookingDate} />
 
                   <div className="pt-4 border-t border-border/50 space-y-3">
-                    <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
-                      <Button size="lg" className="w-full rounded-xl">Get Quote</Button>
-                    </QuickInquiryDialog>
-                    
+                    {/* WhatsApp is the PRIMARY CTA */}
                     {vendor.whatsapp_number && (
                       <WhatsAppChatButton whatsappNumber={vendor.whatsapp_number} vendorName={vendor.business_name} variant="full" />
                     )}
+
+                    <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
+                      <Button size="lg" variant={vendor.whatsapp_number ? "outline" : "default"} className="w-full rounded-xl">
+                        <MessageCircle className="h-4 w-4 mr-2" /> Get Quote
+                      </Button>
+                    </QuickInquiryDialog>
 
                     <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
                       <Button variant="secondary" size="lg" className="w-full rounded-xl">Check Availability & Book</Button>

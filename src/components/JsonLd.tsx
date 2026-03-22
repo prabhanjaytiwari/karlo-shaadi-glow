@@ -247,7 +247,7 @@ export const WebSiteJsonLd = () => {
       "name": "Karlo Shaadi",
       "alternateName": ["KarloShaadi", "Karlo Shaadi Wedding Platform"],
       "url": "https://karloshaadi.com",
-      "description": "India's #1 wedding planning platform. Zero-commission vendor marketplace with 5,000+ verified vendors across 20+ cities.",
+      "description": "India's #1 wedding planning platform. Zero-commission vendor marketplace with verified vendors across 20+ cities.",
       "inLanguage": "en-IN",
       "potentialAction": {
         "@type": "SearchAction",

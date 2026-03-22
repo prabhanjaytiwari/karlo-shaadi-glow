@@ -236,16 +236,16 @@ export default function VendorGuide() {
         <div className="container mx-auto max-w-5xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-primary">5,000+</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary">Growing</div>
               <div className="text-muted-foreground text-sm">Active Vendors</div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-primary">50,000+</div>
-              <div className="text-muted-foreground text-sm">Monthly Visitors</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary">20+</div>
+              <div className="text-muted-foreground text-sm">Cities Covered</div>
             </div>
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-primary">₹10Cr+</div>
-              <div className="text-muted-foreground text-sm">Bookings Processed</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary">0%</div>
+              <div className="text-muted-foreground text-sm">Commission</div>
             </div>
             <div>
               <div className="text-3xl sm:text-4xl font-bold text-primary">4.8★</div>
