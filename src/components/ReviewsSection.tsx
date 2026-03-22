@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { Quote, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const testimonials = [
@@ -65,91 +65,57 @@ export const ReviewsSection = () => {
   }, [emblaApi]);
 
   return (
-    <section ref={ref} className="py-16 md:py-24 bg-gradient-to-b from-rose-50/40 via-white to-amber-50/30 overflow-hidden relative">
-      {/* Premium Background Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="absolute top-1/3 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-      </div>
-      
+    <section ref={ref} className="py-16 md:py-24 overflow-hidden relative">
       <div 
-        className="container mx-auto px-4 sm:px-6 mb-12"
+        className="container mx-auto px-4 sm:px-6 mb-10"
         style={{
           opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+          transform: isVisible ? 'translateY(0)' : 'translateY(16px)',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
-          <span className="text-accent font-medium text-sm">Customer Stories</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted mb-4">
+          <span className="text-muted-foreground font-medium text-sm">Customer Stories</span>
         </div>
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-2">
           Voices From <span className="text-accent">Happy Couples</span>
         </h2>
-        <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 rounded-full" />
       </div>
 
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6 px-6">
+        <div className="flex gap-5 px-6">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="flex-[0_0_90%] md:flex-[0_0_45%] lg:flex-[0_0_30%] min-w-0"
+              className="flex-[0_0_88%] md:flex-[0_0_42%] lg:flex-[0_0_30%] min-w-0"
               style={{
                 opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-                transition: 'all 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
-                transitionDelay: `${index * 100}ms`,
+                transform: isVisible ? 'translateY(0)' : 'translateY(24px)',
+                transition: 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                transitionDelay: `${index * 80}ms`,
               }}
             >
-              {/* Premium Glass Card */}
-              <div className="group relative h-full">
-                {/* Gradient Border on Hover */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-accent/50 via-primary/50 to-accent/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+              <div className="relative bg-card rounded-2xl p-6 sm:p-7 h-full flex flex-col shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-200">
+                {/* Rating Stars */}
+                <div className="flex gap-0.5 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                  ))}
+                </div>
                 
-                <div className="relative bg-white border-2 border-accent/20 group-hover:border-transparent rounded-2xl p-8 h-full flex flex-col transition-all duration-500 group-hover:shadow-xl">
-                  {/* Quote Icon with Glow */}
-                  <div className="relative inline-block mb-4">
-                    <div className="absolute -inset-2 bg-accent/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <Quote className="relative text-accent group-hover:scale-110 transition-transform duration-500" size={32} />
-                  </div>
-                  
-                  {/* Rating Stars */}
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className="h-4 w-4 fill-accent text-accent" 
-                        style={{ 
-                          animationDelay: `${i * 100}ms`,
-                          opacity: isVisible ? 1 : 0,
-                          transition: 'opacity 0.3s ease-out',
-                          transitionDelay: `${(index * 100) + (i * 50)}ms`,
-                        }} 
-                      />
-                    ))}
-                  </div>
-                  
-                  <p className="text-muted-foreground leading-relaxed mb-8 flex-grow group-hover:text-foreground/80 transition-colors duration-300">
-                    "{testimonial.text}"
-                  </p>
-                  
-                  <div className="flex items-center gap-4">
-                    {/* Avatar with Ring */}
-                    <div className="relative">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-accent to-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                      <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="relative w-12 h-12 rounded-full ring-2 ring-accent/30 group-hover:ring-accent/50 transition-all duration-300"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.handle}</p>
-                    </div>
+                <p className="text-muted-foreground leading-relaxed mb-6 flex-grow text-sm">
+                  "{testimonial.text}"
+                </p>
+                
+                <div className="flex items-center gap-3">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    className="w-10 h-10 rounded-full bg-muted"
+                  />
+                  <div>
+                    <p className="font-semibold text-foreground text-sm">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground">{testimonial.handle}</p>
                   </div>
                 </div>
               </div>

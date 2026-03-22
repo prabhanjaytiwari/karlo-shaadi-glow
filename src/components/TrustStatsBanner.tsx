@@ -58,8 +58,8 @@ const StatItem = ({ icon, value, suffix, label, delay }: StatItemProps) => {
   }, [isVisible, value, delay]);
 
   return (
-    <div ref={ref} className="flex flex-col items-center text-center p-2 sm:p-3 md:p-5">
-      <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-primary/10 to-accent/20 flex items-center justify-center mb-1.5 sm:mb-2">
+    <div ref={ref} className="flex flex-col items-center text-center p-3 sm:p-4 md:p-6">
+      <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center mb-2">
         {icon}
       </div>
       <div className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground">
@@ -72,80 +72,30 @@ const StatItem = ({ icon, value, suffix, label, delay }: StatItemProps) => {
 
 export const TrustStatsBanner = () => {
   const [stats, setStats] = useState([
-    {
-      icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-      value: 0,
-      suffix: "+",
-      label: "Couples Joined",
-      delay: 0,
-    },
-    {
-      icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-      value: 0,
-      suffix: "+",
-      label: "Verified Vendors",
-      delay: 100,
-    },
-    {
-      icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-      value: 100,
-      suffix: "%",
-      label: "Secure Payments",
-      delay: 200,
-    },
-    {
-      icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-      value: 20,
-      suffix: "+",
-      label: "Cities Covered",
-      delay: 300,
-    },
+    { icon: <Heart className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: 0, suffix: "+", label: "Couples Joined", delay: 0 },
+    { icon: <Users className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: 0, suffix: "+", label: "Verified Vendors", delay: 100 },
+    { icon: <ShieldCheck className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: 100, suffix: "%", label: "Secure Payments", delay: 200 },
+    { icon: <MapPin className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: 20, suffix: "+", label: "Cities Covered", delay: 300 },
   ]);
 
   useEffect(() => {
     const fetchRealStats = async () => {
       try {
-        // Fetch real counts from database
         const [profilesResult, vendorsResult, citiesResult] = await Promise.all([
           supabase.from("profiles").select("id", { count: "exact", head: true }),
           supabase.from("vendors").select("id", { count: "exact", head: true }).eq("verified", true),
           supabase.from("cities").select("id", { count: "exact", head: true }).eq("is_active", true),
         ]);
 
-        // Use real counts with sensible minimums (profile counts may fail due to RLS)
         const coupleCount = (profilesResult.count && profilesResult.count > 0) ? profilesResult.count : 500;
         const vendorCount = (vendorsResult.count && vendorsResult.count > 0) ? vendorsResult.count : 50;
         const cityCount = (citiesResult.count && citiesResult.count > 0) ? citiesResult.count : 20;
 
         setStats([
-          {
-            icon: <Heart className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-            value: coupleCount,
-            suffix: "+",
-            label: "Couples Joined",
-            delay: 0,
-          },
-          {
-            icon: <Users className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-            value: vendorCount,
-            suffix: "+",
-            label: "Verified Vendors",
-            delay: 100,
-          },
-          {
-            icon: <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-            value: 100,
-            suffix: "%",
-            label: "Secure Payments",
-            delay: 200,
-          },
-          {
-            icon: <MapPin className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-primary" />,
-            value: cityCount,
-            suffix: "+",
-            label: "Cities Covered",
-            delay: 300,
-          },
+          { icon: <Heart className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: coupleCount, suffix: "+", label: "Couples Joined", delay: 0 },
+          { icon: <Users className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: vendorCount, suffix: "+", label: "Verified Vendors", delay: 100 },
+          { icon: <ShieldCheck className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: 100, suffix: "%", label: "Secure Payments", delay: 200 },
+          { icon: <MapPin className="h-5 w-5 sm:h-5 sm:w-5 text-primary" />, value: cityCount, suffix: "+", label: "Cities Covered", delay: 300 },
         ]);
       } catch (error) {
         console.error("Error fetching stats:", error);
@@ -156,7 +106,7 @@ export const TrustStatsBanner = () => {
   }, []);
 
   return (
-    <section className="py-10 md:py-16 bg-gradient-to-b from-background to-secondary/30">
+    <section className="py-10 md:py-16">
       <div className="container mx-auto px-3 sm:px-4">
         <div className="grid grid-cols-4 gap-1 sm:gap-3 md:gap-6 max-w-3xl mx-auto">
           {stats.map((stat, index) => (
