@@ -92,7 +92,7 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           </ToolGate>
         </TabsContent>
         <TabsContent value="contracts">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Contract Generator" featureDescription="Generate professional legal contracts for your clients. Upgrade to Silver to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="starter" toolName="Contract Generator" featureDescription="Generate professional legal contracts for your clients. Upgrade to Starter to unlock.">
             <ContractGenerator vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
           </ToolGate>
         </TabsContent>
