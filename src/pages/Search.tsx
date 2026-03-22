@@ -548,9 +548,9 @@ export default function Search() {
                             className="relative group"
                           >
                             <Link to={`/vendors/${vendor.id}`}>
-                              <div className={cn(
-                                "p-5 rounded-2xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5",
-                                isSponsored ? "border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5" : "border-border/40 bg-card hover:border-border"
+                            <div className={cn(
+                                "p-5 rounded-2xl transition-all duration-300 hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
+                                isSponsored ? "bg-card shadow-[var(--shadow-md)]" : "bg-card shadow-[var(--shadow-sm)]"
                               )}>
                                 {isSponsored && (
                                   <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-primary to-accent text-[10px] font-bold text-primary-foreground">
