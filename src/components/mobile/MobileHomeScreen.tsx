@@ -318,7 +318,7 @@ export function MobileHomeScreen() {
 
         {/* ── HERO BANNER (full-bleed) ── */}
         <section className="mx-3 mt-3">
-          <div className="relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-accent/20">
+          <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-md)]">
             <img src={heroImage} alt="Wedding celebration" className="w-full h-56 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -363,7 +363,7 @@ export function MobileHomeScreen() {
               { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
               { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40">
+              <div key={stat.label} className="flex flex-col items-center py-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                 <stat.icon className={`h-5 w-5 ${stat.color} mb-1`} />
                 <span className="text-sm font-bold text-foreground">{stat.value}</span>
                 <span className="text-[10px] text-muted-foreground font-medium">{stat.label}</span>
@@ -389,7 +389,7 @@ export function MobileHomeScreen() {
                   className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
                   style={{ minWidth: '64px' }}
                 >
-                  <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-accent/30 shadow-md">
+                  <div className="w-14 h-14 rounded-full overflow-hidden shadow-sm">
                     <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
                   </div>
                   <span className="text-[10px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
@@ -417,7 +417,7 @@ export function MobileHomeScreen() {
                   <button
                     key={vendor.id}
                     onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendors/${vendor.id}`)}
-                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/40 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
+                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform text-left"
                   >
                     <div className="w-full h-28 overflow-hidden">
                       <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" />
@@ -441,7 +441,7 @@ export function MobileHomeScreen() {
 
         <LazySection>
         {/* Divider */}
-        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="mx-4 h-px bg-border" />
 
         {/* ── FREE PLANNING TOOLS (compact 2x2) ── */}
         <section className="px-4">
@@ -456,7 +456,7 @@ export function MobileHomeScreen() {
               <button
                 key={tool.route}
                 onClick={() => navigate(tool.route)}
-                className="flex flex-col rounded-xl overflow-hidden border border-border/30 bg-card active:scale-[0.97] transition-transform text-left shadow-sm"
+                className="flex flex-col rounded-xl overflow-hidden bg-card active:scale-[0.97] transition-transform text-left shadow-[var(--shadow-xs)]"
               >
                 <div className="w-full h-20 overflow-hidden">
                   <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
@@ -481,7 +481,7 @@ export function MobileHomeScreen() {
                 <button
                   key={tool.route}
                   onClick={() => navigate(tool.route)}
-                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-sm border border-border/40"
+                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-[var(--shadow-xs)]"
                 >
                   <div className="w-full h-20 overflow-hidden">
                     <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
@@ -549,7 +549,7 @@ export function MobileHomeScreen() {
               <button
                 key={city.name}
                 onClick={() => navigate(`/vendors-in/${city.name.toLowerCase()}`)}
-                className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform"
+                className="flex flex-col items-center py-3 rounded-xl bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform"
               >
                 <span className="text-xl mb-1">{city.emoji}</span>
                 <span className="text-xs font-semibold text-foreground">{city.name}</span>
@@ -572,7 +572,7 @@ export function MobileHomeScreen() {
                 <button
                   key={item.route}
                   onClick={() => navigate(item.route)}
-                  className="flex-shrink-0 w-40 p-3 rounded-xl bg-card border border-border/40 active:scale-[0.97] transition-transform text-left"
+                  className="flex-shrink-0 w-40 p-3 rounded-xl bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform text-left"
                 >
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2">
                     <item.icon className="h-4 w-4 text-primary" />
@@ -586,14 +586,14 @@ export function MobileHomeScreen() {
         </section>
 
         {/* Divider */}
-        <div className="mx-4 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="mx-4 h-px bg-border" />
 
         {/* ── HOW IT WORKS (compact horizontal strip) ── */}
         <section className="px-4">
           <h2 className="text-base font-semibold text-foreground mb-3">Book a Vendor in 3 Steps</h2>
           <div className="flex gap-2">
             {howItWorksSteps.map((step, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card border border-border/40">
+              <div key={i} className="flex-1 flex flex-col items-center text-center p-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center mb-2 border border-primary/20">
                   <span className="text-xs font-bold text-primary">{step.num}</span>
                 </div>
@@ -633,7 +633,7 @@ export function MobileHomeScreen() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/40">
+          <div className="flex items-center justify-between bg-card rounded-xl p-3 shadow-[var(--shadow-xs)]">
             <div className="flex items-center gap-2">
               <div className="flex">
                 {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />)}
@@ -648,7 +648,7 @@ export function MobileHomeScreen() {
           <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
             <div className="flex gap-2.5 pb-1" style={{ width: 'max-content' }}>
               {reviewQuotes.map((review, i) => (
-                <div key={i} className="flex-shrink-0 w-64 p-3 rounded-xl bg-card border border-border/40">
+                <div key={i} className="flex-shrink-0 w-64 p-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                   <div className="flex items-center gap-0.5 mb-1.5">
                     {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-3 w-3 text-amber-400 fill-amber-400" />)}
                   </div>
@@ -680,7 +680,7 @@ export function MobileHomeScreen() {
 
         {/* ── FINAL CTA ── */}
         <section className="px-4">
-          <div className="text-center py-6 px-5 rounded-xl bg-gradient-to-br from-primary/5 via-card to-accent/5 border border-border/40">
+          <div className="text-center py-6 px-5 rounded-xl bg-card shadow-[var(--shadow-sm)]">
             
             <h2 className="text-base font-display font-semibold text-foreground mb-1">Start Your Dream Wedding</h2>
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">

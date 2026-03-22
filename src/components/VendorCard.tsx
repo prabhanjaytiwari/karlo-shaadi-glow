@@ -46,16 +46,11 @@ export const VendorCard = ({
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!enable3D || !cardRef.current || compact) return;
-
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-
-    const rotateY = (mouseX / (rect.width / 2)) * 6;
-    const rotateX = -(mouseY / (rect.height / 2)) * 6;
-
+    const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * 4;
+    const rotateX = -((e.clientY - centerY) / (rect.height / 2)) * 4;
     setTransform({ rotateX, rotateY });
   };
 
@@ -65,34 +60,24 @@ export const VendorCard = ({
     setTransform({ rotateX: 0, rotateY: 0 });
   };
 
-  // Compact mobile-first card layout
+  // Compact mobile card
   if (compact) {
     return (
       <Link to={`/vendors/${vendor.id}`}>
         <div
           className={cn(
-            "group flex gap-3 p-2 rounded-xl",
-            "bg-card/80 backdrop-blur-sm border border-border/50",
+            "group flex gap-3 p-2.5 rounded-xl",
+            "bg-card shadow-[var(--shadow-xs)]",
             "transition-all duration-200 active:scale-[0.98]",
-            isSponsored && "border-primary/30",
-            isFeatured && "border-accent/30",
             className
           )}
           style={style}
         >
-          {/* Compact Image */}
           <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden flex-shrink-0">
             {imageUrl ? (
-              <LazyImage
-                src={imageUrl}
-                alt={vendor.business_name}
-                className="w-full h-full object-cover"
-              />
+              <LazyImage src={imageUrl} alt={vendor.business_name} className="w-full h-full object-cover" />
             ) : (
-              <div className={cn(
-                "w-full h-full flex items-center justify-center",
-                isSponsored ? "bg-primary/10" : "bg-muted/30"
-              )}>
+              <div className="w-full h-full flex items-center justify-center bg-muted">
                 <span className="text-2xl font-bold text-muted-foreground/50">
                   {(vendor.business_name || 'V').charAt(0)}
                 </span>
@@ -108,7 +93,6 @@ export const VendorCard = ({
             )}
           </div>
 
-          {/* Compact Content */}
           <div className="flex-1 min-w-0 py-0.5">
             <div className="flex items-center gap-1.5 mb-1">
               {vendor.verified && <Shield className="h-3 w-3 text-accent flex-shrink-0" />}
@@ -145,23 +129,21 @@ export const VendorCard = ({
     );
   }
 
-  // Standard card layout
+  // Standard card
   return (
     <Link to={`/vendors/${vendor.id}`}>
       <div
         ref={cardRef}
         className={cn(
-          "group relative rounded-xl sm:rounded-2xl overflow-hidden",
-          "bg-card/80 backdrop-blur-sm border border-border/50",
-          "transition-all duration-300 ease-out",
-          isSponsored && "border-primary/30 shadow-lg shadow-primary/5",
-          isFeatured && "border-accent/30 shadow-lg shadow-accent/5",
+          "group relative rounded-2xl overflow-hidden",
+          "bg-card shadow-[var(--shadow-sm)]",
+          "transition-all duration-200 ease-out hover:shadow-[var(--shadow-md)]",
           className
         )}
         style={{
           ...style,
           transform: enable3D
-            ? `perspective(1000px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) ${isHovering ? 'translateZ(8px)' : ''}`
+            ? `perspective(1000px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) ${isHovering ? 'translateZ(4px)' : ''}`
             : undefined,
           transformStyle: "preserve-3d",
           transition: isHovering ? "transform 0.1s ease-out" : "transform 0.4s ease-out",
@@ -170,15 +152,7 @@ export const VendorCard = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Gradient border glow on hover - Desktop only */}
-        <div className={cn(
-          "absolute -inset-[1px] rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm hidden sm:block",
-          isSponsored ? "bg-gradient-to-br from-primary via-accent to-primary"
-            : isFeatured ? "bg-gradient-to-br from-accent via-secondary to-accent"
-            : "bg-gradient-to-br from-primary/50 via-accent/50 to-primary/50"
-        )} />
-
-        {/* Image section - Optimized aspect ratio */}
+        {/* Image */}
         <div className="relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden">
           {imageUrl ? (
             <LazyImage
@@ -187,16 +161,8 @@ export const VendorCard = ({
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className={cn(
-              "w-full h-full flex items-center justify-center",
-              isSponsored ? "bg-gradient-to-br from-primary/20 to-accent/20"
-                : isFeatured ? "bg-gradient-to-br from-accent/20 to-secondary/20"
-                : "bg-gradient-to-br from-muted/50 to-muted/30"
-            )}>
-              <span className={cn(
-                "text-4xl sm:text-5xl font-bold",
-                isSponsored ? "text-primary/60" : "text-accent/60"
-              )}>
+            <div className="w-full h-full flex items-center justify-center bg-muted">
+              <span className="text-4xl sm:text-5xl font-bold text-muted-foreground/30">
                 {(vendor.business_name || 'V').charAt(0)}
               </span>
             </div>
@@ -206,21 +172,17 @@ export const VendorCard = ({
           {(isSponsored || isFeatured) && (
             <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
               <div className={cn(
-                "w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center backdrop-blur-md border",
-                isSponsored ? "bg-primary/20 border-primary/30" : "bg-accent/20 border-accent/30"
+                "w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center backdrop-blur-md",
+                isSponsored ? "bg-primary/20" : "bg-accent/20"
               )}>
-                {isSponsored ? <Crown className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" /> : <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-accent" />}
+                {isSponsored ? <Crown className="h-3 w-3 text-primary" /> : <Sparkles className="h-3 w-3 text-accent" />}
               </div>
             </div>
           )}
-
-          {/* Hover overlay - Desktop only */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block" />
         </div>
 
-        {/* Content section - Compact */}
-        <div className="p-3 sm:p-4 space-y-2" style={{ transform: enable3D ? "translateZ(20px)" : undefined }}>
-          {/* Badges row */}
+        {/* Content */}
+        <div className="p-3 sm:p-4 space-y-2">
           <div className="flex flex-wrap items-center gap-1">
             {vendor.verified && (
               <Badge variant="outline" className="text-[10px] sm:text-xs px-1.5 py-0 h-5">
@@ -233,12 +195,10 @@ export const VendorCard = ({
             </Badge>
           </div>
 
-          {/* Title */}
           <h3 className="font-semibold text-sm sm:text-base leading-tight line-clamp-1 group-hover:text-primary transition-colors">
             {vendor.business_name}
           </h3>
 
-          {/* Stats row */}
           <div className="flex items-center justify-between text-xs sm:text-sm">
             {vendor.cities?.name && (
               <div className="flex items-center gap-1 text-muted-foreground truncate max-w-[40%]">
