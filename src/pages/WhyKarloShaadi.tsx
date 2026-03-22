@@ -34,7 +34,7 @@ const familyRoles = [
     image: coupleImg,
     icon: Heart,
     features: ["AI Wedding Planner", "Wedding Website Builder", "Guest List Manager"],
-    gradient: "from-rose-500/20 to-pink-500/20",
+    gradient: "",
   },
   {
     title: "The Best Friends",
