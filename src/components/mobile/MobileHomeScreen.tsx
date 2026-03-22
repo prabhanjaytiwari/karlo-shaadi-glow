@@ -143,6 +143,28 @@ function useWeddingCountdown() {
   });
 }
 
+// Lazy section wrapper — renders children only when near viewport
+function LazySection({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { rootMargin: '200px' }
+    );
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={className}>
+      {visible ? children : <div className="h-32" />}
+    </div>
+  );
+}
+
 // ─── MAIN COMPONENT ───────────────────────────────────
 
 export function MobileHomeScreen() {
