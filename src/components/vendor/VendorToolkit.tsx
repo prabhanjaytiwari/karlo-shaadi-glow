@@ -103,7 +103,7 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           <FollowUpTracker vendorId={vendorId} />
         </TabsContent>
         <TabsContent value="minisite">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Portfolio Mini-Site" featureDescription="Get your own professional website with QR code for visiting cards. Upgrade to Gold to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="pro" toolName="Portfolio Mini-Site" featureDescription="Get your own professional website with QR code for visiting cards. Upgrade to Pro to unlock.">
             <VendorMiniSite vendorId={vendorId} vendorName={vendorName} />
           </ToolGate>
         </TabsContent>
