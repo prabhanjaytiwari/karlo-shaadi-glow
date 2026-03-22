@@ -16,7 +16,7 @@ const CancellationRefunds = () => {
       <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           {!isMobile && (
-            <div className="text-center mb-12 animate-fade-up">
+            <div className="text-center mb-12 ">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Cancellation & Refunds</h1>
               <p className="text-xl text-muted-foreground">
                 Our policy for booking cancellations and refunds
@@ -24,7 +24,7 @@ const CancellationRefunds = () => {
             </div>
           )}
 
-          <Card className="animate-fade-up">
+          <Card className="">
             <CardHeader>
               <CardTitle>Cancellation & Refund Policy</CardTitle>
             </CardHeader>

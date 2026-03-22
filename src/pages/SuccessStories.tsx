@@ -107,14 +107,14 @@ export default function SuccessStories() {
       <MobilePageHeader title="Success Stories" />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className="pt-32 pb-16 px-4 sm:px-6 bg-muted/20">
         <div className="container mx-auto max-w-6xl text-center">
           <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
             <Sparkles className="w-3 h-3 mr-1" />
             Real Weddings, Real Inspiration
           </Badge>
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
-            Wedding Success <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Stories</span>
+            Wedding Success <span className="text-primary">Stories</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Get inspired by real couples who planned their dream weddings using Karlo Shaadi. From intimate celebrations to grand affairs, every love story is unique.
@@ -129,9 +129,9 @@ export default function SuccessStories() {
             Featured Story
           </Badge>
           
-          <div className="bg-card border-2 border-border/50 rounded-3xl overflow-hidden">
+          <div className="bg-card shadow-[var(--shadow-sm)] rounded-3xl overflow-hidden">
             {/* Cover Image */}
-            <div className="relative h-96 bg-gradient-to-br from-primary/20 to-accent/20" />
+            <div className="relative h-96 bg-primary/10" />
             
             {/* Content */}
             <div className="p-8 md:p-12">
@@ -208,7 +208,7 @@ export default function SuccessStories() {
 
                 {/* Sidebar - Vendors */}
                 <div className="space-y-6">
-                  <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-6 border-2 border-border/50">
+                  <div className="bg-muted/20 rounded-2xl p-6 shadow-[var(--shadow-sm)]">
                     <h3 className="font-bold text-xl mb-4">Vendors Used</h3>
                     <div className="space-y-4">
                       {featuredStory.vendors.map((vendor, idx) => (
@@ -249,7 +249,7 @@ export default function SuccessStories() {
             {stories.map((story) => (
               <article
                 key={story.id}
-                className="group bg-card border-2 border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer"
+                className="group bg-card shadow-[var(--shadow-sm)] rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer"
               >
                 {/* Image */}
                 <div className="relative h-64 bg-gradient-to-br from-primary/10 to-accent/10" />

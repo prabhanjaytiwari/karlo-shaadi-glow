@@ -264,7 +264,7 @@ const BudgetTracker = () => {
             <Card className="rounded-2xl border border-border/50">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20">
+                  <div className="p-2 rounded-lg bg-primary/10">
                     <PiggyBank className="h-5 w-5 text-primary" />
                   </div>
                   {!editingBudget && (
@@ -308,7 +308,7 @@ const BudgetTracker = () => {
             {/* Total Spent */}
             <Card className="rounded-2xl border border-border/50">
               <CardContent className="pt-6">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 w-fit mb-2">
+                <div className="p-2 rounded-lg bg-primary/10 w-fit mb-2">
                   <TrendingUp className="h-5 w-5 text-primary" />
                 </div>
                 <p className="text-sm text-muted-foreground mb-1">Total Spent</p>
@@ -324,7 +324,7 @@ const BudgetTracker = () => {
             {/* Remaining */}
             <Card className={`rounded-2xl border transition-colors ${getRemainingBudget() < 0 ? 'border-destructive/40' : 'border-border/50'}`}>
               <CardContent className="pt-6">
-                <div className={`p-2 rounded-lg w-fit mb-2 ${getRemainingBudget() < 0 ? 'bg-destructive/20' : 'bg-gradient-to-br from-primary/20 to-accent/20'}`}>
+                <div className={`p-2 rounded-lg w-fit mb-2 ${getRemainingBudget() < 0 ? 'bg-destructive/20' : 'bg-primary/10'}`}>
                   <AlertCircle className={`h-5 w-5 ${getRemainingBudget() < 0 ? 'text-destructive' : 'text-primary'}`} />
                 </div>
                 <p className="text-sm text-muted-foreground mb-1">Remaining</p>
@@ -387,7 +387,7 @@ const BudgetTracker = () => {
                     <div key={allocation.id} className="p-4 rounded-xl bg-muted/30 border border-border/30">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20">
+                          <div className="p-2 rounded-lg bg-primary/10">
                             {categoryIcons[allocation.category] || <Plus className="h-5 w-5" />}
                           </div>
                           <div>
@@ -452,9 +452,9 @@ const BudgetTracker = () => {
               </CardContent>
             </Card>
           ) : totalBudget === 0 ? (
-            <Card className="rounded-2xl border-2 border-dashed border-border/50">
+            <Card className="rounded-2xl border border-dashed border-border/30">
               <CardContent className="py-12 text-center">
-                <div className="p-4 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 w-fit mx-auto mb-4">
+                <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto mb-4">
                   <PiggyBank className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-xl font-medium mb-2">Set Your Wedding Budget</h3>
@@ -476,7 +476,7 @@ const BudgetTracker = () => {
           ) : null}
 
           {/* Tips Section */}
-          <Card className="mt-4 rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-accent/5">
+          <Card className="mt-4 rounded-2xl border border-border/50 bg-muted/20">
             <CardContent className="pt-6">
               <h3 className="font-medium mb-3">Budget Tips</h3>
               <ul className="text-sm text-muted-foreground space-y-2">

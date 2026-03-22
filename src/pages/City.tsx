@@ -326,7 +326,7 @@ const City = () => {
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl animate-fade-up">
+          <div className="max-w-3xl ">
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="h-5 w-5 text-accent" />
               <span className="text-accent font-semibold">Planning in {city.name}</span>
@@ -362,7 +362,7 @@ const City = () => {
             ].map((stat, i) => (
               <GlassCard 
                 key={i} 
-                className="p-6 text-center animate-fade-up"
+                className="p-6 text-center "
                 style={{ animationDelay: `${i * 100}ms` }}
               >
                 <p className="font-display font-bold text-3xl mb-2 text-accent">{stat.value}</p>
@@ -432,7 +432,7 @@ const City = () => {
                 <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
                   <GlassCard
                     hover
-                    className="overflow-hidden h-full animate-fade-up"
+                    className="overflow-hidden h-full "
                     style={{ animationDelay: `${i * 50}ms` }}
                   >
                     <CardHeader>
@@ -532,7 +532,7 @@ const City = () => {
       </section>
 
       {/* Micro Guide */}
-      <section className="py-20 bg-gradient-to-b from-muted/20 to-background">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <GlassCard className="max-w-4xl mx-auto p-8 md:p-12">
             <h2 className="font-display font-bold text-3xl mb-6">

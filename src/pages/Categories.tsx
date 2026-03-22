@@ -199,7 +199,7 @@ const Categories = () => {
                     <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
                       <div className="rounded-2xl border border-border/50 bg-background p-4 hover:border-accent/30 hover:shadow-md transition-all">
                         <div className="flex gap-4">
-                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center shrink-0 ring-1 ring-accent/20">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center shrink-0 ">
                             <span className="text-2xl font-bold text-accent">{vendor.business_name?.charAt(0) || "V"}</span>
                           </div>
                           <div className="flex-1 min-w-0">

@@ -142,7 +142,7 @@ const SponsorShaadi = () => {
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-3">
               Sponsor Your{" "}
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              <span className="text-foreground">
                 Shaadi
               </span>
             </h1>

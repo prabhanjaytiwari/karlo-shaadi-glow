@@ -16,7 +16,7 @@ const Privacy = () => {
       <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           {!isMobile && (
-            <div className="text-center mb-12 animate-fade-up">
+            <div className="text-center mb-12 ">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
               <p className="text-xl text-muted-foreground">
                 How we collect, use, and protect your information
@@ -24,7 +24,7 @@ const Privacy = () => {
             </div>
           )}
 
-          <Card className="animate-fade-up">
+          <Card className="">
             <CardHeader>
               <CardTitle>Privacy Policy</CardTitle>
             </CardHeader>

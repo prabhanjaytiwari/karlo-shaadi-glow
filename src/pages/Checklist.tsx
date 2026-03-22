@@ -400,7 +400,7 @@ export default function Checklist() {
       </section>
 
       {/* Actions Bar */}
-      <section className="py-3 border-b bg-card/50 sticky top-12 z-30 backdrop-blur-sm">
+      <section className="py-3 border-b bg-card/50 sticky top-12 z-30 ">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -508,7 +508,7 @@ export default function Checklist() {
                     <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-accent/5">
                       <div className="flex items-center justify-between w-full pr-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                             <Clock className="h-5 w-5 text-accent" />
                           </div>
                           <div className="text-left">
