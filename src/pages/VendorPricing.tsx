@@ -174,7 +174,7 @@ export default function VendorPricing() {
         description="Affordable vendor plans starting from Free. Grow your wedding business with premium listings and verified leads."
       />
       
-      <main className="flex-1 py-20 px-4">
+      <main className="flex-1 pt-16 sm:pt-20 pb-8 px-4 sm:px-6 lg:px-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
