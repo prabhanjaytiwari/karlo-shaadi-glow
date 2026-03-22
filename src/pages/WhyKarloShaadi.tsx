@@ -224,7 +224,7 @@ export default function WhyKarloShaadi() {
       </section>
 
       {/* Vendor Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-16 md:py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-16">
             <motion.div
