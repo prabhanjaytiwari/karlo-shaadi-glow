@@ -101,7 +101,7 @@ export default function Testimonials() {
               <span className="text-accent font-semibold text-sm">Real Stories, Real Weddings</span>
             </div>
           )}
-          <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
+          <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6"}>
             What Couples Say About <span className="text-primary">Their Dream Weddings</span>
           </h1>
           {!isMobile && (
