@@ -507,7 +507,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/vendor-check">
-                <Button size="lg" variant="outline" className="rounded-full px-8 border-accent/30 hover:border-accent">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
                   Check Your Vendor Score
                 </Button>
               </Link>
