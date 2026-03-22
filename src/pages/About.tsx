@@ -63,7 +63,7 @@ const About = () => {
 
           {/* Founder Section */}
           <section className="max-w-4xl mx-auto">
-            <div className="rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] overflow-hidden">
               <div className="grid md:grid-cols-[280px_1fr] gap-0">
                 <div className="relative h-48 md:h-full">
                   <CinematicImage src={heroAboutFounder} alt="Prabhanjay Tiwari - Founder" className="w-full h-full" cinematic />
