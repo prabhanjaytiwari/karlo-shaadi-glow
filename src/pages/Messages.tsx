@@ -298,7 +298,7 @@ export default function Messages() {
           <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[calc(100vh-12rem)] min-h-[400px] max-h-[800px] shadow-[var(--shadow-sm)]'}`}>
             <div className="grid md:grid-cols-3 h-full">
               {showConversationList && (
-                <div className={`border-r flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
+                <div className={`border-r border-border/30 flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
                   <div className="p-3 md:p-4 border-b">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
