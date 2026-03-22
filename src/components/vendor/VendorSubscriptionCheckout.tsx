@@ -113,7 +113,7 @@ export function VendorSubscriptionCheckout({
             // Update vendor subscription tier
             const { error: updateError } = await supabase
               .from("vendors")
-              .update({ subscription_tier: plan.tierValue })
+              .update({ subscription_tier: plan.tierValue as any })
               .eq("id", vendorId);
             if (updateError) throw updateError;
 
