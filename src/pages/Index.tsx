@@ -434,9 +434,9 @@ const Index = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center gap-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <Star className="h-6 w-6 text-accent-foreground" />
-                  </div>
+                  <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center flex-shrink-0">
+                     <Star className="h-6 w-6 text-accent" />
+                   </div>
                   <div className="group-hover:translate-x-2 transition-transform duration-300">
                     <div className="text-2xl font-semibold">4.9/5</div>
                     <div className="text-muted-foreground text-sm">Average Rating</div>
