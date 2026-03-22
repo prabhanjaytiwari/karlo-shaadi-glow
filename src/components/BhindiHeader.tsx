@@ -163,26 +163,19 @@ export const BhindiHeader = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-background/98 backdrop-blur-xl border-b border-border shadow-sm'
-          : 'bg-white/90 backdrop-blur-md border-b border-transparent'
+          ? 'bg-background/98 backdrop-blur-xl shadow-[var(--shadow-sm)]'
+          : 'bg-background/95 backdrop-blur-md'
       }`}
     >
-      {/* Premium Gradient Line on Scroll */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-300 ${
-          scrolled ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
 
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
+          <Link to="/" className="flex items-center gap-2 group">
             <img
               src={logo}
               alt="Karlo Shaadi Logo"
-              className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
+              className="h-8 sm:h-10 md:h-11 w-auto transition-transform group-hover:scale-[1.02] duration-300"
               style={{ mixBlendMode: 'multiply' }}
             />
           </Link>
@@ -297,7 +290,7 @@ export const BhindiHeader = () => {
               </NavigationMenu>
 
               <a href="tel:+917011460321" className="hidden xl:flex">
-                <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5">
+                <Button variant="outline" size="sm" className="gap-2">
                   <Phone className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium">Free Consultation</span>
                 </Button>

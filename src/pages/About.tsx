@@ -27,7 +27,7 @@ const About = () => {
             <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
               <div className="max-w-3xl mx-auto text-center space-y-4">
                 <h1 className="text-3xl md:text-5xl font-bold">
-                  About <span className="bg-gradient-to-r from-primary via-pink-500 to-accent bg-clip-text text-transparent">Karlo Shaadi</span>
+                  About <span className="text-primary">Karlo Shaadi</span>
                 </h1>
                 <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto">
                   India's most trusted wedding planning platform, connecting couples with verified vendors across the country
@@ -40,7 +40,7 @@ const About = () => {
         <div className="container mx-auto px-4 sm:px-6 space-y-10 md:space-y-20 py-10 md:py-16">
           {/* Our Story */}
           <section className="max-w-4xl mx-auto">
-            <div className="rounded-2xl border border-border/50 bg-card p-6 md:p-10">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-6 md:p-10">
               <h2 className="text-xl md:text-3xl font-bold mb-4">Our Story</h2>
               <div className="space-y-3 text-muted-foreground text-sm md:text-base leading-relaxed">
                 <p>
@@ -63,7 +63,7 @@ const About = () => {
 
           {/* Founder Section */}
           <section className="max-w-4xl mx-auto">
-            <div className="rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] overflow-hidden">
               <div className="grid md:grid-cols-[280px_1fr] gap-0">
                 <div className="relative h-48 md:h-full">
                   <CinematicImage src={heroAboutFounder} alt="Prabhanjay Tiwari - Founder" className="w-full h-full" cinematic />
@@ -100,7 +100,7 @@ const About = () => {
                 { icon: Users, title: "Community", desc: "Building a strong community of couples and vendors helping each other", color: "text-primary" },
                 { icon: Sparkles, title: "Innovation", desc: "Constantly improving our platform with new features and technologies", color: "text-primary" },
               ].map((item, i) => (
-                <div key={i} className="text-center p-5 md:p-7 rounded-2xl border border-border/50 bg-card hover:border-primary/30 hover:shadow-md transition-all duration-300">
+                <div key={i} className="text-center p-5 md:p-7 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
                     <item.icon className={`h-6 w-6 ${item.color}`} />
                   </div>
@@ -112,9 +112,8 @@ const About = () => {
           </section>
 
           {/* Stats */}
-          <section className="relative rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/15 via-pink-500/15 to-accent/15" />
-            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 p-8 md:p-12 text-center">
+          <section className="rounded-2xl overflow-hidden bg-muted/30">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 md:p-12 text-center">
               {[
                 { value: "50,000+", label: "Happy Couples" },
                 { value: "10,000+", label: "Verified Vendors" },

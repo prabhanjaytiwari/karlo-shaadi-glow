@@ -149,8 +149,8 @@ const Auth = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="bg-gradient-to-r from-accent/20 via-emerald-100/50 to-accent/20 border border-accent/30 rounded-2xl p-4 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+          <div className="bg-muted/40 rounded-2xl p-4 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
               <Gift className="h-5 w-5 text-accent" />
             </div>
             <div className="min-w-0">
@@ -162,9 +162,8 @@ const Auth = () => {
         </motion.div>
       )}
 
-      <Card className="rounded-2xl border border-border/50 shadow-xl bg-background/98 backdrop-blur-sm ring-1 ring-primary/10">
+      <Card className="rounded-2xl shadow-[var(--shadow-md)] bg-card">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto w-12 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full mb-3" />
           <CardTitle className={isMobile ? "text-xl" : "text-2xl"}>Welcome</CardTitle>
           <CardDescription className="text-sm">Login or create your free account</CardDescription>
         </CardHeader>
@@ -291,8 +290,8 @@ const Auth = () => {
           </Tabs>
 
           {/* Vendor CTA */}
-          <div className="mt-6 pt-4 border-t border-border/50">
-            <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/10 rounded-2xl p-4 border border-primary/15">
+          <div className="mt-6 pt-4 border-t border-border/30">
+            <div className="bg-muted/30 rounded-2xl p-4">
               <p className="text-sm font-semibold text-foreground mb-1 text-center">Are you a wedding vendor? 💼</p>
               <p className="text-xs text-muted-foreground text-center mb-3">Join free — zero commission on bookings</p>
               <div className="grid grid-cols-2 gap-2 mb-3 text-[11px] text-muted-foreground">
@@ -304,7 +303,7 @@ const Auth = () => {
                 ))}
               </div>
               <Link to="/vendor/onboarding">
-                <Button variant="outline" className="w-full rounded-xl border-primary/30 text-primary hover:bg-primary hover:text-white text-sm h-9 font-medium transition-all">
+                <Button variant="outline" className="w-full rounded-xl text-sm h-9 font-medium transition-all">
                   Register as Vendor →
                 </Button>
               </Link>

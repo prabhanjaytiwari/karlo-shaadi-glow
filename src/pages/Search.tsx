@@ -169,14 +169,14 @@ export default function Search() {
       >
         <Link to={`/vendors/${vendor.id}`} className="block group">
           <div className={cn(
-            "relative p-4 rounded-3xl border transition-all duration-300 active:scale-[0.97]",
+            "relative p-4 rounded-2xl transition-all duration-300 active:scale-[0.97]",
             isSponsored 
-              ? "bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20 shadow-md shadow-primary/5" 
-              : "bg-card/80 backdrop-blur-sm border-border/40 hover:border-border/80 hover:shadow-md"
+              ? "bg-card shadow-[var(--shadow-md)]" 
+              : "bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]"
           )}>
             {/* Sponsored ribbon */}
             {isSponsored && (
-              <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-primary to-accent text-[10px] font-bold text-primary-foreground shadow-sm">
+              <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-sm">
                 ⭐ FEATURED
               </div>
             )}
@@ -377,7 +377,7 @@ export default function Search() {
             ))}
           </div>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
+          <div className="h-px bg-border/30" />
         </header>
 
         {/* ── CONTENT ── */}
@@ -445,7 +445,7 @@ export default function Search() {
             </h1>
             <p className="text-center text-muted-foreground mb-8">Discover verified wedding professionals trusted by thousands</p>
             
-            <div className="max-w-3xl mx-auto bg-card border border-border/50 rounded-2xl p-2 shadow-sm">
+            <div className="max-w-3xl mx-auto bg-card rounded-2xl p-2 shadow-[var(--shadow-sm)]">
               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -548,12 +548,12 @@ export default function Search() {
                             className="relative group"
                           >
                             <Link to={`/vendors/${vendor.id}`}>
-                              <div className={cn(
-                                "p-5 rounded-2xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5",
-                                isSponsored ? "border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5" : "border-border/40 bg-card hover:border-border"
+                            <div className={cn(
+                                "p-5 rounded-2xl transition-all duration-300 hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
+                                isSponsored ? "bg-card shadow-[var(--shadow-md)]" : "bg-card shadow-[var(--shadow-sm)]"
                               )}>
                                 {isSponsored && (
-                                  <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-primary to-accent text-[10px] font-bold text-primary-foreground">
+                                  <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                                     ⭐ FEATURED
                                   </div>
                                 )}
@@ -636,8 +636,8 @@ export default function Search() {
                         >
                           <Link to={`/vendors/${vendor.id}`}>
                             <div className={cn(
-                              "flex gap-5 p-5 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-px",
-                              isSponsored ? "border-primary/30 bg-gradient-to-r from-primary/5 to-transparent" : "border-border/40 bg-card hover:border-border"
+                              "flex gap-5 p-5 rounded-2xl transition-all duration-300 hover:shadow-[var(--shadow-md)] hover:-translate-y-px",
+                              isSponsored ? "bg-card shadow-[var(--shadow-md)]" : "bg-card shadow-[var(--shadow-sm)]"
                             )}>
                               {(() => {
                                 const imgUrl = vendor.logo_url || vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;

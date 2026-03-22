@@ -295,11 +295,11 @@ export default function Messages() {
         <div className={isMobile ? "h-full" : "max-w-6xl mx-auto"}>
           {!isMobile && <h1 className="text-4xl font-bold mb-8">Messages</h1>}
 
-          <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[calc(100vh-12rem)] min-h-[400px] max-h-[800px]'}`}>
+          <Card className={`overflow-hidden ${isMobile ? 'h-[calc(100vh-8rem)] border-0 rounded-none shadow-none' : 'h-[calc(100vh-12rem)] min-h-[400px] max-h-[800px] shadow-[var(--shadow-sm)]'}`}>
             <div className="grid md:grid-cols-3 h-full">
               {showConversationList && (
-                <div className={`border-r flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
-                  <div className="p-3 md:p-4 border-b">
+                <div className={`border-r border-border/30 flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
+                  <div className="p-3 md:p-4 border-b border-border/30">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input placeholder="Search conversations..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" />
@@ -315,7 +315,7 @@ export default function Messages() {
                       filteredConversations.map((conv) => (
                         <button
                           key={conv.vendorId}
-                          className={`w-full p-3 md:p-4 text-left hover:bg-muted transition-colors border-b ${selectedVendor === conv.vendorId ? "bg-muted" : ""}`}
+                          className={`w-full p-3 md:p-4 text-left hover:bg-muted/50 transition-colors border-b border-border/20 ${selectedVendor === conv.vendorId ? "bg-muted/50" : ""}`}
                           onClick={() => setSelectedVendor(conv.vendorId)}
                         >
                           <div className="flex items-center gap-3">
@@ -379,7 +379,7 @@ export default function Messages() {
                         </div>
                       )}
 
-                      <div className="p-3 md:p-4 border-t flex gap-2 bg-card">
+                      <div className="p-3 md:p-4 border-t border-border/30 flex gap-2 bg-card">
                         <Input
                           placeholder="Type a message..."
                           value={newMessage}

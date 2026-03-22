@@ -16,11 +16,8 @@ export const GlassCard = ({
   return (
     <div
       className={cn(
-        "rounded-lg transition-all duration-200",
-        variant === "default" && "glass",
-        variant === "intense" && "glass-intense",
-        variant === "subtle" && "glass-subtle",
-        hover && "hover:border-border/80 hover:shadow-lg cursor-pointer",
+        "rounded-2xl bg-card shadow-[var(--shadow-sm)] transition-all duration-200",
+        hover && "hover:shadow-[var(--shadow-md)] hover:-translate-y-px cursor-pointer",
         className
       )}
       {...props}

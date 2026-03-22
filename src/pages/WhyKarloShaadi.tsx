@@ -34,7 +34,7 @@ const familyRoles = [
     image: coupleImg,
     icon: Heart,
     features: ["AI Wedding Planner", "Wedding Website Builder", "Guest List Manager"],
-    gradient: "from-rose-500/20 to-pink-500/20",
+    gradient: "",
   },
   {
     title: "The Best Friends",
@@ -43,7 +43,7 @@ const familyRoles = [
     image: friendsImg,
     icon: Users,
     features: ["Couple Quiz", "Budget Roast", "Speech Writer"],
-    gradient: "from-amber-500/20 to-orange-500/20",
+    gradient: "",
   },
   {
     title: "The Siblings",
@@ -52,7 +52,7 @@ const familyRoles = [
     image: bridesmaidsImg,
     icon: Sparkles,
     features: ["Music Generator", "Invite Creator", "Shaadi Wrapped"],
-    gradient: "from-violet-500/20 to-purple-500/20",
+    gradient: "",
   },
   {
     title: "The Parents & Family",
@@ -61,7 +61,7 @@ const familyRoles = [
     image: haldiImg,
     icon: Shield,
     features: ["Verified Vendors", "Muhurat Finder", "Budget Calculator"],
-    gradient: "from-emerald-500/20 to-teal-500/20",
+    gradient: "",
   },
 ];
 
@@ -132,7 +132,7 @@ export default function WhyKarloShaadi() {
       </section>
 
       {/* Stats Bar */}
-      <section className="py-8 border-b border-border/50 bg-card">
+      <section className="py-8 border-b border-border/30 bg-card shadow-[var(--shadow-sm)]">
         <div className="container mx-auto px-4">
           <div className="flex justify-center gap-8 md:gap-16">
             {stats.map((stat, i) => (
@@ -165,7 +165,7 @@ export default function WhyKarloShaadi() {
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-4">
               A Wedding is a <span className="text-primary">Family Affair</span>
             </h2>
-            <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-4" />
+            <div className="w-16 h-0.5 bg-primary/30 mx-auto rounded-full mb-4" />
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
               Every person brings something irreplaceable. We built tools for each of them.
             </p>
@@ -184,7 +184,7 @@ export default function WhyKarloShaadi() {
               >
                 {/* Image */}
                 <div className="md:w-1/2">
-                  <div className={`relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br ${role.gradient}`}>
+                  <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-lg)]">
                     <img
                       src={role.image}
                       alt={role.title}
@@ -224,7 +224,7 @@ export default function WhyKarloShaadi() {
       </section>
 
       {/* Vendor Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-16 md:py-24 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-center mb-16">
             <motion.div
@@ -234,7 +234,7 @@ export default function WhyKarloShaadi() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-lg)]">
                 <img
                   src={vendorSectionImg}
                   alt="Wedding vendors at work"
@@ -273,7 +273,7 @@ export default function WhyKarloShaadi() {
             {vendorBenefits.map((benefit, i) => (
               <motion.div
                 key={benefit.title}
-                className="p-6 rounded-2xl bg-card border border-border/50 hover:border-accent/30 hover:shadow-lg transition-all duration-300"
+                className="p-6 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300"
                 custom={i}
                 variants={fadeUp}
                 initial="hidden"

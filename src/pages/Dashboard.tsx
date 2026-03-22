@@ -209,7 +209,7 @@ const Dashboard = () => {
                   <motion.button
                     key={action.route}
                     onClick={() => navigate(action.route)}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-card border border-border active:scale-95 transition-transform"
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-card shadow-[var(--shadow-sm)] active:scale-95 transition-transform"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 + i * 0.04 }}
@@ -221,7 +221,7 @@ const Dashboard = () => {
               </div>
               <button
                 onClick={() => navigate("/tools")}
-                className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted/50 border border-border text-sm font-medium text-muted-foreground active:scale-[0.98] transition-transform"
+                className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-muted/30 text-sm font-medium text-muted-foreground active:scale-[0.98] transition-transform"
               >
                 <MoreHorizontal className="h-4 w-4" />
                 More Tools
@@ -236,7 +236,7 @@ const Dashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 + i * 0.03 }}
                   onClick={() => navigate(action.route)}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-card border border-border hover:bg-muted hover:shadow-sm transition-all cursor-pointer"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all cursor-pointer"
                 >
                   <span className="text-2xl">{action.emoji}</span>
                   <span className="text-xs font-medium text-muted-foreground">{action.label}</span>
@@ -252,7 +252,7 @@ const Dashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               onClick={() => navigate("/profile")}
-              className="p-4 rounded-2xl bg-card border border-border shadow-sm cursor-pointer hover:bg-muted transition-all"
+              className="p-4 rounded-2xl bg-card shadow-[var(--shadow-sm)] cursor-pointer hover:shadow-[var(--shadow-md)] transition-all"
             >
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-foreground">Complete Your Profile</p>
@@ -269,14 +269,14 @@ const Dashboard = () => {
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-5">
-            <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
               {user && <WeddingPlanningProgress userId={user.id} weddingDate={profile?.wedding_date} />}
             </div>
             <div className="space-y-5">
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+              <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
                 {user && <ReferralWidget userId={user.id} />}
               </div>
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+              <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
                 {user && <AchievementBadges userId={user.id} compact />}
               </div>
             </div>
@@ -284,7 +284,7 @@ const Dashboard = () => {
 
           {/* Music Section */}
           {user && (
-            <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
               <DashboardMusicSection userId={user.id} />
             </div>
           )}
