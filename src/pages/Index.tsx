@@ -491,7 +491,7 @@ const Index = () => {
       </section>
 
       {/* Vendor Acquisition Banner */}
-      <section className="py-16 md:py-24 bg-gradient-to-r from-accent/5 via-primary/5 to-accent/5">
+      <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto text-center space-y-4">
             <h2 className="font-display font-semibold text-2xl md:text-3xl">
