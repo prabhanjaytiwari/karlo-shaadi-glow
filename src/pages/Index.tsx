@@ -381,7 +381,7 @@ const Index = () => {
       </section>
 
       {/* Shaadi Seva Impact Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white via-rose-50/30 to-white">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
