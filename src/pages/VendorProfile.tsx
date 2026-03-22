@@ -439,6 +439,18 @@ const VendorProfile = () => {
                 </p>
               </div>
 
+              {/* Video Reels */}
+              {portfolio.filter(p => p.video_url).length > 0 && (
+                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                  <h2 className="text-xl font-bold mb-4">Video Reels</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {portfolio.filter(p => p.video_url).map(item => (
+                      <VideoEmbed key={item.id} videoUrl={item.video_url} title={item.title} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Services */}
               {services.length > 0 && (
                 <div className="bg-card border border-border/50 rounded-2xl p-6">
