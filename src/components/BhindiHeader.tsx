@@ -163,16 +163,10 @@ export const BhindiHeader = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-background/98 backdrop-blur-xl border-b border-border shadow-sm'
-          : 'bg-white/90 backdrop-blur-md border-b border-transparent'
+          ? 'bg-background/98 backdrop-blur-xl shadow-[var(--shadow-sm)]'
+          : 'bg-background/95 backdrop-blur-md'
       }`}
     >
-      {/* Premium Gradient Line on Scroll */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-300 ${
-          scrolled ? 'opacity-100' : 'opacity-0'
-        }`}
-      />
 
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
