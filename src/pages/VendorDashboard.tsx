@@ -26,6 +26,8 @@ import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscripti
 import { VendorInquiryManagement } from "@/components/vendor/VendorInquiryManagement";
 import { VerifiedBadgeShowcase } from "@/components/vendor/VerifiedBadgeShowcase";
 import { VendorToolkit } from "@/components/vendor/VendorToolkit";
+import { VideoReelUpload } from "@/components/vendor/VideoReelUpload";
+import { LeadQualityDashboard } from "@/components/vendor/LeadQualityDashboard";
 
 const mapSubscriptionPlan = (sub: any): "free" | "starter" | "pro" | "elite" => {
   if (!sub || sub.status !== 'active') return 'free';
