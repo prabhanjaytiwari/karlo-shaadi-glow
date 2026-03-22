@@ -1306,14 +1306,7 @@ export default function VendorOnboarding() {
                             </div>
 
                             <div className="mb-4">
-                              {discounted ? (
-                                <div className="flex items-baseline gap-2">
-                                  <span className="text-lg line-through text-white/30">₹{plan.price.toLocaleString()}</span>
-                                  <span className="text-2xl font-black text-accent">₹{discounted.toLocaleString()}</span>
-                                </div>
-                              ) : (
-                                <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
-                              )}
+                              <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
                               <p className="text-[10px] text-white/30 mt-0.5">₹{perDay}/day · Cancel anytime</p>
                             </div>
 
