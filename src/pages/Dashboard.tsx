@@ -276,7 +276,7 @@ const Dashboard = () => {
               <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
                 {user && <ReferralWidget userId={user.id} />}
               </div>
-              <div className="rounded-2xl bg-card border border-border shadow-sm p-5">
+              <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
                 {user && <AchievementBadges userId={user.id} compact />}
               </div>
             </div>
