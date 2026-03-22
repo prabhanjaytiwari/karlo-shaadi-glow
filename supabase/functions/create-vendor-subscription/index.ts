@@ -8,24 +8,31 @@ const corsHeaders = {
 
 interface VendorSubscriptionRequest {
   vendorId: string;
-  plan: 'featured' | 'sponsored';
+  plan: 'starter' | 'pro' | 'elite';
 }
 
 // Subscription plan details
 const SUBSCRIPTION_PLANS = {
-  featured: {
-    amount: 499900, // ₹4,999 in paise
+  starter: {
+    amount: 99900, // ₹999 in paise
     period: 'monthly',
     interval: 1,
-    name: 'Featured Listing',
-    description: 'Top 5 placement in search results with featured badge'
+    name: 'Starter Plan',
+    description: 'Enhanced visibility with Silver badge and 7% commission'
   },
-  sponsored: {
-    amount: 999900, // ₹9,999 in paise
+  pro: {
+    amount: 299900, // ₹2,999 in paise
     period: 'monthly',
     interval: 1,
-    name: 'Sponsored Profile',
-    description: 'Homepage featured placement with premium badge'
+    name: 'Pro Plan',
+    description: 'Top 5 placement with Gold badge and 3% commission'
+  },
+  elite: {
+    amount: 699900, // ₹6,999 in paise
+    period: 'monthly',
+    interval: 1,
+    name: 'Elite Plan',
+    description: 'Homepage featured with Diamond badge and 0% commission'
   }
 };
 
@@ -40,7 +47,7 @@ serve(async (req) => {
     console.log(`Creating vendor subscription for vendor ${vendorId}, plan: ${plan}`);
 
     // Validate plan
-    if (!['featured', 'sponsored'].includes(plan)) {
+    if (!['starter', 'pro', 'elite'].includes(plan)) {
       throw new Error("Invalid subscription plan");
     }
 

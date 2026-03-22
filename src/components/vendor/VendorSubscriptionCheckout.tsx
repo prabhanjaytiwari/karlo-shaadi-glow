@@ -33,11 +33,11 @@ const PLAN_DETAILS: Record<string, {
   icon: typeof Star;
   color: string;
   bgColor: string;
-  tierValue: "free" | "featured" | "sponsored";
+  tierValue: "free" | "featured" | "sponsored" | "starter" | "pro" | "elite";
 }> = {
-  silver: { name: "Silver", price: 4999, icon: Star, color: "text-slate-500", bgColor: "bg-slate-100", tierValue: "free" },
-  gold: { name: "Gold", price: 9999, icon: Sparkles, color: "text-amber-600", bgColor: "bg-amber-100", tierValue: "featured" },
-  diamond: { name: "Diamond", price: 19999, icon: Crown, color: "text-primary", bgColor: "bg-primary/10", tierValue: "sponsored" },
+  starter: { name: "Starter", price: 999, icon: Star, color: "text-slate-500", bgColor: "bg-slate-100", tierValue: "starter" },
+  pro: { name: "Pro", price: 2999, icon: Sparkles, color: "text-amber-600", bgColor: "bg-amber-100", tierValue: "pro" },
+  elite: { name: "Elite", price: 6999, icon: Crown, color: "text-primary", bgColor: "bg-primary/10", tierValue: "elite" },
 };
 
 export function VendorSubscriptionCheckout({
@@ -113,7 +113,7 @@ export function VendorSubscriptionCheckout({
             // Update vendor subscription tier
             const { error: updateError } = await supabase
               .from("vendors")
-              .update({ subscription_tier: plan.tierValue })
+              .update({ subscription_tier: plan.tierValue as any })
               .eq("id", vendorId);
             if (updateError) throw updateError;
 
@@ -123,16 +123,16 @@ export function VendorSubscriptionCheckout({
 
             const { error: subError } = await supabase
               .from("vendor_subscriptions")
-              .upsert({
+              .upsert([{
                 vendor_id: vendorId,
-                plan: plan.tierValue,
+                plan: plan.tierValue as any,
                 status: "active",
                 amount: finalPrice,
                 discount_amount: plan.price - finalPrice,
                 razorpay_payment_id: response.razorpay_payment_id,
                 started_at: new Date().toISOString(),
                 expires_at: expiresAt.toISOString(),
-              }, { onConflict: "vendor_id" });
+              }], { onConflict: "vendor_id" });
             if (subError) throw subError;
 
             toast({ title: "Subscription Activated!", description: `You're now on the ${plan.name} plan. Enjoy your premium features!` });
@@ -207,21 +207,21 @@ export function VendorSubscriptionCheckout({
           <div className="space-y-2">
             <p className="text-sm font-medium">What you'll get:</p>
             <ul className="space-y-1.5 text-sm text-muted-foreground">
-              {planId === "silver" && (
+              {planId === "starter" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Top 10 search placement</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Silver badge on profile</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />12% transaction fee (save 3%)</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Silver verified badge</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />7% transaction fee (save 3%)</li>
                 </>
               )}
-              {planId === "gold" && (
+              {planId === "pro" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Top 5 search placement</li>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Gold Verified badge</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />8% transaction fee (save 7%)</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />3% transaction fee (save 7%)</li>
                 </>
               )}
-              {planId === "diamond" && (
+              {planId === "elite" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Homepage featured placement</li>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Diamond Premium badge</li>

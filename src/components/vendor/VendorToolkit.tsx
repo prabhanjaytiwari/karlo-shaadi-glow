@@ -14,7 +14,7 @@ import { VendorMiniSite } from "./VendorMiniSite";
 import { BusinessIntelligence } from "./BusinessIntelligence";
 import { ToolGate } from "./ToolGate";
 
-type VendorPlan = "free" | "silver" | "gold" | "diamond";
+type VendorPlan = "free" | "starter" | "pro" | "elite";
 
 interface VendorToolkitProps {
   vendorId: string;
@@ -87,12 +87,12 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           <VendorCRM vendorId={vendorId} vendorName={vendorName} />
         </TabsContent>
         <TabsContent value="payments">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Payment Tracker" featureDescription="Create payment schedules, send Razorpay links, and auto-remind clients. Upgrade to Silver to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="starter" toolName="Payment Tracker" featureDescription="Create payment schedules, send Razorpay links, and auto-remind clients. Upgrade to Starter to unlock.">
             <PaymentScheduleManager vendorId={vendorId} vendorName={vendorName} />
           </ToolGate>
         </TabsContent>
         <TabsContent value="contracts">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="silver" toolName="Contract Generator" featureDescription="Generate professional legal contracts for your clients. Upgrade to Silver to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="starter" toolName="Contract Generator" featureDescription="Generate professional legal contracts for your clients. Upgrade to Starter to unlock.">
             <ContractGenerator vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
           </ToolGate>
         </TabsContent>
@@ -103,12 +103,12 @@ export function VendorToolkit({ vendorId, vendorName, vendorCategory, subscripti
           <FollowUpTracker vendorId={vendorId} />
         </TabsContent>
         <TabsContent value="minisite">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Portfolio Mini-Site" featureDescription="Get your own professional website with QR code for visiting cards. Upgrade to Gold to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="pro" toolName="Portfolio Mini-Site" featureDescription="Get your own professional website with QR code for visiting cards. Upgrade to Pro to unlock.">
             <VendorMiniSite vendorId={vendorId} vendorName={vendorName} />
           </ToolGate>
         </TabsContent>
         <TabsContent value="intelligence">
-          <ToolGate currentPlan={subscriptionPlan} requiredPlan="gold" toolName="Business Intelligence" featureDescription="See pricing benchmarks, conversion funnels, and actionable tips. Upgrade to Gold to unlock.">
+          <ToolGate currentPlan={subscriptionPlan} requiredPlan="pro" toolName="Business Intelligence" featureDescription="See pricing benchmarks, conversion funnels, and actionable tips. Upgrade to Pro to unlock.">
             <BusinessIntelligence vendorId={vendorId} vendorName={vendorName} vendorCategory={vendorCategory} />
           </ToolGate>
         </TabsContent>

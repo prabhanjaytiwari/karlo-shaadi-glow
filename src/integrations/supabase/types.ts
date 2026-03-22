@@ -2677,7 +2677,13 @@ export type Database = {
         | "influencer"
         | "anchor"
         | "content-creator"
-      vendor_subscription_plan: "free" | "featured" | "sponsored"
+      vendor_subscription_plan:
+        | "free"
+        | "featured"
+        | "sponsored"
+        | "starter"
+        | "pro"
+        | "elite"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2838,7 +2844,14 @@ export const Constants = {
         "anchor",
         "content-creator",
       ],
-      vendor_subscription_plan: ["free", "featured", "sponsored"],
+      vendor_subscription_plan: [
+        "free",
+        "featured",
+        "sponsored",
+        "starter",
+        "pro",
+        "elite",
+      ],
     },
   },
 } as const

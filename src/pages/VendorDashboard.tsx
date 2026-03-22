@@ -27,12 +27,12 @@ import { VendorInquiryManagement } from "@/components/vendor/VendorInquiryManage
 import { VerifiedBadgeShowcase } from "@/components/vendor/VerifiedBadgeShowcase";
 import { VendorToolkit } from "@/components/vendor/VendorToolkit";
 
-const mapSubscriptionPlan = (sub: any): "free" | "silver" | "gold" | "diamond" => {
+const mapSubscriptionPlan = (sub: any): "free" | "starter" | "pro" | "elite" => {
   if (!sub || sub.status !== 'active') return 'free';
   const plan = sub.plan?.toLowerCase() || 'free';
-  if (plan === 'diamond' || plan === 'sponsored') return 'diamond';
-  if (plan === 'gold' || plan === 'featured') return 'gold';
-  if (plan === 'silver') return 'silver';
+  if (plan === 'elite' || plan === 'diamond' || plan === 'sponsored') return 'elite';
+  if (plan === 'pro' || plan === 'gold' || plan === 'featured') return 'pro';
+  if (plan === 'starter' || plan === 'silver') return 'starter';
   return 'free';
 };
 
@@ -393,7 +393,7 @@ export default function VendorDashboard() {
                 <Button 
                   variant="outline" 
                   onClick={() => {
-                    setSelectedUpgradePlan("gold");
+                    setSelectedUpgradePlan("pro");
                     setUpgradeDialogOpen(true);
                   }} 
                   size="sm" 
