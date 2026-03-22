@@ -100,7 +100,7 @@ const About = () => {
                 { icon: Users, title: "Community", desc: "Building a strong community of couples and vendors helping each other", color: "text-primary" },
                 { icon: Sparkles, title: "Innovation", desc: "Constantly improving our platform with new features and technologies", color: "text-primary" },
               ].map((item, i) => (
-                <div key={i} className="text-center p-5 md:p-7 rounded-2xl border border-border/50 bg-card hover:border-primary/30 hover:shadow-md transition-all duration-300">
+                <div key={i} className="text-center p-5 md:p-7 rounded-2xl bg-card shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
                     <item.icon className={`h-6 w-6 ${item.color}`} />
                   </div>
