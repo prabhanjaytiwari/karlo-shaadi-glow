@@ -143,8 +143,7 @@ const Index = () => {
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
               Plan Your Perfect Wedding <span className="text-primary">For Free</span>
             </h2>
-            <div className="w-16 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 mx-auto rounded-full mb-3" />
-            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
+            <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mt-2">
               Use our powerful tools to budget, find auspicious dates, and create beautiful invites
             </p>
           </div>
