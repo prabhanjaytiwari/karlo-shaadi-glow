@@ -445,7 +445,7 @@ export default function Search() {
             </h1>
             <p className="text-center text-muted-foreground mb-8">Discover verified wedding professionals trusted by thousands</p>
             
-            <div className="max-w-3xl mx-auto bg-card border border-border/50 rounded-2xl p-2 shadow-sm">
+            <div className="max-w-3xl mx-auto bg-card rounded-2xl p-2 shadow-[var(--shadow-sm)]">
               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
