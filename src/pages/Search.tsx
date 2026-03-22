@@ -682,7 +682,7 @@ export default function Search() {
                           </Link>
 
                           <div className="absolute top-4 right-12 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.preventDefault()}>
-                            <div className="flex items-center gap-2 bg-background/95 backdrop-blur-sm border border-border/50 rounded-lg px-2.5 py-1.5 shadow-sm">
+                            <div className="flex items-center gap-2 bg-background border border-border/50 rounded-lg px-2.5 py-1.5 shadow-sm">
                               <Checkbox
                                 id={`compare-${vendor.id}`}
                                 checked={isSelected}
