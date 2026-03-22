@@ -495,45 +495,25 @@ export default function VendorDashboard() {
           })()}
 
           {/* Stats Grid */}
-          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-2 md:grid-cols-4 gap-4 mb-6'}`}>
-            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
-                <CardTitle className="text-xs font-medium text-muted-foreground">Bookings</CardTitle>
-              </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
-                <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.totalBookings}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
-                <CardTitle className="text-xs font-medium text-muted-foreground">Pending</CardTitle>
-              </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
-                <div className={`font-bold text-primary ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{stats.pendingBookings}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
-                <CardTitle className="text-xs font-medium text-muted-foreground">Revenue</CardTitle>
-              </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
-                <div className={`font-bold ${isMobile ? 'text-2xl' : 'text-3xl'}`}>₹{stats.revenue.toLocaleString()}</div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/90 backdrop-blur-sm border border-accent/15">
-              <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
-                <CardTitle className="text-xs font-medium text-muted-foreground">Rating</CardTitle>
-              </CardHeader>
-              <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
-                <div className={`font-bold flex items-center ${isMobile ? 'text-2xl' : 'text-3xl'}`}>
-                  {vendor?.average_rating || 0}
-                  <Star className={`ml-1 fill-accent text-accent ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />
-                </div>
-              </CardContent>
-            </Card>
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-2 md:grid-cols-4 gap-6 mb-6'}`}>
+            {[
+              { label: 'Bookings', value: stats.totalBookings, color: '' },
+              { label: 'Pending', value: stats.pendingBookings, color: 'text-primary' },
+              { label: 'Revenue', value: `₹${stats.revenue.toLocaleString()}`, color: '' },
+              { label: 'Rating', value: vendor?.average_rating || 0, color: '', showStar: true },
+            ].map((stat) => (
+              <Card key={stat.label} className="bg-card/90 backdrop-blur-sm border border-accent/15">
+                <CardHeader className={isMobile ? 'p-3 pb-1' : 'p-4 pb-2'}>
+                  <CardTitle className="text-xs font-medium text-muted-foreground">{stat.label}</CardTitle>
+                </CardHeader>
+                <CardContent className={isMobile ? 'p-3 pt-0' : 'p-4 pt-0'}>
+                  <div className={`font-bold flex items-center ${stat.color} ${isMobile ? 'text-2xl' : 'text-3xl'}`}>
+                    {stat.value}
+                    {stat.showStar && <Star className={`ml-1 fill-accent text-accent ${isMobile ? 'h-5 w-5' : 'h-6 w-6'}`} />}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           {/* Profile Completion Progress */}
