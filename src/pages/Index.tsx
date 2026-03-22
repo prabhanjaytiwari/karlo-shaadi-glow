@@ -223,7 +223,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className={`max-w-5xl mx-auto ${humorSection1.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted mb-4">
                 <span className="text-accent font-medium text-sm">Your Wedding, Simplified</span>
               </div>
               <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
