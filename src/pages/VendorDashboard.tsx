@@ -282,18 +282,20 @@ export default function VendorDashboard() {
   };
 
   const getSubscriptionBadge = () => {
-    const tier = vendor?.subscription_tier || 'free';
-    const colors = {
+    const mappedPlan = mapSubscriptionPlan(subscription);
+    const colors: Record<string, string> = {
       free: 'bg-muted text-muted-foreground',
-      featured: 'bg-gradient-to-r from-yellow-400/20 to-amber-500/20 text-amber-700 border border-amber-300',
-      sponsored: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary border border-primary/30'
+      starter: 'bg-gradient-to-r from-blue-400/20 to-sky-500/20 text-blue-700 border border-blue-300',
+      pro: 'bg-gradient-to-r from-yellow-400/20 to-amber-500/20 text-amber-700 border border-amber-300',
+      elite: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary border border-primary/30',
     };
-    const labels = {
-      free: 'Silver (Free)',
-      featured: 'Gold ⭐',
-      sponsored: 'Diamond 💎'
+    const labels: Record<string, string> = {
+      free: 'Free',
+      starter: 'Starter 🥈',
+      pro: 'Pro ⭐',
+      elite: 'Elite 💎',
     };
-    return { color: colors[tier as keyof typeof colors], label: labels[tier as keyof typeof labels] };
+    return { color: colors[mappedPlan] || colors.free, label: labels[mappedPlan] || labels.free };
   };
 
   const deleteService = async (serviceId: string) => {
