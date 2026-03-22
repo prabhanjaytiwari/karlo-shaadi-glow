@@ -290,8 +290,8 @@ const Auth = () => {
           </Tabs>
 
           {/* Vendor CTA */}
-          <div className="mt-6 pt-4 border-t border-border/50">
-            <div className="bg-gradient-to-br from-primary/5 via-accent/5 to-primary/10 rounded-2xl p-4 border border-primary/15">
+          <div className="mt-6 pt-4 border-t border-border/30">
+            <div className="bg-muted/30 rounded-2xl p-4">
               <p className="text-sm font-semibold text-foreground mb-1 text-center">Are you a wedding vendor? 💼</p>
               <p className="text-xs text-muted-foreground text-center mb-3">Join free — zero commission on bookings</p>
               <div className="grid grid-cols-2 gap-2 mb-3 text-[11px] text-muted-foreground">
