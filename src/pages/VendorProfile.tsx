@@ -198,7 +198,7 @@ const VendorProfile = () => {
             </>
           )}
           {/* Photo count badge */}
-          <div className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full px-2.5 py-1 flex items-center gap-1 text-xs font-medium">
+          <div className="absolute bottom-3 right-3 bg-background/90 rounded-full px-2.5 py-1 flex items-center gap-1 text-xs font-medium">
             <Camera className="h-3 w-3" />
             {images.length}
           </div>
