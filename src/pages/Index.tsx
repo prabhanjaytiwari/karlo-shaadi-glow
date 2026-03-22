@@ -335,8 +335,8 @@ const Index = () => {
 
             {/* Content */}
             <div className={`order-1 lg:order-2 space-y-8 ${section2.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20">
-                <span className="text-accent font-medium text-sm">Simple Process</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted">
+                <span className="text-muted-foreground font-medium text-sm">Simple Process</span>
               </div>
               
               <h2 className="font-display font-semibold text-2xl md:text-3xl">
