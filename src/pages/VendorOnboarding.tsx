@@ -14,7 +14,7 @@ import {
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
   Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft,
   Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight,
-  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus
+  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus, SkipForward
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { z } from "zod";
