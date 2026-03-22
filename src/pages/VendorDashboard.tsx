@@ -594,6 +594,11 @@ export default function VendorDashboard() {
 
             <TabsContent value="analytics">
               <VendorAnalytics stats={stats} />
+              {vendor && (
+                <div className="mt-6">
+                  <LeadQualityDashboard vendorId={vendor.id} vendorUserId={vendor.user_id} />
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="inquiries">
