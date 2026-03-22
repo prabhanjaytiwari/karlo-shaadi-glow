@@ -195,7 +195,7 @@ export function MobileHomeScreen() {
     <div className="min-h-screen bg-background">
 
       {/* ── STICKY HEADER with Menu ── */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50">
+      <header className="sticky top-0 z-50 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-3">
             <button

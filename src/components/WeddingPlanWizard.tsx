@@ -732,7 +732,7 @@ export function WeddingPlanWizard() {
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-xl border-t border-border/50 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/30 shadow-[0_-1px_3px_rgba(0,0,0,0.06)] safe-area-bottom">
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           <Button variant="outline" onClick={handleBack} disabled={step === 1} size="sm" className="gap-1.5">
             <ArrowLeft className="h-4 w-4" />
