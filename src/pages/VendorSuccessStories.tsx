@@ -108,7 +108,7 @@ const VendorSuccessStories = () => {
       <MobilePageHeader title="Vendor Success Stories" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-accent/5 to-background">
+      <section className="pt-32 pb-16 px-4 sm:px-6 bg-background">
         <div className="container mx-auto max-w-6xl text-center">
           <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
             <Sparkles className="w-3 h-3 mr-1" />
@@ -137,7 +137,7 @@ const VendorSuccessStories = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {successMetrics.map((metric, idx) => (
-              <Card key={idx} className="text-center shadow-[var(--shadow-sm)] bg-gradient-to-br from-accent/5 to-primary/5">
+              <Card key={idx} className="text-center shadow-[var(--shadow-sm)] bg-muted/20">
                 <CardContent className="pt-6">
                   <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mx-auto mb-4">
                     <metric.icon className="h-6 w-6 text-accent" />
@@ -293,7 +293,7 @@ const VendorSuccessStories = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary to-accent">
+      <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl mb-6 text-white">
             Ready to Grow Your Business?

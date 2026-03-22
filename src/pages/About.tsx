@@ -72,7 +72,7 @@ const About = () => {
                 <div className="p-6 md:p-8 space-y-3">
                   <div className="text-center md:text-left">
                     <h2 className="text-xl md:text-2xl font-bold mb-1">Meet Our Founder</h2>
-                    <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-accent mx-auto md:mx-0 mb-3" />
+                    <div className="w-16 h-0.5 bg-primary mx-auto md:mx-0 mb-3" />
                   </div>
                   <p className="text-lg font-semibold text-foreground">Prabhanjay Tiwari</p>
                   <p className="text-primary text-sm font-medium">Founder & CEO</p>

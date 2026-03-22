@@ -103,7 +103,7 @@ export default function FamilyDashboard() {
 
       <main className={isMobile ? 'px-4 py-4 space-y-4' : 'max-w-6xl mx-auto px-4 pt-24 pb-12 space-y-6'}>
         {/* Share Banner */}
-        <Card className="bg-gradient-to-r from-primary/5 to-accent/5 border-primary/20">
+        <Card className="bg-muted/20">
           <CardContent className="pt-6">
             <div className="flex items-center gap-4 flex-wrap">
               <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">

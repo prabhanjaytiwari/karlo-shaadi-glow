@@ -320,7 +320,7 @@ export default function Pricing() {
 
       {/* Final CTA */}
       <section className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent" />
+        <div className="absolute inset-0 bg-primary" />
         <div className="relative container mx-auto max-w-4xl text-center">
           <h2 className={`font-bold text-white ${isMobile ? 'text-2xl' : 'text-4xl'} mb-4`}>Ready to Plan Your Dream Wedding?</h2>
           <p className="text-white/80 mb-2 text-sm max-w-md mx-auto">Join 50,000+ happy couples who found their perfect vendors - 100% FREE!</p>

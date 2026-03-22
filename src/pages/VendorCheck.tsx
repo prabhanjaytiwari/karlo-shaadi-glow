@@ -228,7 +228,7 @@ export default function VendorCheck() {
           </div>
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-3">
             Is Your Vendor<br />
-            <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Actually Legit?</span>
+            <span className="bg-primary bg-clip-text text-transparent">Actually Legit?</span>
           </h1>
           <p className="text-muted-foreground max-w-md mx-auto">
             Enter any vendor's name, phone number, or Instagram handle. We'll generate a trust report instantly.

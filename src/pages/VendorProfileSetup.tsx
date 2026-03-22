@@ -141,7 +141,7 @@ const VendorProfileSetup = () => {
       <MobilePageHeader title="Profile Setup" />
 
       {/* Hero */}
-      <section className={isMobile ? "relative bg-gradient-to-br from-primary/10 via-accent/5 to-background py-6 px-4" : "relative bg-gradient-to-br from-primary/10 via-accent/5 to-background py-16 md:py-24"}>
+      <section className={isMobile ? "relative bg-muted/20 py-6 px-4" : "relative bg-muted/20 py-16 md:py-24"}>
         <div className="container max-w-5xl mx-auto px-4 text-center">
           <Badge className="mb-4 bg-accent/20 text-accent-foreground border-accent/30">Limited Time Offer</Badge>
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4">

@@ -269,7 +269,7 @@ export function MobileHomeScreen() {
               </div>
             )}
 
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="h-px bg-border" />
 
             {/* Featured Image Cards */}
             <div className="space-y-2.5">
@@ -664,7 +664,7 @@ export function MobileHomeScreen() {
         <section className="px-4">
           <div className="relative rounded-xl overflow-hidden">
             <img src={fireworksImage} alt="For vendors" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-black/50" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>
               <p className="text-white/70 text-[10px] mt-0.5 mb-2.5">Join 50+ verified vendors on Karlo Shaadi</p>

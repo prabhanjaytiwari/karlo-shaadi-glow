@@ -123,7 +123,7 @@ export default function VendorPricing() {
       period: 'per month',
       icon: Crown,
       badge: 'BEST VALUE',
-      badgeColor: 'bg-gradient-to-r from-primary to-accent',
+      badgeColor: 'bg-primary',
       description: 'Maximum visibility with VIP treatment',
       features: [
         'All Pro features included',

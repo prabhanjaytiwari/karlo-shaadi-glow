@@ -106,7 +106,7 @@ export function NotificationPreferences() {
 
   if (loading) {
     return (
-      <Card className="bg-white/90 border-2 border-accent/20">
+      <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
         <CardContent className="flex items-center justify-center py-8">
           <Loader2 className="h-6 w-6 animate-spin text-accent" />
         </CardContent>
@@ -115,7 +115,7 @@ export function NotificationPreferences() {
   }
 
   return (
-    <Card className="bg-white/90 border-2 border-accent/20">
+    <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bell className="h-5 w-5 text-accent" />

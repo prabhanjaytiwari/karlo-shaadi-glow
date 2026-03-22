@@ -50,7 +50,7 @@ export function ImageLightbox({ images, initialIndex = 0, open, onClose }: Image
           {/* Close */}
           <button
             onClick={onClose}
-            className="absolute top-[calc(env(safe-area-inset-top,0px)+1rem)] right-4 z-10 p-2 rounded-full bg-white/10 text-white backdrop-blur-sm"
+            className="absolute top-[calc(env(safe-area-inset-top,0px)+1rem)] right-4 z-10 p-2 rounded-full bg-white/10 text-white"
           >
             <X className="w-5 h-5" />
           </button>
@@ -80,7 +80,7 @@ export function ImageLightbox({ images, initialIndex = 0, open, onClose }: Image
           {index > 0 && (
             <button
               onClick={e => { e.stopPropagation(); setIndex(i => i - 1); }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white backdrop-blur-sm hidden sm:block"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white hidden sm:block"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -88,7 +88,7 @@ export function ImageLightbox({ images, initialIndex = 0, open, onClose }: Image
           {index < images.length - 1 && (
             <button
               onClick={e => { e.stopPropagation(); setIndex(i => i + 1); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white backdrop-blur-sm hidden sm:block"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 text-white hidden sm:block"
             >
               <ChevronRight className="w-6 h-6" />
             </button>

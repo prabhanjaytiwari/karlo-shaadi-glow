@@ -251,8 +251,8 @@ export default function VendorBilling() {
   const getTierBadge = (tier: string) => {
     const configs: Record<string, { label: string; className: string }> = {
       free:      { label: "Silver (Free)",  className: "bg-muted text-muted-foreground" },
-      featured:  { label: "Gold ⭐",         className: "bg-gradient-to-r from-yellow-400/20 to-amber-500/20 text-amber-700" },
-      sponsored: { label: "Diamond 💎",     className: "bg-gradient-to-r from-primary/20 to-accent/20 text-primary" },
+      featured:  { label: "Gold ⭐",         className: "bg-amber-100 text-amber-700" },
+      sponsored: { label: "Diamond 💎",     className: "bg-primary/10 text-primary" },
     };
     return configs[tier] || configs.free;
   };

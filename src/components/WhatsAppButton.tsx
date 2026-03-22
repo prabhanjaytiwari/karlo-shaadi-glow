@@ -71,7 +71,7 @@ export const WhatsAppButton = () => {
       </Button>
 
       {/* Hover tooltip */}
-      <div className="hidden sm:block absolute -top-12 right-0 bg-background/95 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-border">
+      <div className="hidden sm:block absolute -top-12 right-0 bg-background/95  px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-border">
         <p className="text-sm font-medium">Chat with Prabhanjay Tiwari</p>
         <p className="text-xs text-muted-foreground">Founder</p>
       </div>

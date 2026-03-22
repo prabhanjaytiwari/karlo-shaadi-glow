@@ -90,7 +90,7 @@ export const ReferralWidget = ({ userId }: ReferralWidgetProps) => {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-accent/10 via-rose-50/50 to-amber-50/50 border-2 border-accent/30 overflow-hidden">
+    <Card className="bg-gradient-to-br from-accent/10 via-rose-50/50 to-amber-50/50 shadow-[var(--shadow-sm)] overflow-hidden">
       <CardContent className="pt-6 pb-4">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">

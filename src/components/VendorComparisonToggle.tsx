@@ -34,7 +34,7 @@ export const VendorComparisonToggle = ({
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 animate-fade-up">
-      <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-accent/20 p-3 flex items-center gap-3">
+      <div className="bg-white/95 rounded-2xl shadow-2xl shadow-[var(--shadow-sm)] p-3 flex items-center gap-3">
         {/* Selected Vendors Preview */}
         <div className="flex items-center gap-2">
           {selectedVendors.slice(0, 3).map((vendor) => (

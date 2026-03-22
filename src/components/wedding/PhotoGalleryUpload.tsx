@@ -203,7 +203,7 @@ export const PhotoGalleryUpload = ({
                 alt="Cover" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute inset-0 bg-black/40" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
                 <span className="text-white text-sm flex items-center gap-2">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />

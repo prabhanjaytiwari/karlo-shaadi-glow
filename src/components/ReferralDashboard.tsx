@@ -173,7 +173,7 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
     <div className="space-y-6">
       {/* Referral Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-accent/10 to-primary/5 border-accent/20">
+        <Card className="bg-muted/20 border-accent/20">
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center">
@@ -250,7 +250,7 @@ export const ReferralDashboard = ({ userId }: ReferralDashboardProps) => {
       )}
 
       {/* Referral Link Card */}
-      <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-primary/5">
+      <Card className="shadow-[var(--shadow-sm)] bg-muted/20">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Gift className="h-5 w-5 text-accent" />

@@ -57,11 +57,11 @@ const getRankIcon = (rank: number) => {
 const getRankBadgeClass = (rank: number) => {
   switch (rank) {
     case 1:
-      return "bg-gradient-to-r from-yellow-400 to-amber-500 text-white border-0";
+      return "bg-amber-500 text-white border-0";
     case 2:
-      return "bg-gradient-to-r from-gray-300 to-gray-400 text-white border-0";
+      return "bg-gray-400 text-white border-0";
     case 3:
-      return "bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0";
+      return "bg-amber-600 text-white border-0";
     default:
       return "";
   }
@@ -126,7 +126,7 @@ export default function VendorLeaderboard() {
   const currentMonth = new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" });
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+    <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="Vendor Leaderboard" />
       
       
@@ -147,7 +147,7 @@ export default function VendorLeaderboard() {
           </div>
 
           {/* Category Tabs */}
-          <Card className="mb-6 border-2 border-accent/20">
+          <Card className="mb-6 ">
             <CardContent className="p-4">
               <div className="flex flex-wrap gap-2 mb-4">
                 {CATEGORIES.map((cat) => (
@@ -198,7 +198,7 @@ export default function VendorLeaderboard() {
               <Loader2 className="h-8 w-8 animate-spin text-accent" />
             </div>
           ) : vendors.length === 0 ? (
-            <Card className="border-2 border-accent/20">
+            <Card className="">
               <CardContent className="py-12 text-center">
                 <Trophy className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                 <p className="text-muted-foreground">No vendors found in this category</p>
@@ -223,7 +223,7 @@ export default function VendorLeaderboard() {
                           </div>
 
                           {/* Avatar */}
-                          <Avatar className="h-14 w-14 border-2 border-accent/20">
+                          <Avatar className="h-14 w-14 ">
                             <AvatarImage src={vendor.logo_url || undefined} />
                             <AvatarFallback className="bg-accent/10 text-accent font-bold">
                               {vendor.business_name[0]}
@@ -274,7 +274,7 @@ export default function VendorLeaderboard() {
           )}
 
           {/* CTA for vendors */}
-          <Card className="mt-8 bg-gradient-to-r from-accent/10 to-primary/10 border-2 border-accent/30">
+          <Card className="mt-8 bg-muted/30 shadow-[var(--shadow-sm)]">
             <CardContent className="py-8 text-center">
               <Trophy className="h-10 w-10 mx-auto mb-4 text-accent" />
               <h3 className="font-display text-xl font-bold mb-2">Want to be on the leaderboard?</h3>

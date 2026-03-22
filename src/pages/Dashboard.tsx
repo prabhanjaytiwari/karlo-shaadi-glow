@@ -259,7 +259,7 @@ const Dashboard = () => {
                 <span className="text-xs text-muted-foreground">{profilePercent}%</span>
               </div>
               <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all" style={{ width: `${profilePercent}%` }} />
+                <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${profilePercent}%` }} />
               </div>
               <p className="text-xs text-muted-foreground mt-2">
                 {!profile?.wedding_date && "Add wedding date • "}{!profile?.budget_range && "Set budget • "}{!profile?.city && "Add city"}

@@ -79,7 +79,7 @@ const ComingSoon = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-foreground/[0.02] via-background to-primary/5 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <MobilePageHeader title="Coming Soon" />
       <SEO
         title="Coming Soon — Podcast & Merch | Karlo Shaadi"
@@ -97,7 +97,7 @@ const ComingSoon = () => {
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-3">
               Something{" "}
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              <span className="text-primary">
                 Exciting
               </span>{" "}
               Is Brewing

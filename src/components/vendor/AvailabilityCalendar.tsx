@@ -125,7 +125,7 @@ export function AvailabilityCalendar({ vendorId }: AvailabilityCalendarProps) {
   return (
     <div className="grid lg:grid-cols-5 gap-6">
       {/* Calendar Card - Takes 3 columns */}
-      <Card className="lg:col-span-3 bg-white/90 backdrop-blur-sm border-2 border-accent/20 shadow-lg">
+      <Card className="lg:col-span-3 bg-white/90 shadow-[var(--shadow-sm)] shadow-lg">
         <CardHeader className="pb-4 border-b border-border/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -197,7 +197,7 @@ export function AvailabilityCalendar({ vendorId }: AvailabilityCalendarProps) {
       </Card>
 
       {/* Management Panel - Takes 2 columns */}
-      <Card className="lg:col-span-2 bg-white/90 backdrop-blur-sm border-2 border-accent/20 shadow-lg">
+      <Card className="lg:col-span-2 bg-white/90 shadow-[var(--shadow-sm)] shadow-lg">
         <CardHeader className="pb-4 border-b border-border/50">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10">

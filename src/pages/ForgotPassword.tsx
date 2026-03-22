@@ -61,12 +61,11 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
       <MobilePageHeader title="Forgot Password" />
       <div className="w-full max-w-md">
-        <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
+        <Card className="">
           <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
             <CardTitle className="text-2xl text-foreground">Forgot Password</CardTitle>
             <CardDescription>
               {emailSent

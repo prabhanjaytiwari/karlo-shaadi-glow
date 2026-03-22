@@ -79,7 +79,7 @@ export function ProfileCompletionProgress({
   };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-2 border-accent/20">
+    <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Profile Completion</CardTitle>

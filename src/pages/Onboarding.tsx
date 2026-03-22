@@ -102,7 +102,7 @@ export default function Onboarding() {
                         transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                         className="absolute inset-0 flex items-center justify-center"
                       >
-                        <div className="w-20 h-20 rounded-[1.25rem] bg-white/70 backdrop-blur-lg shadow-lg flex items-center justify-center">
+                        <div className="w-20 h-20 rounded-[1.25rem] bg-white/70  shadow-lg flex items-center justify-center">
                           <span className="text-4xl">{slide.emoji}</span>
                         </div>
                       </motion.div>
@@ -120,7 +120,7 @@ export default function Onboarding() {
                             initial={{ opacity: 0, scale: 0 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.15 + oi * 0.06, type: 'spring', stiffness: 300, damping: 20 }}
-                            className={`absolute ${size} rounded-xl bg-white/60 backdrop-blur-sm shadow-md flex items-center justify-center`}
+                            className={`absolute ${size} rounded-xl bg-white/60  shadow-md flex items-center justify-center`}
                             style={{
                               left: `calc(50% + ${x}px - 1rem)`,
                               top: `calc(50% + ${y}px - 1rem)`,

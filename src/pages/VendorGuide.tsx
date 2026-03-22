@@ -203,7 +203,7 @@ export default function VendorGuide() {
       
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <section className="pt-32 pb-16 px-4 sm:px-6 bg-background">
         <div className="container mx-auto max-w-4xl text-center">
           <Badge variant="secondary" className="mb-4">
             <Sparkles className="w-3 h-3 mr-1" />
@@ -270,7 +270,7 @@ export default function VendorGuide() {
           <div className="space-y-8">
             {steps.map((step, idx) => (
               <Card key={idx} className="overflow-hidden border-2 hover:border-primary/30 transition-colors">
-                <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent">
+                <CardHeader className="bg-muted/20">
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">
                       {step.number}
@@ -416,7 +416,7 @@ export default function VendorGuide() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 sm:px-6 bg-gradient-to-r from-primary to-accent">
+      <section className="py-20 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-3xl text-center text-white">
           <Clock className="w-12 h-12 mx-auto mb-4 opacity-80" />
           <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">

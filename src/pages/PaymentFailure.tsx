@@ -79,7 +79,7 @@ export default function PaymentFailure() {
             </Card>
           )}
 
-          <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20 border-yellow-200 dark:border-yellow-900 mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="bg-muted/30 mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
             <CardContent className="p-6">
               <h3 className="font-semibold mb-3">Common reasons for payment failure:</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">

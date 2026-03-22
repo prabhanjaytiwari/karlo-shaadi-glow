@@ -59,7 +59,7 @@ export function QuoteGenerator({ vendorName }: QuoteGeneratorProps) {
   };
 
   return (
-    <Card className="border-2 border-accent/20">
+    <Card className="shadow-[var(--shadow-sm)]">
       <CardHeader>
         <CardTitle className="text-lg">AI Quote Generator</CardTitle>
       </CardHeader>

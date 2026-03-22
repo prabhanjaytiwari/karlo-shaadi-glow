@@ -172,7 +172,7 @@ export const VendorCard = ({
           {(isSponsored || isFeatured) && (
             <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
               <div className={cn(
-                "w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center backdrop-blur-md",
+                "w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center -md",
                 isSponsored ? "bg-primary/20" : "bg-accent/20"
               )}>
                 {isSponsored ? <Crown className="h-3 w-3 text-primary" /> : <Sparkles className="h-3 w-3 text-accent" />}

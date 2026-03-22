@@ -275,7 +275,7 @@ export default function Checkout() {
               </Card>
 
               {/* Security Badge */}
-              <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border-green-200 dark:border-green-900">
+              <Card className="bg-muted/20">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <Shield className="h-6 w-6 text-green-600 flex-shrink-0" />

@@ -237,7 +237,7 @@ export default function CoupleQuiz() {
           <div className="mb-8">
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                className="h-full bg-primary rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.4 }}
@@ -420,7 +420,7 @@ export default function CoupleQuiz() {
               </Button>
 
               {/* CTA */}
-              <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
+              <div className="mt-8 p-6 rounded-2xl bg-primary/10 border border-primary/20">
                 <p className="font-semibold mb-2">Now plan your dream wedding together!</p>
                 <Button onClick={() => navigate("/plan-wizard")} className="rounded-full">
                   <Sparkles className="mr-2 h-4 w-4" /> Get Your 2-Minute Wedding Plan

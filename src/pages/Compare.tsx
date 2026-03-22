@@ -253,7 +253,7 @@ export default function Compare() {
   return (
     <div className="min-h-screen bg-background pt-20">
       {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-br from-primary/5 via-rose-50/50 to-accent/5">
+      <section className="py-12 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="bg-accent text-accent-foreground mb-4">
@@ -523,7 +523,7 @@ export default function Compare() {
       )}
 
       {/* Tips Section */}
-      <section className="py-12 bg-gradient-to-b from-white to-rose-50/30">
+      <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="font-display font-semibold text-xl mb-6 text-center">

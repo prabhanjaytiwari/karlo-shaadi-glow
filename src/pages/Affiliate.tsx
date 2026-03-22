@@ -50,7 +50,7 @@ export default function Affiliate() {
       <main className="container mx-auto px-4 py-20">
         {/* Hero Section */}
         <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-primary">
             Affiliate Program
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -66,7 +66,7 @@ export default function Affiliate() {
             { icon: TrendingUp, label: "Avg. Booking", value: "₹1.5L+" },
             { icon: Gift, label: "Sign-up Bonus", value: "₹5,000" },
           ].map((stat, i) => (
-            <div key={i} className="bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+            <div key={i} className="bg-card shadow-[var(--shadow-sm)] rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
               <stat.icon className="h-8 w-8 mx-auto mb-3 text-primary" />
               <p className="text-3xl font-bold mb-1">{stat.value}</p>
               <p className="text-sm text-muted-foreground">{stat.label}</p>
@@ -95,7 +95,7 @@ export default function Affiliate() {
         </div>
 
         {/* Application Form */}
-        <div className="max-w-2xl mx-auto bg-card border border-border rounded-2xl p-8 shadow-xl">
+        <div className="max-w-2xl mx-auto bg-card shadow-[var(--shadow-sm)] rounded-2xl p-8 shadow-xl">
           <h2 className="text-3xl font-bold mb-6 text-center">Join as Affiliate</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">

@@ -285,9 +285,9 @@ export default function VendorDashboard() {
     const mappedPlan = mapSubscriptionPlan(subscription);
     const colors: Record<string, string> = {
       free: 'bg-muted text-muted-foreground',
-      starter: 'bg-gradient-to-r from-blue-400/20 to-sky-500/20 text-blue-700 border border-blue-300',
-      pro: 'bg-gradient-to-r from-yellow-400/20 to-amber-500/20 text-amber-700 border border-amber-300',
-      elite: 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary border border-primary/30',
+      starter: 'bg-blue-100 text-blue-700 border border-blue-300',
+      pro: 'bg-amber-100 text-amber-700 border border-amber-300',
+      elite: 'bg-primary/10 text-primary border border-primary/30',
     };
     const labels: Record<string, string> = {
       free: 'Free',

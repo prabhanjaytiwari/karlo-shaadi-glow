@@ -53,12 +53,12 @@ export const PWAInstallPrompt = () => {
 
   return (
     <div className="fixed bottom-20 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:w-[380px] z-50 animate-fade-up">
-      <div className="bg-card border-2 border-primary/30 rounded-2xl p-4 shadow-2xl shadow-primary/10 backdrop-blur-xl">
+      <div className="bg-card border-2 border-primary/30 rounded-2xl p-4 shadow-2xl shadow-primary/10 -xl">
         <button onClick={handleDismiss} className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
           <X className="h-4 w-4" />
         </button>
         <div className="flex items-start gap-3">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
             <Smartphone className="h-6 w-6 text-white" />
           </div>
           <div className="flex-1">

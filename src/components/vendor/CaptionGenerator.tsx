@@ -44,7 +44,7 @@ export function CaptionGenerator() {
   };
 
   return (
-    <Card className="border-2 border-accent/20">
+    <Card className="shadow-[var(--shadow-sm)]">
       <CardHeader>
         <CardTitle className="text-lg">Social Media Caption Generator</CardTitle>
       </CardHeader>

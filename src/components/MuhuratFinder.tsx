@@ -95,7 +95,7 @@ Made with 💕 on Karlo Shaadi`;
                 2025 Muhurat Calendar
               </PremiumBadge>
               <h1 className="text-3xl md:text-5xl font-display font-bold mt-4 mb-3">
-                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                <span className="text-primary">
                   Shubh Muhurat
                 </span>{" "}
                 Finder

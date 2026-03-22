@@ -174,7 +174,7 @@ export default function AIMatchResults() {
   const getTierBadge = (tier: string) => {
     switch (tier) {
       case 'sponsored':
-        return <Badge className="bg-gradient-to-r from-primary to-accent text-white">Diamond</Badge>;
+        return <Badge className="bg-primary text-white">Diamond</Badge>;
       case 'featured':
         return <Badge className="bg-accent/20 text-accent border-accent">Gold</Badge>;
       default:
@@ -197,7 +197,7 @@ export default function AIMatchResults() {
             </Button>
             
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-full bg-gradient-to-r from-primary/20 to-accent/20">
+              <div className="p-3 rounded-full bg-primary/10">
                 <Sparkles className="h-6 w-6 text-primary" />
               </div>
               <div>

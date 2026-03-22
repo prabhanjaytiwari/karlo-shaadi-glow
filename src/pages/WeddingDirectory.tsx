@@ -86,7 +86,7 @@ const WeddingDirectory = () => {
   const citySlug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/30 via-white to-amber-50/20">
+    <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="Wedding Directory" />
       <SEO
         title="Wedding Vendors Directory – Every City, Every Category | Karlo Shaadi"
@@ -101,7 +101,7 @@ const WeddingDirectory = () => {
       ]} />
 
       {/* Hero */}
-      <section className="pt-24 pb-12 bg-gradient-to-b from-rose-50/60 to-white">
+      <section className="pt-24 pb-12 bg-muted/20">
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <Badge className="bg-primary/10 text-primary border-primary/20 mb-4">
             <Star className="h-3 w-3 mr-1 fill-primary" /> Complete Wedding Directory

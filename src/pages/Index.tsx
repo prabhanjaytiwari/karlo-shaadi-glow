@@ -113,7 +113,7 @@ const Index = () => {
                       2-Minute Wedding Plan
                     </Button>
                   </Link>
-                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-8 font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20">
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-8 font-medium border border-white/30 bg-white/10 text-white hover:bg-white/20">
                     Vendor Matching
                   </Button>
                 </div>
@@ -271,7 +271,7 @@ const Index = () => {
               
               <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Grow Your Wedding<br />
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Business 10x Faster</span>
+                <span className="bg-primary bg-clip-text text-transparent">Business 10x Faster</span>
               </h2>
               
 
@@ -424,7 +424,7 @@ const Index = () => {
               
               <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Real Couples,<br />
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Real Celebrations</span>
+                <span className="bg-primary bg-clip-text text-transparent">Real Celebrations</span>
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
@@ -469,7 +469,7 @@ const Index = () => {
           <div className={`max-w-4xl mx-auto text-center ${section4.isVisible ? 'scroll-reveal-scale is-visible' : 'scroll-reveal-scale'}`}>
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-6">
               Ready to Start Your<br />
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Dream Wedding Journey?</span>
+              <span className="bg-primary bg-clip-text text-transparent">Dream Wedding Journey?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-8">
               Plan your perfect wedding with zero stress and zero commission. Your happily ever after starts here.
