@@ -255,7 +255,7 @@ export default function VendorPricing() {
           {/* Success Stories */}
           <div className="bg-card rounded-2xl p-8 mb-16 shadow-[var(--shadow-sm)]">
             <h2 className="text-2xl font-bold text-center mb-8">Real Success Stories</h2>
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 { stat: "300%", label: "Increase in Bookings", quote: "Gold listing helped us get from 3 to 12 bookings per month in just 2 months!", author: "Priya's Photography, Mumbai" },
                 { stat: "₹18L", label: "Revenue in 6 Months", quote: "Diamond profile gave us homepage visibility. Best investment we made!", author: "Divine Caterers, Delhi" },
