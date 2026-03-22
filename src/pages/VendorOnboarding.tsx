@@ -14,7 +14,7 @@ import {
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
   Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft,
   Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight,
-  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus
+  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus, SkipForward
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { z } from "zod";
@@ -24,6 +24,7 @@ import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import congratsImage from "@/assets/congrats-vendor.jpg";
 
 // Hero images
 import heroStep1 from "@/assets/onboarding-step-1.jpg";
@@ -190,7 +191,9 @@ export default function VendorOnboarding() {
   const [showSubscriptionCheckout, setShowSubscriptionCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [authChecked, setAuthChecked] = useState(false);
-
+  const [quickSetupMode, setQuickSetupMode] = useState(false);
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
   // Auth step state
   const [authLoading, setAuthLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -483,15 +486,22 @@ export default function VendorOnboarding() {
   };
 
   const handleSkipPlan = () => {
-    navigate("/vendor/dashboard");
+    setSubscribedPlan("Free");
+    setShowCongrats(true);
   };
 
   const handleSubscriptionSuccess = () => {
     setShowSubscriptionCheckout(false);
-    toast({ title: "Subscription Activated! 🚀", description: "Welcome to the premium experience." });
-    navigate("/vendor/dashboard");
+    const plan = SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan);
+    setSubscribedPlan(plan?.name || "Premium");
+    setShowCongrats(true);
   };
 
+  const handleSkipToQuickSetup = () => {
+    setQuickSetupMode(true);
+    setDirection(1);
+    setStep(2); // Jump to business name + city (minimal required fields)
+  };
   const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
   const selectedCity = cities.find(c => c.id === formData.cityId);
 
@@ -511,6 +521,111 @@ export default function VendorOnboarding() {
     return (
       <div className="min-h-screen bg-foreground flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-accent" />
+      </div>
+    );
+  }
+
+  // ═══ CONGRATULATIONS SCREEN ═══
+  if (showCongrats) {
+    return (
+      <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(165deg, hsl(260 15% 8%) 0%, hsl(38 20% 12%) 50%, hsl(260 15% 10%) 100%)' }}>
+        {/* Confetti particles */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 rounded-full"
+              style={{
+                background: ['hsl(38 80% 55%)', 'hsl(340 65% 55%)', 'hsl(160 60% 50%)', 'hsl(280 50% 60%)'][i % 4],
+                left: `${Math.random() * 100}%`,
+                top: '-5%',
+              }}
+              animate={{
+                y: ['0vh', '110vh'],
+                x: [0, Math.random() * 100 - 50],
+                rotate: [0, 720],
+                opacity: [1, 0.5, 0],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+                ease: 'easeIn',
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 text-center">
+          {/* Hero image */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="relative w-40 h-40 rounded-3xl overflow-hidden shadow-2xl mb-8"
+            style={{ border: '2px solid hsl(38 60% 50% / 0.3)' }}
+          >
+            <img src={congratsImage} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.4, type: 'spring', stiffness: 300 }}
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-xl"
+            >
+              <CheckCircle className="w-7 h-7 text-white" />
+            </motion.div>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl font-bold text-white mb-2"
+          >
+            Welcome to Karlo Shaadi! 🎉
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-white/50 text-sm mb-6 max-w-sm"
+          >
+            Your vendor profile is live. Couples will start discovering your business soon.
+          </motion.p>
+
+          {subscribedPlan && subscribedPlan !== "Free" && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mb-6 px-5 py-3 rounded-2xl flex items-center gap-3"
+              style={{ background: 'linear-gradient(135deg, hsl(38 80% 50% / 0.15), hsl(38 70% 45% / 0.08))', border: '1px solid hsl(38 60% 50% / 0.3)' }}
+            >
+              <Crown className="w-5 h-5 text-amber-400" />
+              <div className="text-left">
+                <p className="text-sm font-semibold text-amber-300">{subscribedPlan} Plan Activated</p>
+                <p className="text-[10px] text-amber-400/50">Premium features are now unlocked</p>
+              </div>
+            </motion.div>
+          )}
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="flex flex-col gap-3 w-full max-w-xs"
+          >
+            <Button
+              onClick={() => navigate("/vendor/dashboard")}
+              className="w-full bg-amber-500 text-black hover:bg-amber-400 font-semibold rounded-2xl h-14 text-base shadow-xl shadow-amber-500/20"
+            >
+              Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+            <p className="text-[10px] text-white/20">Verification typically completes in 24-48 hours</p>
+          </motion.div>
+        </div>
       </div>
     );
   }
@@ -851,10 +966,20 @@ export default function VendorOnboarding() {
                 {/* ═══ STEP 1: Category Selection ═══ */}
                 {step === 1 && (
                   <div>
-                    <p className="text-white/50 text-xs mb-5 flex items-center gap-2">
-                      <Users className="w-3.5 h-3.5" />
-                      Join 10,000+ vendors already growing with Karlo Shaadi
-                    </p>
+                    <div className="flex items-center justify-between mb-5">
+                      <p className="text-white/50 text-xs flex items-center gap-2">
+                        <Users className="w-3.5 h-3.5" />
+                        Join 10,000+ vendors already growing with Karlo Shaadi
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleSkipToQuickSetup}
+                        className="text-xs text-amber-400/70 hover:text-amber-400 hover:bg-amber-400/10 h-7 gap-1"
+                      >
+                        <SkipForward className="w-3 h-3" /> Quick Setup
+                      </Button>
+                    </div>
                     <div className={`grid gap-2.5 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
                       {CATEGORIES.map((cat) => {
                         const selected = formData.category === cat.value;
