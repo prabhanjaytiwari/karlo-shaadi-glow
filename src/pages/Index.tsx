@@ -137,7 +137,7 @@ const Index = () => {
       <section className="py-16 md:py-24 relative">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted mb-4">
               <span className="text-primary text-sm font-medium">Free Planning Tools</span>
             </div>
             <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
