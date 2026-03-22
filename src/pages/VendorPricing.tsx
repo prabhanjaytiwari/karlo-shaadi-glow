@@ -252,36 +252,31 @@ export default function VendorPricing() {
             ))}
           </div>
 
-          {/* Second countdown (mid-page urgency) */}
-          {offerActive && <CountdownBanner compact className="mb-12 max-w-md mx-auto" />}
-
           {/* Success Stories */}
-          <div className="bg-gradient-to-r from-accent/10 to-primary/10 rounded-2xl p-8 mb-16 animate-fade-in">
-            <h2 className="text-3xl font-bold text-center mb-8">Real Success Stories</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-card rounded-2xl p-8 mb-16 shadow-[var(--shadow-sm)]">
+            <h2 className="text-2xl font-bold text-center mb-8">Real Success Stories</h2>
+            <div className="grid md:grid-cols-3 gap-5">
               {[
                 { stat: "300%", label: "Increase in Bookings", quote: "Gold listing helped us get from 3 to 12 bookings per month in just 2 months!", author: "Priya's Photography, Mumbai" },
                 { stat: "₹18L", label: "Revenue in 6 Months", quote: "Diamond profile gave us homepage visibility. Best investment we made!", author: "Divine Caterers, Delhi" },
                 { stat: "500+", label: "Profile Views Daily", quote: "The analytics dashboard shows exactly where our leads come from. Game changer!", author: "Royal Venues, Jaipur" },
               ].map((story, i) => (
-                <Card key={i}>
-                  <CardContent className="pt-6">
-                    <div className="text-center mb-4">
-                      <div className="text-4xl font-bold text-primary">{story.stat}</div>
-                      <p className="text-sm text-muted-foreground">{story.label}</p>
-                    </div>
-                    <p className="text-sm italic">"{story.quote}"</p>
-                    <p className="text-xs text-muted-foreground mt-2">- {story.author}</p>
-                  </CardContent>
-                </Card>
+                <div key={i} className="p-5 rounded-xl bg-muted/30">
+                  <div className="text-center mb-3">
+                    <div className="text-3xl font-bold text-primary">{story.stat}</div>
+                    <p className="text-xs text-muted-foreground">{story.label}</p>
+                  </div>
+                  <p className="text-sm italic text-foreground/80">"{story.quote}"</p>
+                  <p className="text-xs text-muted-foreground mt-2">— {story.author}</p>
+                </div>
               ))}
             </div>
           </div>
 
           {/* FAQ */}
-          <div className="max-w-3xl mx-auto animate-fade-in">
-            <h2 className="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
-            <div className="space-y-4">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <div className="space-y-3">
               {[
                 { q: "Can I switch plans anytime?", a: "Yes! Upgrade or downgrade anytime. Upgrades take effect immediately, downgrades apply next billing cycle." },
                 { q: "What happens if I cancel?", a: "Your premium benefits continue until the end of your paid period. After that, you move to Free plan with all basic features intact." },
@@ -289,32 +284,26 @@ export default function VendorPricing() {
                 { q: "Is there a contract or commitment?", a: "No long-term contracts! All plans are month-to-month. Cancel anytime with no penalties." },
                 { q: "What's the money-back guarantee?", a: "If you don't receive at least 3 leads within 30 days of upgrading, we'll refund 100% of your subscription. No questions asked." },
               ].map((faq, i) => (
-                <Card key={i}>
-                  <CardHeader><CardTitle className="text-lg">{faq.q}</CardTitle></CardHeader>
-                  <CardContent><p className="text-muted-foreground">{faq.a}</p></CardContent>
-                </Card>
+                <div key={i} className="bg-card rounded-xl p-5 shadow-[var(--shadow-xs)]">
+                  <h3 className="font-semibold text-sm mb-2">{faq.q}</h3>
+                  <p className="text-muted-foreground text-sm">{faq.a}</p>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Final CTA with urgency */}
-          <div className="text-center mt-16 animate-fade-in">
-            <h2 className="text-3xl font-bold mb-4">Ready to Grow Your Business?</h2>
-            {offerActive && (
-              <p className="text-primary font-bold mb-2 animate-pulse">
-                ⏰ 50% OFF ends soon — don't miss this launch price!
-              </p>
-            )}
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Join 847 vendors who upgraded this month. Get started with Gold and see results within 30 days — guaranteed.
+          {/* Final CTA */}
+          <div className="text-center mt-16">
+            <h2 className="text-2xl font-bold mb-3">Ready to Grow Your Business?</h2>
+            <p className="text-muted-foreground mb-6 max-w-lg mx-auto text-sm">
+              Start free and upgrade when you see results. No contracts, no commitments.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="outline" onClick={() => navigate('/vendor-onboarding')}>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button size="lg" variant="outline" className="rounded-full" onClick={() => navigate('/vendor-onboarding')}>
                 Register Free
               </Button>
-              <Button size="lg" variant="hero" onClick={() => navigate('/vendor/dashboard')}>
-                <Zap className="h-4 w-4 mr-2" />
-                Upgrade Now — 50% OFF
+              <Button size="lg" className="rounded-full" onClick={() => navigate('/vendor/dashboard')}>
+                Upgrade Now
               </Button>
             </div>
           </div>

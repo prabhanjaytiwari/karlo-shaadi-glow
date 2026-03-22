@@ -680,7 +680,7 @@ export function MobileHomeScreen() {
 
         {/* ── FINAL CTA ── */}
         <section className="px-4">
-          <div className="text-center py-6 px-5 rounded-xl bg-gradient-to-br from-primary/5 via-card to-accent/5 border border-border/40">
+          <div className="text-center py-6 px-5 rounded-xl bg-card shadow-[var(--shadow-sm)]">
             
             <h2 className="text-base font-display font-semibold text-foreground mb-1">Start Your Dream Wedding</h2>
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
