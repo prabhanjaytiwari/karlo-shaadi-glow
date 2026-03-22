@@ -114,7 +114,7 @@ const VendorSuccessStories = () => {
             <Sparkles className="w-3 h-3 mr-1" />
             Vendor Success Stories
           </Badge>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6">
             Grow Your Wedding <span className="text-primary">Business</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
