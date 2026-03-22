@@ -57,11 +57,11 @@ const getRankIcon = (rank: number) => {
 const getRankBadgeClass = (rank: number) => {
   switch (rank) {
     case 1:
-      return "bg-gradient-to-r from-yellow-400 to-amber-500 text-white border-0";
+      return "bg-amber-500 text-white border-0";
     case 2:
-      return "bg-gradient-to-r from-gray-300 to-gray-400 text-white border-0";
+      return "bg-gray-400 text-white border-0";
     case 3:
-      return "bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0";
+      return "bg-amber-600 text-white border-0";
     default:
       return "";
   }

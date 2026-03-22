@@ -200,7 +200,7 @@ export default function Testimonials() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary to-accent">
+      <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl mb-6 text-white">
             Ready to Create Your Own Success Story?

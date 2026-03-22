@@ -1025,7 +1025,7 @@ export default function BlogPost() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary to-accent">
+      <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-3xl text-center">
           <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4 text-white">
             Ready to Start Planning?

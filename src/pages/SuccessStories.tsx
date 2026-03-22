@@ -293,7 +293,7 @@ export default function SuccessStories() {
       </section>
 
       {/* Submit Story CTA */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary to-accent">
+      <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl mb-6 text-white">
             Share Your Wedding Story
