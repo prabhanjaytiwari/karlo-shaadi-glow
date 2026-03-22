@@ -229,7 +229,7 @@ const Index = () => {
               <h2 className="font-display font-semibold text-2xl md:text-3xl mb-3">
                 We Handle Everything, <span className="text-accent">You Celebrate</span>
               </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 mx-auto rounded-full mb-3" />
+              
               <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
                 Focus on your love story while we take care of the details
               </p>
