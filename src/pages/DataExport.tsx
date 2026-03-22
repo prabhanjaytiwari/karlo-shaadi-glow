@@ -183,7 +183,7 @@ export default function DataExport() {
               <Download className="w-10 h-10 text-primary" />
             </div>
             
-            <h1 className="font-display font-bold text-4xl sm:text-5xl mb-6">
+            <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6">
               Export Your <span className="text-primary">Wedding Data</span>
             </h1>
             

@@ -74,7 +74,7 @@ export default function Investors() {
         <div className={isMobile ? "" : "text-center mb-16 animate-fade-in"}>
           {!isMobile && (
             <>
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-foreground">
                 Invest in the Future of Weddings
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
