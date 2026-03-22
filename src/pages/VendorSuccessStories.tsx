@@ -109,12 +109,12 @@ const VendorSuccessStories = () => {
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-background">
-        <div className="container mx-auto max-w-6xl text-center">
+        <div className="container mx-auto max-w-6xl text-center px-4 sm:px-6">
           <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
             <Sparkles className="w-3 h-3 mr-1" />
             Vendor Success Stories
           </Badge>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6">
             Grow Your Wedding <span className="text-primary">Business</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
@@ -163,7 +163,7 @@ const VendorSuccessStories = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, idx) => (
               <Card key={idx} className="shadow-[var(--shadow-sm)] hover:border-accent/30 transition-all">
                 <CardContent className="pt-6 space-y-4">
@@ -205,7 +205,7 @@ const VendorSuccessStories = () => {
           </div>
 
           {loading ? (
-            <div className="grid md:grid-cols-3 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
                 <Card key={i} className="animate-pulse">
                   <CardContent className="pt-6">
@@ -217,7 +217,7 @@ const VendorSuccessStories = () => {
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {topVendors.map((vendor) => (
                 <Card 
                   key={vendor.id} 
@@ -295,7 +295,7 @@ const VendorSuccessStories = () => {
       {/* CTA Section */}
       <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl mb-6 text-white">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6 text-white">
             Ready to Grow Your Business?
           </h2>
           <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">

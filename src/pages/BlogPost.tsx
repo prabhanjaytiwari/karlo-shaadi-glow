@@ -964,7 +964,7 @@ export default function BlogPost() {
             {post.category}
           </Badge>
           
-          <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl mb-6">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6">
             {post.title}
           </h1>
           
@@ -1027,7 +1027,7 @@ export default function BlogPost() {
       {/* CTA */}
       <section className="py-16 px-4 sm:px-6 bg-primary">
         <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4 text-white">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl mb-4 text-white">
             Ready to Start Planning?
           </h2>
           <p className="text-white/90 text-lg mb-8">

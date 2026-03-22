@@ -523,7 +523,7 @@ const WeddingWebsite = () => {
               FREE Wedding Website Builder
             </PremiumBadge>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Your Love Story
               <span className="block text-primary">
                 Deserves a Beautiful Website

@@ -105,7 +105,7 @@ function HeroSection({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-5 leading-tight"
+        className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-5 leading-tight"
       >
         Complete Your Wedding
         <br />

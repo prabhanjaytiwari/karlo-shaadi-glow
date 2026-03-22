@@ -40,7 +40,7 @@ export default function JoinAsManager() {
       <main className="container mx-auto px-4 py-20">
         {/* Hero Section */}
         <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-foreground">
             Join as Wedding Manager
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

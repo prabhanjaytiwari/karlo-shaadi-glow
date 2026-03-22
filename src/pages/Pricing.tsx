@@ -214,7 +214,7 @@ export default function Pricing() {
       <section className={isMobile ? "px-4 py-6" : "py-16 md:py-24 px-4 md:px-6"}>
         <div className={isMobile ? "" : "container mx-auto max-w-5xl"}>
           <h2 className={`font-bold ${isMobile ? 'text-xl mb-4' : 'text-3xl mb-8 text-center'}`}>Meet Your AI Wedding Planner</h2>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { icon: Bot, title: "AI Chat Assistant", description: "Ask anything about vendors, budget, timeline, traditions, or decorations. Get instant, personalized answers." },
               { icon: PhoneCall, title: "Human Expert Support", description: "2 video consultations per month with experienced wedding planners who understand your vision." },

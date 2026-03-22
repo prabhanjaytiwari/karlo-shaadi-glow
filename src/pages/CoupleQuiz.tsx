@@ -264,7 +264,7 @@ export default function CoupleQuiz() {
                   <Heart className="h-4 w-4 text-primary fill-primary" />
                   <span className="text-primary text-sm font-semibold">Couple Quiz</span>
                 </div>
-                <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-3">
+                <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
                   Wedding<br />
                   <span className="text-primary">Compatibility Score</span>
                 </h1>

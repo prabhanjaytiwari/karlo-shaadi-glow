@@ -174,7 +174,7 @@ export default function VendorPricing() {
         description="Affordable vendor plans starting from Free. Grow your wedding business with premium listings and verified leads."
       />
       
-      <main className="flex-1 py-20 px-4">
+      <main className="flex-1 pt-16 sm:pt-20 pb-8 px-4 sm:px-6 lg:px-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -182,7 +182,7 @@ export default function VendorPricing() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium text-muted-foreground">Grow Your Business</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-3">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
               Choose Your <span className="text-gradient">Success Plan</span>
             </h1>
             <p className="text-muted-foreground max-w-xl mx-auto">
@@ -191,7 +191,7 @@ export default function VendorPricing() {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
             {plans.map((plan) => (
               <div 
                 key={plan.id}
@@ -255,7 +255,7 @@ export default function VendorPricing() {
           {/* Success Stories */}
           <div className="bg-card rounded-2xl p-8 mb-16 shadow-[var(--shadow-sm)]">
             <h2 className="text-2xl font-bold text-center mb-8">Real Success Stories</h2>
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 { stat: "300%", label: "Increase in Bookings", quote: "Gold listing helped us get from 3 to 12 bookings per month in just 2 months!", author: "Priya's Photography, Mumbai" },
                 { stat: "₹18L", label: "Revenue in 6 Months", quote: "Diamond profile gave us homepage visibility. Best investment we made!", author: "Divine Caterers, Delhi" },

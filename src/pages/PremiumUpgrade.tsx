@@ -223,7 +223,7 @@ export default function PremiumUpgrade() {
             <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
               Upgrade Your Experience
             </Badge>
-            <h1 className="font-display font-bold text-4xl md:text-5xl mb-4">
+            <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-4">
               Choose Your <span className="text-primary">Plan</span>
             </h1>
             <p className="text-muted-foreground text-lg">

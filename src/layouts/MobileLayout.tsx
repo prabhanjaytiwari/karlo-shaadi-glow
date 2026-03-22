@@ -32,7 +32,7 @@ export function MobileLayout({ children, hideBottomNav = false }: MobileLayoutPr
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen overflow-x-hidden"
       style={{
         paddingTop: isNative ? 'env(safe-area-inset-top, 0px)' : undefined,
         paddingBottom: showBottomNav ? 'calc(4rem + env(safe-area-inset-bottom, 0px))' : undefined,

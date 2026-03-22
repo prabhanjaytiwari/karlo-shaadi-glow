@@ -125,7 +125,7 @@ const ForVendors = () => {
                     <span className="text-white/80 text-xs font-semibold">Zero Commission Platform</span>
                   </div>
 
-                  <h1 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-4">
+                  <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-4">
                     Grow Your Wedding Business
                   </h1>
 
@@ -155,7 +155,7 @@ const ForVendors = () => {
 
         {/* Stats Strip */}
         <section className="py-8 border-b border-border">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <div className="flex justify-center gap-8 md:gap-16">
               {[
                 { value: `${totalVendors}+`, label: "Vendors" },
@@ -180,7 +180,7 @@ const ForVendors = () => {
 
         {/* Why Vendors Choose Us */}
         <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <div className="text-center mb-10">
               <h2 className="font-display font-bold text-xl md:text-3xl text-foreground mb-2">
                 Why Vendors Choose Us
@@ -224,7 +224,7 @@ const ForVendors = () => {
 
         {/* Categories */}
         <section className="py-16 md:py-24 border-t border-border">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <div className="text-center mb-8">
               <h2 className="font-display font-bold text-xl md:text-3xl text-foreground mb-2">All Categories Welcome</h2>
               <p className="text-muted-foreground text-sm">Join the fastest-growing wedding platform in India</p>
@@ -258,7 +258,7 @@ const ForVendors = () => {
 
         {/* How It Works */}
         <section className="py-16 md:py-24 border-t border-border">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
                 <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
@@ -308,7 +308,7 @@ const ForVendors = () => {
 
         {/* Vendor Testimonials */}
         <section className="py-16 md:py-24 border-t border-border">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
               Vendors Love Karlo Shaadi
             </h2>
@@ -353,7 +353,7 @@ const ForVendors = () => {
 
         {/* FAQ */}
         <section className="py-16 md:py-24 border-t border-border">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <div className="max-w-3xl mx-auto">
               <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
                 Frequently Asked Questions
