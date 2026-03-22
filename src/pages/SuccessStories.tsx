@@ -113,7 +113,7 @@ export default function SuccessStories() {
             <Sparkles className="w-3 h-3 mr-1" />
             Real Weddings, Real Inspiration
           </Badge>
-          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+          <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl mb-6">
             Wedding Success <span className="text-primary">Stories</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
