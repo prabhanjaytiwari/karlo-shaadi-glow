@@ -453,7 +453,7 @@ const Index = () => {
 
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group">
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-[var(--shadow-md)] group">
                 <CinematicImage src={weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full" cinematic sharp />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
