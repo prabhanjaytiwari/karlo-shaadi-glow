@@ -234,10 +234,9 @@ export default function SubscriptionCheckout() {
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subscription</span>
                     <div className="text-right">
-                      {discountedPrice ? (
+                      {savings > 0 ? (
                         <div>
                           <span className="line-through text-muted-foreground mr-2">₹{currentPlan.price}</span>
-                          <Badge variant="destructive" className="text-[10px]">50% OFF</Badge>
                         </div>
                       ) : (
                         <span className="font-medium">₹{currentPlan.price}</span>
@@ -250,20 +249,35 @@ export default function SubscriptionCheckout() {
                   </div>
                   {savings > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-green-600 font-semibold">Your Savings</span>
+                      <span className="text-green-600 font-semibold">Promo Discount</span>
                       <span className="text-green-600 font-bold">- ₹{savings}</span>
                     </div>
                   )}
+
+                  {/* Promo Code */}
+                  <div className="pt-2 space-y-2">
+                    <label className="text-xs font-medium flex items-center gap-1"><Tag className="h-3 w-3" />Promo Code</label>
+                    {appliedPromo ? (
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-green-50 border border-green-200">
+                        <span className="text-xs font-semibold text-green-700">{appliedPromo.code} — {appliedPromo.discountPercent}% off</span>
+                        <button onClick={handleRemovePromo} className="text-xs text-red-500 hover:text-red-700">Remove</button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Input placeholder="Enter code" value={promoCode} onChange={(e) => { setPromoCode(e.target.value.toUpperCase()); setPromoError(""); }} className="h-8 text-xs uppercase" />
+                        <Button variant="outline" size="sm" onClick={handleApplyPromo} className="h-8 text-xs px-3">Apply</Button>
+                      </div>
+                    )}
+                    {promoError && <p className="text-xs text-destructive">{promoError}</p>}
+                  </div>
+
                   <div className="pt-3 border-t">
                     <div className="flex justify-between">
                       <span className="font-semibold">Total Today</span>
                       <span className="text-2xl font-bold text-primary">₹{finalPrice}</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {discountedPrice
-                        ? `First month ₹${discountedPrice}, then ₹${currentPlan.price}/month. Cancel anytime.`
-                        : "Recurring monthly until cancelled"
-                      }
+                      Recurring monthly until cancelled. Cancel anytime.
                     </p>
                   </div>
                 </div>
