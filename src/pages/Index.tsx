@@ -260,7 +260,7 @@ const Index = () => {
       </section>
 
       {/* Section 2: For Vendors */}
-      <section ref={section1.ref} className="py-16 md:py-24 relative bg-gradient-to-b from-white via-amber-50/30 to-white">
+      <section ref={section1.ref} className="py-16 md:py-24 relative">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
             {/* Content */}
