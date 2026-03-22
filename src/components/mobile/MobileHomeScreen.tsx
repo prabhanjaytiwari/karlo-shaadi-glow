@@ -363,7 +363,7 @@ export function MobileHomeScreen() {
               { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
               { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
             ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center py-3 rounded-xl bg-card border border-border/40">
+              <div key={stat.label} className="flex flex-col items-center py-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                 <stat.icon className={`h-5 w-5 ${stat.color} mb-1`} />
                 <span className="text-sm font-bold text-foreground">{stat.value}</span>
                 <span className="text-[10px] text-muted-foreground font-medium">{stat.label}</span>
