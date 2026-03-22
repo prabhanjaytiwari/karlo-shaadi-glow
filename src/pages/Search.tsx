@@ -176,7 +176,7 @@ export default function Search() {
           )}>
             {/* Sponsored ribbon */}
             {isSponsored && (
-              <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-primary to-accent text-[10px] font-bold text-primary-foreground shadow-sm">
+              <div className="absolute -top-2 right-4 px-2.5 py-0.5 rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-sm">
                 ⭐ FEATURED
               </div>
             )}
