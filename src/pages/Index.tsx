@@ -82,27 +82,15 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
-        <div ref={parallaxRef} className="absolute inset-0 z-0" style={{
-        transform: `translateY(${offset * 0.3}px) scale(1.05)`
-      }}>
+        <div ref={parallaxRef} className="absolute inset-0 z-0" style={{ transform: `translateY(${offset * 0.3}px) scale(1.05)` }}>
           <CinematicImage src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full" cinematic objectPosition="center 25%" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
-        </div>
-        
-        {/* Floating Bokeh Elements */}
-        <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
-          <div className="absolute top-[15%] left-[10%] w-32 h-32 rounded-full bg-primary/20 blur-3xl animate-float-slow" />
-          <div className="absolute top-[25%] right-[15%] w-24 h-24 rounded-full bg-accent/25 blur-2xl animate-float-delayed" />
-          <div className="absolute bottom-[30%] left-[20%] w-20 h-20 rounded-full bg-white/10 blur-2xl animate-float-slow" />
-          <div className="absolute top-[40%] right-[8%] w-16 h-16 rounded-full bg-primary/15 blur-xl animate-float-delayed" />
-          <div className="absolute bottom-[45%] right-[25%] w-28 h-28 rounded-full bg-accent/15 blur-3xl animate-float-slow" />
         </div>
         
         {/* Hero Content */}
         <div className="relative z-10 flex-1 flex items-center justify-center py-6 sm:py-8">
           <div className="container mx-auto px-4 sm:px-6">
             <div className={`w-full max-w-4xl mx-auto transition-all duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-              {/* Headline */}
               <div className="text-center mb-4 sm:mb-6 md:mb-8">
                 <h1 className="font-display font-semibold text-3xl md:text-5xl leading-tight text-white drop-shadow-lg">
                   <span className={`inline-block hero-text-reveal ${isLoaded ? '' : 'opacity-0'}`}>Aap</span>{' '}
@@ -116,32 +104,26 @@ const Index = () => {
                 </p>
               </div>
 
-              {/* Hero Search Widget */}
               <div className={`hero-text-reveal hero-text-reveal-delay-5 ${isLoaded ? '' : 'opacity-0'}`}>
                 <HeroSearchWidget />
                 
-                {/* 2-Minute Wedding Plan CTA */}
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-4 sm:mt-5">
                   <Link to="/plan-wizard">
-                    <Button size="lg" className="group relative overflow-hidden rounded-full px-8 font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:shadow-primary/25">
-                      <span className="relative z-10">2-Minute Wedding Plan</span>
-                      <span className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out" />
-                      <span className="absolute inset-0 animate-shimmer-subtle bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+                    <Button size="lg" className="rounded-full px-8 font-medium shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground">
+                      2-Minute Wedding Plan
                     </Button>
                   </Link>
-                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-8 font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 animate-glow-pulse">
+                  <Button onClick={() => setAiMatchmakingOpen(true)} variant="glass" className="rounded-full px-8 font-medium border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20">
                     Vendor Matching
                   </Button>
                 </div>
               </div>
 
-              {/* AI Matchmaking Dialog */}
               <AIMatchmakingDialog open={aiMatchmakingOpen} onOpenChange={setAiMatchmakingOpen} />
             </div>
           </div>
         </div>
 
-        {/* Bottom Gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-24 md:h-32 bg-gradient-to-t from-background to-transparent z-10" />
       </section>
 
