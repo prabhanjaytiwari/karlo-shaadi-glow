@@ -389,7 +389,7 @@ export function MobileHomeScreen() {
                   className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
                   style={{ minWidth: '64px' }}
                 >
-                  <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-accent/30 shadow-md">
+                  <div className="w-14 h-14 rounded-full overflow-hidden shadow-sm">
                     <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
                   </div>
                   <span className="text-[10px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
