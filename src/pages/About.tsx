@@ -40,7 +40,7 @@ const About = () => {
         <div className="container mx-auto px-4 sm:px-6 space-y-10 md:space-y-20 py-10 md:py-16">
           {/* Our Story */}
           <section className="max-w-4xl mx-auto">
-            <div className="rounded-2xl border border-border/50 bg-card p-6 md:p-10">
+            <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-6 md:p-10">
               <h2 className="text-xl md:text-3xl font-bold mb-4">Our Story</h2>
               <div className="space-y-3 text-muted-foreground text-sm md:text-base leading-relaxed">
                 <p>
