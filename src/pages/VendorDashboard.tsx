@@ -434,63 +434,65 @@ export default function VendorDashboard() {
           )}
 
           {/* Subscription Status Card */}
-          {vendor && (
-            <Card className="mb-6 bg-white/90 backdrop-blur-sm border border-accent/20 shadow-sm">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <div>
-                    <CardTitle className="text-base flex items-center gap-2">
-                      Current Plan: 
-                      <span className={`px-3 py-1 rounded-full text-sm font-bold ${getSubscriptionBadge().color}`}>
-                        {getSubscriptionBadge().label}
-                      </span>
-                    </CardTitle>
-                    <CardDescription className="mt-1.5 text-sm">
-                      {vendor.subscription_tier === 'free' && 
-                        "Upgrade to Featured or Sponsored to get 3-10x more bookings"}
-                      {vendor.subscription_tier === 'featured' && 
-                        "You're getting top 5 placement! Upgrade to Sponsored for homepage visibility"}
-                      {vendor.subscription_tier === 'sponsored' && 
-                        "You're on our premium plan with maximum visibility!"}
-                    </CardDescription>
-                  </div>
-                  {vendor.subscription_tier === 'free' && (
-                    <Button onClick={() => navigate('/vendor-pricing')} size="sm">
-                      Upgrade Now
-                    </Button>
-                  )}
-                </div>
-              </CardHeader>
-              {subscription && subscription.status === 'active' && (
-                <CardContent className="pt-2">
-                  <div className="flex flex-wrap gap-4 text-sm">
+          {vendor && (() => {
+            const plan = mapSubscriptionPlan(subscription);
+            const planDescriptions: Record<string, string> = {
+              free: "Upgrade to Starter, Pro, or Elite to boost visibility and reduce transaction fees",
+              starter: "You're on Starter! Upgrade to Pro for top 5 placement and analytics",
+              pro: "You're on Pro with top 5 placement! Upgrade to Elite for homepage visibility",
+              elite: "You're on our Elite plan with maximum visibility and 0% transaction fee!",
+            };
+            const feeLabels: Record<string, string> = {
+              free: '10%',
+              starter: '7% (save 3%)',
+              pro: '3% (save 7%)',
+              elite: '0% (save 10%!)',
+            };
+            return (
+              <Card className="mb-6 bg-card/90 backdrop-blur-sm border border-accent/20 shadow-sm">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between flex-wrap gap-3">
                     <div>
-                      <span className="text-muted-foreground">Next Billing: </span>
-                      <span className="font-semibold">
-                        {new Date(subscription.expires_at).toLocaleDateString()}
-                      </span>
+                      <CardTitle className="text-base flex items-center gap-2">
+                        Current Plan: 
+                        <span className={`px-3 py-1 rounded-full text-sm font-bold ${getSubscriptionBadge().color}`}>
+                          {getSubscriptionBadge().label}
+                        </span>
+                      </CardTitle>
+                      <CardDescription className="mt-1.5 text-sm">
+                        {planDescriptions[plan]}
+                      </CardDescription>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">Amount: </span>
-                      <span className="font-semibold">₹{subscription.amount?.toLocaleString()}/month</span>
-                    </div>
-                    {vendor.subscription_tier === 'featured' && (
-                      <div>
-                        <span className="text-muted-foreground">Transaction Fee: </span>
-                        <span className="font-semibold text-accent">10% (save 2%)</span>
-                      </div>
-                    )}
-                    {vendor.subscription_tier === 'sponsored' && (
-                      <div>
-                        <span className="text-muted-foreground">Transaction Fee: </span>
-                        <span className="font-semibold text-primary">0% (save 12%!)</span>
-                      </div>
+                    {plan !== 'elite' && (
+                      <Button onClick={() => navigate('/vendor-pricing')} size="sm">
+                        Upgrade Now
+                      </Button>
                     )}
                   </div>
-                </CardContent>
-              )}
-            </Card>
-          )}
+                </CardHeader>
+                {subscription && subscription.status === 'active' && (
+                  <CardContent className="pt-2">
+                    <div className="flex flex-wrap gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Next Billing: </span>
+                        <span className="font-semibold">
+                          {new Date(subscription.expires_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Amount: </span>
+                        <span className="font-semibold">₹{subscription.amount?.toLocaleString()}/month</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Transaction Fee: </span>
+                        <span className="font-semibold text-primary">{feeLabels[plan]}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
+            );
+          })()}
 
           {/* Stats Grid */}
           <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mb-4' : 'grid-cols-2 md:grid-cols-4 gap-4 mb-6'}`}>
