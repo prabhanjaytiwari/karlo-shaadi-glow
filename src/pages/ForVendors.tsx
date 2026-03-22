@@ -28,6 +28,36 @@ const ForVendors = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
+  // Fetch real vendor counts from database
+  const { data: vendorStats } = useQuery({
+    queryKey: ["vendor-stats-for-vendors"],
+    queryFn: async () => {
+      const [vendorsResult, citiesResult] = await Promise.all([
+        supabase.from("vendors").select("category", { count: "exact" }).eq("is_active", true),
+        supabase.from("cities").select("id", { count: "exact", head: true }).eq("is_active", true),
+      ]);
+
+      // Count by category
+      const catCounts: Record<string, number> = {};
+      if (vendorsResult.data) {
+        vendorsResult.data.forEach((v: any) => {
+          catCounts[v.category] = (catCounts[v.category] || 0) + 1;
+        });
+      }
+
+      return {
+        totalVendors: vendorsResult.data?.length || 0,
+        totalCities: citiesResult.count || 20,
+        categoryCounts: catCounts,
+      };
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const totalVendors = vendorStats?.totalVendors || 0;
+  const totalCities = vendorStats?.totalCities || 20;
+  const categoryCounts = vendorStats?.categoryCounts || {};
+
   return (
     <div className="min-h-screen bg-background">
       <SEO
