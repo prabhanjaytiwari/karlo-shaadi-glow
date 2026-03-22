@@ -293,7 +293,7 @@ const Index = () => {
                 icon: CheckCircle2,
                 text: "Start free, pay when booked"
               }].map((item, i) => <div key={i} className="flex items-center gap-2.5">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
                       <item.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                     </div>
                     <p className="text-foreground text-sm">{item.text}</p>
