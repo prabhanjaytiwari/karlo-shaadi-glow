@@ -491,7 +491,7 @@ const Index = () => {
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Dream Wedding Journey?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-8">
-              Join 50,000+ happy couples who planned their perfect wedding with zero stress. Your happily ever after starts here.
+              Plan your perfect wedding with zero stress and zero commission. Your happily ever after starts here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/categories">
