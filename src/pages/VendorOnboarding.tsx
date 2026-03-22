@@ -1279,8 +1279,7 @@ export default function VendorOnboarding() {
                     <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
                       {SUBSCRIPTION_PLANS.map((plan, idx) => {
                         const PlanIcon = plan.icon;
-                        const discounted = offerActive ? getDiscountedPrice(plan.price) : null;
-                        const perDay = Math.round((discounted || plan.price) / 30);
+                        const perDay = Math.round(plan.price / 30);
                         return (
                           <motion.div
                             key={plan.id}
