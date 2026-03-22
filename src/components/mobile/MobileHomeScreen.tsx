@@ -337,7 +337,7 @@ export function MobileHomeScreen() {
           <div className="grid grid-cols-4 gap-2">
             {[
               { icon: Users, value: '500+', label: 'Couples', color: 'text-primary' },
-              { icon: Award, value: '5,000+', label: 'Vendors', color: 'text-accent' },
+              { icon: Award, value: 'Verified', label: 'Vendors', color: 'text-accent' },
               { icon: Shield, value: '100%', label: 'Secure', color: 'text-emerald-600' },
               { icon: MapPin, value: '20+', label: 'Cities', color: 'text-blue-600' },
             ].map((stat) => (

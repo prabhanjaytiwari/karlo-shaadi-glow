@@ -247,7 +247,7 @@ export const BhindiFooter = () => {
               </div>
             </div>
             <p className="text-muted-foreground leading-relaxed text-sm max-w-sm">
-              India's trusted wedding planning platform. Connecting couples with 5000+ verified vendors across 50+ cities.
+              India's trusted zero-commission wedding planning platform. Connecting couples with verified vendors across 20+ cities.
             </p>
             
             {/* Contact Info */}

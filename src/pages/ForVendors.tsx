@@ -9,9 +9,20 @@ import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import heroVendorsImg from "@/assets/hero-vendors-success.jpg";
 import sectionVendors from "@/assets/section-vendors.jpg";
 import weddingFriends from "@/assets/wedding-friends.jpg";
+
+const vendorCategoryDefs = [
+  { name: "Photographers", icon: Camera, dbCategory: "photography" },
+  { name: "Caterers", icon: Utensils, dbCategory: "catering" },
+  { name: "Venues", icon: MapPin, dbCategory: "venues" },
+  { name: "Decorators", icon: Palette, dbCategory: "decoration" },
+  { name: "Makeup Artists", icon: Sparkles, dbCategory: "makeup" },
+  { name: "DJs & Music", icon: Zap, dbCategory: "music" },
+];
 
 const vendorFaqs = [
   { question: "Is it free to register as a vendor on Karlo Shaadi?", answer: "Yes, registration is completely free. You can create your vendor profile, upload your portfolio, and start receiving inquiries at zero cost. We never charge commission on your bookings." },
@@ -24,18 +35,39 @@ const vendorFaqs = [
   { question: "Which cities does Karlo Shaadi operate in?", answer: "We serve 20+ cities across India including Delhi, Mumbai, Lucknow, Bangalore, Hyderabad, Kolkata, Chennai, Pune, Jaipur, Ahmedabad, Chandigarh, Udaipur, and more. We're expanding rapidly to new cities every month." },
 ];
 
-const vendorCategories = [
-  { name: "Photographers", icon: Camera, count: "800+" },
-  { name: "Caterers", icon: Utensils, count: "600+" },
-  { name: "Venues", icon: MapPin, count: "500+" },
-  { name: "Decorators", icon: Palette, count: "400+" },
-  { name: "Makeup Artists", icon: Sparkles, count: "700+" },
-  { name: "DJs & Music", icon: Zap, count: "300+" },
-];
-
 const ForVendors = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+
+  // Fetch real vendor counts from database
+  const { data: vendorStats } = useQuery({
+    queryKey: ["vendor-stats-for-vendors"],
+    queryFn: async () => {
+      const [vendorsResult, citiesResult] = await Promise.all([
+        supabase.from("vendors").select("category", { count: "exact" }).eq("is_active", true),
+        supabase.from("cities").select("id", { count: "exact", head: true }).eq("is_active", true),
+      ]);
+
+      // Count by category
+      const catCounts: Record<string, number> = {};
+      if (vendorsResult.data) {
+        vendorsResult.data.forEach((v: any) => {
+          catCounts[v.category] = (catCounts[v.category] || 0) + 1;
+        });
+      }
+
+      return {
+        totalVendors: vendorsResult.data?.length || 0,
+        totalCities: citiesResult.count || 20,
+        categoryCounts: catCounts,
+      };
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const totalVendors = vendorStats?.totalVendors || 0;
+  const totalCities = vendorStats?.totalCities || 20;
+  const categoryCounts = vendorStats?.categoryCounts || {};
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,7 +130,7 @@ const ForVendors = () => {
                   </h1>
 
                   <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-lg mb-6">
-                    Join 5,000+ verified wedding vendors across India. Get matched with ready-to-book couples. <span className="text-white/80 font-medium">Zero commission. Free registration.</span>
+                    Join India's fastest-growing zero-commission wedding platform. Get matched with ready-to-book couples. <span className="text-white/80 font-medium">Zero commission. Free registration.</span>
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -126,9 +158,9 @@ const ForVendors = () => {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex justify-center gap-8 md:gap-16">
               {[
-                { value: "5,000+", label: "Vendors" },
+                { value: `${totalVendors}+`, label: "Vendors" },
                 { value: "0%", label: "Commission" },
-                { value: "20+", label: "Cities" },
+                { value: `${totalCities}+`, label: "Cities" },
                 { value: "4.8★", label: "Rating" },
               ].map((stat, i) => (
                 <motion.div
@@ -199,7 +231,9 @@ const ForVendors = () => {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto">
-              {vendorCategories.map((cat, i) => (
+              {vendorCategoryDefs.map((cat, i) => {
+                const count = categoryCounts?.[cat.dbCategory] || 0;
+                return (
                 <motion.div
                   key={cat.name}
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -212,9 +246,9 @@ const ForVendors = () => {
                     <cat.icon className="h-6 w-6 text-muted-foreground" />
                   </div>
                   <h3 className="font-semibold text-sm text-foreground mb-1">{cat.name}</h3>
-                  <p className="text-xs text-muted-foreground">{cat.count}</p>
-                </motion.div>
-              ))}
+                  <p className="text-xs text-muted-foreground">{count > 0 ? `${count}+` : "Join now"}</p>
+                </motion.div>);
+              })}
             </div>
             <p className="text-center text-xs text-muted-foreground/60 mt-5">
               Also: Mehendi, Invitations, Choreography, Entertainment, Transport, Jewelry, Pandit, Bridal Wear, and more
@@ -362,7 +396,7 @@ const ForVendors = () => {
                   Ready to Get More Bookings?
                 </h2>
                 <p className="text-white/50 text-sm max-w-xl mx-auto">
-                  Join 5,000+ vendors who grew their wedding business with zero commission.
+                  Join vendors across {totalCities}+ cities who are growing their wedding business with zero commission.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button size="lg" onClick={() => navigate("/vendor/onboarding")} className="rounded-full px-8 font-semibold">

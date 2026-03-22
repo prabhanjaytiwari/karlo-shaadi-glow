@@ -308,20 +308,29 @@ const VendorProfile = () => {
           <VendorFAQ vendorName={vendor.business_name} category={vendor.category} />
         </div>
 
-        {/* Sticky Bottom CTA */}
+        {/* Sticky Bottom CTA — WhatsApp Primary */}
         <div className="fixed bottom-16 left-0 right-0 z-50 px-4 py-3 bg-background/95 backdrop-blur-xl border-t border-border/50">
           <div className="flex gap-2">
-            <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
-              <Button className="flex-1 h-12 text-base font-semibold rounded-xl">
-                Book This Vendor
-              </Button>
-            </BookingDialog>
-            {vendor.whatsapp_number && (
-              <WhatsAppChatButton 
-                whatsappNumber={vendor.whatsapp_number} 
-                vendorName={vendor.business_name}
-                variant="icon"
-              />
+            {vendor.whatsapp_number ? (
+              <>
+                <WhatsAppChatButton 
+                  whatsappNumber={vendor.whatsapp_number} 
+                  vendorName={vendor.business_name}
+                  variant="full"
+                  className="flex-1 h-12 text-base font-semibold rounded-xl"
+                />
+                <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
+                  <Button variant="outline" className="h-12 rounded-xl px-4">
+                    <MessageCircle className="h-5 w-5" />
+                  </Button>
+                </QuickInquiryDialog>
+              </>
+            ) : (
+              <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
+                <Button className="flex-1 h-12 text-base font-semibold rounded-xl">
+                  <MessageCircle className="h-5 w-5 mr-2" /> Send Inquiry
+                </Button>
+              </QuickInquiryDialog>
             )}
           </div>
         </div>
@@ -478,13 +487,16 @@ const VendorProfile = () => {
                   <VendorAvailabilityWidget vendorId={id!} onDateSelect={setSelectedBookingDate} />
 
                   <div className="pt-4 border-t border-border/50 space-y-3">
-                    <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
-                      <Button size="lg" className="w-full rounded-xl">Get Quote</Button>
-                    </QuickInquiryDialog>
-                    
+                    {/* WhatsApp is the PRIMARY CTA */}
                     {vendor.whatsapp_number && (
                       <WhatsAppChatButton whatsappNumber={vendor.whatsapp_number} vendorName={vendor.business_name} variant="full" />
                     )}
+
+                    <QuickInquiryDialog vendorId={id!} vendorName={vendor.business_name}>
+                      <Button size="lg" variant={vendor.whatsapp_number ? "outline" : "default"} className="w-full rounded-xl">
+                        <MessageCircle className="h-4 w-4 mr-2" /> Get Quote
+                      </Button>
+                    </QuickInquiryDialog>
 
                     <BookingDialog vendorId={id!} initialDate={selectedBookingDate}>
                       <Button variant="secondary" size="lg" className="w-full rounded-xl">Check Availability & Book</Button>

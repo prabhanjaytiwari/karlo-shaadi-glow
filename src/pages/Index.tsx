@@ -66,7 +66,7 @@ const Index = () => {
   return <div className="min-h-screen bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]">
       <SEO
         title="India's #1 Wedding Planning Platform"
-        description="Plan your dream Indian wedding with Karlo Shaadi. 5,000+ verified vendors for photography, venues, catering, decoration, mehendi & more across 20+ cities. Zero commission. AI planner, budget calculator & muhurat finder — all free."
+        description="Plan your dream Indian wedding with Karlo Shaadi. Verified vendors for photography, venues, catering, decoration, mehendi & more across 20+ cities. Zero commission. AI planner, budget calculator & muhurat finder — all free."
         keywords="indian wedding planning, wedding vendors India, wedding photographer near me, wedding caterer India, wedding venue India, shaadi planning, mehendi artist, bridal makeup, wedding DJ, wedding decoration, AI wedding planner, wedding budget calculator, muhurat finder 2025 2026, destination wedding India, zero commission wedding, शादी प्लानर, शादी वेंडर, विवाह फोटोग्राफर, शादी का खर्च, बेस्ट वेडिंग प्लानर इंडिया, shaadi vendor dhundhe, wedding booking India, vivah photographer, mehendi wala near me, dulhan makeup artist"
         url="/"
       />
@@ -447,8 +447,8 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                Over 50,000 couples have trusted us with their special day. From intimate gatherings to grand celebrations, 
-                we've been part of beautiful love stories across India.
+                Couples across India have trusted us with their special day. From intimate gatherings to grand celebrations, 
+                we're building beautiful love stories together.
               </p>
 
               <div className="space-y-4">
@@ -491,7 +491,7 @@ const Index = () => {
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Dream Wedding Journey?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto mb-8">
-              Join 50,000+ happy couples who planned their perfect wedding with zero stress. Your happily ever after starts here.
+              Plan your perfect wedding with zero stress and zero commission. Your happily ever after starts here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/categories">
@@ -517,7 +517,7 @@ const Index = () => {
               Are You a <span className="text-accent">Wedding Vendor?</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Register free on India's zero-commission wedding platform. 5,000+ vendors already growing their business with us.
+              Register free on India's zero-commission wedding platform. Grow your business with verified leads and zero commission.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/for-vendors">
