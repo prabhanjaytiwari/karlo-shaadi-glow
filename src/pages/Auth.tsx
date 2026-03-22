@@ -162,9 +162,8 @@ const Auth = () => {
         </motion.div>
       )}
 
-      <Card className="rounded-2xl border border-border/50 shadow-xl bg-background/98 backdrop-blur-sm ring-1 ring-primary/10">
+      <Card className="rounded-2xl shadow-[var(--shadow-md)] bg-card">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto w-12 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30 rounded-full mb-3" />
           <CardTitle className={isMobile ? "text-xl" : "text-2xl"}>Welcome</CardTitle>
           <CardDescription className="text-sm">Login or create your free account</CardDescription>
         </CardHeader>
