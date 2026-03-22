@@ -109,7 +109,7 @@ const VendorSuccessStories = () => {
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 sm:px-6 bg-background">
-        <div className="container mx-auto max-w-6xl text-center">
+        <div className="container mx-auto max-w-6xl text-center px-4 sm:px-6">
           <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
             <Sparkles className="w-3 h-3 mr-1" />
             Vendor Success Stories
