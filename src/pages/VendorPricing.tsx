@@ -14,7 +14,7 @@ export default function VendorPricing() {
   const navigate = useNavigate();
   const [isVendor, setIsVendor] = useState(false);
   const [loading, setLoading] = useState(true);
-  const offerActive = isOfferActive();
+  // Discount removed
 
   useEffect(() => {
     checkVendorStatus();
