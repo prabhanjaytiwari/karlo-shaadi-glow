@@ -111,7 +111,7 @@ export const HeroSearchWidget = () => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* Main Search Widget */}
-      <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-accent/20 p-3 sm:p-4 md:p-5">
+      <div className="bg-white/95  rounded-xl sm:rounded-2xl shadow-xl border border-accent/20 p-3 sm:p-4 md:p-5">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
           {/* Category Select */}
           <div className="col-span-1">
@@ -194,14 +194,14 @@ export const HeroSearchWidget = () => {
           <button
             key={index}
             onClick={() => handlePopularSearch(search.category, search.city)}
-            className="px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur-sm transition-colors border border-white/20"
+            className="px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs bg-white/20 hover:bg-white/30 text-white rounded-full  transition-colors border border-white/20"
           >
             {search.label}
           </button>
         ))}
         <button
           onClick={() => handlePopularSearch(popularSearches[3].category, popularSearches[3].city)}
-          className="hidden sm:inline-flex px-3 py-1.5 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur-sm transition-colors border border-white/20"
+          className="hidden sm:inline-flex px-3 py-1.5 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full  transition-colors border border-white/20"
         >
           {popularSearches[3].label}
         </button>

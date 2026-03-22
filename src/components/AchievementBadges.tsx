@@ -139,7 +139,7 @@ export const AchievementBadges = ({ userId, compact = false }: AchievementBadges
 
   if (compact) {
     return (
-      <Card className="border-2 border-primary/10">
+      <Card className=" border-primary/10">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-lg">
@@ -188,7 +188,7 @@ export const AchievementBadges = ({ userId, compact = false }: AchievementBadges
   }
 
   return (
-    <Card className="border-2 border-primary/10">
+    <Card className=" border-primary/10">
       <CardHeader className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
@@ -218,7 +218,7 @@ export const AchievementBadges = ({ userId, compact = false }: AchievementBadges
             return (
               <div
                 key={achievement.id}
-                className={`relative p-4 rounded-xl border-2 transition-all ${
+                className={`relative p-4 rounded-xl  transition-all ${
                   earned 
                     ? "border-yellow-500/50 bg-gradient-to-br from-yellow-500/10 to-amber-500/10" 
                     : "border-border bg-muted/30 opacity-60 hover:opacity-100"

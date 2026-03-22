@@ -53,7 +53,7 @@ export function SplashScreen() {
             transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
             className="relative z-10"
           >
-            <div className="w-24 h-24 rounded-[1.75rem] bg-white/70 backdrop-blur-xl shadow-lg shadow-primary/10 flex items-center justify-center">
+            <div className="w-24 h-24 rounded-[1.75rem] bg-white/70 -xl shadow-lg shadow-primary/10 flex items-center justify-center">
               <img
                 src={logo}
                 alt="Karlo Shaadi"

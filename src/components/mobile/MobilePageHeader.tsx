@@ -21,7 +21,7 @@ export function MobilePageHeader({ title, showBack = true, rightActions, classNa
     <header
       className={cn(
         // Stick just below the fixed BhindiHeader (h-14 = 56px on mobile)
-        "sticky top-14 z-40 flex items-center h-14 px-4 bg-background/95 backdrop-blur-xl border-b border-border/60",
+        "sticky top-14 z-40 flex items-center h-14 px-4 bg-background/95  border-b border-border/60",
         className
       )}
     >
