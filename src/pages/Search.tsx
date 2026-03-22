@@ -377,7 +377,7 @@ export default function Search() {
             ))}
           </div>
 
-          <div className="h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
+          <div className="h-px bg-border/30" />
         </header>
 
         {/* ── CONTENT ── */}
