@@ -250,7 +250,7 @@ const Index = () => {
             }, {
               title: "Your Day",
               subtitle: "Stress-free"
-            }].map((item, i) => <div key={i} className="text-center p-2 sm:p-3 rounded-lg bg-white border border-accent/20 hover:border-accent/40 transition-all duration-300">
+            }].map((item, i) => <div key={i} className="text-center p-2 sm:p-3 rounded-xl bg-card shadow-[var(--shadow-xs)]">
                   <h3 className="font-semibold text-xs sm:text-sm text-accent">{item.title}</h3>
                   <p className="text-[9px] sm:text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
                 </div>)}
