@@ -115,7 +115,7 @@ const VendorSuccessStories = () => {
             Vendor Success Stories
           </Badge>
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
-            Grow Your Wedding <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Business</span>
+            Grow Your Wedding <span className="text-primary">Business</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
             Join 500+ successful vendors who have transformed their wedding business with Karlo Shaadi. 
@@ -137,7 +137,7 @@ const VendorSuccessStories = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {successMetrics.map((metric, idx) => (
-              <Card key={idx} className="text-center border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-primary/5">
+              <Card key={idx} className="text-center shadow-[var(--shadow-sm)] bg-gradient-to-br from-accent/5 to-primary/5">
                 <CardContent className="pt-6">
                   <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mx-auto mb-4">
                     <metric.icon className="h-6 w-6 text-accent" />
@@ -152,7 +152,7 @@ const VendorSuccessStories = () => {
       </section>
 
       {/* Vendor Testimonials */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className="py-16 px-4 sm:px-6 bg-muted/20">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
@@ -165,7 +165,7 @@ const VendorSuccessStories = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, idx) => (
-              <Card key={idx} className="border-2 border-border/50 hover:border-accent/30 transition-all">
+              <Card key={idx} className="shadow-[var(--shadow-sm)] hover:border-accent/30 transition-all">
                 <CardContent className="pt-6 space-y-4">
                   <Quote className="h-8 w-8 text-accent/30" />
                   <p className="text-muted-foreground italic">
@@ -221,11 +221,11 @@ const VendorSuccessStories = () => {
               {topVendors.map((vendor) => (
                 <Card 
                   key={vendor.id} 
-                  className="border-2 border-border/50 hover:border-primary/30 hover:shadow-lg transition-all cursor-pointer group"
+                  className="shadow-[var(--shadow-sm)] hover:border-primary/30 hover:shadow-lg transition-all cursor-pointer group"
                   onClick={() => navigate(`/vendors/${vendor.id}`)}
                 >
                   <CardContent className="pt-6 text-center space-y-4">
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center mx-auto overflow-hidden">
+                    <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mx-auto overflow-hidden">
                       {vendor.logo_url ? (
                         <img 
                           src={vendor.logo_url} 

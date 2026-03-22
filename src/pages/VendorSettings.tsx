@@ -94,7 +94,7 @@ export default function VendorSettings() {
         keywords="vendor settings, account, billing"
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+      <div className="min-h-screen bg-background">
         <MobilePageHeader title="Vendor Settings" />
         
         <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
@@ -138,7 +138,7 @@ export default function VendorSettings() {
 
               <TabsContent value="business" className="space-y-6">
                 {/* Business Info */}
-                <Card className="bg-white/90 border-2 border-accent/20">
+                <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
                   <CardHeader>
                     <CardTitle>Business Information</CardTitle>
                     <CardDescription>Your registered business details</CardDescription>
@@ -171,7 +171,7 @@ export default function VendorSettings() {
                 </Card>
 
                 {/* Logout */}
-                <Card className="bg-white/90 border-2 border-accent/20">
+                <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
                   <CardHeader>
                     <CardTitle>Sign Out</CardTitle>
                     <CardDescription>Sign out of your vendor account</CardDescription>
@@ -187,7 +187,7 @@ export default function VendorSettings() {
 
               <TabsContent value="billing" className="space-y-6">
                 {/* Current Plan */}
-                <Card className="bg-white/90 border-2 border-accent/20">
+                <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
                   <CardHeader>
                     <CardTitle>Current Plan</CardTitle>
                     <CardDescription>Your subscription details</CardDescription>
@@ -222,7 +222,7 @@ export default function VendorSettings() {
                 </Card>
 
                 {/* Billing History Link */}
-                <Card className="bg-white/90 border-2 border-accent/20">
+                <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
                   <CardHeader>
                     <CardTitle>Billing History</CardTitle>
                     <CardDescription>View all your payments and download invoices</CardDescription>

@@ -571,7 +571,7 @@ export default function VendorOnboarding() {
 
           {/* Auth Form */}
           <div className="flex-1 max-w-md mx-auto w-full px-4 py-6">
-            <div className="bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl shadow-2xl p-6">
+            <div className="bg-white/[0.07]  border border-white/[0.12] rounded-2xl shadow-2xl p-6">
               
               {emailSent ? (
                 <motion.div
@@ -816,7 +816,7 @@ export default function VendorOnboarding() {
                     disabled={!isDone || step === 6}
                     className="flex items-center gap-1.5 transition-all"
                   >
-                    <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 backdrop-blur-sm border ${
+                    <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300  border ${
                       isActive
                         ? "bg-accent/20 text-accent border-accent/40 ring-2 ring-accent/20"
                         : isDone
@@ -836,7 +836,7 @@ export default function VendorOnboarding() {
           </div>
 
           {/* ── Step Content Glass Container ── */}
-          <div className="bg-white/[0.07] backdrop-blur-xl border border-white/[0.12] rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-white/[0.07]  border border-white/[0.12] rounded-2xl shadow-2xl overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={step}
@@ -865,7 +865,7 @@ export default function VendorOnboarding() {
                             whileTap={{ scale: 0.96 }}
                             whileHover={{ scale: 1.02 }}
                             onClick={() => updateField("category", cat.value)}
-                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200 backdrop-blur-sm ${
+                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200  ${
                               selected
                                 ? "border-accent/50 bg-accent/10 ring-2 ring-accent/20"
                                 : "border-white/10 hover:border-white/20 bg-white/[0.04]"
@@ -1051,7 +1051,7 @@ export default function VendorOnboarding() {
                     {/* Logo Upload */}
                     <div className="space-y-2">
                       <Label className="text-white/70">Business Logo</Label>
-                      <div className="border-2 border-dashed border-white/10 rounded-xl p-5 text-center hover:border-accent/30 transition-colors">
+                      <div className="border border-dashed border-white/10 rounded-xl p-5 text-center hover:border-accent/30 transition-colors">
                         {logoPreview ? (
                           <div className="flex items-center gap-4">
                             <img src={logoPreview} alt="Logo preview" className="w-16 h-16 object-contain rounded-lg" />
@@ -1162,9 +1162,9 @@ export default function VendorOnboarding() {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: idx * 0.1 }}
-                            className={`relative rounded-xl border p-5 backdrop-blur-sm transition-all hover:scale-[1.02] cursor-pointer ${
+                            className={`relative rounded-xl border p-5  transition-all hover:scale-[1.02] cursor-pointer ${
                               plan.popular
-                                ? "border-accent/40 bg-accent/[0.08] ring-1 ring-accent/20"
+                                ? "border-accent/40 bg-accent/[0.08] "
                                 : "border-white/10 bg-white/[0.04]"
                             }`}
                             onClick={() => handleSelectPlan(plan.id)}
@@ -1242,7 +1242,7 @@ export default function VendorOnboarding() {
 
           {/* ── Sticky Bottom Navigation (Steps 1-5 only) ── */}
           {step >= 1 && step < 6 && (
-            <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-foreground/95 backdrop-blur-md border-t border-white/10 p-4 z-50" : ""}`}>
+            <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-foreground/95  border-t border-white/10 p-4 z-50" : ""}`}>
               {step > 1 && (
                 <Button type="button" variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white/70 hover:bg-white/5 hover:text-white">
                   <ChevronLeft className="w-4 h-4 mr-1" /> Back

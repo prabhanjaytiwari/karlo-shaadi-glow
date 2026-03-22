@@ -120,7 +120,7 @@ const ForVendors = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 mb-4">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10  border border-white/15 mb-4">
                     <BadgeCheck className="h-4 w-4 text-accent" />
                     <span className="text-white/80 text-xs font-semibold">Zero Commission Platform</span>
                   </div>
@@ -142,7 +142,7 @@ const ForVendors = () => {
                       Register Free Now
                     </Button>
                     <a href="tel:+917011460321">
-                      <Button size="lg" variant="outline" className="rounded-full px-8 bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20 w-full sm:w-auto">
+                      <Button size="lg" variant="outline" className="rounded-full px-8 bg-white/10  text-white border-white/20 hover:bg-white/20 w-full sm:w-auto">
                         <Phone className="mr-2 h-4 w-4" /> Talk to Us
                       </Button>
                     </a>
@@ -403,7 +403,7 @@ const ForVendors = () => {
                     Register Free Now <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Link to="/vendor-pricing">
-                    <Button size="lg" variant="outline" className="rounded-full px-8 bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20 w-full sm:w-auto">
+                    <Button size="lg" variant="outline" className="rounded-full px-8 bg-white/10  text-white border-white/20 hover:bg-white/20 w-full sm:w-auto">
                       View Plans & Pricing
                     </Button>
                   </Link>

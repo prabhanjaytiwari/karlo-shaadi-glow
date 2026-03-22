@@ -269,7 +269,7 @@ export default function VendorBilling() {
         keywords="billing, payments, invoices, GST, vendor"
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60">
+      <div className="min-h-screen bg-background">
         <MobilePageHeader title="Billing History" />
 
         <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
@@ -301,7 +301,7 @@ export default function VendorBilling() {
             )}
 
             {/* Current Subscription */}
-            <Card className="mb-8 bg-white/90 border-2 border-accent/20">
+            <Card className="mb-8 bg-white/90 shadow-[var(--shadow-sm)]">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CreditCard className="h-5 w-5 text-accent" /> Current Subscription
@@ -354,7 +354,7 @@ export default function VendorBilling() {
             </Card>
 
             {/* Payment History */}
-            <Card className="bg-white/90 border-2 border-accent/20">
+            <Card className="bg-white/90 shadow-[var(--shadow-sm)]">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-accent" /> Payment History

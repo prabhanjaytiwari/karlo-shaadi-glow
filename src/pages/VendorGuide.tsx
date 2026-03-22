@@ -210,7 +210,7 @@ export default function VendorGuide() {
             Vendor Onboarding
           </Badge>
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
-            Welcome to <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Karlo Shaadi</span>
+            Welcome to <span className="text-primary">Karlo Shaadi</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Your complete guide to setting up your vendor profile, attracting couples, and growing your wedding business.
@@ -310,7 +310,7 @@ export default function VendorGuide() {
       </section>
 
       {/* Vendor Features */}
-      <section className="py-20 px-4 sm:px-6 bg-gradient-to-br from-primary/5 to-accent/5">
+      <section className="py-20 px-4 sm:px-6 bg-muted/20">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
@@ -404,7 +404,7 @@ export default function VendorGuide() {
 
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <Card key={idx} className="border-2 border-border/50">
+              <Card key={idx} className="shadow-[var(--shadow-sm)]">
                 <CardContent className="pt-6">
                   <h3 className="font-semibold mb-2">{faq.question}</h3>
                   <p className="text-muted-foreground">{faq.answer}</p>

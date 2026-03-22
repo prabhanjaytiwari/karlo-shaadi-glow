@@ -105,7 +105,7 @@ const VendorAuth = () => {
       <div className="w-full max-w-5xl">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left Side - Benefits */}
-          <div className="hidden md:block space-y-6 animate-fade-up">
+          <div className="hidden md:block space-y-6 ">
             <div className="space-y-2">
               <h1 className="font-display font-bold text-4xl">Welcome Back, Vendor!</h1>
               <p className="text-xl text-muted-foreground">Login to manage your wedding business</p>
@@ -155,7 +155,7 @@ const VendorAuth = () => {
           </div>
 
           {/* Right Side - Login Form */}
-          <Card className="animate-fade-up">
+          <Card className="">
             <CardHeader>
               <CardTitle>Vendor Login</CardTitle>
               <CardDescription>
