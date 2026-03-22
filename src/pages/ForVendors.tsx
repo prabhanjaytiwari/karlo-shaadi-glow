@@ -125,7 +125,7 @@ const ForVendors = () => {
                     <span className="text-white/80 text-xs font-semibold">Zero Commission Platform</span>
                   </div>
 
-                  <h1 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-4">
+                  <h1 className="font-display font-bold text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight text-white mb-4">
                     Grow Your Wedding Business
                   </h1>
 
