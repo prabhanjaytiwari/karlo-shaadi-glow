@@ -495,7 +495,9 @@ export function MobileHomeScreen() {
             </div>
           </div>
         </section>
+        </LazySection>
 
+        <LazySection>
         {/* ── DEALS & OFFERS ── */}
         <section className="px-4">
           <div className="flex items-center justify-between mb-3">
