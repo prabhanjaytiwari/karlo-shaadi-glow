@@ -101,7 +101,7 @@ export default function FAQ() {
           <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">
             <div className="max-w-3xl mx-auto text-center space-y-3">
               <h1 className="font-bold text-2xl sm:text-4xl md:text-5xl">
-                Frequently Asked <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Questions</span>
+                Frequently Asked Questions
               </h1>
               <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto">
                 Got questions? We've got answers! Find everything you need to know about booking vendors for your dream wedding.

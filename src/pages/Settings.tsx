@@ -89,7 +89,7 @@ export default function Settings() {
                 </div>
 
                 {/* Logout */}
-                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                <div className="bg-card shadow-[var(--shadow-sm)] rounded-2xl p-6">
                   <h3 className="font-medium mb-2">Sign Out</h3>
                   <p className="text-sm text-muted-foreground mb-4">
                     Sign out of your account on this device
