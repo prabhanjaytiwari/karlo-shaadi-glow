@@ -193,7 +193,7 @@ export default function VendorVerificationStatus() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-rose-50/50 via-white to-amber-50/30">
+    <div className="min-h-screen flex flex-col bg-background">
       <SEO
         title="Vendor Verification Status"
         description="Check your vendor verification status and complete required documents"
@@ -203,7 +203,7 @@ export default function VendorVerificationStatus() {
         <div className="max-w-3xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
               <Shield className="h-8 w-8 text-accent" />
             </div>
             <h1 className="text-3xl font-bold mb-2">Verification Status</h1>
@@ -213,7 +213,7 @@ export default function VendorVerificationStatus() {
           </div>
 
           {/* Status Card */}
-          <GlassCard className="p-6 mb-6 bg-white border-2 border-accent/20">
+          <GlassCard className="p-6 mb-6 ">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="font-semibold text-lg">{vendor.business_name}</h2>
@@ -259,7 +259,7 @@ export default function VendorVerificationStatus() {
           </GlassCard>
 
           {/* Checklist */}
-          <GlassCard className="p-6 bg-white border-2 border-accent/20">
+          <GlassCard className="p-6 ">
             <h2 className="font-semibold text-lg mb-4">Verification Checklist</h2>
             <div className="space-y-3">
               {verificationItems.map((item) => (
@@ -268,7 +268,7 @@ export default function VendorVerificationStatus() {
                   className={`flex items-center gap-4 p-4 rounded-lg border-2 transition-colors ${
                     item.isComplete
                       ? "bg-green-50/50 border-green-200"
-                      : "bg-rose-50/50 border-accent/20"
+                      : "bg-muted/30 border-border/30"
                   }`}
                 >
                   <div

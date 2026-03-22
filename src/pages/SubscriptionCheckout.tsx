@@ -176,7 +176,7 @@ export default function SubscriptionCheckout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+    <div className="min-h-screen flex flex-col bg-background">
 
 
       <main className="flex-1 py-12 px-4">

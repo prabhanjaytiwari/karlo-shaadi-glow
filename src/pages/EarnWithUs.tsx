@@ -185,7 +185,7 @@ const EarnWithUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-accent/5 via-background to-primary/5 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <MobilePageHeader title="Earn with Karlo Shaadi" />
       <SEO
         title="Shaadi Promote Karo, Paisa Kamao | Karlo Shaadi"
@@ -208,7 +208,7 @@ const EarnWithUs = () => {
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-3">
               Shaadi Promote Karo,{" "}
-              <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
+              <span className="text-primary">
                 Paisa Kamao
               </span>
             </h1>
@@ -375,7 +375,7 @@ const EarnWithUs = () => {
       </section>
 
       {/* Referral Form */}
-      <section id="referral-form" className="py-12 md:py-20 bg-gradient-to-b from-card/50 to-accent/5">
+      <section id="referral-form" className="py-12 md:py-20 bg-muted/20">
         <div className="container mx-auto px-4 sm:px-6 max-w-2xl">
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-3xl font-bold text-foreground mb-2">

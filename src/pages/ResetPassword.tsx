@@ -105,7 +105,7 @@ const ResetPassword = () => {
     return (
       <>
         <MobilePageHeader title="Reset Password" />
-        <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+        <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
           <div className="text-center">
             <Loader2 className="h-8 w-8 animate-spin mx-auto text-accent" />
             <p className="mt-2 text-muted-foreground">Verifying reset link...</p>
@@ -119,9 +119,9 @@ const ResetPassword = () => {
     return (
       <>
       <MobilePageHeader title="Reset Password" />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+      <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
         <div className="w-full max-w-md">
-          <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
+          <Card className="">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl text-foreground">Invalid or Expired Link</CardTitle>
               <CardDescription>
@@ -152,11 +152,10 @@ const ResetPassword = () => {
   return (
     <>
     <MobilePageHeader title="Reset Password" />
-    <div className="min-h-screen bg-gradient-to-br from-rose-50/80 via-white to-amber-50/60 flex items-center justify-center p-6 pt-24">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-md">
-        <Card className="animate-fade-up bg-white/90 border-2 border-accent/20 shadow-xl">
+        <Card className="">
           <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
             <CardTitle className="text-2xl text-foreground">
               {isSuccess ? "Password Reset!" : "Create New Password"}
             </CardTitle>

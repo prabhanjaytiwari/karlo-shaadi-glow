@@ -141,7 +141,7 @@ export default function PaymentSuccess() {
             </Card>
           )}
 
-          <Card className="bg-gradient-to-br from-primary/5 to-accent/5 mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="bg-muted/20 mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
             <CardContent className="p-6">
               <h3 className="font-semibold mb-3">What's Next?</h3>
               <ul className="space-y-3 text-sm">
@@ -166,9 +166,9 @@ export default function PaymentSuccess() {
           </Card>
 
           {/* Shaadi Seva Social Share */}
-          <Card className="bg-gradient-to-br from-primary/5 to-accent/5 mb-8 animate-fade-up border-primary/20" style={{ animationDelay: '0.15s' }}>
+          <Card className="bg-muted/20 mb-8 animate-fade-up " style={{ animationDelay: '0.15s' }}>
             <CardContent className="p-6 text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border  mb-3">
                 <span className="text-primary text-xs font-semibold">❤️ Shaadi Seva</span>
               </div>
               <p className="text-sm text-muted-foreground mb-4">

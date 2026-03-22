@@ -122,7 +122,7 @@ export default function PremiumDashboard() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
+    <div className="min-h-screen flex flex-col bg-background">
       <MobilePageHeader title="Premium Dashboard" />
       
       <main className={isMobile ? "flex-1 px-4 py-4 pb-24" : "flex-1 pt-20 md:pt-24 pb-12 px-4"}>
