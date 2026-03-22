@@ -1,18 +1,23 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useCapacitor } from '@/hooks/useCapacitor';
 import logo from '@/assets/logo-new.png';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Crown } from 'lucide-react';
 
 export function SplashScreen() {
   const { isNative } = useCapacitor();
+  const location = useLocation();
   const [visible, setVisible] = useState(true);
+
+  const isVendorRoute = location.pathname.startsWith('/vendor') || location.pathname === '/vendor-auth';
 
   useEffect(() => {
     if (isNative) {
       setVisible(false);
       return;
     }
-    const timer = setTimeout(() => setVisible(false), 1800);
+    const timer = setTimeout(() => setVisible(false), 2000);
     return () => clearTimeout(timer);
   }, [isNative]);
 
@@ -22,43 +27,64 @@ export function SplashScreen() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: 'linear-gradient(165deg, hsl(280 30% 96%) 0%, hsl(330 40% 95%) 30%, hsl(340 50% 92%) 55%, hsl(300 35% 90%) 80%, hsl(260 30% 93%) 100%)' }}
+          style={{
+            background: isVendorRoute
+              ? 'linear-gradient(165deg, hsl(270 15% 8%) 0%, hsl(260 20% 12%) 40%, hsl(38 30% 15%) 80%, hsl(270 15% 10%) 100%)'
+              : 'linear-gradient(165deg, hsl(340 30% 97%) 0%, hsl(330 35% 95%) 40%, hsl(280 25% 95%) 70%, hsl(340 20% 96%) 100%)',
+          }}
         >
-          {/* Floating orbs */}
+          {/* Ambient glow */}
           <motion.div
-            className="absolute w-72 h-72 rounded-full opacity-30"
-            style={{ background: 'radial-gradient(circle, hsl(330 60% 85%), transparent)', top: '-5%', right: '-10%' }}
-            animate={{ scale: [1, 1.15, 1], x: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-80 h-80 rounded-full opacity-30"
+            style={{
+              background: isVendorRoute
+                ? 'radial-gradient(circle, hsl(38 80% 50% / 0.2), transparent)'
+                : 'radial-gradient(circle, hsl(340 60% 80% / 0.4), transparent)',
+              top: '15%',
+              right: '-10%',
+            }}
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
-            className="absolute w-56 h-56 rounded-full opacity-25"
-            style={{ background: 'radial-gradient(circle, hsl(280 50% 82%), transparent)', bottom: '5%', left: '-8%' }}
-            animate={{ scale: [1, 1.2, 1], y: [0, -15, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-          />
-          <motion.div
-            className="absolute w-40 h-40 rounded-full opacity-20"
-            style={{ background: 'radial-gradient(circle, hsl(340 55% 80%), transparent)', top: '40%', left: '60%' }}
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+            className="absolute w-60 h-60 rounded-full opacity-20"
+            style={{
+              background: isVendorRoute
+                ? 'radial-gradient(circle, hsl(280 40% 40% / 0.2), transparent)'
+                : 'radial-gradient(circle, hsl(280 40% 80% / 0.3), transparent)',
+              bottom: '10%',
+              left: '-5%',
+            }}
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           />
 
-          {/* Logo */}
+          {/* Logo container */}
           <motion.div
-            initial={{ scale: 0.6, opacity: 0 }}
+            initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+            transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
             className="relative z-10"
           >
-            <div className="w-24 h-24 rounded-[1.75rem] bg-white/70 -xl shadow-lg shadow-primary/10 flex items-center justify-center">
+            <div
+              className="w-24 h-24 rounded-[1.75rem] flex items-center justify-center shadow-2xl"
+              style={{
+                background: isVendorRoute
+                  ? 'linear-gradient(135deg, hsl(38 80% 50% / 0.15), hsl(270 20% 15%))'
+                  : 'rgba(255,255,255,0.75)',
+                backdropFilter: 'blur(20px)',
+                border: isVendorRoute
+                  ? '1px solid hsl(38 60% 50% / 0.3)'
+                  : '1px solid rgba(255,255,255,0.5)',
+              }}
+            >
               <img
                 src={logo}
                 alt="Karlo Shaadi"
                 className="h-16 w-auto"
-                style={{ mixBlendMode: 'multiply' }}
+                style={{ mixBlendMode: isVendorRoute ? 'normal' : 'multiply' }}
               />
             </div>
           </motion.div>
@@ -67,35 +93,45 @@ export function SplashScreen() {
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="relative z-10 mt-6 text-xl font-semibold tracking-tight text-foreground"
+            transition={{ delay: 0.35, duration: 0.5 }}
+            className={`relative z-10 mt-6 text-xl font-bold tracking-tight ${isVendorRoute ? 'text-white' : 'text-foreground'}`}
           >
             Karlo Shaadi
           </motion.h1>
 
-          {/* Tagline */}
-          <motion.p
+          {/* Role-specific tagline with icon */}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="relative z-10 mt-2 text-sm text-muted-foreground font-medium"
+            transition={{ delay: 0.55, duration: 0.5 }}
+            className="relative z-10 mt-2 flex items-center gap-1.5"
           >
-            Your Dream Wedding, Simplified
-          </motion.p>
+            {isVendorRoute ? (
+              <>
+                <Crown className="w-3.5 h-3.5 text-amber-400" />
+                <p className="text-sm text-white/60 font-medium">Grow Your Wedding Business</p>
+              </>
+            ) : (
+              <>
+                <Heart className="w-3.5 h-3.5 text-primary fill-primary" />
+                <p className="text-sm text-muted-foreground font-medium">Your Dream Wedding, Simplified</p>
+              </>
+            )}
+          </motion.div>
 
-          {/* Loading dots */}
+          {/* Loading indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="relative z-10 mt-10 flex gap-2"
+            transition={{ delay: 0.8 }}
+            className="relative z-10 mt-10 flex gap-1.5"
           >
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-2 h-2 rounded-full bg-foreground/30"
-                animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.1, 0.85] }}
-                transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2, ease: 'easeInOut' }}
+                className={`w-1.5 h-1.5 rounded-full ${isVendorRoute ? 'bg-amber-400/40' : 'bg-foreground/25'}`}
+                animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
+                transition={{ duration: 1, repeat: Infinity, delay: i * 0.15, ease: 'easeInOut' }}
               />
             ))}
           </motion.div>
