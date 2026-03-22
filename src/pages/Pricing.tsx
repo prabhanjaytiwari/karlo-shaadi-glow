@@ -102,7 +102,7 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Pricing - 50% OFF AI Premium Launch Offer" description="Karlo Shaadi is 100% FREE forever! Get AI Premium at 50% OFF — just ₹499/month for your first month. AI wedding planner, personal consultant, and exclusive discounts." />
+      <SEO title="Pricing — Free Wedding Planning & AI Premium" description="Karlo Shaadi is 100% FREE forever! Upgrade to AI Premium at ₹999/month for AI wedding planner, personal consultant, and exclusive discounts." />
       <FAQPageJsonLd faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       <MobilePageHeader title="Pricing" />
 
