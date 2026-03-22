@@ -14,7 +14,7 @@ const Privacy = () => {
       <MobilePageHeader title="Privacy Policy" />
       
       <main className={isMobile ? "px-4 py-4 pb-24" : "pt-24 pb-16"}>
-        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-10 max-w-5xl">
           {!isMobile && (
             <div className="text-center mb-12 ">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
