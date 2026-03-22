@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Lock, Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-type VendorPlan = "free" | "silver" | "gold" | "diamond";
+type VendorPlan = "free" | "starter" | "pro" | "elite";
 
 interface ToolGateProps {
   children: ReactNode;
@@ -16,16 +16,16 @@ interface ToolGateProps {
 
 const PLAN_HIERARCHY: Record<VendorPlan, number> = {
   free: 0,
-  silver: 1,
-  gold: 2,
-  diamond: 3,
+  starter: 1,
+  pro: 2,
+  elite: 3,
 };
 
 const PLAN_LABELS: Record<VendorPlan, string> = {
   free: "Free",
-  silver: "Silver (₹4,999/mo)",
-  gold: "Gold (₹9,999/mo)",
-  diamond: "Diamond (₹19,999/mo)",
+  starter: "Starter (₹999/mo)",
+  pro: "Pro (₹2,999/mo)",
+  elite: "Elite (₹6,999/mo)",
 };
 
 export function ToolGate({ children, currentPlan, requiredPlan, toolName, featureDescription }: ToolGateProps) {

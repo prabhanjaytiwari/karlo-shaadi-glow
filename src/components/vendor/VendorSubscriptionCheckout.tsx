@@ -207,21 +207,21 @@ export function VendorSubscriptionCheckout({
           <div className="space-y-2">
             <p className="text-sm font-medium">What you'll get:</p>
             <ul className="space-y-1.5 text-sm text-muted-foreground">
-              {planId === "silver" && (
+              {planId === "starter" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Top 10 search placement</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Silver badge on profile</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />12% transaction fee (save 3%)</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Silver verified badge</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />7% transaction fee (save 3%)</li>
                 </>
               )}
-              {planId === "gold" && (
+              {planId === "pro" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Top 5 search placement</li>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Gold Verified badge</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />8% transaction fee (save 7%)</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />3% transaction fee (save 7%)</li>
                 </>
               )}
-              {planId === "diamond" && (
+              {planId === "elite" && (
                 <>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Homepage featured placement</li>
                   <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-500" />Diamond Premium badge</li>

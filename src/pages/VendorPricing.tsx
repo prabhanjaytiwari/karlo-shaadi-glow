@@ -382,7 +382,7 @@ export default function VendorPricing() {
               {[
                 { q: "Can I switch plans anytime?", a: "Yes! Upgrade or downgrade anytime. Upgrades take effect immediately, downgrades apply next billing cycle." },
                 { q: "What happens if I cancel?", a: "Your premium benefits continue until the end of your paid period. After that, you move to Free plan with all basic features intact." },
-                { q: "How does the transaction fee work?", a: "Transaction fees apply only to bookings through our platform. Silver: 12%, Gold: 8%, Diamond: zero!" },
+                { q: "How does the transaction fee work?", a: "Transaction fees apply only to bookings through our platform. Starter: 7%, Pro: 3%, Elite: zero!" },
                 { q: "Is there a contract or commitment?", a: "No long-term contracts! All plans are month-to-month. Cancel anytime with no penalties." },
                 { q: "What's the money-back guarantee?", a: "If you don't receive at least 3 leads within 30 days of upgrading, we'll refund 100% of your subscription. No questions asked." },
               ].map((faq, i) => (

@@ -47,7 +47,7 @@ serve(async (req) => {
     console.log(`Creating vendor subscription for vendor ${vendorId}, plan: ${plan}`);
 
     // Validate plan
-    if (!['featured', 'sponsored'].includes(plan)) {
+    if (!['starter', 'pro', 'elite'].includes(plan)) {
       throw new Error("Invalid subscription plan");
     }
 
