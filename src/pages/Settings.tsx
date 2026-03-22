@@ -51,7 +51,7 @@ export default function Settings() {
                 </Button>
 
                 <div className="mb-8">
-                  <div className="w-16 h-1 bg-gradient-to-r from-accent/50 via-accent to-accent/50 rounded-full mb-4" />
+                  <div className="w-12 h-0.5 bg-primary/30 rounded-full mb-4" />
                   <h1 className="text-3xl font-bold text-foreground">Settings</h1>
                   <p className="text-muted-foreground mt-2">
                     Manage your account preferences and security
