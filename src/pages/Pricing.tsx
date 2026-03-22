@@ -29,10 +29,7 @@ export default function Pricing() {
   const isMobile = useIsMobile();
   const [isVendor, setIsVendor] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const offerActive = isOfferActive();
-  const discountedPrice = offerActive ? getDiscountedPrice(AI_PREMIUM_PRICE) : null;
-  const perDay = discountedPrice ? getPerDayPrice(discountedPrice) : getPerDayPrice(AI_PREMIUM_PRICE);
-  const savings = discountedPrice ? AI_PREMIUM_PRICE - discountedPrice : 0;
+  const perDay = getPerDayPrice(AI_PREMIUM_PRICE);
 
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
