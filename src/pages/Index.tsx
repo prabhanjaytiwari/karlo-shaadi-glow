@@ -445,7 +445,7 @@ const Index = () => {
               </div>
 
               <Link to="/testimonials">
-                <Button size="lg" variant="outline" className="rounded-full px-8 border-primary/30 hover:border-primary">
+                <Button size="lg" variant="outline" className="rounded-full px-8">
                   Read Their Stories
                 </Button>
               </Link>
