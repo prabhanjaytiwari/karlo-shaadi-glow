@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
-import { CountdownBanner, isOfferActive, getDiscountedPrice } from "@/components/CountdownBanner";
+// CountdownBanner removed
 import { useAnalytics } from "@/hooks/useAnalytics";
 import congratsImage from "@/assets/congrats-vendor.jpg";
 

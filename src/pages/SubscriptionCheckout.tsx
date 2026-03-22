@@ -55,6 +55,22 @@ export default function SubscriptionCheckout() {
   const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
   const [promoError, setPromoError] = useState("");
 
+  const planDetails = {
+    ai_premium: {
+      name: "AI Premium",
+      price: 999,
+      icon: Crown,
+      features: [
+        "24/7 AI Wedding Planner",
+        "2 Video Consultations/month",
+        "5% Exclusive Vendor Discounts",
+        "Priority WhatsApp Support",
+        "Unlimited AI Planning Sessions",
+        "Custom Budget Optimization"
+      ]
+    }
+  };
+
   const currentPlan = plan === "ai_premium" ? planDetails.ai_premium : null;
   const finalPrice = appliedPromo && currentPlan ? applyPromoDiscount(currentPlan.price, appliedPromo) : (currentPlan?.price ?? 0);
   const savings = currentPlan ? currentPlan.price - finalPrice : 0;
