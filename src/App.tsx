@@ -115,6 +115,7 @@ const WhyKarloShaadi = lazy(() => import("./pages/WhyKarloShaadi"));
 const EarnWithUs = lazy(() => import("./pages/EarnWithUs"));
 const SponsorShaadi = lazy(() => import("./pages/SponsorShaadi"));
 const ComingSoon = lazy(() => import("./pages/ComingSoon"));
+const FamilyDashboard = lazy(() => import("./pages/FamilyDashboard"));
 const ToolsLanding = lazy(() => import("./pages/ToolsLanding"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Stories = lazy(() => import("./pages/Stories"));
@@ -243,6 +244,7 @@ const AnimatedRoutes = () => {
           <Route path="/music-generator" element={<MusicGenerator />} />
           <Route path="/leaderboard" element={<VendorLeaderboard />} />
           <Route path="/guest-list" element={<ProtectedRoute><GuestList /></ProtectedRoute>} />
+          <Route path="/family-dashboard" element={<ProtectedRoute><FamilyDashboard /></ProtectedRoute>} />
           <Route path="/vendor-profile-setup" element={<VendorProfileSetup />} />
           <Route path="/speech-writer" element={<SpeechWriterPage />} />
           <Route path="/shaadi-seva" element={<ShaadiSeva />} />

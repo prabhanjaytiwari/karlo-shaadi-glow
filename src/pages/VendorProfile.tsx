@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { VideoEmbed } from "@/components/vendor/VideoEmbed";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -303,6 +304,18 @@ const VendorProfile = () => {
           </p>
         </div>
 
+        {/* Video Reels - Mobile */}
+        {portfolio.filter(p => p.video_url).length > 0 && (
+          <div className="px-4 py-3">
+            <h2 className="text-base font-bold text-foreground mb-3">Video Reels</h2>
+            <div className="space-y-3">
+              {portfolio.filter(p => p.video_url).map(item => (
+                <VideoEmbed key={item.id} videoUrl={item.video_url} title={item.title} />
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* FAQ */}
         <div className="px-4 py-3">
           <VendorFAQ vendorName={vendor.business_name} category={vendor.category} />
@@ -437,6 +450,18 @@ const VendorProfile = () => {
                   {vendor.description || `Professional ${vendor.category} services for your special day.`}
                 </p>
               </div>
+
+              {/* Video Reels */}
+              {portfolio.filter(p => p.video_url).length > 0 && (
+                <div className="bg-card border border-border/50 rounded-2xl p-6">
+                  <h2 className="text-xl font-bold mb-4">Video Reels</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {portfolio.filter(p => p.video_url).map(item => (
+                      <VideoEmbed key={item.id} videoUrl={item.video_url} title={item.title} />
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Services */}
               {services.length > 0 && (
