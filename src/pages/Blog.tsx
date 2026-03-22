@@ -301,21 +301,21 @@ export default function Blog() {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-primary to-accent">
+      <section className="py-16 px-4 sm:px-6 bg-foreground">
         <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4 text-white">
+          <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4 text-background">
             Get Wedding Tips in Your Inbox
           </h2>
-          <p className="text-white/90 text-lg mb-8">
-            Join 50,000+ couples receiving expert wedding planning advice every week.
+          <p className="text-background/70 text-lg mb-8">
+            Join couples receiving expert wedding planning advice every week.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-6 py-3 rounded-full border-2 border-white/20 bg-white/10  text-white placeholder:text-white/60 focus:outline-none focus:border-white/40"
+              className="flex-1 px-6 py-3 rounded-full border border-background/20 bg-background/10 text-background placeholder:text-background/50 focus:outline-none focus:border-background/40"
             />
-            <Button className="bg-white text-primary hover:bg-white/90 rounded-full px-8">
+            <Button className="bg-background text-foreground hover:bg-background/90 rounded-full px-8">
               Subscribe
             </Button>
           </div>
