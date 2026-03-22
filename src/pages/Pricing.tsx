@@ -149,7 +149,7 @@ export default function Pricing() {
               >
                 {plan.popular && (
                   <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
-                    {offerActive ? "🔥 50% OFF" : "Best Value"}
+                    Best Value
                   </Badge>
                 )}
                 {plan.highlight && (
