@@ -168,24 +168,21 @@
 }
 
 @layer components {
-  /* Clean Glass Effects */
+  /* Clean Solid Effects (no backdrop-blur for performance) */
   .glass {
-    @apply backdrop-blur-xl;
-    background: rgba(255, 255, 255, 0.9);
+    background: hsl(var(--card));
     border: 1px solid rgba(0, 0, 0, 0.04);
     box-shadow: var(--shadow-md);
   }
   
   .glass-intense {
-    @apply backdrop-blur-2xl;
-    background: rgba(255, 255, 255, 0.95);
+    background: hsl(var(--card));
     border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: var(--shadow-lg);
   }
   
   .glass-subtle {
-    @apply backdrop-blur-lg;
-    background: rgba(255, 255, 255, 0.8);
+    background: hsl(var(--muted));
     border: 1px solid rgba(0, 0, 0, 0.03);
     box-shadow: var(--shadow-sm);
   }
@@ -266,7 +263,6 @@
   .nav-dropdown {
     @apply rounded-xl;
     background: hsl(var(--popover));
-    backdrop-filter: blur(16px);
     box-shadow: var(--shadow-xl);
     border: 1px solid rgba(0,0,0,0.06);
   }

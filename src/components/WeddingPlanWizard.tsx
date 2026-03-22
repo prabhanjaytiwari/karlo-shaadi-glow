@@ -589,7 +589,7 @@ export function WeddingPlanWizard() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-lg shadow-black/5 border border-white/60 mb-8"
+            className="bg-card rounded-3xl p-6 shadow-[var(--shadow-md)] mb-8"
           >
             <div className="flex items-center gap-3 mb-1">
               <span className="text-2xl">{generatingSteps[activeGenStep].emoji}</span>
@@ -687,7 +687,7 @@ export function WeddingPlanWizard() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-sm border border-white/40 px-5 py-3 rounded-2xl"
+            className="flex items-center justify-center gap-2 bg-muted/50 border border-border/30 px-5 py-3 rounded-2xl"
           >
             <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
             <span className="text-xs text-muted-foreground">This may take 15-30 seconds</span>
@@ -700,7 +700,7 @@ export function WeddingPlanWizard() {
   return (
     <PremiumBackground variant="wedding" pattern className="min-h-screen flex flex-col">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="h-1 bg-muted">
           <motion.div className="h-full bg-gradient-to-r from-accent to-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
         </div>
@@ -732,7 +732,7 @@ export function WeddingPlanWizard() {
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/90 backdrop-blur-xl border-t border-border/50 safe-area-bottom">
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/30 shadow-[0_-1px_3px_rgba(0,0,0,0.06)] safe-area-bottom">
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           <Button variant="outline" onClick={handleBack} disabled={step === 1} size="sm" className="gap-1.5">
             <ArrowLeft className="h-4 w-4" />

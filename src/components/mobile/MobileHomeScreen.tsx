@@ -195,7 +195,7 @@ export function MobileHomeScreen() {
     <div className="min-h-screen bg-background">
 
       {/* ── STICKY HEADER with Menu ── */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50">
+      <header className="sticky top-0 z-50 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-3">
             <button
@@ -390,7 +390,7 @@ export function MobileHomeScreen() {
                   style={{ minWidth: '64px' }}
                 >
                   <div className="w-14 h-14 rounded-full overflow-hidden shadow-sm">
-                    <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" />
+                    <img src={cat.image} alt={cat.label} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   </div>
                   <span className="text-[10px] font-medium text-foreground text-center leading-tight">{cat.label}</span>
                 </button>
@@ -420,7 +420,7 @@ export function MobileHomeScreen() {
                     className="flex-shrink-0 w-44 rounded-xl overflow-hidden bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform text-left"
                   >
                     <div className="w-full h-28 overflow-hidden">
-                      <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" />
+                      <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     </div>
                     <div className="p-2.5">
                       <p className="text-xs font-semibold text-foreground truncate">{vendor.business_name}</p>
@@ -459,7 +459,7 @@ export function MobileHomeScreen() {
                 className="flex flex-col rounded-xl overflow-hidden bg-card active:scale-[0.97] transition-transform text-left shadow-[var(--shadow-xs)]"
               >
                 <div className="w-full h-20 overflow-hidden">
-                  <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
+                  <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div className="p-2.5">
                   <p className="text-xs font-semibold text-foreground leading-tight">{tool.title}</p>
@@ -484,7 +484,7 @@ export function MobileHomeScreen() {
                   className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-[var(--shadow-xs)]"
                 >
                   <div className="w-full h-20 overflow-hidden">
-                    <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
+                    <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   </div>
                   <div className="p-2.5 bg-card">
                     <p className="text-[11px] font-semibold text-foreground leading-tight">{tool.title}</p>
@@ -625,7 +625,7 @@ export function MobileHomeScreen() {
         {/* ── SUCCESS STORIES + REVIEWS ── */}
         <section className="px-4 space-y-3">
           <div className="relative rounded-xl overflow-hidden">
-            <img src={coupleImage} alt="Real couples" className="w-full h-36 object-cover" />
+            <img src={coupleImage} alt="Real couples" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <p className="text-white text-sm font-display font-semibold">Real Couples, Real Celebrations</p>
@@ -663,7 +663,7 @@ export function MobileHomeScreen() {
         {/* ── FOR VENDORS BANNER ── */}
         <section className="px-4">
           <div className="relative rounded-xl overflow-hidden">
-            <img src={fireworksImage} alt="For vendors" className="w-full h-36 object-cover" />
+            <img src={fireworksImage} alt="For vendors" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>

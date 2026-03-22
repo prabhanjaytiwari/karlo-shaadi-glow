@@ -188,9 +188,9 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-background to-slate-50/50">
+    <div className="min-h-screen bg-background">
       {/* Admin-specific top bar */}
-      <div className="sticky top-0 z-40 bg-background/98 backdrop-blur-xl border-b border-border shadow-sm">
+      <div className="sticky top-0 z-40 bg-background border-b border-border/50 shadow-[var(--shadow-xs)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">

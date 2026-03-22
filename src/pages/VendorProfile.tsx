@@ -183,10 +183,10 @@ const VendorProfile = () => {
           />
           {images.length > 1 && (
             <>
-              <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
+              <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/90 flex items-center justify-center">
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center">
+              <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background/90 flex items-center justify-center">
                 <ChevronRight className="h-4 w-4" />
               </button>
               {/* Dots */}
@@ -198,7 +198,7 @@ const VendorProfile = () => {
             </>
           )}
           {/* Photo count badge */}
-          <div className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full px-2.5 py-1 flex items-center gap-1 text-xs font-medium">
+          <div className="absolute bottom-3 right-3 bg-background/90 rounded-full px-2.5 py-1 flex items-center gap-1 text-xs font-medium">
             <Camera className="h-3 w-3" />
             {images.length}
           </div>
@@ -322,7 +322,7 @@ const VendorProfile = () => {
         </div>
 
         {/* Sticky Bottom CTA — WhatsApp Primary */}
-        <div className="fixed bottom-16 left-0 right-0 z-50 px-4 py-3 bg-background/95 backdrop-blur-xl border-t border-border/50">
+        <div className="fixed bottom-16 left-0 right-0 z-50 px-4 py-3 bg-background border-t border-border/30 shadow-[0_-2px_8px_rgba(0,0,0,0.06)]">
           <div className="flex gap-2">
             {vendor.whatsapp_number ? (
               <>
@@ -374,10 +374,10 @@ const VendorProfile = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         {images.length > 1 && (
           <>
-            <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-background transition-colors">
+            <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/90 flex items-center justify-center hover:bg-background transition-colors">
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-background transition-colors">
+            <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background/90 flex items-center justify-center hover:bg-background transition-colors">
               <ChevronRight className="h-5 w-5" />
             </button>
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">

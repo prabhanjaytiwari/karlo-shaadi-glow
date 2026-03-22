@@ -275,7 +275,7 @@ export default function Search() {
     return (
       <div className="min-h-screen bg-background">
         {/* ── STICKY HEADER ── */}
-        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 bg-background shadow-[var(--shadow-xs)]">
           <div className="flex items-center h-14 px-4 gap-3">
             <button
               onClick={() => navigate(-1)}
@@ -606,7 +606,7 @@ export default function Search() {
 
                             {/* Compare checkbox */}
                             <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.preventDefault()}>
-                              <div className="bg-background/95 backdrop-blur-sm border border-border/50 rounded-lg p-1.5 shadow-sm">
+                              <div className="bg-background border border-border/50 rounded-lg p-1.5 shadow-sm">
                                 <Checkbox
                                   checked={isSelected}
                                   onCheckedChange={(checked) => {
@@ -682,7 +682,7 @@ export default function Search() {
                           </Link>
 
                           <div className="absolute top-4 right-12 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.preventDefault()}>
-                            <div className="flex items-center gap-2 bg-background/95 backdrop-blur-sm border border-border/50 rounded-lg px-2.5 py-1.5 shadow-sm">
+                            <div className="flex items-center gap-2 bg-background border border-border/50 rounded-lg px-2.5 py-1.5 shadow-sm">
                               <Checkbox
                                 id={`compare-${vendor.id}`}
                                 checked={isSelected}
