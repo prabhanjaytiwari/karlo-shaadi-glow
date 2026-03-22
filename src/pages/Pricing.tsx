@@ -241,7 +241,7 @@ export default function Pricing() {
             <Crown className="h-10 w-10 text-primary mx-auto mb-3" />
             <h2 className={`font-bold ${isMobile ? 'text-xl' : 'text-3xl'} mb-3`}>Are You a Wedding Vendor?</h2>
             <p className="text-muted-foreground mb-6 text-sm max-w-lg mx-auto">
-              Join Karlo Shaadi and grow your business! {offerActive ? "50% OFF all plans — limited time!" : "Featured listings start at ₹4,999/month."}
+              Join Karlo Shaadi and grow your business! Featured listings start at ₹999/month.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/vendor-pricing"><Button size="lg" className="rounded-full px-8">View Vendor Pricing</Button></Link>
