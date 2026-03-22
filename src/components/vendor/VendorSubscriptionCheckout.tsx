@@ -33,11 +33,11 @@ const PLAN_DETAILS: Record<string, {
   icon: typeof Star;
   color: string;
   bgColor: string;
-  tierValue: "free" | "featured" | "sponsored";
+  tierValue: "free" | "featured" | "sponsored" | "starter" | "pro" | "elite";
 }> = {
-  silver: { name: "Silver", price: 4999, icon: Star, color: "text-slate-500", bgColor: "bg-slate-100", tierValue: "free" },
-  gold: { name: "Gold", price: 9999, icon: Sparkles, color: "text-amber-600", bgColor: "bg-amber-100", tierValue: "featured" },
-  diamond: { name: "Diamond", price: 19999, icon: Crown, color: "text-primary", bgColor: "bg-primary/10", tierValue: "sponsored" },
+  starter: { name: "Starter", price: 999, icon: Star, color: "text-slate-500", bgColor: "bg-slate-100", tierValue: "starter" },
+  pro: { name: "Pro", price: 2999, icon: Sparkles, color: "text-amber-600", bgColor: "bg-amber-100", tierValue: "pro" },
+  elite: { name: "Elite", price: 6999, icon: Crown, color: "text-primary", bgColor: "bg-primary/10", tierValue: "elite" },
 };
 
 export function VendorSubscriptionCheckout({
