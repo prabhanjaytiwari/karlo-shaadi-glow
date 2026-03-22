@@ -152,7 +152,7 @@ export default function Blog() {
             </Badge>
           )}
           <h1 className={isMobile ? "font-display font-bold text-2xl mb-3" : "font-display font-bold text-4xl sm:text-5xl md:text-6xl mb-6"}>
-            Karlo Shaadi <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Blog</span>
+            Karlo Shaadi Blog
           </h1>
           {!isMobile && (
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
