@@ -447,8 +447,8 @@ const Index = () => {
               </h2>
 
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                Over 50,000 couples have trusted us with their special day. From intimate gatherings to grand celebrations, 
-                we've been part of beautiful love stories across India.
+                Couples across India have trusted us with their special day. From intimate gatherings to grand celebrations, 
+                we're building beautiful love stories together.
               </p>
 
               <div className="space-y-4">
