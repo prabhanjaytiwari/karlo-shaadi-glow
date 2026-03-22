@@ -417,7 +417,7 @@ export function MobileHomeScreen() {
                   <button
                     key={vendor.id}
                     onClick={() => vendor.id?.startsWith?.('p') ? navigate('/search') : navigate(`/vendors/${vendor.id}`)}
-                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden border border-border/40 bg-card shadow-sm active:scale-[0.97] transition-transform text-left"
+                    className="flex-shrink-0 w-44 rounded-xl overflow-hidden bg-card shadow-[var(--shadow-xs)] active:scale-[0.97] transition-transform text-left"
                   >
                     <div className="w-full h-28 overflow-hidden">
                       <img src={image} alt={vendor.business_name} className="w-full h-full object-cover" />
