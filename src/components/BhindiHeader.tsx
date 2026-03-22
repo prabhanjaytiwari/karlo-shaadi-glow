@@ -171,12 +171,11 @@ export const BhindiHeader = () => {
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl hidden sm:block" />
+          <Link to="/" className="flex items-center gap-2 group">
             <img
               src={logo}
               alt="Karlo Shaadi Logo"
-              className="relative h-8 sm:h-10 md:h-11 w-auto transition-all group-hover:scale-105 duration-300"
+              className="h-8 sm:h-10 md:h-11 w-auto transition-transform group-hover:scale-[1.02] duration-300"
               style={{ mixBlendMode: 'multiply' }}
             />
           </Link>
