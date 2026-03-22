@@ -636,8 +636,8 @@ export default function Search() {
                         >
                           <Link to={`/vendors/${vendor.id}`}>
                             <div className={cn(
-                              "flex gap-5 p-5 rounded-2xl border transition-all duration-300 hover:shadow-md hover:-translate-y-px",
-                              isSponsored ? "border-primary/30 bg-gradient-to-r from-primary/5 to-transparent" : "border-border/40 bg-card hover:border-border"
+                              "flex gap-5 p-5 rounded-2xl transition-all duration-300 hover:shadow-[var(--shadow-md)] hover:-translate-y-px",
+                              isSponsored ? "bg-card shadow-[var(--shadow-md)]" : "bg-card shadow-[var(--shadow-sm)]"
                             )}>
                               {(() => {
                                 const imgUrl = vendor.logo_url || vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
