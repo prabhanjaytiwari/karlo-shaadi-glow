@@ -61,7 +61,7 @@ const familyRoles = [
     image: haldiImg,
     icon: Shield,
     features: ["Verified Vendors", "Muhurat Finder", "Budget Calculator"],
-    gradient: "from-emerald-500/20 to-teal-500/20",
+    gradient: "",
   },
 ];
 
