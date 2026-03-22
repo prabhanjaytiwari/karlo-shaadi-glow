@@ -295,8 +295,8 @@ export default function SubscriptionCheckout() {
                     </>
                   ) : (
                     <>
-                      {offerActive ? <Zap className="h-4 w-4 mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                      {offerActive ? `Pay ₹${finalPrice} — 50% OFF` : "Proceed to Payment"}
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Proceed to Payment — ₹{finalPrice}
                     </>
                   )}
                 </Button>
