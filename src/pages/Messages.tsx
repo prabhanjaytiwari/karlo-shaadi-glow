@@ -299,7 +299,7 @@ export default function Messages() {
             <div className="grid md:grid-cols-3 h-full">
               {showConversationList && (
                 <div className={`border-r border-border/30 flex flex-col ${isMobile && selectedVendor ? 'hidden' : ''}`}>
-                  <div className="p-3 md:p-4 border-b">
+                  <div className="p-3 md:p-4 border-b border-border/30">
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input placeholder="Search conversations..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" />
