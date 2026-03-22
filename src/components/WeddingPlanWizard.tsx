@@ -700,7 +700,7 @@ export function WeddingPlanWizard() {
   return (
     <PremiumBackground variant="wedding" pattern className="min-h-screen flex flex-col">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border/30 shadow-[var(--shadow-xs)]">
         <div className="h-1 bg-muted">
           <motion.div className="h-full bg-gradient-to-r from-accent to-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.3 }} />
         </div>
