@@ -290,7 +290,7 @@ export const BhindiHeader = () => {
               </NavigationMenu>
 
               <a href="tel:+917011460321" className="hidden xl:flex">
-                <Button variant="outline" size="sm" className="gap-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5">
+                <Button variant="outline" size="sm" className="gap-2">
                   <Phone className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium">Free Consultation</span>
                 </Button>
