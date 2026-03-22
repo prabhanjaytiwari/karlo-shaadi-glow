@@ -342,7 +342,7 @@ const Index = () => {
               <h2 className="font-display font-semibold text-2xl md:text-3xl">
                 Planning Made <span className="text-accent">Simple</span>
               </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-accent/30 via-accent to-accent/30 rounded-full" />
+              
 
               <div className="space-y-8">
                 {[{
