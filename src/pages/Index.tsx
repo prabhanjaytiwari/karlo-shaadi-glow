@@ -327,7 +327,7 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] img-luxury group border-2 border-accent/20">
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-[var(--shadow-md)] group">
                 <CinematicImage src={weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full" cinematic />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
