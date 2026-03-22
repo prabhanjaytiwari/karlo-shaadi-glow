@@ -200,7 +200,7 @@ export default function SuccessStories() {
                     </h3>
                     <div className="grid grid-cols-3 gap-4">
                       {featuredStory.photos.map((photo, idx) => (
-                        <div key={idx} className="aspect-square rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10" />
+                        <div key={idx} className="aspect-square rounded-2xl bg-primary/10" />
                       ))}
                     </div>
                   </div>
@@ -252,7 +252,7 @@ export default function SuccessStories() {
                 className="group bg-card shadow-[var(--shadow-sm)] rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all cursor-pointer"
               >
                 {/* Image */}
-                <div className="relative h-64 bg-gradient-to-br from-primary/10 to-accent/10" />
+                <div className="relative h-64 bg-primary/10" />
                 
                 {/* Content */}
                 <div className="p-6 space-y-3">

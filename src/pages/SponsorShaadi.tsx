@@ -119,7 +119,7 @@ const SponsorShaadi = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <MobilePageHeader title="Sponsor Your Shaadi" />
       <SEO
         title="Sponsor Your Shaadi | Get Your Wedding Sponsored | Karlo Shaadi"

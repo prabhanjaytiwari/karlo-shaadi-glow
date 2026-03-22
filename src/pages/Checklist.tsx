@@ -639,7 +639,7 @@ export default function Checklist() {
         <section className="py-12">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-md mx-auto">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center mx-auto mb-4">
+              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="h-10 w-10 text-white" />
               </div>
               <h2 className="font-display font-bold text-2xl mb-2">

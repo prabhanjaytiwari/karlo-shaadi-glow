@@ -101,7 +101,7 @@ const VendorAuth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10 flex items-center justify-center p-6 pt-24">
+    <div className="min-h-screen bg-background flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-5xl">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left Side - Benefits */}
@@ -164,7 +164,7 @@ const VendorAuth = () => {
             </CardHeader>
             <CardContent>
               {/* New vendor CTA */}
-              <div className="mb-5 p-4 rounded-xl bg-gradient-to-br from-accent/10 to-primary/5 border border-accent/20">
+              <div className="mb-5 p-4 rounded-xl bg-muted/20 border border-accent/20">
                 <p className="text-sm font-semibold text-foreground mb-1">🚀 Naye vendor hain?</p>
                 <p className="text-xs text-muted-foreground mb-3">Apna vendor profile banayein minutes mein — aaj hi bookings paana shuru karein.</p>
                 <Button asChild className="w-full font-semibold" size="sm">

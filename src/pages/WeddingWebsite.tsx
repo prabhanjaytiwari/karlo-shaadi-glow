@@ -732,7 +732,7 @@ const WeddingWebsite = () => {
                     className="p-6 md:p-8"
                   >
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
                         <Heart className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -893,7 +893,7 @@ const WeddingWebsite = () => {
                     className="p-6 md:p-8"
                   >
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
                         <Calendar className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -941,7 +941,7 @@ const WeddingWebsite = () => {
                     className="p-6 md:p-8"
                   >
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
                         <Palette className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -1031,7 +1031,7 @@ const WeddingWebsite = () => {
                     className="p-6 md:p-8"
                   >
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
                         <Globe className="w-6 h-6 text-white" />
                       </div>
                       <div>
@@ -1165,7 +1165,7 @@ const WeddingWebsite = () => {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", damping: 15, stiffness: 100 }}
-                        className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center"
+                        className="w-24 h-24 mx-auto mb-6 rounded-full bg-primary flex items-center justify-center"
                       >
                         <motion.div
                           initial={{ scale: 0 }}

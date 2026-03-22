@@ -108,7 +108,7 @@ const VendorSuccessStories = () => {
       <MobilePageHeader title="Vendor Success Stories" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6 bg-gradient-to-br from-primary/5 via-accent/5 to-background">
+      <section className="pt-32 pb-16 px-4 sm:px-6 bg-background">
         <div className="container mx-auto max-w-6xl text-center">
           <Badge className="mb-4 bg-accent/10 text-accent border-accent/20">
             <Sparkles className="w-3 h-3 mr-1" />

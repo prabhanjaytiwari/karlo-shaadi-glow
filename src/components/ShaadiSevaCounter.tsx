@@ -77,7 +77,7 @@ export const ShaadiSevaCounter = ({ variant = "full" }: ShaadiSevaCounterProps) 
         <div className="text-2xl font-bold text-primary">₹{totalRaised.toLocaleString()}</div>
         <div className="text-xs text-muted-foreground mt-1">Total Raised</div>
       </div>
-      <div className="text-center p-4 rounded-2xl bg-gradient-to-br from-accent/10 to-primary/5 border border-accent/20">
+      <div className="text-center p-4 rounded-2xl bg-muted/20 border border-accent/20">
         <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center mx-auto mb-2">
           <Heart className="h-5 w-5 text-accent" />
         </div>

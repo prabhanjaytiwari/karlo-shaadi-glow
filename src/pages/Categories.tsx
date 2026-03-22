@@ -199,7 +199,7 @@ const Categories = () => {
                     <Link key={vendor.id} to={`/vendors/${vendor.id}`}>
                       <div className="rounded-2xl border border-border/50 bg-background p-4 hover:border-accent/30 hover:shadow-md transition-all">
                         <div className="flex gap-4">
-                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-accent/20 to-primary/10 flex items-center justify-center shrink-0 ">
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 ">
                             <span className="text-2xl font-bold text-accent">{vendor.business_name?.charAt(0) || "V"}</span>
                           </div>
                           <div className="flex-1 min-w-0">
@@ -233,7 +233,7 @@ const Categories = () => {
                       {categoryImages[cat.slug] ? (
                         <img src={categoryImages[cat.slug]} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-accent/15 to-primary/10 flex items-center justify-center">
+                        <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                           <span className="text-4xl font-bold text-accent/30">{cat.name.charAt(0)}</span>
                         </div>
                       )}
