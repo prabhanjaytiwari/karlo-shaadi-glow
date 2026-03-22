@@ -182,8 +182,7 @@ export default function Pricing() {
                   <Link to="/auth"><Button className="w-full mb-5 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90" size="lg">{plan.cta}</Button></Link>
                 ) : (
                   <Button className="w-full mb-5 rounded-xl" size="lg" onClick={handlePremiumClick}>
-                    {offerActive && <Zap className="h-4 w-4 mr-1" />}
-                    {offerActive ? "Claim 50% OFF Now" : plan.cta}
+                    {plan.cta}
                   </Button>
                 )}
 
