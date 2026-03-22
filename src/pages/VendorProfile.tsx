@@ -322,7 +322,7 @@ const VendorProfile = () => {
         </div>
 
         {/* Sticky Bottom CTA — WhatsApp Primary */}
-        <div className="fixed bottom-16 left-0 right-0 z-50 px-4 py-3 bg-background/95 backdrop-blur-xl border-t border-border/50">
+        <div className="fixed bottom-16 left-0 right-0 z-50 px-4 py-3 bg-background border-t border-border/30 shadow-[0_-2px_8px_rgba(0,0,0,0.06)]">
           <div className="flex gap-2">
             {vendor.whatsapp_number ? (
               <>
