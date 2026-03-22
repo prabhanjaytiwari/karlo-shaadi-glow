@@ -481,7 +481,7 @@ export function MobileHomeScreen() {
                 <button
                   key={tool.route}
                   onClick={() => navigate(tool.route)}
-                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-sm border border-border/40"
+                  className="flex-shrink-0 w-36 rounded-xl overflow-hidden active:scale-[0.97] transition-transform text-left shadow-[var(--shadow-xs)]"
                 >
                   <div className="w-full h-20 overflow-hidden">
                     <img src={tool.image} alt={tool.title} className="w-full h-full object-cover" />
