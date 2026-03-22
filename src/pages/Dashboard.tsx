@@ -209,7 +209,7 @@ const Dashboard = () => {
                   <motion.button
                     key={action.route}
                     onClick={() => navigate(action.route)}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-card border border-border active:scale-95 transition-transform"
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-card shadow-[var(--shadow-sm)] active:scale-95 transition-transform"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 + i * 0.04 }}
