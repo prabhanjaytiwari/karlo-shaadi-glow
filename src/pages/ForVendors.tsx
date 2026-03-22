@@ -308,7 +308,7 @@ const ForVendors = () => {
 
         {/* Vendor Testimonials */}
         <section className="py-16 md:py-24 border-t border-border">
-          <div className="container mx-auto px-4 md:px-6">
+           <div className="container mx-auto px-4 sm:px-6 lg:px-10">
             <h2 className="font-display font-bold text-xl md:text-3xl text-center text-foreground mb-8">
               Vendors Love Karlo Shaadi
             </h2>
