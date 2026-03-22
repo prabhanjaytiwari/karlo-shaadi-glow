@@ -1274,7 +1274,7 @@ export default function VendorOnboarding() {
                       </div>
                     </motion.div>
 
-                    {offerActive && <CountdownBanner compact className="rounded-xl" />}
+                    {/* Promo banner removed */}
 
                     <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
                       {SUBSCRIPTION_PLANS.map((plan, idx) => {
