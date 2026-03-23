@@ -3,14 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowLeft, Share2, Bookmark } from "lucide-react";
-import photographyImg from "@/assets/category-photography.jpg";
-import venueImg from "@/assets/category-venue.jpg";
-import decorationImg from "@/assets/category-decoration.jpg";
-import cateringImg from "@/assets/category-catering.jpg";
-import mehendiImg from "@/assets/category-mehendi.jpg";
-import makeupImg from "@/assets/category-bridal-makeup.jpg";
 import { SEO } from "@/components/SEO";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
+import { cdn } from "@/lib/cdnAssets";
 
 // Blog post data - in production this would come from a CMS or database
 const blogPosts: Record<string, {
@@ -178,7 +173,7 @@ You've done the work. Now relax and enjoy every moment of your special day!
     date: "March 15, 2025",
     readTime: "12 min read",
     category: "Planning Guide",
-    image: venueImg
+    image: cdn.categoryVenue
   },
   "10-questions-ask-wedding-photographer": {
     id: 2,
@@ -257,7 +252,7 @@ Instagram shows highlights. Ask to see a complete wedding to understand their co
     date: "March 12, 2025",
     readTime: "8 min read",
     category: "Photography",
-    image: photographyImg
+    image: cdn.categoryPhotography
   },
   "budget-friendly-wedding-decor-ideas": {
     id: 3,
@@ -343,7 +338,7 @@ Most decor items can be rented at a fraction of purchase cost.
     date: "March 10, 2025",
     readTime: "10 min read",
     category: "Decoration",
-    image: decorationImg
+    image: cdn.categoryDecoration
   },
   "north-indian-vs-south-indian-weddings": {
     id: 4,
@@ -430,7 +425,7 @@ Despite differences, both traditions emphasize:
     date: "March 8, 2025",
     readTime: "15 min read",
     category: "Traditions",
-    image: mehendiImg
+    image: cdn.categoryMehendi
   },
   "how-to-choose-perfect-wedding-venue": {
     id: 5,
@@ -512,7 +507,7 @@ For those wanting historical charm
     date: "March 5, 2025",
     readTime: "11 min read",
     category: "Venues",
-    image: venueImg
+    image: cdn.categoryVenue
   },
   "wedding-catering-menu-planning-500-guests": {
     id: 6,
@@ -601,7 +596,7 @@ Always plan for:
     date: "March 3, 2025",
     readTime: "9 min read",
     category: "Catering",
-    image: cateringImg
+    image: cdn.categoryCatering
   },
   "destination-weddings-india-top-locations": {
     id: 7,
@@ -693,7 +688,7 @@ Typical destination wedding costs:
     date: "March 1, 2025",
     readTime: "13 min read",
     category: "Destinations",
-    image: venueImg
+    image: cdn.categoryVenue
   },
   "last-minute-wedding-planning-3-months": {
     id: 8,
@@ -781,7 +776,7 @@ Whether it's a surprise engagement or sudden venue availability, 3-month wedding
     date: "February 28, 2025",
     readTime: "10 min read",
     category: "Planning Guide",
-    image: makeupImg
+    image: cdn.categoryBridalMakeup
   },
   "bridal-mehendi-designs-traditional-contemporary": {
     id: 9,
@@ -876,7 +871,7 @@ Mehendi is more than decoration – it's tradition, art, and blessing combined.
     date: "February 25, 2025",
     readTime: "7 min read",
     category: "Mehendi",
-    image: mehendiImg
+    image: cdn.categoryMehendi
   }
 };
 

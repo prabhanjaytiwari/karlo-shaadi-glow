@@ -19,12 +19,12 @@ import { SEO } from "@/components/SEO";
 import { PremiumBackground, PoweredByBadge } from "@/components/ui/premium-background";
 import { PremiumCard, PremiumBadge } from "@/components/ui/premium-card";
 import { WhatsAppStatusShare } from "@/components/WhatsAppStatusShare";
-import weddingManagerImg from "@/assets/wedding-manager-cta.jpg";
 import {
   Calendar, MapPin, Users, IndianRupee, Share2, Bookmark, CheckCircle2, Clock,
   Sparkles, Heart, MessageCircle, ChevronRight, Loader2, PartyPopper, ExternalLink,
   Search, Phone, Crown, ShieldCheck, Star, ArrowRight, Send,
 } from "lucide-react";
+import { cdn } from "@/lib/cdnAssets";
 
 interface DayEvent {
   time: string;
@@ -459,7 +459,7 @@ export default function WeddingPlanResult() {
                 {/* Hero Card */}
                 <Card className="overflow-hidden">
                   <div className="relative h-40 md:h-52 overflow-hidden">
-                    <img src={weddingManagerImg} alt="Karlo Shaadi Wedding Manager" className="w-full h-full object-cover" />
+                    <img src={cdn.weddingManagerCta} alt="Karlo Shaadi Wedding Manager" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4">
                       <PremiumBadge variant="gold" icon={<Crown className="h-3 w-3" />} className="mb-2">Premium Service</PremiumBadge>

@@ -12,71 +12,44 @@ import {
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
+import { cdn } from "@/lib/cdnAssets";
 
 // Category images
-import categoryVenue from '@/assets/category-venue.jpg';
-import categoryPhotography from '@/assets/category-photography.jpg';
-import categoryDecoration from '@/assets/category-decoration.jpg';
-import categoryMakeup from '@/assets/category-makeup.jpg';
-import categoryCatering from '@/assets/category-catering.jpg';
-import categoryMehendi from '@/assets/category-mehendi.jpg';
-import categoryMusic from '@/assets/category-music.jpg';
-import categoryJewelry from '@/assets/category-jewelry.jpg';
-import categoryEntertainment from '@/assets/category-entertainment.jpg';
 
 // Section images
-import heroImage from '@/assets/hero-wedding-phere.jpeg';
-import coupleImage from '@/assets/section-couples.jpg';
-import vendorImage1 from '@/assets/wedding-couple-1.jpg';
-import vendorImage2 from '@/assets/wedding-ceremony.jpg';
-import vendorImage3 from '@/assets/wedding-decoration.jpg';
-import vendorImage4 from '@/assets/wedding-haldi.jpg';
-import fireworksImage from '@/assets/wedding-fireworks.jpg';
-import logoImage from '@/assets/logo-new.png';
 
 // Tool images
-import toolBudgetCalc from '@/assets/tool-budget-calculator.jpg';
-import toolMuhurat from '@/assets/tool-muhurat-finder.jpg';
-import toolInvite from '@/assets/tool-invite-creator.jpg';
-import toolPlanner from '@/assets/tool-wedding-planner.jpg';
-import toolCoupleQuiz from '@/assets/tool-couple-quiz.jpg';
 
-import toolSpeechWriter from '@/assets/tool-speech-writer.jpg';
-import toolMusicGen from '@/assets/tool-music-generator.jpg';
-import toolVendorScore from '@/assets/tool-vendor-score.jpg';
 
 // Menu images
-import menuCategoriesImg from '@/assets/menu-categories.jpg';
-import menuDealsImg from '@/assets/menu-deals.jpg';
-import menuSevaImg from '@/assets/menu-seva.jpg';
 
 // ─── DATA ─────────────────────────────────────────────
 
 const vendorCategories = [
-  { image: categoryVenue, label: 'Venue', category: 'venues' },
-  { image: categoryPhotography, label: 'Photography', category: 'photography' },
-  { image: categoryDecoration, label: 'Decoration', category: 'decoration' },
-  { image: categoryMakeup, label: 'Makeup', category: 'makeup' },
-  { image: categoryCatering, label: 'Catering', category: 'catering' },
-  { image: categoryMehendi, label: 'Mehendi', category: 'mehendi' },
-  { image: categoryMusic, label: 'Music', category: 'music' },
-  { image: categoryJewelry, label: 'Jewelry', category: 'jewelry' },
-  { image: categoryEntertainment, label: 'Entertainment', category: 'entertainment' },
+  { image: cdn.categoryVenue, label: 'Venue', category: 'venues' },
+  { image: cdn.categoryPhotography, label: 'Photography', category: 'photography' },
+  { image: cdn.categoryDecoration, label: 'Decoration', category: 'decoration' },
+  { image: cdn.categoryMakeup, label: 'Makeup', category: 'makeup' },
+  { image: cdn.categoryCatering, label: 'Catering', category: 'catering' },
+  { image: cdn.categoryMehendi, label: 'Mehendi', category: 'mehendi' },
+  { image: cdn.categoryMusic, label: 'Music', category: 'music' },
+  { image: cdn.categoryJewelry, label: 'Jewelry', category: 'jewelry' },
+  { image: cdn.categoryEntertainment, label: 'Entertainment', category: 'entertainment' },
 ];
 
 const planningTools = [
-  { title: 'Budget Calculator', desc: 'Plan your budget smartly', icon: Calculator, route: '/budget-calculator', image: toolBudgetCalc },
-  { title: 'Muhurat Finder', desc: 'Find auspicious dates', icon: CalendarHeart, route: '/muhurat-finder', image: toolMuhurat },
-  { title: 'Invite Creator', desc: 'Design digital invites', icon: Heart, route: '/invite-creator', image: toolInvite },
-  { title: 'Wedding Planner', desc: 'Smart wedding planning', icon: Sparkles, route: '/plan-wizard', image: toolPlanner },
+  { title: 'Budget Calculator', desc: 'Plan your budget smartly', icon: Calculator, route: '/budget-calculator', image: cdn.toolBudgetCalculator },
+  { title: 'Muhurat Finder', desc: 'Find auspicious dates', icon: CalendarHeart, route: '/muhurat-finder', image: cdn.toolMuhuratFinder },
+  { title: 'Invite Creator', desc: 'Design digital invites', icon: Heart, route: '/invite-creator', image: cdn.toolInviteCreator },
+  { title: 'Wedding Planner', desc: 'Smart wedding planning', icon: Sparkles, route: '/plan-wizard', image: cdn.toolWeddingPlanner },
 ];
 
 const funTools = [
-  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, image: toolCoupleQuiz },
+  { title: 'Couple Quiz', tagline: 'How well do you know each other?', route: '/couple-quiz', icon: Heart, image: cdn.toolCoupleQuiz },
   
-  { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, image: toolSpeechWriter },
-  { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, image: toolMusicGen },
-  { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, image: toolVendorScore },
+  { title: 'Speech Writer', tagline: 'Craft perfect speeches', route: '/speech-writer', icon: Mic, image: cdn.toolSpeechWriter },
+  { title: 'Music Generator', tagline: 'Create your anthem', route: '/music-generator', icon: Music, image: cdn.toolMusicGenerator },
+  { title: 'Vendor Score', tagline: 'Check trust scores', route: '/vendor-check', icon: BadgeCheck, image: cdn.toolVendorScore },
 ];
 
 const howItWorksSteps = [
@@ -100,9 +73,9 @@ const menuQuickLinks = [
 ];
 
 const menuFeatureCards = [
-  { label: 'Browse Categories', subtitle: '50+ vendor types', image: menuCategoriesImg, route: '/categories' },
-  { label: 'Deals & Offers', subtitle: 'Exclusive savings', image: menuDealsImg, route: '/deals' },
-  { label: 'Shaadi Seva', subtitle: 'Give back with love', image: menuSevaImg, route: '/shaadi-seva' },
+  { label: 'Browse Categories', subtitle: '50+ vendor types', image: cdn.menuCategories, route: '/categories' },
+  { label: 'Deals & Offers', subtitle: 'Exclusive savings', image: cdn.menuDeals, route: '/deals' },
+  { label: 'Shaadi Seva', subtitle: 'Give back with love', image: cdn.menuSeva, route: '/shaadi-seva' },
 ];
 
 // ─── HOOKS ────────────────────────────────────────────
@@ -176,10 +149,10 @@ export function MobileHomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const placeholderVendors = [
-    { id: 'p1', business_name: 'Royal Palace Venue', category: 'venues', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: vendorImage1 },
-    { id: 'p2', business_name: 'Candid Captures', category: 'photography', city: 'Delhi', average_rating: 4.8, total_reviews: 95, image: vendorImage2 },
-    { id: 'p3', business_name: 'Dream Decor Studio', category: 'decoration', city: 'Jaipur', average_rating: 4.7, total_reviews: 67, image: vendorImage3 },
-    { id: 'p4', business_name: 'Haldi Moments', category: 'photography', city: 'Bangalore', average_rating: 4.9, total_reviews: 112, image: vendorImage4 },
+    { id: 'p1', business_name: 'Royal Palace Venue', category: 'venues', city: 'Mumbai', average_rating: 4.9, total_reviews: 128, image: cdn.weddingCouple1 },
+    { id: 'p2', business_name: 'Candid Captures', category: 'photography', city: 'Delhi', average_rating: 4.8, total_reviews: 95, image: cdn.weddingCeremony },
+    { id: 'p3', business_name: 'Dream Decor Studio', category: 'decoration', city: 'Jaipur', average_rating: 4.7, total_reviews: 67, image: cdn.weddingDecoration },
+    { id: 'p4', business_name: 'Haldi Moments', category: 'photography', city: 'Bangalore', average_rating: 4.9, total_reviews: 112, image: cdn.weddingHaldi },
   ];
 
   const displayVendors = vendors.length > 0 ? vendors : placeholderVendors;
@@ -204,7 +177,7 @@ export function MobileHomeScreen() {
             >
               <Menu className="h-5 w-5 text-foreground" />
             </button>
-            <img src={logoImage} alt="Karlo Shaadi" className="h-7 object-contain" />
+            <img src={cdn.logo} alt="Karlo Shaadi" className="h-7 object-contain" />
           </div>
           <div className="flex items-center gap-1">
             <button
@@ -234,7 +207,7 @@ export function MobileHomeScreen() {
 
           {/* Menu Header with gradient */}
           <div className="relative px-5 pt-6 pb-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
-            <img src={logoImage} alt="Karlo Shaadi" className="h-8 object-contain" />
+            <img src={cdn.logo} alt="Karlo Shaadi" className="h-8 object-contain" />
             <p className="text-[10px] text-muted-foreground mt-1 tracking-wide">India's Most Trending Wedding Platform</p>
           </div>
 
@@ -319,7 +292,7 @@ export function MobileHomeScreen() {
         {/* ── HERO BANNER (full-bleed) ── */}
         <section className="mx-3 mt-3">
           <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-md)]">
-            <img src={heroImage} alt="Wedding celebration" className="w-full h-56 object-cover" />
+            <img src={cdn.heroWeddingPhere} alt="Wedding celebration" className="w-full h-56 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <span className="inline-block text-amber-300 text-[9px] font-bold tracking-[0.25em] uppercase mb-2 bg-black/30 px-2 py-0.5 rounded-full">
@@ -412,7 +385,7 @@ export function MobileHomeScreen() {
             <div className="flex gap-3 pb-1" style={{ width: 'max-content' }}>
               {displayVendors.map((vendor: any) => {
                 const portfolioImg = vendor.vendor_portfolio?.sort((a: any, b: any) => (a.display_order || 0) - (b.display_order || 0))?.[0]?.image_url;
-                const image = vendor.image || vendor.logo_url || portfolioImg || vendorImage1;
+                const image = vendor.image || vendor.logo_url || portfolioImg || cdn.weddingCouple1;
                 return (
                   <button
                     key={vendor.id}
@@ -625,7 +598,7 @@ export function MobileHomeScreen() {
         {/* ── SUCCESS STORIES + REVIEWS ── */}
         <section className="px-4 space-y-3">
           <div className="relative rounded-xl overflow-hidden">
-            <img src={coupleImage} alt="Real couples" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
+            <img src={cdn.sectionCouples} alt="Real couples" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <p className="text-white text-sm font-display font-semibold">Real Couples, Real Celebrations</p>
@@ -663,7 +636,7 @@ export function MobileHomeScreen() {
         {/* ── FOR VENDORS BANNER ── */}
         <section className="px-4">
           <div className="relative rounded-xl overflow-hidden">
-            <img src={fireworksImage} alt="For vendors" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
+            <img src={cdn.weddingFireworks} alt="For vendors" className="w-full h-36 object-cover" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-black/50" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <p className="text-white text-sm font-display font-semibold">Grow Your Wedding Business</p>

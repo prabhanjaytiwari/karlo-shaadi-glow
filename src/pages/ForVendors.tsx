@@ -11,9 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import heroVendorsImg from "@/assets/hero-vendors-success.jpg";
-import sectionVendors from "@/assets/section-vendors.jpg";
-import weddingFriends from "@/assets/wedding-friends.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const vendorCategoryDefs = [
   { name: "Photographers", icon: Camera, dbCategory: "photography" },
@@ -106,7 +104,7 @@ const ForVendors = () => {
         <section className="relative overflow-hidden">
           <div className="relative h-[70vh] min-h-[480px] max-h-[600px]">
             <img
-              src={heroVendorsImg}
+              src={cdn.heroVendorsSuccess}
               alt="Wedding vendors celebrating"
               className="w-full h-full object-cover"
               style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.7)' }}
@@ -262,7 +260,7 @@ const ForVendors = () => {
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
               <div className="hidden lg:block">
                 <div className="relative rounded-3xl overflow-hidden aspect-[4/3]">
-                  <img src={weddingFriends} alt="Wedding vendor team" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08) brightness(0.9)' }} />
+                  <img src={cdn.weddingFriends} alt="Wedding vendor team" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08) brightness(0.9)' }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
               </div>
@@ -383,7 +381,7 @@ const ForVendors = () => {
         <section className="relative overflow-hidden">
           <div className="relative h-[50vh] min-h-[360px]">
             <img
-              src={sectionVendors}
+              src={cdn.sectionVendors}
               alt="Wedding vendors"
               className="w-full h-full object-cover"
               style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.6)' }}

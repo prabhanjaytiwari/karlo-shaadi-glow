@@ -4,7 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Search, Calendar, Shield, Heart } from 'lucide-react';
-import onboardingHero from '@/assets/onboarding-couple-hero.jpg';
+import { cdn } from "@/lib/cdnAssets";
 
 const ONBOARDING_KEY = 'karlo-onboarding-seen';
 
@@ -93,7 +93,7 @@ export default function Onboarding() {
                     {/* Hero image card with glassmorphism */}
                     <div className="relative w-56 h-56 mb-8 rounded-3xl overflow-hidden shadow-2xl">
                       <img
-                        src={onboardingHero}
+                        src={cdn.onboardingCoupleHero}
                         alt=""
                         className="w-full h-full object-cover"
                       />

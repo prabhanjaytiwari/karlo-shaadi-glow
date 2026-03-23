@@ -10,7 +10,7 @@ import { SEO } from "@/components/SEO";
 import { CinematicImage } from "@/components/CinematicImage";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
-import heroFaqImg from "@/assets/hero-faq-support.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const faqCategories = [
   {
@@ -95,7 +95,7 @@ export default function FAQ() {
       ) : (
         <section className="relative overflow-hidden pt-20">
           <div className="absolute inset-0">
-            <CinematicImage src={heroFaqImg} alt="Support team" className="w-full h-full" cinematic />
+            <CinematicImage src={cdn.heroFaqSupport} alt="Support team" className="w-full h-full" cinematic />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
           </div>
           <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-20">

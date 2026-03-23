@@ -10,7 +10,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { getPerDayPrice } from "@/components/CountdownBanner";
-import heroImg from "@/assets/hero-pricing-carefree.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const faqs = [
   { q: "Is the Free plan really free forever?", a: "Yes! The Free plan includes all essential features - unlimited vendor search, bookings, messaging, budget tools, and more. No credit card required, no hidden fees, ever." },
@@ -108,7 +108,7 @@ export default function Pricing() {
 
       {/* Hero with Image */}
       <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-72 mt-20'}`}>
-        <img src={heroImg} alt="Happy couple" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
+        <img src={cdn.heroPricingCarefree} alt="Happy couple" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         <div className={`absolute bottom-5 ${isMobile ? 'left-4 right-4' : 'left-12 right-12'}`}>
           <Badge className="mb-2 bg-accent/90 text-accent-foreground text-xs">🎉 100% Free for Couples!</Badge>

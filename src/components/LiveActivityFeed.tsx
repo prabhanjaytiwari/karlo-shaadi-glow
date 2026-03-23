@@ -2,20 +2,16 @@ import { useState, useEffect } from "react";
 import { Heart, MapPin, Sparkles, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { cdn } from "@/lib/cdnAssets";
 
 // Wedding images
-import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
-import weddingCouple2 from "@/assets/wedding-couple-2.jpg";
-import weddingHaldi from "@/assets/wedding-haldi.jpg";
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
-import weddingBridesmaids from "@/assets/wedding-bridesmaids.jpg";
 
 const recentCelebrations = [
-  { id: 1, couple: "Priya & Rahul", city: "Udaipur", venue: "Lake Palace", theme: "Royal Rajasthani", guests: "450", emoji: "👑", quote: "Our fairytale came true", image: weddingCouple1 },
-  { id: 2, couple: "Ananya & Vikram", city: "Jaipur", venue: "Samode Palace", theme: "Vintage Elegance", guests: "320", emoji: "🏰", quote: "Beyond our dreams", image: weddingCouple2 },
-  { id: 3, couple: "Sneha & Arjun", city: "Goa", venue: "Beach Resort", theme: "Boho Beach", guests: "180", emoji: "🌊", quote: "Perfect sunset wedding", image: weddingHaldi },
-  { id: 4, couple: "Kavya & Siddharth", city: "Mumbai", venue: "Taj Lands End", theme: "Modern Luxury", guests: "600", emoji: "✨", quote: "Magical in every way", image: weddingCeremony },
-  { id: 5, couple: "Meera & Rohan", city: "Delhi", venue: "Leela Palace", theme: "Grand Traditional", guests: "800", emoji: "🪔", quote: "Our Big Fat Indian Wedding", image: weddingBridesmaids },
+  { id: 1, couple: "Priya & Rahul", city: "Udaipur", venue: "Lake Palace", theme: "Royal Rajasthani", guests: "450", emoji: "👑", quote: "Our fairytale came true", image: cdn.weddingCouple1 },
+  { id: 2, couple: "Ananya & Vikram", city: "Jaipur", venue: "Samode Palace", theme: "Vintage Elegance", guests: "320", emoji: "🏰", quote: "Beyond our dreams", image: cdn.weddingCouple2 },
+  { id: 3, couple: "Sneha & Arjun", city: "Goa", venue: "Beach Resort", theme: "Boho Beach", guests: "180", emoji: "🌊", quote: "Perfect sunset wedding", image: cdn.weddingHaldi },
+  { id: 4, couple: "Kavya & Siddharth", city: "Mumbai", venue: "Taj Lands End", theme: "Modern Luxury", guests: "600", emoji: "✨", quote: "Magical in every way", image: cdn.weddingCeremony },
+  { id: 5, couple: "Meera & Rohan", city: "Delhi", venue: "Leela Palace", theme: "Grand Traditional", guests: "800", emoji: "🪔", quote: "Our Big Fat Indian Wedding", image: cdn.weddingBridesmaids },
 ];
 
 const liveStats = [

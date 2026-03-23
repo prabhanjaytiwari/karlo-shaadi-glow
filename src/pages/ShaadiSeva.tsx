@@ -13,7 +13,7 @@ import { SEO } from "@/components/SEO";
 import { CinematicImage } from "@/components/CinematicImage";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
-import heroSevaImg from "@/assets/hero-shaadi-seva.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 export default function ShaadiSeva() {
   const isMobile = useIsMobile();
@@ -69,7 +69,7 @@ export default function ShaadiSeva() {
         {/* Hero Section with Cinematic Image */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0">
-            <CinematicImage src={heroSevaImg} alt="Saamuhik Vivaah community wedding" className="w-full h-full" cinematic />
+            <CinematicImage src={cdn.heroShaadiSeva} alt="Saamuhik Vivaah community wedding" className="w-full h-full" cinematic />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
           </div>
           <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 sm:py-20">

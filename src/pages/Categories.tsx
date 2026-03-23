@@ -9,21 +9,7 @@ import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/JsonLd";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import heroMosaicImg from "@/assets/hero-categories-mosaic.jpg";
-import photographyImg from "@/assets/category-photography.jpg";
-import venueImg from "@/assets/category-venue.jpg";
-import mehendiImg from "@/assets/category-mehendi.jpg";
-import cateringImg from "@/assets/category-catering.jpg";
-import decorationImg from "@/assets/category-decoration.jpg";
-import musicImg from "@/assets/category-music.jpg";
-import cakeImg from "@/assets/category-cake.jpg";
-import makeupImg from "@/assets/category-bridal-makeup.jpg";
-import invitationsImg from "@/assets/category-invitations.jpg";
-import choreographyImg from "@/assets/category-choreography.jpg";
-import transportImg from "@/assets/category-transport.jpg";
-import jewelryImg from "@/assets/category-jewelry.jpg";
-import panditImg from "@/assets/category-pandit.jpg";
-import entertainmentImg from "@/assets/category-entertainment.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const Categories = () => {
   const { category } = useParams();
@@ -36,14 +22,14 @@ const Categories = () => {
   const [submittingWaitlist, setSubmittingWaitlist] = useState(false);
 
   const categoryImages: Record<string, string> = {
-    photography: photographyImg, venue: venueImg, venues: venueImg,
-    mehendi: mehendiImg, catering: cateringImg, decoration: decorationImg,
-    decor: decorationImg, music: musicImg, cake: cakeImg, cakes: cakeImg,
-    'cakes-desserts': cakeImg, planning: photographyImg, makeup: makeupImg,
-    invitations: invitationsImg, choreography: choreographyImg,
-    transport: transportImg, jewelry: jewelryImg, pandit: panditImg,
-    entertainment: entertainmentImg, 'social-media-managers': photographyImg,
-    'influencer': photographyImg, 'anchor': entertainmentImg, 'content-creator': photographyImg,
+    photography: cdn.categoryPhotography, venue: cdn.categoryVenue, venues: cdn.categoryVenue,
+    mehendi: cdn.categoryMehendi, catering: cdn.categoryCatering, decoration: cdn.categoryDecoration,
+    decor: cdn.categoryDecoration, music: cdn.categoryMusic, cake: cdn.categoryCake, cakes: cdn.categoryCake,
+    'cakes-desserts': cdn.categoryCake, planning: cdn.categoryPhotography, makeup: cdn.categoryBridalMakeup,
+    invitations: cdn.categoryInvitations, choreography: cdn.categoryChoreography,
+    transport: cdn.categoryTransport, jewelry: cdn.categoryJewelry, pandit: cdn.categoryPandit,
+    entertainment: cdn.categoryEntertainment, 'social-media-managers': cdn.categoryPhotography,
+    'influencer': cdn.categoryPhotography, 'anchor': cdn.categoryEntertainment, 'content-creator': cdn.categoryPhotography,
   };
 
   useEffect(() => { loadData(); }, [category]);
@@ -138,7 +124,7 @@ const Categories = () => {
       {/* Hero Banner */}
       {!currentCategory && (
         <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-20'}`}>
-          <img src={heroMosaicImg} alt="Wedding categories" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
+          <img src={cdn.heroCategoriesMosaic} alt="Wedding categories" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-5 left-5 right-5 md:left-12">
             <p className="text-white/80 text-xs font-medium tracking-widest uppercase mb-1">Browse All</p>

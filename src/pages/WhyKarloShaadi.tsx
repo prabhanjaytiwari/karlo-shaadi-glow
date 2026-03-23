@@ -8,15 +8,8 @@ import {
   ArrowRight, CheckCircle2, Crown, Gem, HandHeart,
   Music, Utensils, MapPin
 } from "lucide-react";
+import { cdn } from "@/lib/cdnAssets";
 
-import heroImg from "@/assets/wedding-ceremony.jpg";
-import coupleImg from "@/assets/wedding-couple-romantic.jpg";
-import friendsImg from "@/assets/wedding-friends.jpg";
-import bridesmaidsImg from "@/assets/wedding-bridesmaids.jpg";
-import haldiImg from "@/assets/wedding-haldi.jpg";
-import decorationImg from "@/assets/wedding-decoration.jpg";
-import cateringImg from "@/assets/wedding-catering.jpg";
-import vendorSectionImg from "@/assets/section-vendors.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -31,7 +24,7 @@ const familyRoles = [
     title: "The Couple",
     subtitle: "Your dream, your way",
     description: "Build your wedding exactly how you imagined it. AI-powered planning, budget tools, and a personal wedding website — all in your hands.",
-    image: coupleImg,
+    image: cdn.weddingCoupleRomantic,
     icon: Heart,
     features: ["AI Wedding Planner", "Wedding Website Builder", "Guest List Manager"],
     gradient: "",
@@ -40,7 +33,7 @@ const familyRoles = [
     title: "The Best Friends",
     subtitle: "Partners in crime, partners in planning",
     description: "Help your bestie find the perfect photographer, choreograph the sangeet, or just roast their budget. We have tools for that.",
-    image: friendsImg,
+    image: cdn.weddingFriends,
     icon: Users,
     features: ["Couple Quiz", "Budget Roast", "Speech Writer"],
     gradient: "",
@@ -49,7 +42,7 @@ const familyRoles = [
     title: "The Siblings",
     subtitle: "The real event managers",
     description: "From mehendi coordination to surprising the couple with a custom song — siblings run the show. We give you the backstage pass.",
-    image: bridesmaidsImg,
+    image: cdn.weddingBridesmaids,
     icon: Sparkles,
     features: ["Music Generator", "Invite Creator", "Shaadi Wrapped"],
     gradient: "",
@@ -58,7 +51,7 @@ const familyRoles = [
     title: "The Parents & Family",
     subtitle: "Trust, tradition, and peace of mind",
     description: "Every vendor is verified. Every payment is milestone-protected. Track everything from muhurat dates to budget allocation — no surprises.",
-    image: haldiImg,
+    image: cdn.weddingHaldi,
     icon: Shield,
     features: ["Verified Vendors", "Muhurat Finder", "Budget Calculator"],
     gradient: "",
@@ -94,7 +87,7 @@ export default function WhyKarloShaadi() {
       {/* Hero */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroImg} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
+          <img src={cdn.weddingCeremony} alt="Indian wedding ceremony" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -236,7 +229,7 @@ export default function WhyKarloShaadi() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-[var(--shadow-lg)]">
                 <img
-                  src={vendorSectionImg}
+                  src={cdn.sectionVendors}
                   alt="Wedding vendors at work"
                   className="w-full aspect-[4/3] object-cover"
                   loading="lazy"

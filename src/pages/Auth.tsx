@@ -15,7 +15,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
-import heroAuthCouple from "@/assets/hero-auth-couple.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 type LoginFormData = z.infer<typeof loginFormSchema>;
 type SignupFormData = z.infer<typeof signupFormSchema>;
@@ -326,7 +326,7 @@ const Auth = () => {
           {/* Full-bleed hero image */}
           <div className="relative h-52 overflow-hidden shrink-0">
             <img
-              src={heroAuthCouple}
+              src={cdn.heroAuthCouple}
               alt="Wedding ceremony"
               className="w-full h-full object-cover"
               style={{ filter: 'contrast(1.03) saturate(1.08)' }}
@@ -356,7 +356,7 @@ const Auth = () => {
           {/* Left: Cinematic hero */}
           <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
             <img
-              src={heroAuthCouple}
+              src={cdn.heroAuthCouple}
               alt="Wedding ceremony"
               className="w-full h-full object-cover"
               style={{ filter: 'contrast(1.03) saturate(1.08)' }}

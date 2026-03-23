@@ -11,10 +11,9 @@ import { ReferralWidget } from "@/components/ReferralWidget";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import heroPlanning from "@/assets/hero-dashboard-planning.jpg";
-import weddingCouple from "@/assets/wedding-couple-romantic.jpg";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cdn } from "@/lib/cdnAssets";
 
 const mobileQuickActions = [
   { icon: Search, label: "Search", route: "/search", emoji: "🔍" },
@@ -170,7 +169,7 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <img
-              src={profile?.wedding_date ? heroPlanning : weddingCouple}
+              src={profile?.wedding_date ? cdn.heroDashboardPlanning : cdn.weddingCoupleRomantic}
               alt="Wedding"
               className="w-full h-56 md:h-72 object-cover"
               style={{ filter: 'contrast(1.05) saturate(1.1) brightness(0.85)' }}

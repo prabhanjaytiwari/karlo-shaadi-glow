@@ -6,7 +6,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { NotificationCenter } from "./NotificationCenter";
 import { RoleSwitcher, getActiveView } from "./RoleSwitcher";
 import { useAuthContext } from "@/contexts/AuthContext";
-import logo from "@/assets/logo-new.png";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -53,6 +52,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
 import { useCapacitor } from "@/hooks/useCapacitor";
 import { motion, AnimatePresence } from "framer-motion";
+import { cdn } from "@/lib/cdnAssets";
 
 const categories = [
   {
@@ -171,7 +171,7 @@ export const BhindiHeader = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <img
-              src={logo}
+              src={cdn.logo}
               alt="Karlo Shaadi Logo"
               className="h-8 sm:h-10 md:h-11 w-auto transition-transform group-hover:scale-[1.02] duration-300"
               style={{ mixBlendMode: 'multiply' }}

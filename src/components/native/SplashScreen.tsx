@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCapacitor } from '@/hooks/useCapacitor';
-import logo from '@/assets/logo-new.png';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Crown } from 'lucide-react';
+import { cdn } from "@/lib/cdnAssets";
 
 export function SplashScreen() {
   const { isNative } = useCapacitor();
@@ -81,7 +81,7 @@ export function SplashScreen() {
               }}
             >
               <img
-                src={logo}
+                src={cdn.logo}
                 alt="Karlo Shaadi"
                 className="h-16 w-auto"
                 style={{ mixBlendMode: isVendorRoute ? 'normal' : 'multiply' }}

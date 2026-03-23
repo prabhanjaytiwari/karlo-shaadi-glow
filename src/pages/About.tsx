@@ -2,8 +2,7 @@ import { Heart, Users, Shield, Sparkles } from "lucide-react";
 import { CinematicImage } from "@/components/CinematicImage";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
-import heroAboutFounder from "@/assets/hero-about-founder.jpg";
-import sectionVendors from "@/assets/section-vendors.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const About = () => {
   const isMobile = useIsMobile();
@@ -21,7 +20,7 @@ const About = () => {
         ) : (
           <section className="relative overflow-hidden">
             <div className="absolute inset-0">
-              <CinematicImage src={sectionVendors} alt="Karlo Shaadi team" className="w-full h-full" cinematic />
+              <CinematicImage src={cdn.sectionVendors} alt="Karlo Shaadi team" className="w-full h-full" cinematic />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/60" />
             </div>
             <div className="container mx-auto px-4 sm:px-6 relative z-10 py-12 md:py-24">
@@ -66,7 +65,7 @@ const About = () => {
             <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] overflow-hidden">
               <div className="grid md:grid-cols-[280px_1fr] gap-0">
                 <div className="relative h-48 md:h-full">
-                  <CinematicImage src={heroAboutFounder} alt="Prabhanjay Tiwari - Founder" className="w-full h-full" cinematic />
+                  <CinematicImage src={cdn.heroAboutFounder} alt="Prabhanjay Tiwari - Founder" className="w-full h-full" cinematic />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent md:bg-gradient-to-r md:from-transparent md:to-background/20" />
                 </div>
                 <div className="p-6 md:p-8 space-y-3">

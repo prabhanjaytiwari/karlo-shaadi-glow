@@ -8,9 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useParams, Link } from "react-router-dom";
 import { MapPin, Calendar, TrendingUp, Award, Star, Filter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import heroImage from "@/assets/hero-wedding.jpg";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/JsonLd";
+import { cdn } from "@/lib/cdnAssets";
 
 const City = () => {
   const { slug } = useParams();
@@ -276,8 +276,8 @@ const City = () => {
 
       // Mock stories data (in production, this would come from a stories table)
       setStories([
-        { id: 1, couple: "Priya & Raj", theme: "Royal Nawabi", image: heroImage },
-        { id: 2, couple: "Ananya & Vikram", theme: "Modern", image: heroImage },
+        { id: 1, couple: "Priya & Raj", theme: "Royal Nawabi", image: cdn.heroWedding },
+        { id: 2, couple: "Ananya & Vikram", theme: "Modern", image: cdn.heroWedding },
       ]);
     } catch { /* ignored */ } finally {
       setLoading(false);
@@ -318,7 +318,7 @@ const City = () => {
       <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src={heroImage} 
+            src={cdn.heroWedding} 
             alt={`Wedding in ${city.name}`}
             className="w-full h-full object-cover opacity-40"
           />

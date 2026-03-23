@@ -4,7 +4,7 @@ import { Heart, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
-import logoImage from "@/assets/logo-new.png";
+import { cdn } from "@/lib/cdnAssets";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const NotFound = () => {
           className="text-center max-w-md"
         >
           <motion.img
-            src={logoImage}
+            src={cdn.logo}
             alt="Karlo Shaadi"
             className="h-12 mx-auto mb-8 opacity-30"
             style={{ mixBlendMode: 'multiply' }}

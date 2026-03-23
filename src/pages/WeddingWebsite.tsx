@@ -63,12 +63,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cdn } from "@/lib/cdnAssets";
 
 // Import wedding images
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
-import weddingCouple1 from "@/assets/wedding-couple-1.jpg";
-import weddingCoupleRomantic from "@/assets/wedding-couple-romantic.jpg";
-import weddingDecoration from "@/assets/wedding-decoration.jpg";
 
 // Production URL for sharing
 const PRODUCTION_URL = "https://karloshaadi.com";
@@ -107,7 +104,7 @@ const themes = [
     primary: "hsl(350, 70%, 35%)",
     secondary: "hsl(45, 90%, 55%)",
     gradient: "from-[#8B1538] via-[#A91D3A] to-[#C73659]",
-    preview: weddingCeremony,
+    preview: cdn.weddingCeremony,
     badge: "Most Popular"
   },
   {
@@ -116,7 +113,7 @@ const themes = [
     primary: "hsl(175, 60%, 30%)",
     secondary: "hsl(45, 85%, 50%)",
     gradient: "from-[#0D6E6E] via-[#4A9B9B] to-[#7DC8C8]",
-    preview: weddingDecoration,
+    preview: cdn.weddingDecoration,
   },
   {
     id: "rose-gold",
@@ -124,7 +121,7 @@ const themes = [
     primary: "hsl(10, 50%, 60%)",
     secondary: "hsl(45, 30%, 90%)",
     gradient: "from-[#B76E79] via-[#E8B4BC] to-[#F5D5D8]",
-    preview: weddingCoupleRomantic,
+    preview: cdn.weddingCoupleRomantic,
     badge: "Trending"
   },
   {
@@ -133,7 +130,7 @@ const themes = [
     primary: "hsl(230, 60%, 25%)",
     secondary: "hsl(45, 80%, 60%)",
     gradient: "from-[#1A237E] via-[#303F9F] to-[#5C6BC0]",
-    preview: weddingCouple1,
+    preview: cdn.weddingCouple1,
   }
 ];
 

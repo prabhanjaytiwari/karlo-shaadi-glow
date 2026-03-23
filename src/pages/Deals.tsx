@@ -8,9 +8,7 @@ import { Tag, Percent, Clock, Gift, Star, ArrowRight, Calendar, IndianRupee, Hea
 import { format, differenceInDays } from "date-fns";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
-import dealMonsoonImg from "@/assets/deal-monsoon-wedding.jpg";
-import dealWinterImg from "@/assets/deal-winter-wedding.jpg";
-import dealEarlyImg from "@/assets/deal-early-bird.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 interface VendorDiscount {
   id: string;
@@ -28,9 +26,9 @@ interface VendorDiscount {
 }
 
 const seasonalOffers = [
-  { title: "Shaadi Season Special", description: "Book any 3 vendors together and get 10% off", discount: "10% OFF", badge: "Bundle Deal", icon: Heart, validUntil: "March 31, 2025", image: dealMonsoonImg },
-  { title: "Early Bird Discount", description: "Plan ahead! Book 6+ months before your wedding", discount: "15% OFF", badge: "Early Bird", icon: Calendar, validUntil: "Ongoing", image: dealEarlyImg },
-  { title: "Winter Wedding Offer", description: "Special rates for winter weddings Nov-Feb", discount: "Up to 20% OFF", badge: "Seasonal", icon: Tag, validUntil: "February 28, 2026", image: dealWinterImg },
+  { title: "Shaadi Season Special", description: "Book any 3 vendors together and get 10% off", discount: "10% OFF", badge: "Bundle Deal", icon: Heart, validUntil: "March 31, 2025", image: cdn.dealMonsoonWedding },
+  { title: "Early Bird Discount", description: "Plan ahead! Book 6+ months before your wedding", discount: "15% OFF", badge: "Early Bird", icon: Calendar, validUntil: "Ongoing", image: cdn.dealEarlyBird },
+  { title: "Winter Wedding Offer", description: "Special rates for winter weddings Nov-Feb", discount: "Up to 20% OFF", badge: "Seasonal", icon: Tag, validUntil: "February 28, 2026", image: cdn.dealWinterWedding },
 ];
 
 const cashbackOffers = [
@@ -73,7 +71,7 @@ export default function Deals() {
 
       {/* Hero Banner */}
       <div className={`relative overflow-hidden ${isMobile ? 'h-44' : 'h-64 mt-16'}`}>
-        <img src={dealMonsoonImg} alt="Wedding deals" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
+        <img src={cdn.dealMonsoonWedding} alt="Wedding deals" className="w-full h-full object-cover" style={{ filter: 'contrast(1.03) saturate(1.08)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
         <div className={`absolute bottom-5 ${isMobile ? 'left-4 right-4' : 'left-12'}`}>
           <Badge variant="outline" className="mb-2 border-white/40 text-white text-xs"><Tag className="h-3 w-3 mr-1" />Exclusive Offers</Badge>
