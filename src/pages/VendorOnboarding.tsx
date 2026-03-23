@@ -437,6 +437,11 @@ export default function VendorOnboarding() {
   const prevStep = () => {
     if (step === 6 || step <= 1) return;
     setDirection(-1);
+    // In quick setup mode, going back from Review (5) should go to Business (2)
+    if (quickSetupMode && step === 5) {
+      setStep(2);
+      return;
+    }
     setStep(s => Math.max(s - 1, 1));
   };
 

@@ -107,21 +107,43 @@ export default function Search() {
       let query = supabase
         .from("vendors")
         .select(`*, cities (name, state), vendor_services (*), vendor_portfolio (image_url, display_order)`)
-        .eq("is_active", true)
-        .eq("verified", true);
+        .eq("is_active", true);
+
+      // First try verified vendors only
+      let verifiedQuery = query.eq("verified", true);
 
       if (selectedCategory !== "all") {
-        query = query.eq("category", selectedCategory as any);
+        verifiedQuery = verifiedQuery.eq("category", selectedCategory as any);
       }
       if (selectedCity !== "all") {
-        query = query.eq("city_id", selectedCity);
+        verifiedQuery = verifiedQuery.eq("city_id", selectedCity);
       }
       if (searchQuery) {
-        query = query.or(`business_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+        verifiedQuery = verifiedQuery.or(`business_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
       }
 
-      const { data: vendorsData } = await query;
+      let { data: vendorsData } = await verifiedQuery;
       
+      // Fallback: if no verified vendors, show all active vendors
+      if (!vendorsData || vendorsData.length === 0) {
+        let fallbackQuery = supabase
+          .from("vendors")
+          .select(`*, cities (name, state), vendor_services (*), vendor_portfolio (image_url, display_order)`)
+          .eq("is_active", true);
+
+        if (selectedCategory !== "all") {
+          fallbackQuery = fallbackQuery.eq("category", selectedCategory as any);
+        }
+        if (selectedCity !== "all") {
+          fallbackQuery = fallbackQuery.eq("city_id", selectedCity);
+        }
+        if (searchQuery) {
+          fallbackQuery = fallbackQuery.or(`business_name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+        }
+        const { data: allVendors } = await fallbackQuery;
+        vendorsData = allVendors;
+      }
+
       if (vendorsData) {
         const rankedVendors = rankVendors(vendorsData as Vendor[]);
         setVendors(rankedVendors);

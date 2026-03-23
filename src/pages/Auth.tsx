@@ -103,7 +103,7 @@ const Auth = () => {
         password: data.password,
         options: {
           data: { full_name: sanitizeInput(data.fullName), phone: data.phone || null, referred_by: referralCode || null },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/auth`,
         },
       });
       if (error) throw error;
