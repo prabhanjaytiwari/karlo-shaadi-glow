@@ -19,6 +19,7 @@ import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { PaymentTestingPanel } from "@/components/admin/PaymentTestingPanel";
 import { VendorVerificationPanel } from "@/components/admin/VendorVerificationPanel";
 import { ShaadiSevaAdminTab } from "@/components/admin/ShaadiSevaAdminTab";
+import { SubscriptionRecoveryPanel } from "@/components/admin/SubscriptionRecoveryPanel";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -382,6 +383,7 @@ export default function AdminDashboard() {
               <TabsTrigger value="stories" className="text-xs px-3">Stories</TabsTrigger>
               <TabsTrigger value="moderation" className="text-xs px-3">Moderation</TabsTrigger>
               <TabsTrigger value="seva" className="text-xs px-3">Shaadi Seva</TabsTrigger>
+              <TabsTrigger value="subscriptions" className="text-xs px-3">Subscriptions</TabsTrigger>
             </TabsList>
           </div>
 
@@ -598,6 +600,10 @@ export default function AdminDashboard() {
 
           <TabsContent value="seva">
             <ShaadiSevaAdminTab />
+          </TabsContent>
+
+          <TabsContent value="subscriptions">
+            <SubscriptionRecoveryPanel />
           </TabsContent>
         </Tabs>
       </main>
