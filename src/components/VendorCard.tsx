@@ -77,10 +77,11 @@ export const VendorCard = ({
             {imageUrl ? (
               <LazyImage src={imageUrl} alt={vendor.business_name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-muted">
-                <span className="text-2xl font-bold text-muted-foreground/50">
+              <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+                <span className="text-2xl font-display font-bold text-primary/30">
                   {(vendor.business_name || 'V').charAt(0)}
                 </span>
+                <span className="text-[9px] text-muted-foreground mt-0.5">Photo coming soon</span>
               </div>
             )}
             {(isSponsored || isFeatured) && (
