@@ -114,7 +114,7 @@ export const VendorCard = ({
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                <Star className="h-3 w-3 text-accent fill-accent" />
                 <span className="text-xs font-medium">{vendor.average_rating?.toFixed(1) || "0.0"}</span>
                 <span className="text-[10px] text-muted-foreground">({vendor.total_reviews || 0})</span>
               </div>
