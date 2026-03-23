@@ -383,6 +383,7 @@ export default function AdminDashboard() {
               <TabsTrigger value="stories" className="text-xs px-3">Stories</TabsTrigger>
               <TabsTrigger value="moderation" className="text-xs px-3">Moderation</TabsTrigger>
               <TabsTrigger value="seva" className="text-xs px-3">Shaadi Seva</TabsTrigger>
+              <TabsTrigger value="subscriptions" className="text-xs px-3">Subscriptions</TabsTrigger>
             </TabsList>
           </div>
 
