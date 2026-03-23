@@ -528,6 +528,37 @@ export default function VendorDashboard() {
             </div>
           )}
 
+          {/* Getting Started Guide — only for new vendors */}
+          {vendor && (services.length === 0 || portfolio.length === 0 || stats.totalBookings === 0) && (
+            <Card className="mb-6 border-primary/20 bg-primary/[0.03]">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Shuru Kaise Karein? 🚀</CardTitle>
+                <CardDescription>Complete these steps to start receiving leads</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {[
+                  { done: services.length > 0, label: "Add at least one service with pricing", action: () => setActiveTab("services"), emoji: "📦" },
+                  { done: portfolio.length > 0, label: "Upload portfolio photos", action: () => setActiveTab("portfolio"), emoji: "📸" },
+                  { done: !!vendor.description && vendor.description.length > 50, label: "Write a compelling business description", action: () => setActiveTab("profile"), emoji: "✍️" },
+                  { done: !!vendor.whatsapp_number, label: "Add WhatsApp number for direct inquiries", action: () => setActiveTab("profile"), emoji: "📱" },
+                  { done: vendor.verification_status === 'verified', label: "Complete verification for trust badge", action: () => navigate("/vendor/verification"), emoji: "✅" },
+                ].map((item, i) => (
+                  <button
+                    key={i}
+                    onClick={item.action}
+                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-card hover:bg-muted/50 active:scale-[0.98] transition-all text-left border border-border/30"
+                  >
+                    <span className="text-lg">{item.done ? "✅" : item.emoji}</span>
+                    <span className={`flex-1 text-sm font-medium ${item.done ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
+                      {item.label}
+                    </span>
+                    {!item.done && <ArrowRight className="h-4 w-4 text-muted-foreground" />}
+                  </button>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="w-full flex overflow-x-auto scrollbar-hide justify-start lg:justify-center gap-1 p-1">
               <TabsTrigger value="analytics" className="shrink-0">
