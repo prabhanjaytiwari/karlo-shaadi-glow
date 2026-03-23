@@ -266,6 +266,37 @@ const Dashboard = () => {
             </motion.div>
           )}
 
+          {/* ── WHAT TO DO NEXT — Guided Actions ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5"
+          >
+            <h2 className="text-base font-bold text-foreground mb-3">Aage Kya Karein? 👇</h2>
+            <div className="space-y-2.5">
+              {[
+                { done: !!profile?.wedding_date, label: "Set your wedding date", route: "/profile", emoji: "📅" },
+                { done: !!profile?.budget_range, label: "Set your budget", route: "/budget", emoji: "💰" },
+                { done: false, label: "Browse & shortlist vendors", route: "/search", emoji: "🔍" },
+                { done: false, label: "Create your wedding checklist", route: "/checklist", emoji: "✅" },
+                { done: false, label: "Send your first inquiry", route: "/search", emoji: "💬" },
+              ].map((item, i) => (
+                <button
+                  key={i}
+                  onClick={() => navigate(item.route)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-muted/30 hover:bg-muted/50 active:scale-[0.98] transition-all text-left"
+                >
+                  <span className="text-lg">{item.done ? "✅" : item.emoji}</span>
+                  <span className={`flex-1 text-sm font-medium ${item.done ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
+                    {item.label}
+                  </span>
+                  {!item.done && <ArrowRight className="h-4 w-4 text-muted-foreground" />}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-5">
             <div className="rounded-2xl bg-card shadow-[var(--shadow-sm)] p-5">
