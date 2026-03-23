@@ -1,60 +1,85 @@
 
 
-# Vendor Onboarding, Payment & Redirect Audit — Fixes
+# Recurring Payments, SUPER90 Promo Code & Cancellation System
 
-## Issues Found
+## Current State
 
-### 1. Payment Verification Error (Already Fixed — But Vendor Data Not Recovered)
-The `verify-payment` edge function was updated to skip the `subscriptions` table for vendor plans. However, the vendor "Aryan" who paid successfully on Razorpay has:
-- `subscription_tier: free` in the `vendors` table
-- No record in `vendor_subscriptions`
-- Payment was captured by Razorpay but the client-side DB write failed because verify-payment threw an error first
+The vendor checkout currently uses **one-time Razorpay Orders** (`create-payment` edge function). The `create-vendor-subscription` edge function exists and creates actual **Razorpay Subscriptions** (recurring), but the checkout component doesn't use it. The webhook handler (`vendor-subscription-webhook`) already handles all subscription lifecycle events (charged, cancelled, halted, etc.) correctly.
 
-**Fix:** Manually update the affected vendor's subscription data via a database insert. Need to identify the Razorpay payment ID from logs or ask the user.
+## Changes
 
-### 2. VendorSubscriptionCheckout — Silent Failure on Verify Error
-In `VendorSubscriptionCheckout.tsx` (line 110-158), when `verify-payment` throws an error, the `catch` block shows a toast but the vendor's subscription is never written to `vendor_subscriptions`. The payment is already captured on Razorpay at this point.
+### 1. Add SUPER90 Promo Code
+**File:** `src/lib/promoCodes.ts`
+- Add `{ code: 'SUPER90', discountPercent: 90, description: '90% off on any subscription', applicableTo: 'all', active: true }`
 
-**Fix:** Add a retry/recovery mechanism. If `verify-payment` fails but the Razorpay payment was captured, still attempt the client-side DB writes (vendor tier update + vendor_subscriptions upsert) since the payment is valid. The signature was already verified by Razorpay's handler callback.
+### 2. Switch Checkout to Razorpay Subscriptions API
+**File:** `src/components/vendor/VendorSubscriptionCheckout.tsx`
 
-### 3. Onboarding Step 6 → Congrats Flow Has No Vendor ID Guard
-If a vendor refreshes the page on Step 6 after profile creation, `createdVendorId` is null (it's only in React state), so the `VendorSubscriptionCheckout` won't render. The vendor can't subscribe.
+Replace the current one-time payment flow with Razorpay's subscription checkout:
+- Call `create-vendor-subscription` instead of `create-payment`
+- Use `razorpay.createPayment()` with subscription_id instead of order_id
+- On successful first payment, Razorpay auto-charges monthly — no client-side recurring logic needed
+- Store `razorpay_subscription_id` in `vendor_subscriptions` table
+- The existing webhook handles all renewals, cancellations, and expiry automatically
 
-**Fix:** On Step 6, if `createdVendorId` is null, fetch the vendor ID from the database using the current user's session.
+**Key change in payment handler:**
+```
+Old: create-payment → one-time order → verify-payment
+New: create-vendor-subscription → Razorpay subscription → webhook handles renewals
+```
 
-### 4. Quick Setup Mode Navigation Issue
-`handleSkipToQuickSetup` jumps to Step 2, but Step 2 only has business name + city fields. After filling those, `nextStep()` goes to Step 3 (description) which requires 20 chars. In quick setup mode, the description step should be skipped or have relaxed validation.
+### 3. Add Cancellation UI
+**File:** `src/pages/VendorSettings.tsx`
 
-**Fix:** In quick setup mode, auto-generate the description and skip Step 3, going directly from Step 2 → Step 4 (or straight to Step 5 for review).
+Add to the Billing tab:
+- "Cancel Subscription" button (only shown when subscription is active)
+- Confirmation dialog explaining: "Benefits remain active until [expires_at]. No further charges."
+- On confirm → call new `cancel-vendor-subscription` edge function
 
-### 5. Vendor Onboarding Route Not in AUTH_ROUTES
-`/vendor/onboarding` is not in `AUTH_ROUTES` array in App.tsx, so the header/footer show during onboarding. The onboarding has its own dark full-screen design — the header/footer shouldn't render.
+### 4. Create Cancel Subscription Edge Function
+**File:** `supabase/functions/cancel-vendor-subscription/index.ts`
 
-**Fix:** Add `/vendor/onboarding` and `/vendor-onboarding` to the `AUTH_ROUTES` array.
+- Authenticate user, verify vendor ownership
+- Call Razorpay API: `POST /v1/subscriptions/{sub_id}/cancel` with `cancel_at_cycle_end: true`
+- Update `vendor_subscriptions.status` to `cancelled`, set `cancelled_at`
+- The webhook will handle downgrading the vendor tier when the period actually ends
 
-### 6. VendorSubscriptionCheckout Loading State Not Reset on Success
-After successful payment (line 152-154), `setLoading(false)` is never called — it stays in the loading state. The dialog closes immediately so it's barely noticeable, but if there's any delay it could cause a stuck button.
+### 5. Update Webhook to Handle Promo/Discounted Amounts
+**File:** `supabase/functions/vendor-subscription-webhook/index.ts` — No changes needed. Already handles all events correctly.
 
-**Fix:** Add `setLoading(false)` in the success path.
+### 6. Update `create-vendor-subscription` to Support Promo Discounts
+**File:** `supabase/functions/create-vendor-subscription/index.ts`
 
-## Implementation Plan
+- Accept optional `promoCode` and `finalAmount` in request body
+- When promo is applied, use Razorpay's `offer_id` or set a discounted first charge amount
+- Since Razorpay Subscriptions don't natively support arbitrary promo discounts, use the `start_at` + first charge approach: create the subscription at full price but provide an `addons` negative adjustment, or simply create a Razorpay plan at the discounted price for the first billing cycle
+- Simpler approach: For promo codes, create the subscription normally but apply a one-time addon credit. Or: create a one-time order for the first month at discounted price, then create the subscription starting next month.
 
-### File 1: `src/components/vendor/VendorSubscriptionCheckout.tsx`
-- Add resilient payment handling: if verify-payment fails but Razorpay handler was called (meaning payment succeeded), still attempt client-side DB writes
-- Reset loading state on success
-- Add error recovery toast with manual support option
+**Practical approach:** Use Razorpay's subscription with `first_offer` — create a custom plan at the discounted amount for cycle 1, then switch to full price. Actually, simplest: just pass `total_count: 12` and handle first payment amount via the checkout `amount` override. Razorpay subscriptions support `first_min_amount` to charge a different amount for the first cycle.
 
-### File 2: `src/pages/VendorOnboarding.tsx`
-- On Step 6 mount, if `createdVendorId` is null, fetch vendor ID from DB
-- In quick setup mode, auto-generate description and skip Step 3 (go 2→4 or 2→5)
-- Fix `nextStep` to respect quick setup mode
+### 7. Config Update
+**File:** `supabase/config.toml`
+- Add `[functions.cancel-vendor-subscription]` with `verify_jwt = true`
 
-### File 3: `src/App.tsx`
-- Add `/vendor/onboarding` and `/vendor-onboarding` to `AUTH_ROUTES`
+## Technical Flow
 
-### File 4: Database fix for affected vendor
-- Update vendor "Aryan" (id: `1c9fc786-5748-4515-b088-d5034a1d8db7`) subscription tier and create subscription record based on what they paid for. Since we don't have the Razorpay payment ID in our DB, we'll need to set this up with a placeholder and the user can verify from their Razorpay dashboard.
+```text
+Vendor selects plan → Enters promo code (optional)
+  → Client calls create-vendor-subscription (with promo info)
+  → Edge function creates Razorpay Plan + Subscription
+  → Client opens Razorpay checkout with subscription_id
+  → First payment captured → webhook: subscription.activated
+  → Monthly: Razorpay auto-charges → webhook: subscription.charged
+  → Vendor cancels → cancel-vendor-subscription → Razorpay cancels at cycle end
+  → Webhook: subscription.cancelled → benefits until period end
+  → Period ends → webhook: subscription.completed → downgrade to free
+```
 
-### No edge function changes needed
-The `verify-payment` fix from the previous message is already deployed and correct.
+## Files Modified/Created
+1. `src/lib/promoCodes.ts` — Add SUPER90
+2. `src/components/vendor/VendorSubscriptionCheckout.tsx` — Switch to Razorpay Subscriptions API
+3. `supabase/functions/create-vendor-subscription/index.ts` — Add promo code support
+4. `supabase/functions/cancel-vendor-subscription/index.ts` — New: cancel subscription
+5. `src/pages/VendorSettings.tsx` — Add cancellation UI with confirmation dialog
+6. `supabase/config.toml` — Add cancel function config
 
