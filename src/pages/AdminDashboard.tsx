@@ -19,6 +19,7 @@ import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { PaymentTestingPanel } from "@/components/admin/PaymentTestingPanel";
 import { VendorVerificationPanel } from "@/components/admin/VendorVerificationPanel";
 import { ShaadiSevaAdminTab } from "@/components/admin/ShaadiSevaAdminTab";
+import { SubscriptionRecoveryPanel } from "@/components/admin/SubscriptionRecoveryPanel";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";

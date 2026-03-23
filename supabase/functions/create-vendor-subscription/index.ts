@@ -29,6 +29,10 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
   try {
     const { vendorId, plan, promoCode, finalAmount } = await req.json();
 
@@ -40,10 +44,6 @@ serve(async (req) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("Unauthorized");
-
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { data: { user }, error: authError } = await supabase.auth.getUser(
       authHeader.replace("Bearer ", "")
@@ -60,6 +60,17 @@ serve(async (req) => {
       throw new Error("Vendor not found or unauthorized");
     }
 
+    // Log checkout initiated
+    await supabase.from("payment_logs").insert([{
+      vendor_id: vendorId,
+      user_id: user.id,
+      event_type: "subscription_creation_started",
+      plan,
+      amount: finalAmount || SUBSCRIPTION_PLANS[plan].amount / 100,
+      status: "pending",
+      metadata: { promo_code: promoCode || null },
+    }]);
+
     const razorpayKeyId = Deno.env.get("RAZORPAY_KEY_ID");
     const razorpayKeySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
     if (!razorpayKeyId || !razorpayKeySecret) throw new Error("Razorpay credentials not configured");
@@ -67,11 +78,10 @@ serve(async (req) => {
     const planDetails = SUBSCRIPTION_PLANS[plan];
     const auth = btoa(`${razorpayKeyId}:${razorpayKeySecret}`);
 
-    // Determine the actual charge amount (in paise)
     const chargeAmountPaise = finalAmount ? Math.round(finalAmount * 100) : planDetails.amount;
     const fullAmountPaise = planDetails.amount;
 
-    // Create a Razorpay Plan at the FULL price (recurring charges are always full price)
+    // Create a Razorpay Plan at the FULL price
     const planResponse = await fetch("https://api.razorpay.com/v1/plans", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Basic ${auth}` },
@@ -90,6 +100,16 @@ serve(async (req) => {
     if (!planResponse.ok) {
       const error = await planResponse.text();
       console.error("Razorpay plan creation error:", error);
+      
+      await supabase.from("payment_logs").insert([{
+        vendor_id: vendorId,
+        user_id: user.id,
+        event_type: "razorpay_plan_creation_failed",
+        plan,
+        status: "failed",
+        error_message: error,
+      }]);
+      
       throw new Error("Failed to create Razorpay plan");
     }
 
@@ -97,7 +117,6 @@ serve(async (req) => {
     console.log(`Created Razorpay plan: ${razorpayPlan.id}`);
 
     // Create Razorpay Subscription
-    // If promo applied, use first_min_amount to charge discounted price for first cycle
     const subscriptionBody: any = {
       plan_id: razorpayPlan.id,
       customer_notify: 1,
@@ -112,7 +131,6 @@ serve(async (req) => {
       },
     };
 
-    // If promo discount applied, charge discounted amount for first cycle only
     if (promoCode && chargeAmountPaise < fullAmountPaise) {
       subscriptionBody.first_min_amount = chargeAmountPaise;
     }
@@ -126,6 +144,16 @@ serve(async (req) => {
     if (!subscriptionResponse.ok) {
       const error = await subscriptionResponse.text();
       console.error("Razorpay subscription creation error:", error);
+      
+      await supabase.from("payment_logs").insert([{
+        vendor_id: vendorId,
+        user_id: user.id,
+        event_type: "razorpay_subscription_creation_failed",
+        plan,
+        status: "failed",
+        error_message: error,
+      }]);
+      
       throw new Error("Failed to create Razorpay subscription");
     }
 
@@ -150,6 +178,18 @@ serve(async (req) => {
       console.error("Database error:", dbError);
       throw dbError;
     }
+
+    // Log successful creation
+    await supabase.from("payment_logs").insert([{
+      vendor_id: vendorId,
+      user_id: user.id,
+      event_type: "subscription_created",
+      razorpay_subscription_id: subscription.id,
+      plan,
+      amount: chargeAmountPaise / 100,
+      status: "success",
+      metadata: { promo_code: promoCode || null, discount: discountAmount },
+    }]);
 
     return new Response(
       JSON.stringify({

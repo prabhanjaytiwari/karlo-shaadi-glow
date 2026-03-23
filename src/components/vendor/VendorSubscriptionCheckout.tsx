@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Tag } from "lucide-react";
+import { Loader2, CheckCircle, Star, Sparkles, Crown, Shield, Tag, AlertTriangle, MessageCircle } from "lucide-react";
 import { validatePromoCode, applyPromoDiscount, type PromoCode } from "@/lib/promoCodes";
 
 declare global {
@@ -37,6 +37,34 @@ const PLAN_DETAILS: Record<string, {
   elite: { name: "Elite", price: 6999, icon: Crown, color: "text-primary", bgColor: "bg-primary/10", tierValue: "elite" },
 };
 
+async function logClientEvent(data: {
+  vendor_id: string;
+  event_type: string;
+  plan?: string;
+  amount?: number;
+  status: string;
+  error_message?: string;
+  razorpay_payment_id?: string;
+  razorpay_subscription_id?: string;
+  metadata?: any;
+}) {
+  try {
+    await supabase.from("payment_logs").insert([{
+      vendor_id: data.vendor_id,
+      event_type: data.event_type,
+      plan: data.plan || null,
+      amount: data.amount || null,
+      status: data.status,
+      error_message: data.error_message || null,
+      razorpay_payment_id: data.razorpay_payment_id || null,
+      razorpay_subscription_id: data.razorpay_subscription_id || null,
+      metadata: data.metadata || {},
+    }]);
+  } catch (e) {
+    console.error("Failed to log client event:", e);
+  }
+}
+
 export function VendorSubscriptionCheckout({
   open, onOpenChange, vendorId, planId, onSuccess,
 }: VendorSubscriptionCheckoutProps) {
@@ -46,6 +74,8 @@ export function VendorSubscriptionCheckout({
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromo, setAppliedPromo] = useState<PromoCode | null>(null);
   const [promoError, setPromoError] = useState("");
+  const [paymentState, setPaymentState] = useState<"idle" | "processing" | "success" | "failed">("idle");
+  const [failedRef, setFailedRef] = useState<string | null>(null);
 
   const plan = planId && PLAN_DETAILS[planId] ? PLAN_DETAILS[planId] : null;
   const finalPrice = appliedPromo && plan ? applyPromoDiscount(plan.price, appliedPromo) : (plan?.price ?? 0);
@@ -62,6 +92,14 @@ export function VendorSubscriptionCheckout({
       setRazorpayLoaded(true);
     }
   }, []);
+
+  // Reset state when dialog opens
+  useEffect(() => {
+    if (open) {
+      setPaymentState("idle");
+      setFailedRef(null);
+    }
+  }, [open]);
 
   const handleApplyPromo = () => {
     setPromoError("");
@@ -87,8 +125,19 @@ export function VendorSubscriptionCheckout({
     if (!plan) return;
 
     setLoading(true);
+    setPaymentState("processing");
+
+    // Log checkout initiated
+    await logClientEvent({
+      vendor_id: vendorId,
+      event_type: "checkout_initiated",
+      plan: planId,
+      amount: finalPrice,
+      status: "pending",
+      metadata: { promo_code: appliedPromo?.code || null },
+    });
+
     try {
-      // Call create-vendor-subscription to create a Razorpay Subscription (recurring)
       const { data: subData, error: subError } = await supabase.functions.invoke(
         "create-vendor-subscription",
         {
@@ -113,13 +162,18 @@ export function VendorSubscriptionCheckout({
         description: `${plan.name} Plan — Monthly Subscription`,
         handler: async (response: any) => {
           try {
-            // Write client-side subscription data as fallback
-            const { data: existingSub } = await supabase
-              .from("vendor_subscriptions")
-              .select("id")
-              .eq("razorpay_subscription_id", subData.subscriptionId)
-              .maybeSingle();
+            // Log razorpay callback
+            await logClientEvent({
+              vendor_id: vendorId,
+              event_type: "razorpay_callback_success",
+              plan: planId,
+              amount: finalPrice,
+              status: "success",
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_subscription_id: subData.subscriptionId,
+            });
 
+            // Write client-side subscription data as fallback
             const expiresAt = new Date();
             expiresAt.setMonth(expiresAt.getMonth() + 1);
 
@@ -142,37 +196,91 @@ export function VendorSubscriptionCheckout({
               .update({ subscription_tier: plan.tierValue as any })
               .eq("id", vendorId);
 
+            setPaymentState("success");
+            setLoading(false);
+
             toast({
               title: "Subscription Activated! 🎉",
-              description: `You're now on the ${plan.name} plan. Auto-renews monthly.`,
+              description: `Your ${plan.name} plan is active. Auto-renews monthly.`,
             });
-            setLoading(false);
-            onSuccess();
-            onOpenChange(false);
+
+            // Delay closing to show success state
+            setTimeout(() => {
+              onSuccess();
+              onOpenChange(false);
+            }, 2000);
           } catch (error: any) {
             console.error("Post-payment error:", error);
-            toast({
-              title: "Payment Received",
-              description: "Your payment was captured. If your plan isn't active within minutes, please contact support.",
-              variant: "destructive",
+
+            await logClientEvent({
+              vendor_id: vendorId,
+              event_type: "client_db_write_failed",
+              plan: planId,
+              amount: finalPrice,
+              status: "failed",
+              error_message: error.message,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_subscription_id: subData.subscriptionId,
             });
+
+            // Payment was captured — show success with caveat
+            setPaymentState("success");
             setLoading(false);
-            onSuccess();
-            onOpenChange(false);
+            toast({
+              title: "Payment Received ✓",
+              description: "Your payment was captured. Plan will activate within minutes.",
+            });
+            setTimeout(() => {
+              onSuccess();
+              onOpenChange(false);
+            }, 2000);
           }
         },
-        modal: { ondismiss: () => setLoading(false) },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            setPaymentState("idle");
+          },
+        },
         theme: { color: "#D946EF" },
       };
 
       const razorpay = new window.Razorpay(options);
-      razorpay.on("payment.failed", (response: any) => {
-        toast({ title: "Payment Failed", description: response.error?.description || "Please try again.", variant: "destructive" });
+      razorpay.on("payment.failed", async (response: any) => {
+        const errorDesc = response.error?.description || "Payment failed. Please try again.";
+        const refId = response.error?.metadata?.payment_id || "";
+
+        await logClientEvent({
+          vendor_id: vendorId,
+          event_type: "razorpay_payment_failed",
+          plan: planId,
+          amount: finalPrice,
+          status: "failed",
+          error_message: errorDesc,
+          razorpay_payment_id: refId,
+          razorpay_subscription_id: subData.subscriptionId,
+          metadata: { error_code: response.error?.code, error_reason: response.error?.reason },
+        });
+
+        setFailedRef(refId);
+        setPaymentState("failed");
         setLoading(false);
       });
       razorpay.open();
     } catch (error: any) {
       console.error("Payment error:", error);
+
+      await logClientEvent({
+        vendor_id: vendorId,
+        event_type: "checkout_error",
+        plan: planId,
+        amount: finalPrice,
+        status: "failed",
+        error_message: error.message,
+      });
+
+      setPaymentState("failed");
+      setFailedRef(null);
       toast({ title: "Error", description: error.message || "Failed to initiate payment.", variant: "destructive" });
       setLoading(false);
     }
@@ -184,6 +292,71 @@ export function VendorSubscriptionCheckout({
   }
 
   const PlanIcon = plan.icon;
+
+  // Success state
+  if (paymentState === "success") {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md text-center py-10">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center">
+              <CheckCircle className="h-8 w-8 text-emerald-600" />
+            </div>
+            <h3 className="text-xl font-bold">Your {plan.name} Plan is Active! 🎉</h3>
+            <p className="text-sm text-muted-foreground">
+              Monthly subscription activated. Auto-renews every month. Cancel anytime from Settings.
+            </p>
+            <Badge className="bg-emerald-100 text-emerald-700 text-sm px-4 py-1.5">
+              ₹{finalPrice.toLocaleString()}/month
+            </Badge>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  // Failed state
+  if (paymentState === "failed") {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center gap-4 py-6 text-center">
+            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center">
+              <AlertTriangle className="h-7 w-7 text-red-600" />
+            </div>
+            <h3 className="text-lg font-bold">Payment Failed</h3>
+            <p className="text-sm text-muted-foreground">
+              Your payment could not be processed. No amount has been deducted.
+            </p>
+            {failedRef && (
+              <p className="text-[10px] text-muted-foreground font-mono bg-muted/50 px-3 py-1.5 rounded">
+                Ref: {failedRef}
+              </p>
+            )}
+            <div className="flex gap-3 w-full">
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  setPaymentState("idle");
+                  setFailedRef(null);
+                }}
+              >
+                Retry Payment
+              </Button>
+              <Button
+                variant="outline"
+                className="gap-1.5"
+                onClick={() => window.open("https://wa.me/919876543210?text=Payment%20issue%20for%20vendor%20subscription", "_blank")}
+              >
+                <MessageCircle className="h-4 w-4" />
+                Support
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
