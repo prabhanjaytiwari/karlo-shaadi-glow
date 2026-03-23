@@ -139,7 +139,7 @@ const queryClient = new QueryClient({
 });
 
 // Routes that hide the main nav header and footer
-const AUTH_ROUTES = ['/auth', '/vendor-auth', '/forgot-password', '/reset-password', '/onboarding'];
+const AUTH_ROUTES = ['/auth', '/vendor-auth', '/forgot-password', '/reset-password', '/onboarding', '/vendor/onboarding', '/vendor-onboarding'];
 
 // Full-page loading skeleton shown while lazy chunks load
 const PageLoadingSkeleton = () => (
