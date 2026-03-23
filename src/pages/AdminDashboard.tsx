@@ -601,6 +601,10 @@ export default function AdminDashboard() {
           <TabsContent value="seva">
             <ShaadiSevaAdminTab />
           </TabsContent>
+
+          <TabsContent value="subscriptions">
+            <SubscriptionRecoveryPanel />
+          </TabsContent>
         </Tabs>
       </main>
     </div>
