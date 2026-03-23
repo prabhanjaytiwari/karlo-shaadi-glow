@@ -30,7 +30,7 @@ const PLAN_DETAILS: Record<string, {
   icon: typeof Star;
   color: string;
   bgColor: string;
-  tierValue: "free" | "featured" | "sponsored" | "starter" | "pro" | "elite";
+  tierValue: "starter" | "pro" | "elite";
 }> = {
   starter: { name: "Starter", price: 999, icon: Star, color: "text-slate-500", bgColor: "bg-slate-100", tierValue: "starter" },
   pro: { name: "Pro", price: 2999, icon: Sparkles, color: "text-amber-600", bgColor: "bg-amber-100", tierValue: "pro" },
@@ -88,40 +88,37 @@ export function VendorSubscriptionCheckout({
 
     setLoading(true);
     try {
-      const { data: orderData, error: orderError } = await supabase.functions.invoke(
-        "create-payment",
-        { body: { amount: finalPrice, subscriptionPlan: planId, vendorId } }
+      // Call create-vendor-subscription to create a Razorpay Subscription (recurring)
+      const { data: subData, error: subError } = await supabase.functions.invoke(
+        "create-vendor-subscription",
+        {
+          body: {
+            vendorId,
+            plan: planId,
+            promoCode: appliedPromo?.code || null,
+            finalAmount: finalPrice,
+          },
+        }
       );
-      if (orderError) throw orderError;
+      if (subError) throw subError;
 
       if (!window.Razorpay) {
         throw new Error("Payment system not loaded. Please refresh and try again.");
       }
 
       const options = {
-        key: orderData.keyId,
-        amount: orderData.amount,
-        currency: orderData.currency,
+        key: subData.keyId,
+        subscription_id: subData.subscriptionId,
         name: "Karlo Shaadi",
-        description: `${plan.name} Plan Subscription`,
-        order_id: orderData.orderId,
+        description: `${plan.name} Plan — Monthly Subscription`,
         handler: async (response: any) => {
-          // Helper to write subscription data client-side
-          const writeSubscriptionData = async () => {
+          try {
+            // Write client-side subscription data as fallback
             const { data: existingSub } = await supabase
               .from("vendor_subscriptions")
               .select("id")
-              .eq("razorpay_payment_id", response.razorpay_payment_id)
+              .eq("razorpay_subscription_id", subData.subscriptionId)
               .maybeSingle();
-
-            if (existingSub) {
-              return; // Already written, skip
-            }
-
-            await supabase
-              .from("vendors")
-              .update({ subscription_tier: plan.tierValue as any })
-              .eq("id", vendorId);
 
             const expiresAt = new Date();
             expiresAt.setMonth(expiresAt.getMonth() + 1);
@@ -133,41 +130,38 @@ export function VendorSubscriptionCheckout({
                 plan: plan.tierValue as any,
                 status: "active",
                 amount: finalPrice,
-                discount_amount: plan.price - finalPrice,
+                discount_amount: savings,
+                razorpay_subscription_id: subData.subscriptionId,
                 razorpay_payment_id: response.razorpay_payment_id,
                 started_at: new Date().toISOString(),
                 expires_at: expiresAt.toISOString(),
               }], { onConflict: "vendor_id" });
-          };
 
-          try {
-            // Attempt server-side verification first
-            const { error: verifyError } = await supabase.functions.invoke(
-              "verify-payment",
-              { body: { orderId: response.razorpay_order_id, paymentId: response.razorpay_payment_id, signature: response.razorpay_signature, subscriptionPlan: planId, vendorId } }
-            );
+            await supabase
+              .from("vendors")
+              .update({ subscription_tier: plan.tierValue as any })
+              .eq("id", vendorId);
 
-            if (verifyError) {
-              console.warn("verify-payment failed, but Razorpay captured payment. Writing subscription data directly:", verifyError);
-            }
-
-            // Always write subscription data — Razorpay handler only fires on successful payment
-            await writeSubscriptionData();
-
-            toast({ title: "Subscription Activated!", description: `You're now on the ${plan.name} plan. Enjoy your premium features!` });
+            toast({
+              title: "Subscription Activated! 🎉",
+              description: `You're now on the ${plan.name} plan. Auto-renews monthly.`,
+            });
             setLoading(false);
             onSuccess();
             onOpenChange(false);
           } catch (error: any) {
-            console.error("Payment processing error:", error);
-            // Even if DB write fails, payment was captured — show support message
-            toast({ title: "Payment Received", description: "Your payment was captured but activation had an issue. Please contact support if your plan isn't active within a few minutes.", variant: "destructive" });
+            console.error("Post-payment error:", error);
+            toast({
+              title: "Payment Received",
+              description: "Your payment was captured. If your plan isn't active within minutes, please contact support.",
+              variant: "destructive",
+            });
             setLoading(false);
             onSuccess();
             onOpenChange(false);
           }
         },
-        modal: { ondismiss: () => { setLoading(false); } },
+        modal: { ondismiss: () => setLoading(false) },
         theme: { color: "#D946EF" },
       };
 
@@ -201,7 +195,7 @@ export function VendorSubscriptionCheckout({
             </div>
             Upgrade to {plan.name}
           </DialogTitle>
-          <DialogDescription>Complete your subscription to unlock premium features</DialogDescription>
+          <DialogDescription>Monthly subscription — auto-renews, cancel anytime</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 py-4">
@@ -222,7 +216,7 @@ export function VendorSubscriptionCheckout({
               <span className="text-muted-foreground">per month</span>
             </div>
             {savings > 0 && (
-              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()} with promo code!</p>
+              <p className="text-xs text-green-600 font-bold">💰 You save ₹{savings.toLocaleString()} on first month!</p>
             )}
           </div>
 
@@ -290,7 +284,7 @@ export function VendorSubscriptionCheckout({
             {loading ? (
               <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Processing...</>
             ) : (
-              <>Pay ₹{finalPrice.toLocaleString()} & Activate</>
+              <>Subscribe ₹{finalPrice.toLocaleString()}/month</>
             )}
           </Button>
 
@@ -298,7 +292,7 @@ export function VendorSubscriptionCheckout({
             <Shield className="h-3 w-3 text-green-500" />
             <p className="text-[10px] text-green-600 font-semibold">100% money-back if no 3 leads in 30 days</p>
           </div>
-          <p className="text-xs text-center text-muted-foreground">Secure payment powered by Razorpay. Cancel anytime.</p>
+          <p className="text-xs text-center text-muted-foreground">Secure recurring payment via Razorpay. Cancel anytime from Settings.</p>
         </div>
       </DialogContent>
     </Dialog>
