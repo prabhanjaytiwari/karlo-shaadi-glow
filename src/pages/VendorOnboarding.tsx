@@ -261,6 +261,23 @@ export default function VendorOnboarding() {
     loadCities();
   }, []);
 
+  // Fetch vendor ID if on step 6 but createdVendorId is null (e.g., page refresh)
+  useEffect(() => {
+    const fetchVendorId = async () => {
+      if (step === 6 && !createdVendorId) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: vendorData } = await supabase
+            .from("vendors").select("id").eq("user_id", user.id).maybeSingle();
+          if (vendorData) {
+            setCreatedVendorId(vendorData.id);
+          }
+        }
+      }
+    };
+    fetchVendorId();
+  }, [step, createdVendorId]);
+
   const loadCities = async () => {
     const { data } = await supabase.from("cities").select("*").eq("is_active", true);
     if (data) setCities(data);
@@ -401,6 +418,15 @@ export default function VendorOnboarding() {
       const result = step2Schema.safeParse({ businessName: formData.businessName, cityId: formData.cityId });
       if (!result.success) {
         toast({ title: "Missing info", description: result.error.errors[0]?.message, variant: "destructive" });
+        return;
+      }
+      // In quick setup mode, auto-generate description and skip to step 5 (review)
+      if (quickSetupMode) {
+        if (!formData.description || formData.description.length < 20) {
+          generateDescription();
+        }
+        setDirection(1);
+        setStep(5);
         return;
       }
     }
