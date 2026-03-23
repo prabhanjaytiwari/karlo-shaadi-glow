@@ -5,14 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
-import photographyImg from "@/assets/category-photography.jpg";
-import venueImg from "@/assets/category-venue.jpg";
-import decorationImg from "@/assets/category-decoration.jpg";
-import cateringImg from "@/assets/category-catering.jpg";
-import mehendiImg from "@/assets/category-mehendi.jpg";
-import makeupImg from "@/assets/category-bridal-makeup.jpg";
-import cakeImg from "@/assets/category-cake.jpg";
-import musicImg from "@/assets/category-music.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const featuredArticle = {
   id: 1,
@@ -23,7 +16,7 @@ const featuredArticle = {
   date: "March 15, 2025",
   readTime: "12 min read",
   category: "Planning Guide",
-  image: venueImg,
+  image: cdn.categoryVenue,
   featured: true
 };
 
@@ -37,7 +30,7 @@ const articles = [
     date: "March 12, 2025",
     readTime: "8 min read",
     category: "Photography",
-    image: photographyImg
+    image: cdn.categoryPhotography
   },
   {
     id: 3,
@@ -48,7 +41,7 @@ const articles = [
     date: "March 10, 2025",
     readTime: "10 min read",
     category: "Decoration",
-    image: decorationImg
+    image: cdn.categoryDecoration
   },
   {
     id: 4,
@@ -59,7 +52,7 @@ const articles = [
     date: "March 8, 2025",
     readTime: "15 min read",
     category: "Traditions",
-    image: mehendiImg
+    image: cdn.categoryMehendi
   },
   {
     id: 5,
@@ -70,7 +63,7 @@ const articles = [
     date: "March 5, 2025",
     readTime: "11 min read",
     category: "Venues",
-    image: venueImg
+    image: cdn.categoryVenue
   },
   {
     id: 6,
@@ -81,7 +74,7 @@ const articles = [
     date: "March 3, 2025",
     readTime: "9 min read",
     category: "Catering",
-    image: cateringImg
+    image: cdn.categoryCatering
   },
   {
     id: 7,
@@ -92,7 +85,7 @@ const articles = [
     date: "March 1, 2025",
     readTime: "13 min read",
     category: "Destinations",
-    image: venueImg
+    image: cdn.categoryVenue
   },
   {
     id: 8,
@@ -103,7 +96,7 @@ const articles = [
     date: "February 28, 2025",
     readTime: "10 min read",
     category: "Planning Guide",
-    image: makeupImg
+    image: cdn.categoryBridalMakeup
   },
   {
     id: 9,
@@ -114,7 +107,7 @@ const articles = [
     date: "February 25, 2025",
     readTime: "7 min read",
     category: "Mehendi",
-    image: mehendiImg
+    image: cdn.categoryMehendi
   }
 ];
 

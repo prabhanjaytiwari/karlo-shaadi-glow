@@ -24,18 +24,11 @@ import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 // CountdownBanner removed
 import { useAnalytics } from "@/hooks/useAnalytics";
-import congratsImage from "@/assets/congrats-vendor.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 // Hero images
-import heroStep1 from "@/assets/onboarding-step-1.jpg";
-import heroStep2 from "@/assets/onboarding-step-2.jpg";
-import heroStep3 from "@/assets/onboarding-step-3.jpg";
-import heroStep4 from "@/assets/onboarding-step-4.jpg";
-import heroStep5 from "@/assets/onboarding-step-5.jpg";
-import heroStep6 from "@/assets/onboarding-step-6.jpg";
 
 // Hero for Step 0 (auth) — reuse the main shaadi hero
-import heroAuth from "@/assets/hero-auth-mandap.jpg";
 
 // ── Validation Schemas ──
 const step2Schema = z.object({
@@ -89,7 +82,7 @@ const STEPS = [
   { num: 6, label: "Plan", hindiLabel: "Plan", icon: <Crown className="w-4 h-4" /> },
 ];
 
-const STEP_HEROES = [heroStep1, heroStep2, heroStep3, heroStep4, heroStep5, heroStep6];
+const STEP_HEROES = [cdn.onboardingStep1, cdn.onboardingStep2, cdn.onboardingStep3, cdn.onboardingStep4, cdn.onboardingStep5, cdn.onboardingStep6];
 
 const STEP_STORYTELLING = [
   { hindi: "Apka Kaam, Apki Pehchaan", english: "Your Work, Your Identity", subtitle: "Select the service that defines you" },
@@ -533,7 +526,7 @@ export default function VendorOnboarding() {
 
   // For steps 1-6, map to storytelling/hero arrays (index 0-5)
   const currentStory = step >= 1 ? STEP_STORYTELLING[step - 1] : null;
-  const currentHero = step >= 1 ? STEP_HEROES[step - 1] : heroAuth;
+  const currentHero = step >= 1 ? STEP_HEROES[step - 1] : cdn.heroAuthMandap;
 
   // ── Slide animation ──
   const slideVariants = {
@@ -591,7 +584,7 @@ export default function VendorOnboarding() {
             className="relative w-40 h-40 rounded-3xl overflow-hidden shadow-2xl mb-8"
             style={{ border: '2px solid hsl(38 60% 50% / 0.3)' }}
           >
-            <img src={congratsImage} alt="" className="w-full h-full object-cover" />
+            <img src={cdn.congratsVendor} alt="" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             <motion.div
               initial={{ scale: 0 }}
@@ -679,7 +672,7 @@ export default function VendorOnboarding() {
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Hero Banner */}
           <div className="relative h-48 md:h-64 overflow-hidden">
-            <img src={heroAuth} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "contrast(1.05) saturate(1.1)" }} />
+            <img src={cdn.heroAuthMandap} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "contrast(1.05) saturate(1.1)" }} />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
               <motion.p

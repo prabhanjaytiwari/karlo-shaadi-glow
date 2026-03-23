@@ -18,15 +18,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { MobilePageHeader } from "@/components/mobile/MobilePageHeader";
+import { cdn } from "@/lib/cdnAssets";
 
-import prizeMaldives from "@/assets/prize-maldives.png";
-import prizeDubai from "@/assets/prize-dubai.png";
-import prizeSafari from "@/assets/prize-safari.png";
-import prizeIphone from "@/assets/prize-iphone.png";
-import prizeMacbook from "@/assets/prize-macbook.png";
-import prizeCash1L from "@/assets/prize-cash-1l.png";
-import prizeCash50K from "@/assets/prize-cash-50k.png";
-import prizeMore from "@/assets/prize-more.png";
 
 const leadSchema = z.object({
   referrerName: z.string().trim().min(2, "Name is required").max(100),
@@ -39,14 +32,14 @@ const leadSchema = z.object({
 });
 
 const prizes = [
-  { image: prizeMaldives, label: "Trip to Maldives" },
-  { image: prizeDubai, label: "Trip to Dubai" },
-  { image: prizeSafari, label: "Tata Safari" },
-  { image: prizeIphone, label: "iPhone 17 Pro Max" },
-  { image: prizeMacbook, label: "MacBook M4" },
-  { image: prizeCash1L, label: "₹1 Lakh Cash" },
-  { image: prizeCash50K, label: "₹50,000 Cash" },
-  { image: prizeMore, label: "...and much more!" },
+  { image: cdn.prizeMaldives, label: "Trip to Maldives" },
+  { image: cdn.prizeDubai, label: "Trip to Dubai" },
+  { image: cdn.prizeSafari, label: "Tata Safari" },
+  { image: cdn.prizeIphone, label: "iPhone 17 Pro Max" },
+  { image: cdn.prizeMacbook, label: "MacBook M4" },
+  { image: cdn.prizeCash1l, label: "₹1 Lakh Cash" },
+  { image: cdn.prizeCash50k, label: "₹50,000 Cash" },
+  { image: cdn.prizeMore, label: "...and much more!" },
 ];
 
 const earningMethods = [

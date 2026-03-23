@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle2, Download, Copy, Code, Share2, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import logoImg from "@/assets/logo-new.png";
+import { cdn } from "@/lib/cdnAssets";
 
 interface VerifiedBadgeShowcaseProps {
   vendor: {

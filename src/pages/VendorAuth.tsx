@@ -10,7 +10,7 @@ import { Eye, EyeOff, Loader2, ArrowRight, Crown, TrendingUp, Shield, Sparkles }
 import { sanitizeInput } from "@/lib/validation";
 import { motion } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
-import heroVendor from "@/assets/hero-auth-vendor.jpg";
+import { cdn } from "@/lib/cdnAssets";
 
 const VendorAuth = () => {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ const VendorAuth = () => {
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Hero banner */}
         <div className="relative h-48 md:h-64 overflow-hidden">
-          <img src={heroVendor} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'contrast(1.05) saturate(1.1)' }} />
+          <img src={cdn.heroAuthVendor} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'contrast(1.05) saturate(1.1)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 0%, hsl(260 15% 8%) 100%)' }} />
           <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
             <motion.div initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>

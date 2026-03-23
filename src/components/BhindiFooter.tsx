@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import logo from "@/assets/logo-new.png";
 import { Instagram, Linkedin, Facebook, ArrowRight, Youtube, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { cdn } from "@/lib/cdnAssets";
 
 const footerLinks = {
   company: [
@@ -194,7 +194,7 @@ export const BhindiFooter = () => {
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-3 lg:col-span-2 space-y-5">
             <img 
-              src={logo} 
+              src={cdn.logo} 
               alt="Karlo Shaadi Logo" 
               className="h-12 w-auto"
               style={{ mixBlendMode: 'multiply' }}

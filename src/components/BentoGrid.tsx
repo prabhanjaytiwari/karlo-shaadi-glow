@@ -1,11 +1,7 @@
 import { ArrowRight, Shield, Sparkles, Users, Zap } from "lucide-react";
 import { CinematicImage } from "@/components/CinematicImage";
-import weddingFriends from "@/assets/wedding-friends.jpg";
-import weddingBride from "@/assets/wedding-bride.jpg";
-import weddingDecoration from "@/assets/wedding-decoration.jpg";
-import weddingCatering from "@/assets/wedding-catering.jpg";
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
 import { useStaggeredReveal } from "@/hooks/usePremiumAnimations";
+import { cdn } from "@/lib/cdnAssets";
 
 interface BentoCardProps {
   children: React.ReactNode;
@@ -64,7 +60,7 @@ export const BentoGrid = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-3">
                     <div className="relative rounded-xl overflow-hidden aspect-[4/3]">
-                      <CinematicImage src={weddingFriends} alt="Wedding planning stress" className="w-full h-full" sharp />
+                      <CinematicImage src={cdn.weddingFriends} alt="Wedding planning stress" className="w-full h-full" sharp />
                       <div className="absolute top-2 left-2 px-2 py-1 rounded-lg bg-destructive text-destructive-foreground text-xs font-medium">
                         Before
                       </div>
@@ -77,7 +73,7 @@ export const BentoGrid = () => {
                   </div>
                   <div className="space-y-3">
                     <div className="relative rounded-xl overflow-hidden aspect-[4/3]">
-                      <CinematicImage src={weddingBride} alt="Stress-free planning" className="w-full h-full" cinematic sharp />
+                      <CinematicImage src={cdn.weddingBride} alt="Stress-free planning" className="w-full h-full" cinematic sharp />
                       <div className="absolute top-2 left-2 px-2 py-1 rounded-lg bg-accent text-accent-foreground text-xs font-medium">
                         After
                       </div>
@@ -107,7 +103,7 @@ export const BentoGrid = () => {
               </div>
               
               <div className="relative rounded-xl overflow-hidden aspect-square mt-4">
-                <CinematicImage src={weddingCeremony} alt="Magical planning" className="w-full h-full" cinematic />
+                <CinematicImage src={cdn.weddingCeremony} alt="Magical planning" className="w-full h-full" cinematic />
               </div>
 
               <div className="mt-4 flex items-center gap-2 text-primary font-medium text-sm">
@@ -138,7 +134,7 @@ export const BentoGrid = () => {
                   </div>
                 </div>
                 <div className="relative h-full min-h-[180px] sm:min-h-[200px] overflow-hidden">
-                  <CinematicImage src={weddingCatering} alt="Verified vendors" className="w-full h-full" cinematic sharp />
+                  <CinematicImage src={cdn.weddingCatering} alt="Verified vendors" className="w-full h-full" cinematic sharp />
                 </div>
               </div>
             </div>
@@ -158,7 +154,7 @@ export const BentoGrid = () => {
               </div>
               
               <div className="relative rounded-xl overflow-hidden aspect-square mt-4">
-                <CinematicImage src={weddingDecoration} alt="Secure celebrations" className="w-full h-full" sharp />
+                <CinematicImage src={cdn.weddingDecoration} alt="Secure celebrations" className="w-full h-full" sharp />
               </div>
             </div>
           </BentoCard>

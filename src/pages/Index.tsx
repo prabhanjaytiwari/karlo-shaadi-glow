@@ -9,11 +9,6 @@ import { TrustStatsBanner } from "@/components/TrustStatsBanner";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CinematicImage } from "@/components/CinematicImage";
-import heroWedding from "@/assets/hero-wedding-phere.jpeg";
-import weddingCoupleRomantic from "@/assets/wedding-couple-romantic.jpg";
-import weddingFireworks from "@/assets/wedding-fireworks.jpg";
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
-import weddingManifesting from "@/assets/wedding-manifesting.jpg";
 import { Shield, CheckCircle2, Star, Users, Calculator, Calendar, Heart } from "lucide-react";
 import { ShaadiSevaCounter } from "@/components/ShaadiSevaCounter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -26,6 +21,7 @@ import { AIMatchmakingDialog } from "@/components/AIMatchmakingDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { MobileHomeScreen } from "@/components/mobile/MobileHomeScreen";
+import { cdn } from "@/lib/cdnAssets";
 
 const Index = () => {
   const isMobile = useIsMobile();
@@ -83,7 +79,7 @@ const Index = () => {
       <section className="relative min-h-[65vh] sm:min-h-[75vh] md:min-h-screen flex flex-col overflow-hidden w-full max-w-[100vw] pt-20 sm:pt-24">
         {/* Background */}
         <div ref={parallaxRef} className="absolute inset-0 z-0" style={{ transform: `translateY(${offset * 0.3}px) scale(1.05)` }}>
-          <CinematicImage src={heroWedding} alt="Indian wedding ceremony" className="w-full h-full" cinematic objectPosition="center 25%" />
+          <CinematicImage src={cdn.heroWeddingPhere} alt="Indian wedding ceremony" className="w-full h-full" cinematic objectPosition="center 25%" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background" />
         </div>
         
@@ -236,7 +232,7 @@ const Index = () => {
             </div>
             
             <div className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-video shadow-[var(--shadow-md)] group">
-              <CinematicImage src={weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full" cinematic />
+              <CinematicImage src={cdn.weddingCeremony} alt="Beautiful wedding ceremony" className="w-full h-full" cinematic />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             </div>
 
@@ -310,7 +306,7 @@ const Index = () => {
             {/* Image */}
             <div className={`hidden lg:block ${section1.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}`}>
               <div className="relative rounded-xl overflow-hidden aspect-[4/3] group">
-                <CinematicImage src={weddingCoupleRomantic} alt="Happy wedding couple" className="w-full h-full" cinematic sharp />
+                <CinematicImage src={cdn.weddingCoupleRomantic} alt="Happy wedding couple" className="w-full h-full" cinematic sharp />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -328,7 +324,7 @@ const Index = () => {
             {/* Image */}
             <div className={`order-2 lg:order-1 ${section2.isVisible ? 'scroll-reveal-left is-visible' : 'scroll-reveal-left'}`}>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-[var(--shadow-md)] group">
-                <CinematicImage src={weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full" cinematic />
+                <CinematicImage src={cdn.weddingFireworks} alt="Wedding celebration with fireworks" className="w-full h-full" cinematic />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>
@@ -454,7 +450,7 @@ const Index = () => {
             {/* Image */}
             <div className={section3.isVisible ? 'scroll-reveal-right is-visible' : 'scroll-reveal-right'}>
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-[var(--shadow-md)] group">
-                <CinematicImage src={weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full" cinematic sharp />
+                <CinematicImage src={cdn.weddingManifesting} alt="Beautiful wedding couple" className="w-full h-full" cinematic sharp />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
               </div>
             </div>

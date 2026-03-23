@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -142,25 +143,7 @@ const queryClient = new QueryClient({
 const AUTH_ROUTES = ['/auth', '/vendor-auth', '/forgot-password', '/reset-password', '/onboarding', '/vendor/onboarding', '/vendor-onboarding'];
 
 // Full-page loading skeleton shown while lazy chunks load
-const PageLoadingSkeleton = () => (
-  <motion.div
-    className="min-h-screen bg-background flex items-center justify-center"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.2 }}
-  >
-    <div className="flex flex-col items-center gap-4">
-      <div className="relative w-12 h-12">
-        <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
-        <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary animate-spin" />
-      </div>
-      <div className="space-y-2 text-center">
-        <div className="h-2 w-24 bg-muted rounded-full animate-pulse" />
-        <div className="h-2 w-16 bg-muted/60 rounded-full animate-pulse mx-auto" />
-      </div>
-    </div>
-  </motion.div>
-);
+const PageLoadingSkeleton = () => <PageSkeleton />;
 
 const AnimatedRoutes = () => {
   const location = useLocation();

@@ -37,11 +37,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { cdn } from "@/lib/cdnAssets";
 
 // Import assets for fallback images
-import weddingCeremony from "@/assets/wedding-ceremony.jpg";
-import weddingCoupleRomantic from "@/assets/wedding-couple-romantic.jpg";
-import weddingDecoration from "@/assets/wedding-decoration.jpg";
 
 interface WeddingWebsite {
   id: string;
@@ -228,9 +226,9 @@ const WeddingView = () => {
     if (website?.cover_image_url) return website.cover_image_url;
     // Use theme-based fallback
     switch (website?.theme) {
-      case "peacock-green": return weddingDecoration;
-      case "rose-gold": return weddingCoupleRomantic;
-      default: return weddingCeremony;
+      case "peacock-green": return cdn.weddingDecoration;
+      case "rose-gold": return cdn.weddingCoupleRomantic;
+      default: return cdn.weddingCeremony;
     }
   };
 
