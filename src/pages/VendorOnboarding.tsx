@@ -420,6 +420,15 @@ export default function VendorOnboarding() {
         toast({ title: "Missing info", description: result.error.errors[0]?.message, variant: "destructive" });
         return;
       }
+      // In quick setup mode, auto-generate description and skip to step 5 (review)
+      if (quickSetupMode) {
+        if (!formData.description || formData.description.length < 20) {
+          generateDescription();
+        }
+        setDirection(1);
+        setStep(5);
+        return;
+      }
     }
     if (step === 3) {
       const result = step3Schema.safeParse({ description: formData.description });
