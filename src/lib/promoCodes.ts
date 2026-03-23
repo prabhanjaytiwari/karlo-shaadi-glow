@@ -14,6 +14,13 @@ const PROMO_CODES: PromoCode[] = [
     applicableTo: 'vendor',
     active: true,
   },
+  {
+    code: 'SUPER90',
+    discountPercent: 90,
+    description: '90% off on any subscription',
+    applicableTo: 'all',
+    active: true,
+  },
 ];
 
 export function validatePromoCode(code: string, userType: 'vendor' | 'couple' = 'vendor'): PromoCode | null {

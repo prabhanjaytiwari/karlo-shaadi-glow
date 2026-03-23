@@ -74,3 +74,6 @@ verify_jwt = false
 
 [functions.generate-home-banners]
 verify_jwt = false
+
+[functions.cancel-vendor-subscription]
+verify_jwt = true
