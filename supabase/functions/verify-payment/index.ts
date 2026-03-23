@@ -170,43 +170,57 @@ serve(async (req) => {
     if (subscriptionPlan) {
       console.log(`Processing subscription payment for plan: ${subscriptionPlan}`);
       
-      // Get subscription amount from create-payment response
-      const planPrices: Record<string, number> = {
+      // Vendor plans — client-side handles vendor_subscriptions table
+      const vendorPlans = ['starter', 'pro', 'elite'];
+      const isVendorPlan = vendorPlans.includes(subscriptionPlan);
+
+      // Couple plan config
+      const couplePlanPrices: Record<string, number> = {
         'premium': 2999,
         'vip': 9999
       };
       
       const planNames: Record<string, string> = {
         'premium': 'Premium Plan',
-        'vip': 'VIP Plan'
+        'vip': 'VIP Plan',
+        'starter': 'Starter Plan',
+        'pro': 'Pro Plan',
+        'elite': 'Elite Plan',
       };
-      
-      const amount = planPrices[subscriptionPlan] || 0;
-      
-      // Upsert subscription (update if exists, insert if not)
-      const { error: subscriptionError } = await supabase
-        .from("subscriptions")
-        .upsert({
-          user_id: user.id,
-          plan: subscriptionPlan,
-          status: 'active',
-          amount: amount,
-          razorpay_order_id: orderId,
-          razorpay_payment_id: paymentId,
-          activated_at: new Date().toISOString(),
-          expires_at: null, // One-time lifetime access
-        }, {
-          onConflict: 'user_id'
-        });
 
-      if (subscriptionError) {
-        console.error(`Subscription upsert error: ${subscriptionError.message}`);
-        throw subscriptionError;
+      if (!isVendorPlan) {
+        // Couple subscription — upsert to subscriptions table
+        const amount = couplePlanPrices[subscriptionPlan] || 0;
+
+        const { error: subscriptionError } = await supabase
+          .from("subscriptions")
+          .upsert({
+            user_id: user.id,
+            plan: subscriptionPlan,
+            status: 'active',
+            amount: amount,
+            razorpay_order_id: orderId,
+            razorpay_payment_id: paymentId,
+            activated_at: new Date().toISOString(),
+            expires_at: null,
+          }, {
+            onConflict: 'user_id'
+          });
+
+        if (subscriptionError) {
+          console.error(`Subscription upsert error: ${subscriptionError.message}`);
+          throw subscriptionError;
+        }
+
+        console.log(`Couple subscription ${subscriptionPlan} activated for user ${user.id}`);
+      } else {
+        // Vendor plan — skip DB write, client handles vendor_subscriptions
+        console.log(`Vendor plan ${subscriptionPlan} verified for user ${user.id} — client will handle DB`);
       }
 
-      console.log(`Subscription ${subscriptionPlan} activated for user ${user.id}`);
-      
-      // Send payment receipt email for subscription
+      const amount = isVendorPlan ? 0 : (couplePlanPrices[subscriptionPlan] || 0);
+
+      // Send payment receipt email
       await sendPaymentReceiptEmail(supabaseUrl, supabaseKey, {
         userEmail: user.email!,
         userName,
@@ -217,12 +231,12 @@ serve(async (req) => {
         planName: planNames[subscriptionPlan] || subscriptionPlan
       });
       
-      // Send push notification for subscription payment
+      // Send push notification
       await sendPushNotification(supabaseUrl, supabaseKey, {
         user_id: user.id,
         title: "Payment Successful! 🎉",
         body: `Your ${planNames[subscriptionPlan] || subscriptionPlan} subscription is now active!`,
-        url: "/dashboard",
+        url: isVendorPlan ? "/vendor/dashboard" : "/dashboard",
         tag: "payment"
       });
       
