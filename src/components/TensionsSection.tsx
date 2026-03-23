@@ -18,24 +18,22 @@ export const TensionsSection = () => {
           }}
         >
           <div className="inline-block mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted text-muted-foreground">
-              <span className="font-medium text-sm">Categories</span>
-            </div>
+            <p className="text-accent font-medium text-sm tracking-widest uppercase">Browse By Category</p>
           </div>
           
-          <h2 className="text-2xl md:text-3xl font-semibold leading-tight">
-            2000+ Wedding Services.
+          <h2 className="text-3xl md:text-4xl font-display font-semibold leading-tight">
+            Every Service Your
             <br />
-            <span className="text-accent font-quote italic">
-              One Platform.
+            <span className="text-primary font-quote italic">
+              Wedding Needs
             </span>
           </h2>
           
-          <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto leading-relaxed px-2">
-            From photographers to caterers—every wedding service you need, verified and ready to book.
+          <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto leading-relaxed px-2 mt-3">
+            From photographers to pandits — every wedding service, verified and ready to book.
           </p>
 
-          <div className="pt-2 sm:pt-4">
+          <div className="pt-4 sm:pt-6">
             <Link to="/categories">
               <Button size="default" className="rounded-full px-6">
                 Explore All Categories

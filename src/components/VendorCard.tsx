@@ -162,10 +162,11 @@ export const VendorCard = ({
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-muted">
-              <span className="text-4xl sm:text-5xl font-bold text-muted-foreground/30">
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 via-accent/3 to-primary/5">
+              <span className="text-5xl font-display font-bold text-primary/20">
                 {(vendor.business_name || 'V').charAt(0)}
               </span>
+              <span className="text-xs text-muted-foreground mt-1">Portfolio coming soon</span>
             </div>
           )}
 
