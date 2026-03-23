@@ -43,36 +43,36 @@
     --safe-area-left: env(safe-area-inset-left, 0px);
     --safe-area-right: env(safe-area-inset-right, 0px);
     
-    /* Clean Wedding Color System */
-    --background: 0 0% 100%;
-    --foreground: 350 25% 15%;
+    /* Indian Wedding Color System — Warm, Regal, Trustworthy */
+    --background: 30 25% 98%;
+    --foreground: 20 25% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 350 25% 15%;
+    --card: 30 20% 99%;
+    --card-foreground: 20 25% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 350 25% 15%;
+    --popover: 30 20% 99%;
+    --popover-foreground: 20 25% 12%;
 
-    /* Primary - Vibrant Rose/Magenta */
-    --primary: 340 75% 50%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary — Deep Crimson/Maroon (शादी red) */
+    --primary: 350 72% 40%;
+    --primary-foreground: 40 30% 97%;
 
-    --secondary: 350 8% 96%;
-    --secondary-foreground: 350 25% 20%;
+    --secondary: 30 15% 95%;
+    --secondary-foreground: 20 20% 22%;
 
-    /* Accent - Rich Gold */
-    --accent: 38 90% 55%;
-    --accent-foreground: 38 90% 15%;
+    /* Accent — Burnished Gold (सोना) */
+    --accent: 38 75% 50%;
+    --accent-foreground: 38 80% 12%;
 
-    --muted: 350 6% 95%;
-    --muted-foreground: 350 10% 50%;
+    --muted: 30 12% 94%;
+    --muted-foreground: 20 10% 45%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 92%;
-    --input: 350 6% 96%;
-    --ring: 340 75% 50%;
+    --border: 30 12% 90%;
+    --input: 30 12% 95%;
+    --ring: 350 72% 40%;
 
     --radius: 0.75rem;
     
