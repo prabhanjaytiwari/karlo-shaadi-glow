@@ -3,9 +3,11 @@ import makeupImg from "@/assets/vendor-proof-makeup.jpg";
 import decorImg from "@/assets/vendor-proof-decorator.jpg";
 import catererImg from "@/assets/vendor-proof-caterer.jpg";
 import djImg from "@/assets/vendor-proof-dj.jpg";
+import photographerImg from "@/assets/vendor-proof-photographer.jpg";
+import venueImg from "@/assets/vendor-proof-venue.jpg";
 
 const vendors = [
-  { name: "Rahul Sharma Studio", cat: "Photographer · Lucknow", earn: "₹3.2L earned", img: null },
+  { name: "Rahul Sharma Studio", cat: "Photographer · Lucknow", earn: "₹3.2L earned", img: photographerImg },
   { name: "Dream Decor Events", cat: "Decorator · Delhi", earn: "28 leads/month", img: decorImg },
   { name: "Priya Beauty Studio", cat: "Makeup · Kanpur", earn: "Fully booked 3mo", img: makeupImg },
   { name: "Royal Band Lucknow", cat: "Band & DJ · Lucknow", earn: "₹1.8L earned", img: djImg },
