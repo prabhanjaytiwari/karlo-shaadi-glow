@@ -33,16 +33,16 @@ const composition = await selectComposition({
   puppeteerInstance: browser,
 });
 
-console.log(`Rendering ${composition.durationInFrames} frames...`);
+console.log(`Rendering ${composition.durationInFrames} frames (video only)...`);
 await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/karloshaadi-vendor-promo-v2.mp4",
+  outputLocation: "/tmp/video-only.mp4",
   puppeteerInstance: browser,
-  muted: false,
+  muted: true,
   concurrency: 1,
 });
 
 await browser.close({ silent: false });
-console.log("Done! Output: /mnt/documents/karloshaadi-vendor-promo-v2.mp4");
+console.log("Video rendered. Now muxing audio...");
