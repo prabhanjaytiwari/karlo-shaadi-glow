@@ -704,3 +704,9 @@ html {
   color: hsl(38 90% 15%);
   border: none;
 }
+
+/* Marquee animation for vendor landing */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
