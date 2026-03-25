@@ -1,167 +1,117 @@
 
 
-# Harden Razorpay Subscription System — Complete Plan
+# ForVendors.tsx — Complete Sales Landing Page Redesign
 
-## What's Missing Today
+## Goal
+Transform `/for-vendors` into a high-conversion sales landing page for Facebook/Instagram ad campaigns. Every section drives toward "Register Free Now" CTA. AI-generated hero and section images via Nano Banana Pro for realistic Indian wedding vendor visuals.
 
-1. **No payment logging table** — zero audit trail for payment attempts, failures, or webhook events
-2. **No admin recovery UI** — if a payment succeeds on Razorpay but fails in our DB, there's no way to fix it without raw SQL
-3. **No fallback verification** — if the webhook misses an event, no background job or manual check re-syncs from Razorpay API
-4. **Webhook is correct** but lacks event logging and idempotency guards (duplicate webhook calls could corrupt data)
-5. **Client-side success state** is minimal — no persistent "Your plan is active" confirmation after payment
+## Current State
+Page has: Hero, stats strip, 6 benefits, 6 categories, 4-step how-it-works, 3 testimonials, FAQ, final CTA. Decent structure but lacks:
+- Pricing tiers inline (forces separate page visit = drop-off)
+- Tool showcase (vendors don't know what dashboard tools they get)
+- Urgency/scarcity ("First 500 vendors" offer not shown)
+- Comparison table vs competitors (WedMeGood, ShaadiSaga)
+- Social proof numbers (revenue generated, leads delivered)
+- Video/visual storytelling of the vendor dashboard
+- Early bird / limited-time offer section
 
----
+## New Page Structure (Top to Bottom)
 
-## Changes
+### 1. Hero Section (Keep, enhance)
+- Stronger headline: "Apna Wedding Business 10x Karo — Zero Commission"
+- Sub: "500+ vendors already growing. Kya aap next ho?"
+- Two CTAs: "Register Free" + "Watch Demo" (scroll to dashboard preview)
+- AI-generated image: Indian wedding photographer in action at a venue
 
-### 1. Create `payment_logs` Table (Migration)
+### 2. Trust Strip (Keep, enhance)
+- Add: "₹2Cr+ Revenue Generated" and "10,000+ Leads Delivered"
 
-Stores every payment-related event as an immutable audit trail:
+### 3. Problem-Solution Section (NEW)
+- "Tired of 15-20% commission?" comparison table
+- Karlo Shaadi vs WedMeGood vs ShaadiSaga — simple 3-column grid
+- Highlights: Commission %, Lead quality, Dashboard tools, Contract lock-in
 
-```sql
-CREATE TABLE public.payment_logs (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  vendor_id uuid,
-  user_id uuid,
-  event_type text NOT NULL,          -- 'checkout_initiated', 'razorpay_callback', 'webhook_received', 'verification_failed', 'manual_recovery', etc.
-  razorpay_payment_id text,
-  razorpay_subscription_id text,
-  razorpay_order_id text,
-  plan text,
-  amount numeric,
-  status text,                        -- 'success', 'failed', 'pending'
-  error_message text,
-  metadata jsonb DEFAULT '{}',
-  created_at timestamptz DEFAULT now()
-);
+### 4. What You Get — Tool Showcase (NEW)
+- Visual cards showing actual dashboard features vendors get FREE:
+  - Smart CRM with lead pipeline
+  - Digital contracts & invoices
+  - Portfolio mini-site (SEO-optimized)
+  - Business analytics dashboard
+  - WhatsApp integration
+  - Payment tracking
+- AI-generated images for each tool card
 
--- RLS: Admins can read all, vendors can read own
-ALTER TABLE public.payment_logs ENABLE ROW LEVEL SECURITY;
+### 5. How It Works (Keep, redesign)
+- 4 steps with AI-generated illustrations
 
-CREATE POLICY "Admins can view all payment logs" ON public.payment_logs
-  FOR SELECT TO authenticated
-  USING (public.has_role(auth.uid(), 'admin'));
+### 6. Pricing Tiers Inline (NEW — pulled from VendorPricing)
+- Show all 4 plans (Free, Starter, Pro, Elite) directly on this page
+- No need to navigate away — reduces drop-off
+- "Register Free" for Free plan, "Start Free, Upgrade Later" messaging
 
-CREATE POLICY "Vendors can view own payment logs" ON public.payment_logs
-  FOR SELECT TO authenticated
-  USING (user_id = auth.uid());
+### 7. Early Vendor Advantage (NEW)
+- "First 500 Vendors — Free Forever" badge
+- Countdown/scarcity: "Only X spots left in your city"
+- Special benefits for early joiners
 
-CREATE POLICY "System can insert payment logs" ON public.payment_logs
-  FOR INSERT TO authenticated
-  WITH CHECK (true);
+### 8. Vendor Success Stories (Keep, enhance)
+- Add revenue numbers, before/after metrics
+- AI-generated vendor portrait images
 
--- Service role needs full access for edge functions
-CREATE POLICY "Service role full access" ON public.payment_logs
-  FOR ALL USING (true);
-```
+### 9. Categories Welcome (Keep)
 
-### 2. Harden Webhook — Idempotency + Logging
+### 10. FAQ (Keep)
 
-**File:** `supabase/functions/vendor-subscription-webhook/index.ts`
+### 11. Final CTA — Full-width immersive (Keep, enhance)
 
-Add:
-- **Idempotency**: Before processing, check if this exact `razorpay_payment_id` (for charged events) or event combination already exists in `payment_logs`. Skip if duplicate.
-- **Event logging**: Insert a `payment_logs` row for every webhook event received (success or failure).
-- **Error resilience**: Wrap each DB update in try/catch — if vendor_subscriptions update fails, still log the event and return 200 (so Razorpay doesn't retry endlessly).
+## AI Image Generation Plan
 
-### 3. Add Razorpay API Fallback Verification
+Create an edge function `generate-vendor-landing-images` that generates images via Nano Banana Pro and stores them in `site-assets` bucket. Images needed:
 
-**File:** `supabase/functions/verify-vendor-subscription/index.ts` (NEW)
+1. **Hero**: Indian wedding photographer shooting at a decorated mandap venue, cinematic
+2. **Dashboard Preview**: Mock vendor dashboard on laptop screen, Indian wedding context
+3. **CRM Tool**: Vendor managing leads on phone, wedding venue background
+4. **Contract Tool**: Professional contract being signed, Indian wedding setting
+5. **Portfolio Tool**: Photographer showcasing portfolio on tablet
+6. **Analytics Tool**: Business charts on screen with wedding decor backdrop
+7. **Early Bird**: Golden ticket / VIP pass visual, Indian wedding aesthetic
+8. **Success Story Portraits**: 3 Indian vendor portraits (photographer, caterer, decorator)
 
-A new edge function that an admin (or the system) can call to:
-1. Accept a `razorpay_subscription_id` or `vendor_id`
-2. Fetch the subscription status directly from Razorpay API (`GET /v1/subscriptions/{id}`)
-3. Compare with local `vendor_subscriptions` table
-4. If Razorpay says "active" but local says "created"/"free", fix the local DB
-5. Log the recovery action in `payment_logs`
+These will be generated once and cached in storage.
 
-### 4. Admin Subscription Recovery Panel
+## Implementation
 
-**File:** `src/components/admin/SubscriptionRecoveryPanel.tsx` (NEW)
+### File 1: `supabase/functions/generate-vendor-landing-images/index.ts`
+- Edge function that generates 8-10 images via Nano Banana Pro
+- Stores in `site-assets` bucket with `vendor-landing-*` prefix
+- Returns URLs of generated images
+- Idempotent — skips if images already exist
 
-A new admin tab component with:
-- Search by vendor email, business name, or vendor ID
-- Shows vendor's current subscription status (local DB) alongside Razorpay status (fetched via edge function)
-- "Sync from Razorpay" button — calls `verify-vendor-subscription` to auto-fix mismatches
-- "Manual Activate" form — admin enters plan + payment ID → directly upserts `vendor_subscriptions` + updates `vendors.subscription_tier`
-- Payment logs table filtered by vendor — shows all events for debugging
+### File 2: `src/lib/cdnAssets.ts`
+- Add new CDN keys for vendor landing images
 
-**File:** `src/pages/AdminDashboard.tsx`
+### File 3: `src/pages/ForVendors.tsx` (Complete rewrite)
+- New section order as outlined above
+- Inline pricing cards (adapted from VendorPricing)
+- Competitor comparison table
+- Tool showcase with AI images
+- Early vendor advantage section with scarcity
+- All CTAs point to `/vendor/onboarding`
+- Fully responsive (grid-cols-1 → md:2 → lg:3/4)
+- Hinglish copy for Indian market resonance
 
-- Add new tab "Subscriptions" with the `SubscriptionRecoveryPanel`
+### File 4: `src/components/vendor/CompetitorComparison.tsx` (New)
+- Clean comparison table: Karlo Shaadi vs WedMeGood vs ShaadiSaga
+- Green checkmarks for us, red X for competitors on key features
 
-### 5. Client-Side Payment Trust Layer
+### File 5: `src/components/vendor/VendorToolShowcase.tsx` (New)
+- Visual grid of 6 tools vendors get
+- Each card: AI image + title + description + "Free" or plan badge
 
-**File:** `src/components/vendor/VendorSubscriptionCheckout.tsx`
-
-Enhance the checkout flow:
-- **Before payment**: Log `checkout_initiated` event to `payment_logs`
-- **On Razorpay callback (success)**: Log `razorpay_callback` event, then write subscription data (existing logic)
-- **On failure**: Log `payment_failed` event with error details. Show a clear error UI with:
-  - "Payment failed" message
-  - "Retry Payment" button
-  - "Contact Support" link (WhatsApp/email)
-  - Payment reference ID for support debugging
-- **Post-success**: After successful write, show a persistent confirmation banner: "Your [Plan] subscription is active! ✓" with plan details and next billing date
-
-### 6. Webhook Logging in `create-vendor-subscription`
-
-**File:** `supabase/functions/create-vendor-subscription/index.ts`
-
-Add `payment_logs` insert for `subscription_created` event after successful Razorpay subscription creation.
-
-### 7. Webhook Logging in `cancel-vendor-subscription`
-
-**File:** `supabase/functions/cancel-vendor-subscription/index.ts`
-
-Add `payment_logs` insert for `subscription_cancelled` event.
-
----
-
-## Files Created/Modified
-
-| File | Action |
-|------|--------|
-| Migration: `payment_logs` table | **Create** |
-| `supabase/functions/vendor-subscription-webhook/index.ts` | **Modify** — add idempotency, logging |
-| `supabase/functions/verify-vendor-subscription/index.ts` | **Create** — Razorpay API fallback verification |
-| `supabase/functions/create-vendor-subscription/index.ts` | **Modify** — add payment logging |
-| `supabase/functions/cancel-vendor-subscription/index.ts` | **Modify** — add payment logging |
-| `src/components/admin/SubscriptionRecoveryPanel.tsx` | **Create** — admin recovery UI |
-| `src/pages/AdminDashboard.tsx` | **Modify** — add Subscriptions tab |
-| `src/components/vendor/VendorSubscriptionCheckout.tsx` | **Modify** — add logging, better error/success states |
-| `supabase/config.toml` | **Modify** — add verify-vendor-subscription config |
-
----
-
-## Technical Flow After Changes
-
-```text
-Vendor clicks Subscribe
-  → Log: checkout_initiated
-  → create-vendor-subscription → Razorpay subscription created
-  → Log: subscription_created
-  → Razorpay checkout opens
-  → Payment captured
-  → Razorpay handler callback fires
-  → Log: razorpay_callback
-  → Client writes vendor_subscriptions (fallback)
-  → Show "Plan Active ✓" confirmation
-  
-Meanwhile:
-  → Razorpay webhook fires → vendor-subscription-webhook
-  → Check idempotency (skip if duplicate)
-  → Log: webhook_received
-  → Update vendor_subscriptions + vendors table
-  → Send notification
-
-If webhook fails:
-  → Client-side fallback already wrote the data
-  → Admin can use "Sync from Razorpay" to verify
-  → payment_logs shows full audit trail
-
-If client-side fails:
-  → Webhook will still fire and update correctly
-  → Admin recovery panel can manually fix
-```
+## Technical Notes
+- Edge function uses `google/gemini-3-pro-image-preview` (Nano Banana Pro) for realistic images
+- Images generated once, stored permanently in `site-assets` bucket
+- Page loads images from CDN (already optimized WebP pipeline)
+- All CTAs use `navigate("/vendor/onboarding")` for consistent funnel
+- Mobile-first: all grids responsive, text scales properly
 
