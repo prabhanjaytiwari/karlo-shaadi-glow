@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import heroImg from "@/assets/vendor-hero-photographer.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -25,14 +26,15 @@ export function VendorHero() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-28 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #2D0808 0%, #4A0E0E 40%, #8B1A1A 100%)" }}>
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 py-28 overflow-hidden">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img src={heroImg} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(45,8,8,0.92) 0%, rgba(74,14,14,0.88) 40%, rgba(139,26,26,0.85) 100%)" }} />
+        </div>
         {/* Pattern overlay */}
         <div className="absolute inset-0 opacity-[0.04]"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9962A' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
-        {/* Radial glows */}
-        <div className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at 20% 80%, rgba(201,150,42,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(201,150,42,0.10) 0%, transparent 60%)" }} />
 
         <div className="relative z-10 max-w-[820px]">
           <motion.div custom={0} variants={fadeUp} initial="hidden" animate="visible"
@@ -43,7 +45,7 @@ export function VendorHero() {
 
           <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible"
             className="font-display font-bold text-white leading-[1.12] tracking-tight"
-            style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)" }}>
+            style={{ fontSize: "clamp(2.4rem, 6vw, 4.5rem)" }}>
             India's Fastest Growing{" "}
             <br className="hidden sm:block" />
             Wedding Marketplace{" "}
@@ -53,7 +55,7 @@ export function VendorHero() {
 
           <motion.p custom={2} variants={fadeUp} initial="hidden" animate="visible"
             className="text-white/70 font-light max-w-[600px] mx-auto mt-5 mb-10 leading-relaxed"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}>
+            style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)" }}>
             Get verified leads directly in your inbox. No middlemen. No guesswork.
             Join 500+ vendors already closing bookings on KarloShaadi.
           </motion.p>
@@ -77,8 +79,8 @@ export function VendorHero() {
             {trustStats.map((s, i) => (
               <div key={i} className="flex items-center gap-8">
                 <div className="text-center">
-                  <div className="font-display font-bold leading-none" style={{ fontSize: "2.4rem", color: "#E8B94A" }}>{s.num}</div>
-                  <div className="text-xs text-white/55 tracking-widest uppercase mt-1">{s.label}</div>
+                  <div className="font-display font-bold leading-none" style={{ fontSize: "2.2rem", color: "#E8B94A" }}>{s.num}</div>
+                  <div className="text-[0.7rem] text-white/55 tracking-widest uppercase mt-1">{s.label}</div>
                 </div>
                 {i < trustStats.length - 1 && <div className="w-px h-10 bg-white/15 hidden sm:block" />}
               </div>
@@ -88,10 +90,10 @@ export function VendorHero() {
       </section>
 
       {/* Marquee */}
-      <div className="overflow-hidden py-3" style={{ background: "linear-gradient(90deg, #C9962A, #E8B94A, #C9962A)" }}>
+      <div className="overflow-hidden py-3" style={{ background: "linear-gradient(90deg, hsl(var(--accent)), hsl(45 95% 60%), hsl(var(--accent)))" }}>
         <div className="flex whitespace-nowrap animate-[marquee_22s_linear_infinite]">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="px-8 text-xs font-semibold tracking-widest uppercase" style={{ color: "#4A0E0E" }}>
+            <span key={i} className="px-8 text-xs font-semibold tracking-widest uppercase text-accent-foreground">
               {item} <span className="opacity-50 ml-8">✦</span>
             </span>
           ))}
