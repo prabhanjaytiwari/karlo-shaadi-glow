@@ -6,31 +6,31 @@ import { Scene3Solution } from "./scenes/Scene3Solution";
 import { Scene4Proof } from "./scenes/Scene4Stats";
 import { Scene5CTA } from "./scenes/Scene5CTA";
 
-// Audio durations (with ~15 frame padding each for breathing room):
-// Scene1: 10.08s = 302f → 320f
-// Scene2: 12.59s = 378f → 395f
-// Scene3: 10.50s = 315f → 330f
-// Scene4: 10.54s = 316f → 335f
-// Scene5:  9.10s = 273f → 290f
-// Total: ~1670 frames
+// Audio durations (30fps) with padding:
+// Scene1: 13.47s = 404f → 420f
+// Scene2: 11.05s = 332f → 345f
+// Scene3: 11.33s = 340f → 355f
+// Scene4: 11.24s = 337f → 350f
+// Scene5:  6.59s = 198f → 215f
+// Total: 1685 frames
 
 export const MainVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: "#0D0404" }}>
       <Series>
-        <Series.Sequence durationInFrames={320}>
+        <Series.Sequence durationInFrames={420}>
           <Scene1Hook />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={395}>
+        <Series.Sequence durationInFrames={345}>
           <Scene2Pain />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={330}>
+        <Series.Sequence durationInFrames={355}>
           <Scene3Solution />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={335}>
+        <Series.Sequence durationInFrames={350}>
           <Scene4Proof />
         </Series.Sequence>
-        <Series.Sequence durationInFrames={290}>
+        <Series.Sequence durationInFrames={215}>
           <Scene5CTA />
         </Series.Sequence>
       </Series>

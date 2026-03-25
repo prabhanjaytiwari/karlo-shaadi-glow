@@ -7,229 +7,160 @@ import {
   AbsoluteFill,
   Audio,
   staticFile,
+  Img,
 } from "remotion";
 
 export const Scene5CTA: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Logo slam entrance
-  const logoSlam = spring({
-    frame: frame - 5,
-    fps,
-    config: { damping: 10, stiffness: 150 },
-  });
+  // Logo slam
+  const logoSlam = spring({ frame: frame - 5, fps, config: { damping: 10, stiffness: 150 } });
 
-  // Tagline reveal
-  const tagline = spring({ frame: frame - 30, fps, config: { damping: 18 } });
+  // Tagline
+  const tagline = spring({ frame: frame - 25, fps, config: { damping: 18 } });
 
-  // CTA button pulse
-  const ctaPulse = interpolate(
-    Math.sin(frame * 0.1),
-    [-1, 1],
-    [0.95, 1.05]
-  );
-  const ctaOpacity = spring({ frame: frame - 60, fps, config: { damping: 15 } });
+  // CTA pulse
+  const ctaPulse = interpolate(Math.sin(frame * 0.12), [-1, 1], [0.94, 1.06]);
+  const ctaOp = spring({ frame: frame - 50, fps, config: { damping: 15 } });
 
-  // URL reveal
-  const urlReveal = spring({ frame: frame - 90, fps, config: { damping: 20 } });
+  // URL
+  const urlOp = spring({ frame: frame - 80, fps, config: { damping: 20 } });
 
-  // Bottom line
-  const bottomLine = spring({ frame: frame - 130, fps, config: { damping: 18 } });
+  // Bottom
+  const bottomOp = spring({ frame: frame - 110, fps, config: { damping: 18 } });
 
-  // Particle burst on CTA
-  const burstFrame = Math.max(0, frame - 60);
+  // Background image
+  const bgOp = interpolate(frame, [0, 20], [0, 0.15], { extrapolateRight: "clamp" });
 
-  // Gold rays
-  const rayRotation = frame * 0.15;
+  // Rotating rays
+  const rayRot = frame * 0.2;
+
+  // Burst particles
+  const burstFrame = Math.max(0, frame - 50);
 
   return (
-    <AbsoluteFill
-      style={{
-        background: "linear-gradient(170deg, #2D0808 0%, #4A0E0E 40%, #2D0808 100%)",
-        overflow: "hidden",
-      }}
-    >
-      <Audio src={staticFile("voiceover/scene5-cta.mp3")} />
+    <AbsoluteFill style={{
+      background: "linear-gradient(170deg, #2D0808 0%, #4A0E0E 40%, #2D0808 100%)",
+      overflow: "hidden",
+    }}>
+      <Audio src={staticFile("voiceover/scene5-cta-v3.mp3")} />
+
+      {/* Background success image */}
+      <div style={{ position: "absolute", inset: 0, opacity: bgOp }}>
+        <Img src={staticFile("images/vendor-success.jpg")}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      </div>
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "radial-gradient(ellipse at center, rgba(45,8,8,0.7) 0%, rgba(45,8,8,0.95) 100%)",
+      }} />
 
       {/* Rotating gold rays */}
-      <div
-        style={{
-          position: "absolute",
-          top: "40%",
-          left: "50%",
-          width: 1200,
-          height: 1200,
-          transform: `translate(-50%, -50%) rotate(${rayRotation}deg)`,
-          opacity: 0.06,
-        }}
-      >
+      <div style={{
+        position: "absolute", top: "45%", left: "50%",
+        width: 1400, height: 1400,
+        transform: `translate(-50%, -50%) rotate(${rayRot}deg)`,
+        opacity: 0.05,
+      }}>
         {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: 4,
-              height: 600,
-              background: "linear-gradient(to bottom, #C9962A, transparent)",
-              transformOrigin: "top center",
-              transform: `rotate(${i * 30}deg)`,
-            }}
-          />
+          <div key={i} style={{
+            position: "absolute", top: "50%", left: "50%",
+            width: 3, height: 700,
+            background: "linear-gradient(to bottom, #C9962A, transparent)",
+            transformOrigin: "top center",
+            transform: `rotate(${i * 30}deg)`,
+          }} />
         ))}
       </div>
 
       {/* Burst particles */}
-      {burstFrame > 0 &&
-        burstFrame < 60 &&
-        [...Array(16)].map((_, i) => {
-          const angle = (i / 16) * Math.PI * 2;
-          const dist = interpolate(burstFrame, [0, 60], [0, 400]);
-          const opacity = interpolate(burstFrame, [0, 20, 60], [0, 1, 0], {
-            extrapolateRight: "clamp",
-          });
-          return (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                top: `calc(45% + ${Math.sin(angle) * dist}px)`,
-                left: `calc(50% + ${Math.cos(angle) * dist}px)`,
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                background: "#C9962A",
-                opacity,
-              }}
-            />
-          );
-        })}
+      {burstFrame > 0 && burstFrame < 50 && [...Array(14)].map((_, i) => {
+        const angle = (i / 14) * Math.PI * 2;
+        const dist = interpolate(burstFrame, [0, 50], [0, 350]);
+        const op = interpolate(burstFrame, [0, 15, 50], [0, 1, 0], { extrapolateRight: "clamp" });
+        return (
+          <div key={i} style={{
+            position: "absolute",
+            top: `calc(45% + ${Math.sin(angle) * dist}px)`,
+            left: `calc(50% + ${Math.cos(angle) * dist}px)`,
+            width: 6, height: 6, borderRadius: "50%",
+            background: "#C9962A", opacity: op,
+          }} />
+        );
+      })}
 
-      {/* Main content */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 60,
-          right: 60,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* Brand name */}
-        <div
-          style={{
-            opacity: logoSlam,
-            transform: `scale(${interpolate(logoSlam, [0, 1], [2, 1])})`,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "serif",
-              fontSize: 90,
-              fontWeight: 700,
-              textAlign: "center",
-            }}
-          >
+      {/* Content */}
+      <div style={{
+        position: "absolute", inset: 0,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        padding: "0 60px",
+      }}>
+        {/* Brand */}
+        <div style={{
+          opacity: logoSlam,
+          transform: `scale(${interpolate(logoSlam, [0, 1], [2.5, 1])})`,
+        }}>
+          <div style={{
+            fontFamily: "serif", fontSize: 80, fontWeight: 700, textAlign: "center",
+          }}>
             <span style={{ color: "#C9962A" }}>Karlo</span>
             <span style={{ color: "#F5E6C0" }}>Shaadi</span>
           </div>
         </div>
 
         {/* Tagline */}
-        <div
-          style={{
-            marginTop: 30,
-            opacity: tagline,
-            transform: `translateY(${interpolate(tagline, [0, 1], [20, 0])}px)`,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "sans-serif",
-              fontSize: 36,
-              fontWeight: 300,
-              color: "rgba(245,230,192,0.7)",
-              textAlign: "center",
-            }}
-          >
-            Aapka Business, Aapke Rules
+        <div style={{
+          marginTop: 24, opacity: tagline,
+          transform: `translateY(${interpolate(tagline, [0, 1], [20, 0])}px)`,
+        }}>
+          <div style={{
+            fontFamily: "sans-serif", fontSize: 32, fontWeight: 300,
+            color: "rgba(245,230,192,0.65)", textAlign: "center",
+          }}>
+            Apna Business, Apne Rules
           </div>
         </div>
 
-        {/* CTA Button */}
-        <div
-          style={{
-            marginTop: 70,
-            opacity: ctaOpacity,
-            transform: `scale(${ctaPulse})`,
-          }}
-        >
-          <div
-            style={{
-              padding: "28px 70px",
-              background: "linear-gradient(135deg, #C9962A, #E8B94A)",
-              borderRadius: 60,
-              boxShadow: "0 8px 40px rgba(201,150,42,0.4)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "sans-serif",
-                fontSize: 32,
-                fontWeight: 800,
-                color: "#2D0808",
-                letterSpacing: 3,
-                textTransform: "uppercase",
-              }}
-            >
+        {/* CTA */}
+        <div style={{
+          marginTop: 55, opacity: ctaOp, transform: `scale(${ctaPulse})`,
+        }}>
+          <div style={{
+            padding: "24px 60px",
+            background: "linear-gradient(135deg, #C9962A, #E8B94A)",
+            borderRadius: 50,
+            boxShadow: "0 8px 50px rgba(201,150,42,0.45)",
+          }}>
+            <span style={{
+              fontFamily: "sans-serif", fontSize: 28, fontWeight: 800,
+              color: "#2D0808", letterSpacing: 3, textTransform: "uppercase",
+            }}>
               Register FREE Now
             </span>
           </div>
         </div>
 
         {/* URL */}
-        <div
-          style={{
-            marginTop: 40,
-            opacity: urlReveal,
-            transform: `translateY(${interpolate(urlReveal, [0, 1], [15, 0])}px)`,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "sans-serif",
-              fontSize: 30,
-              fontWeight: 600,
-              color: "#C9962A",
-              letterSpacing: 4,
-            }}
-          >
+        <div style={{
+          marginTop: 30, opacity: urlOp,
+          transform: `translateY(${interpolate(urlOp, [0, 1], [10, 0])}px)`,
+        }}>
+          <div style={{
+            fontFamily: "sans-serif", fontSize: 28, fontWeight: 600,
+            color: "#C9962A", letterSpacing: 4,
+          }}>
             KarloShaadi.com
           </div>
         </div>
 
-        {/* Bottom guarantee */}
-        <div
-          style={{
-            marginTop: 60,
-            opacity: bottomLine,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "sans-serif",
-              fontSize: 22,
-              color: "rgba(245,230,192,0.4)",
-              textAlign: "center",
-              letterSpacing: 2,
-            }}
-          >
+        {/* Bottom */}
+        <div style={{ marginTop: 50, opacity: bottomOp }}>
+          <div style={{
+            fontFamily: "sans-serif", fontSize: 18,
+            color: "rgba(245,230,192,0.35)", textAlign: "center", letterSpacing: 2,
+          }}>
             Zero Commission · Free Tools · Lifetime Price Lock
           </div>
         </div>
