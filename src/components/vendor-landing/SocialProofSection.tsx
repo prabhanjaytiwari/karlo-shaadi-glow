@@ -12,7 +12,7 @@ const vendors = [
   { name: "Priya Beauty Studio", cat: "Makeup · Kanpur", earn: "Fully booked 3mo", img: makeupImg },
   { name: "Royal Band Lucknow", cat: "Band & DJ · Lucknow", earn: "₹1.8L earned", img: djImg },
   { name: "Shahi Khana Caterers", cat: "Catering · Delhi", earn: "42 bookings", img: catererImg },
-  { name: "Palace Grounds", cat: "Venue · Kanpur", earn: "Season sold out", img: null },
+  { name: "Palace Grounds", cat: "Venue · Kanpur", earn: "Season sold out", img: venueImg },
 ];
 
 export function SocialProofSection() {
