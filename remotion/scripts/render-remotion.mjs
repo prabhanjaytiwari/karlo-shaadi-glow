@@ -1,38 +1,48 @@
 import { bundle } from "@remotion/bundler";
-import { renderMedia, selectComposition, openBrowser } from "@remotion/renderer";
+import {
+  renderMedia,
+  selectComposition,
+  openBrowser,
+} from "@remotion/renderer";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+console.log("Bundling...");
 const bundled = await bundle({
   entryPoint: path.resolve(__dirname, "../src/index.ts"),
   webpackOverride: (config) => config,
 });
 
+console.log("Opening browser...");
 const browser = await openBrowser("chrome", {
-  browserExecutable: process.env.PUPPETEER_EXECUTABLE_PATH ?? "/nix/var/nix/profiles/sandbox/bin/chromium",
+  browserExecutable:
+    process.env.PUPPETEER_EXECUTABLE_PATH ??
+    "/nix/var/nix/profiles/sandbox/bin/chromium",
   chromiumOptions: {
     args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
   },
   chromeMode: "chrome-for-testing",
 });
 
+console.log("Selecting composition...");
 const composition = await selectComposition({
   serveUrl: bundled,
   id: "main",
   puppeteerInstance: browser,
 });
 
+console.log(`Rendering ${composition.durationInFrames} frames (video only)...`);
 await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/karloshaadi-vendor-promo.mp4",
+  outputLocation: "/tmp/video-only.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
 });
 
 await browser.close({ silent: false });
-console.log("✅ Render complete: /mnt/documents/karloshaadi-vendor-promo.mp4");
+console.log("Video rendered. Now muxing audio...");
