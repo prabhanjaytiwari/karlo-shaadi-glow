@@ -9,13 +9,12 @@ const steps = [
 
 export function StepsSection() {
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-20 px-6 bg-card">
       <div className="max-w-[1100px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="text-xs font-semibold tracking-[0.15em] uppercase mb-3" style={{ color: "#C9962A" }}>Simple as 1-2-3</p>
-          <h2 className="font-display font-bold leading-tight" style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", color: "#4A0E0E" }}>
-            Start Getting Leads<br />
-            <em className="italic" style={{ color: "#C9962A" }}>in Under 24 Hours</em>
+          <p className="text-xs font-semibold tracking-[0.15em] uppercase mb-3 text-accent">Simple as 1-2-3</p>
+          <h2 className="font-display font-bold leading-tight text-foreground" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+            Start Getting Leads <em className="italic text-accent">in Under 24 Hours</em>
           </h2>
         </motion.div>
 
@@ -26,14 +25,13 @@ export function StepsSection() {
               viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               className="text-center px-6 relative">
               {i < steps.length - 1 && (
-                <span className="absolute right-[-8px] top-7 text-2xl hidden lg:block" style={{ color: "#E8B94A", opacity: 0.5 }}>→</span>
+                <span className="absolute right-[-8px] top-7 text-2xl hidden lg:block text-accent/50">→</span>
               )}
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-bold text-3xl"
-                style={{ background: "linear-gradient(135deg, #6B1A1A, #4A0E0E)", color: "#E8B94A", boxShadow: "0 8px 24px rgba(107,26,26,0.25)" }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-bold text-3xl bg-primary text-primary-foreground shadow-[var(--shadow-lg)]">
                 {s.n}
               </div>
-              <h3 className="font-semibold text-base mb-2" style={{ color: "#4A0E0E" }}>{s.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#8B7B6B" }}>{s.desc}</p>
+              <h3 className="font-semibold text-base mb-2 text-foreground">{s.title}</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
             </motion.div>
           ))}
         </div>

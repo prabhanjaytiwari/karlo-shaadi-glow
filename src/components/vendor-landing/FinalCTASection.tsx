@@ -6,14 +6,14 @@ export function FinalCTASection() {
 
   return (
     <section className="relative py-24 px-6 text-center overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #2D0808 0%, #4A0E0E 50%, #8B1A1A 100%)" }}>
+      style={{ background: "linear-gradient(160deg, hsl(350 72% 15%) 0%, hsl(350 72% 25%) 50%, hsl(350 72% 35%) 100%)" }}>
       <div className="absolute inset-0"
         style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(201,150,42,0.1) 0%, transparent 70%)" }} />
 
       <div className="relative z-10 max-w-[600px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="text-xs font-semibold tracking-[0.15em] uppercase mb-4" style={{ color: "#E8B94A" }}>Don't Miss Your City Slot</p>
-          <h2 className="font-display font-bold text-white leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+          <h2 className="font-display font-bold text-white leading-tight" style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)" }}>
             Your Next Big Booking<br />
             is <span className="italic" style={{ color: "#E8B94A" }}>One Click Away</span>
           </h2>
@@ -25,7 +25,7 @@ export function FinalCTASection() {
         <div className="flex gap-4 justify-center flex-wrap">
           <button onClick={() => navigate("/vendor/onboarding")}
             className="px-9 py-4 rounded-lg font-semibold text-base cursor-pointer transition-all duration-300 hover:-translate-y-0.5"
-            style={{ background: "linear-gradient(135deg, #C9962A 0%, #E8B94A 100%)", color: "#4A0E0E", boxShadow: "0 8px 30px rgba(201,150,42,0.35)" }}>
+            style={{ background: "linear-gradient(135deg, hsl(38 75% 50%) 0%, hsl(45 95% 60%) 100%)", color: "hsl(38 90% 15%)", boxShadow: "0 8px 30px rgba(201,150,42,0.35)" }}>
             🚀 Register as Vendor — Free
           </button>
           <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer"
