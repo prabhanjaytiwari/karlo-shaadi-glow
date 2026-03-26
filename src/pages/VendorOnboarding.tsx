@@ -314,6 +314,21 @@ export default function VendorOnboarding() {
         });
       } catch (_) {}
 
+      // Telegram admin alert
+      supabase.functions.invoke("telegram-admin-alert", {
+        body: {
+          event_type: "vendor_registered",
+          data: {
+            business_name: businessName,
+            city: cities.find(c => c.id === cityId)?.name || "N/A",
+            category,
+            email: email.trim(),
+            phone,
+            plan: "pending",
+          },
+        },
+      }).catch(() => {});
+
       setCreatedVendorId(vendorData.id);
       localStorage.removeItem("ks_vendor_onboarding_draft");
       toast({ title: "Profile Created! 🎉", description: "Now choose a plan to grow faster." });
