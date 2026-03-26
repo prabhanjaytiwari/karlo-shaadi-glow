@@ -20,42 +20,42 @@ export function SocialProofSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="py-12 md:py-20 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, hsl(350 72% 22%), hsl(350 72% 30%))" }}>
+    <section className="py-14 md:py-24 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, hsl(350 72% 22%), hsl(350 72% 30%))" }}>
       <div className="max-w-[1100px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <div>
-            <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2" style={{ color: "#E8B94A" }}>Transformations</p>
-            <h2 className="font-display font-bold text-white leading-tight text-xl md:text-4xl">
+            <p className="text-sm font-semibold tracking-[0.15em] uppercase mb-3" style={{ color: "#E8B94A" }}>Transformations</p>
+            <h2 className="font-display font-bold text-white leading-tight text-2xl md:text-5xl">
               Real Vendors. <em className="italic" style={{ color: "#E8B94A" }}>Real Growth.</em>
             </h2>
           </div>
           <button onClick={() => navigate("/vendor/onboarding")}
-            className="text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer transition-all hover:brightness-110 self-start"
+            className="text-sm font-semibold px-5 py-2.5 rounded-lg cursor-pointer transition-all hover:brightness-110 self-start"
             style={{ background: "rgba(201,150,42,0.15)", border: "1px solid rgba(201,150,42,0.3)", color: "#E8B94A" }}>
             Join Them →
           </button>
         </motion.div>
 
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
           {vendors.map((v, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }} transition={{ delay: i * 0.06 }}
-              className="flex-shrink-0 w-[200px] md:w-[220px] rounded-xl overflow-hidden relative shadow-2xl group">
-              <img src={v.img} alt={v.name} loading="lazy" className="w-full h-[260px] md:h-[300px] object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-3.5"
+              className="flex-shrink-0 w-[220px] md:w-[240px] rounded-xl overflow-hidden relative shadow-2xl group">
+              <img src={v.img} alt={v.name} loading="lazy" className="w-full h-[280px] md:h-[320px] object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 p-4"
                 style={{ background: "linear-gradient(transparent, rgba(30,5,5,0.95) 50%)" }}>
-                <div className="text-white font-bold text-xs">{v.name}</div>
-                <div className="text-[0.65rem] mt-0.5" style={{ color: "#E8B94A" }}>{v.cat}</div>
-                <div className="mt-2 space-y-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-red-400 text-[0.55rem]">✕</span>
-                    <span className="text-white/40 text-[0.6rem] line-through">{v.before}</span>
+                <div className="text-white font-bold text-sm">{v.name}</div>
+                <div className="text-sm mt-0.5" style={{ color: "#E8B94A" }}>{v.cat}</div>
+                <div className="mt-2.5 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-red-400 text-xs">✕</span>
+                    <span className="text-white/45 text-xs line-through">{v.before}</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-green-400 text-[0.55rem]">✓</span>
-                    <span className="text-[0.6rem] font-semibold" style={{ color: "#E8B94A" }}>{v.after}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-400 text-xs">✓</span>
+                    <span className="text-sm font-semibold" style={{ color: "#E8B94A" }}>{v.after}</span>
                   </div>
                 </div>
               </div>
