@@ -492,6 +492,35 @@ export default function VendorOnboarding() {
 
       localStorage.removeItem(STORAGE_KEY);
       setCreatedVendorId(vendorData.id);
+
+      // Notify admin about new vendor registration
+      try {
+        await supabase.functions.invoke("send-email", {
+          body: {
+            to: "prabhanjaytiwari@gmail.com",
+            subject: `🆕 New Vendor Registration: ${formData.businessName}`,
+            html: `
+              <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">New Vendor Registration</h2>
+              <p style="font-size: 16px; color: #333;">A new vendor has registered on the platform and needs your review.</p>
+              <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Business Name</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.businessName}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Category</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.category}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Phone</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.phoneNumber || "N/A"}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">WhatsApp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.whatsappNumber || "N/A"}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Instagram</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.instagramHandle || "N/A"}</td></tr>
+              </table>
+              <p style="margin-top: 20px;">
+                <a href="https://karloshaadi.com/admin" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                  Review & Approve / Reject
+                </a>
+              </p>
+            `,
+            type: "admin_vendor_registration",
+          },
+        });
+      } catch (emailErr) {
+        console.error("Failed to send admin notification email:", emailErr);
+      }
       
       toast({ title: "Profile Created! 🎉", description: "Now choose a plan to grow faster." });
       

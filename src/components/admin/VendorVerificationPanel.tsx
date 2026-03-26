@@ -80,6 +80,48 @@ export function VendorVerificationPanel({ pendingVendors, onUpdate }: VendorVeri
           message: `Congratulations! Your business "${vendorData.business_name}" has been verified. You can now receive bookings.`,
           link: "/vendor/dashboard"
         });
+
+        // Send approval email to vendor
+        try {
+          // Get vendor email via database function
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("full_name")
+            .eq("id", vendorData.user_id)
+            .single();
+
+          const { data: emailResult } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
+          const vendorEmail = typeof emailResult === "string" ? emailResult : null;
+          
+          if (vendorEmail) {
+            await supabase.functions.invoke("send-email", {
+              body: {
+                to: vendorEmail,
+                subject: `🎉 Congratulations! Your Business "${vendorData.business_name}" is Verified on Karlo Shaadi`,
+                html: `
+                  <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">Congratulations! You're Verified ✅</h2>
+                  <p style="font-size: 16px; color: #333;">Dear ${profileData?.full_name || "Vendor"},</p>
+                  <p style="font-size: 16px; color: #333;">Great news! Your business <strong>"${vendorData.business_name}"</strong> has been <span style="color: #16a34a; font-weight: 700;">approved and verified</span> on Karlo Shaadi.</p>
+                  <p style="font-size: 16px; color: #333;">You can now:</p>
+                  <ul style="font-size: 15px; color: #555; line-height: 2;">
+                    <li>✅ Receive booking inquiries from couples</li>
+                    <li>✅ Show the verified trust badge on your profile</li>
+                    <li>✅ Access all vendor tools & CRM</li>
+                    <li>✅ Get listed in search results</li>
+                  </ul>
+                  <p style="margin-top: 20px;">
+                    <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      Go to Your Dashboard →
+                    </a>
+                  </p>
+                `,
+                type: "vendor_verification_approved",
+              },
+            });
+          }
+        } catch (emailErr) {
+          console.error("Failed to send vendor approval email:", emailErr);
+        }
       }
 
       toast({
@@ -138,6 +180,44 @@ export function VendorVerificationPanel({ pendingVendors, onUpdate }: VendorVeri
           message: `Your business "${vendorData.business_name}" verification was not approved. Reason: ${rejectReason}`,
           link: "/vendor/verification"
         });
+
+        // Send rejection email to vendor
+        try {
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("full_name")
+            .eq("id", vendorData.user_id)
+            .single();
+
+          const { data: emailResult } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
+          const vendorEmail = typeof emailResult === "string" ? emailResult : null;
+
+          if (vendorEmail) {
+            await supabase.functions.invoke("send-email", {
+              body: {
+                to: vendorEmail,
+                subject: `Update on Your Karlo Shaadi Profile: "${vendorData.business_name}"`,
+                html: `
+                  <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">Profile Verification Update</h2>
+                  <p style="font-size: 16px; color: #333;">Dear ${profileData?.full_name || "Vendor"},</p>
+                  <p style="font-size: 16px; color: #333;">We've reviewed your business profile <strong>"${vendorData.business_name}"</strong> and unfortunately, it could not be approved at this time.</p>
+                  <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px; margin: 20px 0; border-radius: 4px;">
+                    <p style="font-size: 15px; color: #991b1b; margin: 0;"><strong>Reason:</strong> ${rejectReason}</p>
+                  </div>
+                  <p style="font-size: 16px; color: #333;">You can update your profile and resubmit for verification.</p>
+                  <p style="margin-top: 20px;">
+                    <a href="https://karloshaadi.com/vendor/verification" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      Update Your Profile →
+                    </a>
+                  </p>
+                `,
+                type: "vendor_verification_rejected",
+              },
+            });
+          }
+        } catch (emailErr) {
+          console.error("Failed to send vendor rejection email:", emailErr);
+        }
       }
 
       toast({
