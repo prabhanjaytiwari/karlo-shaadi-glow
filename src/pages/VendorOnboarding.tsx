@@ -20,6 +20,8 @@ import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import vendorRegisterHero from "@/assets/vendor-register-hero.jpg";
+import vendorOnboardHero1 from "@/assets/vendor-onboard-hero-1.jpg";
+import vendorOnboardHero2 from "@/assets/vendor-onboard-hero-2.jpg";
 
 // ── Category Config ──
 type VendorCategory = Database["public"]["Enums"]["vendor_category"];
