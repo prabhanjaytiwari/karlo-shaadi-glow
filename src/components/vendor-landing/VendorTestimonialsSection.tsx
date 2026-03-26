@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import confidentImg from "@/assets/vendor-confident-owner.jpg";
+import confidentImg from "@/assets/vendor-testimonial-portrait.jpg";
 
 const testimonials = [
   {
