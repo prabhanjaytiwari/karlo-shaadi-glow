@@ -80,6 +80,54 @@ export function VendorVerificationPanel({ pendingVendors, onUpdate }: VendorVeri
           message: `Congratulations! Your business "${vendorData.business_name}" has been verified. You can now receive bookings.`,
           link: "/vendor/dashboard"
         });
+
+        // Send approval email to vendor
+        try {
+          const { data: userData } = await supabase.auth.admin.getUser ? 
+            { data: null } : { data: null };
+          
+          // Get vendor email from profiles
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("full_name")
+            .eq("id", vendorData.user_id)
+            .single();
+
+          // Get email from auth - use edge function approach
+          const { data: authData } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
+          
+          // Fallback: try to get email from the vendor's user_id via a lookup
+          const vendorEmail = typeof authData === "string" ? authData : null;
+          
+          if (vendorEmail) {
+            await supabase.functions.invoke("send-email", {
+              body: {
+                to: vendorEmail,
+                subject: `🎉 Congratulations! Your Business "${vendorData.business_name}" is Verified on Karlo Shaadi`,
+                html: `
+                  <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">Congratulations! You're Verified ✅</h2>
+                  <p style="font-size: 16px; color: #333;">Dear ${profileData?.full_name || "Vendor"},</p>
+                  <p style="font-size: 16px; color: #333;">Great news! Your business <strong>"${vendorData.business_name}"</strong> has been <span style="color: #16a34a; font-weight: 700;">approved and verified</span> on Karlo Shaadi.</p>
+                  <p style="font-size: 16px; color: #333;">You can now:</p>
+                  <ul style="font-size: 15px; color: #555; line-height: 2;">
+                    <li>✅ Receive booking inquiries from couples</li>
+                    <li>✅ Show the verified trust badge on your profile</li>
+                    <li>✅ Access all vendor tools & CRM</li>
+                    <li>✅ Get listed in search results</li>
+                  </ul>
+                  <p style="margin-top: 20px;">
+                    <a href="https://karloshaadi.com/vendor/dashboard" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      Go to Your Dashboard →
+                    </a>
+                  </p>
+                `,
+                type: "vendor_verification_approved",
+              },
+            });
+          }
+        } catch (emailErr) {
+          console.error("Failed to send vendor approval email:", emailErr);
+        }
       }
 
       toast({
