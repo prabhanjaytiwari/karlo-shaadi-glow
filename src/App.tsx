@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { PageSkeleton } from "@/components/skeletons/PageSkeleton";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -257,6 +257,21 @@ const AnimatedRoutes = () => {
   );
 };
 
+const MetaPixelTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+    if (!fbq) return;
+
+    fbq("track", "PageView");
+  }, [location.pathname, location.search, location.hash]);
+
+  return null;
+};
+
 // Inner app shell — has access to Router context for useLocation
 const AppShell = () => {
   const location = useLocation();
@@ -286,6 +301,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <MetaPixelTracker />
             <ScrollToTop />
             <AppShell />
           </BrowserRouter>
