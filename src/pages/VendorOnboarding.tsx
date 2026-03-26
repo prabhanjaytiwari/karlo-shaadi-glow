@@ -758,32 +758,38 @@ export default function VendorOnboarding() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="space-y-1.5">
                         <Label className="text-foreground font-medium text-sm">City *</Label>
-                        <Select value={cityId} onValueChange={setCityId}>
-                          <SelectTrigger className="h-12 text-base rounded-xl">
-                            <MapPin className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
-                            <SelectValue placeholder="Select city" />
-                          </SelectTrigger>
-                          <SelectContent>
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                          <select
+                            value={cityId}
+                            onChange={(e) => setCityId(e.target.value)}
+                            className="w-full h-12 pl-10 pr-4 text-base rounded-xl border border-input bg-background text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                            style={{ fontSize: '16px' }}
+                          >
+                            <option value="" disabled>Select city</option>
                             {cities.map((city) => (
-                              <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
+                              <option key={city.id} value={city.id}>{city.name}</option>
                             ))}
-                          </SelectContent>
-                        </Select>
+                          </select>
+                          <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground rotate-90 pointer-events-none" />
+                        </div>
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-foreground font-medium text-sm">Vendor Type *</Label>
-                        <Select value={category} onValueChange={setCategory}>
-                          <SelectTrigger className="h-12 text-base rounded-xl">
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                          <SelectContent>
+                        <div className="relative">
+                          <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full h-12 pl-4 pr-8 text-base rounded-xl border border-input bg-background text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                            style={{ fontSize: '16px' }}
+                          >
+                            <option value="" disabled>Select category</option>
                             {CATEGORIES.map((cat) => (
-                              <SelectItem key={cat.value} value={cat.value}>
-                                <span className="flex items-center gap-2">{cat.icon} {cat.label}</span>
-                              </SelectItem>
+                              <option key={cat.value} value={cat.value}>{cat.label}</option>
                             ))}
-                          </SelectContent>
-                        </Select>
+                          </select>
+                          <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground rotate-90 pointer-events-none" />
+                        </div>
                       </div>
                     </div>
 
