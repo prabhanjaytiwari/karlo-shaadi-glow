@@ -1708,6 +1708,16 @@ const numericIdToSlug: Record<string, string> = {
   "7": "destination-weddings-india-top-locations",
   "8": "last-minute-wedding-planning-3-months",
   "9": "bridal-mehendi-designs-traditional-contemporary",
+  "10": "5-best-luxury-wedding-hotels-lucknow",
+  "11": "top-5-wedding-planners-lucknow-2026",
+  "12": "how-karlo-shaadi-monetising-indian-weddings",
+  "13": "plan-wedding-under-10-lakhs-2026",
+  "14": "muhurat-dates-wedding-2026",
+  "15": "pre-wedding-shoot-locations-lucknow",
+  "16": "wedding-decoration-trends-2026",
+  "17": "choose-right-wedding-photographer-guide",
+  "18": "indian-wedding-guest-list-management-playbook",
+  "19": "why-wedding-vendors-need-online-presence-2026",
 };
 
 export default function BlogPost() {
