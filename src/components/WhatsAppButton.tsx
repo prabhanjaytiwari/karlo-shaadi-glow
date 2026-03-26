@@ -3,50 +3,74 @@ import { useLocation } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const VENDOR_ROUTES = [
+  "/vendor/onboarding",
+  "/vendor/dashboard",
+  "/vendor/settings",
+  "/vendor-auth",
+  "/vendor-pricing",
+  "/vendor-billing",
+  "/vendor-profile-setup",
+  "/vendor-onboarding",
+  "/for-vendors",
+  "/vendor-guide",
+  "/vendor-leaderboard",
+  "/vendor-success-stories",
+  "/vendor-verification-status",
+];
+
 export const WhatsAppButton = () => {
   const location = useLocation();
   const [showLabel, setShowLabel] = useState(false);
   const phoneNumber = "917011460321";
 
-  // Show help label after 10 seconds on first visit
+  const isVendorPage =
+    VENDOR_ROUTES.some((r) => location.pathname.startsWith(r)) ||
+    location.pathname.startsWith("/vendor-site/") ||
+    location.pathname.startsWith("/vendor/");
+
+  // Show help label after 8 seconds on vendor pages
   useEffect(() => {
-    const hasSeenLabel = sessionStorage.getItem("whatsapp-label-shown");
+    if (!isVendorPage) return;
+    const hasSeenLabel = sessionStorage.getItem("wa-vendor-label");
     if (!hasSeenLabel) {
       const timer = setTimeout(() => {
         setShowLabel(true);
-        sessionStorage.setItem("whatsapp-label-shown", "true");
-        // Hide after 5 seconds
+        sessionStorage.setItem("wa-vendor-label", "true");
         setTimeout(() => setShowLabel(false), 5000);
-      }, 10000);
+      }, 8000);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [isVendorPage]);
 
-  // Generate context-aware message based on current page
+  // Context-aware messages for vendor pages
   const getMessage = () => {
     const path = location.pathname;
-    
-    if (path.startsWith("/vendor/")) {
-      return "Hi! I found a vendor on Karlo Shaadi and would like more information.";
-    }
-    if (path === "/search") {
-      const params = new URLSearchParams(location.search);
-      const category = params.get("category");
-      const city = params.get("city");
-      if (category && city) {
-        return `Hi! I'm looking for ${category} vendors in ${city}. Can you help?`;
-      }
-      return "Hi! I'm searching for wedding vendors on Karlo Shaadi.";
-    }
-    if (path === "/bookings") {
-      return "Hi! I have a question about my booking on Karlo Shaadi.";
-    }
-    return "Hi! I'm interested in Karlo Shaadi wedding planning services.";
+
+    if (path === "/vendor/onboarding")
+      return "Hi! I'm registering my business on Karlo Shaadi and need help with the process.";
+    if (path === "/vendor/dashboard")
+      return "Hi! I'm a vendor on Karlo Shaadi and have a question about my dashboard.";
+    if (path.includes("billing") || path.includes("pricing"))
+      return "Hi! I need help choosing the right plan for my wedding business on Karlo Shaadi.";
+    if (path.includes("settings"))
+      return "Hi! I need help with my vendor account settings on Karlo Shaadi.";
+    if (path === "/for-vendors" || path === "/vendor-guide")
+      return "Hi! I'm interested in listing my wedding business on Karlo Shaadi. Can you help?";
+    if (path.includes("verification"))
+      return "Hi! I have a question about my vendor verification status on Karlo Shaadi.";
+    if (path.startsWith("/vendor-site/"))
+      return "Hi! I need help customizing my vendor storefront on Karlo Shaadi.";
+
+    return "Hi! I'm a wedding vendor and need help with Karlo Shaadi.";
   };
 
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(getMessage())}`;
+  // Only show on vendor pages
+  if (!isVendorPage) return null;
+  // Hide on pure auth pages
+  if (["/vendor-auth"].includes(location.pathname)) return null;
 
-  if (["/auth", "/vendor-auth", "/forgot-password", "/reset-password"].includes(location.pathname)) return null;
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(getMessage())}`;
 
   return (
     <a
@@ -58,7 +82,7 @@ export const WhatsAppButton = () => {
       {/* Help Label */}
       {showLabel && (
         <div className="absolute -top-12 right-0 bg-foreground text-background px-3 py-2 rounded-lg shadow-lg whitespace-nowrap text-sm font-medium animate-fade-in">
-          Need help? Chat with us!
+          Need help? Chat with us! 💬
           <div className="absolute -bottom-1 right-4 w-2 h-2 bg-foreground rotate-45" />
         </div>
       )}
@@ -71,9 +95,9 @@ export const WhatsAppButton = () => {
       </Button>
 
       {/* Hover tooltip */}
-      <div className="hidden sm:block absolute -top-12 right-0 bg-background/95  px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-border">
+      <div className="hidden sm:block absolute -top-12 right-0 bg-background/95 px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap border border-border">
         <p className="text-sm font-medium">Chat with Prabhanjay Tiwari</p>
-        <p className="text-xs text-muted-foreground">Founder</p>
+        <p className="text-xs text-muted-foreground">Founder • Vendor Support</p>
       </div>
     </a>
   );
