@@ -320,7 +320,7 @@ export default function VendorOnboarding() {
           event_type: "vendor_registered",
           data: {
             business_name: businessName,
-            city: selectedCity,
+            city: cities.find(c => c.id === cityId)?.name || "N/A",
             category,
             email: email.trim(),
             phone,
