@@ -44,7 +44,7 @@ export function ToolsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {tools.map((t, i) => (
+          {vendorTools.map((t, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.05 }}
@@ -64,6 +64,35 @@ export function ToolsSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Couple-facing tools — drives traffic to YOUR profile */}
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="mt-12 md:mt-16">
+          <div className="rounded-2xl p-6 md:p-8" style={{ background: "linear-gradient(135deg, hsl(350 72% 96%), hsl(38 80% 96%))", border: "1px solid hsl(var(--accent) / 0.2)" }}>
+            <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2 text-accent">Why Couples Love Us</p>
+            <h3 className="font-display font-bold leading-tight text-foreground text-lg md:text-2xl mb-1">
+              10,000+ Couples Use These Tools Every Month
+            </h3>
+            <p className="text-xs text-muted-foreground mb-5 max-w-lg">
+              More couples on platform = more eyes on YOUR profile. These viral tools bring engaged couples directly to our vendor directory.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+              {coupleTools.map((t, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }} transition={{ delay: i * 0.04 }}
+                  className="bg-white rounded-xl p-3 text-center border border-border/50 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all">
+                  <div className="text-2xl mb-1.5">{t.emoji}</div>
+                  <h4 className="text-[0.7rem] font-bold text-foreground leading-tight">{t.title}</h4>
+                  <p className="text-[0.6rem] text-muted-foreground mt-0.5 leading-snug">{t.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-[0.65rem] text-accent font-semibold mt-4 text-center">
+              🎯 Every tool user = a potential lead for YOU
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
