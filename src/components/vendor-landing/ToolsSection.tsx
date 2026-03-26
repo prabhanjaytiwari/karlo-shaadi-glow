@@ -1,13 +1,22 @@
 import { motion } from "framer-motion";
 import dashboardImg from "@/assets/vendor-dashboard-phone.jpg";
 
-const tools = [
+const vendorTools = [
   { emoji: "📋", title: "Smart CRM", desc: "Kanban lead pipeline. Score, track & convert — no lead lost.", worth: "₹2,000/mo", tier: "All Plans" },
   { emoji: "📊", title: "Business Analytics", desc: "Views, clicks, conversions. Know exactly what's working.", worth: "₹1,500/mo", tier: "Starter+" },
   { emoji: "📄", title: "Digital Contracts", desc: "Professional contracts in 60 seconds. Legally sound.", worth: "₹1,000/mo", tier: "Pro+" },
   { emoji: "🌐", title: "Portfolio Mini-Site", desc: "Your own SEO-optimised website. Ranks on Google.", worth: "₹3,000/mo", tier: "All Plans" },
   { emoji: "💬", title: "WhatsApp Integration", desc: "Auto-alerts for new leads. Reply instantly from phone.", worth: "₹800/mo", tier: "All Plans" },
   { emoji: "💰", title: "Payment Tracker", desc: "Milestone payments, invoices, receipts — automated.", worth: "₹1,200/mo", tier: "Pro+" },
+];
+
+const coupleTools = [
+  { emoji: "🧮", title: "Budget Calculator", desc: "AI-powered budget allocation for every wedding category." },
+  { emoji: "📅", title: "Muhurat Finder", desc: "Find auspicious dates based on Hindu calendar & astrology." },
+  { emoji: "🎵", title: "AI Music Generator", desc: "Custom wedding songs with couple names & theme." },
+  { emoji: "💌", title: "Invite Creator", desc: "Beautiful digital wedding invitations in seconds." },
+  { emoji: "🎤", title: "Speech Writer", desc: "AI-written speeches for every wedding occasion." },
+  { emoji: "💍", title: "Couple Quiz", desc: "Fun compatibility quiz couples love to share." },
 ];
 
 const totalWorth = "₹9,500+/mo";
@@ -35,7 +44,7 @@ export function ToolsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {tools.map((t, i) => (
+          {vendorTools.map((t, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ delay: i * 0.05 }}
@@ -55,6 +64,35 @@ export function ToolsSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* Couple-facing tools — drives traffic to YOUR profile */}
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="mt-12 md:mt-16">
+          <div className="rounded-2xl p-6 md:p-8" style={{ background: "linear-gradient(135deg, hsl(350 72% 96%), hsl(38 80% 96%))", border: "1px solid hsl(var(--accent) / 0.2)" }}>
+            <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2 text-accent">Why Couples Love Us</p>
+            <h3 className="font-display font-bold leading-tight text-foreground text-lg md:text-2xl mb-1">
+              10,000+ Couples Use These Tools Every Month
+            </h3>
+            <p className="text-xs text-muted-foreground mb-5 max-w-lg">
+              More couples on platform = more eyes on YOUR profile. These viral tools bring engaged couples directly to our vendor directory.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+              {coupleTools.map((t, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }} transition={{ delay: i * 0.04 }}
+                  className="bg-white rounded-xl p-3 text-center border border-border/50 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all">
+                  <div className="text-2xl mb-1.5">{t.emoji}</div>
+                  <h4 className="text-[0.7rem] font-bold text-foreground leading-tight">{t.title}</h4>
+                  <p className="text-[0.6rem] text-muted-foreground mt-0.5 leading-snug">{t.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-[0.65rem] text-accent font-semibold mt-4 text-center">
+              🎯 Every tool user = a potential lead for YOU
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
