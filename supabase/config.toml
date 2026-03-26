@@ -80,3 +80,9 @@ verify_jwt = true
 
 [functions.verify-vendor-subscription]
 verify_jwt = true
+
+[functions.telegram-admin-alert]
+verify_jwt = false
+
+[functions.scrape-vendor-directory]
+verify_jwt = false
