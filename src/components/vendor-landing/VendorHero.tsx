@@ -73,13 +73,13 @@ export function VendorHero() {
           <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible"
             className="font-display font-bold text-white leading-[1.08] tracking-tight"
             style={{ fontSize: "clamp(1.9rem, 5.5vw, 4.8rem)" }}>
-            Har Booking Pe{" "}
-            <span className="relative inline-block">
-              <span className="line-through opacity-50">15-20% Commission</span>
-              <span className="absolute -top-1 -right-4 text-red-400 font-bold text-lg md:text-2xl rotate-[-12deg]">✕</span>
-            </span>
+            Aapka Wedding Business
             <br />
-            Dena <em className="italic" style={{ color: "#E8B94A" }}>Band Karo</em>
+            <em className="italic" style={{ color: "#E8B94A" }}>Deserve Karta Hai</em>{" "}
+            <span className="relative inline-block">
+              More Leads
+              <span className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full" style={{ background: "linear-gradient(90deg, #E8B94A, transparent)" }} />
+            </span>
           </motion.h1>
 
           <motion.p custom={2} variants={fadeUp} initial="hidden" animate="visible"
