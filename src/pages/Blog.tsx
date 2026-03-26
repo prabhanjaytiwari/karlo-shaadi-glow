@@ -108,6 +108,116 @@ const articles = [
     readTime: "7 min read",
     category: "Mehendi",
     image: cdn.categoryMehendi
+  },
+  {
+    id: 10,
+    slug: "5-best-luxury-wedding-hotels-lucknow",
+    title: "5 Best Luxury Wedding Hotels in Lucknow for a Royal Celebration",
+    excerpt: "Discover Lucknow's most stunning wedding venues — from Taj to Vivanta — with pricing, capacity, and what makes each special.",
+    author: "Priya Sharma",
+    date: "March 26, 2026",
+    readTime: "8 min read",
+    category: "Venues",
+    image: cdn.categoryVenue
+  },
+  {
+    id: 11,
+    slug: "top-5-wedding-planners-lucknow-2026",
+    title: "Top 5 Wedding Planners in Lucknow You Can Trust in 2026",
+    excerpt: "Looking for reliable wedding planners in Lucknow? Here are the top 5 options including modern AI-powered alternatives.",
+    author: "Rahul Khanna",
+    date: "March 25, 2026",
+    readTime: "9 min read",
+    category: "Planning Guide",
+    image: cdn.categoryDecoration
+  },
+  {
+    id: 12,
+    slug: "how-karlo-shaadi-monetising-indian-weddings",
+    title: "How Karlo Shaadi is Revolutionising the ₹10 Lakh Crore Wedding Industry",
+    excerpt: "From AI wedding plans to Shaadi Seva, discover how Karlo Shaadi is disrupting India's massive wedding market.",
+    author: "Prabhanjay Tiwari",
+    date: "March 24, 2026",
+    readTime: "10 min read",
+    category: "Industry",
+    image: cdn.categoryPhotography
+  },
+  {
+    id: 13,
+    slug: "plan-wedding-under-10-lakhs-2026",
+    title: "Complete Guide to Planning a Wedding Under ₹10 Lakhs in 2026",
+    excerpt: "Think a beautiful wedding needs a huge budget? Here's your complete breakdown for a stunning celebration under ₹10 lakhs.",
+    author: "Anita Desai",
+    date: "March 23, 2026",
+    readTime: "11 min read",
+    category: "Budget",
+    image: cdn.categoryCatering
+  },
+  {
+    id: 14,
+    slug: "muhurat-dates-wedding-2026",
+    title: "Best Muhurat Dates for Wedding in 2026: Month-by-Month Guide",
+    excerpt: "Find the most auspicious wedding dates in 2026 according to Hindu calendar, nakshatra, and panchangam.",
+    author: "Vikram Patel",
+    date: "March 22, 2026",
+    readTime: "12 min read",
+    category: "Traditions",
+    image: cdn.categoryMehendi
+  },
+  {
+    id: 15,
+    slug: "pre-wedding-shoot-locations-lucknow",
+    title: "7 Stunning Pre-Wedding Shoot Locations in Lucknow",
+    excerpt: "From Bara Imambara to Gomti Riverfront, explore Lucknow's most photogenic spots for your pre-wedding shoot.",
+    author: "Meera Singh",
+    date: "March 21, 2026",
+    readTime: "8 min read",
+    category: "Destinations",
+    image: cdn.categoryVenue
+  },
+  {
+    id: 16,
+    slug: "wedding-decoration-trends-2026",
+    title: "Wedding Decoration Trends 2026: Minimalist to Maximalist",
+    excerpt: "Stay ahead with the hottest decor trends — from sustainable florals to LED installations and pastel palettes.",
+    author: "Kavita Reddy",
+    date: "March 20, 2026",
+    readTime: "9 min read",
+    category: "Planning Guide",
+    image: cdn.categoryDecoration
+  },
+  {
+    id: 17,
+    slug: "choose-right-wedding-photographer-guide",
+    title: "How to Choose the Right Wedding Photographer: A Data-Driven Guide",
+    excerpt: "Stop guessing and start comparing. A practical framework to find your perfect wedding photographer.",
+    author: "Arjun Malhotra",
+    date: "March 19, 2026",
+    readTime: "10 min read",
+    category: "Photography",
+    image: cdn.categoryPhotography
+  },
+  {
+    id: 18,
+    slug: "indian-wedding-guest-list-management-playbook",
+    title: "Indian Wedding Guest List Management: The Complete Playbook",
+    excerpt: "Managing 500+ guests across multiple events? Here's the definitive system for stress-free guest management.",
+    author: "Shalini Iyer",
+    date: "March 18, 2026",
+    readTime: "11 min read",
+    category: "Planning Guide",
+    image: cdn.categoryDecoration
+  },
+  {
+    id: 19,
+    slug: "why-wedding-vendors-need-online-presence-2026",
+    title: "Why Every Wedding Vendor Needs an Online Presence in 2026",
+    excerpt: "87% of couples search online first. Here's why vendors who go digital are winning — and how to get started.",
+    author: "Rohit Gupta",
+    date: "March 17, 2026",
+    readTime: "12 min read",
+    category: "Industry",
+    image: cdn.categoryPhotography
   }
 ];
 
@@ -120,7 +230,10 @@ const categories = [
   "Venues",
   "Traditions",
   "Mehendi",
-  "Destinations"
+  "Destinations",
+  "Budget",
+  "Industry",
+  "Lucknow"
 ];
 
 export default function Blog() {
