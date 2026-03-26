@@ -477,12 +477,325 @@ export default function VendorOnboarding() {
     );
   }
 
-  // ═══ MAIN REGISTRATION PAGE — Single Form ═══
+  // ═══ MAIN REGISTRATION PAGE ═══
+  const BENEFITS = [
+    { icon: <Camera className="w-5 h-5" />, title: "Portfolio Mini-Site", desc: "Your own SEO-optimized wedding page" },
+    { icon: <Star className="w-5 h-5" />, title: "Smart CRM", desc: "Kanban pipeline with lead scoring" },
+    { icon: <Shield className="w-5 h-5" />, title: "Digital Contracts", desc: "Legal templates with PDF generation" },
+    { icon: <Zap className="w-5 h-5" />, title: "Business Intelligence", desc: "Pricing benchmarks & inquiry trends" },
+    { icon: <Heart className="w-5 h-5" />, title: "Invoice & Payments", desc: "Milestone tracking with Razorpay" },
+    { icon: <Building2 className="w-5 h-5" />, title: "Verified Badge", desc: "Build trust with couples instantly" },
+  ];
+
+  const STATS = [
+    { num: "10,000+", label: "Active Vendors" },
+    { num: "5 Lakh+", label: "Monthly Couples" },
+    { num: "0%", label: "Commission" },
+    { num: "20+", label: "Cities" },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex min-h-screen">
-        {/* Left: Hero Image (desktop only) */}
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.04) 0%, transparent 50%), radial-gradient(circle at 80% 70%, hsl(var(--accent) / 0.03) 0%, transparent 50%)',
+      }} />
+
+      <div className="relative z-10 flex flex-col lg:flex-row min-h-screen">
+        {/* ═══ LEFT PANEL — Benefits (desktop) ═══ */}
         {!isMobile && (
+          <div className="hidden lg:flex w-[50%] relative overflow-hidden" style={{
+            background: 'linear-gradient(170deg, hsl(340 30% 8%) 0%, hsl(260 20% 10%) 40%, hsl(340 25% 12%) 100%)',
+          }}>
+            <motion.div animate={{ y: [0, -20, 0], x: [0, 10, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-20 right-20 w-40 h-40 rounded-full"
+              style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.12), transparent)" }} />
+            <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-32 left-10 w-32 h-32 rounded-full"
+              style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.1), transparent)" }} />
+
+            <div className="relative z-10 flex flex-col justify-between p-10 xl:p-14 w-full">
+              <div>
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 mb-12">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-white/90 font-bold text-lg tracking-tight">Karlo Shaadi</span>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">For Vendors</span>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                  <h1 className="text-4xl xl:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ fontFamily: "'Georgia', serif" }}>
+                    Apna Business<br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-rose-400">
+                      Grow Karo
+                    </span>
+                  </h1>
+                  <p className="text-white/50 text-base mb-8 max-w-md leading-relaxed">
+                    Free mein register karo, lakhs couples tak pahuncho. India ka #1 wedding vendor platform.
+                  </p>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+                  className="grid grid-cols-4 gap-3 mb-10">
+                  {STATS.map((stat, i) => (
+                    <div key={i} className="text-center px-2 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08]">
+                      <p className="text-lg xl:text-xl font-black text-white">{stat.num}</p>
+                      <p className="text-[11px] text-white/40 mt-0.5">{stat.label}</p>
+                    </div>
+                  ))}
+                </motion.div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {BENEFITS.map((b, i) => (
+                    <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.08 }}
+                      className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.07] transition-colors">
+                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500/20 to-rose-500/20 flex items-center justify-center shrink-0 text-amber-400">
+                        {b.icon}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-white/90">{b.title}</p>
+                        <p className="text-xs text-white/40 leading-snug">{b.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+                className="flex items-center gap-6 mt-8 pt-6 border-t border-white/[0.08]">
+                <div className="flex items-center gap-2 text-white/40 text-xs">
+                  <Shield className="w-4 h-4 text-emerald-400/60" /> <span>100% Free to Join</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/40 text-xs">
+                  <Zap className="w-4 h-4 text-amber-400/60" /> <span>0% Commission</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/40 text-xs">
+                  <CheckCircle className="w-4 h-4 text-blue-400/60" /> <span>Verified in 24hrs</span>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══ RIGHT PANEL — Form ═══ */}
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          {isMobile && (
+            <div className="relative overflow-hidden" style={{
+              background: 'linear-gradient(170deg, hsl(340 30% 8%) 0%, hsl(260 20% 10%) 100%)',
+            }}>
+              <div className="relative z-10 px-5 pt-8 pb-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-white/90 font-bold text-sm">Karlo Shaadi</span>
+                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">For Vendors</span>
+                </div>
+                <h1 className="text-2xl font-bold text-white leading-tight mb-2" style={{ fontFamily: "'Georgia', serif" }}>
+                  Apna Business <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-rose-400">Grow Karo</span>
+                </h1>
+                <p className="text-white/50 text-sm mb-5">Free mein register karo, lakhs couples tak pahuncho.</p>
+                <div className="grid grid-cols-4 gap-2 mb-4">
+                  {STATS.map((stat, i) => (
+                    <div key={i} className="text-center py-2 rounded-lg bg-white/[0.06] border border-white/[0.08]">
+                      <p className="text-sm font-bold text-white">{stat.num}</p>
+                      <p className="text-[9px] text-white/40">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+                  {BENEFITS.slice(0, 4).map((b, i) => (
+                    <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.08] shrink-0">
+                      <div className="text-amber-400 shrink-0">{b.icon}</div>
+                      <span className="text-xs text-white/70 whitespace-nowrap">{b.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className={`${isMobile ? "px-4 py-6" : "flex-1 flex items-start justify-center px-8 xl:px-16 py-10"}`}>
+            <div className={`w-full ${isMobile ? "" : "max-w-lg"}`}>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+                className={`${isMobile ? "" : "bg-card border border-border rounded-3xl shadow-xl shadow-black/5 p-8"}`}>
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'Georgia', serif" }}>
+                    Register Your Business
+                  </h2>
+                  <p className="text-muted-foreground text-sm mt-1">Create your storefront — it takes less than 2 minutes.</p>
+                </div>
+
+                {emailSent ? (
+                  <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                    className="text-center py-10 px-4 rounded-2xl border border-border bg-muted/30">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                      <Mail className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Check Your Email ✉️</h3>
+                    <p className="text-muted-foreground text-sm mb-6">
+                      We sent a verification link to <strong className="text-foreground">{email}</strong>. Click it to continue.
+                    </p>
+                    <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10"
+                      onClick={() => { setEmailSent(false); setEmail(""); setPassword(""); setFullName(""); }}>
+                      Use a different email
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <Button type="button" variant="outline"
+                      className="w-full h-12 gap-3 text-base font-medium border-border hover:bg-muted/50 rounded-xl"
+                      onClick={handleGoogleSignIn} disabled={loading || isLoggedIn}>
+                      <svg className="w-5 h-5" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                      </svg>
+                      {isLoggedIn ? "Signed in with Google ✓" : "Continue with Google"}
+                    </Button>
+
+                    {!isLoggedIn && (
+                      <>
+                        <div className="relative my-1">
+                          <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+                          <div className="relative flex justify-center text-xs uppercase">
+                            <span className={`${isMobile ? "bg-background" : "bg-card"} px-3 text-muted-foreground`}>or register with email</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label htmlFor="fullName" className="text-foreground font-medium text-sm">Your Name *</Label>
+                          <div className="relative">
+                            <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input id="fullName" placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)}
+                              required disabled={loading} className="pl-10 h-12 text-base rounded-xl" />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div className="space-y-1.5">
+                            <Label htmlFor="email" className="text-foreground font-medium text-sm">Email *</Label>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input id="email" type="email" placeholder="you@email.com" value={email} onChange={(e) => setEmail(e.target.value)}
+                                required disabled={loading} className="pl-10 h-12 text-base rounded-xl" />
+                            </div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <Label htmlFor="password" className="text-foreground font-medium text-sm">Password *</Label>
+                            <div className="relative">
+                              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input id="password" type={showPassword ? "text" : "password"} placeholder="Min. 6 chars"
+                                value={password} onChange={(e) => setPassword(e.target.value)}
+                                required minLength={6} disabled={loading} className="pl-10 pr-10 h-12 text-base rounded-xl" />
+                              <Button type="button" variant="ghost" size="icon"
+                                className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground hover:bg-transparent"
+                                onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    <div className="relative pt-3">
+                      <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className={`${isMobile ? "bg-background" : "bg-card"} px-3 text-muted-foreground font-medium`}>Business Details</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="businessName" className="text-foreground font-medium text-sm">Business / Brand Name *</Label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="businessName" placeholder="e.g., Royal Click Studio" value={businessName}
+                          onChange={(e) => setBusinessName(e.target.value)} required disabled={loading}
+                          className="pl-10 h-12 text-base rounded-xl" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label className="text-foreground font-medium text-sm">City *</Label>
+                        <Select value={cityId} onValueChange={setCityId}>
+                          <SelectTrigger className="h-12 text-base rounded-xl">
+                            <MapPin className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
+                            <SelectValue placeholder="Select city" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {cities.map((city) => (
+                              <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-foreground font-medium text-sm">Vendor Type *</Label>
+                        <Select value={category} onValueChange={setCategory}>
+                          <SelectTrigger className="h-12 text-base rounded-xl">
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {CATEGORIES.map((cat) => (
+                              <SelectItem key={cat.value} value={cat.value}>
+                                <span className="flex items-center gap-2">{cat.icon} {cat.label}</span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="phone" className="text-foreground font-medium text-sm">Phone / WhatsApp Number</Label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="phone" type="tel" placeholder="+91 98765 43210" value={phone}
+                          onChange={(e) => setPhone(e.target.value)} disabled={loading}
+                          className="pl-10 h-12 text-base rounded-xl" />
+                      </div>
+                    </div>
+
+                    <Button type="submit"
+                      className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 mt-2"
+                      disabled={loading}>
+                      {loading ? (
+                        <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Profile...</>
+                      ) : (
+                        <>{isLoggedIn ? "Complete Registration" : "Create Account & Register"} <ArrowRight className="w-5 h-5 ml-2" /></>
+                      )}
+                    </Button>
+
+                    <div className="flex items-center justify-center gap-4 flex-wrap text-xs text-muted-foreground pt-1">
+                      <span className="flex items-center gap-1"><Shield className="w-3.5 h-3.5 text-emerald-500" /> 100% Free</span>
+                      <span className="flex items-center gap-1"><Zap className="w-3.5 h-3.5 text-amber-500" /> 0% Commission</span>
+                      <span className="flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5 text-blue-500" /> Verified in 24hrs</span>
+                    </div>
+
+                    <p className="text-xs text-center text-muted-foreground">By registering, you agree to our Terms and Privacy Policy</p>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                      <p className="text-sm text-muted-foreground">
+                        Already registered?{" "}
+                        <Link to="/vendor-auth" className="text-primary hover:text-primary/80 font-semibold">Login</Link>
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        <Link to="/auth" className="text-primary/70 hover:text-primary">Couple? Sign up</Link>
+                      </p>
+                    </div>
+                  </form>
+                )}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
           <div className="hidden lg:flex w-[45%] relative overflow-hidden">
             <img
               src={vendorRegisterHero}
@@ -528,203 +841,3 @@ export default function VendorOnboarding() {
               </motion.div>
             </div>
           </div>
-        )}
-
-        {/* Right: Registration Form */}
-        <div className={`flex-1 flex flex-col ${isMobile ? "px-4 py-6" : "px-8 lg:px-16 py-8"} overflow-y-auto`}>
-          {/* Mobile hero banner */}
-          {isMobile && (
-            <div className="relative rounded-2xl overflow-hidden mb-6 h-48">
-              <img src={vendorRegisterHero} alt="" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-xl flex items-center justify-center mb-3 border border-white/20">
-                  <Sparkles className="w-5 h-5 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white leading-tight">Grow Your Wedding Business</h2>
-                <p className="text-white/60 text-sm mt-1">Join 10,000+ vendors on Karlo Shaadi</p>
-              </div>
-            </div>
-          )}
-
-          <div className="max-w-lg mx-auto w-full">
-            {!isMobile && (
-              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                <h1 className="text-3xl font-bold text-foreground mb-1" style={{ fontFamily: "'Georgia', serif" }}>
-                  Register Your Business
-                </h1>
-                <p className="text-muted-foreground text-base mb-8">
-                  Create your storefront and be visible to thousands of couples.
-                </p>
-              </motion.div>
-            )}
-
-            {emailSent ? (
-              <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                className="text-center py-12 px-6 rounded-2xl border border-border bg-card">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-primary" />
-                </div>
-                <h2 className="text-xl font-bold text-foreground mb-2">Check Your Email ✉️</h2>
-                <p className="text-muted-foreground text-sm mb-6">
-                  We sent a verification link to <strong className="text-foreground">{email}</strong>.
-                  Click it to continue registration.
-                </p>
-                <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10"
-                  onClick={() => { setEmailSent(false); setEmail(""); setPassword(""); setFullName(""); }}>
-                  Use a different email
-                </Button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Google OAuth */}
-                <Button type="button" variant="outline" className="w-full h-12 gap-3 text-base font-medium border-border"
-                  onClick={handleGoogleSignIn} disabled={loading || isLoggedIn}>
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                  </svg>
-                  {isLoggedIn ? "Signed in with Google ✓" : "Continue with Google"}
-                </Button>
-
-                {!isLoggedIn && (
-                  <>
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-3 text-muted-foreground">or register with email</span>
-                      </div>
-                    </div>
-
-                    {/* Auth fields */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="fullName" className="text-foreground font-medium text-sm">Your Name *</Label>
-                      <div className="relative">
-                        <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input id="fullName" placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)}
-                          required disabled={loading} className="pl-10 h-12 text-base" />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="email" className="text-foreground font-medium text-sm">Email *</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input id="email" type="email" placeholder="business@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
-                          required disabled={loading} className="pl-10 h-12 text-base" />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="password" className="text-foreground font-medium text-sm">Password *</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input id="password" type={showPassword ? "text" : "password"} placeholder="Min. 6 characters"
-                          value={password} onChange={(e) => setPassword(e.target.value)}
-                          required minLength={6} disabled={loading} className="pl-10 pr-10 h-12 text-base" />
-                        <Button type="button" variant="ghost" size="icon"
-                          className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground hover:bg-transparent"
-                          onClick={() => setShowPassword(!showPassword)}>
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {/* Divider */}
-                <div className="relative pt-2">
-                  <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-3 text-muted-foreground font-medium">Business Details</span>
-                  </div>
-                </div>
-
-                {/* Business fields */}
-                <div className="space-y-1.5">
-                  <Label htmlFor="businessName" className="text-foreground font-medium text-sm">Business Name *</Label>
-                  <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input id="businessName" placeholder="e.g., Royal Click Studio" value={businessName}
-                      onChange={(e) => setBusinessName(e.target.value)} required disabled={loading}
-                      className="pl-10 h-12 text-base" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label className="text-foreground font-medium text-sm">City *</Label>
-                    <Select value={cityId} onValueChange={setCityId}>
-                      <SelectTrigger className="h-12 text-base">
-                        <MapPin className="w-4 h-4 text-muted-foreground mr-2" />
-                        <SelectValue placeholder="Select city" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {cities.map((city) => (
-                          <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <Label className="text-foreground font-medium text-sm">Vendor Type *</Label>
-                    <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger className="h-12 text-base">
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {CATEGORIES.map((cat) => (
-                          <SelectItem key={cat.value} value={cat.value}>
-                            <span className="flex items-center gap-2">{cat.icon} {cat.label}</span>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label htmlFor="phone" className="text-foreground font-medium text-sm">Phone Number</Label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input id="phone" type="tel" placeholder="+91 98765 43210" value={phone}
-                      onChange={(e) => setPhone(e.target.value)} disabled={loading}
-                      className="pl-10 h-12 text-base" />
-                  </div>
-                </div>
-
-                {/* Submit */}
-                <Button type="submit" className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-                  disabled={loading}>
-                  {loading ? (
-                    <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Profile...</>
-                  ) : (
-                    <>{isLoggedIn ? "Complete Registration" : "Create Account & Register"} <ChevronRight className="w-5 h-5 ml-2" /></>
-                  )}
-                </Button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  By registering, you agree to our Terms and Privacy Policy
-                </p>
-
-                {/* Links */}
-                <div className="flex items-center justify-between pt-2 border-t border-border">
-                  <p className="text-sm text-muted-foreground">
-                    Already registered?{" "}
-                    <Link to="/vendor-auth" className="text-primary hover:text-primary/80 font-semibold">Login</Link>
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    <Link to="/auth" className="text-primary/70 hover:text-primary">Couple? Sign up</Link>
-                  </p>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
