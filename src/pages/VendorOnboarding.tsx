@@ -4,166 +4,69 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import {
-  Building2, MapPin, Users, Calendar, Phone, Instagram, Facebook,
-  Upload, Loader2, Globe, Map, IndianRupee, MessageCircle,
+  Building2, MapPin, Phone, Loader2, ChevronRight,
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
-  Video, Gem, BookOpen, Car, Flower2, ChevronRight, ChevronLeft,
-  Check, Pen, Shield, Star, Zap, Heart, PartyPopper, ArrowRight,
-  CheckCircle, X, Eye, EyeOff, Mail, Lock, UserPlus, SkipForward
+  Video, Gem, BookOpen, Car, Flower2, Check, Star, Zap,
+  Heart, PartyPopper, ArrowRight, CheckCircle, X, Eye, EyeOff,
+  Mail, Lock, UserPlus, Shield, Instagram
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
-import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
 import { VendorSubscriptionCheckout } from "@/components/vendor/VendorSubscriptionCheckout";
-// CountdownBanner removed
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { cdn } from "@/lib/cdnAssets";
-
-// Hero images
-
-// Hero for Step 0 (auth) — reuse the main shaadi hero
-
-// ── Validation Schemas ──
-const step2Schema = z.object({
-  businessName: z.string().trim().min(3, "Business name must be at least 3 characters").max(100),
-  cityId: z.string().min(1, "City is required"),
-});
-
-const step3Schema = z.object({
-  description: z.string().trim().min(20, "Description must be at least 20 characters").max(500),
-});
+import vendorRegisterHero from "@/assets/vendor-register-hero.jpg";
 
 // ── Category Config ──
 type VendorCategory = Database["public"]["Enums"]["vendor_category"];
 
-interface CategoryCard {
+interface CategoryOption {
   value: VendorCategory;
   label: string;
-  tagline: string;
   icon: React.ReactNode;
 }
 
-const CATEGORIES: CategoryCard[] = [
-  { value: "photography", label: "Photography", tagline: "Capture the magic forever", icon: <Camera className="w-6 h-6" /> },
-  { value: "venues", label: "Venues", tagline: "The perfect backdrop", icon: <Building2 className="w-6 h-6" /> },
-  { value: "catering", label: "Catering", tagline: "Flavours they'll remember", icon: <Utensils className="w-6 h-6" /> },
-  { value: "decoration", label: "Decoration", tagline: "Transform any space", icon: <Flower2 className="w-6 h-6" /> },
-  { value: "makeup", label: "Makeup", tagline: "Bridal beauty experts", icon: <Sparkles className="w-6 h-6" /> },
-  { value: "mehendi", label: "Mehendi", tagline: "Intricate artistry", icon: <Palette className="w-6 h-6" /> },
-  { value: "music", label: "Music & DJ", tagline: "Set the vibe right", icon: <Music className="w-6 h-6" /> },
-  { value: "cakes", label: "Cakes & Desserts", tagline: "Sweet celebrations", icon: <Heart className="w-6 h-6" /> },
-  { value: "planning", label: "Wedding Planning", tagline: "Stress-free weddings", icon: <BookOpen className="w-6 h-6" /> },
-  { value: "invitations", label: "Invitations", tagline: "First impressions count", icon: <Pen className="w-6 h-6" /> },
-  { value: "choreography", label: "Choreography", tagline: "Dance to remember", icon: <Zap className="w-6 h-6" /> },
-  { value: "transport", label: "Transport", tagline: "Arrive in style", icon: <Car className="w-6 h-6" /> },
-  { value: "jewelry", label: "Jewelry", tagline: "Adorn the occasion", icon: <Gem className="w-6 h-6" /> },
-  { value: "pandit", label: "Pandit", tagline: "Sacred ceremonies", icon: <Crown className="w-6 h-6" /> },
-  { value: "entertainment", label: "Entertainment", tagline: "Unforgettable moments", icon: <Star className="w-6 h-6" /> },
-  { value: "anchor", label: "Anchor / Emcee", tagline: "Host the celebration", icon: <Mic2 className="w-6 h-6" /> },
-  { value: "content-creator", label: "Content Creator", tagline: "Stories that trend", icon: <Video className="w-6 h-6" /> },
-  { value: "social-media-managers", label: "Social Media Manager", tagline: "Viral shaadi content", icon: <Instagram className="w-6 h-6" /> },
-  { value: "influencer", label: "Influencer", tagline: "Amplify your reach", icon: <Sparkles className="w-6 h-6" /> },
-];
-
-// ── Step Config (Steps 1-6 displayed to user; Step 0 = auth, hidden from stepper) ──
-const STEPS = [
-  { num: 1, label: "Category", hindiLabel: "Apka Kaam", icon: <Palette className="w-4 h-4" /> },
-  { num: 2, label: "Business", hindiLabel: "Business", icon: <Building2 className="w-4 h-4" /> },
-  { num: 3, label: "Story", hindiLabel: "Kahani", icon: <Pen className="w-4 h-4" /> },
-  { num: 4, label: "Contact", hindiLabel: "Sampark", icon: <Phone className="w-4 h-4" /> },
-  { num: 5, label: "Review", hindiLabel: "Review", icon: <Check className="w-4 h-4" /> },
-  { num: 6, label: "Plan", hindiLabel: "Plan", icon: <Crown className="w-4 h-4" /> },
-];
-
-const STEP_HEROES = [cdn.onboardingStep1, cdn.onboardingStep2, cdn.onboardingStep3, cdn.onboardingStep4, cdn.onboardingStep5, cdn.onboardingStep6];
-
-const STEP_STORYTELLING = [
-  { hindi: "Apka Kaam, Apki Pehchaan", english: "Your Work, Your Identity", subtitle: "Select the service that defines you" },
-  { hindi: "Apna Business Batao", english: "Tell Us About Your Business", subtitle: "The essentials about your wedding business" },
-  { hindi: "Apni Kahani Sunao", english: "Tell Your Story", subtitle: "Help couples fall in love with your work" },
-  { hindi: "Jude Rahiye", english: "Stay Connected", subtitle: "How couples and our team will reach you" },
-  { hindi: "Sab Sahi Hai?", english: "Everything Look Good?", subtitle: "Review your profile before we publish it" },
-  { hindi: "Apna Plan Chuniye", english: "Choose Your Plan", subtitle: "Grow faster with premium tools" },
-];
-
-const PRICE_SUGGESTIONS: Record<string, string> = {
-  photography: "25,000", venues: "2,00,000", catering: "800/plate", decoration: "50,000",
-  makeup: "15,000", mehendi: "5,000", music: "20,000", cakes: "5,000",
-  planning: "1,00,000", invitations: "50/card", choreography: "15,000", transport: "10,000",
-  jewelry: "50,000", pandit: "11,000", entertainment: "25,000", anchor: "20,000",
-  "content-creator": "15,000", "social-media-managers": "20,000", influencer: "25,000",
-};
-
-const STORAGE_KEY = "ks_vendor_onboarding_draft";
-const GENDER_CATEGORIES = ["makeup", "photography", "mehendi"];
-
-// Gradient backgrounds per step (index 0 = step 1)
-const STEP_GRADIENTS = [
-  "from-rose-950/90 via-amber-950/70 to-rose-950/90",
-  "from-amber-950/90 via-orange-950/70 to-amber-950/90",
-  "from-emerald-950/90 via-teal-950/70 to-emerald-950/90",
-  "from-blue-950/90 via-indigo-950/70 to-blue-950/90",
-  "from-violet-950/90 via-purple-950/70 to-violet-950/90",
-  "from-amber-950/90 via-yellow-950/70 to-amber-950/90",
+const CATEGORIES: CategoryOption[] = [
+  { value: "photography", label: "Photography", icon: <Camera className="w-4 h-4" /> },
+  { value: "venues", label: "Venues", icon: <Building2 className="w-4 h-4" /> },
+  { value: "catering", label: "Catering", icon: <Utensils className="w-4 h-4" /> },
+  { value: "decoration", label: "Decoration", icon: <Flower2 className="w-4 h-4" /> },
+  { value: "makeup", label: "Makeup", icon: <Sparkles className="w-4 h-4" /> },
+  { value: "mehendi", label: "Mehendi", icon: <Palette className="w-4 h-4" /> },
+  { value: "music", label: "Music & DJ", icon: <Music className="w-4 h-4" /> },
+  { value: "cakes", label: "Cakes & Desserts", icon: <Heart className="w-4 h-4" /> },
+  { value: "planning", label: "Wedding Planning", icon: <BookOpen className="w-4 h-4" /> },
+  { value: "invitations", label: "Invitations", icon: <Mail className="w-4 h-4" /> },
+  { value: "choreography", label: "Choreography", icon: <Zap className="w-4 h-4" /> },
+  { value: "transport", label: "Transport", icon: <Car className="w-4 h-4" /> },
+  { value: "jewelry", label: "Jewelry", icon: <Gem className="w-4 h-4" /> },
+  { value: "pandit", label: "Pandit", icon: <Crown className="w-4 h-4" /> },
+  { value: "entertainment", label: "Entertainment", icon: <Star className="w-4 h-4" /> },
+  { value: "anchor", label: "Anchor / Emcee", icon: <Mic2 className="w-4 h-4" /> },
+  { value: "content-creator", label: "Content Creator", icon: <Video className="w-4 h-4" /> },
+  { value: "social-media-managers", label: "Social Media", icon: <Instagram className="w-4 h-4" /> },
+  { value: "influencer", label: "Influencer", icon: <Sparkles className="w-4 h-4" /> },
 ];
 
 // Subscription plans
 const SUBSCRIPTION_PLANS = [
   {
-    id: "starter",
-    name: "Starter",
-    price: 999,
-    icon: Star,
-    popular: false,
-    features: [
-      "Top 10 search placement",
-      "Silver verified badge",
-      "7% transaction fee (save 3%)",
-      "Priority lead notifications",
-      "Basic analytics dashboard",
-    ],
+    id: "starter", name: "Starter", price: 999, icon: Star, popular: false,
+    features: ["Top 10 search placement", "Silver verified badge", "7% transaction fee (save 3%)", "Priority lead notifications", "Basic analytics dashboard"],
     missing: ["Business Intelligence suite", "Portfolio Mini-Site", "Homepage featured spot"],
   },
   {
-    id: "pro",
-    name: "Pro",
-    price: 2999,
-    icon: Sparkles,
-    popular: true,
-    features: [
-      "Top 5 search placement",
-      "Gold Verified badge",
-      "3% transaction fee (save 7%)",
-      "Business Intelligence suite",
-      "Portfolio Mini-Site builder",
-      "Priority WhatsApp support",
-      "Contract & Invoice tools",
-    ],
+    id: "pro", name: "Pro", price: 2999, icon: Sparkles, popular: true,
+    features: ["Top 5 search placement", "Gold Verified badge", "3% transaction fee (save 7%)", "Business Intelligence suite", "Portfolio Mini-Site builder", "Priority WhatsApp support", "Contract & Invoice tools"],
     missing: ["Homepage featured spot"],
   },
   {
-    id: "elite",
-    name: "Elite",
-    price: 6999,
-    icon: Crown,
-    popular: false,
-    features: [
-      "Homepage featured placement",
-      "Diamond Premium badge",
-      "Zero transaction fees!",
-      "Full Business Intelligence",
-      "Portfolio Mini-Site builder",
-      "Dedicated account manager",
-      "Priority lead matching",
-      "All premium tools unlocked",
-    ],
+    id: "elite", name: "Elite", price: 6999, icon: Crown, popular: false,
+    features: ["Homepage featured placement", "Diamond Premium badge", "Zero transaction fees!", "Full Business Intelligence", "Portfolio Mini-Site builder", "Dedicated account manager", "Priority lead matching", "All premium tools unlocked"],
     missing: [],
   },
 ];
@@ -173,43 +76,33 @@ export default function VendorOnboarding() {
   const { toast } = useToast();
   const { trackEvent } = useAnalytics();
   const isMobile = useIsMobile();
+
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(0); // Start at 0 (auth step)
-  const [direction, setDirection] = useState(1);
+  const [phase, setPhase] = useState<"register" | "plan" | "congrats">("register");
   const [cities, setCities] = useState<any[]>([]);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [sameAsPhone, setSameAsPhone] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [createdVendorId, setCreatedVendorId] = useState<string | null>(null);
   const [showSubscriptionCheckout, setShowSubscriptionCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
-  const [authChecked, setAuthChecked] = useState(false);
-  const [quickSetupMode, setQuickSetupMode] = useState(false);
-  const [showCongrats, setShowCongrats] = useState(false);
   const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
-  // Auth step state
-  const [authLoading, setAuthLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [signupName, setSignupName] = useState("");
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
 
-  const [formData, setFormData] = useState({
-    category: "", businessName: "", cityId: "", yearsExperience: "", startingPrice: "",
-    genderPreference: "", description: "", teamSize: "", phoneNumber: "", whatsappNumber: "",
-    instagramHandle: "", facebookPage: "", googleMapsLink: "", websiteUrl: "", address: "",
-  });
+  // Form fields — all on one page
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [cityId, setCityId] = useState("");
+  const [category, setCategory] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const totalSteps = 6; // Steps 1-6 displayed to user
-  const offerActive = false;
-
-  // ── Check auth on mount — skip Step 0 if already logged in ──
+  // ── Check auth on mount ──
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
-        // Already authenticated — check if they have a vendor profile
         const { data: vendorData } = await supabase
           .from("vendors").select("id").eq("user_id", session.user.id).maybeSingle();
         if (vendorData) {
@@ -217,315 +110,191 @@ export default function VendorOnboarding() {
           navigate("/vendor/dashboard");
           return;
         }
-        // No vendor profile — skip to Step 1
-        setStep(1);
+        setIsLoggedIn(true);
+        // Pre-fill name/email from session
+        setFullName(session.user.user_metadata?.full_name || "");
+        setEmail(session.user.email || "");
       }
-      // else stay on Step 0 (auth)
       setAuthChecked(true);
     };
     checkAuth();
 
-    // Listen for auth changes (e.g., returning from email confirmation)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user && step === 0) {
-        setStep(1);
+      if (event === 'SIGNED_IN' && session?.user) {
+        setIsLoggedIn(true);
+        setFullName(session.user.user_metadata?.full_name || fullName);
+        setEmail(session.user.email || email);
+        setEmailSent(false);
       }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  // ── Load saved draft ──
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setFormData(prev => ({ ...prev, ...JSON.parse(saved) }));
-    } catch (_e) {
-      // Ignore invalid stored data
-    }
-  }, []);
+  useEffect(() => { loadCities(); }, []);
 
-  // ── Auto-save to localStorage ──
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(formData)); } catch (_e) { /* ignore storage errors */ }
-  }, [formData]);
-
-  useEffect(() => {
-    loadCities();
-  }, []);
-
-  // Fetch vendor ID if on step 6 but createdVendorId is null (e.g., page refresh)
+  // Fetch vendor ID for plan phase
   useEffect(() => {
     const fetchVendorId = async () => {
-      if (step === 6 && !createdVendorId) {
+      if (phase === "plan" && !createdVendorId) {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
           const { data: vendorData } = await supabase
             .from("vendors").select("id").eq("user_id", user.id).maybeSingle();
-          if (vendorData) {
-            setCreatedVendorId(vendorData.id);
-          }
+          if (vendorData) setCreatedVendorId(vendorData.id);
         }
       }
     };
     fetchVendorId();
-  }, [step, createdVendorId]);
+  }, [phase, createdVendorId]);
 
   const loadCities = async () => {
     const { data } = await supabase.from("cities").select("*").eq("is_active", true);
     if (data) setCities(data);
   };
 
-  const updateField = useCallback((field: string, value: string) => {
-    setFormData(prev => {
-      const updated = { ...prev, [field]: value };
-      if (field === "phoneNumber" && sameAsPhone) updated.whatsappNumber = value;
-      return updated;
-    });
-  }, [sameAsPhone]);
-
-  // ── Auth Handlers ──
+  // ── Google Sign In ──
   const handleGoogleSignIn = async () => {
-    setAuthLoading(true);
+    setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/vendor/onboarding`,
-        },
+        options: { redirectTo: `${window.location.origin}/vendor/onboarding` },
       });
       if (error) throw error;
       trackEvent({ event_type: "vendor_signup", metadata: { method: "google" } }).catch(() => {});
     } catch (error: any) {
-      toast({ title: "Google sign-in failed", description: error.message || "Please try again.", variant: "destructive" });
-      setAuthLoading(false);
+      toast({ title: "Google sign-in failed", description: error.message, variant: "destructive" });
+      setLoading(false);
     }
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  // ── Submit Registration ──
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setAuthLoading(true);
 
-    const trimmedName = signupName.trim();
-    const trimmedEmail = signupEmail.trim();
-
-    if (!trimmedName || trimmedName.length < 2) {
-      toast({ title: "Name required", description: "Please enter your name (at least 2 characters)", variant: "destructive" });
-      setAuthLoading(false);
+    // Validate
+    if (!businessName.trim() || businessName.trim().length < 3) {
+      toast({ title: "Business name required", description: "At least 3 characters", variant: "destructive" });
+      return;
+    }
+    if (!cityId) {
+      toast({ title: "City required", description: "Please select your city", variant: "destructive" });
+      return;
+    }
+    if (!category) {
+      toast({ title: "Category required", description: "Please select your vendor type", variant: "destructive" });
       return;
     }
 
-    if (!trimmedEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      toast({ title: "Invalid email", description: "Please enter a valid email address", variant: "destructive" });
-      setAuthLoading(false);
-      return;
-    }
-
-    if (signupPassword.length < 6) {
-      toast({ title: "Weak password", description: "Password must be at least 6 characters", variant: "destructive" });
-      setAuthLoading(false);
-      return;
-    }
+    setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: sanitizeInput(trimmedEmail),
-        password: signupPassword,
-        options: {
-          emailRedirectTo: `${window.location.origin}/vendor/onboarding`,
-          data: {
-            full_name: sanitizeInput(trimmedName),
+      let userId: string;
+
+      if (!isLoggedIn) {
+        // Validate auth fields
+        if (!fullName.trim() || fullName.trim().length < 2) {
+          toast({ title: "Name required", description: "At least 2 characters", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
+        if (!email.trim().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+          toast({ title: "Invalid email", description: "Please enter a valid email", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
+        if (password.length < 6) {
+          toast({ title: "Weak password", description: "At least 6 characters", variant: "destructive" });
+          setLoading(false);
+          return;
+        }
+
+        // Create account
+        const { data: signupData, error: signupError } = await supabase.auth.signUp({
+          email: sanitizeInput(email.trim()),
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/vendor/onboarding`,
+            data: { full_name: sanitizeInput(fullName.trim()) },
           },
-        },
-      });
+        });
 
-      if (error) throw error;
+        if (signupError) throw signupError;
+        if (!signupData.user) throw new Error("Account creation failed");
 
-      if (data.user) {
         trackEvent({ event_type: "vendor_signup", metadata: { method: "password" } }).catch(() => {});
 
         supabase.functions.invoke('onboarding-email', {
-          body: { user_id: data.user.id, email: trimmedEmail, name: trimmedName, user_type: 'vendor' }
-        }).catch(() => { /* best-effort */ });
+          body: { user_id: signupData.user.id, email: email.trim(), name: fullName.trim(), user_type: 'vendor' }
+        }).catch(() => {});
 
-        const needsEmailConfirmation = data.user.identities?.length === 0 ||
-          (!data.session && data.user.email_confirmed_at === null);
+        const needsEmailConfirmation = signupData.user.identities?.length === 0 ||
+          (!signupData.session && signupData.user.email_confirmed_at === null);
 
-        if (needsEmailConfirmation || !data.session) {
+        if (needsEmailConfirmation || !signupData.session) {
           setEmailSent(true);
-          toast({ title: "Check your email ✉️", description: "Click the link to verify your account, then you'll continue here." });
-        } else {
-          // Auto-confirmed — skip to step 1
-          setStep(1);
-          toast({ title: "Account created! 🎉", description: "Let's set up your vendor profile." });
+          toast({ title: "Check your email ✉️", description: "Verify your account to complete registration." });
+          setLoading(false);
+          return;
         }
+
+        userId = signupData.user.id;
+      } else {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("Not authenticated");
+        userId = user.id;
       }
-    } catch (error: any) {
-      toast({ title: "Signup failed", description: error.message || "Unable to create account.", variant: "destructive" });
-    } finally {
-      setAuthLoading(false);
-    }
-  };
 
-  // ── Logo ──
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast({ title: "File too large", description: "Logo must be under 2MB", variant: "destructive" });
-        return;
-      }
-      setLogoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setLogoPreview(reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
+      // Auto-generate description
+      const catLabel = CATEGORIES.find(c => c.value === category)?.label || "wedding";
+      const cityName = cities.find(c => c.id === cityId)?.name || "India";
+      const autoDesc = `We are a professional ${catLabel} service provider based in ${cityName}. Our team is dedicated to making every celebration special with personalised attention and creative excellence.`;
 
-  const uploadLogo = async (userId: string): Promise<string | null> => {
-    if (!logoFile) return null;
-    const fileExt = logoFile.name.split('.').pop();
-    const fileName = `${userId}/${Date.now()}.${fileExt}`;
-    const { error } = await supabase.storage.from('vendor-logos').upload(fileName, logoFile);
-    if (error) { return null; }
-    const { data: { publicUrl } } = supabase.storage.from('vendor-logos').getPublicUrl(fileName);
-    return publicUrl;
-  };
-
-  // ── AI Description Template ──
-  const generateDescription = () => {
-    const cat = CATEGORIES.find(c => c.value === formData.category);
-    const city = cities.find(c => c.id === formData.cityId);
-    const exp = formData.yearsExperience ? `${formData.yearsExperience} years` : "several years";
-    const template = `We are a professional ${cat?.label || "wedding"} service provider based in ${city?.name || "India"} with ${exp} of experience in the wedding industry. Our team is dedicated to making every celebration special with personalised attention to detail and creative excellence. We take pride in understanding each couple's unique vision and bringing it to life beautifully.`;
-    updateField("description", template);
-  };
-
-  // ── Navigation ──
-  const nextStep = () => {
-    if (step === 1 && !formData.category) {
-      toast({ title: "Select a category", description: "Tap on your service type to continue", variant: "destructive" });
-      return;
-    }
-    if (step === 2) {
-      const result = step2Schema.safeParse({ businessName: formData.businessName, cityId: formData.cityId });
-      if (!result.success) {
-        toast({ title: "Missing info", description: result.error.errors[0]?.message, variant: "destructive" });
-        return;
-      }
-      // In quick setup mode, auto-generate description and skip to step 5 (review)
-      if (quickSetupMode) {
-        if (!formData.description || formData.description.length < 20) {
-          generateDescription();
-        }
-        setDirection(1);
-        setStep(5);
-        return;
-      }
-    }
-    if (step === 3) {
-      const result = step3Schema.safeParse({ description: formData.description });
-      if (!result.success) {
-        toast({ title: "Missing info", description: result.error.errors[0]?.message, variant: "destructive" });
-        return;
-      }
-    }
-    setDirection(1);
-    setStep(s => Math.min(s + 1, 6));
-  };
-
-  const prevStep = () => {
-    if (step === 6 || step <= 1) return;
-    setDirection(-1);
-    // In quick setup mode, going back from Review (5) should go to Business (2)
-    if (quickSetupMode && step === 5) {
-      setStep(2);
-      return;
-    }
-    setStep(s => Math.max(s - 1, 1));
-  };
-
-  const jumpToStep = (target: number) => {
-    if (step === 6 || target < 1) return;
-    setDirection(target > step ? 1 : -1);
-    setStep(target);
-  };
-
-  // ── Submit (Step 5) ──
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      let logoUrl = null;
-      if (logoFile) logoUrl = await uploadLogo(user.id);
-
+      // Create vendor profile
       const { data: vendorData, error: vendorError } = await supabase.from("vendors").insert([{
-        user_id: user.id,
-        business_name: sanitizeInput(formData.businessName.trim()),
-        category: formData.category as VendorCategory,
-        city_id: formData.cityId || null,
-        description: sanitizeInput(formData.description.trim()),
-        years_experience: parseInt(formData.yearsExperience) || 0,
-        team_size: parseInt(formData.teamSize) || null,
-        website_url: formData.websiteUrl ? sanitizeInput(formData.websiteUrl.trim()) : null,
-        instagram_handle: formData.instagramHandle ? sanitizeInput(formData.instagramHandle.trim()) : null,
-        facebook_page: formData.facebookPage ? sanitizeInput(formData.facebookPage.trim()) : null,
-        google_maps_link: formData.googleMapsLink ? sanitizeInput(formData.googleMapsLink.trim()) : null,
-        phone_number: formData.phoneNumber ? sanitizeInput(formData.phoneNumber.trim()) : null,
-        whatsapp_number: formData.whatsappNumber ? sanitizeInput(formData.whatsappNumber.trim()) : null,
-        address: formData.address ? sanitizeInput(formData.address.trim()) : null,
-        starting_price: formData.startingPrice ? parseInt(formData.startingPrice.replace(/,/g, "")) : null,
-        gender_preference: formData.genderPreference || null,
-        logo_url: logoUrl,
+        user_id: userId,
+        business_name: sanitizeInput(businessName.trim()),
+        category: category as VendorCategory,
+        city_id: cityId || null,
+        description: autoDesc,
+        phone_number: phone ? sanitizeInput(phone.trim()) : null,
         verification_status: 'pending',
       }]).select("id").single();
 
       if (vendorError) throw vendorError;
 
-      // Assign vendor role so ProtectedRoute grants access to /vendor/dashboard
+      // Assign vendor role
       await supabase.from("user_roles").upsert(
-        { user_id: user.id, role: "vendor" as any },
+        { user_id: userId, role: "vendor" as any },
         { onConflict: "user_id,role" }
       );
 
-      localStorage.removeItem(STORAGE_KEY);
-      setCreatedVendorId(vendorData.id);
-
-      // Notify admin about new vendor registration
+      // Notify admin
       try {
         await supabase.functions.invoke("send-email", {
           body: {
             to: "prabhanjaytiwari@gmail.com",
-            subject: `🆕 New Vendor Registration: ${formData.businessName}`,
+            subject: `🆕 New Vendor Registration: ${businessName}`,
             html: `
-              <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">New Vendor Registration</h2>
-              <p style="font-size: 16px; color: #333;">A new vendor has registered on the platform and needs your review.</p>
+              <h2 style="color: #1a0a2e;">New Vendor Registration</h2>
+              <p>A new vendor has registered and needs review.</p>
               <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Business Name</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.businessName}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Category</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.category}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Phone</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.phoneNumber || "N/A"}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">WhatsApp</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.whatsappNumber || "N/A"}</td></tr>
-                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; color: #555;">Instagram</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${formData.instagramHandle || "N/A"}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600;">Business Name</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${businessName}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600;">Category</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${category}</td></tr>
+                <tr><td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: 600;">Phone</td><td style="padding: 10px; border-bottom: 1px solid #eee;">${phone || "N/A"}</td></tr>
               </table>
-              <p style="margin-top: 20px;">
-                <a href="https://karloshaadi.com/admin" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
-                  Review & Approve / Reject
-                </a>
-              </p>
+              <a href="https://karloshaadi.com/admin" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600;">Review & Approve</a>
             `,
             type: "admin_vendor_registration",
           },
         });
-      } catch (emailErr) {
-        console.error("Failed to send admin notification email:", emailErr);
-      }
-      
+      } catch (_) {}
+
+      setCreatedVendorId(vendorData.id);
+      localStorage.removeItem("ks_vendor_onboarding_draft");
       toast({ title: "Profile Created! 🎉", description: "Now choose a plan to grow faster." });
-      
-      setDirection(1);
-      setStep(6);
+      setPhase("plan");
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
@@ -540,937 +309,422 @@ export default function VendorOnboarding() {
 
   const handleSkipPlan = () => {
     setSubscribedPlan("Free");
-    setShowCongrats(true);
+    setPhase("congrats");
   };
 
   const handleSubscriptionSuccess = () => {
     setShowSubscriptionCheckout(false);
     const plan = SUBSCRIPTION_PLANS.find(p => p.id === selectedPlan);
     setSubscribedPlan(plan?.name || "Premium");
-    setShowCongrats(true);
+    setPhase("congrats");
   };
 
-  const handleSkipToQuickSetup = () => {
-    setQuickSetupMode(true);
-    setDirection(1);
-    setStep(2); // Jump to business name + city (minimal required fields)
-  };
-  const selectedCategory = CATEGORIES.find(c => c.value === formData.category);
-  const selectedCity = cities.find(c => c.id === formData.cityId);
-
-  // For steps 1-6, map to storytelling/hero arrays (index 0-5)
-  const currentStory = step >= 1 ? STEP_STORYTELLING[step - 1] : null;
-  const currentHero = step >= 1 ? STEP_HEROES[step - 1] : cdn.heroAuthMandap;
-
-  // ── Slide animation ──
-  const slideVariants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
-  };
-
-  // Don't render until auth check completes
   if (!authChecked) {
     return (
-      <div className="min-h-screen bg-foreground flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-accent" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
 
-  // ═══ CONGRATULATIONS SCREEN ═══
-  if (showCongrats) {
+  // ═══ CONGRATULATIONS ═══
+  if (phase === "congrats") {
     return (
-      <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(165deg, hsl(260 15% 8%) 0%, hsl(38 20% 12%) 50%, hsl(260 15% 10%) 100%)' }}>
-        {/* Confetti particles */}
+      <div className="min-h-screen relative overflow-hidden bg-background">
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 rounded-full"
               style={{
-                background: ['hsl(38 80% 55%)', 'hsl(340 65% 55%)', 'hsl(160 60% 50%)', 'hsl(280 50% 60%)'][i % 4],
+                background: ['hsl(var(--accent))', 'hsl(var(--primary))', 'hsl(160 60% 50%)', 'hsl(38 80% 55%)'][i % 4],
                 left: `${Math.random() * 100}%`,
                 top: '-5%',
               }}
-              animate={{
-                y: ['0vh', '110vh'],
-                x: [0, Math.random() * 100 - 50],
-                rotate: [0, 720],
-                opacity: [1, 0.5, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-                ease: 'easeIn',
-              }}
+              animate={{ y: ['0vh', '110vh'], x: [0, Math.random() * 100 - 50], rotate: [0, 720], opacity: [1, 0.5, 0] }}
+              transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 2, ease: 'easeIn' }}
             />
           ))}
         </div>
-
         <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 text-center">
-          {/* Hero image */}
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="relative w-40 h-40 rounded-3xl overflow-hidden shadow-2xl mb-8"
-            style={{ border: '2px solid hsl(38 60% 50% / 0.3)' }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            className="w-24 h-24 rounded-full bg-emerald-500/20 flex items-center justify-center mb-8"
           >
-            <img src={cdn.congratsVendor} alt="" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.4, type: 'spring', stiffness: 300 }}
-              className="absolute bottom-3 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center shadow-xl"
-            >
-              <CheckCircle className="w-7 h-7 text-white" />
-            </motion.div>
+            <CheckCircle className="w-12 h-12 text-emerald-500" />
           </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-3xl font-bold text-white mb-2"
-          >
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className="text-3xl md:text-4xl font-bold text-foreground mb-3">
             Welcome to Karlo Shaadi! 🎉
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-white/50 text-sm mb-6 max-w-sm"
-          >
-            Your vendor profile is live. Couples will start discovering your business soon.
+          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+            className="text-muted-foreground text-base mb-8 max-w-sm">
+            Your vendor profile is live. Couples will start discovering you soon.
           </motion.p>
-
           {subscribedPlan && subscribedPlan !== "Free" && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mb-6 px-5 py-3 rounded-2xl flex items-center gap-3"
-              style={{ background: 'linear-gradient(135deg, hsl(38 80% 50% / 0.15), hsl(38 70% 45% / 0.08))', border: '1px solid hsl(38 60% 50% / 0.3)' }}
-            >
-              <Crown className="w-5 h-5 text-amber-400" />
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
+              className="mb-6 px-5 py-3 rounded-2xl flex items-center gap-3 bg-accent/10 border border-accent/20">
+              <Crown className="w-5 h-5 text-accent" />
               <div className="text-left">
-                <p className="text-sm font-semibold text-amber-300">{subscribedPlan} Plan Activated</p>
-                <p className="text-[10px] text-amber-400/50">Premium features are now unlocked</p>
+                <p className="text-sm font-semibold text-accent">{subscribedPlan} Plan Activated</p>
+                <p className="text-xs text-muted-foreground">Premium features unlocked</p>
               </div>
             </motion.div>
           )}
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="flex flex-col gap-3 w-full max-w-xs"
-          >
-            <Button
-              onClick={() => navigate("/vendor/dashboard")}
-              className="w-full bg-amber-500 text-black hover:bg-amber-400 font-semibold rounded-2xl h-14 text-base shadow-xl shadow-amber-500/20"
-            >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+            className="flex flex-col gap-3 w-full max-w-xs">
+            <Button onClick={() => navigate("/vendor/dashboard")}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-2xl h-14 text-base shadow-xl">
               Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-            <p className="text-[10px] text-white/20">Verification typically completes in 24-48 hours</p>
+            <p className="text-xs text-muted-foreground">Verification typically completes in 24-48 hours</p>
           </motion.div>
         </div>
       </div>
     );
   }
 
-  // ═══ STEP 0: Create Account ═══
-  if (step === 0) {
+  // ═══ PLAN SELECTION ═══
+  if (phase === "plan") {
     return (
-      <div className="min-h-screen bg-foreground relative overflow-hidden">
-        {/* Floating decorative orbs */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-          <motion.div
-            animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-20 right-10 w-32 h-32 rounded-full"
-            style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.15), transparent)" }}
-          />
-          <motion.div
-            animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            className="absolute bottom-40 left-5 w-24 h-24 rounded-full"
-            style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.12), transparent)" }}
-          />
-        </div>
-
-        <div className="relative z-10 min-h-screen flex flex-col">
-          {/* Hero Banner */}
-          <div className="relative h-48 md:h-64 overflow-hidden">
-            <img src={cdn.heroAuthMandap} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "contrast(1.05) saturate(1.1)" }} />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/60 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
-              <motion.p
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-accent font-bold text-xs tracking-[0.2em] uppercase mb-1"
-              >
-                Vendor Registration
-              </motion.p>
-              <motion.h1
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-white font-bold text-2xl md:text-3xl leading-tight"
-                style={{ fontFamily: "'Georgia', serif" }}
-              >
-                Apni Shaadi Business Shuru Karo
-              </motion.h1>
-              <motion.p
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-white/70 text-sm mt-1"
-              >
-                Start Your Wedding Business Journey — Create your account in 30 seconds
-              </motion.p>
+      <div className="min-h-screen bg-background">
+        <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5 flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+              <CheckCircle className="w-6 h-6 text-emerald-500" />
             </div>
-          </div>
+            <div>
+              <p className="text-lg font-semibold text-emerald-700 dark:text-emerald-300">Profile Created Successfully!</p>
+              <p className="text-sm text-emerald-600/70 dark:text-emerald-400/60">Verification in 24-48 hours • Choose a plan to grow faster</p>
+            </div>
+          </motion.div>
 
-          {/* Auth Form */}
-          <div className="flex-1 max-w-md mx-auto w-full px-4 py-6">
-            <div className="bg-white/[0.07]  border border-white/[0.12] rounded-2xl shadow-2xl p-6">
-              
-              {emailSent ? (
-                <motion.div
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="text-center py-8"
-                >
-                  <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4">
-                    <Mail className="w-8 h-8 text-accent" />
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">Choose Your Plan</h2>
+          <p className="text-muted-foreground text-center mb-8">Grow faster with premium tools and priority placement</p>
+
+          <div className={`grid gap-5 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
+            {SUBSCRIPTION_PLANS.map((plan, idx) => {
+              const PlanIcon = plan.icon;
+              const perDay = Math.round(plan.price / 30);
+              return (
+                <motion.div key={plan.id} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: idx * 0.1 }}
+                  className={`relative rounded-2xl border p-6 transition-all hover:scale-[1.02] cursor-pointer ${
+                    plan.popular ? "border-primary/40 bg-primary/5 shadow-lg shadow-primary/10" : "border-border bg-card"
+                  }`}
+                  onClick={() => handleSelectPlan(plan.id)}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full uppercase tracking-wider">
+                      Most Popular
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${plan.popular ? "bg-primary/20" : "bg-muted"}`}>
+                      <PlanIcon className={`w-5 h-5 ${plan.popular ? "text-primary" : "text-muted-foreground"}`} />
+                    </div>
+                    <h3 className="font-bold text-lg text-foreground">{plan.name}</h3>
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-2">Check Your Email ✉️</h2>
-                  <p className="text-white/50 text-sm mb-6">
-                    We sent a verification link to <strong className="text-white/80">{signupEmail}</strong>. 
-                    Click it to continue your onboarding.
-                  </p>
-                  <p className="text-white/30 text-xs mb-4">
-                    After verifying, you'll be automatically redirected here to complete your profile setup.
-                  </p>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-accent hover:bg-accent/10"
-                    onClick={() => { setEmailSent(false); setSignupEmail(""); setSignupPassword(""); setSignupName(""); }}
-                  >
-                    Use a different email
+                  <div className="mb-5">
+                    <span className="text-3xl font-black text-foreground">₹{plan.price.toLocaleString()}</span>
+                    <span className="text-sm text-muted-foreground">/month</span>
+                    <p className="text-xs text-muted-foreground mt-1">₹{perDay}/day · Cancel anytime</p>
+                  </div>
+                  <ul className="space-y-2 mb-5">
+                    {plan.features.map((f, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> {f}
+                      </li>
+                    ))}
+                    {plan.missing.map((f, i) => (
+                      <li key={`m-${i}`} className="flex items-start gap-2 text-sm text-muted-foreground/50">
+                        <X className="w-4 h-4 text-muted-foreground/30 shrink-0 mt-0.5" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button className={`w-full ${plan.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-muted text-foreground hover:bg-muted/80"}`}
+                    onClick={(e) => { e.stopPropagation(); handleSelectPlan(plan.id); }}>
+                    Choose {plan.name}
                   </Button>
                 </motion.div>
-              ) : (
-                <>
-                  {/* Google OAuth */}
-                  <Button
-                    variant="outline"
-                    className="w-full mb-4 gap-2 border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08] hover:text-white"
-                    onClick={handleGoogleSignIn}
-                    disabled={authLoading}
-                  >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                      <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                      <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                      <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                    </svg>
-                    Continue with Google
-                  </Button>
-
-                  <div className="relative mb-4">
-                    <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t border-white/10" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-foreground px-3 text-white/30">or create with email</span>
-                    </div>
-                  </div>
-
-                  {/* Signup Form */}
-                  <form onSubmit={handleSignup} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-name" className="text-white/70">Your Name</Label>
-                      <div className="relative">
-                        <UserPlus className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input
-                          id="signup-name"
-                          type="text"
-                          placeholder="Your full name"
-                          value={signupName}
-                          onChange={(e) => setSignupName(e.target.value)}
-                          required
-                          disabled={authLoading}
-                          className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-email" className="text-white/70">Email Address</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input
-                          id="signup-email"
-                          type="email"
-                          placeholder="business@example.com"
-                          value={signupEmail}
-                          onChange={(e) => setSignupEmail(e.target.value)}
-                          required
-                          disabled={authLoading}
-                          className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="signup-password" className="text-white/70">Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input
-                          id="signup-password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Min. 6 characters"
-                          value={signupPassword}
-                          onChange={(e) => setSignupPassword(e.target.value)}
-                          required
-                          minLength={6}
-                          disabled={authLoading}
-                          className="pl-10 pr-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3 text-white/30 hover:text-white/60 hover:bg-transparent"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                      </div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold"
-                      disabled={authLoading}
-                    >
-                      {authLoading ? (
-                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating Account...</>
-                      ) : (
-                        <>Create Account & Start <ArrowRight className="w-4 h-4 ml-2" /></>
-                      )}
-                    </Button>
-
-                    <p className="text-[10px] text-center text-white/25">
-                      By signing up, you agree to our Terms and Privacy Policy
-                    </p>
-                  </form>
-                </>
-              )}
-
-              {/* Login link */}
-              <div className="mt-6 pt-4 border-t border-white/10 text-center">
-                <p className="text-sm text-white/40">
-                  Already have an account?{" "}
-                  <Link to="/vendor-auth" className="text-accent hover:text-accent/80 font-semibold">
-                    Login here
-                  </Link>
-                </p>
-              </div>
-            </div>
-
-            {/* Couple link */}
-            <div className="text-center mt-4">
-              <p className="text-xs text-white/25">
-                Looking for vendors?{" "}
-                <Link to="/auth" className="text-accent/60 hover:text-accent">Sign up as couple</Link>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ═══ STEPS 1-6: Onboarding Wizard ═══
-  return (
-    <div className="min-h-screen bg-foreground relative overflow-hidden">
-      {/* Floating decorative orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <motion.div
-          animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 right-10 w-32 h-32 rounded-full"
-          style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.15), transparent)" }}
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-40 left-5 w-24 h-24 rounded-full"
-          style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.12), transparent)" }}
-        />
-        <motion.div
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-          className="absolute top-1/2 left-1/3 w-16 h-16 rounded-full"
-          style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.1), transparent)" }}
-        />
-      </div>
-
-      <div className={`relative z-10 ${isMobile ? "pb-32" : "py-6"}`}>
-        <div className="max-w-3xl mx-auto px-4">
-
-          {/* ── Hero Banner ── */}
-          <motion.div
-            key={`hero-${step}`}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="relative rounded-2xl overflow-hidden mb-6 h-44 md:h-56"
-          >
-            <img
-              src={currentHero}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "contrast(1.05) saturate(1.1)" }}
-            />
-            <div className={`absolute inset-0 bg-gradient-to-t ${STEP_GRADIENTS[step - 1]}`} />
-            <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8">
-              <motion.p
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-accent font-bold text-xs tracking-[0.2em] uppercase mb-1"
-              >
-                Step {step} of {totalSteps}
-              </motion.p>
-              <motion.h1
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-white font-bold text-2xl md:text-3xl leading-tight"
-                style={{ fontFamily: "'Georgia', serif" }}
-              >
-                {currentStory?.hindi}
-              </motion.h1>
-              <motion.p
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-white/70 text-sm mt-1"
-              >
-                {currentStory?.english} — {currentStory?.subtitle}
-              </motion.p>
-            </div>
-          </motion.div>
-
-          {/* ── Glass Progress Stepper ── */}
-          <div className="flex items-center justify-center gap-1.5 mb-6 flex-wrap">
-            {STEPS.map((s, i) => {
-              const isActive = step === s.num;
-              const isDone = step > s.num;
-              return (
-                <div key={s.num} className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => isDone && s.num < 6 && jumpToStep(s.num)}
-                    disabled={!isDone || step === 6}
-                    className="flex items-center gap-1.5 transition-all"
-                  >
-                    <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300  border ${
-                      isActive
-                        ? "bg-accent/20 text-accent border-accent/40 ring-2 ring-accent/20"
-                        : isDone
-                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 cursor-pointer"
-                          : "bg-white/5 text-white/40 border-white/10"
-                    }`}>
-                      {isDone ? <Check className="w-3 h-3" /> : s.icon}
-                      {!isMobile && <span>{s.label}</span>}
-                    </div>
-                  </button>
-                  {i < STEPS.length - 1 && (
-                    <div className={`h-px w-4 transition-all duration-300 ${step > s.num ? "bg-emerald-400/50" : "bg-white/10"}`} />
-                  )}
-                </div>
               );
             })}
           </div>
 
-          {/* ── Step Content Glass Container ── */}
-          <div className="bg-white/[0.07]  border border-white/[0.12] rounded-2xl shadow-2xl overflow-hidden">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={step}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="p-5 md:p-8"
-              >
-                {/* ═══ STEP 1: Category Selection ═══ */}
-                {step === 1 && (
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <p className="text-white/50 text-xs flex items-center gap-2">
-                        <Users className="w-3.5 h-3.5" />
-                        Join 10,000+ vendors already growing with Karlo Shaadi
-                      </p>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleSkipToQuickSetup}
-                        className="text-xs text-amber-400/70 hover:text-amber-400 hover:bg-amber-400/10 h-7 gap-1"
-                      >
-                        <SkipForward className="w-3 h-3" /> Quick Setup
-                      </Button>
-                    </div>
-                    <div className={`grid gap-2.5 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
-                      {CATEGORIES.map((cat) => {
-                        const selected = formData.category === cat.value;
-                        return (
-                          <motion.button
-                            key={cat.value}
-                            type="button"
-                            whileTap={{ scale: 0.96 }}
-                            whileHover={{ scale: 1.02 }}
-                            onClick={() => updateField("category", cat.value)}
-                            className={`relative p-3.5 rounded-xl border text-left transition-all duration-200  ${
-                              selected
-                                ? "border-accent/50 bg-accent/10 ring-2 ring-accent/20"
-                                : "border-white/10 hover:border-white/20 bg-white/[0.04]"
-                            }`}
-                          >
-                            {selected && (
-                              <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                className="absolute top-2 right-2 w-5 h-5 rounded-full bg-accent flex items-center justify-center"
-                              >
-                                <Check className="w-3 h-3 text-accent-foreground" />
-                              </motion.div>
-                            )}
-                            <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center mb-2 text-white/80">
-                              {cat.icon}
-                            </div>
-                            <p className="text-sm font-semibold text-white/90 leading-tight">{cat.label}</p>
-                            <p className="text-[10px] text-white/40 mt-0.5 leading-tight">{cat.tagline}</p>
-                          </motion.button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* ═══ STEP 2: Business Identity ═══ */}
-                {step === 2 && (
-                  <div className="space-y-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="businessName" className="text-white/70">Business Name *</Label>
-                      <div className="relative">
-                        <Building2 className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input id="businessName" placeholder="e.g., Royal Click Studio" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus-visible:ring-accent/30 focus-visible:border-accent/40" value={formData.businessName} onChange={(e) => updateField("businessName", e.target.value)} />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label className="text-white/70">City *</Label>
-                        <Select value={formData.cityId} onValueChange={(v) => updateField("cityId", v)}>
-                          <SelectTrigger className="bg-white/[0.06] border-white/10 text-white"><SelectValue placeholder="Select city" /></SelectTrigger>
-                          <SelectContent>
-                            {cities.map((city) => (
-                              <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="experience" className="text-white/70">Years of Experience</Label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input id="experience" type="number" placeholder="e.g., 5" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.yearsExperience} onChange={(e) => updateField("yearsExperience", e.target.value)} />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="startingPrice" className="text-white/70">Starting Price (₹)</Label>
-                      <div className="relative">
-                        <IndianRupee className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input id="startingPrice" placeholder={PRICE_SUGGESTIONS[formData.category] || "25,000"} className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.startingPrice} onChange={(e) => updateField("startingPrice", e.target.value)} />
-                      </div>
-                      <p className="text-xs text-white/30">Helps couples filter by budget · You can change this later</p>
-                    </div>
-
-                    {GENDER_CATEGORIES.includes(formData.category) && (
-                      <div className="space-y-2">
-                        <Label className="text-white/70">Service Provider Gender</Label>
-                        <Select value={formData.genderPreference} onValueChange={(v) => updateField("genderPreference", v)}>
-                          <SelectTrigger className="bg-white/[0.06] border-white/10 text-white"><SelectValue placeholder="Select preference" /></SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="female">Female Only</SelectItem>
-                            <SelectItem value="male">Male Only</SelectItem>
-                            <SelectItem value="any">Both Available</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* ═══ STEP 3: Tell Your Story ═══ */}
-                {step === 3 && (
-                  <div className="space-y-5">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="description" className="text-white/70">Business Description *</Label>
-                        <Button type="button" variant="ghost" size="sm" onClick={generateDescription} className="text-xs text-accent h-7 hover:bg-accent/10">
-                          <Sparkles className="w-3 h-3 mr-1" /> Write for me
-                        </Button>
-                      </div>
-                      <Textarea
-                        id="description"
-                        placeholder="Tell couples about your services, your USP, the kind of weddings you love working on…"
-                        rows={6}
-                        value={formData.description}
-                        onChange={(e) => updateField("description", e.target.value)}
-                        className="resize-none bg-white/[0.06] border-white/10 text-white placeholder:text-white/30"
-                      />
-                      <div className="flex justify-between text-xs text-white/30">
-                        <span>{formData.description.length < 20 ? `${20 - formData.description.length} more characters needed` : <span className="text-emerald-400">Looks great ✓</span>}</span>
-                        <span>{formData.description.length}/500</span>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="teamSize" className="text-white/70">Team Size</Label>
-                      <div className="relative">
-                        <Users className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input id="teamSize" type="number" placeholder="e.g., 10" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.teamSize} onChange={(e) => updateField("teamSize", e.target.value)} />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ═══ STEP 4: Contact & Social ═══ */}
-                {step === 4 && (
-                  <div className="space-y-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-white/70">Phone Number</Label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input id="phone" type="tel" placeholder="+91 98765 43210" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.phoneNumber} onChange={(e) => updateField("phoneNumber", e.target.value)} />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 -mt-2">
-                      <Checkbox
-                        id="sameAsPhone"
-                        checked={sameAsPhone}
-                        onCheckedChange={(checked) => {
-                          const val = checked === true;
-                          setSameAsPhone(val);
-                          if (val) updateField("whatsappNumber", formData.phoneNumber);
-                        }}
-                        className="border-white/20 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-                      />
-                      <Label htmlFor="sameAsPhone" className="text-xs text-white/40 cursor-pointer">Same number for WhatsApp</Label>
-                    </div>
-
-                    {!sameAsPhone && (
-                      <div className="space-y-2">
-                        <Label htmlFor="whatsapp" className="text-white/70">WhatsApp Number</Label>
-                        <div className="relative">
-                          <MessageCircle className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input id="whatsapp" type="tel" placeholder="+91 98765 43210" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.whatsappNumber} onChange={(e) => updateField("whatsappNumber", e.target.value)} />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="space-y-2">
-                      <Label htmlFor="address" className="text-white/70">Business Address</Label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                        <Input id="address" placeholder="Full business address" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.address} onChange={(e) => updateField("address", e.target.value)} />
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/10 pt-4 space-y-4">
-                      <p className="text-xs font-semibold text-white/40 uppercase tracking-wide">Social & Web (Optional)</p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div className="relative">
-                          <Instagram className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input placeholder="Instagram profile URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.instagramHandle} onChange={(e) => updateField("instagramHandle", e.target.value)} />
-                        </div>
-                        <div className="relative">
-                          <Facebook className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input placeholder="Facebook page URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.facebookPage} onChange={(e) => updateField("facebookPage", e.target.value)} />
-                        </div>
-                        <div className="relative">
-                          <Map className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input placeholder="Google Maps link" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.googleMapsLink} onChange={(e) => updateField("googleMapsLink", e.target.value)} />
-                        </div>
-                        <div className="relative">
-                          <Globe className="absolute left-3 top-3 h-4 w-4 text-white/30" />
-                          <Input placeholder="Website URL" className="pl-10 bg-white/[0.06] border-white/10 text-white placeholder:text-white/30" value={formData.websiteUrl} onChange={(e) => updateField("websiteUrl", e.target.value)} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Logo Upload */}
-                    <div className="space-y-2">
-                      <Label className="text-white/70">Business Logo</Label>
-                      <div className="border border-dashed border-white/10 rounded-xl p-5 text-center hover:border-accent/30 transition-colors">
-                        {logoPreview ? (
-                          <div className="flex items-center gap-4">
-                            <img src={logoPreview} alt="Logo preview" className="w-16 h-16 object-contain rounded-lg" />
-                            <div className="text-left flex-1">
-                              <p className="text-sm font-medium text-white/80">{logoFile?.name}</p>
-                              <Button type="button" variant="ghost" size="sm" className="text-xs text-red-400 h-7 mt-1 hover:bg-red-500/10" onClick={() => { setLogoFile(null); setLogoPreview(null); }}>
-                                Remove
-                              </Button>
-                            </div>
-                          </div>
-                        ) : (
-                          <label className="cursor-pointer">
-                            <Upload className="h-7 w-7 mx-auto text-white/30 mb-2" />
-                            <p className="text-sm text-white/50">Click to upload logo</p>
-                            <p className="text-[10px] text-white/30 mt-1">PNG or JPG, up to 2MB</p>
-                            <input type="file" accept="image/*" className="hidden" onChange={handleLogoChange} />
-                          </label>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ═══ STEP 5: Review & Submit ═══ */}
-                {step === 5 && (
-                  <div className="space-y-4">
-                    {/* Mini-site slug preview */}
-                    {formData.businessName && (
-                      <div className="bg-white/[0.06] border border-accent/20 rounded-xl p-4">
-                        <p className="text-xs text-white/50 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                          <Globe className="w-3.5 h-3.5 text-accent" /> Your Mini-Site URL
-                        </p>
-                        <p className="text-sm font-mono text-white/90 break-all">
-                          karloshaadi.com/vendor-site/
-                          <span className="text-accent font-semibold">
-                            {formData.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}
-                          </span>
-                        </p>
-                        <p className="text-[10px] text-white/30 mt-1.5">Share this link on WhatsApp, Instagram & Google. You can customise it later.</p>
-                      </div>
-                    )}
-                    <ReviewBlock title="Category" onEdit={() => jumpToStep(1)}>
-                      <div className="flex items-center gap-2 text-white/80">
-                        {selectedCategory?.icon}
-                        <span className="font-medium">{selectedCategory?.label || "—"}</span>
-                      </div>
-                    </ReviewBlock>
-
-                    <ReviewBlock title="Business" onEdit={() => jumpToStep(2)}>
-                      <ReviewRow label="Name" value={formData.businessName} />
-                      <ReviewRow label="City" value={selectedCity?.name} />
-                      <ReviewRow label="Experience" value={formData.yearsExperience ? `${formData.yearsExperience} years` : undefined} />
-                      <ReviewRow label="Starting Price" value={formData.startingPrice ? `₹${formData.startingPrice}` : undefined} />
-                    </ReviewBlock>
-
-                    <ReviewBlock title="Story" onEdit={() => jumpToStep(3)}>
-                      <p className="text-sm text-white/50 line-clamp-3">{formData.description || "No description added"}</p>
-                      <ReviewRow label="Team Size" value={formData.teamSize} />
-                    </ReviewBlock>
-
-                    <ReviewBlock title="Contact" onEdit={() => jumpToStep(4)}>
-                      <ReviewRow label="Phone" value={formData.phoneNumber} />
-                      <ReviewRow label="WhatsApp" value={formData.whatsappNumber} />
-                      <ReviewRow label="Address" value={formData.address} />
-                      {logoPreview && (
-                        <div className="flex items-center gap-2 mt-2">
-                          <img src={logoPreview} alt="Logo" className="w-8 h-8 rounded object-contain" />
-                          <span className="text-xs text-white/40">Logo uploaded</span>
-                        </div>
-                      )}
-                    </ReviewBlock>
-
-                    <div className="bg-accent/[0.08] border border-accent/20 rounded-xl p-4 flex flex-wrap gap-4 text-xs text-white/70">
-                      <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent" /> <strong className="text-white/90">100% Free</strong></span>
-                      <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-accent" /> <strong className="text-white/90">Zero Commission</strong></span>
-                      <span className="flex items-center gap-1.5"><Star className="w-4 h-4 text-accent" /> <strong className="text-white/90">Verified in 24–48 hrs</strong></span>
-                    </div>
-                  </div>
-                )}
-
-                {/* ═══ STEP 6: Subscription Upsell ═══ */}
-                {step === 6 && (
-                  <div className="space-y-6">
-                    <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex items-center gap-3"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
-                        <CheckCircle className="w-5 h-5 text-emerald-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-emerald-300">Profile Created Successfully!</p>
-                        <p className="text-xs text-emerald-400/60">Verification in 24-48 hours</p>
-                      </div>
-                    </motion.div>
-
-                    {/* Promo banner removed */}
-
-                    <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
-                      {SUBSCRIPTION_PLANS.map((plan, idx) => {
-                        const PlanIcon = plan.icon;
-                        const perDay = Math.round(plan.price / 30);
-                        return (
-                          <motion.div
-                            key={plan.id}
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: idx * 0.1 }}
-                            className={`relative rounded-xl border p-5  transition-all hover:scale-[1.02] cursor-pointer ${
-                              plan.popular
-                                ? "border-accent/40 bg-accent/[0.08] "
-                                : "border-white/10 bg-white/[0.04]"
-                            }`}
-                            onClick={() => handleSelectPlan(plan.id)}
-                          >
-                            {plan.popular && (
-                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-accent text-accent-foreground text-[10px] font-bold rounded-full uppercase tracking-wider">
-                                Most Popular
-                              </div>
-                            )}
-                            <div className="flex items-center gap-2 mb-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${plan.popular ? "bg-accent/20" : "bg-white/10"}`}>
-                                <PlanIcon className={`w-4 h-4 ${plan.popular ? "text-accent" : "text-white/60"}`} />
-                              </div>
-                              <h3 className="font-bold text-white">{plan.name}</h3>
-                            </div>
-
-                            <div className="mb-4">
-                              <span className="text-2xl font-black text-white">₹{plan.price.toLocaleString()}</span>
-                              <p className="text-[10px] text-white/30 mt-0.5">₹{perDay}/day · Cancel anytime</p>
-                            </div>
-
-                            <ul className="space-y-1.5 mb-4">
-                              {plan.features.map((f, i) => (
-                                <li key={i} className="flex items-start gap-2 text-xs text-white/60">
-                                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                                  {f}
-                                </li>
-                              ))}
-                              {plan.missing.map((f, i) => (
-                                <li key={`m-${i}`} className="flex items-start gap-2 text-xs text-white/20">
-                                  <X className="w-3.5 h-3.5 text-white/15 shrink-0 mt-0.5" />
-                                  {f}
-                                </li>
-                              ))}
-                            </ul>
-
-                            <Button
-                              className={`w-full ${plan.popular ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-white/10 text-white hover:bg-white/20"}`}
-                              size="sm"
-                              onClick={(e) => { e.stopPropagation(); handleSelectPlan(plan.id); }}
-                            >
-                              Choose {plan.name}
-                            </Button>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
-
-                    <div className="flex items-center justify-center gap-4 text-[10px] text-white/30">
-                      <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> 100% money-back guarantee</span>
-                      <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Cancel anytime</span>
-                    </div>
-
-                    <div className="text-center">
-                      <Button
-                        variant="ghost"
-                        onClick={handleSkipPlan}
-                        className="text-white/40 hover:text-white/60 hover:bg-white/5 text-sm"
-                      >
-                        Skip — Continue with Free Plan <ArrowRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
+          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground mt-6">
+            <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> 100% money-back guarantee</span>
+            <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Cancel anytime</span>
           </div>
 
-          {/* ── Sticky Bottom Navigation (Steps 1-5 only) ── */}
-          {step >= 1 && step < 6 && (
-            <div className={`flex gap-3 mt-6 ${isMobile ? "fixed bottom-0 left-0 right-0 bg-foreground/95  border-t border-white/10 p-4 z-50" : ""}`}>
-              {step > 1 && (
-                <Button type="button" variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white/70 hover:bg-white/5 hover:text-white">
-                  <ChevronLeft className="w-4 h-4 mr-1" /> Back
-                </Button>
-              )}
-              {step < 5 ? (
-                <Button type="button" onClick={nextStep} className={`bg-accent text-accent-foreground hover:bg-accent/90 ${step === 1 ? "w-full" : "flex-1"}`}>
-                  Continue <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              ) : (
-                <Button type="button" onClick={handleSubmit} className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" disabled={loading}>
-                  {loading ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Creating Profile...</>
-                  ) : (
-                    <>Complete Registration <PartyPopper className="w-4 h-4 ml-2" /></>
-                  )}
-                </Button>
-              )}
+          <div className="text-center mt-6">
+            <Button variant="ghost" onClick={handleSkipPlan} className="text-muted-foreground hover:text-foreground text-sm">
+              Skip — Continue with Free Plan <ArrowRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+
+        {createdVendorId && (
+          <VendorSubscriptionCheckout
+            open={showSubscriptionCheckout}
+            onOpenChange={setShowSubscriptionCheckout}
+            vendorId={createdVendorId}
+            planId={selectedPlan}
+            onSuccess={handleSubscriptionSuccess}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // ═══ MAIN REGISTRATION PAGE — Single Form ═══
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="flex min-h-screen">
+        {/* Left: Hero Image (desktop only) */}
+        {!isMobile && (
+          <div className="hidden lg:flex w-[45%] relative overflow-hidden">
+            <img
+              src={vendorRegisterHero}
+              alt="Grow your wedding business"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30" />
+            <div className="absolute bottom-0 left-0 right-0 p-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center mb-5 border border-white/20">
+                  <Sparkles className="w-7 h-7 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-white leading-tight mb-3" style={{ fontFamily: "'Georgia', serif" }}>
+                  Grow Your Wedding<br />Business With Us
+                </h2>
+                <p className="text-white/70 text-base mb-6 max-w-sm">
+                  Join 10,000+ vendors reaching lakhs of couples planning their dream shaadi.
+                </p>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    "Free profile visible to thousands of couples",
+                    "AI-powered tools: CRM, invoicing, contracts",
+                    "Get leads directly on WhatsApp",
+                  ].map((point, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + i * 0.1 }}
+                      className="flex items-center gap-2.5 text-white/80 text-sm"
+                    >
+                      <div className="w-5 h-5 rounded-full bg-emerald-500/30 flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-emerald-400" />
+                      </div>
+                      {point}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        )}
+
+        {/* Right: Registration Form */}
+        <div className={`flex-1 flex flex-col ${isMobile ? "px-4 py-6" : "px-8 lg:px-16 py-8"} overflow-y-auto`}>
+          {/* Mobile hero banner */}
+          {isMobile && (
+            <div className="relative rounded-2xl overflow-hidden mb-6 h-48">
+              <img src={vendorRegisterHero} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-xl flex items-center justify-center mb-3 border border-white/20">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-white leading-tight">Grow Your Wedding Business</h2>
+                <p className="text-white/60 text-sm mt-1">Join 10,000+ vendors on Karlo Shaadi</p>
+              </div>
             </div>
           )}
+
+          <div className="max-w-lg mx-auto w-full">
+            {!isMobile && (
+              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                <h1 className="text-3xl font-bold text-foreground mb-1" style={{ fontFamily: "'Georgia', serif" }}>
+                  Register Your Business
+                </h1>
+                <p className="text-muted-foreground text-base mb-8">
+                  Create your storefront and be visible to thousands of couples.
+                </p>
+              </motion.div>
+            )}
+
+            {emailSent ? (
+              <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                className="text-center py-12 px-6 rounded-2xl border border-border bg-card">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-8 h-8 text-primary" />
+                </div>
+                <h2 className="text-xl font-bold text-foreground mb-2">Check Your Email ✉️</h2>
+                <p className="text-muted-foreground text-sm mb-6">
+                  We sent a verification link to <strong className="text-foreground">{email}</strong>.
+                  Click it to continue registration.
+                </p>
+                <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10"
+                  onClick={() => { setEmailSent(false); setEmail(""); setPassword(""); setFullName(""); }}>
+                  Use a different email
+                </Button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Google OAuth */}
+                <Button type="button" variant="outline" className="w-full h-12 gap-3 text-base font-medium border-border"
+                  onClick={handleGoogleSignIn} disabled={loading || isLoggedIn}>
+                  <svg className="w-5 h-5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                  </svg>
+                  {isLoggedIn ? "Signed in with Google ✓" : "Continue with Google"}
+                </Button>
+
+                {!isLoggedIn && (
+                  <>
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-3 text-muted-foreground">or register with email</span>
+                      </div>
+                    </div>
+
+                    {/* Auth fields */}
+                    <div className="space-y-1.5">
+                      <Label htmlFor="fullName" className="text-foreground font-medium text-sm">Your Name *</Label>
+                      <div className="relative">
+                        <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="fullName" placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)}
+                          required disabled={loading} className="pl-10 h-12 text-base" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="email" className="text-foreground font-medium text-sm">Email *</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="email" type="email" placeholder="business@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
+                          required disabled={loading} className="pl-10 h-12 text-base" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="password" className="text-foreground font-medium text-sm">Password *</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input id="password" type={showPassword ? "text" : "password"} placeholder="Min. 6 characters"
+                          value={password} onChange={(e) => setPassword(e.target.value)}
+                          required minLength={6} disabled={loading} className="pl-10 pr-10 h-12 text-base" />
+                        <Button type="button" variant="ghost" size="icon"
+                          className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}>
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Divider */}
+                <div className="relative pt-2">
+                  <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-border" /></div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-3 text-muted-foreground font-medium">Business Details</span>
+                  </div>
+                </div>
+
+                {/* Business fields */}
+                <div className="space-y-1.5">
+                  <Label htmlFor="businessName" className="text-foreground font-medium text-sm">Business Name *</Label>
+                  <div className="relative">
+                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input id="businessName" placeholder="e.g., Royal Click Studio" value={businessName}
+                      onChange={(e) => setBusinessName(e.target.value)} required disabled={loading}
+                      className="pl-10 h-12 text-base" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-foreground font-medium text-sm">City *</Label>
+                    <Select value={cityId} onValueChange={setCityId}>
+                      <SelectTrigger className="h-12 text-base">
+                        <MapPin className="w-4 h-4 text-muted-foreground mr-2" />
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cities.map((city) => (
+                          <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label className="text-foreground font-medium text-sm">Vendor Type *</Label>
+                    <Select value={category} onValueChange={setCategory}>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CATEGORIES.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            <span className="flex items-center gap-2">{cat.icon} {cat.label}</span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="phone" className="text-foreground font-medium text-sm">Phone Number</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input id="phone" type="tel" placeholder="+91 98765 43210" value={phone}
+                      onChange={(e) => setPhone(e.target.value)} disabled={loading}
+                      className="pl-10 h-12 text-base" />
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <Button type="submit" className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+                  disabled={loading}>
+                  {loading ? (
+                    <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Profile...</>
+                  ) : (
+                    <>{isLoggedIn ? "Complete Registration" : "Create Account & Register"} <ChevronRight className="w-5 h-5 ml-2" /></>
+                  )}
+                </Button>
+
+                <p className="text-xs text-center text-muted-foreground">
+                  By registering, you agree to our Terms and Privacy Policy
+                </p>
+
+                {/* Links */}
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    Already registered?{" "}
+                    <Link to="/vendor-auth" className="text-primary hover:text-primary/80 font-semibold">Login</Link>
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <Link to="/auth" className="text-primary/70 hover:text-primary">Couple? Sign up</Link>
+                  </p>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* Subscription Checkout Dialog */}
-      {createdVendorId && (
-        <VendorSubscriptionCheckout
-          open={showSubscriptionCheckout}
-          onOpenChange={setShowSubscriptionCheckout}
-          vendorId={createdVendorId}
-          planId={selectedPlan}
-          onSuccess={handleSubscriptionSuccess}
-        />
-      )}
-    </div>
-  );
-}
-
-// ── Review Components ──
-function ReviewBlock({ title, onEdit, children }: { title: string; onEdit: () => void; children: React.ReactNode }) {
-  return (
-    <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-4">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold text-white/80">{title}</h3>
-        <Button type="button" variant="ghost" size="sm" onClick={onEdit} className="text-xs text-accent h-7 hover:bg-accent/10">
-          <Pen className="w-3 h-3 mr-1" /> Edit
-        </Button>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function ReviewRow({ label, value }: { label: string; value?: string }) {
-  if (!value) return null;
-  return (
-    <div className="flex justify-between text-sm py-0.5">
-      <span className="text-white/40">{label}</span>
-      <span className="font-medium text-white/70 text-right max-w-[60%] truncate">{value}</span>
     </div>
   );
 }
