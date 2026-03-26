@@ -170,7 +170,7 @@ serve(async (req) => {
         amount: chargeAmountPaise / 100,
         discount_amount: discountAmount,
         razorpay_subscription_id: subscription.id,
-        status: 'created',
+        status: 'active',
         started_at: new Date().toISOString(),
       }], { onConflict: 'vendor_id' });
 
