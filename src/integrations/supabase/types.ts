@@ -1263,6 +1263,54 @@ export type Database = {
           },
         ]
       }
+      scraped_vendor_leads: {
+        Row: {
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          email: string | null
+          id: string
+          outreach_sent_at: string | null
+          phone: string | null
+          raw_data: Json | null
+          scraped_at: string
+          source_platform: string
+          source_url: string
+          status: string
+        }
+        Insert: {
+          business_name: string
+          category: string
+          city: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          outreach_sent_at?: string | null
+          phone?: string | null
+          raw_data?: Json | null
+          scraped_at?: string
+          source_platform?: string
+          source_url: string
+          status?: string
+        }
+        Update: {
+          business_name?: string
+          category?: string
+          city?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          outreach_sent_at?: string | null
+          phone?: string | null
+          raw_data?: Json | null
+          scraped_at?: string
+          source_platform?: string
+          source_url?: string
+          status?: string
+        }
+        Relationships: []
+      }
       shaadi_seva_applications: {
         Row: {
           applicant_name: string
