@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// Native selects used to avoid Radix Select + AnimatePresence crash on mobile
 import { useToast } from "@/hooks/use-toast";
 import {
   Building2, MapPin, Phone, Loader2, ChevronRight,
@@ -758,32 +758,38 @@ export default function VendorOnboarding() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="space-y-1.5">
                         <Label className="text-foreground font-medium text-sm">City *</Label>
-                        <Select value={cityId} onValueChange={setCityId}>
-                          <SelectTrigger className="h-12 text-base rounded-xl">
-                            <MapPin className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
-                            <SelectValue placeholder="Select city" />
-                          </SelectTrigger>
-                          <SelectContent>
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                          <select
+                            value={cityId}
+                            onChange={(e) => setCityId(e.target.value)}
+                            className="w-full h-12 pl-10 pr-4 text-base rounded-xl border border-input bg-background text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                            style={{ fontSize: '16px' }}
+                          >
+                            <option value="" disabled>Select city</option>
                             {cities.map((city) => (
-                              <SelectItem key={city.id} value={city.id}>{city.name}</SelectItem>
+                              <option key={city.id} value={city.id}>{city.name}</option>
                             ))}
-                          </SelectContent>
-                        </Select>
+                          </select>
+                          <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground rotate-90 pointer-events-none" />
+                        </div>
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-foreground font-medium text-sm">Vendor Type *</Label>
-                        <Select value={category} onValueChange={setCategory}>
-                          <SelectTrigger className="h-12 text-base rounded-xl">
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                          <SelectContent>
+                        <div className="relative">
+                          <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full h-12 pl-4 pr-8 text-base rounded-xl border border-input bg-background text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                            style={{ fontSize: '16px' }}
+                          >
+                            <option value="" disabled>Select category</option>
                             {CATEGORIES.map((cat) => (
-                              <SelectItem key={cat.value} value={cat.value}>
-                                <span className="flex items-center gap-2">{cat.icon} {cat.label}</span>
-                              </SelectItem>
+                              <option key={cat.value} value={cat.value}>{cat.label}</option>
                             ))}
-                          </SelectContent>
-                        </Select>
+                          </select>
+                          <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground rotate-90 pointer-events-none" />
+                        </div>
                       </div>
                     </div>
 
@@ -834,48 +840,3 @@ export default function VendorOnboarding() {
     </div>
   );
 }
-          <div className="hidden lg:flex w-[45%] relative overflow-hidden">
-            <img
-              src={vendorRegisterHero}
-              alt="Grow your wedding business"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30" />
-            <div className="absolute bottom-0 left-0 right-0 p-10">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center mb-5 border border-white/20">
-                  <Sparkles className="w-7 h-7 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-white leading-tight mb-3" style={{ fontFamily: "'Georgia', serif" }}>
-                  Grow Your Wedding<br />Business With Us
-                </h2>
-                <p className="text-white/70 text-base mb-6 max-w-sm">
-                  Join 10,000+ vendors reaching lakhs of couples planning their dream shaadi.
-                </p>
-                <div className="flex flex-col gap-2.5">
-                  {[
-                    "Free profile visible to thousands of couples",
-                    "AI-powered tools: CRM, invoicing, contracts",
-                    "Get leads directly on WhatsApp",
-                  ].map((point, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + i * 0.1 }}
-                      className="flex items-center gap-2.5 text-white/80 text-sm"
-                    >
-                      <div className="w-5 h-5 rounded-full bg-emerald-500/30 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-emerald-400" />
-                      </div>
-                      {point}
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-          </div>
