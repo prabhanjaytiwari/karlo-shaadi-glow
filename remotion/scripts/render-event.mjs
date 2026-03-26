@@ -2,6 +2,7 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition, openBrowser } from "@remotion/renderer";
 import path from "path";
 import { fileURLToPath } from "url";
+import { execSync } from "child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,16 +25,24 @@ const composition = await selectComposition({
   puppeteerInstance: browser,
 });
 
-console.log(`Rendering ${composition.durationInFrames} frames...`);
+console.log(`Rendering ${composition.durationInFrames} frames (muted)...`);
+const videoOnly = "/tmp/event-video-only.mp4";
 await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/karloshaadi-wedding-event-promo.mp4",
+  outputLocation: videoOnly,
   puppeteerInstance: browser,
-  muted: false,
+  muted: true,
   concurrency: 1,
 });
 
 await browser.close({ silent: false });
-console.log("Done! /mnt/documents/karloshaadi-wedding-event-promo.mp4");
+console.log("Video rendered. Muxing background music...");
+
+const audioPath = path.resolve(__dirname, "../public/audio/event-bgm.mp3");
+const outputPath = "/mnt/documents/karloshaadi-wedding-event-promo.mp4";
+
+execSync(`ffmpeg -y -i '${videoOnly}' -i '${audioPath}' -c:v copy -c:a aac -b:a 192k -shortest '${outputPath}'`, { stdio: "inherit" });
+
+console.log(`Done! ${outputPath}`);
