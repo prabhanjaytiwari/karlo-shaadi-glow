@@ -526,43 +526,55 @@ export default function VendorOnboarding() {
         {/* ═══ LEFT PANEL — Benefits (desktop) ═══ */}
         {!isMobile && (
           <div className="hidden lg:flex w-[50%] relative overflow-hidden" style={{
-            background: 'linear-gradient(170deg, hsl(340 30% 8%) 0%, hsl(260 20% 10%) 40%, hsl(340 25% 12%) 100%)',
+            background: 'linear-gradient(170deg, hsl(350 72% 12%) 0%, hsl(350 60% 18%) 40%, hsl(350 50% 14%) 100%)',
           }}>
+            {/* Decorative gold orbs */}
             <motion.div animate={{ y: [0, -20, 0], x: [0, 10, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-20 right-20 w-40 h-40 rounded-full"
-              style={{ background: "radial-gradient(circle, hsl(38 90% 55% / 0.12), transparent)" }} />
+              className="absolute top-16 right-16 w-44 h-44 rounded-full"
+              style={{ background: "radial-gradient(circle, hsl(38 80% 50% / 0.15), transparent)" }} />
             <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-32 left-10 w-32 h-32 rounded-full"
-              style={{ background: "radial-gradient(circle, hsl(340 75% 50% / 0.1), transparent)" }} />
+              className="absolute bottom-28 left-8 w-36 h-36 rounded-full"
+              style={{ background: "radial-gradient(circle, hsl(350 70% 45% / 0.12), transparent)" }} />
 
             <div className="relative z-10 flex flex-col justify-between p-10 xl:p-14 w-full">
               <div>
-                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 mb-12">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center">
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(350 72% 40%), hsl(38 75% 50%))' }}>
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <span className="text-white/90 font-bold text-lg tracking-tight">Karlo Shaadi</span>
-                  <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">For Vendors</span>
+                  <span className="text-xs font-medium px-2 py-0.5 rounded-full border" style={{ background: 'hsl(350 72% 40% / 0.2)', borderColor: 'hsl(350 72% 40% / 0.4)', color: 'hsl(350 72% 65%)' }}>For Vendors</span>
                 </motion.div>
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                   <h1 className="text-4xl xl:text-5xl font-bold text-white leading-[1.1] mb-4" style={{ fontFamily: "'Georgia', serif" }}>
                     Apna Business<br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-rose-400">
+                    <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, hsl(38 80% 60%), hsl(38 90% 50%), hsl(350 70% 55%))' }}>
                       Grow Karo
                     </span>
                   </h1>
-                  <p className="text-white/50 text-base mb-8 max-w-md leading-relaxed">
+                  <p className="text-white/50 text-base mb-6 max-w-md leading-relaxed">
                     Free mein register karo, lakhs couples tak pahuncho. India ka #1 wedding vendor platform.
                   </p>
                 </motion.div>
 
+                {/* Hero images mosaic */}
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+                  className="grid grid-cols-2 gap-3 mb-8">
+                  <div className="rounded-2xl overflow-hidden h-32 xl:h-40 border-2" style={{ borderColor: 'hsl(38 75% 50% / 0.3)' }}>
+                    <img src={vendorOnboardHero1} alt="Wedding mandap" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="rounded-2xl overflow-hidden h-32 xl:h-40 border-2" style={{ borderColor: 'hsl(350 72% 40% / 0.3)' }}>
+                    <img src={vendorOnboardHero2} alt="Wedding photographer" className="w-full h-full object-cover" />
+                  </div>
+                </motion.div>
+
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-                  className="grid grid-cols-4 gap-3 mb-10">
+                  className="grid grid-cols-4 gap-3 mb-8">
                   {STATS.map((stat, i) => (
-                    <div key={i} className="text-center px-2 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08]">
+                    <div key={i} className="text-center px-2 py-3 rounded-xl" style={{ background: 'hsl(350 60% 20% / 0.5)', border: '1px solid hsl(38 75% 50% / 0.15)' }}>
                       <p className="text-lg xl:text-xl font-black text-white">{stat.num}</p>
-                      <p className="text-[11px] text-white/40 mt-0.5">{stat.label}</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: 'hsl(38 60% 60%)' }}>{stat.label}</p>
                     </div>
                   ))}
                 </motion.div>
@@ -570,8 +582,8 @@ export default function VendorOnboarding() {
                 <div className="grid grid-cols-2 gap-3">
                   {BENEFITS.map((b, i) => (
                     <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.08 }}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.07] transition-colors">
-                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500/20 to-rose-500/20 flex items-center justify-center shrink-0 text-amber-400">
+                      className="flex items-start gap-3 p-3 rounded-xl transition-colors" style={{ background: 'hsl(350 50% 18% / 0.6)', border: '1px solid hsl(38 75% 50% / 0.1)' }}>
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg, hsl(38 80% 50% / 0.2), hsl(350 70% 40% / 0.2))', color: 'hsl(38 80% 55%)' }}>
                         {b.icon}
                       </div>
                       <div>
@@ -584,15 +596,15 @@ export default function VendorOnboarding() {
               </div>
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
-                className="flex items-center gap-6 mt-8 pt-6 border-t border-white/[0.08]">
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Shield className="w-4 h-4 text-emerald-400/60" /> <span>100% Free to Join</span>
+                className="flex items-center gap-6 mt-8 pt-6" style={{ borderTop: '1px solid hsl(38 75% 50% / 0.15)' }}>
+                <div className="flex items-center gap-2 text-xs" style={{ color: 'hsl(38 60% 55%)' }}>
+                  <Shield className="w-4 h-4" style={{ color: 'hsl(160 60% 45%)' }} /> <span>100% Free to Join</span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Zap className="w-4 h-4 text-amber-400/60" /> <span>0% Commission</span>
+                <div className="flex items-center gap-2 text-xs" style={{ color: 'hsl(38 60% 55%)' }}>
+                  <Zap className="w-4 h-4" style={{ color: 'hsl(38 80% 55%)' }} /> <span>0% Commission</span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <CheckCircle className="w-4 h-4 text-blue-400/60" /> <span>Verified in 24hrs</span>
+                <div className="flex items-center gap-2 text-xs" style={{ color: 'hsl(38 60% 55%)' }}>
+                  <CheckCircle className="w-4 h-4" style={{ color: 'hsl(350 60% 55%)' }} /> <span>Verified in 24hrs</span>
                 </div>
               </motion.div>
             </div>
