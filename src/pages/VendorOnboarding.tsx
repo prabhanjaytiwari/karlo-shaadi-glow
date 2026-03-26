@@ -841,9 +841,6 @@ export default function VendorOnboarding() {
               </motion.div>
             </div>
           </div>
-        )}
-
-        {/* Right: Registration Form */}
         <div className={`flex-1 flex flex-col ${isMobile ? "px-4 py-6" : "px-8 lg:px-16 py-8"} overflow-y-auto`}>
           {/* Mobile hero banner */}
           {isMobile && (
