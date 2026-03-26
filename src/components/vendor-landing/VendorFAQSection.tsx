@@ -13,23 +13,23 @@ const faqs = [
 
 export function VendorFAQSection() {
   return (
-    <section className="py-14 md:py-24 px-4 sm:px-6 bg-background">
-      <div className="max-w-[680px] mx-auto">
+    <section className="py-16 md:py-28 px-4 sm:px-6 bg-background">
+      <div className="max-w-[720px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
-          <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2 text-accent">Sawaal?</p>
-          <h2 className="font-display font-bold leading-tight text-foreground text-xl md:text-4xl">
+          <p className="text-sm font-semibold tracking-[0.15em] uppercase mb-3 text-accent">Sawaal?</p>
+          <h2 className="font-display font-bold leading-tight text-foreground text-2xl md:text-5xl">
             Aapke Sawaal, <em className="italic text-accent">Humare Jawaab</em>
           </h2>
         </motion.div>
 
-        <Accordion type="single" collapsible className="mt-8 space-y-2">
+        <Accordion type="single" collapsible className="mt-10 space-y-2.5">
           {faqs.map((faq, i) => (
             <AccordionItem key={i} value={`faq-${i}`} className="border-0">
               <div className="bg-card rounded-xl overflow-hidden border border-border hover:border-accent/30 transition-colors">
-                <AccordionTrigger className="px-5 py-4 hover:no-underline text-left font-bold text-sm text-foreground">
+                <AccordionTrigger className="px-6 py-5 hover:no-underline text-left font-bold text-base text-foreground">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="px-5 pb-4 text-xs leading-relaxed text-muted-foreground">
+                <AccordionContent className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">
                   {faq.a}
                 </AccordionContent>
               </div>
