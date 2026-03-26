@@ -180,6 +180,44 @@ export function VendorVerificationPanel({ pendingVendors, onUpdate }: VendorVeri
           message: `Your business "${vendorData.business_name}" verification was not approved. Reason: ${rejectReason}`,
           link: "/vendor/verification"
         });
+
+        // Send rejection email to vendor
+        try {
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("full_name")
+            .eq("id", vendorData.user_id)
+            .single();
+
+          const { data: emailResult } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
+          const vendorEmail = typeof emailResult === "string" ? emailResult : null;
+
+          if (vendorEmail) {
+            await supabase.functions.invoke("send-email", {
+              body: {
+                to: vendorEmail,
+                subject: `Update on Your Karlo Shaadi Profile: "${vendorData.business_name}"`,
+                html: `
+                  <h2 style="color: #1a0a2e; font-family: 'Playfair Display', serif;">Profile Verification Update</h2>
+                  <p style="font-size: 16px; color: #333;">Dear ${profileData?.full_name || "Vendor"},</p>
+                  <p style="font-size: 16px; color: #333;">We've reviewed your business profile <strong>"${vendorData.business_name}"</strong> and unfortunately, it could not be approved at this time.</p>
+                  <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px; margin: 20px 0; border-radius: 4px;">
+                    <p style="font-size: 15px; color: #991b1b; margin: 0;"><strong>Reason:</strong> ${rejectReason}</p>
+                  </div>
+                  <p style="font-size: 16px; color: #333;">You can update your profile and resubmit for verification.</p>
+                  <p style="margin-top: 20px;">
+                    <a href="https://karloshaadi.com/vendor/verification" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #D946EF, #f43f5e); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      Update Your Profile →
+                    </a>
+                  </p>
+                `,
+                type: "vendor_verification_rejected",
+              },
+            });
+          }
+        } catch (emailErr) {
+          console.error("Failed to send vendor rejection email:", emailErr);
+        }
       }
 
       toast({
