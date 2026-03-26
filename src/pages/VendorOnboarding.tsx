@@ -615,32 +615,41 @@ export default function VendorOnboarding() {
         <div className="flex-1 flex flex-col overflow-y-auto">
           {isMobile && (
             <div className="relative overflow-hidden" style={{
-              background: 'linear-gradient(170deg, hsl(340 30% 8%) 0%, hsl(260 20% 10%) 100%)',
+              background: 'linear-gradient(170deg, hsl(350 72% 12%) 0%, hsl(350 50% 16%) 100%)',
             }}>
               <div className="relative z-10 px-5 pt-8 pb-6">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-rose-500 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(350 72% 40%), hsl(38 75% 50%))' }}>
                     <Sparkles className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-white/90 font-bold text-sm">Karlo Shaadi</span>
-                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">For Vendors</span>
+                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full" style={{ background: 'hsl(350 72% 40% / 0.2)', border: '1px solid hsl(350 72% 40% / 0.4)', color: 'hsl(350 72% 65%)' }}>For Vendors</span>
                 </div>
                 <h1 className="text-2xl font-bold text-white leading-tight mb-2" style={{ fontFamily: "'Georgia', serif" }}>
-                  Apna Business <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-rose-400">Grow Karo</span>
+                  Apna Business <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, hsl(38 80% 60%), hsl(38 90% 50%))' }}>Grow Karo</span>
                 </h1>
-                <p className="text-white/50 text-sm mb-5">Free mein register karo, lakhs couples tak pahuncho.</p>
+                <p className="text-white/50 text-sm mb-4">Free mein register karo, lakhs couples tak pahuncho.</p>
+                {/* Mobile hero image strip */}
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <div className="rounded-xl overflow-hidden h-24" style={{ border: '1px solid hsl(38 75% 50% / 0.25)' }}>
+                    <img src={vendorOnboardHero1} alt="Wedding mandap" className="w-full h-full object-cover" loading="lazy" width={320} height={192} />
+                  </div>
+                  <div className="rounded-xl overflow-hidden h-24" style={{ border: '1px solid hsl(350 72% 40% / 0.25)' }}>
+                    <img src={vendorOnboardHero2} alt="Wedding photographer" className="w-full h-full object-cover" loading="lazy" width={320} height={192} />
+                  </div>
+                </div>
                 <div className="grid grid-cols-4 gap-2 mb-4">
                   {STATS.map((stat, i) => (
-                    <div key={i} className="text-center py-2 rounded-lg bg-white/[0.06] border border-white/[0.08]">
+                    <div key={i} className="text-center py-2 rounded-lg" style={{ background: 'hsl(350 60% 20% / 0.5)', border: '1px solid hsl(38 75% 50% / 0.15)' }}>
                       <p className="text-sm font-bold text-white">{stat.num}</p>
-                      <p className="text-[9px] text-white/40">{stat.label}</p>
+                      <p className="text-[9px]" style={{ color: 'hsl(38 60% 60%)' }}>{stat.label}</p>
                     </div>
                   ))}
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
                   {BENEFITS.slice(0, 4).map((b, i) => (
-                    <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/[0.08] shrink-0">
-                      <div className="text-amber-400 shrink-0">{b.icon}</div>
+                    <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg shrink-0" style={{ background: 'hsl(350 50% 18% / 0.6)', border: '1px solid hsl(38 75% 50% / 0.1)' }}>
+                      <div className="shrink-0" style={{ color: 'hsl(38 80% 55%)' }}>{b.icon}</div>
                       <span className="text-xs text-white/70 whitespace-nowrap">{b.title}</span>
                     </div>
                   ))}
