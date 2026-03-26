@@ -83,21 +83,15 @@ export function VendorVerificationPanel({ pendingVendors, onUpdate }: VendorVeri
 
         // Send approval email to vendor
         try {
-          const { data: userData } = await supabase.auth.admin.getUser ? 
-            { data: null } : { data: null };
-          
-          // Get vendor email from profiles
+          // Get vendor email via database function
           const { data: profileData } = await supabase
             .from("profiles")
             .select("full_name")
             .eq("id", vendorData.user_id)
             .single();
 
-          // Get email from auth - use edge function approach
-          const { data: authData } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
-          
-          // Fallback: try to get email from the vendor's user_id via a lookup
-          const vendorEmail = typeof authData === "string" ? authData : null;
+          const { data: emailResult } = await supabase.rpc("get_user_email" as any, { uid: vendorData.user_id });
+          const vendorEmail = typeof emailResult === "string" ? emailResult : null;
           
           if (vendorEmail) {
             await supabase.functions.invoke("send-email", {
