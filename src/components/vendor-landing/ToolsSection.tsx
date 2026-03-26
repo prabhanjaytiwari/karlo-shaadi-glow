@@ -1,13 +1,22 @@
 import { motion } from "framer-motion";
 import dashboardImg from "@/assets/vendor-dashboard-phone.jpg";
 
-const tools = [
+const vendorTools = [
   { emoji: "📋", title: "Smart CRM", desc: "Kanban lead pipeline. Score, track & convert — no lead lost.", worth: "₹2,000/mo", tier: "All Plans" },
   { emoji: "📊", title: "Business Analytics", desc: "Views, clicks, conversions. Know exactly what's working.", worth: "₹1,500/mo", tier: "Starter+" },
   { emoji: "📄", title: "Digital Contracts", desc: "Professional contracts in 60 seconds. Legally sound.", worth: "₹1,000/mo", tier: "Pro+" },
   { emoji: "🌐", title: "Portfolio Mini-Site", desc: "Your own SEO-optimised website. Ranks on Google.", worth: "₹3,000/mo", tier: "All Plans" },
   { emoji: "💬", title: "WhatsApp Integration", desc: "Auto-alerts for new leads. Reply instantly from phone.", worth: "₹800/mo", tier: "All Plans" },
   { emoji: "💰", title: "Payment Tracker", desc: "Milestone payments, invoices, receipts — automated.", worth: "₹1,200/mo", tier: "Pro+" },
+];
+
+const coupleTools = [
+  { emoji: "🧮", title: "Budget Calculator", desc: "AI-powered budget allocation for every wedding category." },
+  { emoji: "📅", title: "Muhurat Finder", desc: "Find auspicious dates based on Hindu calendar & astrology." },
+  { emoji: "🎵", title: "AI Music Generator", desc: "Custom wedding songs with couple names & theme." },
+  { emoji: "💌", title: "Invite Creator", desc: "Beautiful digital wedding invitations in seconds." },
+  { emoji: "🎤", title: "Speech Writer", desc: "AI-written speeches for every wedding occasion." },
+  { emoji: "💍", title: "Couple Quiz", desc: "Fun compatibility quiz couples love to share." },
 ];
 
 const totalWorth = "₹9,500+/mo";
