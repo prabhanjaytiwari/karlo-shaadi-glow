@@ -14,6 +14,7 @@ import {
   Mail, Lock, UserPlus, Shield, Instagram
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
+import { cdn } from "@/lib/cdnAssets";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Database } from "@/integrations/supabase/types";
