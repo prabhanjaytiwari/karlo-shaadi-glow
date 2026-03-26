@@ -1,4 +1,6 @@
 import { useParams, Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -1834,7 +1836,7 @@ export default function BlogPost() {
       <section className="px-4 sm:px-6 pb-16">
         <div className="container mx-auto max-w-4xl">
           <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
-            <div className="whitespace-pre-wrap">{post.content}</div>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
           </article>
         </div>
       </section>
