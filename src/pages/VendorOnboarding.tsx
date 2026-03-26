@@ -270,6 +270,26 @@ export default function VendorOnboarding() {
         { onConflict: "user_id,role" }
       );
 
+      // Create storefront (mini-site) automatically
+      const slug = sanitizeInput(businessName.trim())
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .substring(0, 60);
+      const uniqueSlug = `${slug}-${vendorData.id.substring(0, 6)}`;
+      try {
+        await supabase.from("vendor_mini_sites").insert({
+          vendor_id: vendorData.id,
+          slug: uniqueSlug,
+          is_published: true,
+          theme: "elegant-rose",
+          custom_tagline: `Professional ${catLabel} services in ${cityName}`,
+          sections_config: { about: true, services: true, portfolio: true, reviews: true, whatsapp_cta: true },
+        });
+      } catch (_) {
+        console.warn("Mini-site creation skipped");
+      }
+
       // Notify admin
       try {
         await supabase.functions.invoke("send-email", {
