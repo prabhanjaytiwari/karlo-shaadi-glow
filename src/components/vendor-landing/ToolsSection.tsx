@@ -1,48 +1,57 @@
 import { motion } from "framer-motion";
+import dashboardImg from "@/assets/vendor-dashboard-phone.jpg";
 
 const tools = [
-  { emoji: "📋", title: "Vendor Dashboard", desc: "All leads, bookings & earnings in one place.", tier: "All Plans" },
-  { emoji: "📊", title: "Analytics & Insights", desc: "Track views, clicks, and enquiry conversions.", tier: "Starter+" },
-  { emoji: "🖼️", title: "Portfolio Showcase", desc: "Upload photos & videos. Stunning albums.", tier: "All Plans" },
-  { emoji: "⭐", title: "Ratings & Reviews", desc: "Verified reviews that convert enquiries.", tier: "All Plans" },
-  { emoji: "📅", title: "Booking Calendar", desc: "Manage availability. Never double-book.", tier: "Pro+" },
-  { emoji: "💬", title: "Direct Enquiry System", desc: "Couples send requirements. You respond directly.", tier: "All Plans" },
-  { emoji: "🔔", title: "Instant Lead Alerts", desc: "WhatsApp + SMS alerts for new leads.", tier: "Starter+" },
-  { emoji: "🔍", title: "SEO-Optimised Profile", desc: "Rank on Google for your city + category.", tier: "All Plans" },
-  { emoji: "💎", title: "Priority Listing", desc: "Top of search results. Maximum visibility.", tier: "Pro+" },
+  { emoji: "📋", title: "Smart CRM", desc: "Kanban lead pipeline. Score, track & convert — no lead lost.", worth: "₹2,000/mo", tier: "All Plans" },
+  { emoji: "📊", title: "Business Analytics", desc: "Views, clicks, conversions. Know exactly what's working.", worth: "₹1,500/mo", tier: "Starter+" },
+  { emoji: "📄", title: "Digital Contracts", desc: "Professional contracts in 60 seconds. Legally sound.", worth: "₹1,000/mo", tier: "Pro+" },
+  { emoji: "🌐", title: "Portfolio Mini-Site", desc: "Your own SEO-optimised website. Ranks on Google.", worth: "₹3,000/mo", tier: "All Plans" },
+  { emoji: "💬", title: "WhatsApp Integration", desc: "Auto-alerts for new leads. Reply instantly from phone.", worth: "₹800/mo", tier: "All Plans" },
+  { emoji: "💰", title: "Payment Tracker", desc: "Milestone payments, invoices, receipts — automated.", worth: "₹1,200/mo", tier: "Pro+" },
 ];
+
+const totalWorth = "₹9,500+/mo";
 
 export function ToolsSection() {
   return (
-    <section className="py-12 md:py-20 px-4 sm:px-6 bg-background">
+    <section className="py-14 md:py-24 px-4 sm:px-6 bg-background">
       <div className="max-w-[1100px] mx-auto">
-        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2 text-accent">Built For Vendors</p>
-          <h2 className="font-display font-bold leading-tight text-foreground text-xl md:text-4xl">
-            Everything You Need to <em className="italic text-accent">Grow Your Business</em>
-          </h2>
-          <p className="text-sm leading-relaxed max-w-[500px] mt-2 text-muted-foreground">
-            A complete toolkit that replaces 5 different paid tools — included in your plan.
-          </p>
-        </motion.div>
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-10">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <p className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase mb-2 text-accent">Your Business Toolkit</p>
+            <h2 className="font-display font-bold leading-tight text-foreground text-xl md:text-4xl">
+              Tools Worth <span className="text-accent">{totalWorth}</span><br />
+              <em className="italic text-muted-foreground text-lg md:text-2xl">Included FREE in Every Plan</em>
+            </h2>
+            <p className="text-sm leading-relaxed mt-3 text-muted-foreground max-w-md">
+              Replace 6 separate paid tools with one dashboard. Manage leads, contracts, payments, portfolio — everything from your phone.
+            </p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+            className="relative mx-auto max-w-[280px] md:max-w-[320px]">
+            <div className="absolute -inset-4 rounded-3xl opacity-30" style={{ background: "radial-gradient(circle, hsl(38 75% 50% / 0.4), transparent 70%)" }} />
+            <img src={dashboardImg} alt="Vendor dashboard on phone" loading="lazy" className="rounded-2xl shadow-2xl w-full relative z-10" />
+          </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {tools.map((t, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: i * 0.03 }}
-              className="bg-card rounded-xl p-4 md:p-5 relative overflow-hidden group border border-border hover:border-accent/30 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-200">
+              initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+              className="bg-card rounded-xl p-5 relative overflow-hidden group border border-border hover:border-accent/40 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
               <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-primary to-accent" />
-              <div className="flex gap-3 items-start">
-                <div className="text-2xl flex-shrink-0">{t.emoji}</div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-foreground">{t.title}</h3>
-                  <p className="text-xs leading-relaxed text-muted-foreground mt-0.5">{t.desc}</p>
-                  <span className="inline-block mt-2 rounded-full px-2.5 py-0.5 text-[0.65rem] font-semibold tracking-wide uppercase bg-primary/[0.07] text-primary">
-                    {t.tier}
-                  </span>
-                </div>
+              <div className="flex justify-between items-start mb-2">
+                <div className="text-2xl">{t.emoji}</div>
+                <span className="text-[0.6rem] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full line-through text-muted-foreground bg-muted">
+                  {t.worth}
+                </span>
               </div>
+              <h3 className="text-sm font-bold text-foreground">{t.title}</h3>
+              <p className="text-xs leading-relaxed text-muted-foreground mt-1">{t.desc}</p>
+              <span className="inline-block mt-3 rounded-full px-2.5 py-0.5 text-[0.6rem] font-bold tracking-wider uppercase bg-accent/10 text-accent border border-accent/20">
+                {t.tier}
+              </span>
             </motion.div>
           ))}
         </div>
