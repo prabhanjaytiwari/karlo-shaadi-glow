@@ -540,10 +540,7 @@ export default function VendorOnboarding() {
             <div className="relative z-10 flex flex-col justify-between p-10 xl:p-14 w-full">
               <div>
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(350 72% 40%), hsl(38 75% 50%))' }}>
-                    <Sparkles className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-white/90 font-bold text-lg tracking-tight">Karlo Shaadi</span>
+                  <img src={cdn.logo} alt="Karlo Shaadi" className="h-9 object-contain" />
                   <span className="text-xs font-medium px-2 py-0.5 rounded-full border" style={{ background: 'hsl(350 72% 40% / 0.2)', borderColor: 'hsl(350 72% 40% / 0.4)', color: 'hsl(350 72% 65%)' }}>For Vendors</span>
                 </motion.div>
 
@@ -620,10 +617,7 @@ export default function VendorOnboarding() {
             }}>
               <div className="relative z-10 px-5 pt-8 pb-6">
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(350 72% 40%), hsl(38 75% 50%))' }}>
-                    <Sparkles className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-white/90 font-bold text-sm">Karlo Shaadi</span>
+                  <img src={cdn.logo} alt="Karlo Shaadi" className="h-7 object-contain" />
                   <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full" style={{ background: 'hsl(350 72% 40% / 0.2)', border: '1px solid hsl(350 72% 40% / 0.4)', color: 'hsl(350 72% 65%)' }}>For Vendors</span>
                 </div>
                 <h1 className="text-2xl font-bold text-white leading-tight mb-2" style={{ fontFamily: "'Georgia', serif" }}>
