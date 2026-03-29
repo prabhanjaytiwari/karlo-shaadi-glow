@@ -1,7 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Series, Audio, staticFile } from "remotion";
-import { GoldenGlow } from "./ramayana/GoldenGlow";
-import { FloatingParticles } from "./ramayana/FloatingParticles";
+import { AbsoluteFill, Series, Audio, Video, Img, staticFile, useCurrentFrame, interpolate } from "remotion";
 import { Scene1Intro } from "./ramayana/Scene1Intro";
 import { QAScene } from "./ramayana/QAScene";
 import { Scene7Outro } from "./ramayana/Scene7Outro";
@@ -16,6 +14,8 @@ const QA_DATA = [
       "सत्य और मर्यादा को स्थापित करता है...",
     ],
     audio: "voiceover/scene2-qa1.mp3",
+    video: "videos/scene2-meditation.mp4",
+    image: "images/scene2-ram-meditation.jpg",
     durationInFrames: 465,
   },
   {
@@ -27,6 +27,8 @@ const QA_DATA = [
       "चलने की शक्ति देती हैं...",
     ],
     audio: "voiceover/scene3-qa2.mp3",
+    video: "videos/scene3-scripture.mp4",
+    image: "images/scene3-scripture.jpg",
     durationInFrames: 468,
   },
   {
@@ -38,6 +40,8 @@ const QA_DATA = [
       "जीवन में अपनाने चाहिए...",
     ],
     audio: "voiceover/scene4-qa3.mp3",
+    video: "videos/scene4-ram-sita.mp4",
+    image: "images/scene4-ram-sita.jpg",
     durationInFrames: 434,
   },
   {
@@ -50,6 +54,8 @@ const QA_DATA = [
       "के रूप में देखना...",
     ],
     audio: "voiceover/scene5-qa4.mp3",
+    video: "videos/scene5-universal.mp4",
+    image: "images/scene5-universal.jpg",
     durationInFrames: 486,
   },
   {
@@ -62,17 +68,15 @@ const QA_DATA = [
       "हर व्यक्ति तक पहुँचाना...",
     ],
     audio: "voiceover/scene6-qa5.mp3",
+    video: "videos/scene6-peace.mp4",
+    image: "images/scene6-peace.jpg",
     durationInFrames: 381,
   },
 ];
 
-// Intro 149f + 5 QAs (465+468+434+486+381=2234f) + Outro 78f = 2461 frames ≈ 82s
 export const RamayanaVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: "#0a0a0a" }}>
-      <GoldenGlow />
-      <FloatingParticles />
-
       <Series>
         <Series.Sequence durationInFrames={149}>
           <Scene1Intro />
@@ -81,7 +85,13 @@ export const RamayanaVideo: React.FC = () => {
 
         {QA_DATA.map((qa, i) => (
           <Series.Sequence key={i} durationInFrames={qa.durationInFrames}>
-            <QAScene question={qa.question} answers={qa.answers} questionNumber={i + 1} />
+            <QAScene
+              question={qa.question}
+              answers={qa.answers}
+              questionNumber={i + 1}
+              videoSrc={qa.video}
+              imageSrc={qa.image}
+            />
             <Audio src={staticFile(qa.audio)} />
           </Series.Sequence>
         ))}
