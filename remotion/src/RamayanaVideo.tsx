@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Series } from "remotion";
+import { AbsoluteFill, Series, Audio, staticFile } from "remotion";
 import { GoldenGlow } from "./ramayana/GoldenGlow";
 import { FloatingParticles } from "./ramayana/FloatingParticles";
 import { Scene1Intro } from "./ramayana/Scene1Intro";
@@ -15,6 +15,8 @@ const QA_DATA = [
       "जिसमें व्यक्ति अपने जीवन में धर्म,",
       "सत्य और मर्यादा को स्थापित करता है...",
     ],
+    audio: "voiceover/scene2-qa1.mp3",
+    durationInFrames: 465,
   },
   {
     question: "अखण्ड रामायण पाठ की प्रेरणा क्या है?",
@@ -24,6 +26,8 @@ const QA_DATA = [
       "जो जीवन को राम के मार्ग पर",
       "चलने की शक्ति देती हैं...",
     ],
+    audio: "voiceover/scene3-qa2.mp3",
+    durationInFrames: 468,
   },
   {
     question: "हिन्दुओं को इसमें क्यों शामिल होना चाहिए?",
@@ -33,6 +37,8 @@ const QA_DATA = [
       "उनके सिद्धांत हर व्यक्ति को अपने",
       "जीवन में अपनाने चाहिए...",
     ],
+    audio: "voiceover/scene4-qa3.mp3",
+    durationInFrames: 434,
   },
   {
     question: "रामायण का मुख्य उद्देश्य क्या है?",
@@ -43,6 +49,8 @@ const QA_DATA = [
       "और पूरे विश्व को एक परिवार",
       "के रूप में देखना...",
     ],
+    audio: "voiceover/scene5-qa4.mp3",
+    durationInFrames: 486,
   },
   {
     question: "ओम मूल रामायण का सरल उद्देश्य क्या है?",
@@ -53,31 +61,34 @@ const QA_DATA = [
       "और रामायण के ज्ञान को",
       "हर व्यक्ति तक पहुँचाना...",
     ],
+    audio: "voiceover/scene6-qa5.mp3",
+    durationInFrames: 381,
   },
 ];
 
-// Timing: Intro 105f, 5 QAs × 330f, Outro 135f = 1890 frames = 63s
+// Intro 149f + 5 QAs (465+468+434+486+381=2234f) + Outro 78f = 2461 frames ≈ 82s
 export const RamayanaVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: "#0a0a0a" }}>
-      {/* Persistent layers */}
       <GoldenGlow />
       <FloatingParticles />
 
-      {/* Scene sequence */}
       <Series>
-        <Series.Sequence durationInFrames={105}>
+        <Series.Sequence durationInFrames={149}>
           <Scene1Intro />
+          <Audio src={staticFile("voiceover/scene1-intro.mp3")} />
         </Series.Sequence>
 
         {QA_DATA.map((qa, i) => (
-          <Series.Sequence key={i} durationInFrames={330}>
+          <Series.Sequence key={i} durationInFrames={qa.durationInFrames}>
             <QAScene question={qa.question} answers={qa.answers} questionNumber={i + 1} />
+            <Audio src={staticFile(qa.audio)} />
           </Series.Sequence>
         ))}
 
-        <Series.Sequence durationInFrames={135}>
+        <Series.Sequence durationInFrames={78}>
           <Scene7Outro />
+          <Audio src={staticFile("voiceover/scene7-outro.mp3")} />
         </Series.Sequence>
       </Series>
     </AbsoluteFill>
