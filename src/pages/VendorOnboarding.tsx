@@ -762,6 +762,17 @@ export default function VendorOnboarding() {
 
           <div className={`${isMobile ? "px-4 py-6" : "flex-1 flex items-start justify-center px-8 xl:px-16 py-10"}`}>
             <div className={`w-full ${isMobile ? "" : "max-w-lg"}`}>
+              {/* ⚡ Urgency Banner */}
+              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="mb-4 px-4 py-3 rounded-xl flex items-center gap-3 text-sm"
+                style={{ background: 'linear-gradient(135deg, hsl(38 90% 50% / 0.12), hsl(350 70% 50% / 0.08))', border: '1px solid hsl(38 80% 50% / 0.25)' }}>
+                <Flame className="w-5 h-5 shrink-0 text-orange-500 animate-pulse" />
+                <div>
+                  <span className="font-bold text-foreground">Free listing — limited time!</span>
+                  <span className="text-muted-foreground ml-1">Only <strong className="text-orange-600">{freeSlots}</strong> free spots left this month</span>
+                </div>
+              </motion.div>
+
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                 className={`${isMobile ? "" : "bg-card border border-border rounded-3xl shadow-xl shadow-black/5 p-8"}`}>
                 <div className="mb-6">
