@@ -798,7 +798,7 @@ export default function VendorOnboarding() {
                     </Button>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                     <Button type="button" variant="outline"
                       className="w-full h-12 gap-3 text-base font-medium border-border hover:bg-muted/50 rounded-xl"
                       onClick={handleGoogleSignIn} disabled={loading || isLoggedIn}>
