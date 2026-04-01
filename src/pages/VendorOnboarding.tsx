@@ -93,6 +93,14 @@ export default function VendorOnboarding() {
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
 
+  // Conversion boosters
+  const [showExitIntent, setShowExitIntent] = useState(false);
+  const [liveActivity, setLiveActivity] = useState<string | null>(null);
+  const [vendorCount, setVendorCount] = useState(0);
+  const [freeSlots, setFreeSlots] = useState(47); // Scarcity
+  const exitShownRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
   // Form fields — all on one page
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
