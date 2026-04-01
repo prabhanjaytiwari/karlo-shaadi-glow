@@ -618,10 +618,10 @@ export default function VendorOnboarding() {
   ];
 
   const STATS = [
-    { num: "10,000+", label: "Active Vendors" },
-    { num: "5 Lakh+", label: "Monthly Couples" },
+    { num: vendorCount > 0 ? `${vendorCount}+` : "Growing", label: "Vendors" },
+    { num: "Free", label: "Registration" },
     { num: "0%", label: "Commission" },
-    { num: "20+", label: "Cities" },
+    { num: `${cities.length}+`, label: "Cities" },
   ];
 
   return (
