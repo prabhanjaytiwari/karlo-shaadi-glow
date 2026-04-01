@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,8 @@ import {
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
   Video, Gem, BookOpen, Car, Flower2, Check, Star, Zap,
   Heart, PartyPopper, ArrowRight, CheckCircle, X, Eye, EyeOff,
-  Mail, Lock, UserPlus, Shield, Instagram
+  Mail, Lock, UserPlus, Shield, Instagram, Clock, Users, TrendingUp,
+  Gift, AlertTriangle, Flame
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { cdn } from "@/lib/cdnAssets";
