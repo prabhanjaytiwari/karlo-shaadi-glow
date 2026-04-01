@@ -165,7 +165,90 @@ export default function VendorOnboarding() {
     if (data) setCities(data);
   };
 
-  // ── Google Sign In ──
+  // ── Conversion boosters ──
+  // 1. Fetch real vendor count
+  useEffect(() => {
+    supabase.from("vendors").select("id", { count: "exact", head: true }).then(({ count }) => {
+      if (count) setVendorCount(count);
+    });
+  }, []);
+
+  // 2. Auto-save draft to localStorage
+  useEffect(() => {
+    const draft = localStorage.getItem("ks_vendor_onboarding_draft");
+    if (draft) {
+      try {
+        const d = JSON.parse(draft);
+        if (d.businessName) setBusinessName(d.businessName);
+        if (d.phone) setPhone(d.phone);
+        if (d.cityId) setCityId(d.cityId);
+        if (d.category) setCategory(d.category);
+      } catch (_) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (businessName || phone || cityId || category) {
+      localStorage.setItem("ks_vendor_onboarding_draft", JSON.stringify({ businessName, phone, cityId, category }));
+    }
+  }, [businessName, phone, cityId, category]);
+
+  // 3. Exit intent detection (desktop: mouse leaves viewport, mobile: back button / tab switch)
+  useEffect(() => {
+    if (phase !== "register") return;
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !exitShownRef.current) {
+        exitShownRef.current = true;
+        setShowExitIntent(true);
+        trackEvent({ event_type: "vendor_exit_intent_triggered" }).catch(() => {});
+      }
+    };
+    const handleVisibilityChange = () => {
+      if (document.hidden && !exitShownRef.current && (businessName || email)) {
+        exitShownRef.current = true;
+        setShowExitIntent(true);
+      }
+    };
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [phase, businessName, email]);
+
+  // 4. Simulated live activity feed
+  useEffect(() => {
+    const ACTIVITY_NAMES = [
+      "Rahul Photography, Delhi",
+      "Sharma Catering, Lucknow",
+      "Royal Events, Jaipur",
+      "Nikita Makeup Studio, Mumbai",
+      "DJ King Entertainment, Pune",
+      "Shubh Decorators, Noida",
+      "Mehndi by Priya, Chandigarh",
+      "Dream Click Studio, Hyderabad",
+    ];
+    let idx = 0;
+    const showNext = () => {
+      setLiveActivity(ACTIVITY_NAMES[idx % ACTIVITY_NAMES.length]);
+      idx++;
+      setTimeout(() => setLiveActivity(null), 4000);
+    };
+    const timer = setTimeout(showNext, 5000);
+    const interval = setInterval(showNext, 12000);
+    return () => { clearTimeout(timer); clearInterval(interval); };
+  }, []);
+
+  // 5. Scarcity countdown
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFreeSlots(prev => prev > 12 ? prev - 1 : prev);
+    }, 45000);
+    return () => clearInterval(timer);
+  }, []);
+
+
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
