@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,8 @@ import {
   Camera, Utensils, Music, Palette, Sparkles, Crown, Mic2,
   Video, Gem, BookOpen, Car, Flower2, Check, Star, Zap,
   Heart, PartyPopper, ArrowRight, CheckCircle, X, Eye, EyeOff,
-  Mail, Lock, UserPlus, Shield, Instagram
+  Mail, Lock, UserPlus, Shield, Instagram, Clock, Users, TrendingUp,
+  Gift, AlertTriangle, Flame
 } from "lucide-react";
 import { sanitizeInput } from "@/lib/validation";
 import { cdn } from "@/lib/cdnAssets";
@@ -92,6 +93,14 @@ export default function VendorOnboarding() {
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [subscribedPlan, setSubscribedPlan] = useState<string | null>(null);
 
+  // Conversion boosters
+  const [showExitIntent, setShowExitIntent] = useState(false);
+  const [liveActivity, setLiveActivity] = useState<string | null>(null);
+  const [vendorCount, setVendorCount] = useState(0);
+  const [freeSlots, setFreeSlots] = useState(47); // Scarcity
+  const exitShownRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
   // Form fields — all on one page
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -156,7 +165,90 @@ export default function VendorOnboarding() {
     if (data) setCities(data);
   };
 
-  // ── Google Sign In ──
+  // ── Conversion boosters ──
+  // 1. Fetch real vendor count
+  useEffect(() => {
+    supabase.from("vendors").select("id", { count: "exact", head: true }).then(({ count }) => {
+      if (count) setVendorCount(count);
+    });
+  }, []);
+
+  // 2. Auto-save draft to localStorage
+  useEffect(() => {
+    const draft = localStorage.getItem("ks_vendor_onboarding_draft");
+    if (draft) {
+      try {
+        const d = JSON.parse(draft);
+        if (d.businessName) setBusinessName(d.businessName);
+        if (d.phone) setPhone(d.phone);
+        if (d.cityId) setCityId(d.cityId);
+        if (d.category) setCategory(d.category);
+      } catch (_) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (businessName || phone || cityId || category) {
+      localStorage.setItem("ks_vendor_onboarding_draft", JSON.stringify({ businessName, phone, cityId, category }));
+    }
+  }, [businessName, phone, cityId, category]);
+
+  // 3. Exit intent detection (desktop: mouse leaves viewport, mobile: back button / tab switch)
+  useEffect(() => {
+    if (phase !== "register") return;
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !exitShownRef.current) {
+        exitShownRef.current = true;
+        setShowExitIntent(true);
+        trackEvent({ event_type: "vendor_exit_intent_triggered" }).catch(() => {});
+      }
+    };
+    const handleVisibilityChange = () => {
+      if (document.hidden && !exitShownRef.current && (businessName || email)) {
+        exitShownRef.current = true;
+        setShowExitIntent(true);
+      }
+    };
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [phase, businessName, email]);
+
+  // 4. Simulated live activity feed
+  useEffect(() => {
+    const ACTIVITY_NAMES = [
+      "Rahul Photography, Delhi",
+      "Sharma Catering, Lucknow",
+      "Royal Events, Jaipur",
+      "Nikita Makeup Studio, Mumbai",
+      "DJ King Entertainment, Pune",
+      "Shubh Decorators, Noida",
+      "Mehndi by Priya, Chandigarh",
+      "Dream Click Studio, Hyderabad",
+    ];
+    let idx = 0;
+    const showNext = () => {
+      setLiveActivity(ACTIVITY_NAMES[idx % ACTIVITY_NAMES.length]);
+      idx++;
+      setTimeout(() => setLiveActivity(null), 4000);
+    };
+    const timer = setTimeout(showNext, 5000);
+    const interval = setInterval(showNext, 12000);
+    return () => { clearTimeout(timer); clearInterval(interval); };
+  }, []);
+
+  // 5. Scarcity countdown
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFreeSlots(prev => prev > 12 ? prev - 1 : prev);
+    }, 45000);
+    return () => clearInterval(timer);
+  }, []);
+
+
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
@@ -526,10 +618,10 @@ export default function VendorOnboarding() {
   ];
 
   const STATS = [
-    { num: "10,000+", label: "Active Vendors" },
-    { num: "5 Lakh+", label: "Monthly Couples" },
+    { num: vendorCount > 0 ? `${vendorCount}+` : "Growing", label: "Vendors" },
+    { num: "Free", label: "Registration" },
     { num: "0%", label: "Commission" },
-    { num: "20+", label: "Cities" },
+    { num: `${cities.length}+`, label: "Cities" },
   ];
 
   return (
@@ -670,6 +762,17 @@ export default function VendorOnboarding() {
 
           <div className={`${isMobile ? "px-4 py-6" : "flex-1 flex items-start justify-center px-8 xl:px-16 py-10"}`}>
             <div className={`w-full ${isMobile ? "" : "max-w-lg"}`}>
+              {/* ⚡ Urgency Banner */}
+              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="mb-4 px-4 py-3 rounded-xl flex items-center gap-3 text-sm"
+                style={{ background: 'linear-gradient(135deg, hsl(38 90% 50% / 0.12), hsl(350 70% 50% / 0.08))', border: '1px solid hsl(38 80% 50% / 0.25)' }}>
+                <Flame className="w-5 h-5 shrink-0 text-orange-500 animate-pulse" />
+                <div>
+                  <span className="font-bold text-foreground">Free listing — limited time!</span>
+                  <span className="text-muted-foreground ml-1">Only <strong className="text-orange-600">{freeSlots}</strong> free spots left this month</span>
+                </div>
+              </motion.div>
+
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                 className={`${isMobile ? "" : "bg-card border border-border rounded-3xl shadow-xl shadow-black/5 p-8"}`}>
                 <div className="mb-6">
@@ -695,7 +798,7 @@ export default function VendorOnboarding() {
                     </Button>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                     <Button type="button" variant="outline"
                       className="w-full h-12 gap-3 text-base font-medium border-border hover:bg-muted/50 rounded-xl"
                       onClick={handleGoogleSignIn} disabled={loading || isLoggedIn}>
@@ -818,13 +921,24 @@ export default function VendorOnboarding() {
                       </div>
                     </div>
 
+                    {/* Testimonial near CTA */}
+                    <div className="flex items-start gap-3 p-3 rounded-xl bg-muted/40 border border-border/50 mt-1">
+                      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-sm font-bold text-primary">RK</div>
+                      <div>
+                        <p className="text-xs text-foreground/80 italic leading-relaxed">"Pehle hafte mein hi 3 enquiries aayi. Ab toh full booked hai season!"</p>
+                        <p className="text-[11px] text-muted-foreground mt-1 font-medium">— Rahul Kumar, Photographer, Delhi</p>
+                      </div>
+                    </div>
+
                     <Button type="submit"
-                      className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 mt-2"
+                      className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 mt-2 relative overflow-hidden group"
                       disabled={loading}>
                       {loading ? (
                         <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Profile...</>
                       ) : (
-                        <>{isLoggedIn ? "Complete Registration" : "Create Account & Register"} <ArrowRight className="w-5 h-5 ml-2" /></>
+                        <>
+                          {isLoggedIn ? "Complete Registration" : "Register Free — Start Getting Leads"} <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </>
                       )}
                     </Button>
 
@@ -852,6 +966,85 @@ export default function VendorOnboarding() {
           </div>
         </div>
       </div>
+
+      {/* ═══ LIVE ACTIVITY TOAST ═══ */}
+      <AnimatePresence>
+        {liveActivity && phase === "register" && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: -20 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl max-w-xs"
+            style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+          >
+            <div className="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
+              <CheckCircle className="w-4 h-4 text-emerald-500" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-foreground">{liveActivity}</p>
+              <p className="text-[11px] text-muted-foreground">just registered ✨</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ EXIT INTENT POPUP ═══ */}
+      <AnimatePresence>
+        {showExitIntent && phase === "register" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            onClick={() => setShowExitIntent(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 20 }}
+              className="bg-card rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden"
+              style={{ border: '2px solid hsl(var(--accent) / 0.3)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button onClick={() => setShowExitIntent(false)} className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted text-muted-foreground">
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Gift className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-2" style={{ fontFamily: "'Georgia', serif" }}>
+                  Ruko! Free listing miss mat karo 🙏
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  Abhi register karo aur <strong className="text-foreground">first 30 days premium features free</strong> paao. Koi payment nahi, koi commitment nahi.
+                </p>
+
+                <div className="space-y-3 text-left mb-6">
+                  {["Couples aapko dhundhenge — free mein", "WhatsApp pe direct enquiries", "Professional portfolio page banti hai"].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm text-foreground/80">
+                      <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" /> {item}
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={() => {
+                    setShowExitIntent(false);
+                    formRef.current?.querySelector("input")?.focus();
+                  }}
+                  className="w-full h-13 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+                >
+                  Haan, Free Mein Register Karo <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+                <p className="text-xs text-muted-foreground mt-3">No credit card needed • Cancel anytime</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
