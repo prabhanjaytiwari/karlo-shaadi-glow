@@ -921,13 +921,24 @@ export default function VendorOnboarding() {
                       </div>
                     </div>
 
+                    {/* Testimonial near CTA */}
+                    <div className="flex items-start gap-3 p-3 rounded-xl bg-muted/40 border border-border/50 mt-1">
+                      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-sm font-bold text-primary">RK</div>
+                      <div>
+                        <p className="text-xs text-foreground/80 italic leading-relaxed">"Pehle hafte mein hi 3 enquiries aayi. Ab toh full booked hai season!"</p>
+                        <p className="text-[11px] text-muted-foreground mt-1 font-medium">— Rahul Kumar, Photographer, Delhi</p>
+                      </div>
+                    </div>
+
                     <Button type="submit"
-                      className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 mt-2"
+                      className="w-full h-14 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 mt-2 relative overflow-hidden group"
                       disabled={loading}>
                       {loading ? (
                         <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Creating Profile...</>
                       ) : (
-                        <>{isLoggedIn ? "Complete Registration" : "Create Account & Register"} <ArrowRight className="w-5 h-5 ml-2" /></>
+                        <>
+                          {isLoggedIn ? "Complete Registration" : "Register Free — Start Getting Leads"} <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                        </>
                       )}
                     </Button>
 
@@ -955,6 +966,85 @@ export default function VendorOnboarding() {
           </div>
         </div>
       </div>
+
+      {/* ═══ LIVE ACTIVITY TOAST ═══ */}
+      <AnimatePresence>
+        {liveActivity && phase === "register" && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: -20 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl max-w-xs"
+            style={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))' }}
+          >
+            <div className="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
+              <CheckCircle className="w-4 h-4 text-emerald-500" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-foreground">{liveActivity}</p>
+              <p className="text-[11px] text-muted-foreground">just registered ✨</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ EXIT INTENT POPUP ═══ */}
+      <AnimatePresence>
+        {showExitIntent && phase === "register" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            onClick={() => setShowExitIntent(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 20 }}
+              className="bg-card rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden"
+              style={{ border: '2px solid hsl(var(--accent) / 0.3)' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button onClick={() => setShowExitIntent(false)} className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted text-muted-foreground">
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <Gift className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground mb-2" style={{ fontFamily: "'Georgia', serif" }}>
+                  Ruko! Free listing miss mat karo 🙏
+                </h3>
+                <p className="text-muted-foreground text-sm mb-6">
+                  Abhi register karo aur <strong className="text-foreground">first 30 days premium features free</strong> paao. Koi payment nahi, koi commitment nahi.
+                </p>
+
+                <div className="space-y-3 text-left mb-6">
+                  {["Couples aapko dhundhenge — free mein", "WhatsApp pe direct enquiries", "Professional portfolio page banti hai"].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 text-sm text-foreground/80">
+                      <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" /> {item}
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={() => {
+                    setShowExitIntent(false);
+                    formRef.current?.querySelector("input")?.focus();
+                  }}
+                  className="w-full h-13 text-base font-semibold rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+                >
+                  Haan, Free Mein Register Karo <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+                <p className="text-xs text-muted-foreground mt-3">No credit card needed • Cancel anytime</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
