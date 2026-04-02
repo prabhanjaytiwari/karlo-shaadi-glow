@@ -1,0 +1,158 @@
+# Fastfile for Karlo Shaadi — iOS (App Store) & Android (Play Store)
+# Documentation: https://docs.fastlane.tools
+
+fastlane_version "2.221.0"
+
+# ─── Shared helpers ───────────────────────────────────────────────────────────
+
+def app_store_api_key
+  app_store_connect_api_key(
+    key_id:      ENV["APP_STORE_CONNECT_API_KEY_ID"],
+    issuer_id:   ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+    key_content: Base64.decode64(ENV["APP_STORE_CONNECT_API_KEY_CONTENT"]),
+    is_key_content_base64: false,
+    in_house:    false
+  )
+end
+
+# ─── iOS ──────────────────────────────────────────────────────────────────────
+
+platform :ios do
+  desc "Sync code signing certificates and provisioning profiles"
+  lane :certs do
+    api_key = app_store_api_key
+    match(
+      type:                 "appstore",
+      app_identifier:       ENV["IOS_BUNDLE_ID"],
+      git_url:              ENV["MATCH_REPOSITORY_URL"],
+      git_basic_authorization: Base64.strict_encode64("x-access-token:#{ENV['GIT_AUTHORIZATION']}"),
+      readonly:             is_ci,
+      api_key:              api_key
+    )
+  end
+
+  desc "Build the iOS app"
+  lane :build do
+    certs
+    gym(
+      scheme:                     "App",
+      workspace:                  "../ios/App/App.xcworkspace",
+      configuration:              "Release",
+      export_method:              "app-store",
+      output_directory:           "../ios/App/build",
+      output_name:                "KarloShaadi.ipa",
+      clean:                      true,
+      suppress_xcode_output:      false,
+      export_xcargs:              "-allowProvisioningUpdates"
+    )
+  end
+
+  desc "Upload to TestFlight (beta)"
+  lane :beta do
+    build
+    api_key = app_store_api_key
+    pilot(
+      api_key:                   api_key,
+      ipa:                       "../ios/App/build/KarloShaadi.ipa",
+      skip_waiting_for_build_processing: true,
+      skip_submission:           true,
+      distribute_external:       false,
+      notify_external_testers:   false
+    )
+    UI.success "Successfully uploaded to TestFlight!"
+  end
+
+  desc "Build and submit to App Store for review"
+  lane :release do
+    build
+    api_key = app_store_api_key
+    deliver(
+      api_key:              api_key,
+      ipa:                  "../ios/App/build/KarloShaadi.ipa",
+      submit_for_review:    true,
+      automatic_release:    false,
+      force:                true,
+      skip_screenshots:     true,
+      skip_metadata:        false,
+      precheck_include_in_app_purchases: false
+    )
+    UI.success "Successfully submitted to App Store for review!"
+  end
+
+  desc "Bump build number based on TestFlight"
+  lane :bump_build do
+    api_key = app_store_api_key
+    latest = latest_testflight_build_number(api_key: api_key)
+    increment_build_number(
+      build_number: latest + 1,
+      xcodeproj:    "../ios/App/App.xcodeproj"
+    )
+  end
+end
+
+# ─── Android ──────────────────────────────────────────────────────────────────
+
+platform :android do
+  desc "Build a signed Android App Bundle (AAB)"
+  lane :build do
+    gradle(
+      task:          "bundle",
+      build_type:    "Release",
+      project_dir:   "../android",
+      properties: {
+        "android.injected.signing.store.file"     => "app/keystore.jks",
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"] || read_keystore_prop("storePassword"),
+        "android.injected.signing.key.alias"      => ENV["ANDROID_KEY_ALIAS"]         || read_keystore_prop("keyAlias"),
+        "android.injected.signing.key.password"   => ENV["ANDROID_KEY_PASSWORD"]      || read_keystore_prop("keyPassword")
+      }
+    )
+  end
+
+  desc "Upload AAB to Play Store internal testing track (beta)"
+  lane :beta do
+    build
+    upload_to_play_store(
+      track:                    "internal",
+      aab:                      "../android/app/build/outputs/bundle/release/app-release.aab",
+      json_key:                 ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name:             ENV["ANDROID_PACKAGE_NAME"],
+      skip_upload_apk:          true,
+      skip_upload_metadata:     true,
+      skip_upload_changelogs:   true,
+      skip_upload_images:       true,
+      skip_upload_screenshots:  true,
+      release_status:           "draft"
+    )
+    UI.success "Successfully uploaded to Play Store internal track!"
+  end
+
+  desc "Upload AAB to Play Store production track"
+  lane :release do
+    build
+    upload_to_play_store(
+      track:                    "production",
+      aab:                      "../android/app/build/outputs/bundle/release/app-release.aab",
+      json_key:                 ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name:             ENV["ANDROID_PACKAGE_NAME"],
+      skip_upload_apk:          true,
+      skip_upload_metadata:     false,
+      skip_upload_changelogs:   false,
+      skip_upload_images:       true,
+      skip_upload_screenshots:  true,
+      rollout:                  "0.1"
+    )
+    UI.success "Successfully released to Play Store production (10% rollout)!"
+  end
+end
+
+# ─── Helpers ──────────────────────────────────────────────────────────────────
+
+def read_keystore_prop(key)
+  props_file = File.expand_path("../android/keystore.properties")
+  return nil unless File.exist?(props_file)
+  File.readlines(props_file).each do |line|
+    k, v = line.strip.split("=", 2)
+    return v if k == key
+  end
+  nil
+end
