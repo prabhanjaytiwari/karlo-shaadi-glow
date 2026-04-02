@@ -1,8 +1,8 @@
 # iOS App Store
-app_identifier ENV["IOS_BUNDLE_ID"] || "app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac"
+app_identifier ENV["IOS_BUNDLE_ID"] || "com.karloshaadi.app"
 apple_dev_portal_id ENV["APPLE_DEV_PORTAL_ID"]  # Your Apple ID email (optional if using API key)
 team_id ENV["APPLE_TEAM_ID"]
 
 # Android Play Store
 json_key_file ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"] || "fastlane/google-play-service-account.json"
-package_name ENV["ANDROID_PACKAGE_NAME"] || "app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac"
+package_name ENV["ANDROID_PACKAGE_NAME"] || "com.karloshaadi.app"

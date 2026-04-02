@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 60
 
     env:
-      APP_ID: ${{ vars.ANDROID_PACKAGE_NAME || 'app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac' }}
+      APP_ID: ${{ vars.ANDROID_PACKAGE_NAME || 'com.karloshaadi.app' }}
       FASTLANE_LANE: ${{ github.event.inputs.lane || 'beta' }}
 
     steps:
@@ -101,7 +101,7 @@ jobs:
         run: bundle exec fastlane android ${{ env.FASTLANE_LANE }}
         working-directory: fastlane
         env:
-          ANDROID_PACKAGE_NAME: ${{ vars.ANDROID_PACKAGE_NAME || 'app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac' }}
+          ANDROID_PACKAGE_NAME: ${{ vars.ANDROID_PACKAGE_NAME || 'com.karloshaadi.app' }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: fastlane/google-play-service-account.json
 
       - name: Upload AAB artifact

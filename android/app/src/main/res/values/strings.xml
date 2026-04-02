@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Karlo Shaadi</string>
+    <string name="title_activity_main">Karlo Shaadi</string>
+    <string name="package_name">com.karloshaadi.app</string>
+    <string name="custom_url_scheme">com.karloshaadi.app</string>
+</resources>

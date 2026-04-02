@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 60
 
     env:
-      APP_ID: ${{ vars.IOS_BUNDLE_ID || 'app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac' }}
+      APP_ID: ${{ vars.IOS_BUNDLE_ID || 'com.karloshaadi.app' }}
       FASTLANE_LANE: ${{ github.event.inputs.lane || 'beta' }}
 
     steps:
@@ -90,7 +90,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_REPOSITORY_URL: ${{ secrets.MATCH_REPOSITORY_URL }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'app.lovable.c45b9e9dc98743ebb9fdffd4a02bf3ac' }}
+          IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.karloshaadi.app' }}
           GIT_AUTHORIZATION: ${{ secrets.MATCH_GIT_TOKEN }}
 
       - name: Upload IPA artifact
